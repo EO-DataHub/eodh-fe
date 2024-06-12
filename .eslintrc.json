@@ -1,6 +1,5 @@
 {
-  "root": true,
-  "ignorePatterns": ["**/*"],
+  "extends": ["@spyrosoft/eslint-config-spyro"],
   "plugins": ["@nx"],
   "overrides": [
     {
@@ -9,27 +8,60 @@
         "@nx/enforce-module-boundaries": [
           "error",
           {
-            "enforceBuildableLibDependency": true,
             "allow": [],
             "depConstraints": [
               {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "sourceTag": "",
+                "onlyDependOnLibsWithTags": [""]
+              },
+              {
+                "sourceTag": "type:utils",
+                "onlyDependOnLibsWithTags": ["type:utils"]
+              },
+              {
+                "sourceTag": "type:utils",
+                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+              },
+              {
+                "sourceTag": "type:data-access",
+                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access"]
+              },
+              {
+                "sourceTag": "type:data-access",
+                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access", "type:ui"]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access", "type:ui", "type:feature"]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+              },
+              {
+                "sourceTag": "type:app",
+                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access", "type:ui", "type:feature"]
+              },
+              {
+                "sourceTag": "scope:eodh-fe",
+                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+              },
+              {
+                "sourceTag": "scope:shared",
+                "onlyDependOnLibsWithTags": ["scope:shared"]
               }
             ]
           }
         ]
       }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
-      "rules": {}
     }
   ]
 }

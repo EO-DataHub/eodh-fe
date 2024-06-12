@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  spyro-fe-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '4200:4200'
