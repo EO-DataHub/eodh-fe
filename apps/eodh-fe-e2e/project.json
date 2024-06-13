@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/eodh-fe-e2e/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": ["eodh-fe"],
   "targets": {
     "e2e": {
       "executor": "@nx/cypress:cypress",
@@ -21,13 +23,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/eodh-fe-e2e/**/*.{js,ts}"]
-      }
+      "executor": "@nx/eslint:lint"
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["eodh-fe"]
+  }
 }

@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/eodh-fe/src",
   "projectType": "application",
+  "tags": ["type:app", "scope:eodh-fe"],
   "targets": {
     "build": {
       "executor": "@nx/vite:build",
@@ -61,11 +62,7 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/eodh-fe/**/*.{ts,tsx,js,jsx}"]
-      }
+      "executor": "@nx/eslint:lint"
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
@@ -73,6 +70,5 @@
         "buildTarget": "eodh-fe:build"
       }
     }
-  },
-  "tags": ["type:app", "scope:eodh-fe"]
+  }
 }
