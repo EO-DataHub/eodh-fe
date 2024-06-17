@@ -6,11 +6,11 @@ on:
       - 'release/**'
 
 env:
-  isDevelop: ${{ startsWith(GITHUB_BASE_REF, 'refs/heads/develop') }}
-  isRelease: ${{ startsWith(GITHUB_BASE_REF, 'refs/heads/release/') }}
-  isHotfix: ${{ startsWith(GITHUB_BASE_REF, 'refs/heads/hotfix/') }}
-  isMain: ${{ startsWith(GITHUB_BASE_REF, 'refs/heads/main') }}
-  isCiCdTest: ${{ startsWith(GITHUB_BASE_REF, 'refs/heads/feature/ci-cd') }}
+  isDevelop: ${{ startsWith(github.baseRef, 'refs/heads/develop') }}
+  isRelease: ${{ startsWith(github.baseRef, 'refs/heads/release/') }}
+  isHotfix: ${{ startsWith(github.baseRef, 'refs/heads/hotfix/') }}
+  isMain: ${{ startsWith(github.baseRef, 'refs/heads/main') }}
+  isCiCdTest: ${{ startsWith(github.baseRef, 'refs/heads/feature/ci-cd') }}
   canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
   canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease }}
   canDeployOnStaging: ${{ env.isHotfix || env.isRelease }}
