@@ -18,30 +18,30 @@ env:
 
 jobs:
   build:
-    uses: ./.github/workflows/build
+    uses: ./.github/workflows/build.yml
   deployToDev:
-    uses: ./.github/workflows/deploy
+    uses: ./.github/workflows/deploy.yml
     needs: [build]
     if: ${{ env.canDeployOnDev }}
     with:
       displayName: 'Deploy to Dev'
       environment: 'dev'
   deployToQa:
-    uses: ./.github/workflows/deploy
+    uses: ./.github/workflows/deploy.yml
     needs: [build]
     if: ${{ env.canDeployOnQA }}
     with:
       displayName: 'Deploy to Dev'
       environment: 'qa'
   deployToStaging:
-    uses: ./.github/workflows/deploy
+    uses: ./.github/workflows/deploy.yml
     needs: [build, deployToQa]
     if: ${{ env.canDeployOnStaging }}
     with:
       displayName: 'Deploy to Staging'
       environment: 'staging'
   deployToProduction:
-    uses: ./.github/workflows/deploy
+    uses: ./.github/workflows/deploy.yml
     needs: [build, deployToStaging]
     if: ${{ env.canDeployOnProduction }}
     with:
