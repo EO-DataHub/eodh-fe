@@ -10,7 +10,7 @@ on:
 
 jobs:
   Deploy:
-    name: '${{ inputs.displayName }}'
+    name: ${{ inputs.displayName }}
     runs-on: ubuntu-20.04
     permissions:
       id-token: write
