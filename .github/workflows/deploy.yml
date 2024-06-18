@@ -22,6 +22,7 @@ jobs:
       - run: echo '${{ secrets.awsRoleToAssume }}'
       - run: echo '${{ vars.awsRoleToAssume }}'
       - run: echo '${{ env.testVar }}'
+      - run: echo 'g ${testVar}'
       - name: 'Download build'
         uses: actions/download-artifact@v4
         with:
