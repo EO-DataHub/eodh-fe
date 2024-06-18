@@ -17,7 +17,7 @@ jobs:
       contents: read
     environment: ${{ inputs.environment }}
     env:
-      testVar: '${{ secrets.AWSBUCKETNAME }}'
+      testVar: '${{ secrets.awsRoleToAssume }}'
     steps:
       - name: Run some customized action
         env:
@@ -27,7 +27,7 @@ jobs:
           echo $a
           echo $b
       - run: echo '${{ secrets.AWSBUCKETNAME }}'
-      - run: echo '${{ vars.AWSREGION }}'
+      - run: echo '${{ vars.AWSROLETOASSUME }}'
       - run: echo '${{ env.testVar }}'
       - run: echo 'g ${testVar}'
       - name: 'Download build'
