@@ -6,11 +6,11 @@ on:
       - 'release/**'
 
 env:
-  isDevelop: ${{ startsWith(github.base_ref, 'develop') }}
-  isRelease: ${{ startsWith(github.base_ref, 'release/') }}
-  isHotfix: ${{ startsWith(github.base_ref, 'hotfix/') }}
-  isMain: ${{ startsWith(github.base_ref, 'main') }}
-  isCiCdTest: ${{ startsWith(github.base_ref, 'feature/ci-cd') }}
+  isDevelop: ${{ startsWith(github.head_ref, 'develop') }}
+  isRelease: ${{ startsWith(github.head_ref, 'release/') }}
+  isHotfix: ${{ startsWith(github.head_ref, 'hotfix/') }}
+  isMain: ${{ startsWith(github.head_ref, 'main') }}
+  isCiCdTest: ${{ startsWith(github.head_ref, 'feature/ci-cd') }}
 
 permissions:
   id-token: write
@@ -33,13 +33,6 @@ jobs:
       canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease }}
       canDeployOnStaging: ${{ env.isHotfix || env.isRelease }}
       canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMaster }}
-  prepare2:
-    name: 'Log variables'
-    needs: [prepare]
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo '${{ toJSON(needs.prepare.outputs) }}'
-      - run: echo "Log variables"
   build:
     name: 'Build'
     uses: ./.github/workflows/build.yml
