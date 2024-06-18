@@ -1,9 +1,6 @@
 on:
   workflow_call:
     inputs:
-      displayName:
-        required: true
-        type: string
       environment:
         required: true
         type: string
