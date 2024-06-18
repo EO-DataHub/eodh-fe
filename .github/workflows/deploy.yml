@@ -12,18 +12,21 @@ jobs:
   Deploy:
     name: 'Deploy'
     runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
+    environment: env.environment
     steps:
       - name: 'Download build'
         uses: actions/download-artifact@v4
         with:
           name: image-ukri
+      - name: 'Configure AWS credentials'
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.awsRoleToAssume }}
+          role-session-name: ${{ secrets.awsRoleSessionName }}
+          aws-region: ${{ secrets.awsRegion }}
       - name: 'Deploy to S3'
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 cp \
-          --recursive \
-          --acl public-read \
-          --region ap-southeast-2 \
-          ./build s3://example
+          aws s3 cp ./ s3://${{ secrets.awsBucketName }}/
