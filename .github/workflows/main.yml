@@ -6,11 +6,11 @@ on:
       - 'release/**'
 
 env:
-  isDevelop: ${{ startsWith(github.head_ref, 'develop') }}
-  isRelease: ${{ startsWith(github.head_ref, 'release/') }}
-  isHotfix: ${{ startsWith(github.head_ref, 'hotfix/') }}
-  isMain: ${{ startsWith(github.head_ref, 'main') }}
-  isCiCdTest: ${{ startsWith(github.head_ref, 'feature/ci-cd') }}
+  isDevelop: ${{ startsWith(github.base_ref, 'develop') }}
+  isRelease: ${{ startsWith(github.base_ref, 'release/') }}
+  isHotfix: ${{ startsWith(github.base_ref, 'hotfix/') }}
+  isMain: ${{ startsWith(github.base_ref, 'main') }}
+  isCiCdTest: ${{ startsWith(github.base_ref, 'feature/ci-cd') }}
 
 permissions:
   id-token: write
