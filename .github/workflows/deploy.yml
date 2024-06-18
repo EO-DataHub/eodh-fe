@@ -19,6 +19,13 @@ jobs:
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
     steps:
+      - name: Run some customized action
+        env:
+          a: ${{ secrets.awsRoleToAssume }}
+          b: ${{ secrets.awsRoleSessionName }}
+        run: |
+          echo $a
+          echo $b
       - run: echo '${{ secrets.awsRoleToAssume }}'
       - run: echo '${{ vars.awsRoleToAssume }}'
       - run: echo '${{ env.testVar }}'
