@@ -6,11 +6,11 @@ on:
       - 'release/**'
 
 env:
-  isDevelop: ${{ startsWith(github.baseRef, 'refs/heads/develop') }}
-  isRelease: ${{ startsWith(github.baseRef, 'refs/heads/release/') }}
-  isHotfix: ${{ startsWith(github.baseRef, 'refs/heads/hotfix/') }}
-  isMain: ${{ startsWith(github.baseRef, 'refs/heads/main') }}
-  isCiCdTest: ${{ startsWith(github.baseRef, 'refs/heads/feature/ci-cd') }}
+  isDevelop: ${{ startsWith(github.base_ref, 'refs/heads/develop') }}
+  isRelease: ${{ startsWith(github.base_ref, 'refs/heads/release/') }}
+  isHotfix: ${{ startsWith(github.base_ref, 'refs/heads/hotfix/') }}
+  isMain: ${{ startsWith(github.base_ref, 'refs/heads/main') }}
+  isCiCdTest: ${{ startsWith(github.base_ref, 'refs/heads/feature/ci-cd') }}
 
 permissions:
   id-token: write
@@ -18,6 +18,7 @@ permissions:
 
 jobs:
   prepare:
+    name: 'Setup variables'
     runs-on: ubuntu-latest
     steps:
       - run: echo '${{ toJSON(github) }}'
@@ -26,7 +27,7 @@ jobs:
       canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
       canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease }}
       canDeployOnStaging: ${{ env.isHotfix || env.isRelease }}
-      canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMaster }}tartsWith(github.baseRef, 'refs/heads/feature/ci-cd') }}
+      canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMaster }}
   build:
     uses: ./.github/workflows/build.yml
   deployToDev:
