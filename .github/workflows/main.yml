@@ -31,6 +31,13 @@ jobs:
       canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease }}
       canDeployOnStaging: ${{ env.isHotfix || env.isRelease }}
       canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMaster }}
+  prepare2:
+    name: 'Log variables'
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo '${{ toJSON(needs.prepare.outputs) }}'
+      - run: echo "Log variables"
   build:
     name: 'Build'
     uses: ./.github/workflows/build.yml
