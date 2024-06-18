@@ -17,17 +17,17 @@ jobs:
       contents: read
     environment: ${{ inputs.environment }}
     env:
-      testVar: '${{ secrets.awsRoleToAssume }}'
+      testVar: '${{ secrets.AWSBUCKETNAME }}'
     steps:
       - name: Run some customized action
         env:
-          a: ${{ secrets.awsRoleToAssume }}
-          b: ${{ secrets.awsRoleSessionName }}
+          a: ${{ secrets.AWSBUCKETNAME }}
+          b: ${{ secrets.AWSREGION }}
         run: |
           echo $a
           echo $b
-      - run: echo '${{ secrets.awsRoleToAssume }}'
-      - run: echo '${{ vars.awsRoleToAssume }}'
+      - run: echo '${{ secrets.AWSBUCKETNAME }}'
+      - run: echo '${{ vars.AWSREGION }}'
       - run: echo '${{ env.testVar }}'
       - run: echo 'g ${testVar}'
       - name: 'Download build'
