@@ -1,13 +1,16 @@
 on:
   workflow_call:
     inputs:
+      displayName:
+        required: true
+        type: string
       environment:
         required: true
         type: string
 
 jobs:
   Deploy:
-    name: 'Deploy'
+    name: '${{ inputs.displayName }}'
     runs-on: ubuntu-20.04
     permissions:
       id-token: write
