@@ -15,7 +15,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    environment: env.environment
+    environment: inputs.environment
     steps:
       - run: echo '${{ secrets.awsRoleToAssume }}'
       - run: echo '${{ vars.awsRoleToAssume }}'
