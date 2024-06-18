@@ -21,7 +21,10 @@ jobs:
     name: 'Setup variables'
     runs-on: ubuntu-latest
     steps:
-      - run: echo '${{ toJSON(github) }}'
+      - run: echo 'canDeployOnDev ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}'
+      - run: echo 'canDeployOnQA ${{ env.isDevelop || env.isHotfix || env.isRelease }}'
+      - run: echo 'canDeployOnStaging ${{ env.isHotfix || env.isRelease }}'
+      - run: echo 'canDeployOnProduction ${{ env.isHotfix || env.isRelease || env.isMaster }}'
       - run: echo "Setup variables"
     outputs:
       canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
@@ -29,32 +32,33 @@ jobs:
       canDeployOnStaging: ${{ env.isHotfix || env.isRelease }}
       canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMaster }}
   build:
+    name: 'Build'
     uses: ./.github/workflows/build.yml
   deployToDev:
+    name: 'Deploy to Dev'
     uses: ./.github/workflows/deploy.yml
     needs: [prepare, build]
     if: needs.prepare.outputs.canDeployOnDev
     with:
-      displayName: 'Deploy to Dev'
       environment: 'dev'
   deployToQa:
+    name: 'Deploy to QA'
     uses: ./.github/workflows/deploy.yml
     needs: [prepare, build]
     if: needs.prepare.outputs.canDeployOnQA
     with:
-      displayName: 'Deploy to Dev'
       environment: 'qa'
   deployToStaging:
+    name: 'Deploy to Staging'
     uses: ./.github/workflows/deploy.yml
     needs: [prepare, build, deployToQa]
     if: needs.prepare.outputs.canDeployOnStaging
     with:
-      displayName: 'Deploy to Staging'
       environment: 'staging'
   deployToProduction:
+    name: 'Deploy to Production'
     uses: ./.github/workflows/deploy.yml
     needs: [prepare, build, deployToStaging]
     if: needs.prepare.outputs.canDeployOnProduction
     with:
-      displayName: 'Deploy to Production'
       environment: 'prod'
