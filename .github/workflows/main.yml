@@ -6,7 +6,7 @@ on:
       - 'release/**'
 
 env:
-  isDevelop: ${{ startsWith(github.base_ref, 'feature/add-ci-cd-support') }}
+  isDevelop: ${{ startsWith(github.base_ref, 'develop') }}
   isRelease: ${{ startsWith(github.base_ref, 'release/') }}
   isHotfix: ${{ startsWith(github.base_ref, 'hotfix/') }}
   isMain: ${{ startsWith(github.base_ref, 'main') }}
