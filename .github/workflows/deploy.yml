@@ -21,13 +21,13 @@ jobs:
     steps:
       - name: Run some customized action
         env:
-          a: ${{ env.AWSBUCKETNAME }}
-          b: ${{ env.AWSREGION }}
+          a: ${{ secrets.AWSBUCKETNAME }}
+          b: ${{ secrets.AWSREGION }}
         run: |
           echo $a
           echo $b
-      - run: echo '${{ env.AWSBUCKETNAME }}'
-      - run: echo '${{ env.AWSROLETOASSUME }}'
+      - run: echo '${{ secrets.AWSBUCKETNAME }}'
+      - run: echo '${{ secrets.AWSROLETOASSUME }}'
       - run: echo '${{ env.testVar }}'
       - run: echo 'g ${testVar}'
       - name: 'Download build'
