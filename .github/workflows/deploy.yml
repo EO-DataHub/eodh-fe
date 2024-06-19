@@ -18,20 +18,21 @@ jobs:
     environment: ${{ inputs.environment }}
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
+      global:  '${{ env.EXAMPLE_VAR }}'
     steps:
       - name: Run some customized action
         env:
           a: ${{ secrets.AWSBUCKETNAME }}
           b: ${{ secrets.AWSREGION }}
-          c: ${{ env.EXAMPLE_VAR }}
         run: |
           echo $a
           echo $b
-          echo $c
       - run: echo '${{ secrets.AWSBUCKETNAME }}'
       - run: echo '${{ secrets.AWSROLETOASSUME }}'
       - run: echo '${{ env.testVar }}'
       - run: echo 'g ${testVar}'
+      - run: echo '${{ env.global }}'
+      - run: echo 'g ${global}'
       - name: 'Download build'
         uses: actions/download-artifact@v4
         with:
