@@ -23,7 +23,7 @@ jobs:
         run: |
           echo "Display Name: ${{ inputs.displayName }}"
           echo "Environment: ${{ inputs.environment }}"
-          echo "testEnv: ${{ env.AWSROLETOASSUME }}"
+          echo "MSZ: ${{ secrets.MSZ }}"
       - name: Run some customized action
         env:
           a: ${{ secrets.AWSBUCKETNAME }}
