@@ -4,10 +4,9 @@ on:
       displayName:
         required: true
         type: string
-      environment:
-        required: true
-        type: string
-        default: dev # for testing
+      #environment:
+       # required: true
+       # type: string
 
 jobs:
   Deploy:
@@ -17,6 +16,7 @@ jobs:
       id-token: write
       contents: read
     #environment: ${{ inputs.environment }}
+    environment: dev
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
     steps:
