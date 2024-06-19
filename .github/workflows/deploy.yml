@@ -4,6 +4,9 @@ on:
       displayName:
         required: true
         type: string
+      environment:
+        required: true
+        type: string
 
 jobs:
   Deploy:
