@@ -15,11 +15,15 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    #environment: ${{ inputs.environment }}
-    environment: dev
+    environment: ${{ inputs.environment }}
+    #environment: dev
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
     steps:
+      - name: Print inputs
+        run: |
+          echo "Display Name: ${{ inputs.displayName }}"
+          echo "Environment: ${{ inputs.environment }}"
       - name: Run some customized action
         env:
           a: ${{ secrets.AWSBUCKETNAME }}
