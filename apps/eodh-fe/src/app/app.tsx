@@ -1,6 +1,13 @@
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
-import NxWelcome from './nx-welcome';
+import { DisplayMap } from './map.component';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+  }
+`;
 
 const StyledApp = styled.div`
   // Your style here
@@ -8,9 +15,12 @@ const StyledApp = styled.div`
 
 export function App() {
   return (
-    <StyledApp>
-      <NxWelcome title='eodh-fe' />
-    </StyledApp>
+    <>
+      <GlobalStyle />
+      <StyledApp>
+        <DisplayMap />
+      </StyledApp>
+    </>
   );
 }
 
