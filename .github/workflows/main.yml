@@ -3,17 +3,19 @@ on:
     branches:
       - 'develop'
       - 'main'
-       - 'release/**'
+      - 'release/**'
 
- env:
-   isDevelop: ${{ startsWith(github.base_ref, 'develop') }}
-   isRelease: ${{ startsWith(github.base_ref, 'release/') }}
-   isHotfix: ${{ startsWith(github.base_ref, 'hotfix/') }}
-   isMain: ${{ startsWith(github.base_ref, 'main') }}
+env:
+  isDevelop: ${{ startsWith(github.base_ref, 'feature/ci-cd') }}
+  isRelease: ${{ startsWith(github.base_ref, 'release/') }}
+  isHotfix: ${{ startsWith(github.base_ref, 'hotfix/') }}
+  isMain: ${{ startsWith(github.base_ref, 'main') }}
   isCiCdTest: ${{ startsWith(github.base_ref, 'feature/ci-cd') }}
+
 permissions:
   id-token: write
   contents: read
+
 jobs:
   prepare:
     name: 'Setup variables'
