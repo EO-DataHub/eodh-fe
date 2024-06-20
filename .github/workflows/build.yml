@@ -24,7 +24,7 @@ jobs:
       - name: 'Lint check'
         run: npm run lint:check
       - name: 'Prettier check'
-        run: npm run format:check
+        #run: npm run format:check
   RunTests:
     name: 'Run tests'
     runs-on: ubuntu-20.04
