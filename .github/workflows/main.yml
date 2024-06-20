@@ -10,7 +10,7 @@ env:
   isRelease: ${{ startsWith(github.base_ref, 'release/') }}
   isHotfix: ${{ startsWith(github.base_ref, 'hotfix/') }}
   isMain: ${{ startsWith(github.base_ref, 'main') }}
-  isCiCdTest: ${{ startsWith(github.base_ref, 'feature/add-ci-cd-support') }}
+  isCiCdTest: ${{ startsWith(github.base_ref, 'feature/ci-cd') }}
 
 permissions:
   id-token: write
