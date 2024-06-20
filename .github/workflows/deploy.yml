@@ -20,6 +20,14 @@ jobs:
       testVar: '${{ secrets.awsRoleToAssume }}'
       repoSecret:  '${{ secrets.REPO_SECRET }}'
     steps:
+      - name: Check if AWS_REGION is empty
+        run: |
+          if [ -z "${{ secrets.AWS_REGION }}" ]; then
+            echo "AWS_REGION is empty or not set"
+            exit 1
+          else
+            echo "AWS_REGION is set to: ${{ secrets.AWS_REGION }}"
+          fi
       - name: Print inputs
         run: |
           echo "Display Name: ${{ inputs.displayName }}"
