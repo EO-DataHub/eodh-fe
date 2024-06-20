@@ -18,6 +18,7 @@ jobs:
     environment: ${{ inputs.environment }}
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
+      REPO_SECRET:  '${{ secrets.REPO_SECRET }}'
     steps:
       - name: Print inputs
         run: |
