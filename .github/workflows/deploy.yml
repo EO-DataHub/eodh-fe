@@ -12,7 +12,10 @@ jobs:
   Deploy:
     name: ${{ inputs.displayName }}
     runs-on: ubuntu-20.04
-    permissions: read-all
+    permissions:
+      id-token: write
+      contents: read
+      packages: read
     environment: ${{ inputs.environment }}
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
