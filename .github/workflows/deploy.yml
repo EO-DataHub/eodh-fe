@@ -24,7 +24,7 @@ jobs:
           echo "Display Name: ${{ inputs.displayName }}"
           echo "Environment: ${{ inputs.environment }}"
           echo "MSZ: ${{ secrets.MSZ }}"
-          echo "MSZ_VAR: ${{ vars.MSZ_VAR }}"
+          echo "MSZ_VAR: $MSZ_VAR"
           echo "EXAMPLE_VAR ${{ vars.EXAMPLE_VAR }}"
       - name: Run some customized action
         env:
