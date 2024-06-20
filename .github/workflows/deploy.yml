@@ -26,7 +26,6 @@ jobs:
           echo "MSZ: ${{ secrets.MSZ }}"
           echo "MSZ_VAR: ${{ vars.$MSZ_VAR" }}
           echo "EXAMPLE_VAR ${{ vars.EXAMPLE_VAR }}"
-          echo "REGION ${{ secrets.AWSREGION }}"
       - name: Run some customized action
         env:
           a: ${{ secrets.AWSBUCKETNAME }}
