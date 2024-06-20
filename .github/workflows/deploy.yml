@@ -15,7 +15,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-      packages: read
     environment: ${{ inputs.environment }}
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
