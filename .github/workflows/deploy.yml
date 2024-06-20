@@ -52,7 +52,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.awsRoleToAssume }}
           role-session-name: ${{ secrets.awsRoleSessionName }}
-          aws-region: ${{ secrets.awsRegion }}
+          aws-region: ${{ secrets.AWSREGION }}
       - name: 'Deploy to S3'
         run: |
           aws s3 cp ./ s3://${{ secrets.awsBucketName }}/
