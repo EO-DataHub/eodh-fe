@@ -44,6 +44,7 @@ jobs:
     with:
       environment: 'dev'
       displayName: 'Dev'
+    secrets: inherit
   deployToQa:
     name: 'Deploy'
     uses: ./.github/workflows/deploy.yml
@@ -52,6 +53,7 @@ jobs:
     with:
       environment: 'qa'
       displayName: 'QA'
+    secrets: inherit
   deployToStaging:
     name: 'Deploy'
     uses: ./.github/workflows/deploy.yml
@@ -60,6 +62,7 @@ jobs:
     with:
       environment: 'staging'
       displayName: 'Staging'
+    secrets: inherit
   deployToProduction:
     name: 'Deploy'
     uses: ./.github/workflows/deploy.yml
@@ -68,3 +71,4 @@ jobs:
     with:
       environment: 'prod'
       displayName: 'Production'
+    secrets: inherit
