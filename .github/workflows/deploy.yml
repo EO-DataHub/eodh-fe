@@ -24,7 +24,7 @@ jobs:
           echo "Display Name: ${{ inputs.displayName }}"
           echo "Environment: ${{ inputs.environment }}"
           echo "MSZ: ${{ secrets.MSZ }}"
-          echo "MSZ_VARS: ${{ vars.$MSZ_VAR" }}
+          echo "MSZ_VAR: ${{ vars.MSZ_VAR }}"
           echo "EXAMPLE_VAR ${{ vars.EXAMPLE_VAR }}"
       - name: Run some customized action
         env:
@@ -35,7 +35,7 @@ jobs:
           echo $b
       - run: echo '${{ secrets.AWSBUCKETNAME }}'
       - run: echo '${{ secrets.AWSROLETOASSUME }}'
-      - run: echo '${{ vars.testVar }}'
+      - run: echo '${{ env.testVar }}'
       - run: echo 'g ${testVar}'
       - name: Echo repository variable EXAMPLE_VAR
         run: echo ${{ vars.EXAMPLE_VAR }}
