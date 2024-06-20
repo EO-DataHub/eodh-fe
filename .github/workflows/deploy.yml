@@ -18,7 +18,6 @@ jobs:
     environment: ${{ inputs.environment }}
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
-      REGION:  '${{ secrets.AWSREGION }}'
     steps:
       - name: Print inputs
         run: |
