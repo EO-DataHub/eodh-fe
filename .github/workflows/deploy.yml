@@ -53,7 +53,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWSROLETOASSUME }}
           role-session-name: ${{ secrets.AWSROLESESSIONNAME }}
-          aws-region: ${{ secrets.AWSREGION }}
+          aws-region: "eu-central-1"
       - name: 'Deploy to S3'
         run: |
           aws s3 ls
