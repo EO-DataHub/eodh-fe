@@ -50,9 +50,9 @@ jobs:
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.awsRoleToAssume }}
-          role-session-name: ${{ secrets.awsRoleSessionName }}
+          role-to-assume: ${{ secrets.AWSROLETOASSUME }}
+          role-session-name: ${{ secrets.AWSROLESESSIONNAME }}
           aws-region: ${{ secrets.AWSREGION }}
       - name: 'Deploy to S3'
         run: |
-          aws s3 cp ./ s3://${{ secrets.awsBucketName }}/
+          aws s3 cp ./ s3://${{ secrets.AWSBUCKETNAME }}/
