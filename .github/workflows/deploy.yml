@@ -19,6 +19,7 @@ jobs:
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
     steps:
+      - shell: bash
       - name: Print inputs
         run: |
           echo "Display Name: ${{ inputs.displayName }}"
