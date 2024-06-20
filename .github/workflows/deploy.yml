@@ -24,7 +24,7 @@ jobs:
         run: |
           echo "Display Name: ${{ inputs.displayName }}"
           echo "Environment: ${{ inputs.environment }}"
-          echo "MSZ: ${{ secrets.MSZ }}"
+          echo "MSZ: ${{ vars.MSZ }}"
           echo "REPO_SECRET ${{ secrets.REPO_SECRET }}"
           echo "MSZ_VAR: ${{ vars.MSZ_VAR }}"
           echo "EXAMPLE_VAR ${{ vars.EXAMPLE_VAR }}"
@@ -56,4 +56,4 @@ jobs:
           aws-region: ${{ secrets.AWSREGION }}
       - name: 'Deploy to S3'
         run: |
-          aws s3 cp ./ s3://${{ secrets.AWSBUCKETNAME }}/
+          aws s3 ls
