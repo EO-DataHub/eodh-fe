@@ -30,7 +30,7 @@ jobs:
           echo "REGION:  ${{ secrets.AWSREGION }}"
       - name: Run some customized action
         env:
-          #REGION:  ${{ secrets.AWSREGION }}
+          REGION:  ${{ secrets.AWSREGION }}
           a: ${{ secrets.AWSBUCKETNAME }}
           b: ${{ secrets.AWSREGION }}
         run: |
