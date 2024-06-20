@@ -43,7 +43,7 @@ jobs:
       - name: Echo repository variable EXAMPLE_VAR
         run: echo ${{ vars.EXAMPLE_VAR }}
       - name: Echo env region
-        run: echo " ${{ secrets.AWSREGION }} " | base64 --decode
+        run: echo " ${{ secrets.AWSREGION }} "
       - name: 'Download build'
         uses: actions/download-artifact@v4
         with:
