@@ -27,7 +27,8 @@ jobs:
           echo "MSZ_VAR: ${{ vars.MSZ_VAR }}"
           echo "EXAMPLE_VAR ${{ vars.EXAMPLE_VAR }}"
           echo "AWSROLETOASSUME ${{ vars.AWSROLETOASSUME }}"
-          echo ${{secrets.AWSREGION}} | sed 's/./& /g'
+          REGION: ${{ secrets.AWSREGION }}
+          echo "REGION  = ${REGION}"
       - name: Run some customized action
         env:
           a: ${{ secrets.AWSBUCKETNAME }}
