@@ -19,9 +19,7 @@ jobs:
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
     steps:
-      - env:
-          REGION: ${{ secrets.AWSREGION }}
-      #- name: Print inputs
+      - name: Print inputs
         run: |
           echo "Display Name: ${{ inputs.displayName }}"
           echo "Environment: ${{ inputs.environment }}"
@@ -29,7 +27,7 @@ jobs:
           echo "MSZ_VAR: ${{ vars.MSZ_VAR }}"
           echo "EXAMPLE_VAR ${{ vars.EXAMPLE_VAR }}"
           echo "AWSROLETOASSUME ${{ vars.AWSROLETOASSUME }}"
-          echo "REGION  = ${REGION}"
+          echo "REGION:  ${{ secrets.AWSREGION }}"
       - name: Run some customized action
         env:
           a: ${{ secrets.AWSBUCKETNAME }}
