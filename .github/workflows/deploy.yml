@@ -24,7 +24,7 @@ jobs:
         run: |
           echo "Display Name: ${{ inputs.displayName }}"
           echo "Environment: ${{ inputs.environment }}"
-          echo "MSZ: ${{ vars.MSZ }}"
+          echo "MSZ: ${{ secrets.MSZ }}"
           echo "REPO_SECRET ${{ secrets.REPO_SECRET }}"
           echo "MSZ_VAR: ${{ vars.MSZ_VAR }}"
           echo "EXAMPLE_VAR ${{ vars.EXAMPLE_VAR }}"
