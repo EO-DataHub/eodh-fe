@@ -20,6 +20,10 @@ jobs:
       testVar: '${{ secrets.awsRoleToAssume }}'
     steps:
       - shell: bash
+        env:
+          REGION:  ${{ secrets.AWSREGION }}
+        run: |
+          echo $REGION 
       - name: Print inputs
         run: |
           echo "Display Name: ${{ inputs.displayName }}"
