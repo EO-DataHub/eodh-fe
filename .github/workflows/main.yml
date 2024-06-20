@@ -42,7 +42,7 @@ jobs:
     needs: [prepare, build]
     if: ${{ needs.prepare.outputs.canDeployOnDev == 'true' }}
     with:
-      environment: 'DEV'
+      environment: 'dev'
       displayName: 'Dev'
   deployToQa:
     name: 'Deploy'
