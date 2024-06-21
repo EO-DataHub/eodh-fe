@@ -29,4 +29,4 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - name: 'Deploy to S3'
         run: |
-          aws s3 cp ./ s3://${{ vars.AWS_BUCKET_NAME }}/
+          aws s3 cp ./ s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
