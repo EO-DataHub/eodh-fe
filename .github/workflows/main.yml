@@ -52,7 +52,6 @@ jobs:
     name: 'Deploy'
     uses: ./.github/workflows/deploy.yml
     needs: [prepare, build]
-#    if: ${{ needs.prepare.outputs.canDeployOnStaging == 'true' }}
     with:
       environment: 'staging'
       displayName: 'Staging'
@@ -61,7 +60,6 @@ jobs:
     name: 'Deploy'
     uses: ./.github/workflows/deploy.yml
     needs: [prepare, build]
-#    if: ${{ needs.prepare.outputs.canDeployOnProduction == 'true' }}
     with:
       environment: 'prod'
       displayName: 'Production'
