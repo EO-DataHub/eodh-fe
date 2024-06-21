@@ -1,21 +1,68 @@
-on: push
+on:
+  pull_request:
+    branches:
+      - 'develop'
+      - 'main'
+      - 'release/**'
+
+env:
+  isDevelop: ${{ startsWith(github.head_ref, 'develop') }}
+  isRelease: ${{ startsWith(github.head_ref, 'release/') }}
+  isHotfix: ${{ startsWith(github.head_ref, 'hotfix/') }}
+  isMain: ${{ startsWith(github.head_ref, 'main') }}
+  isCiCdTest: ${{ startsWith(github.head_ref, 'feature/ci-cd') }}
+
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  prepare:
+    name: 'Setup variables'
+    runs-on: ubuntu-20.04
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v2
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 18.x
-      - name: Install dependencies
-        run: npm install
-      - name: Lint
-        run: npm run lint:check
-      - name: Test
-        run: npm run test
-        env:
-          CI: true
-      - name: Generate build
-        run: npm run build:dev
+      - run: echo "Setup variables"
+    outputs:
+      canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
+      canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease }}
+      canDeployOnStaging: ${{ env.isHotfix || env.isRelease }}
+      canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMaster }}
+  build:
+    name: 'Build'
+    uses: ./.github/workflows/build.yml
+  deployToDev:
+    name: 'Deploy'
+    uses: ./.github/workflows/deploy.yml
+    needs: [prepare, build]
+    if: ${{ needs.prepare.outputs.canDeployOnDev == 'true' }}
+    with:
+      environment: 'dev'
+      displayName: 'Dev'
+    secrets: inherit
+  deployToQa:
+    name: 'Deploy'
+    uses: ./.github/workflows/deploy.yml
+    needs: [prepare, build]
+    if: ${{ needs.prepare.outputs.canDeployOnQA == 'true' }}
+    with:
+      environment: 'qa'
+      displayName: 'QA'
+    secrets: inherit
+  deployToStaging:
+    name: 'Deploy'
+    uses: ./.github/workflows/deploy.yml
+    needs: [prepare, build, deployToQa]
+    if: ${{ needs.prepare.outputs.canDeployOnStaging == 'true' }}
+    with:
+      environment: 'staging'
+      displayName: 'Staging'
+    secrets: inherit
+#  deployToProduction:
+#    name: 'Deploy'
+#    uses: ./.github/workflows/deploy.yml
+#    needs: [prepare, build, deployToStaging]
+#    if: ${{ needs.prepare.outputs.canDeployOnProduction == 'true' }}
+#    with:
+#      environment: 'prod'
+#      displayName: 'Production'
+#    secrets: inherit
