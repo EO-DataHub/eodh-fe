@@ -17,10 +17,6 @@ jobs:
       contents: read
     environment: ${{ inputs.environment }}
     steps:
-      - run: echo '${{ secrets.AWS_ROLE_TO_ASSUME }}'
-      - run: echo '${{ vars.AWS_ROLE_SESSION_NAME }}'
-      - run: echo '${{ vars.AWS_REGION }}'
-      - run: echo '${{ vars.AWS_BUCKET_NAME }}'
       - name: 'Download build'
         uses: actions/download-artifact@v4
         with:
