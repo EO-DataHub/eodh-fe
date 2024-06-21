@@ -16,20 +16,11 @@ jobs:
       id-token: write
       contents: read
     environment: ${{ inputs.environment }}
-    env:
-      testVar: '${{ secrets.awsRoleToAssume }}'
     steps:
-      - name: Run some customized action
-        env:
-          a: ${{ secrets.awsRoleToAssume }}
-          b: ${{ secrets.awsRoleSessionName }}
-        run: |
-          echo $a
-          echo $b
-      - run: echo '${{ secrets.awsRoleToAssume }}'
-      - run: echo '${{ vars.awsRoleToAssume }}'
-      - run: echo '${{ env.testVar }}'
-      - run: echo 'g ${testVar}'
+      - run: echo '${{ secrets.AWS_ROLE_TO_ASSUME }}'
+      - run: echo '${{ secrets.AWS_ROLE_SESSION_NAME }}'
+      - run: echo '${{ secrets.AWS_REGION }}'
+      - run: echo '${{ secrets.AWS_BUCKET_NAME }}'
       - name: 'Download build'
         uses: actions/download-artifact@v4
         with:
@@ -37,9 +28,9 @@ jobs:
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.awsRoleToAssume }}
-          role-session-name: ${{ secrets.awsRoleSessionName }}
-          aws-region: ${{ secrets.awsRegion }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: ${{ secrets.AWS_ROLE_SESSION_NAME }}
+          aws-region: ${{ secrets.AWS_REGION }}
       - name: 'Deploy to S3'
         run: |
-          aws s3 cp ./ s3://${{ secrets.awsBucketName }}/
+          aws s3 cp ./ s3://${{ secrets.AWS_BUCKET_NAME }}/
