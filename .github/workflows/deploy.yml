@@ -29,7 +29,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-session-name: ${{ secrets.AWS_ROLE_SESSION_NAME }}
+          role-session-name: ${{ vars.AWS_ROLE_SESSION_NAME }}
           aws-region: ${{ vars.AWS_REGION }}
       - name: 'Deploy to S3'
         run: |
