@@ -21,6 +21,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: image-ukri
+      - name: 'Display structure of downloaded files'
+        run: ls -R
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
         with:
