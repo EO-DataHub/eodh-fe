@@ -14,8 +14,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.14.0
-      - name: 'Node version'
-        run: node --version
       - name: 'Install dependencies'
         run: npm ci
       - name: 'Fetch main branch for NX'
@@ -37,8 +35,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.14.0
-      - name: 'Node version'
-        run: node --version
       - name: 'Install dependencies'
         run: npm ci
       - name: 'Run unit tests'
@@ -55,8 +51,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.14.0
-      - name: 'Node version'
-        run: node --version
       - name: 'Install dependencies'
         run: npm ci
       - name: 'Build'

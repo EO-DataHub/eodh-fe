@@ -20,14 +20,6 @@ jobs:
   prepare:
     name: 'Setup variables'
     runs-on: ubuntu-latest
-    steps:
-      - run: echo '${{ toJSON(github) }}'
-      - run: echo '${{ toJSON(env) }}'
-      - run: echo 'canDeployOnDev ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}'
-      - run: echo 'canDeployOnQA ${{ env.isDevelop || env.isHotfix || env.isRelease }}'
-      - run: echo 'canDeployOnStaging ${{ env.isHotfix || env.isRelease }}'
-      - run: echo 'canDeployOnProduction ${{ env.isHotfix || env.isRelease || env.isMaster }}'
-      - run: echo "Setup variables"
     outputs:
       canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
       canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease }}
