@@ -19,7 +19,9 @@ permissions:
 jobs:
   prepare:
     name: 'Setup variables'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    steps:
+      - run: echo "Setup variables"
     outputs:
       canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
       canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease }}
