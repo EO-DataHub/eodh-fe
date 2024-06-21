@@ -11,47 +11,25 @@ on:
 jobs:
   Deploy:
     name: ${{ inputs.displayName }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     permissions:
       id-token: write
       contents: read
     environment: ${{ inputs.environment }}
     env:
       testVar: '${{ secrets.awsRoleToAssume }}'
-      repoSecret:  '${{ secrets.REPO_SECRET }}'
     steps:
-      - name: Check if AWS_REGION is empty
-        run: |
-          if [ -z "${{ secrets.REPO_SECRET }}" ]; then
-            echo "REPO_SECRET is empty or not set"
-            exit 1
-          else
-            echo "AWS_REGION is set to: ${{ secrets.REPO_SECRET }}"
-          fi
-      - name: Print inputs
-        run: |
-          echo "Display Name: ${{ inputs.displayName }}"
-          echo "Environment: ${{ inputs.environment }}"
-          echo "MSZ: ${{ secrets.MSZ }}"
-          echo "REPO_SECRET ${{ secrets.REPO_SECRET }}"
-          echo "MSZ_VAR: ${{ vars.MSZ_VAR }}"
-          echo "EXAMPLE_VAR ${{ vars.EXAMPLE_VAR }}"
-          echo "AWSROLETOASSUME ${{ secrets.AWSROLETOASSUME }}"
       - name: Run some customized action
         env:
-          a: ${{ secrets.AWSBUCKETNAME }}
-          b: ${{ secrets.AWSREGION }}
+          a: ${{ secrets.awsRoleToAssume }}
+          b: ${{ secrets.awsRoleSessionName }}
         run: |
           echo $a
           echo $b
-      - run: echo '${{ secrets.AWSBUCKETNAME }}'
-      - run: echo '${{ secrets.AWSROLETOASSUME }}'
+      - run: echo '${{ secrets.awsRoleToAssume }}'
+      - run: echo '${{ vars.awsRoleToAssume }}'
       - run: echo '${{ env.testVar }}'
       - run: echo 'g ${testVar}'
-      - name: Echo repository variable EXAMPLE_VAR
-        run: echo ${{ vars.EXAMPLE_VAR }}
-      - name: Echo env region
-        run: echo " ${{ secrets.AWSREGION }} "
       - name: 'Download build'
         uses: actions/download-artifact@v4
         with:
@@ -59,9 +37,9 @@ jobs:
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: ${{ secrets.AWSROLETOASSUME }}
-          role-session-name: ${{ secrets.AWSROLESESSIONNAME }}
-          aws-region: "eu-central-1"
+          role-to-assume: ${{ secrets.awsRoleToAssume }}
+          role-session-name: ${{ secrets.awsRoleSessionName }}
+          aws-region: ${{ secrets.awsRegion }}
       - name: 'Deploy to S3'
         run: |
-          aws s3 ls
+          aws s3 cp ./ s3://${{ secrets.awsBucketName }}/

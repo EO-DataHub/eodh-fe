@@ -23,8 +23,8 @@ jobs:
         run: git rev-parse --verify main || git remote set-branches origin main && git fetch --depth 1 origin main && git branch main origin/main
       - name: 'Lint check'
         run: npm run lint:check
-      #- name: 'Prettier check'
-        #run: npm run format:check
+      - name: 'Prettier check'
+        run: npm run format:check
   RunTests:
     name: 'Run tests'
     runs-on: ubuntu-20.04
