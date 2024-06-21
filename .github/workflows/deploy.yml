@@ -30,3 +30,5 @@ jobs:
       - name: 'Deploy to S3'
         run: |
           aws s3 cp ./ s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
+      - name: 'Invalidate CloudFront'
+        run: aws cloudfront create-invalidation --distribution-id vars.DISTRIB_ID --paths "/*"
