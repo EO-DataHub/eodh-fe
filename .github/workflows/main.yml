@@ -57,12 +57,12 @@ jobs:
       environment: 'staging'
       displayName: 'Staging'
     secrets: inherit
-  deployToProduction:
-    name: 'Deploy'
-    uses: ./.github/workflows/deploy.yml
-    needs: [prepare, build, deployToStaging]
-    if: ${{ needs.prepare.outputs.canDeployOnProduction == 'true' }}
-    with:
-      environment: 'prod'
-      displayName: 'Production'
-    secrets: inherit
+#  deployToProduction:
+#    name: 'Deploy'
+#    uses: ./.github/workflows/deploy.yml
+#    needs: [prepare, build, deployToStaging]
+#    if: ${{ needs.prepare.outputs.canDeployOnProduction == 'true' }}
+#    with:
+#      environment: 'prod'
+#      displayName: 'Production'
+#    secrets: inherit
