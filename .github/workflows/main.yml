@@ -3,11 +3,7 @@ on:
     branches:
       - 'master'
       - 'develop'
-  pull_request:
-    branches:
-      - 'develop'
-      - 'main'
-      - 'release/**'
+      - 'feature/**'
 
 env:
   isDevelop: ${{ startsWith(github.head_ref, 'develop') }}
@@ -25,6 +21,7 @@ jobs:
     name: 'Setup variables'
     runs-on: ubuntu-20.04
     steps:
+      - run: echo '${{ toJSON(github) }}'
       - run: echo "Setup variables"
     outputs:
       canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
