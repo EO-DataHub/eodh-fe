@@ -25,7 +25,7 @@ jobs:
       - run: echo "Setup variables"
     outputs:
       canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
-      canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease }}
+      canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease || env.isMain }}
       canDeployOnStaging: ${{ env.isHotfix || env.isRelease || env.isMain }}
       canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMain }}
   build:
