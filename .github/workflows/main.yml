@@ -22,7 +22,6 @@ jobs:
     name: 'Setup variables'
     runs-on: ubuntu-20.04
     steps:
-      - run: echo '${{ toJSON(github) }}'
       - run: echo "Setup variables"
     outputs:
       canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
