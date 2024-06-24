@@ -3,7 +3,11 @@ on:
     branches:
       - 'master'
       - 'develop'
-      - 'feature/**'
+  pull_request:
+    branches:
+      - 'develop'
+      - 'main'
+      - 'release/**'
 
 env:
   isDevelop: ${{ startsWith(github.head_ref, 'develop') }}
