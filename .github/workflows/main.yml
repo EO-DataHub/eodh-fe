@@ -26,8 +26,8 @@ jobs:
     outputs:
       canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
       canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease }}
-      canDeployOnStaging: ${{ env.isHotfix || env.isRelease }}
-      canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMaster }}
+      canDeployOnStaging: ${{ env.isHotfix || env.isRelease || env.isMain }}
+      canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMain }}
   build:
     name: 'Build'
     uses: ./.github/workflows/build.yml
