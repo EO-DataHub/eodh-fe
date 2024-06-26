@@ -26,14 +26,14 @@ jobs:
   deployToDev:
     name: 'Dev'
     uses: ./.github/workflows/deploy.yml
-    if: ${{ inputs.canDeployOnDev == 'true' }}
+    if: inputs.canDeployOnDev
     with:
       environment: 'dev'
     secrets: inherit
   deployToQa:
     name: 'QA'
     uses: ./.github/workflows/deploy.yml
-    if: ${{ inputs.canDeployOnQA == 'true' }}
+    if: inputs.canDeployOnQA
     with:
       environment: 'qa'
     secrets: inherit
@@ -41,7 +41,7 @@ jobs:
     name: 'Staging'
     uses: ./.github/workflows/deploy.yml
     needs: [deployToQa]
-    if: ${{ inputs.canDeployOnStaging == 'true' }}
+    if: inputs.canDeployOnStaging
     with:
       environment: 'staging'
     secrets: inherit
@@ -49,7 +49,7 @@ jobs:
     name: 'Production'
     uses: ./.github/workflows/deploy.yml
     needs: [deployToStaging]
-    if: ${{ inputs.canDeployOnProduction == 'true' }}
+    if: inputs.canDeployOnProduction
     with:
       environment: 'prod'
     secrets: inherit
