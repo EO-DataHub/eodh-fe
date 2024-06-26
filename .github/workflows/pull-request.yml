@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/build.yml
   deploy:
     name: 'Deploy'
-    uses: ./.github/workflows/deploy-to-environments.yml
+    uses: ./.github/workflows/deploy.yml
     needs: [build]
     with:
       canDeployOnDev: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isCiCdTest) }}

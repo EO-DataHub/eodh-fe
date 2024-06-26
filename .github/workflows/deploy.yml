@@ -1,17 +1,103 @@
 on:
   workflow_call:
     inputs:
-      environment:
+      canDeployOnDev:
         required: true
-        type: string
+        type: boolean
+        default: false
+      canDeployOnQA:
+        required: true
+        type: boolean
+        default: false
+      canDeployOnStaging:
+        required: true
+        type: boolean
+        default: false
+      canDeployOnProduction:
+        required: true
+        type: boolean
+        default: false
 
 jobs:
-  Deploy:
+  deployToDev:
+    name: 'Dev'
+    if: inputs.canDeployOnDev
     runs-on: ubuntu-20.04
     permissions:
       id-token: write
       contents: read
-    environment: ${{ inputs.environment }}
+    environment: 'dev'
+    steps:
+      - name: 'Download build'
+        uses: actions/download-artifact@v4
+        with:
+          name: image-ukri
+      - name: 'Configure AWS credentials'
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: ${{ vars.AWS_ROLE_SESSION_NAME }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: 'Deploy to S3'
+        run: aws s3 cp ./ s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
+      - name: 'Invalidate CloudFront'
+        run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
+  deployToQa:
+    name: 'QA'
+    if: inputs.canDeployOnQA
+    runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
+    environment: 'qa'
+    steps:
+      - name: 'Download build'
+        uses: actions/download-artifact@v4
+        with:
+          name: image-ukri
+      - name: 'Configure AWS credentials'
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: ${{ vars.AWS_ROLE_SESSION_NAME }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: 'Deploy to S3'
+        run: aws s3 cp ./ s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
+      - name: 'Invalidate CloudFront'
+        run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
+  deployToStaging:
+    name: 'Staging'
+    needs: [deployToQa]
+    if: inputs.canDeployOnStaging
+    runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
+    environment: 'staging'
+    steps:
+      - name: 'Download build'
+        uses: actions/download-artifact@v4
+        with:
+          name: image-ukri
+      - name: 'Configure AWS credentials'
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-session-name: ${{ vars.AWS_ROLE_SESSION_NAME }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: 'Deploy to S3'
+        run: aws s3 cp ./ s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
+      - name: 'Invalidate CloudFront'
+        run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
+  deployToProduction:
+    name: 'Production'
+    needs: [deployToStaging]
+    if: inputs.canDeployOnProduction
+    runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
+    environment: 'prod'
     steps:
       - name: 'Download build'
         uses: actions/download-artifact@v4
