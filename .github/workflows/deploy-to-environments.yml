@@ -32,6 +32,8 @@ jobs:
       contents: read
     environment: 'dev'
     steps:
+      - name: 'Clone repository'
+        uses: actions/checkout@v4
       - uses: ./.github/actions/deploy.yml
   deployToQa:
     name: 'QA'
@@ -42,6 +44,8 @@ jobs:
       contents: read
     environment: 'qa'
     steps:
+      - name: 'Clone repository'
+        uses: actions/checkout@v4
       - uses: ./.github/actions/deploy.yml
   deployToStaging:
     name: 'Staging'
@@ -53,6 +57,8 @@ jobs:
       contents: read
     environment: 'staging'
     steps:
+      - name: 'Clone repository'
+        uses: actions/checkout@v4
       - uses: ./.github/actions/deploy.yml
   deployToProduction:
     name: 'Production'
@@ -63,4 +69,6 @@ jobs:
       contents: read
     environment: 'prod'
     steps:
+      - name: 'Clone repository'
+        uses: actions/checkout@v4
       - uses: ./.github/actions/deploy.yml
