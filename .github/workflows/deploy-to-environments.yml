@@ -19,6 +19,10 @@ on:
         default: false
 
 jobs:
+  display:
+    runs-on: ubuntu-20.04
+    steps:
+      - run: echo '${{ toJSON(inputs) }}'
   deployToDev:
     name: 'Dev'
     uses: ./.github/workflows/deploy.yml
