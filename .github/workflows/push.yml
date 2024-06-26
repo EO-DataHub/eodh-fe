@@ -16,6 +16,16 @@ permissions:
   contents: read
 
 jobs:
+  prepare:
+    name: 'Setup variables'
+    runs-on: ubuntu-20.04
+    steps:
+      - run: echo "Setup variables"
+    outputs:
+      canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
+      canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease || env.isMain }}
+      canDeployOnStaging: ${{ env.isHotfix || env.isRelease || env.isMain }}
+      canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMain }}
   build:
     name: 'Build'
     uses: ./.github/workflows/build.yml
@@ -24,8 +34,8 @@ jobs:
     uses: ./.github/workflows/deploy-to-environments.yml
     needs: [build]
     with:
-      canDeployOnDev: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isCiCdTest) }}
-      canDeployOnQA: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
-      canDeployOnStaging: ${{ fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
-      canDeployOnProduction: false
+      canDeployOnDev: needs.prepare.outputs.canDeployOnDev
+      canDeployOnQA: needs.prepare.outputs.canDeployOnQA
+      canDeployOnStaging: needs.prepare.outputs.canDeployOnStaging
+      canDeployOnProduction: needs.prepare.outputs.canDeployOnProduction
     secrets: inherit

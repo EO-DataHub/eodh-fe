@@ -22,32 +22,30 @@ jobs:
   deployToDev:
     name: 'Dev'
     uses: ./.github/workflows/deploy.yml
-    needs: [prepare, build]
-    if: ${{ needs.prepare.outputs.canDeployOnDev == 'true' }}
+    if: ${{ inputs.canDeployOnDev == 'true' }}
     with:
       environment: 'dev'
     secrets: inherit
   deployToQa:
     name: 'QA'
     uses: ./.github/workflows/deploy.yml
-    needs: [prepare, build]
-    if: ${{ needs.prepare.outputs.canDeployOnQA == 'true' }}
+    if: ${{ inputs.canDeployOnQA == 'true' }}
     with:
       environment: 'qa'
     secrets: inherit
   deployToStaging:
     name: 'Staging'
     uses: ./.github/workflows/deploy.yml
-    needs: [prepare, build, deployToQa]
-    if: ${{ needs.prepare.outputs.canDeployOnStaging == 'true' }}
+    needs: [deployToQa]
+    if: ${{ inputs.canDeployOnStaging == 'true' }}
     with:
       environment: 'staging'
     secrets: inherit
   deployToProduction:
     name: 'Production'
     uses: ./.github/workflows/deploy.yml
-    needs: [prepare, build, deployToStaging]
-    if: ${{ needs.prepare.outputs.canDeployOnProduction == 'true' }}
+    needs: [deployToStaging]
+    if: ${{ inputs.canDeployOnProduction == 'true' }}
     with:
       environment: 'prod'
     secrets: inherit
