@@ -25,50 +25,31 @@ jobs:
       - run: echo '${{ toJSON(inputs) }}'
   deployToDev:
     name: 'Dev'
+    uses: ./.github/workflows/deploy.yml
     if: inputs.canDeployOnDev
-    runs-on: ubuntu-20.04
-    permissions:
-      id-token: write
-      contents: read
-    environment: 'dev'
-    steps:
-      - name: 'Clone repository'
-        uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy
+    with:
+      environment: 'dev'
+    secrets: inherit
   deployToQa:
     name: 'QA'
+    uses: ./.github/workflows/deploy.yml
     if: inputs.canDeployOnQA
-    runs-on: ubuntu-20.04
-    permissions:
-      id-token: write
-      contents: read
-    environment: 'qa'
-    steps:
-      - name: 'Clone repository'
-        uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy
+    with:
+      environment: 'qa'
+    secrets: inherit
   deployToStaging:
     name: 'Staging'
+    uses: ./.github/workflows/deploy.yml
     needs: [deployToQa]
     if: inputs.canDeployOnStaging
-    runs-on: ubuntu-20.04
-    permissions:
-      id-token: write
-      contents: read
-    environment: 'staging'
-    steps:
-      - name: 'Clone repository'
-        uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy
+    with:
+      environment: 'staging'
+    secrets: inherit
   deployToProduction:
     name: 'Production'
+    uses: ./.github/workflows/deploy.yml
     needs: [deployToStaging]
-    runs-on: ubuntu-20.04
-    permissions:
-      id-token: write
-      contents: read
-    environment: 'prod'
-    steps:
-      - name: 'Clone repository'
-        uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy
+    if: inputs.canDeployOnProduction
+    with:
+      environment: 'prod'
+    secrets: inherit
