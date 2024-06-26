@@ -34,8 +34,8 @@ jobs:
     uses: ./.github/workflows/deploy-to-environments.yml
     needs: [prepare, build]
     with:
-      canDeployOnDev: needs.prepare.outputs.canDeployOnDev
-      canDeployOnQA: needs.prepare.outputs.canDeployOnQA
-      canDeployOnStaging: needs.prepare.outputs.canDeployOnStaging
-      canDeployOnProduction: needs.prepare.outputs.canDeployOnProduction
+      canDeployOnDev: ${{ needs.prepare.outputs.canDeployOnDev }}
+      canDeployOnQA: ${{ needs.prepare.outputs.canDeployOnQA }}
+      canDeployOnStaging: ${{ needs.prepare.outputs.canDeployOnStaging }}
+      canDeployOnProduction: ${{ needs.prepare.outputs.canDeployOnProduction }}
     secrets: inherit
