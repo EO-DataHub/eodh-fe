@@ -48,7 +48,6 @@ jobs:
         run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
   deployToQa:
     name: 'QA'
-    uses: ./.github/workflows/deploy.yml
     if: inputs.canDeployOnQA
     runs-on: ubuntu-20.04
     permissions:
@@ -72,7 +71,6 @@ jobs:
         run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
   deployToStaging:
     name: 'Staging'
-    uses: ./.github/workflows/deploy.yml
     needs: [deployToQa]
     if: inputs.canDeployOnStaging
     runs-on: ubuntu-20.04
@@ -97,7 +95,6 @@ jobs:
         run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
   deployToProduction:
     name: 'Production'
-    uses: ./.github/workflows/deploy.yml
     needs: [deployToStaging]
     if: inputs.canDeployOnProduction
     runs-on: ubuntu-20.04
