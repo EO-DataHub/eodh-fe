@@ -32,7 +32,7 @@ jobs:
   deploy:
     name: 'Deploy'
     uses: ./.github/workflows/deploy-to-environments.yml
-    needs: [build]
+    needs: [prepare, build]
     with:
       canDeployOnDev: needs.prepare.outputs.canDeployOnDev
       canDeployOnQA: needs.prepare.outputs.canDeployOnQA
