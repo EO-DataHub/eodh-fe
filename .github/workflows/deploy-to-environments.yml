@@ -25,21 +25,21 @@ jobs:
       - run: echo '${{ toJSON(inputs) }}'
   deployToDev:
     name: 'Dev'
-    uses: ./.github/workflows/deploy.yml
+    uses: ./.github/actions/deploy.yml
     if: inputs.canDeployOnDev
     with:
       environment: 'dev'
     secrets: inherit
   deployToQa:
     name: 'QA'
-    uses: ./.github/workflows/deploy.yml
+    uses: ./.github/actions/deploy.yml
     if: inputs.canDeployOnQA
     with:
       environment: 'qa'
     secrets: inherit
   deployToStaging:
     name: 'Staging'
-    uses: ./.github/workflows/deploy.yml
+    uses: ./.github/actions/deploy.yml
     needs: [deployToQa]
     if: inputs.canDeployOnStaging
     with:
@@ -47,7 +47,7 @@ jobs:
     secrets: inherit
   deployToProduction:
     name: 'Production'
-    uses: ./.github/workflows/deploy.yml
+    uses: ./.github/actions/deploy.yml
     needs: [deployToStaging]
     if: inputs.canDeployOnProduction
     with:
