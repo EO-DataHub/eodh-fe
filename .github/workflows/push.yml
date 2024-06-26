@@ -22,10 +22,10 @@ jobs:
     steps:
       - run: echo "Setup variables"
     outputs:
-      canDeployOnDev: ${{ env.isDevelop || env.isHotfix || env.isCiCdTest }}
-      canDeployOnQA: ${{ env.isDevelop || env.isHotfix || env.isRelease || env.isMain }}
-      canDeployOnStaging: ${{ env.isHotfix || env.isRelease || env.isMain }}
-      canDeployOnProduction: ${{ env.isHotfix || env.isRelease || env.isMain }}
+      canDeployOnDev: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isCiCdTest) }}
+      canDeployOnQA: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
+      canDeployOnStaging: ${{ fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
+      canDeployOnProduction: ${{ fromJSON(false) }}
   build:
     name: 'Build'
     uses: ./.github/workflows/build.yml
@@ -34,8 +34,8 @@ jobs:
     uses: ./.github/workflows/deploy-to-environments.yml
     needs: [prepare, build]
     with:
-      canDeployOnDev: ${{ fromJSON(needs.prepare.outputs.canDeployOnDev) }}
-      canDeployOnQA: ${{ fromJSON(needs.prepare.outputs.canDeployOnQA) }}
-      canDeployOnStaging: ${{ fromJSON(needs.prepare.outputs.canDeployOnStaging) }}
-      canDeployOnProduction: ${{ fromJSON(needs.prepare.outputs.canDeployOnProduction) }}
+      canDeployOnDev: needs.prepare.outputs.canDeployOnDev
+      canDeployOnQA: needs.prepare.outputs.canDeployOnQA
+      canDeployOnStaging: needs.prepare.outputs.canDeployOnStaging
+      canDeployOnProduction: needs.prepare.outputs.canDeployOnProduction
     secrets: inherit
