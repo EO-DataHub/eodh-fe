@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: 'Clone repository'
         uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy.yml
+      - uses: ./.github/actions/deploy
   deployToQa:
     name: 'QA'
     if: inputs.canDeployOnQA
@@ -46,7 +46,7 @@ jobs:
     steps:
       - name: 'Clone repository'
         uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy.yml
+      - uses: ./.github/actions/deploy
   deployToStaging:
     name: 'Staging'
     needs: [deployToQa]
@@ -59,7 +59,7 @@ jobs:
     steps:
       - name: 'Clone repository'
         uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy.yml
+      - uses: ./.github/actions/deploy
   deployToProduction:
     name: 'Production'
     needs: [deployToStaging]
@@ -71,4 +71,4 @@ jobs:
     steps:
       - name: 'Clone repository'
         uses: actions/checkout@v4
-      - uses: ./.github/actions/deploy.yml
+      - uses: ./.github/actions/deploy
