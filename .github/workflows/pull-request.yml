@@ -1,0 +1,31 @@
+on:
+  pull_request:
+    branches:
+      - 'release/**'
+      - 'feature/**'
+
+env:
+  isDevelop: ${{ startsWith(github.head_ref, 'refs/heads/develop') }}
+  isRelease: ${{ startsWith(github.head_ref, 'refs/heads/release/') }}
+  isHotfix: ${{ startsWith(github.head_ref, 'refs/heads/hotfix/') }}
+  isMain: ${{ startsWith(github.head_ref, 'refs/heads/main') }}
+  isCiCdTest: ${{ startsWith(github.head_ref, 'refs/heads/feature/ci-cd') }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build:
+    name: 'Build'
+    uses: ./.github/workflows/build.yml
+  deploy:
+    name: 'Deploy'
+    uses: ./.github/workflows/deploy-to-environments.yml
+    needs: [build]
+    with:
+      canDeployOnDev: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isCiCdTest) }}
+      canDeployOnQA: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
+      canDeployOnStaging: ${{ fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
+      canDeployOnProduction: false
+    secrets: inherit

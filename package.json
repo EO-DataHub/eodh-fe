@@ -5,8 +5,7 @@
   "scripts": {
     "prepare": "npx husky install",
     "start": "nx serve eodh-fe",
-    "build:dev": "nx build eodh-fe --configuration=development",
-    "build:prod": "nx build eodh-fe --configuration=production",
+    "build": "nx build eodh-fe --configuration=production",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "nx run eodh-fe-e2e:e2e",
     "test:unit": "nx run-many --target=test --all --parallel --skip-nx-cache",
