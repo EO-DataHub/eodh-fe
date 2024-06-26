@@ -25,31 +25,42 @@ jobs:
       - run: echo '${{ toJSON(inputs) }}'
   deployToDev:
     name: 'Dev'
-    uses: ./.github/actions/deploy.yml
     if: inputs.canDeployOnDev
-    with:
-      environment: 'dev'
-    secrets: inherit
+    runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
+    environment: 'dev'
+    steps:
+      - uses: ./.github/actions/deploy.yml
   deployToQa:
     name: 'QA'
-    uses: ./.github/actions/deploy.yml
     if: inputs.canDeployOnQA
-    with:
-      environment: 'qa'
-    secrets: inherit
+    runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
+    environment: 'qa'
+    steps:
+      - uses: ./.github/actions/deploy.yml
   deployToStaging:
     name: 'Staging'
-    uses: ./.github/actions/deploy.yml
     needs: [deployToQa]
     if: inputs.canDeployOnStaging
-    with:
-      environment: 'staging'
-    secrets: inherit
+    runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
+    environment: 'staging'
+    steps:
+      - uses: ./.github/actions/deploy.yml
   deployToProduction:
     name: 'Production'
-    uses: ./.github/actions/deploy.yml
     needs: [deployToStaging]
-    if: inputs.canDeployOnProduction
-    with:
-      environment: 'prod'
-    secrets: inherit
+    runs-on: ubuntu-20.04
+    permissions:
+      id-token: write
+      contents: read
+    environment: 'prod'
+    steps:
+      - uses: ./.github/actions/deploy.yml
