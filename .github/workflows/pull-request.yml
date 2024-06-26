@@ -1,8 +1,8 @@
 on:
   pull_request:
     branches:
-      - 'release/**'
-      - 'feature/**'
+      - 'develop'
+      - 'main'
 
 env:
   isDevelop: ${{ startsWith(github.head_ref, 'refs/heads/develop') }}
