@@ -2,8 +2,9 @@ import { render } from '@testing-library/react';
 
 import App from './app';
 
-vi.mock('./map.component', () => ({
-  DisplayMap: vi.fn().mockImplementation(() => <div></div>),
+vi.mock('@ukri/map/ui-map', () => ({
+  MapWrapper: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+  Map: vi.fn().mockImplementation(() => <div></div>),
 }));
 
 describe('App', () => {

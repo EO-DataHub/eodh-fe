@@ -1,6 +1,5 @@
+import { Map, MapWrapper } from '@ukri/map/ui-map';
 import styled, { createGlobalStyle } from 'styled-components';
-
-import { DisplayMap } from './map.component';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -18,7 +17,9 @@ export function App() {
     <>
       <GlobalStyle />
       <StyledApp>
-        <DisplayMap />
+        <MapWrapper>
+          <Map />
+        </MapWrapper>
       </StyledApp>
     </>
   );
