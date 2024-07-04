@@ -1,6 +1,6 @@
 {
-  "extends": ["@spyrosoft/eslint-config-spyro"],
-  "plugins": ["@nx"],
+  "extends": ["@spyrosoft/eslint-config-spyro", "plugin:@tanstack/eslint-plugin-query/recommended"],
+  "plugins": ["@nx", "@tanstack/query"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
