@@ -69,6 +69,50 @@
       "options": {
         "buildTarget": "eodh-fe:build"
       }
+    },
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/eodh-fe/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/eodh-fe",
+        "configDir": "apps/eodh-fe/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "test-storybook -c apps/eodh-fe/.storybook --url=http://localhost:4400"
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "eodh-fe:build-storybook",
+        "staticFilePath": "dist/storybook/eodh-fe",
+        "spa": true
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "eodh-fe:build-storybook:ci"
+        }
+      }
     }
   }
 }
