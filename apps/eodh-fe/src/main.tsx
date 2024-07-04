@@ -1,6 +1,7 @@
+import './styles/tailwind.css';
+
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import './styles/tailwind.css';
 
 import App from './app/app';
 
