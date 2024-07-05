@@ -21,8 +21,8 @@
     "group": "nx g @spyrosoft/spyro-architecture-plugin:group",
     "storybook": "nx run eodh-fe:storybook",
     "test:storybook": "nx run eodh-fe:test-storybook",
-    "pre-push": "concurrently \"npm:start-storybook\" \"wait-on http://localhost:6006 && npm run test-storybook\"",
-    "start-storybook": "storybook -p 6006"
+    "pre-push": "concurrently \"npm:start-storybook\" \"wait-on http://localhost:4400 && npm run test-storybook\"",
+    "start-storybook": "storybook -p 4400"
   },
   "private": true,
   "dependencies": {
