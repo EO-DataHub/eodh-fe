@@ -19,6 +19,6 @@ export const Heading: TStory = {
   args: {},
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByText(/Welcome to App!/gi)).toBeTruthy();
+    expect(canvas.getByTestId('app-root')).toBeInTheDocument();
   },
 };

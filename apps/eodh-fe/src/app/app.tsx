@@ -4,7 +4,7 @@ import { DisplayMap } from './map.component';
 
 export function App() {
   return (
-    <div className='bg-gray-100'>
+    <div className='bg-gray-100' data-testid='app-root'>
       <DisplayMap />
     </div>
   );

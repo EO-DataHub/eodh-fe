@@ -19,6 +19,6 @@ export const Heading: TStory = {
   args: {},
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByText(/Welcome to DisplayMap!/gi)).toBeTruthy();
+    expect(canvas.getByTestId('olMap')).toBeInTheDocument();
   },
 };

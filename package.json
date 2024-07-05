@@ -18,7 +18,9 @@
     "docker:build": "docker-compose up",
     "docker:rebuild": "docker-compose up --build",
     "create-lib": "nx g @spyrosoft/spyro-architecture-plugin:create-lib",
-    "group": "nx g @spyrosoft/spyro-architecture-plugin:group"
+    "group": "nx g @spyrosoft/spyro-architecture-plugin:group",
+    "storybook": "nx run eodh-fe:storybook",
+    "test:storybook": "nx run eodh-fe:test-storybook"
   },
   "private": true,
   "dependencies": {
