@@ -1,6 +1,6 @@
 {
-  "extends": ["@spyrosoft/eslint-config-spyro", "plugin:@tanstack/eslint-plugin-query/recommended"],
-  "plugins": ["@nx", "@tanstack/query"],
+  "extends": [],
+  "plugins": ["@nx", "unicorn", "react", "react-hooks", "simple-import-sort", "prettier"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -20,7 +20,7 @@
               },
               {
                 "sourceTag": "type:utils",
-                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
               },
               {
                 "sourceTag": "type:data-access",
@@ -28,7 +28,7 @@
               },
               {
                 "sourceTag": "type:data-access",
-                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
               },
               {
                 "sourceTag": "type:ui",
@@ -36,7 +36,7 @@
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
               },
               {
                 "sourceTag": "type:feature",
@@ -44,15 +44,15 @@
               },
               {
                 "sourceTag": "type:feature",
-                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
               },
               {
                 "sourceTag": "type:app",
                 "onlyDependOnLibsWithTags": ["type:utils", "type:data-access", "type:ui", "type:feature"]
               },
               {
-                "sourceTag": "scope:eodh-fe",
-                "onlyDependOnLibsWithTags": ["scope:eodh-fe", "scope:shared"]
+                "sourceTag": "scope:map",
+                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
               },
               {
                 "sourceTag": "scope:shared",
@@ -60,8 +60,141 @@
               }
             ]
           }
+        ],
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "accessibility": "explicit",
+            "overrides": {
+              "accessors": "explicit",
+              "constructors": "explicit",
+              "methods": "explicit",
+              "properties": "explicit",
+              "parameterProperties": "explicit"
+            }
+          }
+        ],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": [
+              "public-static-field",
+              "protected-static-field",
+              "private-static-field",
+              "public-instance-field",
+              "protected-instance-field",
+              "private-instance-field",
+              "public-static-method",
+              "protected-static-method",
+              "private-static-method",
+              "public-constructor",
+              "protected-constructor",
+              "private-constructor",
+              "public-instance-method",
+              "protected-instance-method",
+              "private-instance-method"
+            ]
+          }
+        ],
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "interface",
+            "format": ["PascalCase"],
+            "custom": {
+              "regex": "^I[A-Z]",
+              "match": true
+            },
+            "leadingUnderscore": "forbid",
+            "trailingUnderscore": "forbid"
+          },
+          {
+            "selector": "typeAlias",
+            "format": ["PascalCase"],
+            "custom": {
+              "regex": "^T[A-Z]",
+              "match": true
+            },
+            "leadingUnderscore": "forbid",
+            "trailingUnderscore": "forbid"
+          },
+          {
+            "selector": "variable",
+            "format": ["strictCamelCase", "StrictPascalCase", "UPPER_CASE"],
+            "leadingUnderscore": "forbid",
+            "trailingUnderscore": "forbid"
+          },
+          {
+            "selector": "enum",
+            "format": ["UPPER_CASE"],
+            "leadingUnderscore": "forbid",
+            "trailingUnderscore": "forbid"
+          }
+        ],
+        "@typescript-eslint/semi": ["error", "always"],
+        "@typescript-eslint/member-delimiter-style": [
+          "error",
+          {
+            "multiline": {
+              "delimiter": "semi",
+              "requireLast": true
+            },
+            "singleline": {
+              "delimiter": "semi",
+              "requireLast": false
+            }
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+        "no-else-return": "error",
+        "unicorn/new-for-builtins": "error",
+        "unicorn/prefer-switch": "error",
+        "unicorn/string-content": "error",
+        "unicorn/filename-case": "error",
+        "react/jsx-no-useless-fragment": "off",
+        "react-hooks/exhaustive-deps": "error",
+        "simple-import-sort/imports": "error",
+        "prettier/prettier": "error",
+        "no-unused-vars": [
+          "error",
+          {
+            "vars": "all",
+            "args": "after-used",
+            "ignoreRestSiblings": false
+          }
         ]
       }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": [
+        "plugin:@nx/typescript",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "rules": {
+        "no-console": [
+          "error",
+          {
+            "allow": ["warn", "error"]
+          }
+        ],
+        "no-debugger": "error"
+      }
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx"],
+      "extends": [],
+      "rules": {
+        "@typescript-eslint/no-empty-function": "off",
+        "prefer-const": "off"
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {}
     }
   ]
 }
