@@ -20,7 +20,8 @@
     "create-lib": "nx g @spyrosoft/spyro-architecture-plugin:create-lib",
     "group": "nx g @spyrosoft/spyro-architecture-plugin:group",
     "storybook": "nx run eodh-fe:storybook",
-    "test:storybook": "npm run storybook && nx run eodh-fe:test-storybook"
+    "test:storybook": "nx run eodh-fe:test-storybook",
+    "pre-push": "concurrently \"npm:storybook\" \"wait-on http://localhost:6006 && npm run test-storybook\""
   },
   "private": true,
   "dependencies": {
