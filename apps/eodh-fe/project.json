@@ -11,7 +11,7 @@
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/eodh-fe",
-        "postcssConfig": "../../postcss.config.js"
+        "postcssConfig": "./postcss.config.js"
       },
       "configurations": {
         "development": {
