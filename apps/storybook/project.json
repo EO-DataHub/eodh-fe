@@ -39,7 +39,7 @@
         "command": "test-storybook -c apps/storybook/.storybook --url=http://localhost:4400"
       }
     },
-    "test-storybook:ci": {
+    "test-storybook-ci": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
