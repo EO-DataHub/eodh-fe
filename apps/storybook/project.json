@@ -43,12 +43,10 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "nx run storybook-host:storybook --ci --quiet &",
+          "nx run storybook-host:storybook & STORYBOOK_PID=$!",
           "wait-on http://localhost:4400",
           "nx run storybook-host:test-storybook",
-          "echo 'Attempting to kill process $!'",
-          "kill $!",
-          "echo 'Status of process $!'"
+          "if ps -p $STORYBOOK_PID > /dev/null; then kill $STORYBOOK_PID; else echo 'Storybook process $STORYBOOK_PID does not exist.'; fi"
         ],
         "parallel": false
       }
