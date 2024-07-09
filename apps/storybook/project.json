@@ -46,7 +46,9 @@
           "nx run storybook-host:storybook --ci --quiet &",
           "wait-on http://localhost:4400",
           "nx run storybook-host:test-storybook",
-          "kill $!"
+          "echo 'Attempting to kill process $!'",
+          "kill $!",
+          "echo 'Status of process $!'"
         ],
         "parallel": false
       }
