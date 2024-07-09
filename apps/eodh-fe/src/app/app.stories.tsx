@@ -6,7 +6,7 @@ import { App } from './app';
 
 const meta: Meta<typeof App> = {
   component: App,
-  title: 'App',
+  title: 'apps/eodh-fe/App',
 };
 export default meta;
 type TStory = StoryObj<typeof App>;

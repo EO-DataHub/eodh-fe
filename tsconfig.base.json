@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ukri/shared/utils/react-query": ["libs/shared/utils/react-query/src/index.ts"]
+      "@ukri/shared/utils/react-query": ["libs/shared/utils/react-query/src/index.ts"],
+      "@ukri/storybook-host": ["apps/storybook/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

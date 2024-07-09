@@ -6,7 +6,7 @@ import { DisplayMap } from './map.component';
 
 const meta: Meta<typeof DisplayMap> = {
   component: DisplayMap,
-  title: 'DisplayMap',
+  title: 'apps/eodh-fe/Map',
 };
 export default meta;
 type TStory = StoryObj<typeof DisplayMap>;
