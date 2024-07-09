@@ -38,6 +38,18 @@
       "options": {
         "command": "test-storybook -c apps/storybook/.storybook --url=http://localhost:4400"
       }
+    },
+    "test-storybook:ci": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run storybook-host:storybook --ci --quiet &",
+          "wait-on http://localhost:4400",
+          "nx run storybook-host:test-storybook",
+          "kill $!"
+        ],
+        "parallel": false
+      }
     }
   }
 }
