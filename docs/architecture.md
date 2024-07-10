@@ -6,7 +6,7 @@ Currently, there is one `application`, but multiple `applications` are supported
 Rules:
 
 - all `applications` should be placed in `apps` directory,
-- most of the code which should be placed in `libs` directory,
+- most of the code should be placed in `libs` directory,
 - `app` should be a tinny wrapper and should use code from `libs` directory,
 - `libraries` can use another `libraries`,
 - `applications` can not use another `applications`,
@@ -63,7 +63,7 @@ A data-access library can depend `util` libraries.
 #### What is it?
 
 A UI library is a collection of related presentational components.
-UI is a may be treated as independent component which a part of the page (it may have its own logic related to BE communication).
+UI is an independent component which can be a part of the page (it may have its own logic related to BE communication).
 
 #### Naming Convention
 

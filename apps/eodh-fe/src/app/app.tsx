@@ -1,27 +1,13 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import { withQueryClient } from '@ukri/shared/utils/react-query';
 
 import { DisplayMap } from './map.component';
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-  }
-`;
-
-const StyledApp = styled.div`
-  // Your style here
-`;
-
 export function App() {
   return (
-    <>
-      <GlobalStyle />
-      <StyledApp>
-        <DisplayMap />
-      </StyledApp>
-    </>
+    <div className='bg-gray-100' data-testid='app-root'>
+      <DisplayMap />
+    </div>
   );
 }
 
-export default App;
+export default withQueryClient(App);

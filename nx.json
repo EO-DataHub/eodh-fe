@@ -25,6 +25,10 @@
         "{workspaceRoot}/eslint.config.js"
       ],
       "cache": true
+    },
+    "build-storybook": {
+      "cache": true,
+      "inputs": ["default", "^production", "{projectRoot}/.storybook/**/*", "{projectRoot}/tsconfig.storybook.json"]
     }
   },
   "namedInputs": {
@@ -34,24 +38,28 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.js"
+      "!{projectRoot}/eslint.config.js",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/tsconfig.storybook.json"
     ],
     "sharedGlobals": []
   },
   "generators": {
     "@nx/react": {
       "application": {
-        "style": "styled-components",
+        "style": "css",
         "linter": "eslint",
         "bundler": "vite",
         "babel": true
       },
       "component": {
-        "style": "styled-components"
+        "style": "css"
       },
       "library": {
-        "style": "styled-components",
-        "linter": "eslint"
+        "style": "css",
+        "linter": "eslint",
+        "unitTestRunner": "vitest"
       }
     }
   },

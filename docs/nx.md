@@ -61,7 +61,7 @@ Tags are generic mechanism for expressing constraints on project dependencies.
 
 Tags are configured in project.json file under `tags` property.
 
-Tags relationship are configured in eslint.json file in project root folder using `@nrwl/nx/enforce-module-boundaries` eslint rule.
+Tags relationship are configured in eslintrc.json file in project root folder using `@nrwl/nx/enforce-module-boundaries` eslint rule.
 
 ### Additional information
 
@@ -69,8 +69,8 @@ Check those links if you want to learn more:
 
 - [tags basics](https://nx.dev/core-features/enforce-project-boundaries)
 - [tags in multiple dimensions documentation](https://nx.dev/recipes/enforce-module-boundaries/tag-multiple-dimensions)
-- [ben dependencies](https://nx.dev/recipes/enforce-module-boundaries/ban-dependencies-with-tags)
-- [ben external imports](https://nx.dev/recipes/enforce-module-boundaries/ban-external-imports)
+- [ban dependencies](https://nx.dev/recipes/enforce-module-boundaries/ban-dependencies-with-tags)
+- [ban external imports](https://nx.dev/recipes/enforce-module-boundaries/ban-external-imports)
 - [allow list](https://nx.dev/recipes/enforce-module-boundaries/tags-allow-list)
 
 # Important files
@@ -94,15 +94,15 @@ Libraries are sharable and can be imported using `@eodh/my-lib`.
 
 ### Development server
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `nx serve eodh-fe` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
 ### Build
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `nx build eodh-fe` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
 ### Running unit tests
 
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test eodh-fe` to execute the unit tests via [Jest](https://jestjs.io).
 
 Run `nx affected:test` to execute the unit tests affected by a change.
 
