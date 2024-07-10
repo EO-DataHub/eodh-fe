@@ -1,6 +1,6 @@
 # Storybook host
 
-It hosts all storybooks from all apps and all libraries. 
+It hosts all storybooks from all apps and all libraries.
 
 ## Running storybook
 
