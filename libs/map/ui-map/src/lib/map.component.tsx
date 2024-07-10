@@ -57,6 +57,5 @@ export const Map = () => {
     return () => map.setTarget(undefined);
   }, [map]);
 
-  // return <div style={{ width: "100vw", height: '100vh' }} data-testid="olMap" ref={mapRef}></div>;
   return <div className='h-screen w-screen' data-testid='olMap' ref={mapRef}></div>;
 };
