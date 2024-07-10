@@ -6,7 +6,7 @@
     "prepare": "npx husky install",
     "start": "nx serve eodh-fe",
     "build": "nx build eodh-fe --configuration=production",
-    "storybook": "nx storybook storybook-host",
+    "start:storybook": "nx storybook storybook-host",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "nx run eodh-fe-e2e:e2e",
     "test:unit": "nx run-many --target=test --all --parallel --pass-with-no-tests --skip-nx-cache",
