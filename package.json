@@ -6,9 +6,12 @@
     "prepare": "npx husky install",
     "start": "nx serve eodh-fe",
     "build": "nx build eodh-fe --configuration=production",
+    "storybook": "nx storybook storybook-host",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "nx run eodh-fe-e2e:e2e",
     "test:unit": "nx run-many --target=test --all --parallel --pass-with-no-tests --skip-nx-cache",
+    "test:storybook": "nx test-storybook storybook-host",
+    "test:storybook:ci": "nx run storybook-host:test-storybook-ci",
     "lint:check": "nx run-many --all --target=lint --parallel",
     "lint:fix": "nx run-many --all --target=lint --fix --parallel",
     "format:fix": "nx format:write --configuration ./.prettierrc",
@@ -18,8 +21,7 @@
     "docker:build": "docker-compose up",
     "docker:rebuild": "docker-compose up --build",
     "create-lib": "nx g @spyrosoft/spyro-architecture-plugin:create-lib",
-    "group": "nx g @spyrosoft/spyro-architecture-plugin:group",
-    "test-storybook:ci": "nx run storybook-host:test-storybook-ci"
+    "group": "nx g @spyrosoft/spyro-architecture-plugin:group"
   },
   "private": true,
   "dependencies": {

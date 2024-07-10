@@ -1,8 +1,10 @@
-# Storybook
+# Storybook host
+
+It hosts all storybooks from all apps and all libraries. 
 
 ## Running storybook
 
-Run `nx storybook storybook-host`
+Run `npm run storybook` (or `nx storybook storybook-host`)
 
 ## Building storybook
 
@@ -10,9 +12,9 @@ Run `nx build-storybook storybook-host`
 
 ## Running storybook unit tests
 
-Make sure storybook is running -> `nx storybook storybook-host`
+Make sure storybook is running -> `npm run storybook`
 
-Run `nx test-storybook storybook-host` to execute the unit tests via [Jest](https://jestjs.io).
+Run `npm run test:storybook` (or `nx test-storybook storybook-host`) to execute the unit tests via [Jest](https://jestjs.io).
 
 ## Storybook structure
 

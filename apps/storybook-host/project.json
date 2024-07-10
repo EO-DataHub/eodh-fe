@@ -1,9 +1,9 @@
 {
   "name": "storybook-host",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/storybook/src",
+  "sourceRoot": "apps/storybook-host/src",
   "projectType": "library",
-  "tags": [],
+  "tags": ["type:storybook"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
@@ -12,7 +12,7 @@
       "executor": "@nx/storybook:storybook",
       "options": {
         "port": 4400,
-        "configDir": "apps/storybook/.storybook"
+        "configDir": "apps/storybook-host/.storybook"
       },
       "configurations": {
         "ci": {
@@ -25,7 +25,7 @@
       "outputs": ["{options.outputDir}"],
       "options": {
         "outputDir": "dist/storybook/storybook-host",
-        "configDir": "apps/storybook/.storybook"
+        "configDir": "apps/storybook-host/.storybook"
       },
       "configurations": {
         "ci": {
@@ -36,7 +36,7 @@
     "test-storybook": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "test-storybook -c apps/storybook/.storybook --url=http://localhost:4400"
+        "command": "test-storybook -c apps/storybook-host/.storybook --url=http://localhost:4400"
       }
     },
     "test-storybook-ci": {
@@ -44,9 +44,8 @@
       "options": {
         "commands": [
           "nx run storybook-host:storybook & STORYBOOK_PID=$!",
-          "wait-on http://localhost:4400",
-          "nx run storybook-host:test-storybook",
-          "if ps -p $STORYBOOK_PID > /dev/null; then kill $STORYBOOK_PID; else echo 'Storybook process $STORYBOOK_PID does not exist.'; fi"
+          "wait-on http://127.0.0.1:4400",
+          "nx run storybook-host:test-storybook"
         ],
         "parallel": false
       }

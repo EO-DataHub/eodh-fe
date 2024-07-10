@@ -57,6 +57,10 @@
               {
                 "sourceTag": "scope:shared",
                 "onlyDependOnLibsWithTags": ["scope:shared"]
+              },
+              { 
+                "sourceTag": "type:storybook", 
+                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access", "type:ui", "type:feature", "type:app"] 
               }
             ]
           }
