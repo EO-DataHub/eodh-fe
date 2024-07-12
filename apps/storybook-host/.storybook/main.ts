@@ -7,7 +7,12 @@ const config: StorybookConfig = {
     '../../../apps/eodh-fe/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     '../../../libs/**/src/lib/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
-  addons: ['@storybook/addon-essentials', '@storybook/addon-interactions'],
+  addons: [
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    '@storybook/addon-controls',
+    '@storybook/addon-backgrounds',
+  ],
   framework: {
     name: '@storybook/react-vite',
     options: {},
