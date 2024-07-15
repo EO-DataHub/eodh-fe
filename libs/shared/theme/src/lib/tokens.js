@@ -47,7 +47,6 @@ const tokens = {
     'large-regular': ['14px', { lineHeight: '21px', fontWeight: '400' }],
     'large-bold': ['14px', { lineHeight: '21px', fontWeight: '700' }],
   },
-  // Add more tokens as needed
 };
 
 export default tokens;
