@@ -27,6 +27,7 @@
   "dependencies": {
     "@date-io/date-fns": "3.0.0",
     "@storybook/addon-backgrounds": "^8.2.2",
+    "@storybook/blocks": "^8.2.2",
     "@tanstack/react-query": "5.50.1",
     "date-fns": "3.6.0",
     "ol": "9.2.4",
@@ -52,7 +53,6 @@
     "@nx/workspace": "19.2.3",
     "@spyrosoft/eslint-config-spyro": "latest",
     "@spyrosoft/spyro-plugin-manager": "2.1.3",
-    "@storybook/addon-controls": "^8.2.2",
     "@storybook/addon-essentials": "7.6.20",
     "@storybook/addon-interactions": "7.5.3",
     "@storybook/core-server": "7.6.20",

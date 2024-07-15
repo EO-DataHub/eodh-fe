@@ -1,4 +1,4 @@
-module.exports = {
+const tokens = {
   colors: {
     // eg. bg-primary-light
     primary: {
@@ -30,6 +30,12 @@ module.exports = {
       warning: '#FFD15B',
       info: '#4483FF',
     },
+    action_creator: {
+      function: '#FF0000',
+      area: '#3CAF5C',
+      data: '#FF7A00',
+      date: '#00B2FF',
+    },
   },
   // eg. text-small-semibold
   fontSize: {
@@ -41,16 +47,7 @@ module.exports = {
     'large-regular': ['14px', { lineHeight: '21px', fontWeight: '400' }],
     'large-bold': ['14px', { lineHeight: '21px', fontWeight: '700' }],
   },
-  spacing: {
-    1: '0.25rem',
-    2: '0.5rem',
-    3: '0.75rem',
-    4: '1rem',
-    5: '1.25rem',
-    6: '1.5rem',
-    8: '2rem',
-    10: '2.5rem',
-    12: '3rem',
-  },
   // Add more tokens as needed
 };
+
+export default tokens;
