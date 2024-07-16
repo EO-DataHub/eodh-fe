@@ -1,6 +1,7 @@
 const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 const { join } = require('path');
-const { colors, fontSize } = require('../../libs/shared/theme/src/lib/tokens');
+const colors = require('../../libs/shared/theme/src/lib/colors');
+const fontSize = require('../../libs/shared/theme/src/lib/font-size');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...colors,
+        ...colors.lightMode,
       },
       fontSize: {
         ...fontSize,
