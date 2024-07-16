@@ -3,6 +3,8 @@ const { join } = require('path');
 const colors = require('../../libs/shared/theme/src/lib/colors');
 const fontSize = require('../../libs/shared/theme/src/lib/font-size');
 
+console.log('colors', colors);
+console.log('fontSize', fontSize);
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -14,10 +16,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ...colors.lightMode,
+        ...colors.default.lightMode,
       },
       fontSize: {
-        ...fontSize,
+        ...fontSize.default,
       },
     },
   },
