@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import react from '@vitejs/plugin-react';
+import { join } from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -17,6 +18,12 @@ export default defineConfig({
   server: {
     port: 4200,
     host: 'localhost',
+    fs: {
+      allow: [
+        // Dynamically resolve the project root
+        join(__dirname, '..', '..'),
+      ],
+    },
   },
 
   preview: {
