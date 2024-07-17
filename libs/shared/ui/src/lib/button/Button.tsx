@@ -1,8 +1,6 @@
 import clsx from 'clsx';
 
-import styles from './Button.module.css';
-
-interface ButtonProps {
+interface IButtonProps {
   text: string;
   color?: 'default' | 'white';
   style?: 'filled' | 'outlined';
@@ -23,7 +21,7 @@ export const Button = ({
   iconClassName,
   onClick,
   disabled,
-}: ButtonProps) => {
+}: IButtonProps) => {
   const baseStyles = !disabled && 'hover:outline hover:outline-[3px] hover:outline-primary-light duration-200';
 
   // box-shadow
