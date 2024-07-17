@@ -1,5 +1,6 @@
-import styles from './Button.module.css';
 import clsx from 'clsx';
+
+import styles from './Button.module.css';
 
 interface ButtonProps {
   text: string;
@@ -23,29 +24,30 @@ export const Button = ({
   onClick,
   disabled,
 }: ButtonProps) => {
-  const baseStyles = !disabled &&'hover:outline hover:outline-[3px] hover:outline-primary-light duration-200';
+  const baseStyles = !disabled && 'hover:outline hover:outline-[3px] hover:outline-primary-light duration-200';
 
   // box-shadow
   const shadowStyles = {
     filled: 'shadow',
     outlined: '',
-  }
+  };
 
   const colorStyles = {
-    default: style === 'filled' ?
-      'bg-primary text-primary-contrastText'
-      : 
-      'border border-primary hover:border-primary-light text-primary',
-    white: style === 'filled' ? 
-      'text-primary' : 
-      'border border-primary-contrastText hover:border-primary-light text-primary-contrastText',
+    default:
+      style === 'filled'
+        ? 'bg-primary text-primary-contrastText'
+        : 'border border-primary hover:border-primary-light text-primary',
+    white:
+      style === 'filled'
+        ? 'text-primary'
+        : 'border border-primary-contrastText hover:border-primary-light text-primary-contrastText',
   };
 
   // font size, font weight, text shadow, button shadow, border radius, padding
   const sizeStyles = {
-    small: `text-small-bold rounded-[6px] px-1.5 py-1 ${ style === 'filled' &&  'text-shadow-text-small'}`,
-    medium: `text-medium-semibold rounded-[8px] px-5 py-1 ${ style === 'filled' &&  'text-shadow-text-small'}`,
-    large: `text-large-bold rounded-[8px] px-6 py-1.5 ${ style === 'filled' &&  'text-shadow-text'}`,
+    small: `text-small-bold rounded-[6px] px-1.5 py-1 ${style === 'filled' && 'text-shadow-text-small'}`,
+    medium: `text-medium-semibold rounded-[8px] px-5 py-1 ${style === 'filled' && 'text-shadow-text-small'}`,
+    large: `text-large-bold rounded-[8px] px-6 py-1.5 ${style === 'filled' && 'text-shadow-text'}`,
   };
 
   const disabledStyles = {
@@ -62,13 +64,10 @@ export const Button = ({
     className
   );
   return (
-    <button
-      className={combinedStyles}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <button className={combinedStyles} onClick={onClick} disabled={disabled}>
       <span></span>
-      {icon && (<span className={iconClassName}>{icon}</span>)}{text}
+      {icon && <span className={iconClassName}>{icon}</span>}
+      {text}
     </button>
   );
 };
