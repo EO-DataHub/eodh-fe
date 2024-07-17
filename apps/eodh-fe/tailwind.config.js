@@ -2,6 +2,7 @@ const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 const { join } = require('path');
 const colors = require('../../libs/shared/theme/src/lib/colors');
 const fontSize = require('../../libs/shared/theme/src/lib/font-size');
+const boxShadow = require('../../libs/shared/theme/src/lib/shadow');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -16,6 +17,9 @@ module.exports = {
       },
       fontSize: {
         ...fontSize,
+      },
+      boxShadow: {
+        ...boxShadow,
       },
     },
   },
