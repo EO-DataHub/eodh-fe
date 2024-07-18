@@ -1,4 +1,6 @@
 import clsx from 'clsx';
+import React from 'react';
+import Icon from '../icon/icon';
 
 interface IButtonProps {
   text: string;
@@ -7,22 +9,27 @@ interface IButtonProps {
   size?: 'small' | 'medium' | 'large';
   onClick?: () => void;
   disabled?: boolean;
-  icon?: React.ReactNode;
   className?: string;
-  iconClassName?: string;
+  iconName?: 'none' | 'ArrowRight' | 'Bolt';
+  iconColor?: string;
+  iconWidth?: number;
+  iconHeight?: number;
 }
 export const Button = ({
   text,
   color = 'default',
   style = 'filled',
   size = 'large',
-  icon,
+  iconName,
+  iconColor,
+  iconWidth,
+  iconHeight,
   className,
-  iconClassName,
   onClick,
   disabled,
 }: IButtonProps) => {
   const baseStyles = !disabled && 'hover:outline hover:outline-[3px] hover:outline-primary-light duration-200';
+  const displayStyles = 'flex items-center';
 
   // box-shadow
   const shadowStyles = {
@@ -35,7 +42,7 @@ export const Button = ({
       style === 'filled'
         ? 'bg-primary text-primary-contrastText'
         : 'border border-primary hover:border-primary-light text-primary',
-    white:
+    white: // it possibly will be removed. To double check with Toby
       style === 'filled'
         ? 'text-primary'
         : 'border border-primary-contrastText hover:border-primary-light text-primary-contrastText',
@@ -55,6 +62,7 @@ export const Button = ({
 
   const combinedStyles = clsx(
     baseStyles,
+    displayStyles,
     colorStyles[color],
     sizeStyles[size],
     shadowStyles[style],
@@ -63,8 +71,7 @@ export const Button = ({
   );
   return (
     <button className={combinedStyles} onClick={onClick} disabled={disabled}>
-      <span></span>
-      {icon && <span className={iconClassName}>{icon}</span>}
+      {iconName && <Icon name={iconName} fillColor={iconColor ?? '#606060'} width={iconWidth ?? 24 } height={iconHeight ?? 24} />}
       {text}
     </button>
   );
