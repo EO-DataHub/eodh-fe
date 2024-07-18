@@ -10,7 +10,7 @@ interface IButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
-  iconName?: 'none' | 'ArrowRight' | 'Bolt';
+  iconName?: 'ArrowRight' | 'Bolt';
   iconColor?: string;
   iconWidth?: number;
   iconHeight?: number;
