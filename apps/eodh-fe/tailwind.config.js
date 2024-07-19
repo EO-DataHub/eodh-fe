@@ -23,5 +23,10 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    {
+      pattern: /text-(large|medium|small)-(bold|semibold|regular)/,
+    },
+  ],
   plugins: [],
 };

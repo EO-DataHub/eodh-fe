@@ -15,8 +15,12 @@
                 "onlyDependOnLibsWithTags": [""]
               },
               {
+                "sourceTag": "type:design-system",
+                "onlyDependOnLibsWithTags": [""]
+              },
+              {
                 "sourceTag": "type:utils",
-                "onlyDependOnLibsWithTags": ["type:utils"]
+                "onlyDependOnLibsWithTags": ["type:utils", "type:design-system"]
               },
               {
                 "sourceTag": "type:utils",
