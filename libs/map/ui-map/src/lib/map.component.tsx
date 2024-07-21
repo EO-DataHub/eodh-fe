@@ -1,5 +1,6 @@
 import 'ol/ol.css';
 
+import Interaction from 'ol/interaction/Interaction';
 import type BaseLayer from 'ol/layer/Base';
 import TileLayer from 'ol/layer/Tile';
 import OlMap from 'ol/Map.js';
@@ -10,6 +11,9 @@ import { createContext, PropsWithChildren, useContext, useEffect, useRef, useSta
 interface IMap {
   addLayer(layer: BaseLayer): void;
   setTarget(target?: string | HTMLElement | undefined): void;
+  addInteraction(interaction: Interaction): void;
+  removeInteraction(interaction: Interaction): Interaction | undefined;
+  removeLayer(layer: BaseLayer): BaseLayer | undefined;
 }
 
 const defaultMap = {
@@ -17,9 +21,13 @@ const defaultMap = {
   addLayer() {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setTarget() {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  addInteraction() {},
+  removeInteraction: () => undefined,
+  removeLayer: () => undefined,
 };
 
-const MapContext = createContext<IMap>(defaultMap);
+export const MapContext = createContext<IMap>(defaultMap);
 
 export const MapWrapper = ({ children }: PropsWithChildren) => {
   const [map, setMap] = useState<IMap>(defaultMap);
@@ -30,15 +38,15 @@ export const MapWrapper = ({ children }: PropsWithChildren) => {
       source: new OSM(),
     });
 
-    const map = new OlMap({
+    const olMap = new OlMap({
       layers: [osmLayer],
       view: new OlView({
         center: [0, 0],
         zoom: 0,
       }),
     });
-    setMap(map);
-    return () => map.setTarget(undefined);
+
+    setMap(olMap);
   }, []);
 
   return <MapContext.Provider value={map}>{children}</MapContext.Provider>;

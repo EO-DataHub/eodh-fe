@@ -1,0 +1,19 @@
+{
+  "name": "map-data-access-map",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/map/data-access-map/src",
+  "projectType": "library",
+  "tags": ["type:data-access", "scope:map"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../coverage/libs/map/data-access-map"
+      }
+    }
+  }
+}

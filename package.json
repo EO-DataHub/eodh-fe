@@ -33,7 +33,8 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-is": "18.3.1",
-    "tslib": "2.3.0"
+    "tslib": "2.3.0",
+    "zustand": "4.5.4"
   },
   "devDependencies": {
     "@babel/core": "7.14.5",
@@ -49,6 +50,7 @@
     "@nx/vite": "19.2.3",
     "@nx/web": "19.2.3",
     "@nx/workspace": "19.2.3",
+    "@redux-devtools/extension": "3.3.0",
     "@spyrosoft/eslint-config-spyro": "latest",
     "@spyrosoft/spyro-plugin-manager": "2.1.3",
     "@storybook/addon-essentials": "7.6.20",
