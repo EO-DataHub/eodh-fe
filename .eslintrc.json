@@ -11,8 +11,20 @@
             "allow": [],
             "depConstraints": [
               {
-                "sourceTag": "",
-                "onlyDependOnLibsWithTags": [""]
+                "sourceTag": "type:theme",
+                "onlyDependOnLibsWithTags": ["type:theme"]
+              },
+              {
+                "sourceTag": "type:theme",
+                "onlyDependOnLibsWithTags": ["scope:shared"]
+              },
+              {
+                "sourceTag": "type:design-system",
+                "onlyDependOnLibsWithTags": ["type:design-system"]
+              },
+              {
+                "sourceTag": "type:design-system",
+                "onlyDependOnLibsWithTags": ["scope:shared"]
               },
               {
                 "sourceTag": "type:utils",
@@ -20,7 +32,7 @@
               },
               {
                 "sourceTag": "type:utils",
-                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:map"]
               },
               {
                 "sourceTag": "type:data-access",
@@ -28,31 +40,44 @@
               },
               {
                 "sourceTag": "type:data-access",
-                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:map"]
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access", "type:ui"]
+                "onlyDependOnLibsWithTags": ["type:design-system", "type:utils", "type:data-access", "type:ui"]
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:map"]
               },
               {
                 "sourceTag": "type:feature",
-                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access", "type:ui", "type:feature"]
+                "onlyDependOnLibsWithTags": [
+                  "type:design-system",
+                  "type:utils",
+                  "type:data-access",
+                  "type:ui",
+                  "type:feature"
+                ]
               },
               {
                 "sourceTag": "type:feature",
-                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:map"]
               },
               {
                 "sourceTag": "type:app",
-                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access", "type:ui", "type:feature"]
+                "onlyDependOnLibsWithTags": [
+                  "type:theme",
+                  "type:design-system",
+                  "type:utils",
+                  "type:data-access",
+                  "type:ui",
+                  "type:feature"
+                ]
               },
               {
                 "sourceTag": "scope:map",
-                "onlyDependOnLibsWithTags": ["scope:map", "scope:shared"]
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:map"]
               },
               {
                 "sourceTag": "scope:shared",
@@ -60,7 +85,14 @@
               },
               {
                 "sourceTag": "type:storybook",
-                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access", "type:ui", "type:feature", "type:app"]
+                "onlyDependOnLibsWithTags": [
+                  "type:design-system",
+                  "type:utils",
+                  "type:data-access",
+                  "type:ui",
+                  "type:feature",
+                  "type:app"
+                ]
               }
             ]
           }
