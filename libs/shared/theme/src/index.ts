@@ -1,2 +1,9 @@
-export { fontSize } from './lib/font-size';
-export { colors } from './lib/colors';
+import colors from './lib/colors';
+import fontSize from './lib/font-size';
+
+const themeConfig = {
+  fontSize,
+  colors,
+};
+
+export default themeConfig;

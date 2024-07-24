@@ -1,6 +1,5 @@
 const colors = {
-  lightMode: {
-    // eg. bg-primary-light
+  light: {
     primary: {
       DEFAULT: '#4483FF',
       main: '#4483FF',
@@ -61,7 +60,7 @@ const colors = {
       contrastText: '#FFFFFF',
     },
   },
-  darkMode: {
+  dark: {
     primary: {
       DEFAULT: '#4483FF',
       main: '#4483FF',
