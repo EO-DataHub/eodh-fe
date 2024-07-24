@@ -16,20 +16,10 @@ const Notification = ({ type, children }: INotificationProps) => {
     general: 'bg-bright-light text-text-primary',
   };
 
-  const icons = {
-    error: '⚠️',
-    warning: '⚠️',
-    success: '✔️',
-    information: 'ℹ️',
-    general: 'ℹ️',
-  };
-
   return (
-    <div className={`rounded-lg p-4 mb-4 flex items-start ${typeStyles[type]}`}>
-      <Icon name='Bolt' />
-      {/* to update with Icon component */}
-      <div className='mr-3'>{icons[type]}</div>
-      <div className='flex-grow'>{children}</div>
+    <div className={`rounded-lg p-4 mb-4 flex items-start shadow ${typeStyles[type]}`}>
+      <Icon name='Warning' />
+      <div className=' ml-5'>{children}</div>
     </div>
   );
 };

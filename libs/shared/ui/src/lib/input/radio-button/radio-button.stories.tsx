@@ -14,7 +14,6 @@ export const Default = {
   args: {
     id: 'primary',
     initialChecked: true,
-    disabled: false,
     name: 'SampleRadioButton',
     value: 'sample',
     checked: true,

@@ -3,13 +3,12 @@ import React from 'react';
 import * as IconsNames from './icons';
 
 interface IIconProps {
-  name?: 'ArrowRight' | 'Bolt';
-  fillColor?: string;
+  name?: 'ArrowRight' | 'Bolt' | 'Warning';
   width?: number;
   height?: number;
 }
 
-const Icon = ({ name = 'Bolt', fillColor = 'inherit', width = 24, height = 24 }: IIconProps) => {
+const Icon = ({ name = 'Bolt', width = 24, height = 24 }: IIconProps) => {
   const IconComponent = IconsNames[name];
 
   if (!IconComponent) {
@@ -17,7 +16,11 @@ const Icon = ({ name = 'Bolt', fillColor = 'inherit', width = 24, height = 24 }:
     return null;
   }
 
-  return <IconComponent fillColor={fillColor} width={width} height={height} />;
+  return (
+    <div className='min-w-6'>
+      <IconComponent width={width} height={height} />
+    </div>
+  );
 };
 
 export default Icon;

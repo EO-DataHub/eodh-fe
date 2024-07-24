@@ -14,7 +14,6 @@ type TStory = StoryObj<typeof Icon>;
 export const Primary = {
   args: {
     name: 'Bolt',
-    fillColor: 'red',
     width: 24,
     height: 24,
   },

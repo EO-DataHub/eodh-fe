@@ -28,8 +28,12 @@ const Checkbox = ({ id, initialChecked, disabled, onChange, label }: ICheckboxPr
       />
       <span
         className={`w-[18px] h-[18px] flex items-center justify-center mr-2 border-1 rounded-sm transition-colors duration-200 ease-in-out ${
-          isChecked ? 'bg-primary border-primary' : 'bg-bright-mid border-bright-dark'
-        } ${disabled ? 'bg-neutral-light border-neutral-light' : ''}`}
+          disabled
+            ? 'bg-neutral-light border-neutral-light'
+            : isChecked
+            ? 'bg-primary border-primary'
+            : 'bg-bright-mid border-bright-dark'
+        }`}
       >
         {isChecked && !disabled && (
           <svg
