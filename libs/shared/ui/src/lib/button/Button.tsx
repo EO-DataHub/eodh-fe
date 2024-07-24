@@ -11,7 +11,6 @@ interface IButtonProps {
   disabled?: boolean;
   className?: string;
   iconName?: 'ArrowRight' | 'Bolt';
-  iconColor?: string;
   iconWidth?: number;
   iconHeight?: number;
 }
@@ -20,7 +19,6 @@ export const Button = ({
   appearance = 'default',
   size = 'large',
   iconName,
-  iconColor,
   iconWidth,
   iconHeight,
   className,
