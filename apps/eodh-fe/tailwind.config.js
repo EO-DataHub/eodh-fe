@@ -1,4 +1,5 @@
 const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
+const plugin = require('tailwindcss/plugin');
 const { join } = require('path');
 const { lightThemeConfig } = require('../../libs/shared/theme/src/index.ts');
 
@@ -16,5 +17,16 @@ module.exports = {
       pattern: /text-(large|medium|small)-(bold|semibold|regular)/,
     },
   ],
-  plugins: [],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
+      );
+    }),
+  ],
 };

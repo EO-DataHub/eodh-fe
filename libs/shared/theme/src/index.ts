@@ -31,4 +31,4 @@ const darkThemeConfig = {
     ...shadow,
   },
 };
-export { lightThemeConfig, darkThemeConfig };
+export { lightThemeConfig, darkThemeConfig, colors, fontSize, shadow };
