@@ -1,9 +1,21 @@
 import colors from './lib/colors';
 import fontSize from './lib/font-size';
 
-const themeConfig = {
-  fontSize,
-  colors,
+const lightThemeConfig = {
+  colors: {
+    ...colors.light,
+  },
+  fontSize: {
+    ...fontSize,
+  },
 };
 
-export default themeConfig;
+const darkThemeConfig = {
+  colors: {
+    ...colors.dark,
+  },
+  fontSize: {
+    ...fontSize,
+  },
+};
+export { lightThemeConfig, darkThemeConfig };

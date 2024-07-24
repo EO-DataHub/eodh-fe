@@ -5,7 +5,6 @@ export function App() {
   return (
     <div className='bg-gray-100' data-testid='app-root'>
       <MapWrapper>
-        <p className='bg-primary-light text-small-semibold'>Some text</p>
         <Map />
       </MapWrapper>
     </div>
