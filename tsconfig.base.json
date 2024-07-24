@@ -17,7 +17,8 @@
     "paths": {
       "@ukri/map/ui-map": ["libs/map/ui-map/src/index.ts"],
       "@ukri/shared/utils/react-query": ["libs/shared/utils/react-query/src/index.ts"],
-      "@ukri/storybook-host": ["apps/storybook-host/src/index.ts"]
+      "@ukri/storybook-host": ["apps/storybook-host/src/index.ts"],
+      "@ukri/theme": ["libs/shared/theme/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
