@@ -4,6 +4,7 @@ import Interaction from 'ol/interaction/Interaction';
 import type BaseLayer from 'ol/layer/Base';
 import TileLayer from 'ol/layer/Tile';
 import OlMap from 'ol/Map.js';
+import { fromLonLat } from 'ol/proj';
 import OSM from 'ol/source/OSM';
 import OlView from 'ol/View.js';
 import { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
@@ -41,8 +42,8 @@ export const MapWrapper = ({ children }: PropsWithChildren) => {
     const olMap = new OlMap({
       layers: [osmLayer],
       view: new OlView({
-        center: [0, 0],
-        zoom: 0,
+        center: fromLonLat([-0.118092, 51.509865]),
+        zoom: 8,
       }),
     });
 
