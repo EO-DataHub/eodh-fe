@@ -3,7 +3,7 @@ import { withQueryClient } from '@ukri/shared/utils/react-query';
 
 export function App() {
   return (
-    <div className='bg-gray-100' data-testid='app-root'>
+    <div data-testid='app-root'>
       <MapWrapper>
         <AoiLayer>
           <div className='w-full bg-background flex'>
