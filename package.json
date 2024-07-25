@@ -99,6 +99,12 @@
     "vitest": "1.6.0",
     "wait-on": "^7.2.0"
   },
+  "optionalDependencies": {
+    "@nx/nx-darwin-arm64": "19.2.3",
+    "@nx/nx-darwin-x64": "19.2.3",
+    "@nx/nx-linux-x64-gnu": "19.2.3",
+    "@nx/nx-win32-x64-msvc": "19.2.3"
+  },
   "overrides": {
     "@typescript-eslint/eslint-plugin": "7.9.0",
     "@typescript-eslint/parser": "7.9.0",
