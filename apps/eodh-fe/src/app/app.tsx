@@ -3,7 +3,7 @@ import { withQueryClient } from '@ukri/shared/utils/react-query';
 
 export function App() {
   return (
-    <div data-testid='app-root'>
+    <div data-testid='app-root' className='flex h-screen w-screen flex-col'>
       <MapWrapper>
         <AoiLayer>
           <div className='w-full bg-background flex'>
@@ -11,7 +11,7 @@ export function App() {
             <DrawCircleButton />
             <DrawPolygonButton />
           </div>
-          <Map />
+          <Map className='h-full w-full flex' />
         </AoiLayer>
       </MapWrapper>
     </div>

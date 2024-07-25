@@ -54,7 +54,7 @@ export const MapWrapper = ({ children }: PropsWithChildren) => {
   return <MapContext.Provider value={map}>{children}</MapContext.Provider>;
 };
 
-export const Map = () => {
+export const Map = ({ className }: { className?: string }) => {
   const map = useContext(MapContext);
   const mapRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,5 +67,5 @@ export const Map = () => {
     return () => map.setTarget(undefined);
   }, [map]);
 
-  return <div className='h-screen w-screen' data-testid='olMap' ref={mapRef}></div>;
+  return <div className={className} data-testid='olMap' ref={mapRef}></div>;
 };
