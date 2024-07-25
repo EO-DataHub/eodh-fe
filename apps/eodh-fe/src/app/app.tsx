@@ -6,7 +6,7 @@ export function App() {
     <div className='bg-gray-100' data-testid='app-root'>
       <MapWrapper>
         <AoiLayer>
-          <div className='w-full h-50px bg-[#F0F0F0] flex'>
+          <div className='w-full bg-background flex'>
             <DrawRectangleButton />
             <DrawCircleButton />
             <DrawPolygonButton />
