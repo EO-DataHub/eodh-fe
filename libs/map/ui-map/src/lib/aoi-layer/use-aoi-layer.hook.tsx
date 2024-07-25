@@ -7,16 +7,11 @@ import VectorSource from 'ol/source/Vector';
 import { useContext, useEffect, useState } from 'react';
 
 import { MapContext } from '../map.component';
+import { TAoiLayer } from './aoi-layer.component';
 
 export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
-export const useAioLayer = ({
-  draw,
-  setDraw,
-}: {
-  draw: TDraw | undefined;
-  setDraw: (draw: TDraw | undefined) => void;
-}) => {
+export const useAioLayer = ({ draw, setDraw }: TAoiLayer) => {
   const map = useContext(MapContext);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
   const shape = useCurrentShape();

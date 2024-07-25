@@ -39,10 +39,11 @@ export const MapWrapper = ({ children }: PropsWithChildren) => {
       source: new OSM(),
     });
 
+    const londonCoordinates = fromLonLat([-0.118092, 51.509865]);
     const olMap = new OlMap({
       layers: [osmLayer],
       view: new OlView({
-        center: fromLonLat([-0.118092, 51.509865]),
+        center: londonCoordinates,
         zoom: 8,
       }),
     });
