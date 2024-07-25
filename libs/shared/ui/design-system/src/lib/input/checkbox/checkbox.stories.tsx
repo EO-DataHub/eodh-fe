@@ -4,7 +4,7 @@ import Checkbox from './checkbox';
 
 const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
-  title: 'libs/shared/ui/input/Checkbox',
+  title: 'libs/shared/ui/design-system/input/Checkbox',
 };
 export default meta;
 

@@ -4,7 +4,7 @@ import Notification from './notification';
 
 const meta: Meta<typeof Notification> = {
   component: Notification,
-  title: 'libs/shared/ui/Notification',
+  title: 'libs/shared/ui/design-system/Notification',
   argTypes: {
     type: {
       control: {
@@ -19,7 +19,7 @@ export default meta;
 export const SampleNotification = {
   args: {
     type: 'error',
-    message:
+    children:
       'Sample notification text Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc.',
   },
 };

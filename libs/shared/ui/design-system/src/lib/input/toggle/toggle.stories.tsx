@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/react';
 import Toggle from './toggle';
 
 const meta: Meta<typeof Toggle> = {
-  title: 'libs/shared/ui/input/Toggle',
+  title: 'libs/shared/ui/design-system/input/Toggle',
   component: Toggle,
 };
 

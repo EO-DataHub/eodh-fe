@@ -6,7 +6,7 @@ import Icon from './icon';
 
 const meta: Meta<typeof Icon> = {
   component: Icon,
-  title: 'libs/shared/ui/Icon',
+  title: 'libs/shared/ui/design-system/Icon',
 };
 export default meta;
 type TStory = StoryObj<typeof Icon>;

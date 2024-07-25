@@ -4,7 +4,7 @@ import { Button } from './button';
 
 const meta: Meta<typeof Button> = {
   component: Button,
-  title: 'libs/shared/ui/Button',
+  title: 'libs/shared/ui/design-system/Button',
 };
 export default meta;
 
