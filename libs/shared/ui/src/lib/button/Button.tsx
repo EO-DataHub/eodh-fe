@@ -25,7 +25,9 @@ export const Button = ({
   onClick,
   disabled,
 }: IButtonProps) => {
-  const baseStyles = !disabled && 'hover:outline hover:outline-[3px] hover:outline-primary-light duration-200';
+  const baseStyles =
+    !disabled &&
+    'hover:outline hover:outline-[3px] hover:outline-primary-light duration-200 active:outline active:outline-[3px] active:outline-primary-light focus:outline focus:outline-[3px] focus:outline-primary-light';
   const displayStyles = 'flex items-center';
 
   const shadowStyles = {
@@ -36,8 +38,10 @@ export const Button = ({
 
   const appearanceStyles = {
     default: 'bg-primary text-primary-contrastText',
-    outlined: 'border border-primary hover:border-primary-light text-primary',
-    'outlined-white': 'border border-primary-contrastText hover:border-primary-light text-primary-contrastText',
+    outlined:
+      'border border-primary hover:border-primary-light active:border-primary-light focus:border-primary-light text-primary',
+    'outlined-white':
+      'border border-primary-contrastText hover:border-primary-light active:border-primary-light focus:border-primary-light text-primary-contrastText',
   };
 
   const sizeStyles = {
