@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 20.14.0
       - name: 'Install dependencies'
-        run: npm ci
+        run: npm ci --include=optional
       - name: 'Fetch main branch for NX'
         if: github.ref != 'refs/heads/main'
         run: git rev-parse --verify main || git remote set-branches origin main && git fetch --depth 1 origin main && git branch main origin/main
@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: 20.14.0
       - name: 'Install dependencies'
-        run: npm ci
+        run: npm ci --include=optional
       - name: 'Run unit tests'
         run: npm run test:unit
   RunStorybookTests:
@@ -54,7 +54,7 @@ jobs:
       - name: 'Install Playwright Browsers'
         run: npx playwright install chromium --with-deps
       - name: 'Install dependencies'
-        run: npm ci
+        run: npm ci --include=optional
       - name: 'Run Storybook tests'
         run: npm run test:storybook:ci
   BuildAndPublish:
@@ -70,7 +70,7 @@ jobs:
         with:
           node-version: 20.14.0
       - name: 'Install dependencies'
-        run: npm ci
+        run: npm ci --include=optional
       - name: 'Build'
         run: npm run build
       - name: 'Publish'

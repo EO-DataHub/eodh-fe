@@ -12,6 +12,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
+        "passWithNoTests": true,
         "reportsDirectory": "../../../coverage/libs/map/data-access-map"
       }
     }
