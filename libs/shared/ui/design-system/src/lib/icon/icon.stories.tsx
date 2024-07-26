@@ -2,7 +2,7 @@ import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { within } from '@storybook/testing-library';
 
-import Icon from './icon';
+import { Icon } from './icon';
 
 const meta: Meta<typeof Icon> = {
   component: Icon,

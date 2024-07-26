@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export interface ICheckboxProps {
+interface ICheckboxProps {
   id: string;
   initialChecked?: boolean | undefined;
   disabled?: boolean;
@@ -8,7 +8,7 @@ export interface ICheckboxProps {
   label?: string;
 }
 
-const Checkbox = ({ id, initialChecked, disabled, onChange, label }: ICheckboxProps) => {
+export const Checkbox = ({ id, initialChecked, disabled, onChange, label }: ICheckboxProps) => {
   const [isChecked, setIsChecked] = useState(initialChecked);
 
   const handleCheckboxChange = () => {
@@ -56,5 +56,3 @@ const Checkbox = ({ id, initialChecked, disabled, onChange, label }: ICheckboxPr
     </label>
   );
 };
-
-export default Checkbox;

@@ -8,7 +8,7 @@ interface IIconProps {
   height?: number;
 }
 
-const Icon = ({ name = 'Bolt', width = 24, height = 24 }: IIconProps) => {
+export const Icon = ({ name = 'Bolt', width = 24, height = 24 }: IIconProps) => {
   const IconComponent = IconsNames[name];
 
   if (!IconComponent) {
@@ -22,5 +22,3 @@ const Icon = ({ name = 'Bolt', width = 24, height = 24 }: IIconProps) => {
     </div>
   );
 };
-
-export default Icon;

@@ -23,5 +23,3 @@ export const Text = ({
   const Tag = type as keyof JSX.IntrinsicElements;
   return <Tag className={combinedStyles}>{content}</Tag>;
 };
-
-export default Text;

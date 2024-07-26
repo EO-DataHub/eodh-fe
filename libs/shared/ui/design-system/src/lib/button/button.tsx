@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import Icon from '../icon/icon';
+import { Icon } from '../icon/icon';
 
 interface IButtonProps {
   text: string;
@@ -73,5 +73,3 @@ export const Button = ({
     </button>
   );
 };
-
-export default Button;

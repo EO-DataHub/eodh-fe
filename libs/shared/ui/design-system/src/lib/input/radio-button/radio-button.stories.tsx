@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react';
 import React, { useState } from 'react';
 
-import RadioButton from './radio-button';
+import { RadioButton } from './radio-button';
 
 const meta: Meta<typeof RadioButton> = {
   title: 'libs/shared/ui/design-system/input/RadioButton',

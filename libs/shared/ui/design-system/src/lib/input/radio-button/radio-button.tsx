@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface IRadioButtonProps {
+interface IRadioButtonProps {
   id: string;
   name: string;
   value: string;
@@ -9,7 +9,7 @@ export interface IRadioButtonProps {
   label: string;
 }
 
-const RadioButton = ({ id, name, value, checked, onChange, label }: IRadioButtonProps) => {
+export const RadioButton = ({ id, name, value, checked, onChange, label }: IRadioButtonProps) => {
   const radioBtnBaseStyles = `w-[18px] h-[18px] flex items-center justify-center border-1 border border-solid rounded-full bg-bright-mid border-bright-dark ${
     checked && 'border-primary-main bg-bright'
   }`;
@@ -21,5 +21,3 @@ const RadioButton = ({ id, name, value, checked, onChange, label }: IRadioButton
     </label>
   );
 };
-
-export default RadioButton;

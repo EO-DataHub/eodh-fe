@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export interface IToggleProps {
+interface IToggleProps {
   id: string;
   checked?: boolean;
   onChange?: (checked: boolean) => void;
@@ -8,7 +8,7 @@ export interface IToggleProps {
   disabled?: boolean;
 }
 
-const Toggle = ({ id, checked: initialChecked = false, onChange, label, disabled }: IToggleProps) => {
+export const Toggle = ({ id, checked: initialChecked = false, onChange, label, disabled }: IToggleProps) => {
   const [checked, setChecked] = useState(initialChecked);
 
   const handleChange = () => {
@@ -40,5 +40,3 @@ const Toggle = ({ id, checked: initialChecked = false, onChange, label, disabled
     </label>
   );
 };
-
-export default Toggle;
