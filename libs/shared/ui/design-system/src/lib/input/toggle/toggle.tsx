@@ -36,7 +36,7 @@ export const Toggle = ({ id, checked: initialChecked = false, onChange, label, d
           <div className={toggleCircleClasses}></div>
         </div>
       </div>
-      {label && <span className='ml-3 text-sm font-medium text-gray-900'>{label}</span>}
+      {label && <span className='ml-3 text-sm font-medium text-text'>{label}</span>}
     </label>
   );
 };

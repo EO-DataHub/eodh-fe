@@ -28,7 +28,7 @@
     "@date-io/date-fns": "3.0.0",
     "@fontsource/poppins": "5.0.14",
     "@tanstack/react-query": "5.50.1",
-    "clsx": "^2.1.1",
+    "clsx": "2.1.1",
     "date-fns": "3.6.0",
     "ol": "9.2.4",
     "react": "18.3.1",

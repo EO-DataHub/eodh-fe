@@ -1,10 +1,10 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
-import Icon from '../icon/icon';
+import { Icon } from '../icon/icon';
 
 interface INotificationProps {
   type: 'error' | 'warning' | 'success' | 'information' | 'general';
-  children: React.ReactNode | string;
+  children: ReactNode | string;
 }
 
 const Notification = ({ type, children }: INotificationProps) => {

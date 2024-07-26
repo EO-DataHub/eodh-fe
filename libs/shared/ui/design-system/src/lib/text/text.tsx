@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import React from 'react';
+import { ReactNode } from 'react';
 
 interface ITextProps {
-  content: React.ReactNode | string;
+  content: ReactNode | string;
   type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   fontSize?: 'large' | 'medium' | 'small';
   fontWeight?: 'bold' | 'semibold' | 'regular';

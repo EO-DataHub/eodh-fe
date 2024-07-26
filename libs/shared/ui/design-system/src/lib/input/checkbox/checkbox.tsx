@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 
 interface ICheckboxProps {
   id: string;
+  name: string;
+  value: string;
   initialChecked?: boolean | undefined;
   disabled?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (checked: boolean) => void;
   label?: string;
 }
 
-export const Checkbox = ({ id, initialChecked, disabled, onChange, label }: ICheckboxProps) => {
+export const Checkbox = ({ id, initialChecked, disabled, onChange, label, name, value }: ICheckboxProps) => {
   const [isChecked, setIsChecked] = useState(initialChecked);
 
-  const handleCheckboxChange = () => {
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(!isChecked);
     if (onChange) {
-      onChange({ target: { checked: !isChecked, id } } as React.ChangeEvent<HTMLInputElement>);
+      onChange(event.target.checked);
     }
   };
 
@@ -25,9 +27,13 @@ export const Checkbox = ({ id, initialChecked, disabled, onChange, label }: IChe
         className='absolute opacity-0 cursor-pointer h-0 w-0'
         checked={isChecked}
         onChange={handleCheckboxChange}
+        disabled={disabled}
+        id={id}
+        name={name}
+        value={value}
       />
       <span
-        className={`w-[18px] h-[18px] flex items-center justify-center mr-2 border-1 rounded-sm transition-colors duration-200 ease-in-out ${
+        className={`w-4 h-4 flex items-center justify-center mr-2 border-1 rounded-sm transition-colors duration-200 ease-in-out ${
           disabled
             ? 'bg-neutral-light border-neutral-light'
             : isChecked
@@ -37,7 +43,7 @@ export const Checkbox = ({ id, initialChecked, disabled, onChange, label }: IChe
       >
         {isChecked && !disabled && (
           <svg
-            className='w-[15px] h-[15px] text-white'
+            className='w-3.5 h-3.5 text-bright'
             fill='none'
             stroke='currentColor'
             viewBox='0 0 24 24'
@@ -52,7 +58,7 @@ export const Checkbox = ({ id, initialChecked, disabled, onChange, label }: IChe
           </svg>
         )}
       </span>
-      <span className='text-lg'>{label}</span>
+      <span className='text-text-primary'>{label}</span>
     </label>
   );
 };

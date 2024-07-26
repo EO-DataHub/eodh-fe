@@ -1,5 +1,3 @@
-import React from 'react';
-
 import * as IconsNames from './icons';
 
 interface IIconProps {
