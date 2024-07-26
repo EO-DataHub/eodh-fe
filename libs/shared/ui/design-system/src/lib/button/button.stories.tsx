@@ -28,6 +28,8 @@ const Template = () => (
     Disabled
     <Button text='Disabled' size='large' appearance='default' className='mb-2' disabled />
     <Button text='Outlined disabled' size='large' appearance='outlined-white' className='mb-2' disabled />
+    With icon
+    <Button text='With icon' size='large' className='mb-2' iconName='Bolt' />
   </div>
 );
 
