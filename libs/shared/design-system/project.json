@@ -1,9 +1,9 @@
 {
-  "name": "map-ui-map",
+  "name": "shared-design-system",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/map/ui-map/src",
+  "sourceRoot": "libs/shared/design-system/src",
   "projectType": "library",
-  "tags": ["type:ui", "scope:map"],
+  "tags": ["type:design-system", "scope:shared"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
@@ -13,7 +13,7 @@
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../../coverage/libs/map/ui-map"
+        "reportsDirectory": "../../../coverage/libs/shared/design-system"
       }
     }
   }

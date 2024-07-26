@@ -1,9 +1,9 @@
 {
-  "name": "map-ui-map",
+  "name": "map-data-access-map",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/map/ui-map/src",
+  "sourceRoot": "libs/map/data-access-map/src",
   "projectType": "library",
-  "tags": ["type:ui", "scope:map"],
+  "tags": ["type:data-access", "scope:map"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
@@ -13,7 +13,7 @@
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../../coverage/libs/map/ui-map"
+        "reportsDirectory": "../../../coverage/libs/map/data-access-map"
       }
     }
   }

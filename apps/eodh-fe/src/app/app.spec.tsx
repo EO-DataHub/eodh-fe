@@ -7,6 +7,10 @@ import App from './app';
 vi.mock('@ukri/map/ui-map', () => ({
   Map: vi.fn().mockImplementation(() => <div></div>),
   MapWrapper: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+  AoiLayer: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+  DrawRectangleButton: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+  DrawCircleButton: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+  DrawPolygonButton: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
 }));
 
 vi.mock('@ukri/shared/utils/react-query', () => ({
