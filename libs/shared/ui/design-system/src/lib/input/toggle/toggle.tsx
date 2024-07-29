@@ -12,7 +12,9 @@ export const Toggle = ({ id, checked: initialChecked = false, onChange, label, d
   const [checked, setChecked] = useState(initialChecked);
 
   const handleChange = () => {
-    if (disabled) return;
+    if (disabled) {
+      return;
+    }
     const newChecked = !checked;
     setChecked(newChecked);
     if (onChange) {
@@ -20,11 +22,11 @@ export const Toggle = ({ id, checked: initialChecked = false, onChange, label, d
     }
   };
 
-  const toggleBackgroundClasses = `w-[28px] h-[18px] bg-bright rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 peer peer-checked:bg-blue-600 border border-1 border-primary ${
+  const toggleBackgroundClasses = `w-7 h-[18px] bg-bright rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primarylight peer peer-checked:bg-blue-600 border border-1 border-primary ${
     disabled && 'cursor-not-allowed bg-bright-dark border-text-disabled'
   }`;
 
-  const toggleCircleClasses = `absolute top-[4px] left-[4px] rounded-full h-[10px] w-[10px] transition-all  ${
+  const toggleCircleClasses = `absolute top-1 left-1 rounded-full h-2.5 w-2.5 transition-all  ${
     disabled ? 'bg-neutral-light' : ' bg-primary-main'
   } ${checked && 'translate-x-full'}`;
 

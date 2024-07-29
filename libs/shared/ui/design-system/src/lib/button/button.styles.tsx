@@ -29,9 +29,9 @@ export const getSizeStyles = (
   appearance: 'default' | 'outlined' | 'outlined-white'
 ) => {
   const sizeStyles = {
-    small: `text-small-bold rounded-[6px] px-2 py-1 ${appearance === 'default' && 'text-shadow-text-small'}`,
-    medium: `text-medium-semibold rounded-[8px] px-5 py-1 ${appearance === 'default' && 'text-shadow-text-small'}`,
-    large: `text-large-bold rounded-[8px] px-6 py-1.5 ${appearance === 'default' && 'text-shadow-text'}`,
+    small: `text-small-bold rounded-md px-2 py-1 ${appearance === 'default' && 'text-shadow-text-small'}`,
+    medium: `text-medium-semibold rounded-lg px-5 py-1 ${appearance === 'default' && 'text-shadow-text-small'}`,
+    large: `text-large-bold rounded-lg px-6 py-1.5 ${appearance === 'default' && 'text-shadow-text'}`,
   };
   return sizeStyles[size];
 };
