@@ -4,7 +4,7 @@ import { Text } from './text';
 
 const meta: Meta<typeof Text> = {
   component: Text,
-  title: 'libs/shared/ui/design-system/Text',
+  title: 'libs/shared/design-system/Text',
   argTypes: {
     type: {
       control: {

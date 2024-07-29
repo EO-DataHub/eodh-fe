@@ -5,7 +5,7 @@ import Select from './select';
 
 const meta: Meta<typeof Select> = {
   component: Select,
-  title: 'libs/shared/ui/design-system/input/Select',
+  title: 'libs/shared/design-system/input/Select',
 };
 export default meta;
 

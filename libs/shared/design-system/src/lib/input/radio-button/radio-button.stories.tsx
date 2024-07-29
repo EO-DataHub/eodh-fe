@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { RadioButton } from './radio-button';
 
 const meta: Meta<typeof RadioButton> = {
-  title: 'libs/shared/ui/design-system/input/RadioButton',
+  title: 'libs/shared/design-system/input/RadioButton',
   component: RadioButton,
 };
 

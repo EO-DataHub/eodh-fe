@@ -4,7 +4,7 @@ import Notification from './notification';
 
 const meta: Meta<typeof Notification> = {
   component: Notification,
-  title: 'libs/shared/ui/design-system/Notification',
+  title: 'libs/shared/design-system/Notification',
   argTypes: {
     type: {
       control: {
