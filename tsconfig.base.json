@@ -15,12 +15,12 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ukri/design-system": ["libs/shared/ui/design-system/src/index.ts"],
+      "@ukri/design-systems": ["libs/shared/design-system/src/index.ts"],
       "@ukri/map/ui-map": ["libs/map/ui-map/src/index.ts"],
+      "@ukri/shared/design-system": ["libs/shared/ui/design-system/src/index.ts"],
+      "@ukri/shared/theme": ["libs/shared/theme/src/index.ts"],
       "@ukri/shared/utils/react-query": ["libs/shared/utils/react-query/src/index.ts"],
-      "@ukri/storybook-host": ["apps/storybook-host/src/index.ts"],
-      "@ukri/theme": ["libs/shared/theme/src/index.ts"],
-      "@ukri/ui-components": ["libs/shared/ui/src/index.ts"]
+      "@ukri/storybook-host": ["apps/storybook-host/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
