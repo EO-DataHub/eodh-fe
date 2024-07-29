@@ -13,7 +13,7 @@ const Select = ({ options, onChange, value, placeholder = 'Select a function...'
   return (
     <div className='relative inline-block w-full'>
       <select
-        className='block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
+        className='block appearance-none w-full bg-white border border-bright-dark hover:border-bright-mid px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
         value={value}
         onChange={onChange}
       >

@@ -22,7 +22,7 @@ export const Toggle = ({ id, checked: initialChecked = false, onChange, label, d
     }
   };
 
-  const toggleBackgroundClasses = `w-7 h-[18px] bg-bright rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primarylight peer peer-checked:bg-blue-600 border border-1 border-primary ${
+  const toggleBackgroundClasses = `w-7 h-[18px] bg-bright rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary peer peer-checked:bg-primary border border-1 border-primary ${
     disabled && 'cursor-not-allowed bg-bright-dark border-text-disabled'
   }`;
 
