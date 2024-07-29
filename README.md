@@ -10,11 +10,8 @@
   - [Required steps on pipelines](#Required-steps-on-pipelines)
 - [Testing](#Testing)
   - [Unit & integration tests](#Unit--integration-tests)
-  - [Snapshot testing](#Snapshot-testing)
-- [Authentication](#Authentication)
-  - [Authentication library](#Authentication-library)
-  - [Authentication flow](#Authentication-flow)
-    - [Multi-tenancy (multiple organization support)](#Multi-tenancy-multiple-organization-support)
+  - [Storybook tests](#Storybook-tests)
+  - [E2E tests](#E2E-tests)
 - [Folder structure](#Folder-structure)
 - [Naming convention](#Naming-convention)
   - [File naming convention](#File-naming-convention)
@@ -40,10 +37,10 @@ Run `husky install` manually if you have problems with husky.
 
 - `npm run start` - starting application in dev mode
 - `npm run build` - build production version
-- `npm run cache:clear` - clear NX cache
 - `npm run test` - run all tests
-- `npm run test:e2e` - run e2e tests
 - `npm run test:unit` - run unit and integration tests
+- `npm run test:storybook` - run storybook tests
+- `npm run test:e2e` - run e2e tests
 - `npm run lint:check` / `npm run lint:fix` - running eslint
 - `npm run format:check` / `npm run format:fix` - running prettier
 - `npm run code:check` / `npm run code:fix` - eslint + prettier
@@ -69,12 +66,16 @@ GitHub's pipelines are used for ci/cd. Check `.github` directory for more detail
 All linters and tests has to pass on pipelines.
 Before sending any changes make sure you run those commands:
 
-- `npm run test` - check if all test pass
+- `npm run test:unit` - check if all test pass
 - `npm run code:fix` - format code
 
 # Testing
 
-Run `npm run test:unit` command to run tests for all project.
+- Run `npm run test` command to run tests for all project.
+- Run `npm run test:unit` command to run unit tests for all project.
+- Run `npm run test:storybook` command to run storybook tests for all project.
+- Run `npm run test:e2e` command to run e2e tests for all project.
+
 `vitest` is used as a test engine
 
 ### Unit & integration tests
@@ -83,9 +84,14 @@ There is no differentiation between unit and integration tests, all those tests 
 Unit tests with mocks are used for more technical stuff like utility libraries.
 Integration tests are used for business scenarios.
 
-### Snapshot testing
+### Storybook tests
 
-For updating snapshots run `test:snapshot:update` command.
+Storybook tests are somewhere in between integration and e2e tests.
+They allow us test full flow of the application in the isolation.
+
+### E2E tests
+
+E2E tests are used to test application end-to-end (using real data).
 
 # Folder structure
 
@@ -115,12 +121,19 @@ Conventional commits convention is used as commits naming convention. Visit the 
 
 # Project vocabulary
 
-### Architecture
+## Domain
+
+1. CWL - Common Workflow Language. Links: 2. [Basics](https://cwl-for-eo.github.io/guide/) 3. [Standard](https://www.commonwl.org/v1.2/CommandLineTool.html) 4. [CWL 1.2](https://github.com/common-workflow-language/cwl-v1.2) 5. [User Guide](https://www.commonwl.org/user_guide)
+2. STAC, links: 5. [STAC Index](https://stacindex.org) 6. [EODH STAC BROWSER](https://github.com/UKEODHP/stac-browser) 7. [eodhp-ades-demonstration](https://github.com/UKEODHP/eodhp-ades-demonstration/blob/main/water-bodies.http) 8. [Earth Observation Application Package](https://github.com/eoap) 9. [STAC API - Collection Search](https://github.com/stac-api-extensions/collection-search)
+
+## Architecture
 
 1. `Feature layer` - A page with routing
 2. `UI layer` - Small feature
 3. `Data access layer` - API/data caching part of the application
 4. `Utils layer` - utility libraries
+5. `Theme layer` - theme configuration and utility functions
+6. `Design System layer` - components related to design system
 
 **Dependencies and relations between layers** are described in [docs/architecture.md](./docs/architecture.md)
 

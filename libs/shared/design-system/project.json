@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/design-system/src",
   "projectType": "library",
-  "tags": ["type:design-system", "scope:shared"],
+  "tags": ["type:shared/design-system", "scope:shared"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
