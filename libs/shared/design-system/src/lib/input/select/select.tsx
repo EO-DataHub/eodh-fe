@@ -1,5 +1,3 @@
-import React from 'react';
-
 // THIS COMPONENT WILL BE FINISHED IN NEXT PR
 
 interface ISelectProps {
