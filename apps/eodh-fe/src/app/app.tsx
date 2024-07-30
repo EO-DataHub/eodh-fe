@@ -1,27 +1,21 @@
-import styled, { createGlobalStyle } from 'styled-components';
-
-import { DisplayMap } from './map.component';
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-  }
-`;
-
-const StyledApp = styled.div`
-  // Your style here
-`;
+import { AoiLayer, DrawCircleButton, DrawPolygonButton, DrawRectangleButton, Map, MapWrapper } from '@ukri/map/ui-map';
+import { withQueryClient } from '@ukri/shared/utils/react-query';
 
 export function App() {
   return (
-    <>
-      <GlobalStyle />
-      <StyledApp>
-        <DisplayMap />
-      </StyledApp>
-    </>
+    <div data-testid='app-root' className='flex h-screen w-screen flex-col'>
+      <MapWrapper>
+        <AoiLayer>
+          <div className='w-full bg-background flex'>
+            <DrawRectangleButton />
+            <DrawCircleButton />
+            <DrawPolygonButton />
+          </div>
+          <Map className='h-full w-full flex' />
+        </AoiLayer>
+      </MapWrapper>
+    </div>
   );
 }
 
-export default App;
+export default withQueryClient(App);

@@ -1,0 +1,20 @@
+{
+  "name": "map-ui-map",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/map/ui-map/src",
+  "projectType": "library",
+  "tags": ["type:ui", "scope:map"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../../coverage/libs/map/ui-map"
+      }
+    }
+  }
+}

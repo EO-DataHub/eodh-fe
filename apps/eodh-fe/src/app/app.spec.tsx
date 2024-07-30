@@ -1,9 +1,22 @@
 import { render } from '@testing-library/react';
+import { ComponentType, PropsWithChildren } from 'react';
+import { expect, vi } from 'vitest';
 
 import App from './app';
 
-vi.mock('./map.component', () => ({
-  DisplayMap: vi.fn().mockImplementation(() => <div></div>),
+vi.mock('@ukri/map/ui-map', () => ({
+  Map: vi.fn().mockImplementation(() => <div></div>),
+  MapWrapper: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+  AoiLayer: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+  DrawRectangleButton: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+  DrawCircleButton: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+  DrawPolygonButton: vi.fn().mockImplementation(({ children }) => <div>{children}</div>),
+}));
+
+vi.mock('@ukri/shared/utils/react-query', () => ({
+  withQueryClient: vi
+    .fn()
+    .mockImplementation((Cmp: ComponentType<PropsWithChildren>) => (props: PropsWithChildren) => <Cmp {...props} />),
 }));
 
 describe('App', () => {

@@ -1,0 +1,20 @@
+{
+  "name": "shared-utils-react-query",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/utils/react-query/src",
+  "projectType": "library",
+  "tags": ["type:utils", "scope:shared"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../../../coverage/libs/shared/utils/react-query"
+      }
+    }
+  }
+}
