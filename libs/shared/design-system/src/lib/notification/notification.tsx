@@ -11,7 +11,7 @@ interface INotificationProps {
 const Notification = ({ type, children }: INotificationProps) => {
   return (
     <div className={`${notificationStyles.container} ${notificationStyles.type[type]}`}>
-      <Icon name='Warning' className={notificationStyles.icon} />
+      <Icon name='Warning' />
       <div className={notificationStyles.content}>{children}</div>
     </div>
   );
