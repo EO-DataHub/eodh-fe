@@ -8,6 +8,8 @@
 - [CI/CD](#cicd)
   - [Git hooks](#Git-hooks)
   - [Required steps on pipelines](#Required-steps-on-pipelines)
+- [Release process](#Release-process)
+  - [Release process steops](#Release-process-steps)
 - [Testing](#Testing)
   - [Unit & integration tests](#Unit--integration-tests)
   - [Storybook tests](#Storybook-tests)
@@ -53,6 +55,19 @@ Do not update dependencies manually (instead use NX for that) due to different l
 # CI/CD
 
 GitHub's pipelines are used for ci/cd. Check `.github` directory for more detailed information about pipeline configuration.
+
+# Release process
+
+We use adjusted `GitFlow` - instead of testing from feature branches, we do tests from `development` branch.
+
+## Release process steps:
+
+1. Create `release` branch with release `version`, eg. `v.1.0.0`. `Release` branch should be created from `develop` branch.
+2. If any fixes needed merge them into `release` branch.
+3. Update `version` in package.json file.
+4. Tag `version` in `git`: `git tag v1.0.0`.
+5. Merge `release` branch into `master` branch.
+6. Merge `master` branch into `release` branch. This is a very important step! It has to be done otherwise history in `master` and `develop` branches will be different!
 
 ### Git hooks
 
