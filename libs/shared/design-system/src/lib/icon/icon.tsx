@@ -1,12 +1,13 @@
 import * as IconsNames from './icons';
 
 interface IIconProps {
-  name?: 'ArrowRight' | 'Bolt' | 'Warning';
+  name?: keyof typeof IconsNames;
   width?: number;
   height?: number;
+  className?: string;
 }
 
-export const Icon = ({ name = 'Bolt', width = 24, height = 24 }: IIconProps) => {
+export const Icon = ({ name = 'Bolt', width, height, className }: IIconProps) => {
   const IconComponent = IconsNames[name];
 
   if (!IconComponent) {
@@ -15,8 +16,8 @@ export const Icon = ({ name = 'Bolt', width = 24, height = 24 }: IIconProps) => 
   }
 
   return (
-    <div className='min-w-6'>
-      <IconComponent width={width} height={height} />
+    <div className={`min-w-6 flex justify-center items-center ${className}`}>
+      <IconComponent width={width as number} height={height as number} />
     </div>
   );
 };

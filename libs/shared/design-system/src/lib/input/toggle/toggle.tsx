@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+import { getBackgroundClasses, getCircleClasses, toggleStyles } from './toggle.styles';
 
 interface IToggleProps {
   id: string;
@@ -10,6 +12,8 @@ interface IToggleProps {
 
 export const Toggle = ({ id, checked: initialChecked = false, onChange, label, disabled }: IToggleProps) => {
   const [checked, setChecked] = useState(initialChecked);
+  const backgroundClasses = getBackgroundClasses(disabled);
+  const circleClasses = getCircleClasses(disabled, checked);
 
   const handleChange = () => {
     if (disabled) {
@@ -22,23 +26,15 @@ export const Toggle = ({ id, checked: initialChecked = false, onChange, label, d
     }
   };
 
-  const toggleBackgroundClasses = `w-7 h-[18px] bg-bright rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary peer peer-checked:bg-primary border border-1 border-primary ${
-    disabled && 'cursor-not-allowed bg-bright-dark border-text-disabled'
-  }`;
-
-  const toggleCircleClasses = `absolute top-1 left-1 rounded-full h-2.5 w-2.5 transition-all  ${
-    disabled ? 'bg-neutral-light' : ' bg-primary-main'
-  } ${checked && 'translate-x-full'}`;
-
   return (
-    <label htmlFor={id} className='flex items-center cursor-pointer'>
+    <label htmlFor={id} className={toggleStyles.label}>
       <div className='relative'>
-        <input type='checkbox' id={id} checked={checked} onChange={handleChange} className='sr-only' />
-        <div className={toggleBackgroundClasses}>
-          <div className={toggleCircleClasses}></div>
+        <input type='checkbox' id={id} checked={checked} onChange={handleChange} className={toggleStyles.input} />
+        <div className={backgroundClasses}>
+          <div className={circleClasses}></div>
         </div>
       </div>
-      {label && <span className='ml-3 text-sm font-medium text-text'>{label}</span>}
+      {label && <span className={toggleStyles.labelText}>{label}</span>}
     </label>
   );
 };

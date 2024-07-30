@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 
 interface ITextProps {
   content: ReactNode | string;
-  type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
   fontSize?: 'large' | 'medium' | 'small';
   fontWeight?: 'bold' | 'semibold' | 'regular';
   className?: string;
