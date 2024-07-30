@@ -11,7 +11,11 @@ export const checkboxStyles = {
 };
 
 export const getSpanClassName = (isChecked?: boolean, disabled?: boolean) => {
-  if (disabled) return `${checkboxStyles.span.base} ${checkboxStyles.span.disabled}`;
-  if (isChecked) return `${checkboxStyles.span.base} ${checkboxStyles.span.checked}`;
+  if (disabled) {
+    return `${checkboxStyles.span.base} ${checkboxStyles.span.disabled}`;
+  }
+  if (isChecked) {
+    return `${checkboxStyles.span.base} ${checkboxStyles.span.checked}`;
+  }
   return `${checkboxStyles.span.base} ${checkboxStyles.span.unchecked}`;
 };
