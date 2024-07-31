@@ -195,6 +195,7 @@
         "react-hooks/exhaustive-deps": "error",
         "simple-import-sort/imports": "error",
         "prettier/prettier": "error",
+        "curly": "error",
         "no-unused-vars": [
           "error",
           {
