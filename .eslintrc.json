@@ -4,6 +4,7 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": ["eslint:recommended"],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -185,7 +186,7 @@
             }
           }
         ],
-        "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+        "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }],
         "no-else-return": "error",
         "unicorn/new-for-builtins": "error",
         "unicorn/prefer-switch": "error",
@@ -201,27 +202,31 @@
           {
             "vars": "all",
             "args": "after-used",
-            "ignoreRestSiblings": false
+            "ignoreRestSiblings": true
           }
-        ]
+        ],
+        "no-debugger": "error"
       }
     },
     {
       "files": ["*.ts", "*.tsx"],
       "extends": [
         "plugin:@nx/typescript",
-        "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
       ],
       "rules": {
-        "no-console": [
+        "no-console": "error",
+        "@typescript-eslint/no-unused-vars": ["error", { "ignoreRestSiblings": true }],
+        "no-unused-vars": [
           "error",
           {
-            "allow": ["warn", "error"]
+            "vars": "all",
+            "args": "after-used",
+            "ignoreRestSiblings": true
           }
         ],
-        "no-debugger": "error"
+        "curly": "error"
       }
     },
     {
