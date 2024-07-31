@@ -37,7 +37,7 @@
               },
               {
                 "sourceTag": "type:utils",
-                "onlyDependOnLibsWithTags": ["scope:shared", "scope:map"]
+                "onlyDependOnLibsWithTags": ["type:utils"]
               },
               {
                 "sourceTag": "type:data-access",
