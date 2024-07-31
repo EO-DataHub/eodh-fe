@@ -1,5 +1,6 @@
 import colors from './lib/colors';
 import fontSize from './lib/font-size';
+import shadow from './lib/shadow';
 
 const lightThemeConfig = {
   colors: {
@@ -7,6 +8,12 @@ const lightThemeConfig = {
   },
   fontSize: {
     ...fontSize,
+  },
+  boxShadow: {
+    ...shadow,
+  },
+  textShadow: {
+    ...shadow,
   },
 };
 
@@ -17,5 +24,11 @@ const darkThemeConfig = {
   fontSize: {
     ...fontSize,
   },
+  boxShadow: {
+    ...shadow,
+  },
+  textShadow: {
+    ...shadow,
+  },
 };
-export { lightThemeConfig, darkThemeConfig };
+export { lightThemeConfig, darkThemeConfig, colors, fontSize, shadow };
