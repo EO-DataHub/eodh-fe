@@ -19,8 +19,12 @@ Check `.eslintrc.json` file for detailed configuration,
 # Architecture
 
 Project follows DDD (Domain Driven Design) pattern and extends [NX approach](https://nx.dev/more-concepts/library-types) to enforce module boundaries.
-In `NX` there are four types of libraries:
+There are eight types of libraries:
 
+- `shared/desing-system` - shared domain only
+- `shared/theme` - shared domain only
+- `shared/utils` - shared domain only
+- `shared/ui` - shared domain only
 - `utils`
 - `data-access`
 - `ui`
@@ -32,6 +36,59 @@ In `NX` there are four types of libraries:
 
 ## Types of libraries
 
+### Shared Design System
+
+#### What is it?
+
+UI components and utility functions for Design System.
+
+#### Naming Convention
+
+There should be only one library design-system, it should be placed under `shared` directory.
+
+#### Dependency Constraints
+
+A `design-system` library can't use other libraries.
+
+### Shared Theme
+
+#### What is it?
+
+Theme configuration and utility functions.
+
+#### Naming Convention
+
+theme (if nested), or `theme-*` (e.g., `theme-eodh`)
+
+#### Dependency Constraints
+
+A `theme` library can't use other libraries.
+
+### Shared Utils
+
+#### What is it?
+
+A utility library contains low level code used by many libraries.
+Often there is no framework-specific code and the library is simply a collection of utilities or pure functions.
+
+#### Dependency Constraints
+
+A `shared-utils` library can't use other libraries.
+
+### Shared UI
+
+#### What is it?
+
+Sharable UI components used across one or multiple applications.
+
+#### Naming Convention
+
+util (if nested), or `ui-*` (e.g., `ui-button`)
+
+#### Dependency Constraints
+
+A `shared-ui` library can depend `shared-design-system` and `shared-utils` libraries.
+
 ### Utils
 
 #### What is it?
@@ -41,6 +98,14 @@ A utility library contains low level code used by many libraries. Often there is
 #### Naming Convention
 
 util (if nested), or `util-*` (e.g., `util-testing`)
+
+#### Dependency Constraints
+
+A `utils` library can depend on `shared-utils` libraries.
+
+#### Utils vs Shared Utils
+
+Code in `utils` should be domain specific where in `shared-utils` it should be generic (used by other domains/applications).
 
 ### Data-access
 
@@ -56,7 +121,7 @@ data-access (if nested) or `data-access-*` (e.g. `data-access-seatmap`)
 
 #### Dependency Constraints
 
-A data-access library can depend `util` libraries.
+A `data-access` library can depend `shared-utils` and `utils` libraries.
 
 ### UI
 
@@ -71,7 +136,11 @@ ui (if nested) or `ui-*` (e.g., `ui-buttons`)
 
 #### Dependency Constraints
 
-A ui library can depend on `util` or `data-access` libraries.
+A `ui` library can depend on `shared-design-system`, `shared-utils`, `shared-ui`, `utils` or `data-access` libraries.
+
+#### UI vs Shared UI
+
+Code in `ui` should be domain specific where in `shared-ui` it should be generic (used by other domains/applications).
 
 ### Feature
 
@@ -86,57 +155,37 @@ feature (if nested) or feature-\* (e.g., feature-home).
 
 #### Dependency Constraints
 
-A feature library can depend on `ui`, `data-access` or `utils` libraries.
+A feature library can depend on `shared-design-system`, `shared-utils`, `shared-ui`, `utils`, `data-access` or `ui` libraries.
 
 ## Multiple dimensions
 
 There are multiple dimensions used to enforce `project` dependencies.
 
-> Depends on the project, 1 (app) 3 (lib) or 4 (lib/shared) dimensions should be used to properly enforce module boundaries
+> Each project should have two dimensions.
 
-### First dimension - app & library
+### First dimension - type
 
-Distinction between library and application
+Distinction between library type:
 
-- `type:lib` - project tagged with `type:lib` can use another projects tagged only with `type:lib`
-- `type:app` - project tagged with `type:app` can use another projects tagged only with `type:lib`
+- `type:shared/design-system`
+- `type:shared/theme`
+- `type:shared/utils`
+- `type:shared/ui`
+- `type:utils`
+- `type:data-access`
+- `type:ui`
+- `type:feature`
 
-### Second dimension - library type
+### Second dimension - scope vs scope shared
 
-- `lib:shared:theme`,
-- `lib:shared:utils`,
-- `lib:shared:ui`,
-- `lib:domain:utils`,
-- `lib:domain:utils:shared`,
-- `lib:domain:data-access`,
-- `lib:domain:ui`,
-- `lib:domain:ui:shared`,
-- `lib:domain:feature`,
+Distinction between `shared` (across all domains) and `scope` (domain specific code)
 
-### Third dimension - domain vs domain shared
+- `scope:shared` - tag which allows to share across all domains
+- `scope:*`, where `*` should be changed to specific domain name
 
-Distinction between `shared` (across all domains) and `domain` specific code
+Currently, there is 1 domain:
 
-- `domain:shared` - tag which allows to share across all domains
-- `domain:*`, where `*` should be changed to specific domain name
-
-Currently, there are 4 domains:
-
-- `account`
-- `asset`
-- `alert`
-- `system-map`
-
-### Fourth dimension - global shared additional rules
-
-This is only applied to libraries placed in `libs/shared`.
-Additional, 4th dimension is used to enforce proper structure for libraries in this directory.
-
-- `shared:theme` - projects tagged with `shared:theme` can only use other projects tagged with this tag,
-- `shared:utils/common` - projects tagged with `shared:utils/common` can not use other projects,
-- `shared:utils` - projects tagged with `shared:utils` can only use other projects tagged with: `shared:utils/common`,
-- `shared:ui/common` - projects tagged with `shared:ui/common` can use other projects tagged with: `lib:shared:theme`,
-- `shared:ui` - projects tagged with `shared:ui` can only use other projects tagged with tags: `shared:theme`, `shared:utils/common`, `shared:utils`, `shared:ui/common`,
+- `map`
 
 # Project vocabulary
 
