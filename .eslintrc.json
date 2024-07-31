@@ -33,11 +33,11 @@
               },
               {
                 "sourceTag": "type:utils",
-                "onlyDependOnLibsWithTags": ["type:utils", "type:design-system"]
+                "onlyDependOnLibsWithTags": ["type:utils"]
               },
               {
                 "sourceTag": "type:utils",
-                "onlyDependOnLibsWithTags": ["type:utils"]
+                "onlyDependOnLibsWithTags": ["scope:shared", "scope:map"]
               },
               {
                 "sourceTag": "type:data-access",
