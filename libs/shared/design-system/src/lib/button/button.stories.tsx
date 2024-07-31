@@ -11,7 +11,6 @@ export default meta;
 export const Primary = {
   args: {
     text: 'Primary',
-    color: 'primary',
   },
 };
 

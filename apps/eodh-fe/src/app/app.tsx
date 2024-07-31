@@ -6,7 +6,7 @@ export function App() {
     <div data-testid='app-root' className='flex h-screen w-screen flex-col'>
       <MapWrapper>
         <AoiLayer>
-          <div className='w-full bg-background flex'>
+          <div className='w-full bg-background flex text-text'>
             <DrawRectangleButton />
             <DrawCircleButton />
             <DrawPolygonButton />

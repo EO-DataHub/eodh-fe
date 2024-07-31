@@ -10,7 +10,7 @@ const meta: Meta<typeof Text> = {
       control: {
         type: 'select',
       },
-      options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span'],
     },
     fontSize: {
       control: {
