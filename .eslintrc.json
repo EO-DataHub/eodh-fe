@@ -31,8 +31,8 @@
                 "onlyDependOnLibsWithTags": [""]
               },
               {
-                "sourceTag": "type:utils",
-                "onlyDependOnLibsWithTags": ["type:utils", "type:design-system"]
+              "sourceTag": "type:utils",
+              "onlyDependOnLibsWithTags": ["type:utils"]
               },
               {
                 "sourceTag": "type:utils",
