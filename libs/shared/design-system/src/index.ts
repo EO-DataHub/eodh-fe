@@ -4,4 +4,6 @@ export { Icon } from './lib/icon/icon';
 export { Checkbox } from './lib/input/checkbox/checkbox';
 export { RadioButton } from './lib/input/radio-button/radio-button';
 export { Toggle } from './lib/input/toggle/toggle';
+export { Select } from './lib/select/select';
+export { Textarea } from './lib/textarea/textarea';
 export { TextInput } from './lib/input/text-input/text-input';

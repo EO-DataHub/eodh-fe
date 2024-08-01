@@ -12,6 +12,8 @@ export default meta;
 export const SampleTextInput = {
   args: {
     placeholder: 'Start typing...',
+    clearButton: true,
+    iconName: 'Search',
   },
 };
 
