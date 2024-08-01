@@ -13,7 +13,7 @@ export const Primary = {
   args: {
     options: ['NDVI', 'False colour (urban)', 'Moisture index', 'SWIR', 'NDWI', 'NDSI'],
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onChange: (e) => {
+    onChange: (e: { target: { value: string } }) => {
       return e.target.value;
     },
     value: '',
