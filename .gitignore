@@ -9,8 +9,8 @@ tmp
 node_modules
 
 # env
- /apps/eodh-fe/.env
- /apps/storybook-host/.env
+apps/eodh-fe/.env
+apps/storybook-host/.env
 
 # IDEs and editors
 /.idea

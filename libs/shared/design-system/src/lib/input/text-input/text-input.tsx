@@ -41,7 +41,9 @@ export const TextInput: React.FC<ITextInputProps> = ({
   };
   return (
     <div className={clsx('flex items-center border rounded p-2 bg-bright h-10', className)}>
-      {iconName && <Icon name={iconName} width={iconWidth ?? 24} height={iconHeight ?? 24} />}
+      {iconName && (
+        <Icon name={iconName} width={iconWidth ?? 18} height={iconHeight ?? 18} className='text-neutral-dark' />
+      )}
       <input
         type='text'
         className='flex-grow px-2 py-1 text-main focus:outline-none'
