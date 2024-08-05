@@ -4,48 +4,10 @@ on:
       - 'develop'
       - 'main'
 
-env:
-  isDevelop: ${{ startsWith(github.head_ref, 'refs/heads/develop') }}
-  isRelease: ${{ startsWith(github.head_ref, 'refs/heads/release/') }}
-  isHotfix: ${{ startsWith(github.head_ref, 'refs/heads/hotfix/') }}
-  isMain: ${{ startsWith(github.head_ref, 'refs/heads/main') }}
-  isCiCdTest: ${{ startsWith(github.head_ref, 'refs/heads/feature/ci-cd') }}
-
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
-  prepare:
-    name: 'Setup variables'
-    runs-on: ubuntu-20.04
-    steps:
-      - run: echo "Setup variables"
-    outputs:
-      canDeployOnDev: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isCiCdTest) }}
-      canDeployOnQA: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
-      canDeployOnStaging: ${{ fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
-      canDeployOnProduction: 'false'
   build:
     name: 'Build'
     uses: ./.github/workflows/build.yml
   buildStorybook:
     name: 'Build Storybook'
     uses: ./.github/workflows/storybook-build.yml
-  deploy:
-    name: 'Deploy'
-    uses: ./.github/workflows/deploy.yml
-    needs: [prepare, build]
-    with:
-      canDeployOnDev: ${{ fromJSON(needs.prepare.outputs.canDeployOnDev) }}
-      canDeployOnQA: ${{ fromJSON(needs.prepare.outputs.canDeployOnQA) }}
-      canDeployOnStaging: ${{ fromJSON(needs.prepare.outputs.canDeployOnStaging) }}
-      canDeployOnProduction: ${{ fromJSON(needs.prepare.outputs.canDeployOnProduction) }}
-    secrets: inherit
-  deployStorybook:
-    name: 'Deploy Storybook'
-    uses: ./.github/workflows/storybook-deploy.yml
-    needs: [prepare, buildStorybook]
-    with:
-      canDeploy: true
-    secrets: inherit
