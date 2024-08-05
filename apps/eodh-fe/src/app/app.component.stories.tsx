@@ -2,7 +2,7 @@ import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { within } from '@storybook/testing-library';
 
-import { App } from './app';
+import { App } from './app.component';
 
 const meta: Meta<typeof App> = {
   component: App,
@@ -19,6 +19,6 @@ export const Heading: TStory = {
   args: {},
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByTestId('app-root')).toBeInTheDocument();
+    expect(canvas.getByTestId('search-layout')).toBeInTheDocument();
   },
 };

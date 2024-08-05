@@ -24,7 +24,7 @@ export const DrawRectangleButton = () => {
 
   return (
     <DrawButton selected={selected} onClick={drawRectangle}>
-      <Icon name='Square' />
+      <Icon name='Square' width={24} height={24} />
     </DrawButton>
   );
 };

@@ -15,6 +15,9 @@ const lightThemeConfig = {
   textShadow: {
     ...shadow,
   },
+  spacing: {
+    '6.5': '1.625rem',
+  },
 };
 
 const darkThemeConfig = {
@@ -29,6 +32,9 @@ const darkThemeConfig = {
   },
   textShadow: {
     ...shadow,
+  },
+  spacing: {
+    '6.5': '1.625rem',
   },
 };
 export { lightThemeConfig, darkThemeConfig, colors, fontSize, shadow };
