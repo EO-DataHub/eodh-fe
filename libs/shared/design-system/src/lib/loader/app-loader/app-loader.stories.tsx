@@ -1,21 +1,13 @@
 import type { Meta } from '@storybook/react';
 
-import { AppLoader } from './app-loader.component';
+import { AppLoader as AppLoaderComponent } from './app-loader.component';
 
-const meta: Meta<typeof AppLoader> = {
-  component: AppLoader,
-  title: 'libs/shared/design-system/AppLoader',
+const meta: Meta<typeof AppLoaderComponent> = {
+  component: AppLoaderComponent,
+  title: 'libs/shared/design-system/loader/AppLoader',
 };
 export default meta;
 
-export const SampleCheckbox = {
+export const AppLoader = {
   args: {},
 };
-
-const SampleSet = () => (
-  <div>
-    <AppLoader />
-  </div>
-);
-
-export const AllVariants = SampleSet.bind({});
