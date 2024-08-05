@@ -46,7 +46,7 @@ jobs:
   deployStorybook:
     name: 'Deploy Storybook'
     uses: ./.github/workflows/storybook/deploy.yml
-    needs: [ prepare, buildStorybook ]
+    needs: [prepare, buildStorybook]
     with:
       canDeploy: ${{ fromJSON(needs.prepare.outputs.canDeployOnDev) }}
     secrets: inherit

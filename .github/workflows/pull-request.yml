@@ -29,6 +29,9 @@ jobs:
   build:
     name: 'Build'
     uses: ./.github/workflows/build.yml
+  buildStorybook:
+    name: 'Build Storybook'
+    uses: ./.github/workflows/storybook/build.yml
   deploy:
     name: 'Deploy'
     uses: ./.github/workflows/deploy.yml
@@ -38,4 +41,11 @@ jobs:
       canDeployOnQA: ${{ fromJSON(needs.prepare.outputs.canDeployOnQA) }}
       canDeployOnStaging: ${{ fromJSON(needs.prepare.outputs.canDeployOnStaging) }}
       canDeployOnProduction: ${{ fromJSON(needs.prepare.outputs.canDeployOnProduction) }}
+    secrets: inherit
+  deployStorybook:
+    name: 'Deploy Storybook'
+    uses: ./.github/workflows/storybook/deploy.yml
+    needs: [prepare, buildStorybook]
+    with:
+      canDeploy: ${{ fromJSON(needs.prepare.outputs.canDeployOnDev) }}
     secrets: inherit
