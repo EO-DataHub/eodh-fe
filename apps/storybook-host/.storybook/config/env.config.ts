@@ -23,7 +23,7 @@ const getValue = <T extends string | string[] | undefined[]>(envValue: T | undef
 };
 
 export const getEnvConfig = (): IEnvConfig => ({
-  production: import.meta.env.NODE_ENV === 'production',
+  production: import.meta.env.NODE_ENV !== 'development',
   baseUrl: getValue(import.meta.env.VITE_BASE_URL, '/'),
   apiUrl: getValue(import.meta.env.VITE_API_BASE_URL, ''),
   module: {
