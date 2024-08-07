@@ -12,7 +12,7 @@ export const Icon = ({ name = 'Bolt', width, height, className }: IIconProps) =>
 
   return (
     <div className={`min-w-6 flex justify-center items-center ${className}`}>
-      <IconComponent width={width as number} height={height as number} />
+      <IconComponent width={width} height={height} />
     </div>
   );
 };

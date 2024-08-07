@@ -21,7 +21,7 @@ export const DrawPolygonButton = () => {
 
   return (
     <DrawButton selected={selected} onClick={drawPolygon}>
-      <Icon name='Polygon' />
+      <Icon name='Polygon' width={24} height={24} />
     </DrawButton>
   );
 };

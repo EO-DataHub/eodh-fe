@@ -1,34 +1,4 @@
-import colors from './lib/colors';
-import fontSize from './lib/font-size';
-import shadow from './lib/shadow';
+import { darkThemeConfig } from './lib/dark-theme.config';
+import { lightThemeConfig } from './lib/ligh-theme.config';
 
-const lightThemeConfig = {
-  colors: {
-    ...colors.light,
-  },
-  fontSize: {
-    ...fontSize,
-  },
-  boxShadow: {
-    ...shadow,
-  },
-  textShadow: {
-    ...shadow,
-  },
-};
-
-const darkThemeConfig = {
-  colors: {
-    ...colors.dark,
-  },
-  fontSize: {
-    ...fontSize,
-  },
-  boxShadow: {
-    ...shadow,
-  },
-  textShadow: {
-    ...shadow,
-  },
-};
-export { lightThemeConfig, darkThemeConfig, colors, fontSize, shadow };
+export { lightThemeConfig, darkThemeConfig };
