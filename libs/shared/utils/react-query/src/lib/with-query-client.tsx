@@ -10,6 +10,6 @@ export const withQueryClient =
     (
       <QueryClientProvider client={queryClient}>
         <Cmp {...props} />
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ReactQueryDevtools initialIsOpen={false} styleNonce='94bf401884d3eade93c7ab13c45437c5' />
       </QueryClientProvider>
     );

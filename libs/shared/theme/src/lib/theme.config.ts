@@ -31,4 +31,7 @@ export const themeConfig = {
     ...shadow,
   },
   spacing,
+  animation: {
+    'spin-cubic-bezier': 'spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite',
+  },
 };

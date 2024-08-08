@@ -2,14 +2,92 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>EodhFe</title>
+    <title>EOPro</title>
     <base href="/" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="EOPro" />
+    <meta
+      http-equiv="content-security-policy"
+      content="
+        style-src   'self' 'nonce-94bf401884d3eade93c7ab13c45437c5' 'strict-dynamic';
+        font-src    'self';
+        script-src  'self';
+        img-src     'self' https://tile.openstreetmap.org;
+      "
+    />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <style nonce="94bf401884d3eade93c7ab13c45437c5">
+      #app-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        background: #f0f0f0;
+        z-index: 100000000001;
+      }
+      #app-loader > section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+      }
+      #app-loader > section > main {
+        display: flex;
+        position: relative;
+        width: 64px;
+        height: 64px;
+      }
+      #app-loader > section > main div {
+        position: absolute;
+        box-sizing: border-box;
+        display: block;
+        width: 48px;
+        height: 48px;
+        margin: 8px;
+        border: 4px solid;
+        border-radius: 50%;
+        border-color: #4483ff transparent transparent transparent;
+        animation: appLoaderAnimation 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      }
+      #app-loader > section > main div:nth-child(1) {
+        animation-delay: -0.45s;
+      }
+      #app-loader > section > main div:nth-child(2) {
+        animation-delay: -0.3s;
+      }
+      #app-loader > section > main div:nth-child(3) {
+        animation-delay: -0.15s;
+      }
+
+      @keyframes appLoaderAnimation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <section id="app-loader">
+        <section>
+          <main>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </main>
+        </section>
+      </section>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

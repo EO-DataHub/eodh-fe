@@ -12,6 +12,7 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
+  staticDirs: ['../../eodh-fe/public', '../public'],
 
   viteFinal: async (config) =>
     mergeConfig(config, {

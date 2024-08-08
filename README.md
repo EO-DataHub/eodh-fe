@@ -46,6 +46,8 @@ Run `husky install` manually if you have problems with husky.
 - `npm run lint:check` / `npm run lint:fix` - running eslint
 - `npm run format:check` / `npm run format:fix` - running prettier
 - `npm run code:check` / `npm run code:fix` - eslint + prettier
+- `npm run translation:extract` - generate translation keys from `eodh-fe` and `libs`
+- `npm run translation:type:generate` - generate interfaces for translations from `eodh-fe` and `libs`
 
 # Updating dependencies
 
