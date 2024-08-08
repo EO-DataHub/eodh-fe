@@ -19,15 +19,18 @@ export const Select = ({ options, onChange, placeholder = 'Select an option' }: 
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
 
-  const handleChange = (selectedOptionValue: IOption) => {
-    setSelectedOption(selectedOptionValue);
-    setIsOpen(false);
-    onChange(selectedOptionValue);
-  };
+  const handleChange = useCallback(
+    (selectedOptionValue: IOption) => {
+      setSelectedOption(selectedOptionValue);
+      setIsOpen(false);
+      onChange(selectedOptionValue);
+    },
+    [onChange]
+  );
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
+  const handleToggle = useCallback(() => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  }, []);
 
   return (
     <div className={selectStyles.container} ref={ref}>
