@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ukri/login": ["libs/login/src/index.ts"],
       "@ukri/map/data-access-map": ["libs/map/data-access-map/src/index.ts"],
       "@ukri/map/ui-map": ["libs/map/ui-map/src/index.ts"],
       "@ukri/shared/design-system": ["libs/shared/design-system/src/index.ts"],
