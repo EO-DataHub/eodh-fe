@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { Icon } from '../icon/icon';
 import { selectStyles } from './select.styles';
@@ -25,17 +25,14 @@ export const Select = ({ options, onChange, placeholder = 'Select an option' }: 
     onChange(selectedOptionValue);
   };
 
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className={selectStyles.container} ref={ref}>
       <div className='relative'>
-        <button
-          type='button'
-          className={selectStyles.button}
-          aria-haspopup='listbox'
-          aria-expanded={isOpen}
-          aria-labelledby='listbox-label'
-          onClick={() => setIsOpen(!isOpen)}
-        >
+        <button className={selectStyles.button} aria-expanded={isOpen} onClick={handleToggle}>
           <span className={selectStyles.buttonText(!selectedOption)}>
             {selectedOption ? selectedOption.label : placeholder}
           </span>
@@ -46,10 +43,10 @@ export const Select = ({ options, onChange, placeholder = 'Select an option' }: 
       </div>
 
       {isOpen && (
-        <ul className={selectStyles.list} tabIndex='-1' role='listbox' aria-labelledby='listbox-label'>
+        <ul className={selectStyles.list} role='listbox' aria-labelledby='listbox-label'>
           {options.map((option, index) => (
             <li
-              key={index}
+              key={option.value}
               className={selectStyles.listItem(selectedOption?.value === option.value)}
               id={`listbox-option-${index}`}
               role='option'

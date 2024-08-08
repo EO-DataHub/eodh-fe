@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import textareaStyles from './textarea.styles'; // Adjust the path as needed
+import textareaStyles from './textarea.styles';
 
 interface ITextareaProps {
   label: string;
@@ -12,9 +12,9 @@ interface ITextareaProps {
 export const Textarea = ({ label, placeholder, rows = 4, maxLength }: ITextareaProps) => {
   const [text, setText] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
-  };
+  }, []);
 
   return (
     <div className={textareaStyles.container}>
@@ -30,7 +30,7 @@ export const Textarea = ({ label, placeholder, rows = 4, maxLength }: ITextareaP
         value={text}
         onChange={handleChange}
       />
-      {maxLength && (
+      {maxLength !== undefined && (
         <p className={textareaStyles.charCount}>
           {text.length}/{maxLength} characters
         </p>

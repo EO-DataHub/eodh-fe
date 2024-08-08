@@ -1,5 +1,5 @@
 import type { Meta } from '@storybook/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { TextInput } from './text-input';
 
@@ -19,7 +19,7 @@ export const SampleTextInput = {
 
 const Template = ({ placeholder = 'Start typing...' }) => {
   const [value, setValue] = useState('');
-  return <TextInput placeholder={placeholder} value={value} onChange={(e) => setValue(e.target.value)} />;
+  return <TextInput placeholder={placeholder} value={value} onChange={(selectedValue) => setValue(selectedValue)} />;
 };
 
 export const Default = Template.bind({});
