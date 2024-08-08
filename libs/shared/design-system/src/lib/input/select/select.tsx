@@ -1,4 +1,6 @@
 // THIS COMPONENT WILL BE FINISHED IN NEXT PR
+import { useTranslation } from 'react-i18next';
+
 import { Icon } from '../../icon/icon';
 
 interface ISelectProps {
@@ -8,7 +10,13 @@ interface ISelectProps {
   placeholder?: string;
 }
 
-const Select = ({ options, onChange, value, placeholder = 'Select a function...' }: ISelectProps) => {
+const Select = ({
+  options,
+  onChange,
+  value,
+  placeholder = 'GLOBAL.DESIGN_SYSTEM.SELECT.PLACEHOLDER',
+}: ISelectProps) => {
+  const { t } = useTranslation();
   return (
     <div className='relative inline-block w-full'>
       <select
@@ -17,7 +25,7 @@ const Select = ({ options, onChange, value, placeholder = 'Select a function...'
         onChange={onChange}
       >
         <option value='' disabled>
-          {placeholder}
+          {t(placeholder)}
         </option>
         {options.map((option, index) => (
           <option key={index} value={option}>
