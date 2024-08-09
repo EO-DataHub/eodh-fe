@@ -19,8 +19,8 @@ export default defineConfig({
   },
 
   server: {
-    port: 4200,
-    host: 'localhost',
+    port: 4000,
+    host: '127.0.0.1',
     fs: {
       allow: [
         // Dynamically resolve the project root
