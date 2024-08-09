@@ -14,6 +14,9 @@ export default defineConfig({
     },
   },
   cacheDir: '../../node_modules/.vite/eodh-fe',
+  html: {
+    cspNonce: '94bf401884d3eade93c7ab13c45437c5',
+  },
 
   server: {
     port: 4200,

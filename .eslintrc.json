@@ -12,19 +12,35 @@
             "allow": [],
             "depConstraints": [
               {
-                "sourceTag": "type:theme",
-                "onlyDependOnLibsWithTags": ["type:theme"]
+                "sourceTag": "type:shared/theme",
+                "onlyDependOnLibsWithTags": []
               },
               {
-                "sourceTag": "type:theme",
+                "sourceTag": "type:shared/theme",
                 "onlyDependOnLibsWithTags": ["scope:shared"]
               },
               {
-                "sourceTag": "type:design-system",
-                "onlyDependOnLibsWithTags": ["type:design-system"]
+                "sourceTag": "type:shared/design-system",
+                "onlyDependOnLibsWithTags": []
               },
               {
-                "sourceTag": "type:design-system",
+                "sourceTag": "type:shared/design-system",
+                "onlyDependOnLibsWithTags": ["scope:shared"]
+              },
+              {
+                "sourceTag": "type:shared/utils",
+                "onlyDependOnLibsWithTags": []
+              },
+              {
+                "sourceTag": "type:shared/utils",
+                "onlyDependOnLibsWithTags": ["scope:shared"]
+              },
+              {
+                "sourceTag": "type:shared/ui",
+                "onlyDependOnLibsWithTags": ["type:shared/design-system", "type:shared/utils"]
+              },
+              {
+                "sourceTag": "type:shared/ui",
                 "onlyDependOnLibsWithTags": ["scope:shared"]
               },
               {
@@ -33,7 +49,7 @@
               },
               {
                 "sourceTag": "type:utils",
-                "onlyDependOnLibsWithTags": ["type:utils"]
+                "onlyDependOnLibsWithTags": ["type:shared/utils"]
               },
               {
                 "sourceTag": "type:utils",
@@ -41,7 +57,7 @@
               },
               {
                 "sourceTag": "type:data-access",
-                "onlyDependOnLibsWithTags": ["type:utils", "type:data-access"]
+                "onlyDependOnLibsWithTags": ["type:shared/utils", "type:utils"]
               },
               {
                 "sourceTag": "type:data-access",
@@ -49,7 +65,13 @@
               },
               {
                 "sourceTag": "type:ui",
-                "onlyDependOnLibsWithTags": ["type:design-system", "type:utils", "type:data-access", "type:ui"]
+                "onlyDependOnLibsWithTags": [
+                  "type:shared/design-system",
+                  "type:shared/utils",
+                  "type:shared/ui",
+                  "type:utils",
+                  "type:data-access"
+                ]
               },
               {
                 "sourceTag": "type:ui",
@@ -58,11 +80,12 @@
               {
                 "sourceTag": "type:feature",
                 "onlyDependOnLibsWithTags": [
-                  "type:design-system",
+                  "type:shared/design-system",
+                  "type:shared/utils",
+                  "type:shared/ui",
                   "type:utils",
                   "type:data-access",
-                  "type:ui",
-                  "type:feature"
+                  "type:ui"
                 ]
               },
               {
@@ -72,12 +95,28 @@
               {
                 "sourceTag": "type:app",
                 "onlyDependOnLibsWithTags": [
-                  "type:theme",
-                  "type:design-system",
+                  "type:shared/theme",
+                  "type:shared/design-system",
+                  "type:shared/utils",
+                  "type:shared/ui",
                   "type:utils",
                   "type:data-access",
                   "type:ui",
                   "type:feature"
+                ]
+              },
+              {
+                "sourceTag": "type:storybook",
+                "onlyDependOnLibsWithTags": [
+                  "type:shared/theme",
+                  "type:shared/design-system",
+                  "type:shared/utils",
+                  "type:shared/ui",
+                  "type:utils",
+                  "type:data-access",
+                  "type:ui",
+                  "type:feature",
+                  "type:app"
                 ]
               },
               {
@@ -87,17 +126,6 @@
               {
                 "sourceTag": "scope:shared",
                 "onlyDependOnLibsWithTags": ["scope:shared"]
-              },
-              {
-                "sourceTag": "type:storybook",
-                "onlyDependOnLibsWithTags": [
-                  "type:design-system",
-                  "type:utils",
-                  "type:data-access",
-                  "type:ui",
-                  "type:feature",
-                  "type:app"
-                ]
               }
             ]
           }

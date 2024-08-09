@@ -11,13 +11,13 @@ export default meta;
 
 export const SampleTextInput = {
   args: {
-    placeholder: 'Start typing...',
+    placeholder: 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER',
     clearButton: true,
     iconName: 'Search',
   },
 };
 
-const Template = ({ placeholder = 'Start typing...' }) => {
+const Template = ({ placeholder = 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER' }) => {
   const [value, setValue] = useState('');
   return <TextInput placeholder={placeholder} value={value} onChange={(selectedValue) => setValue(selectedValue)} />;
 };

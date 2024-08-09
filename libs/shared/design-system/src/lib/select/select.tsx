@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../icon/icon';
 import { selectStyles } from './select.styles';
@@ -14,7 +15,12 @@ interface ISelectProps {
   placeholder?: string;
 }
 
-export const Select = ({ options, onChange, placeholder = 'Select an option' }: ISelectProps) => {
+export const Select = ({
+  options,
+  onChange,
+  placeholder = 'GLOBAL.DESIGN_SYSTEM.SELECT.PLACEHOLDER',
+}: ISelectProps) => {
+  const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState<IOption | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
@@ -37,7 +43,7 @@ export const Select = ({ options, onChange, placeholder = 'Select an option' }: 
       <div className='relative'>
         <button className={selectStyles.button} aria-expanded={isOpen} onClick={handleToggle}>
           <span className={selectStyles.buttonText(!selectedOption)}>
-            {selectedOption ? selectedOption.label : placeholder}
+            {selectedOption ? selectedOption.label : t(placeholder)}
           </span>
           <span className={selectStyles.iconContainer}>
             <Icon name='ArrowDown' className={selectStyles.icon(isOpen)} />

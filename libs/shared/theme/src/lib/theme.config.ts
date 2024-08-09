@@ -1,4 +1,4 @@
-const fontSize = {
+export const fontSize = {
   'small-bold': ['10px', { lineHeight: '12px', fontWeight: '700' }],
   'small-semibold': ['8px', { lineHeight: '12px', fontWeight: '600' }],
   'small-regular': ['9px', { lineHeight: '13.5px', fontWeight: '500' }],
@@ -10,4 +10,28 @@ const fontSize = {
   'large-regular': ['14px', { lineHeight: '21px', fontWeight: '400' }],
 };
 
-export default fontSize;
+export const shadow = {
+  DEFAULT: '0px 4px 5px #00000033',
+  text: '0px 2px 0px #00000026',
+  'text-small': '0px 1px 0px #00000026',
+};
+
+export const spacing = {
+  '6.5': '1.625rem',
+};
+
+export const themeConfig = {
+  fontSize: {
+    ...fontSize,
+  },
+  boxShadow: {
+    ...shadow,
+  },
+  textShadow: {
+    ...shadow,
+  },
+  spacing,
+  animation: {
+    'spin-cubic-bezier': 'spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite',
+  },
+};

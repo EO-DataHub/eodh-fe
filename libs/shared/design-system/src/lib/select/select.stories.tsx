@@ -8,7 +8,7 @@ const meta: Meta<typeof Select> = {
 };
 export default meta;
 
-export const Primary = {
+export const SampleSelect = {
   args: {
     options: [
       { value: 'NDVI', label: 'NDVI' },
@@ -18,6 +18,6 @@ export const Primary = {
       { value: 'NDWI', label: 'NDWI' },
       { value: 'NDSI', label: 'NDSI' },
     ],
-    placeholder: 'Select a function',
+    placeholder: 'GLOBAL.DESIGN_SYSTEM.SELECT.PLACEHOLDER',
   },
 };

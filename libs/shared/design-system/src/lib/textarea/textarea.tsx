@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import textareaStyles from './textarea.styles';
 
@@ -11,6 +12,7 @@ interface ITextareaProps {
 
 export const Textarea = ({ label, placeholder, rows = 4, maxLength }: ITextareaProps) => {
   const [text, setText] = useState('');
+  const { t } = useTranslation();
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
@@ -32,7 +34,7 @@ export const Textarea = ({ label, placeholder, rows = 4, maxLength }: ITextareaP
       />
       {maxLength !== undefined && (
         <p className={textareaStyles.charCount}>
-          {text.length}/{maxLength} characters
+          {t('GLOBAL.DESIGN_SYSTEM.TEXTAREA.COUNTER', { currentLength: text.length, maxLength: maxLength })}
         </p>
       )}
     </div>

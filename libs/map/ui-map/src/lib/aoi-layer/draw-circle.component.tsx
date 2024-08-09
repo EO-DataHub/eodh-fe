@@ -22,7 +22,7 @@ export const DrawCircleButton = () => {
 
   return (
     <DrawButton selected={selected} onClick={drawCircle}>
-      <Icon name='Circle' />
+      <Icon name='Circle' width={24} height={24} />
     </DrawButton>
   );
 };

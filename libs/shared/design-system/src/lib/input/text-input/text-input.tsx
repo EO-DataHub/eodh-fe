@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../../icon/icon';
 import * as IconsNames from '../../icon/icons/index';
@@ -16,7 +17,7 @@ interface ITextInputProps {
 }
 
 export const TextInput: React.FC<ITextInputProps> = ({
-  placeholder = 'Start typing...',
+  placeholder = 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER',
   value,
   onChange,
   className,
@@ -26,6 +27,7 @@ export const TextInput: React.FC<ITextInputProps> = ({
   iconHeight,
 }) => {
   const [inputValue, setInputValue] = useState(value || '');
+  const { t } = useTranslation();
 
   const handleClear = () => {
     setInputValue('');
@@ -54,7 +56,7 @@ export const TextInput: React.FC<ITextInputProps> = ({
       <input
         type='text'
         className='flex-grow px-2 py-1 text-main focus:outline-none'
-        placeholder={placeholder}
+        placeholder={t(placeholder)}
         value={inputValue}
         onChange={handleChange}
       />
