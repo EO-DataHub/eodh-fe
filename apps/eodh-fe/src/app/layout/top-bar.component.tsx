@@ -1,5 +1,4 @@
-import { Login } from '@ukri/login';
-// import { Register } from '@ukri/login';
+import { Login } from '@ukri/authorization/ui';
 import { AoiLayer, DrawCircleButton, DrawPolygonButton, DrawRectangleButton } from '@ukri/map/ui-map';
 
 import { Logo } from './logo.component';
@@ -17,7 +16,7 @@ export const TopBar = () => {
         <DrawCircleButton />
         <DrawPolygonButton />
       </AoiLayer>
-      <Login />
+      <Login className='ml-auto' />
     </div>
   );
 };
