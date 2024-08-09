@@ -2,7 +2,10 @@
   "name": "@ukri/ui-authorization",
   "version": "0.0.1",
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@react-keycloak/web": "3.4.0",
+    "clsx": "2.1.1",
+    "react": "18.3.1"
   },
   "type": "commonjs",
   "main": "./src/index.js",
