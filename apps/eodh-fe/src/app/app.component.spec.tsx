@@ -10,7 +10,7 @@ vi.mock('@ukri/shared/utils/react-query', () => ({
     .mockImplementation((Cmp: ComponentType<PropsWithChildren>) => (props: PropsWithChildren) => <Cmp {...props} />),
 }));
 
-vi.mock('./layout/search.component', () => ({
+vi.mock('./layout/search-layout.component', () => ({
   SearchLayout: vi.fn().mockImplementation(() => <div></div>),
 }));
 
