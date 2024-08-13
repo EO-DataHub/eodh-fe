@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../../icon/icon';
 import * as IconsNames from '../../icon/icons/index';
+import { textInputStyles } from './text-input.styles';
 
 interface ITextInputProps {
   placeholder?: string;
@@ -14,6 +15,7 @@ interface ITextInputProps {
   iconName?: keyof typeof IconsNames;
   iconWidth?: number;
   iconHeight?: number;
+  error?: string;
 }
 
 export const TextInput: React.FC<ITextInputProps> = ({
@@ -21,10 +23,11 @@ export const TextInput: React.FC<ITextInputProps> = ({
   value,
   onChange,
   className,
-  clearButton = true,
+  clearButton = false,
   iconName,
   iconWidth,
   iconHeight,
+  error
 }) => {
   const [inputValue, setInputValue] = useState(value || '');
   const { t } = useTranslation();
@@ -44,30 +47,33 @@ export const TextInput: React.FC<ITextInputProps> = ({
   };
 
   return (
-    <div className={clsx('flex items-center border rounded p-2 bg-bright h-10', className)}>
-      {iconName && (
-        <Icon
-          name={iconName}
-          width={iconWidth ? iconWidth : 18}
-          height={iconHeight ? iconHeight : 18}
-          className='text-neutral-dark'
+    <div>
+      {error && <span className={textInputStyles.errorText}>{error}</span>}
+      <div className={clsx(textInputStyles.container(!!error), className)}>
+        {iconName && (
+          <Icon
+            name={iconName}
+            width={iconWidth ? iconWidth : 18}
+            height={iconHeight ? iconHeight : 18}
+            className={textInputStyles.icon}
+          />
+        )}
+        <input
+          type='text'
+          className={textInputStyles.input}
+          placeholder={t(placeholder)}
+          value={inputValue}
+          onChange={handleChange}
         />
-      )}
-      <input
-        type='text'
-        className='flex-grow px-2 py-1 text-main focus:outline-none'
-        placeholder={t(placeholder)}
-        value={inputValue}
-        onChange={handleChange}
-      />
-      {clearButton && (
-        <button
-          className='w-7 h-7 text-neutral-light focus:outline-none flex justify-center items-center'
-          onClick={handleClear}
-        >
-          <Icon name='Close' />
-        </button>
-      )}
+        {clearButton && (
+          <button
+            className={textInputStyles.clearButton}
+            onClick={handleClear}
+          >
+            <Icon name='Close' />
+          </button>
+        )}
+      </div>
     </div>
   );
 };

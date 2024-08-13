@@ -1,9 +1,11 @@
 const textareaStyles = {
   container: 'mb-4',
-  label: 'block text-large-regular text-text text-sm font-bold mb-2',
-  textarea:
-    'appearance-none border border-bright-dark rounded w-full py-2 px-3 text-large-regular text-text leading-tight focus:outline-none focus:ring-1 focus:ring-primary-light focus:border-primary-light placeholder-neutral-light',
+  textarea: (error?: string) =>
+    `appearance-none border border-bright-dark rounded w-full py-[7px] px-2 text-medium-regular text-text leading-tight focus:outline-none focus:ring-1 focus:ring-primary-light focus:border-primary-light placeholder-neutral-light ${
+      error ? 'border-error' : 'border-bright-dark'
+    }`,
   charCount: 'text-medium-regular text-text',
+  error: 'text-error text-small-semibold m-b-[5px]',
 };
 
 export default textareaStyles;

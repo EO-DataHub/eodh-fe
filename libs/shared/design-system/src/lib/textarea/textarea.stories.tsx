@@ -10,9 +10,21 @@ export default meta;
 
 export const SampleTextarea = {
   args: {
-    label: 'Sample text',
     placeholder: 'Insert some text here',
     rows: 4,
     maxLength: 300,
   },
 };
+
+const Template = ({ placeholder = 'Insert some text here' }) => {
+  return (
+    <Textarea
+      placeholder={placeholder}
+      rows={4}
+      maxLength={300}
+      error='Validation error'
+    />
+  );
+};
+
+export const Error = Template.bind({});

@@ -9,17 +9,40 @@ const meta: Meta<typeof TextInput> = {
 };
 export default meta;
 
-export const SampleTextInput = {
+export const Default = {
   args: {
     placeholder: 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER',
-    clearButton: true,
-    iconName: 'Search',
+    clearButton: false,
+    error: '',
   },
 };
 
 const Template = ({ placeholder = 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER' }) => {
   const [value, setValue] = useState('');
-  return <TextInput placeholder={placeholder} value={value} onChange={(selectedValue) => setValue(selectedValue)} />;
+  return (
+    <TextInput
+      clearButton={false}
+      placeholder={placeholder}
+      value={value}
+      onChange={(selectedValue) => setValue(selectedValue)}
+      error='Validation error'
+    />
+  );
 };
 
-export const Default = Template.bind({});
+export const Error = Template.bind({});
+
+const Template2 = ({ placeholder = 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER' }) => {
+  const [value, setValue] = useState('');
+  return (
+    <TextInput
+      clearButton={true}
+      placeholder={placeholder}
+      value={value}
+      iconName='Search'
+      onChange={(selectedValue) => setValue(selectedValue)}
+    />
+  );
+};
+
+export const WithClearBuutton = Template2.bind({});

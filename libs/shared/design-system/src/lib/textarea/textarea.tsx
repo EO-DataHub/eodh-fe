@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 import textareaStyles from './textarea.styles';
 
 interface ITextareaProps {
-  label: string;
   placeholder: string;
   rows?: number;
   maxLength?: number;
+  error?: string;
 }
 
-export const Textarea = ({ label, placeholder, rows = 4, maxLength }: ITextareaProps) => {
+export const Textarea = ({ placeholder, rows = 4, maxLength, error }: ITextareaProps) => {
   const [text, setText] = useState('');
   const { t } = useTranslation();
 
@@ -19,24 +19,24 @@ export const Textarea = ({ label, placeholder, rows = 4, maxLength }: ITextareaP
   }, []);
 
   return (
-    <div className={textareaStyles.container}>
-      <label className={textareaStyles.label} htmlFor='textarea'>
-        {label}
-      </label>
-      <textarea
-        className={textareaStyles.textarea}
-        id='textarea'
-        placeholder={placeholder}
-        rows={rows}
-        maxLength={maxLength}
-        value={text}
-        onChange={handleChange}
-      />
-      {maxLength !== undefined && (
-        <p className={textareaStyles.charCount}>
-          {t('GLOBAL.DESIGN_SYSTEM.TEXTAREA.COUNTER', { currentLength: text.length, maxLength: maxLength })}
-        </p>
-      )}
+    <div>
+      {error && <span className={textareaStyles.error}>{error}</span>}
+      <div className={textareaStyles.container}>
+        <textarea
+          className={textareaStyles.textarea(error)}
+          id='textarea'
+          placeholder={placeholder}
+          rows={rows}
+          maxLength={maxLength}
+          value={text}
+          onChange={handleChange}
+        />
+        {maxLength !== undefined && (
+          <p className={textareaStyles.charCount}>
+            {t('GLOBAL.DESIGN_SYSTEM.TEXTAREA.COUNTER', { currentLength: text.length, maxLength: maxLength })}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

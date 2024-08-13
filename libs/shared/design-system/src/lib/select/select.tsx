@@ -13,12 +13,14 @@ interface ISelectProps {
   options: IOption[];
   onChange: (option: IOption | null) => void;
   placeholder?: string;
+  error?: string;
 }
 
 export const Select = ({
   options,
   onChange,
   placeholder = 'GLOBAL.DESIGN_SYSTEM.SELECT.PLACEHOLDER',
+  error
 }: ISelectProps) => {
   const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState<IOption | null>(null);
@@ -40,8 +42,9 @@ export const Select = ({
 
   return (
     <div className={selectStyles.container} ref={ref}>
+      {error && <span className={selectStyles.errorMessage}>{error}</span>}
       <div className='relative'>
-        <button className={selectStyles.button} aria-expanded={isOpen} onClick={handleToggle}>
+        <button className={selectStyles.button(error)} aria-expanded={isOpen} onClick={handleToggle}>
           <span className={selectStyles.buttonText(!selectedOption)}>
             {selectedOption ? selectedOption.label : t(placeholder)}
           </span>
