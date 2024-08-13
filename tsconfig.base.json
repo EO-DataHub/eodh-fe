@@ -17,12 +17,12 @@
     "baseUrl": ".",
     "typeRoots": ["node_modules", "node_modules/@types", "@types"],
     "paths": {
-      "@ukri/authorization/data-access": ["libs/authorization/data-access/src/index.ts"],
       "@ukri/map/data-access-map": ["libs/map/data-access-map/src/index.ts"],
       "@ukri/map/ui-map": ["libs/map/ui-map/src/index.ts"],
       "@ukri/map/ui-search-panel": ["libs/map/ui-search-panel/src/index.ts"],
       "@ukri/shared/design-system": ["libs/shared/design-system/src/index.ts"],
       "@ukri/shared/theme": ["libs/shared/theme/src/index.ts"],
+      "@ukri/shared/utils/authorization": ["libs/shared/utils/authorization/src/index.ts"],
       "@ukri/shared/utils/react-query": ["libs/shared/utils/react-query/src/index.ts"],
       "@ukri/shared/utils/translate": ["libs/shared/utils/translate/src/index.ts"],
       "@ukri/storybook-host": ["apps/storybook-host/src/index.ts"]

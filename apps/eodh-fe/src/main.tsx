@@ -1,6 +1,6 @@
 import './styles/main.css';
 
-import { KeycloakProviderWrapper } from '@ukri/authorization/data-access';
+import { KeycloakProviderWrapper } from '@ukri/shared/utils/authorization';
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 
