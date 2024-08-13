@@ -11,7 +11,7 @@ interface IOption {
 
 interface ISelectProps {
   options: IOption[];
-  onChange: (option: IOption | null) => void;
+  onChange?: (option: IOption | null) => void;
   placeholder?: string;
   error?: string;
 }
@@ -20,7 +20,7 @@ export const Select = ({
   options,
   onChange,
   placeholder = 'GLOBAL.DESIGN_SYSTEM.SELECT.PLACEHOLDER',
-  error
+  error,
 }: ISelectProps) => {
   const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState<IOption | null>(null);

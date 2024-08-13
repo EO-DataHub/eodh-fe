@@ -27,7 +27,7 @@ export const TextInput: React.FC<ITextInputProps> = ({
   iconName,
   iconWidth,
   iconHeight,
-  error
+  error,
 }) => {
   const [inputValue, setInputValue] = useState(value || '');
   const { t } = useTranslation();
@@ -66,10 +66,7 @@ export const TextInput: React.FC<ITextInputProps> = ({
           onChange={handleChange}
         />
         {clearButton && (
-          <button
-            className={textInputStyles.clearButton}
-            onClick={handleClear}
-          >
+          <button className={textInputStyles.clearButton} onClick={handleClear}>
             <Icon name='Close' />
           </button>
         )}

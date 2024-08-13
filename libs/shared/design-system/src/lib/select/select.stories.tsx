@@ -1,7 +1,6 @@
 import type { Meta } from '@storybook/react';
 
 import { Select } from './select';
-import { error } from 'console';
 
 const meta: Meta<typeof Select> = {
   component: Select,
@@ -16,8 +15,8 @@ const options = [
   { value: 'SWIR', label: 'SWIR' },
   { value: 'NDWI', label: 'NDWI' },
   { value: 'NDSI', label: 'NDSI' },
-]
-const placeholder = 'GLOBAL.DESIGN_SYSTEM.SELECT.PLACEHOLDER'
+];
+const placeholder = 'GLOBAL.DESIGN_SYSTEM.SELECT.PLACEHOLDER';
 
 export const SampleSelect = {
   args: {
@@ -27,8 +26,6 @@ export const SampleSelect = {
   },
 };
 
-const Template = () => (
-  <Select options={options} placeholder={placeholder} onChange={()=> {}} error='Select something'/>
-);
+const Template = () => <Select options={options} placeholder={placeholder} error='Select something' />;
 
 export const Error = Template.bind({});

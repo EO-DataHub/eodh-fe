@@ -17,14 +17,7 @@ export const SampleTextarea = {
 };
 
 const Template = ({ placeholder = 'Insert some text here' }) => {
-  return (
-    <Textarea
-      placeholder={placeholder}
-      rows={4}
-      maxLength={300}
-      error='Validation error'
-    />
-  );
+  return <Textarea placeholder={placeholder} rows={4} maxLength={300} error='Validation error' />;
 };
 
 export const Error = Template.bind({});
