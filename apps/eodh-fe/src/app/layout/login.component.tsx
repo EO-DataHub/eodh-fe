@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import React from 'react';
 import { useEffect, useState } from 'react';
 
-import { LoginButton } from './login-button';
-import { LogoutButton } from './logout-button';
+import { LoginButton } from './login-button.component';
+import { LogoutButton } from './logout-button.component';
 
 export const Login = ({ className }: { className: string }) => {
   const { keycloak, initialized } = useKeycloak();
