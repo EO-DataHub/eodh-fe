@@ -6,7 +6,6 @@ import * as ReactDOM from 'react-dom/client';
 
 import App from './app/app.component';
 import { getEnvConfig } from './env.config';
-console.log('keycloakConfig', getEnvConfig().module.authorisation);
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
