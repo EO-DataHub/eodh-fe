@@ -1,10 +1,14 @@
 import Keycloak from 'keycloak-js';
 
-const keycloak = new Keycloak({
-  url: 'https://test.eodatahub.org.uk/keycloak',
-  realm: 'eodhp',
-  clientId: 'spyrosoft',
-});
+interface IKeycloakConfig {
+  url: string;
+  realm: string;
+  clientId: string;
+}
+
+const keycloak = (config: IKeycloakConfig) => {
+  return new Keycloak(config);
+};
 
 const initOptions = {
   //   onLoad: 'login-required',

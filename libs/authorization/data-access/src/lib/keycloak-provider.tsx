@@ -3,7 +3,14 @@ import React from 'react';
 
 import { initOptions, keycloak } from './keycloak';
 
+interface IKeycloakConfig {
+  url: string;
+  realm: string;
+  clientId: string;
+}
+
 interface IKeycloakProviderWrapperProps {
+  keycloakConfig: IKeycloakConfig;
   children: React.ReactNode;
 }
 
@@ -19,10 +26,11 @@ const onKeycloakTokens = (tokens: any) => {
   console.log('onKeycloakTokens', tokens);
 };
 
-export const KeycloakProviderWrapper = ({ children }: IKeycloakProviderWrapperProps) => {
+export const KeycloakProviderWrapper = ({ keycloakConfig, children }: IKeycloakProviderWrapperProps) => {
+  const config = keycloak(keycloakConfig);
   return (
     <ReactKeycloakProvider
-      authClient={keycloak}
+      authClient={config}
       initOptions={initOptions}
       onEvent={onKeycloakEvent}
       onTokens={onKeycloakTokens}

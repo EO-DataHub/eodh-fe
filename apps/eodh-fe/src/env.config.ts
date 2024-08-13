@@ -8,6 +8,11 @@ interface IEnvConfig {
       fallbackLng: string;
       path: string;
     };
+    authorisation: {
+      url: string;
+      realm: string;
+      clientId: string;
+    };
   };
 }
 const getValue = <T extends string | string[] | undefined[]>(envValue: T | undefined, defaultValue: T): T => {
@@ -30,6 +35,11 @@ export const getEnvConfig = (): IEnvConfig => ({
       language: getValue(import.meta.env.VITE_TRANSLATION_LANGUAGE_URL, 'en'),
       fallbackLng: getValue(import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE_URL, 'en'),
       path: `assets/i18n/{{lang}}.json`,
+    },
+    authorisation: {
+      url: getValue(import.meta.env.VITE_AUTHORISATION_URL, ''),
+      realm: getValue(import.meta.env.VITE_AUTHORISATION_REALM, ''),
+      clientId: getValue(import.meta.env.VITE_AUTHORISATION_CLIENT_ID, ''),
     },
   },
 });
