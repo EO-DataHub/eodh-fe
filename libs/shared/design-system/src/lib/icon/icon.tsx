@@ -7,7 +7,7 @@ interface IIconProps {
   className?: string;
 }
 
-export const Icon = ({ name = 'Bolt', width, height, className }: IIconProps) => {
+export const Icon = ({ name = 'Bolt', width, height, className = '' }: IIconProps) => {
   const IconComponent = IconsNames[name];
 
   return (

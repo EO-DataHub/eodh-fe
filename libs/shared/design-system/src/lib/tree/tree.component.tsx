@@ -1,8 +1,14 @@
-import { createContext, PropsWithChildren, ReactNode, useCallback, useContext, useState } from 'react';
+import { createContext, isValidElement, PropsWithChildren, ReactNode, useCallback, useContext, useState } from 'react';
 
+import { ArrowDropDown, ArrowDropRight } from '../icon/icons';
 import { Text } from '../text/text';
 
-type TTree = PropsWithChildren<{ title: string; icon?: ReactNode }>;
+type TTree = PropsWithChildren<{
+  title: string | ReactNode;
+  className?: string;
+  icon?: ReactNode | { icon: ReactNode; position: 'before' | 'after' }[];
+  collapsable?: boolean;
+}>;
 
 const classNames = {
   header: 'relative before:absolute before:top-0 before:w-[1px] before:-ms-px before:h-full before:bg-bright-dark',
@@ -14,48 +20,15 @@ export const Tree = ({ children }: PropsWithChildren) => {
   return <TreeContext.Provider value={{ level: 0 }}>{children}</TreeContext.Provider>;
 };
 
-const CollapseIcon = () => {
-  return (
-    <svg
-      className='size-4 text-bright-dark stroke-[1.5px]'
-      xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-    >
-      <path d='M5 12h14'></path>
-      <path className='block' d='M12 5v14'></path>
-    </svg>
-  );
-};
-
-const CollapsedIcon = () => {
-  return (
-    <svg
-      className='size-4 text-bright-dark stroke-[1.5px]'
-      xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-    >
-      <path d='M5 12h14'></path>
-    </svg>
-  );
-};
-
-export const TreeItem = ({ title, icon, children }: TTree) => {
+export const TreeItem = ({ title, icon, children, className = '', collapsable = true }: TTree) => {
   const { level } = useContext(TreeContext);
 
   if (level === 0) {
     return (
       <TreeContext.Provider value={{ level: level + 1 }}>
-        <div role='tree' aria-orientation='vertical'>
+        <div role='tree' aria-orientation='vertical' className={className}>
           <div role='group'>
-            <CollapsableTreeLevel title={title} icon={icon}>
+            <CollapsableTreeLevel title={title} icon={icon} collapsable={collapsable}>
               {children}
             </CollapsableTreeLevel>
 
@@ -70,9 +43,9 @@ export const TreeItem = ({ title, icon, children }: TTree) => {
 
   return (
     <TreeContext.Provider value={{ level: level + 1 }}>
-      <div className='w-full overflow-hidden transition-[height] duration-300' role='group'>
+      <div className={`w-full overflow-hidden transition-[height] duration-300 ${className}`} role='group'>
         <CollapsableTreeLevelWrapper>
-          <CollapsableTreeLevel title={title} icon={icon}>
+          <CollapsableTreeLevel title={title} icon={icon} collapsable={collapsable}>
             {children}
           </CollapsableTreeLevel>
         </CollapsableTreeLevelWrapper>
@@ -89,8 +62,9 @@ const CollapsableTreeLevel = ({
   icon,
   children,
   collapsed: initialCollapsed,
+  collapsable = true,
 }: TTree & { collapsed?: boolean }) => {
-  const [collapsed, setCollapsed] = useState(initialCollapsed);
+  const [collapsed, setCollapsed] = useState(collapsable ? initialCollapsed : true);
 
   const collapse = useCallback((value: boolean) => {
     setCollapsed(value);
@@ -102,7 +76,7 @@ const CollapsableTreeLevel = ({
 
   return (
     <div className='active' role='treeitem' aria-expanded='true' aria-selected='true'>
-      <TreeCollapse collapsed={collapsed} onClick={collapse}>
+      <TreeCollapse collapsed={collapsed} onClick={collapse} collapsable={collapsable}>
         <TreeHeader title={title} icon={icon} />
       </TreeCollapse>
 
@@ -123,20 +97,68 @@ const CollapsableTreeLevelWrapper = ({ children }: PropsWithChildren) => {
   );
 };
 
-const TreeHeader = ({ title, icon }: { title: string; icon?: ReactNode }) => {
+const getIcons = (icons: TTree['icon'] | undefined, position: 'before' | 'after'): ReactNode | ReactNode[] | null => {
+  if (!icons) {
+    return null;
+  }
+
+  switch (position) {
+    case 'before': {
+      if (Array.isArray(icons)) {
+        const beforeIcons = icons.filter((i) => i.position === 'before').map((i) => i.icon);
+        return beforeIcons.length ? beforeIcons : null;
+      }
+
+      return icons;
+    }
+
+    case 'after': {
+      if (Array.isArray(icons)) {
+        const afterIcons = icons.filter((i) => i.position === 'after').map((i) => i.icon);
+        return afterIcons.length ? afterIcons : null;
+      }
+
+      return null;
+    }
+  }
+};
+
+const Title = ({
+  title,
+  className = '',
+  fontWeight,
+}: {
+  title: TTree['title'];
+  className?: string;
+  fontWeight: 'semibold' | 'regular';
+}) => {
+  if (isValidElement(title)) {
+    return title;
+  }
+
+  return (
+    <Text
+      content={title}
+      type='p'
+      fontSize='medium'
+      fontWeight={fontWeight}
+      className={`text-neutral-dark ${className}`}
+    />
+  );
+};
+
+const TreeHeader = ({ title, icon }: { title: TTree['title']; icon?: TTree['icon'] }) => {
+  const beforeIcons = getIcons(icon, 'before');
+  const afterIcons = getIcons(icon, 'after');
+
   return (
     <div className='grow px-1.5 rounded-md cursor-default'>
       <div className='flex items-center gap-x-3'>
-        {icon}
+        {beforeIcons && <div className='flex flex-row items-center gap-x-2'>{beforeIcons}</div>}
         <div className='grow'>
-          <Text
-            content={title}
-            type='p'
-            fontSize='medium'
-            fontWeight='semibold'
-            className='text-neutral-dark py-[3px]'
-          />
+          <Title title={title} fontWeight='semibold' className='py-[3px]' />
         </div>
+        {afterIcons && <div className='flex flex-row items-center gap-x-2'>{afterIcons}</div>}
       </div>
     </div>
   );
@@ -147,21 +169,19 @@ const TreeHeaderSimple = ({ title, icon, children }: TTree) => {
     return null;
   }
 
+  const beforeIcons = getIcons(icon, 'before');
+  const afterIcons = getIcons(icon, 'after');
+
   return (
     <div className={`ms-3 ps-3 before:start-0 ${classNames.header}`} role='group'>
       <div className='active' role='treeitem' aria-expanded='true' aria-selected='true'>
         <div className='px-2 rounded-md cursor-default' role='treeitem' aria-selected='false'>
           <div className='flex items-center gap-x-3'>
-            {icon}
+            {beforeIcons && <div className='flex flex-row items-center gap-x-2'>{beforeIcons}</div>}
             <div className='grow'>
-              <Text
-                content={title}
-                type='p'
-                fontSize='medium'
-                fontWeight='regular'
-                className='text-neutral-dark py-[3px]'
-              />
+              <Title title={title} fontWeight='regular' className='py-4' />
             </div>
+            {afterIcons && <div className='flex flex-row items-center gap-x-2'>{afterIcons}</div>}
           </div>
         </div>
       </div>
@@ -173,22 +193,27 @@ const TreeCollapse = ({
   collapsed,
   children,
   onClick,
-}: PropsWithChildren<{ collapsed?: boolean; onClick?: (collapsed: boolean) => void }>) => {
+  collapsable = true,
+}: PropsWithChildren<{ collapsed?: boolean; collapsable?: boolean; onClick?: (collapsed: boolean) => void }>) => {
   const collapse = () => {
     if (onClick) {
       onClick(!collapsed);
     }
   };
 
+  if (!collapsable) {
+    return <div className='py-4 flex items-center gap-x-0.5 w-full'>{children}</div>;
+  }
+
   return (
-    <div className='py-0.5 flex items-center gap-x-0.5 w-full'>
+    <div className='py-4 flex items-center gap-x-0.5 w-full'>
       <button
-        className='size-6 flex justify-center items-center hover:bg-bright-dark rounded-md focus:outline-none disabled:opacity-50 disabled:pointer-events-none *:hover:text-text-primary'
+        className='size-6 flex justify-center items-center focus:outline-none disabled:opacity-50 disabled:pointer-events-none'
         aria-expanded='true'
         onClick={collapse}
       >
-        {collapsed && <CollapsedIcon />}
-        {!collapsed && <CollapseIcon />}
+        {collapsed && <ArrowDropDown />}
+        {!collapsed && <ArrowDropRight />}
       </button>
 
       {children}

@@ -1,9 +1,6 @@
-import type { Meta } from '@storybook/react';
+import { Checkbox, Icon, Text } from '@ukri/shared/design-system';
+import { Tree, TreeItem } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
-
-import { Icon } from '../icon/icon';
-import { Checkbox } from '../input/checkbox/checkbox';
-import { Tree as TreeComponent, TreeItem } from './tree.component';
 
 const SettingsButton = ({ value, onClick }: { value: boolean; onClick: () => void }) => {
   return (
@@ -12,6 +9,10 @@ const SettingsButton = ({ value, onClick }: { value: boolean; onClick: () => voi
       {value && <Icon name='Settings' className='my-2 text-primary' />}
     </button>
   );
+};
+
+const Title = ({ title }: { title: string }) => {
+  return <Text content={title} type='p' fontSize='medium' fontWeight='bold' className='text-neutral-dark py-4' />;
 };
 
 const Sentinel1 = () => {
@@ -30,29 +31,31 @@ const Sentinel1 = () => {
           { position: 'after', icon: <SettingsButton value={showSettings} onClick={toggleSettings} /> },
           { position: 'after', icon: <Checkbox name='Sentinel-1' /> },
         ]}
-      />
-      {showSettings && (
-        <TreeComponent>
-          <TreeItem title='Acquisition mode' />
-          <TreeItem
-            title='EW - Extra-Wide Swath 40m x 40m'
-            icon={[{ position: 'after', icon: <Checkbox name='EW - Extra-Wide Swath 40m x 40m' /> }]}
-          />
-          <TreeItem title='Polarization' />
-          <TreeItem title='HH' icon={[{ position: 'after', icon: <Checkbox name='HH' /> }]} />
-          <TreeItem title='HH+HV' icon={[{ position: 'after', icon: <Checkbox name='HH+HV' /> }]} />
-          <TreeItem
-            title='IW - Interferometric Wide Swath 10m x 10m'
-            icon={[{ position: 'after', icon: <Checkbox name='IW - Interferometric Wide Swath 10m x 10m' /> }]}
-          />
-          <TreeItem title='Polarization' />
-          <TreeItem title='VV' icon={[{ position: 'after', icon: <Checkbox name='VV' /> }]} />
-          <TreeItem title='VV+VH' icon={[{ position: 'after', icon: <Checkbox name='VV+VH' /> }]} />
-          <TreeItem title='Orbit direction' />
-          <TreeItem title='Ascending' icon={[{ position: 'after', icon: <Checkbox name='Ascending' /> }]} />
-          <TreeItem title='Descending' icon={[{ position: 'after', icon: <Checkbox name='Descending' /> }]} />
-        </TreeComponent>
-      )}
+        collapsable={false}
+      >
+        {showSettings && (
+          <Tree>
+            <TreeItem title={<Title title='Acquisition mode:' />} />
+            <TreeItem
+              title='EW - Extra-Wide Swath 40m x 40m'
+              icon={[{ position: 'after', icon: <Checkbox name='EW - Extra-Wide Swath 40m x 40m' /> }]}
+            />
+            <TreeItem title={<Title title='Polarization:' />} />
+            <TreeItem title='HH' icon={[{ position: 'after', icon: <Checkbox name='HH' /> }]} />
+            <TreeItem title='HH+HV' icon={[{ position: 'after', icon: <Checkbox name='HH+HV' /> }]} />
+            <TreeItem
+              title='IW - Interferometric Wide Swath 10m x 10m'
+              icon={[{ position: 'after', icon: <Checkbox name='IW - Interferometric Wide Swath 10m x 10m' /> }]}
+            />
+            <TreeItem title={<Title title='Polarization:' />} />
+            <TreeItem title='VV' icon={[{ position: 'after', icon: <Checkbox name='VV' /> }]} />
+            <TreeItem title='VV+VH' icon={[{ position: 'after', icon: <Checkbox name='VV+VH' /> }]} />
+            <TreeItem title={<Title title='Orbit direction:' />} />
+            <TreeItem title='Ascending' icon={[{ position: 'after', icon: <Checkbox name='Ascending' /> }]} />
+            <TreeItem title='Descending' icon={[{ position: 'after', icon: <Checkbox name='Descending' /> }]} />
+          </Tree>
+        )}
+      </TreeItem>
     </>
   );
 };
@@ -75,13 +78,13 @@ const Sentinel2 = () => {
         ]}
       />
       {showSettings && (
-        <TreeComponent>
+        <Tree>
           <TreeItem title='L1C' icon={[{ position: 'after', icon: <Checkbox name='L1C' /> }]} />
           <TreeItem
             title='L2A (atmospherically corrected)'
             icon={[{ position: 'after', icon: <Checkbox name='L2A' /> }]}
           />
-        </TreeComponent>
+        </Tree>
       )}
     </>
   );
@@ -105,10 +108,10 @@ const Sentinel3 = () => {
         ]}
       />
       {showSettings && (
-        <TreeComponent>
+        <Tree>
           <TreeItem title='SLSTR' icon={[{ position: 'after', icon: <Checkbox name='SLSTR' /> }]} />
           <TreeItem title='OLCI' icon={[{ position: 'after', icon: <Checkbox name='OLCI' /> }]} />
-        </TreeComponent>
+        </Tree>
       )}
     </>
   );
@@ -132,7 +135,7 @@ const Sentinel5P = () => {
         ]}
       />
       {showSettings && (
-        <TreeComponent>
+        <Tree>
           <TreeItem title='AER AI (Aerosol Index)' icon={[{ position: 'after', icon: <Checkbox name='AER AI' /> }]} />
           <TreeItem title='CH4 (Methane)' icon={[{ position: 'after', icon: <Checkbox name='CH4' /> }]} />
           <TreeItem title='Cloud' icon={[{ position: 'after', icon: <Checkbox name='Cloud' /> }]} />
@@ -141,16 +144,16 @@ const Sentinel5P = () => {
           <TreeItem title='NO2 (Nitrogen dioxide)' icon={[{ position: 'after', icon: <Checkbox name='NO2' /> }]} />
           <TreeItem title='O3 (Ozone)' icon={[{ position: 'after', icon: <Checkbox name='O3' /> }]} />
           <TreeItem title='SO2 (Sulfur dioxide)' icon={[{ position: 'after', icon: <Checkbox name='SO2' /> }]} />
-        </TreeComponent>
+        </Tree>
       )}
     </>
   );
 };
 
-const TreeTemplate = () => {
+export const SatelliteTree = () => {
   return (
-    <TreeComponent>
-      <TreeItem title='Public'>
+    <Tree>
+      <TreeItem title='Public' className='text-text-primary'>
         <TreeItem title='Copernicus'>
           <Sentinel1 />
           <Sentinel2 />
@@ -187,16 +190,6 @@ const TreeTemplate = () => {
         </TreeItem>
         <TreeItem title='AirBus' />
       </TreeItem>
-    </TreeComponent>
+    </Tree>
   );
-};
-
-const meta: Meta<typeof TreeTemplate> = {
-  component: TreeTemplate,
-  title: 'libs/shared/design-system/Tree',
-};
-export default meta;
-
-export const Tree = {
-  args: {},
 };

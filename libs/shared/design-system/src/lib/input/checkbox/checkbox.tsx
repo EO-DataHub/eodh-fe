@@ -1,23 +1,23 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { Icon } from '../../icon/icon';
 import { checkboxStyles, getSpanClassName } from './checkbox.styles';
 
 interface ICheckboxProps {
-  id: string;
+  id?: string;
   name: string;
-  value: string;
+  value?: boolean;
   initialChecked?: boolean | undefined;
   disabled?: boolean;
   onChange?: (checked: boolean) => void;
   label?: string;
 }
 
-export const Checkbox = ({ id, initialChecked, disabled, onChange, label, name, value }: ICheckboxProps) => {
+export const Checkbox = ({ id, initialChecked, disabled, onChange, label, name }: ICheckboxProps) => {
   const [isChecked, setIsChecked] = useState(initialChecked);
   const spanClassName = getSpanClassName(isChecked, disabled);
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsChecked(!isChecked);
     if (onChange) {
       onChange(event.target.checked);
@@ -34,7 +34,6 @@ export const Checkbox = ({ id, initialChecked, disabled, onChange, label, name, 
         disabled={disabled}
         id={id}
         name={name}
-        value={value}
       />
       <span className={spanClassName}>
         {isChecked && !disabled && <Icon name='Check' />}
