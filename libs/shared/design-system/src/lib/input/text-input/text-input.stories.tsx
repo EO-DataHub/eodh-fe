@@ -31,18 +31,3 @@ const Template = ({ placeholder = 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER' }
 };
 
 export const Error = Template.bind({});
-
-const Template2 = ({ placeholder = 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER' }) => {
-  const [value, setValue] = useState('');
-  return (
-    <TextInput
-      clearButton={true}
-      placeholder={placeholder}
-      value={value}
-      iconName='Search'
-      onChange={(selectedValue) => setValue(selectedValue)}
-    />
-  );
-};
-
-export const WithClearBuutton = Template2.bind({});

@@ -1,10 +1,9 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../../icon/icon';
 import * as IconsNames from '../../icon/icons/index';
-import { textInputStyles } from './text-input.styles';
+import { searchInputStyles } from './search.styles';
 
 interface ITextInputProps {
   placeholder?: string;
@@ -18,19 +17,18 @@ interface ITextInputProps {
   error?: string;
 }
 
-export const TextInput: React.FC<ITextInputProps> = ({
-  placeholder = 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER',
+export const SearchInput: React.FC<ITextInputProps> = ({
+  placeholder = 'Start typing...',
   value,
   onChange,
   className,
-  clearButton = false,
+  clearButton = true,
   iconName,
   iconWidth,
   iconHeight,
   error,
 }) => {
   const [inputValue, setInputValue] = useState(value || '');
-  const { t } = useTranslation();
 
   const handleClear = () => {
     setInputValue('');
@@ -48,25 +46,25 @@ export const TextInput: React.FC<ITextInputProps> = ({
 
   return (
     <div>
-      {error && <span className={textInputStyles.errorText}>{error}</span>}
-      <div className={clsx(textInputStyles.container, className)}>
+      {error && <span className={searchInputStyles.errorText}>{error}</span>}
+      <div className={clsx(searchInputStyles.container(!!error), className)}>
         {iconName && (
           <Icon
             name={iconName}
             width={iconWidth ? iconWidth : 18}
             height={iconHeight ? iconHeight : 18}
-            className={textInputStyles.icon}
+            className={searchInputStyles.icon}
           />
         )}
         <input
           type='text'
-          className={textInputStyles.input(!!error)}
-          placeholder={t(placeholder)}
+          className={searchInputStyles.input}
+          placeholder={placeholder}
           value={inputValue}
           onChange={handleChange}
         />
         {clearButton && (
-          <button className={textInputStyles.clearButton} onClick={handleClear}>
+          <button className={searchInputStyles.clearButton} onClick={handleClear}>
             <Icon name='Close' />
           </button>
         )}
