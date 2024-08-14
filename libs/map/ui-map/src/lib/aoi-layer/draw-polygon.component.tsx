@@ -1,4 +1,4 @@
-import { PolygonIcon } from '@ukri/shared/design-system';
+import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { useCallback, useContext, useMemo } from 'react';
 
@@ -21,7 +21,7 @@ export const DrawPolygonButton = () => {
 
   return (
     <DrawButton selected={selected} onClick={drawPolygon}>
-      <PolygonIcon className='w-5 h-5' />
+      <Icon name='Polygon' width={24} height={24} />
     </DrawButton>
   );
 };

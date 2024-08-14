@@ -1,0 +1,12 @@
+{
+  "GLOBAL": {
+    "DESIGN_SYSTEM": {
+      "SELECT": {
+        "PLACEHOLDER": "Wybierz funkcję..."
+      },
+      "TEXTINPUT": {
+        "PLACEHOLDER": "Wpisz tekst..."
+      }
+    }
+  }
+}

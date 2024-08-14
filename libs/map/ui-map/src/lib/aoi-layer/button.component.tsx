@@ -12,7 +12,7 @@ export const DrawButton = ({ selected, onClick, children }: PropsWithChildren<ID
     : 'hover:bg-primary hover:text-primary-contrastText [&>svg]:fill-text [&>svg]:hover:fill-primary-contrastText';
 
   return (
-    <button className={clsx('p-4 cursor-pointer', className)} onClick={onClick}>
+    <button className={clsx('p-6.5 cursor-pointer', className)} onClick={onClick}>
       {children}
     </button>
   );

@@ -1,4 +1,4 @@
-import { SquareIcon } from '@ukri/shared/design-system';
+import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { createBox } from 'ol/interaction/Draw.js';
 import { useCallback, useContext, useMemo } from 'react';
@@ -24,7 +24,7 @@ export const DrawRectangleButton = () => {
 
   return (
     <DrawButton selected={selected} onClick={drawRectangle}>
-      <SquareIcon className='w-5 h-5' />
+      <Icon name='Square' width={24} height={24} />
     </DrawButton>
   );
 };

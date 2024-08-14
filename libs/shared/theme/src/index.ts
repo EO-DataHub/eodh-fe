@@ -1,21 +1,4 @@
-import colors from './lib/colors';
-import fontSize from './lib/font-size';
+import { darkThemeConfig } from './lib/dark-theme.config';
+import { lightThemeConfig } from './lib/ligh-theme.config';
 
-const lightThemeConfig = {
-  colors: {
-    ...colors.light,
-  },
-  fontSize: {
-    ...fontSize,
-  },
-};
-
-const darkThemeConfig = {
-  colors: {
-    ...colors.dark,
-  },
-  fontSize: {
-    ...fontSize,
-  },
-};
 export { lightThemeConfig, darkThemeConfig };

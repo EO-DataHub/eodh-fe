@@ -1,4 +1,4 @@
-import { CircleIcon } from '@ukri/shared/design-system';
+import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { useCallback, useContext, useMemo } from 'react';
 
@@ -22,7 +22,7 @@ export const DrawCircleButton = () => {
 
   return (
     <DrawButton selected={selected} onClick={drawCircle}>
-      <CircleIcon className='w-5 h-5' />
+      <Icon name='Circle' width={24} height={24} />
     </DrawButton>
   );
 };
