@@ -11,7 +11,7 @@ interface IOption {
 
 interface ISelectProps {
   options: IOption[];
-  onChange?: (option: IOption | null) => void;
+  onChange: (option: IOption | null) => void;
   placeholder?: string;
   error?: string;
 }
