@@ -3,6 +3,12 @@
     "DESIGN_SYSTEM": {
       "SELECT": {
         "PLACEHOLDER": "Select a function..."
+      },
+      "TEXTINPUT": {
+        "PLACEHOLDER": "Start typing..."
+      },
+      "TEXTAREA": {
+        "COUNTER": "{{currentLength}}/{{maxLength}} characters"
       }
     },
     "ERRORS": {

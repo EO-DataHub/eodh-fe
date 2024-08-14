@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 
 import { Icon } from '../icon/icon';
+import * as IconsNames from '../icon/icons/index';
 import {
   getAppearanceStyles,
   getBaseStyles,
@@ -17,7 +18,7 @@ interface IButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
-  iconName?: 'ArrowRight' | 'Bolt';
+  iconName?: keyof typeof IconsNames;
   iconWidth?: number;
   iconHeight?: number;
 }
