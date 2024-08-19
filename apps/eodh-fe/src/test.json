@@ -1,28 +1,11 @@
 {
-  "collections": [
-    "sentinel-2-l1c"
-  ],
-  "ids": [
-    "string"
-  ],
-  "bbox": [
-    null,
-    null,
-    null,
-    null
-  ],
+  "collections": ["sentinel-2-l1c"],
+  "ids": ["string"],
+  "bbox": [null, null, null, null],
   "intersects": {
     "type": "Point",
-    "coordinates": [
-      null,
-      null
-    ],
-    "bbox": [
-      null,
-      null,
-      null,
-      null
-    ]
+    "coordinates": [null, null],
+    "bbox": [null, null, null, null]
   },
   "datetime": "2024-08-13T09:53:11.975Z",
   "limit": 10,
@@ -31,7 +14,7 @@
     "exclude": []
   },
   "query": {
-    "eo:cloud_cover": { "lt": 100 }
+    "property.eo:cloud_cover": { "lt": 100 }
   },
   "sortby": [
     {
@@ -40,9 +23,7 @@
     }
   ],
   "token": "string",
-  "q": [
-    "string"
-  ],
+  "q": ["string"],
   "filter": {},
   "filter-crs": "string",
   "filter-lang": "cql-json"

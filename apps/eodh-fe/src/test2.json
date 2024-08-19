@@ -1,9 +1,26 @@
 {
-  "collections": [
-    "sentinel-2-l1c"
-  ],
+  "collections": ["sentinel-2-l1c"],
   "limit": 10,
-  "query": {
-    "eo:cloud_cover": { "lt": 100 }
+  "fields": {
+    "include": ["properties.eo:cloud_cover"],
+    "exclude": []
+  },
+  "filter-lang": "cql2-json",
+  "filter": {
+    "op": "and",
+    "args": [
+      {
+        "op": "=",
+        "args": [{ "property": "collection" }, "sentinel-2-l2a"]
+      },
+      {
+        "op": "<=",
+        "args": [{ "property": "properties.eo:cloud_cover" }, 100]
+      },
+      {
+        "op": ">=",
+        "args": [{ "property": "datetime" }, { "timestamp": "2021-04-08T04:39:23Z" }]
+      }
+    ]
   }
 }
