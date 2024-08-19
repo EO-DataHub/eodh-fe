@@ -1,0 +1,19 @@
+{
+  "name": "map-ui-search-panel",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/map/ui-search-panel/src",
+  "projectType": "library",
+  "tags": ["type:ui", "scope:map"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../coverage/libs/map/ui-search-panel"
+      }
+    }
+  }
+}

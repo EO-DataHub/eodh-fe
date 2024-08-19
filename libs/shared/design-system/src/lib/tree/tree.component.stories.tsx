@@ -3,7 +3,8 @@ import { useCallback, useState } from 'react';
 
 import { Icon } from '../icon/icon';
 import { Checkbox } from '../input/checkbox/checkbox';
-import { Tree as TreeComponent, TreeItem } from './tree.component';
+import { Tree as TreeComponent } from './tree.component';
+import { TreeItem } from './tree-item.component';
 
 const SettingsButton = ({ value, onClick }: { value: boolean; onClick: () => void }) => {
   return (
