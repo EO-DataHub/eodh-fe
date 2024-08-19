@@ -31,7 +31,6 @@ export const DateInput: React.FC<IDateInputProps> = ({
     <div>
       {error && <span className={textInputStyles.errorText}>{error}</span>}
       <div className={clsx(textInputStyles.container, className)}>
-        
         <input
           type='date'
           className={textInputStyles.input(!!error)}

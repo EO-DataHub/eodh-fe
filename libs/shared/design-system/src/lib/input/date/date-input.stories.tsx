@@ -11,7 +11,6 @@ export default meta;
 
 export const Default = {
   args: {
-    placeholder: 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER',
     error: '',
   },
 };
