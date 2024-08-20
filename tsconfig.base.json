@@ -10,10 +10,12 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
+    "esModuleInterop": true,
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
+    "typeRoots": ["@types", "node_modules/@types"],
     "paths": {
       "@ukri/map/data-access-map": ["libs/map/data-access-map/src/index.ts"],
       "@ukri/map/ui-map": ["libs/map/ui-map/src/index.ts"],

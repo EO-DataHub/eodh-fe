@@ -1,4 +1,4 @@
-import { PropsWithChildren, useCallback, useContext, useState } from 'react';
+import { PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
 
 import { ArrowDropDown, ArrowDropRight } from '../icon/icons';
 import { TreeHeader } from './header.component';
@@ -52,6 +52,10 @@ export const CollapsableTreeLevel = ({
   collapsable = true,
 }: TTree & { collapsed?: boolean }) => {
   const [collapsed, setCollapsed] = useState(collapsable ? initialCollapsed : true);
+
+  useEffect(() => {
+    setCollapsed(!collapsable);
+  }, [collapsable]);
 
   const collapse = useCallback((value: boolean) => {
     setCollapsed(value);
