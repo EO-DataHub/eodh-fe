@@ -22,9 +22,7 @@ export const Slider = ({ value = 0, onChange, max = 100 }: ISliderProps) => {
 
   const getBackgroundStyle = useMemo(() => {
     const progress = (sliderValue / max) * 100;
-    return `linear-gradient(to right, #4483FF ${progress}%, #A3A3A3 ${progress}%)`;
-    // return `bg-gradient-to-r 'primary-main' to-${progress}% neutral-light from-${progress}%`;
-    // return `linear-gradient(to right, theme('colors.primary.main) ${progress}%, theme('colors.neutral.light) ${progress}%)`;
+    return `linear-gradient(to right, var(--thumb-bg-color) ${progress}%, var(--slider-bg) ${progress}%)`;
   }, [sliderValue, max]);
 
   return (
@@ -35,7 +33,7 @@ export const Slider = ({ value = 0, onChange, max = 100 }: ISliderProps) => {
         max={max}
         value={sliderValue}
         onChange={handleChange}
-        className={`sliderRangeInput ${getBackgroundStyle}`}
+        className={`designSystemSliderRangeInput ${getBackgroundStyle}`}
         style={{ background: getBackgroundStyle }}
       />
       <div className='text-neutral-dark text-medium pl-2'>{sliderValue}%</div>
