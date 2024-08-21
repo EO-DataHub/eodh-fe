@@ -1,8 +1,3 @@
-:root {
-  --thumb-bg-color: theme('colors.primary.main');
-  --slider-bg: theme('colors.neutral.light');
-}
-
 .design-system__slider-range-input {
   @apply w-full h-1.5 cursor-pointer outline-none appearance-none rounded bg-primary;
 }

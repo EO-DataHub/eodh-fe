@@ -22,7 +22,7 @@ export const Slider = ({ value = 0, onChange, max = 100 }: ISliderProps) => {
 
   const getBackgroundStyle = useMemo(() => {
     const progress = (sliderValue / max) * 100;
-    return `linear-gradient(to right, var(--thumb-bg-color) ${progress}%, var(--slider-bg) ${progress}%)`;
+    return `linear-gradient(to right, var(--colors-primary-main) ${progress}%, var(--colors-meutral-light) ${progress}%)`;
   }, [sliderValue, max]);
 
   return (
