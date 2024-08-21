@@ -1,6 +1,6 @@
 :root {
-    --thumb-bg-color: theme('colors.primary.main');
-    --slider-bg: theme('colors.neutral.light');
+  --thumb-bg-color: theme('colors.primary.main');
+  --slider-bg: theme('colors.neutral.light');
 }
 
 .design-system__slider-range-input {
@@ -15,23 +15,23 @@
   @apply h-3.5 w-3.5 cursor-pointer appearance-none rounded-full bg-primary transition duration-200 ease-in-out shadow-slider-thumb border-0;
 }
 
-.design-system__slider-range-input::-webkit-slider-thumb:hover  {
+.design-system__slider-range-input::-webkit-slider-thumb:hover {
   @apply shadow-slider-thumb-highlighted;
 }
 
-.design-system__slider-range-input:active::-webkit-slider-thumb  {
+.design-system__slider-range-input:active::-webkit-slider-thumb {
   @apply shadow-slider-thumb-highlighted;
 }
 
-.design-system__slider-range-input:focus::-webkit-slider-thumb  {
+.design-system__slider-range-input:focus::-webkit-slider-thumb {
   @apply shadow-slider-thumb-highlighted;
 }
 
-.design-system__slider-range-input::-moz-range-thumb:hover  {
+.design-system__slider-range-input::-moz-range-thumb:hover {
   @apply shadow-slider-thumb-highlighted;
 }
 
-.design-system__slider-range-input:active::-moz-range-thumb  {
+.design-system__slider-range-input:active::-moz-range-thumb {
   @apply shadow-slider-thumb-highlighted;
 }
 
