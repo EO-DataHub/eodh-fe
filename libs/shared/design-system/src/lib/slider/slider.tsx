@@ -33,7 +33,7 @@ export const Slider = ({ value = 0, onChange, max = 100 }: ISliderProps) => {
         max={max}
         value={sliderValue}
         onChange={handleChange}
-        className={`designSystemSliderRangeInput ${getBackgroundStyle}`}
+        className={`design-system__slider-range-input ${getBackgroundStyle}`}
         style={{ background: getBackgroundStyle }}
       />
       <div className='text-neutral-dark text-medium pl-2'>{sliderValue}%</div>
