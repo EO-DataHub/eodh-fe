@@ -8,4 +8,4 @@ export { Select } from './lib/select/select';
 export { Textarea } from './lib/textarea/textarea';
 export { TextInput } from './lib/input/text-input/text-input';
 export { AppLoader } from './lib/loader/app-loader/app-loader.component';
-export { DateInput } from './lib/input/date/date-input';
+export { DateInput } from './lib/input/date-input/date-input';
