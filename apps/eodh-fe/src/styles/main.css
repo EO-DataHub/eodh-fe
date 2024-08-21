@@ -7,6 +7,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --colors-primary-main: theme('colors.primary.main');
+  --colors-meutral-light: theme('colors.neutral.light');
+}
+
 body {
   font-family: 'Poppins', sans-serif;
 }
