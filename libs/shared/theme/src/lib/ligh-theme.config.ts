@@ -5,7 +5,7 @@ const colors = {
     DEFAULT: '#4483FF',
     main: '#4483FF',
     dark: '#2867E5',
-    light: '#90B5FF',
+    light: '#BED4FF',
     contrastText: '#FFFFFF',
   },
   bright: {
