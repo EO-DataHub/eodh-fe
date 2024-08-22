@@ -1,8 +1,10 @@
+import './date-input.css';
+
 import clsx from 'clsx';
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { textInputStyles } from './date-input.styles';
+import { Icon } from '../../icon/icon';
+import { dateInputStyles } from './date-input.styles';
 
 interface IDateInputProps {
   value?: string;
@@ -13,7 +15,6 @@ interface IDateInputProps {
 
 export const DateInput: React.FC<IDateInputProps> = ({ value, onChange, className, error }) => {
   const [inputValue, setInputValue] = useState(value || '');
-  const { t } = useTranslation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -24,9 +25,15 @@ export const DateInput: React.FC<IDateInputProps> = ({ value, onChange, classNam
 
   return (
     <div>
-      {error && <span className={textInputStyles.errorText}>{error}</span>}
-      <div className={clsx(textInputStyles.container, className)}>
-        <input type='date' className={textInputStyles.input(!!error)} value={inputValue} onChange={handleChange} />
+      {error && <span className={dateInputStyles.errorText}>{error}</span>}
+      <div className={clsx(dateInputStyles.container, className)}>
+        <input
+          type='date'
+          className={clsx('design-system__date-input', dateInputStyles.input(!!error))}
+          value={inputValue}
+          onChange={handleChange}
+        />
+        <Icon name='Calendar' width={24} height={24} className={dateInputStyles.icon} />
       </div>
     </div>
   );
