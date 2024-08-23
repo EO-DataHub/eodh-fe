@@ -4,7 +4,9 @@ import isString from 'lodash/isString';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
-type TReactNode = Exclude<ReactNode, string | Iterable<ReactNode>> | Iterable<Exclude<ReactNode, string | Iterable<ReactNode>>>;
+type TReactNode =
+  | Exclude<ReactNode, string | Iterable<ReactNode>>
+  | Iterable<Exclude<ReactNode, string | Iterable<ReactNode>>>;
 
 interface ITextProps {
   content: ParseKeys | TReactNode;
