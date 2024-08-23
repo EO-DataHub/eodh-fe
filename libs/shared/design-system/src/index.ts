@@ -13,3 +13,4 @@ export { Slider } from './lib/slider/slider';
 export { Tree } from './lib/tree/tree.component';
 export { TreeItem } from './lib/tree/tree-item.component';
 export { Spacing } from './lib/tree/spacing.component';
+export type { TSlots } from './lib/tree/tree.model';

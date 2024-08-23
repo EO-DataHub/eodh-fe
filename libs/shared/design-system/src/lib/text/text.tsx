@@ -1,12 +1,13 @@
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { TTranslation } from '@ukri/shared/utils/translate';
 import clsx from 'clsx';
+import { ParseKeys } from 'i18next';
 import isString from 'lodash/isString';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
+type TReactNode = Exclude<ReactNode, string | Iterable<ReactNode>> | Iterable<Exclude<ReactNode, string | Iterable<ReactNode>>>;
+
 interface ITextProps {
-  content: ReactNode | TTranslation;
+  content: ParseKeys | TReactNode;
   type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
   fontSize?: 'large' | 'medium' | 'small';
   fontWeight?: 'bold' | 'semibold' | 'regular';

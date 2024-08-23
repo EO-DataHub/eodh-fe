@@ -1,6 +1,6 @@
 import { TreeItem } from '@ukri/shared/design-system';
 
-import { SatelliteItem } from './components/satellite.component';
+import { SatelliteItem } from './components/satellite-item.component';
 
 export const PrivateData = () => {
   return (

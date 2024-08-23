@@ -4,20 +4,14 @@ import { TreeItems, TTreeTemplate } from './stories/render-tree-items.helper';
 import { Tree as TreeComponent } from './tree.component';
 
 const TreeTemplate: StoryObj<TTreeTemplate> = {
-  render: ({ icons, fontWeight, fontColor, level, collapsable }) => {
+  render: ({ icons, fontWeight, fontColor, level, expandable }) => {
     if (!level) {
       return <TreeComponent />;
     }
 
     return (
       <TreeComponent>
-        <TreeItems
-          icons={icons}
-          fontWeight={fontWeight}
-          fontColor={fontColor}
-          level={level}
-          collapsable={collapsable}
-        />
+        <TreeItems icons={icons} fontWeight={fontWeight} fontColor={fontColor} level={level} expandable={expandable} />
       </TreeComponent>
     );
   },
@@ -56,18 +50,17 @@ const meta: Meta<TTreeTemplate> = {
     },
     fontColor: {
       control: 'select',
-      description: 'Select font weight',
+      description: 'Select font color',
       options: ['primary', 'disabled', 'error', 'warning', 'success', 'information'],
     },
-    collapsable: {
+    expandable: {
       control: 'select',
-      description: 'Select font weight',
       options: [true, false],
     },
   },
   args: {
     icons: '0',
-    collapsable: true,
+    expandable: true,
   },
   parameters: {
     docs: {

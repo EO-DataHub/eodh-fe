@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
-import { TreeHeaderSimple } from './header.component';
-import { TreeContext } from './tree.component';
+import { HeaderSimple } from './header/header-simple.component';
+import { TreeContext, TreeProvider } from './tree.component';
 import { TSpacing } from './tree.model';
 
 export const getSpacingClassName = (spacing: TSpacing) => {
@@ -41,21 +41,21 @@ export const Spacing = ({ spacing = 2 }: { spacing?: TSpacing }) => {
 
   if (level === 0) {
     return (
-      <TreeContext.Provider value={{ level: level + 1, spacing }}>
+      <TreeProvider level={level + 1} spacing={spacing}>
         <div role='tree' aria-orientation='vertical'>
           <div role='group'>
-            <TreeHeaderSimple title={null} icon={null} />
+            <HeaderSimple title={null} slots={null} />
           </div>
         </div>
-      </TreeContext.Provider>
+      </TreeProvider>
     );
   }
 
   return (
-    <TreeContext.Provider value={{ level: level + 1, spacing }}>
+    <TreeProvider level={level + 1} spacing={spacing}>
       <div className='w-full overflow-hidden transition-[height] duration-300' role='group'>
-        <TreeHeaderSimple title={null} icon={null} />
+        <HeaderSimple title={null} slots={null} />
       </div>
-    </TreeContext.Provider>
+    </TreeProvider>
   );
 };

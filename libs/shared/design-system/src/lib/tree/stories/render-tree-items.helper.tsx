@@ -1,7 +1,9 @@
+import { ParseKeys } from 'i18next';
 import { memo } from 'react';
 
 import { Icon } from '../../icon/icon';
 import { Text } from '../../text/text';
+import { TSlotPosition, TSlots } from '../tree.model';
 import { TreeItem } from '../tree-item.component';
 
 export type TTreeTemplate = {
@@ -9,10 +11,10 @@ export type TTreeTemplate = {
   fontWeight: 'bold' | 'semibold' | 'regular';
   fontColor: 'primary' | 'disabled' | 'error' | 'warning' | 'success' | 'information';
   level?: number;
-  collapsable?: boolean;
+  expandable?: boolean;
 };
 
-const getIcons = (icons: string) => {
+const getIcons = (icons: string): TSlots | null => {
   if (!icons || icons === '0') {
     return null;
   }
@@ -20,7 +22,7 @@ const getIcons = (icons: string) => {
   const leftIconNumber = icons.split('+')[0];
   const rightIconNumber = icons.split('+')[1];
 
-  const getIconsForNumber = (iconsCount: string, position: 'before' | 'after') => {
+  const getIconsForNumber = (iconsCount: string, position: TSlotPosition) => {
     const count = parseInt(iconsCount);
     if (!iconsCount || iconsCount === '0' || Number.isNaN(count)) {
       return [];
@@ -28,26 +30,27 @@ const getIcons = (icons: string) => {
 
     return Array.from(new Array(count)).map((value, index) => ({
       position,
-      icon: <Icon name='Satellite' />,
+      element: <Icon name='Satellite' />,
       key: index,
     }));
   };
 
-  return [...getIconsForNumber(leftIconNumber, 'before'), ...getIconsForNumber(rightIconNumber, 'after')].filter(
-    (i) => !!i
-  );
+  return [
+    ...getIconsForNumber(leftIconNumber, 'title:before'),
+    ...getIconsForNumber(rightIconNumber, 'title:after'),
+  ].filter((i) => !!i);
 };
 
-const renderTitle = ({
+const Title = ({
   title,
   fontWeight,
   fontColor,
 }: Pick<TTreeTemplate, 'fontWeight' | 'fontColor'> & { title: string }) => {
   if (!fontWeight && !fontColor) {
-    return title;
+    return <>{title}</>;
   }
 
-  return <Text content={title} type='p' fontSize='medium' fontWeight={fontWeight} />;
+  return <Text content={title as ParseKeys} type='p' fontSize='medium' fontWeight={fontWeight} />;
 };
 
 const getFontColorClassName = ({ fontColor }: Pick<TTreeTemplate, 'fontColor'>) => {
@@ -96,7 +99,7 @@ export const TreeItems = memo(
     fontColor,
     level = 0,
     itemsCount = 3,
-    collapsable,
+    expandable,
   }: TTreeTemplate & { prefix?: string; itemsCount?: number; level?: number }) => {
     const icon = getIcons(icons);
     const elements = Array.from(new Array(itemsCount));
@@ -106,10 +109,10 @@ export const TreeItems = memo(
       return elements.map((i, index) => (
         <TreeItem
           key={index}
-          icon={icon}
-          collapsable={collapsable}
+          slots={icon}
+          expandable={expandable}
           className={className}
-          title={renderTitle({ title: `Item ${prefix}${index + 1}`, fontWeight, fontColor })}
+          title={<Title title={`Item ${prefix}${index + 1}`} fontWeight={fontWeight} fontColor={fontColor} />}
         >
           <TreeItems
             prefix={`${prefix}${index + 1}.`}
@@ -118,7 +121,7 @@ export const TreeItems = memo(
             fontColor={fontColor}
             itemsCount={itemsCount}
             level={level - 1}
-            collapsable={collapsable}
+            expandable={expandable}
           />
         </TreeItem>
       ));
@@ -127,10 +130,10 @@ export const TreeItems = memo(
     return elements.map((i, index) => (
       <TreeItem
         key={index}
-        icon={icon}
-        collapsable={collapsable}
+        slots={icon}
+        expandable={expandable}
         className={className}
-        title={renderTitle({ title: `Item ${prefix}${index + 1}`, fontWeight, fontColor })}
+        title={<Title title={`Item ${prefix}${index + 1}`} fontWeight={fontWeight} fontColor={fontColor} />}
       />
     ));
   }

@@ -1,5 +1,6 @@
-import { SatelliteItem } from '../components/satellite.component';
-import { SettingsItem, SettingsSection } from '../components/settings.component';
+import { SatelliteItem } from '../components/satellite-item.component';
+import { SettingsItem } from '../components/settings-item.component';
+import { SettingsSection } from '../components/settings-section.component';
 
 export const Sentinel1 = () => {
   return (

@@ -1,8 +1,8 @@
 import { Text } from '@ukri/shared/design-system';
-import { TTranslation } from '@ukri/shared/utils/translate';
+import { ParseKeys } from 'i18next';
 
 type TTile = {
-  title: TTranslation;
+  title: ParseKeys;
   className?: string;
   fontWeight?: 'bold' | 'regular';
 };
