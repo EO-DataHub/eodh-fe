@@ -36,7 +36,7 @@ export const DateInput: React.FC<IDateInputProps> = ({ value, onChange, classNam
           value={inputValue}
           onChange={handleChange}
         />
-        <Icon name='Calendar' width={24} height={24} className={dateInputStyles.icon} />
+        <Icon name='Calendar' width={16} height={16} className={dateInputStyles.icon} />
       </div>
     </div>
   );
