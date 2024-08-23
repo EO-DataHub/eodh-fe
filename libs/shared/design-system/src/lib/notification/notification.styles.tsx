@@ -1,5 +1,5 @@
 export const notificationStyles = {
-  container: 'rounded-lg p-7 mb-4 flex items-start shadow',
+  container: 'rounded-lg p-7 mb-4 flex items-start shadow relative',
   type: {
     error: 'bg-error text-error-contrastText',
     warning: 'bg-warning text-warning-contrastText',

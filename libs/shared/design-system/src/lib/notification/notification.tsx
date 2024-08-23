@@ -21,12 +21,14 @@ export const Notification = ({ type, children, className }: INotificationProps) 
   }
 
   return (
-    <div className={`${notificationStyles.container} ${notificationStyles.type[type]} ${className}`}>
-      <Icon name='Warning' />
-      <div className={notificationStyles.content}>{children}</div>
-      <button onClick={handleClose} className='absolute top-2 right-2'>
-        <Icon name='Close' />
-      </button>
+    <div className={className}>
+      <div className={`${notificationStyles.container} ${notificationStyles.type[type]}`}>
+        <Icon name='Warning' />
+        <div className={notificationStyles.content}>{children}</div>
+        <button onClick={handleClose} className='absolute top-2 right-2'>
+          <Icon name='Close' />
+        </button>
+      </div>
     </div>
   );
 };
