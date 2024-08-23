@@ -5,6 +5,12 @@ interface Resources {
         SELECT: {
           PLACEHOLDER: 'Select a function...';
         };
+        TEXTINPUT: {
+          PLACEHOLDER: 'Start typing...';
+        };
+        TEXTAREA: {
+          COUNTER: '{{currentLength}}/{{maxLength}} characters';
+        };
       };
       ERRORS: {
         VALIDATION: {
@@ -68,12 +74,14 @@ interface Resources {
             SETTINGS: {
               L1C: 'L1C';
               L2A: 'L2A (atmospherically corrected)';
+              MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
             };
           };
           SENTINEL_3: {
             NAME: 'Sentinel-3';
             SETTINGS: {
               SLSTR: 'SLSTR';
+              MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
               OLCI: 'OLCI';
             };
           };

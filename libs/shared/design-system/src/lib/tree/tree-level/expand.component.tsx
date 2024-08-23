@@ -20,7 +20,7 @@ export const Expand = ({ expanded, children, onClick, expandable = true }: TColl
   }, [expanded, onClick]);
 
   if (!expandable) {
-    return <div className={`flex items-center w-full cursor-default ${getSpacingClassName(spacing)}`}>{children}</div>;
+    return null;
   }
 
   return (
@@ -31,7 +31,7 @@ export const Expand = ({ expanded, children, onClick, expandable = true }: TColl
       aria-expanded='true'
       onClick={expand}
     >
-      <div className='flex items-center'>
+      <div className='flex items-center w-full'>
         <div className='size-6 flex justify-center items-center text-neutral-light'>
           {expanded && <ArrowDropDown />}
           {!expanded && <ArrowDropRight />}

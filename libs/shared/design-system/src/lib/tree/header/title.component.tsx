@@ -24,7 +24,7 @@ export const Title = memo(({ title, className = '', fontWeight }: TTileProps) =>
         type='p'
         fontSize='medium'
         fontWeight={fontWeight}
-        className={`text-neutral-dark ${className}`}
+        className={`text-neutral-dark text-left ${className}`}
       />
     </div>
   );

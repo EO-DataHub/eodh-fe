@@ -46,6 +46,10 @@ export const TreeLevel = ({ title, slots, children, className = '' }: TCollapsab
   return (
     <ul className={level !== 1 ? classNames.TreeLevel(className) : className}>
       <li tabIndex={0}>
+        <HeaderSimple title={title} slots={slots}>
+          {children}
+        </HeaderSimple>
+
         <Subtree
           title={title}
           slots={slots}
@@ -55,10 +59,6 @@ export const TreeLevel = ({ title, slots, children, className = '' }: TCollapsab
         >
           {children}
         </Subtree>
-
-        <HeaderSimple title={title} slots={slots}>
-          {children}
-        </HeaderSimple>
       </li>
     </ul>
   );

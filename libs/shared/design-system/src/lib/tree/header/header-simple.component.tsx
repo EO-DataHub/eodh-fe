@@ -20,9 +20,9 @@ const classNames = {
 };
 
 export const HeaderSimple = memo(({ title, slots, children }: THeaderSimpleProps) => {
-  const { spacing } = useContext(TreeContext);
+  const { spacing, expandable } = useContext(TreeContext);
 
-  if (children) {
+  if (expandable && children) {
     return null;
   }
 
