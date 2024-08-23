@@ -31,6 +31,7 @@
     "@date-io/date-fns": "3.0.0",
     "@fontsource/poppins": "5.0.14",
     "@tanstack/react-query": "5.50.1",
+    "axios": "1.7.4",
     "clsx": "2.1.1",
     "date-fns": "3.6.0",
     "i18next": "23.12.2",

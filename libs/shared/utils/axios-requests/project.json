@@ -1,0 +1,20 @@
+{
+  "name": "shared-utils-axios-requests",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/utils/axios-requests/src",
+  "projectType": "library",
+  "tags": ["type:shared/utils", "scope:shared"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../../../coverage/libs/shared/utils/axios-requests"
+      }
+    }
+  }
+}

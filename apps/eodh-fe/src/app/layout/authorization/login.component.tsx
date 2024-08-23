@@ -1,10 +1,11 @@
 import { useKeycloak } from '@react-keycloak/web';
 import clsx from 'clsx';
-import React from 'react';
 import { useEffect, useState } from 'react';
 
 import { LoginButton } from './login-button.component';
 import { LogoutButton } from './logout-button.component';
+import { PrivateData } from './private-api-call';
+import { PublicData } from './public-api-call';
 
 export const Login = ({ className }: { className: string }) => {
   const { keycloak, initialized } = useKeycloak();
@@ -19,6 +20,8 @@ export const Login = ({ className }: { className: string }) => {
 
   return (
     <div className={clsx('flex items-center', className)}>
+      <PublicData />
+      <PrivateData />
       <div id='login'>{isAuthenticated ? <LogoutButton /> : <LoginButton redirectUrl={currentUrl} />}</div>
     </div>
   );

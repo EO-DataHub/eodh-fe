@@ -1,6 +1,6 @@
 import { AoiLayer, DrawCircleButton, DrawPolygonButton, DrawRectangleButton } from '@ukri/map/ui-map';
 
-import { Login } from './login.component';
+import { Login } from './authorization/login.component';
 import { Logo } from './logo.component';
 
 export const TopBar = () => {

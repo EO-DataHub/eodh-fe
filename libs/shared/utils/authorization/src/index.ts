@@ -1,1 +1,1 @@
-export { KeycloakProviderWrapper, withKeycloakProvider } from './lib/keycloak-provider';
+export { KeycloakProviderWrapper } from './lib/keycloak-provider';

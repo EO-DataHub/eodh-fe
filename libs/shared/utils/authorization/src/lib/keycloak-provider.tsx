@@ -1,5 +1,5 @@
 import { ReactKeycloakProvider } from '@react-keycloak/web';
-import { StoryFn } from '@storybook/react';
+// import { StoryFn } from '@storybook/react';
 import React from 'react';
 
 import { initOptions, keycloak } from './keycloak';
@@ -37,20 +37,6 @@ export const KeycloakProviderWrapper = ({ keycloakConfig, children }: IKeycloakP
       onTokens={onKeycloakTokens}
     >
       {children}
-    </ReactKeycloakProvider>
-  );
-};
-
-export const withKeycloakProvider = (
-  keycloakConfig: IKeycloakConfig,
-  Story: StoryFn<React.ReactNode>,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  context: any
-) => {
-  const config = keycloak(keycloakConfig);
-  return (
-    <ReactKeycloakProvider authClient={config}>
-      <Story {...context} />
     </ReactKeycloakProvider>
   );
 };
