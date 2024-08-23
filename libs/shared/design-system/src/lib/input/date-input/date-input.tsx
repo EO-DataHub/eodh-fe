@@ -1,7 +1,7 @@
 import './date-input.css';
 
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Icon } from '../../icon/icon';
 import { dateInputStyles } from './date-input.styles';
@@ -16,12 +16,15 @@ interface IDateInputProps {
 export const DateInput: React.FC<IDateInputProps> = ({ value, onChange, className, error }) => {
   const [inputValue, setInputValue] = useState(value || '');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    if (onChange) {
-      onChange(e.target.value);
-    }
-  };
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(e.target.value);
+      if (onChange) {
+        onChange(e.target.value);
+      }
+    },
+    [onChange]
+  );
 
   return (
     <div>
