@@ -14,7 +14,7 @@ export const Title = memo(({ title, className = '', fontWeight }: TTileProps) =>
   }
 
   if (isValidElement(title)) {
-    return <div className='grow'>{title}</div>;
+    return <div className='grow text-left'>{title}</div>;
   }
 
   return (
