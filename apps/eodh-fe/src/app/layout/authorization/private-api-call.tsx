@@ -1,5 +1,5 @@
-import { useKeycloak } from '@react-keycloak/web';
 import { Button, Notification } from '@ukri/shared/design-system';
+import { useKeycloak } from '@ukri/shared/utils/authorization';
 import { getData, setAuthorizationHeader } from '@ukri/shared/utils/axios-requests';
 import { useState } from 'react';
 
@@ -8,18 +8,17 @@ export const PrivateData = () => {
     null
   );
   const { keycloak } = useKeycloak();
-  const [data, setData] = useState<unknown>(null);
   const privateDataPath = '/api/demo/execute';
 
   const onClick = async () => {
-    if (!keycloak.token) {
+    setNotificationMessage(null);
+    if (!keycloak || !keycloak.token) {
       setNotificationMessage({ type: 'error', content: 'No token found' });
     } else {
       try {
         setAuthorizationHeader(keycloak.token);
         const result = await getData(privateDataPath);
-        setData(result);
-        setNotificationMessage({ type: 'success', content: 'Data fetched successfully' });
+        setNotificationMessage({ type: 'success', content: `Data fetched successfully. ${result.message}` });
       } catch (error) {
         setNotificationMessage({ type: 'error', content: 'Error fetching data' });
       }

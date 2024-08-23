@@ -1,4 +1,5 @@
-import { useKeycloak } from '@react-keycloak/web';
+// import { useKeycloak } from '@react-keycloak/web';
+import { useKeycloak } from '@ukri/shared/utils/authorization';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
@@ -8,15 +9,15 @@ import { PrivateData } from './private-api-call';
 import { PublicData } from './public-api-call';
 
 export const Login = ({ className }: { className: string }) => {
-  const { keycloak, initialized } = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const currentUrl = window.location.href;
 
   useEffect(() => {
-    if (initialized) {
+    if (keycloak) {
       setIsAuthenticated(keycloak.authenticated ?? false);
     }
-  }, [keycloak, initialized]);
+  }, [keycloak]);
 
   return (
     <div className={clsx('flex items-center', className)}>

@@ -3,17 +3,16 @@ import { getData } from '@ukri/shared/utils/axios-requests';
 import { useState } from 'react';
 
 export const PublicData = () => {
-  const [data, setData] = useState<unknown>(null);
   const [notificationMessage, setNotificationMessage] = useState<{ type: 'error' | 'success'; content: string } | null>(
     null
   );
   const privateDataPath = '/api/demo/public';
 
   const onClick = async () => {
+    setNotificationMessage(null);
     try {
       const result = await getData(privateDataPath);
-      setData(result);
-      setNotificationMessage({ type: 'success', content: 'Data fetched successfully' });
+      setNotificationMessage({ type: 'success', content: `Data fetched successfully.  ${result.message}` });
     } catch (error) {
       setNotificationMessage({ type: 'error', content: 'Error fetching data' });
     }
