@@ -1,9 +1,37 @@
-import { DateInput } from '@ukri/shared/design-system';
-import { Text } from '@ukri/shared/design-system';
-import { useState } from 'react';
+import { Button, DateInput, Icon, Text } from '@ukri/shared/design-system';
+import { useCallback, useState } from 'react';
+
+type TDateString = `${number}-${number}-${number}`;
+
+const minDate = '1972-01-01';
 
 export const DateRangePicker = () => {
   const [isOpen, setIsOpen] = useState(true);
+
+  const [fromDate, setFromDate] = useState<TDateString | null>(null);
+  const [toDate, setToDate] = useState<TDateString | null>(null);
+
+  const today = new Date().toISOString().split('T')[0];
+
+  const handleFromDateChange = useCallback(
+    (date: TDateString) => {
+      setFromDate(date);
+      if (toDate && date > toDate) {
+        setToDate(null);
+      }
+    },
+    [toDate]
+  );
+
+  const handleToDateChange = useCallback(
+    (date: TDateString) => {
+      setToDate(date);
+      if (fromDate && date < fromDate) {
+        setFromDate(null);
+      }
+    },
+    [fromDate]
+  );
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -19,19 +47,48 @@ export const DateRangePicker = () => {
           fontWeight='bold'
           className='text-text'
         />
-        <span className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+        <Icon
+          name='ArrowDown'
+          width={24}
+          height={24}
+          className={`text-neutral-light transform transition-transform ${isOpen ? '' : 'rotate-180'}`}
+        />
       </div>
       {isOpen && (
         <div className='mt-4'>
-          <div className='mb-2'>
-            <label className='block text-gray-700'>Search from:</label>
-            <DateInput />
+          <div className='flex justify-between items-center mb-2'>
+            <Text
+              content='MAP.DATE_RANGE_PICKER.SEARCH_FROM'
+              type='h3'
+              fontSize='medium'
+              fontWeight='regular'
+              className='text-text-primary w-24'
+            />
+            <DateInput
+              className='w-60'
+              minDate={minDate}
+              maxDate={toDate || today}
+              value={fromDate}
+              onChange={handleFromDateChange}
+            />
           </div>
-          <div className='mb-4'>
-            <label className='block text-gray-700'>Search to:</label>
-            <DateInput />
+          <div className='flex justify-between items-center mb-4'>
+            <Text
+              content='MAP.DATE_RANGE_PICKER.SEARCH_TO'
+              type='h3'
+              fontSize='medium'
+              fontWeight='regular'
+              className='text-text-primary w-24'
+            />
+            <DateInput
+              className='w-60'
+              minDate={fromDate || minDate}
+              maxDate={today}
+              value={toDate}
+              onChange={handleToDateChange}
+            />
           </div>
-          <button className='w-full bg-gray-400 text-white py-2 rounded hover:bg-gray-500'>Search</button>
+          <Button text='Search' className='w-full flex justify-center' size='large' />
         </div>
       )}
     </div>

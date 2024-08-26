@@ -6,14 +6,18 @@ import React, { useCallback, useState } from 'react';
 import { Icon } from '../../icon/icon';
 import { dateInputStyles } from './date-input.styles';
 
+type TDateString = `${number}-${number}-${number}`;
+
 interface IDateInputProps {
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
   error?: string;
+  minDate?: TDateString;
+  maxDate?: TDateString;
 }
 
-export const DateInput: React.FC<IDateInputProps> = ({ value, onChange, className, error }) => {
+export const DateInput: React.FC<IDateInputProps> = ({ value, onChange, className, minDate, maxDate, error }) => {
   const [inputValue, setInputValue] = useState(value || '');
 
   const handleChange = useCallback(
@@ -27,7 +31,7 @@ export const DateInput: React.FC<IDateInputProps> = ({ value, onChange, classNam
   );
 
   return (
-    <div>
+    <div className=''>
       {error && <span className={dateInputStyles.errorText}>{error}</span>}
       <div className={clsx(dateInputStyles.container, className)}>
         <input
@@ -35,6 +39,8 @@ export const DateInput: React.FC<IDateInputProps> = ({ value, onChange, classNam
           className={clsx('design-system__date-input', dateInputStyles.input(!!error))}
           value={inputValue}
           onChange={handleChange}
+          min={minDate}
+          max={maxDate}
         />
         <Icon name='Calendar' width={16} height={16} className={dateInputStyles.icon} />
       </div>
