@@ -16,6 +16,7 @@ export const shadow = {
   'text-small': '0px 1px 0px #00000026',
   'slider-thumb': '0 0 0 3px #fff, 0px 4px 5px 0px #00000033',
   'slider-thumb-highlighted': '0 0 0 3px #fff, 0 0 0 6px #BED4FF, 0px 6px 5px 1px #00000033',
+  'data-range-picker': '0px -4px 10px 0px #0000001A',
 };
 
 export const spacing = {
