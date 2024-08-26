@@ -6,7 +6,3 @@ export const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-
-export const setAuthorizationHeader = (token: string) => {
-  apiClient.defaults.headers['Authorization'] = `Bearer ${token}`;
-};
