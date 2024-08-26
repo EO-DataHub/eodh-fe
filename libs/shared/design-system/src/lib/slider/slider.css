@@ -1,5 +1,5 @@
 .design-system__slider-range-input {
-  @apply w-full h-[3px] cursor-pointer outline-none appearance-none rounded bg-primary;
+  @apply w-full h-[3px] flex-1 cursor-pointer outline-none appearance-none rounded bg-primary;
 }
 
 .design-system__slider-range-input::-webkit-slider-thumb {

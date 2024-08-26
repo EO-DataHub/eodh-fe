@@ -26,7 +26,7 @@ export const Slider = ({ value = 0, onChange, max = 100 }: ISliderProps) => {
   }, [sliderValue, max]);
 
   return (
-    <div className='flex items-center'>
+    <div className='flex items-center py-[1px]'>
       <input
         type='range'
         min='0'
@@ -36,7 +36,7 @@ export const Slider = ({ value = 0, onChange, max = 100 }: ISliderProps) => {
         className={`design-system__slider-range-input ${getBackgroundStyle}`}
         style={{ background: getBackgroundStyle }}
       />
-      <div className='text-neutral-dark text-medium pl-2'>{sliderValue}%</div>
+      <div className='text-neutral-dark text-medium pl-2 w-12 text-right'>{sliderValue}%</div>
     </div>
   );
 };

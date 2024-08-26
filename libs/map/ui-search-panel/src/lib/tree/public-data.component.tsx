@@ -8,7 +8,7 @@ import { Sentinel5P } from './copernicus/sentinel-5p.component';
 
 export const PublicData = () => {
   return (
-    <TreeItem title='MAP.SEARCH_PANEL.PUBLIC' className='text-text-primary'>
+    <TreeItem title='MAP.SEARCH_PANEL.PUBLIC' expanded={true} className='text-text-primary'>
       <CategoryItem title='MAP.SEARCH_PANEL.COPERNICUS.NAME'>
         <Sentinel1 />
         <Sentinel2 />
