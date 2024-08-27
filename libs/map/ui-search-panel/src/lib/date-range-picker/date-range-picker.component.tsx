@@ -1,4 +1,4 @@
-import { Button, DateInput, Icon, Text } from '@ukri/shared/design-system';
+import { DateInput, Icon, Text } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
 import { styles } from './date-range-picker.styles';
@@ -71,7 +71,7 @@ export const DateRangePicker = () => {
               onChange={handleFromDateChange}
             />
           </div>
-          <div className={`${styles.row} ${styles.rowMarginTo}`}>
+          <div className={styles.row}>
             <Text
               content='MAP.DATE_RANGE_PICKER.SEARCH_TO'
               type='h3'

@@ -9,9 +9,9 @@ export const SearchPanel = () => {
       <div className='flex-1 overflow-y-auto'>
         <Tree />
       </div>
-      <div className='mt-auto'>
+      <div className='mt-auto shadow-data-range-picker p-4'>
         <DateRangePicker />
-        <Button text='Search' className='w-full flex justify-center m-4' size='large' />
+        <Button text='Search' className='w-full flex justify-center mt-0' size='large' />
       </div>
     </div>
   );
