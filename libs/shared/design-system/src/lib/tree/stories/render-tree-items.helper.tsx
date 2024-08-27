@@ -54,41 +54,16 @@ const Title = ({
 };
 
 const getFontColorClassName = ({ fontColor }: Pick<TTreeTemplate, 'fontColor'>) => {
-  let className = 'text-neutral-dark';
+  const fontColorClassMap: Record<string, string> = {
+    primary: 'text-primary',
+    disabled: 'text-text-disabled',
+    success: 'text-success',
+    information: 'text-information',
+    warning: 'text-warning',
+    error: 'text-error',
+  };
 
-  switch (fontColor) {
-    case 'primary': {
-      className = 'text-primary';
-      break;
-    }
-
-    case 'disabled': {
-      className = 'text-text-disabled';
-      break;
-    }
-
-    case 'success': {
-      className = 'text-success';
-      break;
-    }
-
-    case 'information': {
-      className = 'text-information';
-      break;
-    }
-
-    case 'warning': {
-      className = 'text-warning';
-      break;
-    }
-
-    case 'error': {
-      className = 'text-error';
-      break;
-    }
-  }
-
-  return className;
+  return fontColorClassMap[fontColor] || 'text-neutral-dark';
 };
 
 export const TreeItems = memo(
