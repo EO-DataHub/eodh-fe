@@ -4,6 +4,12 @@ import { expect, vi } from 'vitest';
 
 import App from './app.component';
 
+vi.mock('@ukri/shared/utils/authorization', () => ({
+  AuthProvider: vi.fn().mockImplementation(() => <div></div>),
+  AuthInterceptor: vi.fn(),
+  KeycloakAdapter: vi.fn(),
+}));
+
 vi.mock('@ukri/shared/utils/react-query', () => ({
   withQueryClient: vi
     .fn()
