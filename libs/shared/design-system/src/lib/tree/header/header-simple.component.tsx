@@ -16,7 +16,7 @@ const classNames = {
     `ms-4 ps-3 before:start-[-4px] relative before:absolute before:top-0 before:w-[1px] before:-ms-px before:h-full before:bg-bright-dark ${getSpacingClassName(
       spacing
     )}`,
-  wrapper: () => 'flex items-center gap-x-3',
+  wrapper:  'flex items-center gap-x-3',
 };
 
 export const HeaderSimple = memo(({ title, slots, children }: THeaderSimpleProps) => {
