@@ -8,6 +8,14 @@ interface IEnvConfig {
       fallbackLng: string;
       path: string;
     };
+    authorization: {
+      url: string;
+      realm: string;
+      clientId: string;
+    };
+    http: {
+      baseUrl: string;
+    };
   };
 }
 
@@ -31,6 +39,14 @@ export const getEnvConfig = (): IEnvConfig => ({
       language: getValue(import.meta.env.VITE_TRANSLATION_LANGUAGE_URL, 'en'),
       fallbackLng: getValue(import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE_URL, 'en'),
       path: `assets/i18n/{{lang}}.json`,
+    },
+    authorization: {
+      url: getValue(import.meta.env.VITE_AUTHORIZATION_URL, ''),
+      realm: getValue(import.meta.env.VITE_AUTHORIZATION_REALM, ''),
+      clientId: getValue(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, ''),
+    },
+    http: {
+      baseUrl: getValue(import.meta.env.VITE_API_BASE_URL, ''),
     },
   },
 });
