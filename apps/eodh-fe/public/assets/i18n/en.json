@@ -11,6 +11,10 @@
         "COUNTER": "{{currentLength}}/{{maxLength}} characters"
       }
     },
+    "LOGIN": {
+      "LOGIN_BUTTON": "Login",
+      "LOGOUT_BUTTON": "Logout"
+    },
     "ERRORS": {
       "VALIDATION": {
         "MIN": "Field value should be higher than {{min}}",
