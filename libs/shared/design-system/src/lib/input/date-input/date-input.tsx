@@ -6,15 +6,13 @@ import React, { useCallback, useState } from 'react';
 import { Icon } from '../../icon/icon';
 import { dateInputStyles } from './date-input.styles';
 
-type TDateString = `${number}-${number}-${number}`;
-
 interface IDateInputProps {
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
   error?: string;
-  minDate?: TDateString;
-  maxDate?: TDateString;
+  minDate?: string;
+  maxDate?: string;
 }
 
 export const DateInput: React.FC<IDateInputProps> = ({ value, onChange, className, minDate, maxDate, error }) => {
