@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 
 import { Icon } from '../../icon/icon';
 import { checkboxStyles, getSpanClassName } from './checkbox.styles';
@@ -13,16 +13,19 @@ interface ICheckboxProps {
   label?: string;
 }
 
-export const Checkbox = ({ id, initialChecked, disabled, onChange, label, name }: ICheckboxProps) => {
+export const Checkbox = ({ id, initialChecked = false, disabled, onChange, label, name }: ICheckboxProps) => {
   const [isChecked, setIsChecked] = useState(initialChecked);
   const spanClassName = getSpanClassName(isChecked, disabled);
 
-  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(!isChecked);
-    if (onChange) {
-      onChange(event.target.checked);
-    }
-  };
+  const handleCheckboxChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setIsChecked(!isChecked);
+      if (onChange) {
+        onChange(event.target.checked);
+      }
+    },
+    [isChecked, onChange]
+  );
 
   return (
     <label className={checkboxStyles.label}>
