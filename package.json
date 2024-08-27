@@ -24,7 +24,7 @@
     "create-lib": "nx g @spyrosoft/spyro-architecture-plugin:create-lib",
     "group": "nx g @spyrosoft/spyro-architecture-plugin:group",
     "translation:extract": "i18next --config apps/eodh-fe/i18next-parser.config.js",
-    "translation:type:generate": "i18next-resources-for-ts interface -i ./apps/eodh-fe/public/assets/i18n -o @types/resources.d.ts"
+    "translation:type:generate": "i18next-resources-for-ts interface -i ./apps/eodh-fe/public/assets/i18n -o @types/i18next/resources.d.ts"
   },
   "private": true,
   "dependencies": {

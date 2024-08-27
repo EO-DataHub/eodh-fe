@@ -1,3 +1,4 @@
+import { ParseKeys } from 'i18next';
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +13,7 @@ interface IOption {
 interface ISelectProps {
   options: IOption[];
   onChange: (option: IOption | null) => void;
-  placeholder?: string;
+  placeholder?: ParseKeys;
   error?: string;
 }
 

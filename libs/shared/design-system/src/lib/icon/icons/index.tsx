@@ -1,5 +1,6 @@
 export { default as ArrowDown } from './arrow-down';
-export { default as ArrowRight } from './arrow-right';
+export { default as ArrowDropRight } from './arrow-drop-right';
+export { default as ArrowDropDown } from './arrow-drop-down';
 export { default as Bolt } from './bolt';
 export { default as Calendar } from './calendar';
 export { default as Check } from './check';
@@ -10,3 +11,5 @@ export { default as Polygon } from './polygon';
 export { default as Remove } from './remove';
 export { default as Search } from './search';
 export { default as Square } from './square';
+export { default as Satellite } from './satellite';
+export { default as Settings } from './settings';

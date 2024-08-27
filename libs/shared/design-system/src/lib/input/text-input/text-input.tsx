@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { ParseKeys } from 'i18next';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +8,7 @@ import * as IconsNames from '../../icon/icons/index';
 import { textInputStyles } from './text-input.styles';
 
 interface ITextInputProps {
-  placeholder?: string;
+  placeholder?: ParseKeys;
   value?: string;
   onChange?: (value: string) => void;
   className?: string;

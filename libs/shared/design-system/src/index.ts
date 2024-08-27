@@ -10,3 +10,7 @@ export { TextInput } from './lib/input/text-input/text-input';
 export { AppLoader } from './lib/loader/app-loader/app-loader.component';
 export { DateInput } from './lib/input/date-input/date-input';
 export { Slider } from './lib/slider/slider';
+export { Tree } from './lib/tree/tree.component';
+export { TreeItem } from './lib/tree/tree-item.component';
+export { Spacing } from './lib/tree/spacing.component';
+export type { TSlots } from './lib/tree/tree.model';

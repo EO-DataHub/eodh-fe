@@ -49,7 +49,7 @@ const colors = {
   },
   neutral: {
     DEFAULT: '#686868',
-    light: '#4E4E4E',
+    light: '#A3A3A3',
     main: '#686868',
     dark: '#606060',
   },
