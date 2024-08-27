@@ -10,7 +10,6 @@ import { PublicData } from './public-api-call';
 export const Login = ({ className }: { className: string }) => {
   const { authenticated } = useAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const currentUrl = window.location.href;
 
   useEffect(() => {
     setIsAuthenticated(authenticated ?? false);
@@ -20,7 +19,7 @@ export const Login = ({ className }: { className: string }) => {
     <div className={clsx('flex items-center', className)}>
       <PublicData />
       <PrivateData />
-      <div id='login'>{isAuthenticated ? <LogoutButton /> : <LoginButton redirectUrl={currentUrl} />}</div>
+      <div id='login'>{isAuthenticated ? <LogoutButton /> : <LoginButton />}</div>
     </div>
   );
 };

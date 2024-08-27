@@ -8,6 +8,15 @@ vi.mock('@ukri/shared/utils/react-query', () => ({
   withQueryClient: vi
     .fn()
     .mockImplementation((Cmp: ComponentType<PropsWithChildren>) => (props: PropsWithChildren) => <Cmp {...props} />),
+  getHttpClient: vi.fn().mockImplementation(() => ({
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+    options: vi.fn(),
+    patch: vi.fn(),
+  })),
+  initHttpClient: vi.fn(),
 }));
 
 vi.mock('./layout/default-layout.component', () => ({

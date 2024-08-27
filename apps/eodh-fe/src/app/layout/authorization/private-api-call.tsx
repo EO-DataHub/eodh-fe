@@ -1,5 +1,5 @@
 import { Button, Notification } from '@ukri/shared/design-system';
-import { getData } from '@ukri/shared/utils/axios-requests';
+import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { useState } from 'react';
 
 export const PrivateData = () => {
@@ -11,7 +11,7 @@ export const PrivateData = () => {
   const onClick = async () => {
     setNotificationMessage(null);
     try {
-      const result = await getData(privateDataPath);
+      const result = await getHttpClient().get(privateDataPath);
       setNotificationMessage({ type: 'success', content: `Data fetched successfully. ${result.message}` });
     } catch (error) {
       setNotificationMessage({ type: 'error', content: 'Error fetching data' });
