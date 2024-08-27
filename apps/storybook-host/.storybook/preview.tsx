@@ -1,13 +1,19 @@
 import './main.css';
 
+import { AuthInterceptor, AuthProvider, KeycloakAdapter } from '@ukri/shared/utils/authorization';
+import { initHttpClient } from '@ukri/shared/utils/react-query';
 import { ComponentType, Suspense, useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
 
+import { getEnvConfig } from './config/env.config';
 import i18n from './config/i18n';
 
 interface IStorybookGlobalConfig {
   locale: 'en' | 'pl';
 }
+
+const keycloakAdapter = new KeycloakAdapter(getEnvConfig().module.authorization);
+initHttpClient(getEnvConfig().module.http, [new AuthInterceptor(keycloakAdapter)]);
 
 const WithI18next = (Story: ComponentType, context: { globals: IStorybookGlobalConfig }) => {
   const { locale } = context.globals;
@@ -17,11 +23,13 @@ const WithI18next = (Story: ComponentType, context: { globals: IStorybookGlobalC
   }, [locale]);
 
   return (
-    <Suspense fallback={<div>loading translations...</div>}>
-      <I18nextProvider i18n={i18n}>
-        <Story />
-      </I18nextProvider>
-    </Suspense>
+    <AuthProvider adapter={keycloakAdapter}>
+      <Suspense fallback={<div>loading translations...</div>}>
+        <I18nextProvider i18n={i18n}>
+          <Story />
+        </I18nextProvider>
+      </Suspense>
+    </AuthProvider>
   );
 };
 

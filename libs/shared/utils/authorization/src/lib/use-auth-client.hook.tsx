@@ -79,7 +79,7 @@ export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, auto
       onLoad: 'check-sso',
     };
 
-    authClient.onAuthSuccess(updateState('onReady'));
+    authClient.onReady(updateState('onReady'));
     authClient.onAuthSuccess(updateState('onAuthSuccess'));
     authClient.onAuthError(onError('onAuthError'));
     authClient.onAuthRefreshSuccess(updateState('onAuthRefreshSuccess'));
@@ -90,7 +90,7 @@ export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, auto
     authClient.init({ ...defaultInitOptions, ...initOptions }).catch(onError('onInitError'));
 
     return () => {
-      authClient.offAuthSuccess(updateState('onReady'));
+      authClient.offReady(updateState('onReady'));
       authClient.offAuthSuccess(updateState('onAuthSuccess'));
       authClient.offAuthError(onError('onAuthError'));
       authClient.offAuthRefreshSuccess(updateState('onAuthRefreshSuccess'));

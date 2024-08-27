@@ -39,6 +39,7 @@ export class KeycloakAdapter implements IAuthAdapter {
   }
 
   public init = (initOptions: KeycloakInitOptions): Promise<boolean> => {
+    // todo check if correct status is returned
     if (this.state.status !== 'idle') {
       return Promise.resolve(true);
     }

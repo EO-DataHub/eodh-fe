@@ -7,7 +7,7 @@ interface IEnvConfig {
       fallbackLng: string;
       path: string;
     };
-    authorisation: {
+    authorization: {
       url: string;
       realm: string;
       clientId: string;
@@ -37,10 +37,10 @@ export const getEnvConfig = (): IEnvConfig => ({
       fallbackLng: getValue(import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE_URL, 'en'),
       path: `assets/i18n/{{lang}}.json`,
     },
-    authorisation: {
-      url: getValue(import.meta.env.VITE_AUTHORISATION_URL, ''),
-      realm: getValue(import.meta.env.VITE_AUTHORISATION_REALM, ''),
-      clientId: getValue(import.meta.env.VITE_AUTHORISATION_CLIENT_ID, ''),
+    authorization: {
+      url: getValue(import.meta.env.VITE_AUTHORIZATION_URL, ''),
+      realm: getValue(import.meta.env.VITE_AUTHORIZATION_REALM, ''),
+      clientId: getValue(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, ''),
     },
     http: {
       baseUrl: getValue(import.meta.env.VITE_API_BASE_URL, ''),
