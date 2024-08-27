@@ -2,16 +2,23 @@ import { DateInput, Icon, Text } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
 import { styles } from './date-range-picker.styles';
+import useDateCalculations from './dates-calculations.hook';
 
-const minDate = '1972-01-01';
+interface IDateRangePickerProps {
+  minDate: string;
+  maxDate: string;
+}
 
-export const DateRangePicker = () => {
-  const today = new Date();
-  const formattedToday = today.toISOString().split('T')[0];
+const isDateAfterToDate = (date: string, toDate?: string) => {
+  return toDate && date > toDate;
+};
 
-  const oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(today.getMonth() - 1);
-  const formattedOneMonthAgo = oneMonthAgo.toISOString().split('T')[0];
+const isDateBeforeFromDate = (date: string, fromDate?: string) => {
+  return fromDate && date < fromDate;
+};
+
+export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => {
+  const { formattedToday, formattedOneMonthAgo } = useDateCalculations();
 
   const [isOpen, setIsOpen] = useState(true);
   const [fromDate, setFromDate] = useState<string | undefined>(formattedOneMonthAgo);
@@ -20,7 +27,7 @@ export const DateRangePicker = () => {
   const handleFromDateChange = useCallback(
     (date: string) => {
       setFromDate(date);
-      if (toDate && date > toDate) {
+      if (isDateAfterToDate(date, toDate)) {
         setToDate(undefined);
       }
     },
@@ -30,16 +37,16 @@ export const DateRangePicker = () => {
   const handleToDateChange = useCallback(
     (date: string) => {
       setToDate(date);
-      if (fromDate && date < fromDate) {
+      if (isDateBeforeFromDate(date, fromDate)) {
         setFromDate(undefined);
       }
     },
     [fromDate]
   );
 
-  const toggleOpen = () => {
+  const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);
-  };
+  }, [isOpen]);
 
   return (
     <div className={styles.container}>
@@ -66,7 +73,7 @@ export const DateRangePicker = () => {
             <DateInput
               className={styles.dateInput}
               minDate={minDate}
-              maxDate={toDate || formattedToday}
+              maxDate={toDate || maxDate}
               value={fromDate}
               onChange={handleFromDateChange}
             />
@@ -82,7 +89,7 @@ export const DateRangePicker = () => {
             <DateInput
               className={styles.dateInput}
               minDate={fromDate || minDate}
-              maxDate={formattedToday}
+              maxDate={maxDate}
               value={toDate}
               onChange={handleToDateChange}
             />
