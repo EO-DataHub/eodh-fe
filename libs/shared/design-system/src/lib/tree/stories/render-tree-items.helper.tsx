@@ -5,9 +5,10 @@ import { Icon } from '../../icon/icon';
 import { Text } from '../../text/text';
 import { TSlotPosition, TSlots } from '../tree.model';
 import { TreeItem } from '../tree-item.component';
+type TIconCount = `${0 | 1 | 2 | 3}${'' | '+0' | '+1' | '+2' | '+3'}`;
 
 export type TTreeTemplate = {
-  icons: string;
+  icons: TIconCount;
   fontWeight: 'bold' | 'semibold' | 'regular';
   fontColor: 'primary' | 'disabled' | 'error' | 'warning' | 'success' | 'information';
   level?: number;
