@@ -28,7 +28,7 @@ export const HeaderSimple = memo(({ title, slots, children }: THeaderSimpleProps
 
   return (
     <div className={classNames.container(spacing)}>
-      <div className={classNames.wrapper()}>
+      <div className={classNames.wrapper}>
         <Slots slots={slots} position='title:before' />
         <Title title={title} fontWeight='regular' />
         <Slots slots={slots} position='title:after' />
