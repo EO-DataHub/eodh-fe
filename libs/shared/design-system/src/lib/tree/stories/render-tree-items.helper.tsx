@@ -2,28 +2,11 @@ import { ParseKeys } from 'i18next';
 import { memo } from 'react';
 
 import { Icon } from '../../icon/icon';
-import * as IconsNames from '../../icon/icons';
 import { Text } from '../../text/text';
 import { TSlotPosition, TSlots } from '../tree.model';
 import { TreeItem } from '../tree-item.component';
 
-type TIconCount =
-  | '0'
-  | '0+1'
-  | '0+2'
-  | '0+3'
-  | '1+0'
-  | '1+1'
-  | '1+2'
-  | '1+3'
-  | '2+0'
-  | '2+1'
-  | '2+2'
-  | '2+3'
-  | '3+0'
-  | '3+1'
-  | '3+2'
-  | '3+3';
+type TIconCount = `${0 | 1 | 2 | 3}${'' | '+0' | '+1' | '+2' | '+3'}`;
 
 export type TTreeTemplate = {
   icons: TIconCount;

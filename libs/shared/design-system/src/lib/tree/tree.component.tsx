@@ -33,16 +33,26 @@ export const Tree = ({ children, spacing = 2 }: PropsWithChildren<{ spacing?: TS
   );
 };
 
+type TTreeProviderProps = PropsWithChildren<{
+  spacing?: TSpacing;
+  level: number;
+  expandable?: boolean;
+  expanded?: boolean;
+}>;
+
 export const TreeProvider = ({
   children,
   level,
   expandable = true,
-}: PropsWithChildren<{ spacing?: TSpacing; level: number; expandable?: boolean }>) => {
+  expanded: initiallyExpanded = false,
+}: TTreeProviderProps) => {
   const { spacing } = useContext(TreeRootContext);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(initiallyExpanded);
 
   useEffect(() => {
-    setExpanded(!expandable);
+    if (!expandable) {
+      setExpanded(!expandable);
+    }
   }, [expandable]);
 
   return (

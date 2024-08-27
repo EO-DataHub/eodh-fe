@@ -11,7 +11,7 @@ export const CategoryItem = ({ title, name, children }: TSatelliteItemProps) => 
   );
 
   return (
-    <TreeItem title={title} slots={slots}>
+    <TreeItem title={title} slots={slots} expanded={true}>
       {children}
     </TreeItem>
   );
