@@ -1,33 +1,35 @@
 import './slider.css';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 
 interface ISliderProps {
   value?: number;
-  onChange: (value: number) => void;
-  max?: number;
+  name: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  max?: number | string;
 }
 
-export const Slider = ({ value = 0, onChange, max = 100 }: ISliderProps) => {
+export const Slider = ({ name, value = 0, onChange, max = 100 }: ISliderProps) => {
   const [sliderValue, setSliderValue] = useState(value);
 
   const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: ChangeEvent<HTMLInputElement>) => {
       const value = Number(event.target.value);
       setSliderValue(value);
-      onChange(value);
+      onChange(event);
     },
     [onChange]
   );
 
   const getBackgroundStyle = useMemo(() => {
-    const progress = (sliderValue / max) * 100;
+    const progress = (sliderValue / parseInt(max?.toString())) * 100;
     return `linear-gradient(to right, var(--colors-primary-main) ${progress}%, var(--colors-meutral-light) ${progress}%)`;
   }, [sliderValue, max]);
 
   return (
     <div className='flex items-center py-[1px]'>
       <input
+        name={name}
         type='range'
         min='0'
         max={max}

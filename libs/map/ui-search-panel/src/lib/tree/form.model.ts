@@ -1,5 +1,6 @@
 export type TForm = {
   copernicus: {
+    enabled: boolean;
     sentinel1: {
       acquisitionMode: {
         ew: boolean;
@@ -26,7 +27,7 @@ export type TForm = {
     };
     sentinel5: {
       aer_ai: boolean;
-      ch4: number;
+      ch4: boolean;
       cloud: boolean;
       co: boolean;
       hcho: boolean;
@@ -34,5 +35,8 @@ export type TForm = {
       o3: boolean;
       so2: boolean;
     };
+  };
+  planet: {
+    enabled: boolean;
   };
 };
