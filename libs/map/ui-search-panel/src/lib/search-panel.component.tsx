@@ -9,7 +9,7 @@ const today = new Date();
 export const SearchPanel = () => {
   return (
     <div className='flex flex-col h-full'>
-      <div className='flex-1 overflow-y-auto'>
+      <div className='flex-1 overflow-y-auto pb-4'>
         <Tree />
       </div>
       <div className='mt-auto shadow-data-range-picker p-4'>
