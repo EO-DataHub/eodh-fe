@@ -5,6 +5,7 @@ import { Icon } from '../../icon/icon';
 import { Text } from '../../text/text';
 import { TSlotPosition, TSlots } from '../tree.model';
 import { TreeItem } from '../tree-item.component';
+
 type TIconCount = `${0 | 1 | 2 | 3}${'' | '+0' | '+1' | '+2' | '+3'}`;
 
 export type TTreeTemplate = {
@@ -15,7 +16,7 @@ export type TTreeTemplate = {
   expandable?: boolean;
 };
 
-const getIcons = (icons: string): TSlots | null => {
+const getIcons = (icons: TIconCount): TSlots | null => {
   if (!icons || icons === '0') {
     return null;
   }
@@ -55,16 +56,41 @@ const Title = ({
 };
 
 const getFontColorClassName = ({ fontColor }: Pick<TTreeTemplate, 'fontColor'>) => {
-  const fontColorClassMap: Record<string, string> = {
-    primary: 'text-primary',
-    disabled: 'text-text-disabled',
-    success: 'text-success',
-    information: 'text-information',
-    warning: 'text-warning',
-    error: 'text-error',
-  };
+  let className = 'text-neutral-dark';
 
-  return fontColorClassMap[fontColor] || 'text-neutral-dark';
+  switch (fontColor) {
+    case 'primary': {
+      className = 'text-primary';
+      break;
+    }
+
+    case 'disabled': {
+      className = 'text-text-disabled';
+      break;
+    }
+
+    case 'success': {
+      className = 'text-success';
+      break;
+    }
+
+    case 'information': {
+      className = 'text-information';
+      break;
+    }
+
+    case 'warning': {
+      className = 'text-warning';
+      break;
+    }
+
+    case 'error': {
+      className = 'text-error';
+      break;
+    }
+  }
+
+  return className;
 };
 
 export const TreeItems = memo(

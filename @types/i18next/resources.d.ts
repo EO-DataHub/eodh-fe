@@ -100,6 +100,12 @@ interface Resources {
           };
         };
       };
+      DATE_RANGE_PICKER: {
+        TITLE: 'Date range';
+        SEARCH_FROM: 'Search from:';
+        SEARCH_TO: 'Search to:';
+        SEARCH: 'Search';
+      };
     };
   };
 }
