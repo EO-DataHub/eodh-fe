@@ -6,7 +6,7 @@ const useDateCalculations = () => {
 
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(today.getMonth() - 1);
-    const formattedOneMonthAgo = oneMonthAgo
+    const formattedOneMonthAgo = oneMonthAgo;
 
     return { today, formattedOneMonthAgo };
   }, []);
