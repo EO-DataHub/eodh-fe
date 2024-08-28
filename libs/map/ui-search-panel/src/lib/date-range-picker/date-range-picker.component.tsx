@@ -5,27 +5,27 @@ import { styles } from './date-range-picker.styles';
 import useDateCalculations from './dates-calculations.hook';
 
 interface IDateRangePickerProps {
-  minDate: string;
-  maxDate: string;
+  minDate: Date;
+  maxDate: Date;
 }
 
-const isDateAfterToDate = (date: string, toDate?: string) => {
+const isDateAfterToDate = (date: Date, toDate?: Date) => {
   return toDate && date > toDate;
 };
 
-const isDateBeforeFromDate = (date: string, fromDate?: string) => {
+const isDateBeforeFromDate = (date: Date, fromDate?: Date) => {
   return fromDate && date < fromDate;
 };
 
 export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => {
-  const { formattedToday, formattedOneMonthAgo } = useDateCalculations();
+  const { today, formattedOneMonthAgo } = useDateCalculations();
 
   const [isOpen, setIsOpen] = useState(true);
-  const [fromDate, setFromDate] = useState<string | undefined>(formattedOneMonthAgo);
-  const [toDate, setToDate] = useState<string | undefined>(formattedToday);
+  const [fromDate, setFromDate] = useState<Date | undefined>(formattedOneMonthAgo);
+  const [toDate, setToDate] = useState<Date | undefined>(today);
 
   const handleFromDateChange = useCallback(
-    (date: string) => {
+    (date: Date) => {
       setFromDate(date);
       if (isDateAfterToDate(date, toDate)) {
         setToDate(undefined);
@@ -35,7 +35,7 @@ export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => 
   );
 
   const handleToDateChange = useCallback(
-    (date: string) => {
+    (date: Date) => {
       setToDate(date);
       if (isDateBeforeFromDate(date, fromDate)) {
         setFromDate(undefined);
