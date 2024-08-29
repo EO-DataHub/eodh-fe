@@ -15,7 +15,7 @@ import {
 
 interface IButtonProps {
   text: string;
-  appearance?: 'default' | 'outlined' | 'outlined-white';
+  appearance?: 'default' | 'outlined' | 'outlined-white' | 'text';
   size?: 'small' | 'medium' | 'large';
   onClick?: () => void;
   disabled?: boolean;
@@ -35,7 +35,7 @@ export const Button = ({
   onClick,
   disabled = false,
 }: IButtonProps) => {
-  const baseStyles = getBaseStyles(disabled);
+  const baseStyles = getBaseStyles(disabled, appearance);
   const displayStyles = getDisplayStyles();
   const shadowStyles = getShadowStyles(appearance);
   const appearanceStyles = getAppearanceStyles(appearance);
