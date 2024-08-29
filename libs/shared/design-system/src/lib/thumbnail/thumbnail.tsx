@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Button } from '../button/button';
 import { Icon, type TIconNames } from '../icon/icon';
 import { Text } from '../text/text';
-// import { thumbnailStyles } from './thumbnail.styles';
 
 interface IThumbnailInfoProps {
   name: string;
@@ -12,10 +11,10 @@ interface IThumbnailInfoProps {
 
 const ThumbnailInfo = ({ name, iconName }: IThumbnailInfoProps) => {
   return (
-    <p className='flex mb-1'>
+    <span className='flex mb-1'>
       <Icon name={iconName} width={16} height={16} className='mr-1.5' />
       <Text type='span' content={name} fontSize='medium' fontWeight='regular' />
-    </p>
+    </span>
   );
 };
 
