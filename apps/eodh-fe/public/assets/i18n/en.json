@@ -9,6 +9,12 @@
       },
       "TEXTAREA": {
         "COUNTER": "{{currentLength}}/{{maxLength}} characters"
+      },
+      "THUMBNAIL": {
+        "NO_IMAGE": "No image",
+        "BUTTON": "View",
+        "ADD_TO_COMPARE": "Add to compare",
+        "REMOVE_COMPARE": "Remove compare"
       }
     },
     "LOGIN": {

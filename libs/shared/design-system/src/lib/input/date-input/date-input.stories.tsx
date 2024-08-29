@@ -16,7 +16,7 @@ export const Default = {
 };
 
 const Template = () => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(new Date());
   return <DateInput value={value} onChange={(selectedValue) => setValue(selectedValue)} error='Validation error' />;
 };
 
