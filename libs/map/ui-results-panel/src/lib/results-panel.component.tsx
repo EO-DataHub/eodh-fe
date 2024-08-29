@@ -1,10 +1,10 @@
-import { Button } from '@ukri/shared/design-system';
+// import { Button } from '@ukri/shared/design-system';
 
-interface IResultsPanelProps {
-  results: any;
-  error: any;
-  loading: boolean;
-}
+// interface IResultsPanelProps {
+//   results: any;
+//   error: any;
+//   loading: boolean;
+// }
 
 export const ResultsPanel = () => {
   return (
