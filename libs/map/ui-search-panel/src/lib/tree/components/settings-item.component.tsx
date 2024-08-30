@@ -5,6 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { FieldPath, useFormContext } from 'react-hook-form';
 
 import { TForm } from '../form.model';
+import { Title } from './title.component';
 
 type TErrorProps = {
   name: FieldPath<TForm>;
@@ -25,28 +26,15 @@ const Error = ({ name }: TErrorProps) => {
   );
 };
 
-type TTitleProps = { title: ParseKeys; disabled?: boolean };
-
-const renderTitle = ({ title, disabled }: TTitleProps) => {
-  if (disabled) {
-    return (
-      <Text content={title} type='p' fontSize='medium' fontWeight='regular' className='text-neutral-light text-left' />
-    );
-  }
-
-  return title;
-};
-
 type TSettingsItemProps = { title: ParseKeys; name: FieldPath<TForm>; disabled?: boolean };
 
-export const SettingsItem = ({ title: itemTitle, name, disabled }: TSettingsItemProps) => {
+export const SettingsItem = ({ title, name, disabled }: TSettingsItemProps) => {
   const {
     register,
     trigger,
     formState: { errors },
   } = useFormContext<TForm>();
   const state = useMemo(() => (get(errors, name) ? 'error' : undefined), [errors, name]);
-  const title = useMemo(() => renderTitle({ title: itemTitle, disabled }), [disabled, itemTitle]);
 
   const validateFields = useCallback(() => {
     trigger();
@@ -56,7 +44,7 @@ export const SettingsItem = ({ title: itemTitle, name, disabled }: TSettingsItem
     <>
       <Error name={name} />
       <TreeItem
-        title={title}
+        title={<Title title={title} fontWeight='regular' disabled={disabled} />}
         slots={[
           {
             position: 'title:after',
