@@ -1,4 +1,4 @@
-import { ChangeEvent, ForwardedRef, forwardRef, useCallback, useState } from 'react';
+import { ChangeEvent, ForwardedRef, forwardRef, useCallback } from 'react';
 
 import { Icon } from '../../icon/icon';
 import { checkboxStyles, getSpanClassName } from './checkbox.styles';
@@ -6,29 +6,24 @@ import { checkboxStyles, getSpanClassName } from './checkbox.styles';
 interface ICheckboxProps {
   id?: string;
   name: string;
-  value?: string;
-  initialChecked?: boolean | undefined;
-  disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
+  state?: 'error' | null;
+  disabled?: boolean;
 }
 
 export const Checkbox = forwardRef(
-  (
-    { id, initialChecked = false, disabled, onChange, label, name, value }: ICheckboxProps,
-    ref: ForwardedRef<HTMLInputElement>
-  ) => {
-    const [isChecked, setIsChecked] = useState(initialChecked);
-    const spanClassName = getSpanClassName(isChecked, disabled);
+  ({ id, onChange, onBlur, label, name, state, disabled }: ICheckboxProps, ref: ForwardedRef<HTMLInputElement>) => {
+    const spanClassName = getSpanClassName();
 
     const handleCheckboxChange = useCallback(
       (event: ChangeEvent<HTMLInputElement>) => {
-        setIsChecked(!isChecked);
         if (onChange) {
           onChange(event);
         }
       },
-      [isChecked, onChange]
+      [onChange]
     );
 
     return (
@@ -36,17 +31,16 @@ export const Checkbox = forwardRef(
         <input
           ref={ref}
           type='checkbox'
-          className={checkboxStyles.input}
-          checked={isChecked}
-          onChange={handleCheckboxChange}
-          disabled={disabled}
-          value={value}
+          className={checkboxStyles.input(state)}
           id={id}
           name={name}
+          onBlur={onBlur}
+          onChange={handleCheckboxChange}
+          disabled={disabled}
         />
         <span className={spanClassName}>
-          {isChecked && !disabled && <Icon name='Check' />}
-          {disabled && <Icon name='Remove' />}
+          <Icon name='Check' />
+          <Icon name='Remove' />
         </span>
         <span className={checkboxStyles.text}>{label}</span>
       </label>

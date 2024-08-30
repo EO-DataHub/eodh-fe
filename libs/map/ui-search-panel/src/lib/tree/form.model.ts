@@ -2,6 +2,7 @@ export type TForm = {
   copernicus: {
     enabled: boolean;
     sentinel1: {
+      enabled: boolean;
       acquisitionMode: {
         ew: boolean;
         hh: boolean;
@@ -16,16 +17,19 @@ export type TForm = {
       };
     };
     sentinel2: {
+      enabled: boolean;
       l1c: boolean;
       l2a: boolean;
       cloudCoverage: number;
     };
     sentinel3: {
+      enabled: boolean;
       slstr: boolean;
       cloudCoverage: number;
       olci: boolean;
     };
     sentinel5: {
+      enabled: boolean;
       aer_ai: boolean;
       ch4: boolean;
       cloud: boolean;
@@ -38,5 +42,14 @@ export type TForm = {
   };
   planet: {
     enabled: boolean;
+    planetScope: {
+      enabled: boolean;
+    };
+    skySat: {
+      enabled: boolean;
+    };
+    rapidEye: {
+      enabled: boolean;
+    };
   };
 };
