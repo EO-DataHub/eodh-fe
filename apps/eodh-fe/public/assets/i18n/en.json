@@ -15,6 +15,9 @@
         "BUTTON": "View",
         "ADD_TO_COMPARE": "Add to compare",
         "REMOVE_COMPARE": "Remove compare"
+      },
+      "LOADER": {
+        "RESULTS_VIEW_LOADER": "Please wait, searching Data Sets"
       }
     },
     "LOGIN": {
