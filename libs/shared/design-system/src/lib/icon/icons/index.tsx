@@ -12,6 +12,7 @@ export { default as Polygon } from './polygon';
 export { default as Remove } from './remove';
 export { default as Search } from './search';
 export { default as Square } from './square';
+export { default as SatelliteAlt } from './satellite-alt';
 export { default as Satellite } from './satellite';
 export { default as Schedule } from './schedule';
 export { default as Settings } from './settings';

@@ -16,4 +16,4 @@ export { Spacing } from './lib/tree/spacing.component';
 export type { TSlots } from './lib/tree/tree.model';
 export { Notification } from './lib/notification/notification';
 export { ApiError } from './lib/api-error/api-error';
-export { Thumbnail } from './lib/thumbnail/thumbnail';
+export { Thumbnail, type IThumbnailProps } from './lib/thumbnail/thumbnail';

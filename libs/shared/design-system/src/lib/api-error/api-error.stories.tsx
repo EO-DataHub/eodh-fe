@@ -10,7 +10,7 @@ export default meta;
 
 export const SampleApiError = {
   args: {
-    iconName: 'Satellite',
+    iconName: null,
     title: 'Sorry, your search returned no results.',
     message:
       'Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets.',

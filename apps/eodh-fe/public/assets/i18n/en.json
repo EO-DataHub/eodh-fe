@@ -38,7 +38,18 @@
       },
       "API_ERROR": {
         "COMMON": "Something went wrong, please try again"
+      },
+      "SERVER_ERROR": {
+        "TITLE": "Server error",
+        "MESSAGE": "There was a problem retrieving your search results from the server. Please update your search parameters and try again."
+      },
+      "NO_RESULTS": {
+        "TITLE": " Sorry, your search returned  no results.",
+        "MESSAGE": " Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets."
       }
+    },
+    "NAVIGATION": {
+      "RETURN_TO_SERCH": "Return to the search menu"
     }
   },
   "MAP": {

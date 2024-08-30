@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { Button } from '../button/button';
 import { Icon, type TIconNames } from '../icon/icon';
@@ -18,7 +18,10 @@ const ThumbnailInfo = ({ name, iconName }: IThumbnailInfoProps) => {
   );
 };
 
-interface IThumbnailProps {
+// Added for now, to be rempved in the foture once we will work on comparison functionality
+const hideCompareButton = 'opacity-0 pointer-events-none';
+
+export interface IThumbnailProps {
   imageUrl: string;
   collectionName: string;
   date: string;
@@ -28,8 +31,9 @@ interface IThumbnailProps {
   onSelected?: () => void;
   selected?: boolean;
   addedForComparison?: boolean;
-  onAddToCompare?: () => void;
-  onRemoveFromCompare?: () => void;
+  onAddToCompare: () => void;
+  onRemoveFromCompare: () => void;
+  className?: string;
 }
 
 export const Thumbnail = ({
@@ -41,24 +45,36 @@ export const Thumbnail = ({
   gridCode,
   selected,
   onSelected,
-  addedForComparison,
+  addedForComparison = false,
   onAddToCompare,
   onRemoveFromCompare,
+  className,
 }: IThumbnailProps) => {
   const [isSelected, setIsSelected] = useState(false);
+  const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
 
-  const handleSelectItem = () => {
+  const handleSelectItem = useCallback(() => {
     setIsSelected(!isSelected);
     if (onSelected) {
       onSelected();
     }
-  };
+  }, [isSelected, onSelected]);
+
+  const handleCompareClick = useCallback(() => {
+    if (isAddedForComparison === false && onAddToCompare) {
+      setIsAddedForComparison(true);
+      onAddToCompare();
+    } else if (isAddedForComparison === true && onRemoveFromCompare) {
+      setIsAddedForComparison(false);
+      onRemoveFromCompare();
+    }
+  }, [onAddToCompare, isAddedForComparison, onRemoveFromCompare]);
 
   return (
     <div
       className={`flex bg-bright-light p-4 rounded-md max-w-96 border-[3px] ${
         selected ? ' border-primary' : 'border-transparent'
-      }`}
+      } ${className}`}
     >
       <img
         src={imageUrl}
@@ -75,22 +91,17 @@ export const Thumbnail = ({
           {gridCode && <ThumbnailInfo name={gridCode} iconName='Map' />}
         </div>
         <div className='flex justify-between mt-auto'>
-          {addedForComparison ? (
-            <Button
-              appearance='text'
-              text='GLOBAL.DESIGN_SYSTEM.THUMBNAIL.REMOVE_COMPARE'
-              size='medium'
-              onClick={onRemoveFromCompare}
-              className='!text-error'
-            />
-          ) : (
-            <Button
-              appearance='text'
-              text='GLOBAL.DESIGN_SYSTEM.THUMBNAIL.ADD_TO_COMPARE'
-              size='medium'
-              onClick={onAddToCompare}
-            />
-          )}
+          <Button
+            appearance='text'
+            text={
+              isAddedForComparison
+                ? 'GLOBAL.DESIGN_SYSTEM.THUMBNAIL.REMOVE_COMPARE'
+                : 'GLOBAL.DESIGN_SYSTEM.THUMBNAIL.ADD_TO_COMPARE'
+            }
+            size='medium'
+            onClick={handleCompareClick}
+            className={`${hideCompareButton} ${isAddedForComparison ? '!text-error' : ''}`}
+          />
           <Button text='GLOBAL.DESIGN_SYSTEM.THUMBNAIL.BUTTON' size='small' onClick={handleSelectItem} />
         </div>
       </div>
