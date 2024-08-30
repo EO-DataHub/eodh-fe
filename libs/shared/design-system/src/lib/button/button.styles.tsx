@@ -10,7 +10,7 @@ export const getShadowStyles = (appearance: 'default' | 'outlined' | 'outlined-w
     default: 'shadow',
     outlined: '',
     'outlined-white': '',
-    text: '', // TODO
+    text: '',
   };
   return shadowStyles[appearance];
 };
@@ -22,7 +22,7 @@ export const getAppearanceStyles = (appearance: 'default' | 'outlined' | 'outlin
       'border border-primary hover:border-primary-light active:border-primary-light focus:border-primary-light text-primary',
     'outlined-white':
       'border border-primary-contrastText hover:border-primary-light active:border-primary-light focus:border-primary-light text-primary-contrastText',
-    text: 'text-primary underline active:text-primary-light', // TODO
+    text: 'text-primary underline active:text-primary-light',
   };
   return appearanceStyles[appearance];
 };
@@ -54,7 +54,7 @@ export const getDisabledStyles = (
     outlined: disabled && 'border-text-disabled text-text-disabled hover:border-text-disabled cursor-not-allowed',
     'outlined-white':
       disabled && 'border-text-disabled text-text-disabled hover:border-text-disabled cursor-not-allowed',
-    text: disabled && 'text-text-disabled cursor-not-allowed', // TODO
+    text: disabled && 'text-text-disabled cursor-not-allowed',
   };
   return disabledStyles[appearance];
 };
