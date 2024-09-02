@@ -43,6 +43,9 @@
   },
   "MAP": {
     "SEARCH_PANEL": {
+      "VALIDATION": {
+        "ONE_OF_FIELDS_REQUIRED": "You must select at least one of the following options"
+      },
       "PRIVATE": "Private",
       "PUBLIC": "Public",
       "PLANET": {

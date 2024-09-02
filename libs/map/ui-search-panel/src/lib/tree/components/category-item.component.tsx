@@ -1,13 +1,23 @@
 import { Checkbox, TreeItem, TSlots } from '@ukri/shared/design-system';
 import { ParseKeys } from 'i18next';
-import { PropsWithChildren, useMemo } from 'react';
+import { ChangeEvent, PropsWithChildren, useMemo } from 'react';
+import { FieldPath, useFormContext } from 'react-hook-form';
 
-type TSatelliteItemProps = PropsWithChildren<{ title: ParseKeys; name?: string }>;
+import { TForm } from '../form.model';
 
-export const CategoryItem = ({ title, name, children }: TSatelliteItemProps) => {
+type TSatelliteItemProps = PropsWithChildren<{
+  title: ParseKeys;
+  name: FieldPath<TForm>;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}>;
+
+export const CategoryItem = ({ title, name, children, onChange }: TSatelliteItemProps) => {
+  const { register } = useFormContext<TForm>();
   const slots = useMemo(
-    (): TSlots => [{ position: 'title:after', element: <Checkbox name={name ? name : title} />, key: 'checkbox' }],
-    [title, name]
+    (): TSlots => [
+      { position: 'title:after', element: <Checkbox {...register(name)} onChange={onChange} />, key: 'checkbox' },
+    ],
+    [register, name, onChange]
   );
 
   return (

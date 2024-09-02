@@ -6,14 +6,38 @@ import { TreeContext } from '../tree.component';
 import { TTree } from '../tree.model';
 import { Expand } from './expand.component';
 
-type TCollapsableTreeLevel = TTree & { expanded?: boolean };
-type TSubtreeProps = TTree & { expanded?: boolean; onExpand: (expanded: boolean) => void };
-
 const classNames = {
   Subtree: () =>
     'ps-7 before:start-3 relative before:absolute before:top-0 before:w-[1px] before:-ms-px before:h-full before:bg-bright-dark',
   TreeLevel: (className: string) => `w-full overflow-hidden transition-[height] duration-300 ${className}`,
 };
+
+type TExpandHeaderProps = TTree & { expanded?: boolean; onExpand: (expanded: boolean) => void };
+
+const ExpandHeader = ({ title, slots, expanded, onExpand }: TExpandHeaderProps) => {
+  const { expandable } = useContext(TreeContext);
+
+  const expand = useCallback(() => {
+    onExpand(!expanded);
+  }, [expanded, onExpand]);
+
+  if (!slots) {
+    return (
+      <Expand expanded={expanded} onClick={onExpand} expandable={expandable} className='w-full'>
+        <Header title={title} />
+      </Expand>
+    );
+  }
+
+  return (
+    <div className='flex w-full items-center justify-between'>
+      <Expand expanded={expanded} onClick={onExpand} expandable={expandable} className='w-auto' />
+      <Header title={title} slots={slots} onClick={expand} />
+    </div>
+  );
+};
+
+type TSubtreeProps = TTree & { expanded?: boolean; onExpand: (expanded: boolean) => void };
 
 export const Subtree = ({ title, slots, children, expanded, className = '', onExpand }: TSubtreeProps) => {
   const { expandable } = useContext(TreeContext);
@@ -24,16 +48,16 @@ export const Subtree = ({ title, slots, children, expanded, className = '', onEx
 
   return (
     <span className={`block ${className}`}>
-      <Expand expanded={expanded} onClick={onExpand} expandable={expandable}>
-        <Header title={title} slots={slots} />
-      </Expand>
+      <ExpandHeader expanded={expanded} expandable={expandable} slots={slots} title={title} onExpand={onExpand} />
 
       {!!expanded && children}
     </span>
   );
 };
 
-export const TreeLevel = ({ title, slots, children, className = '' }: TCollapsableTreeLevel) => {
+type TCollapsableTreeLevelProps = TTree & { expanded?: boolean };
+
+export const TreeLevel = ({ title, slots, children, className = '' }: TCollapsableTreeLevelProps) => {
   const { level, expanded, setExpanded } = useContext(TreeContext);
 
   const toggle = useCallback(
