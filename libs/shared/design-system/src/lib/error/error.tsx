@@ -1,23 +1,25 @@
+import { ParseKeys } from 'i18next';
+
 import { Button } from '../button/button';
 import { Icon, type TIconNames } from '../icon/icon';
 import { Text } from '../text/text';
 
-interface IApiErrorProps {
+interface IErrorProps {
   iconName?: TIconNames | null;
   title: string;
   message: string;
-  buttonText?: string;
-  buttonOnClick?: () => void;
+  ctaText?: ParseKeys;
+  ctaOnClick?: () => void;
 }
 
-export const ApiError = ({ iconName, title, message, buttonText, buttonOnClick }: IApiErrorProps) => {
+export const Error = ({ iconName, title, message, ctaText, ctaOnClick }: IErrorProps) => {
   return (
     <div className='text-text text-center p-4'>
       {iconName && <Icon name={iconName} width={48} height={48} className='mr-1.5 mb-4' />}
       <Text type='h1' fontSize='large' fontWeight='bold' content={title} className='mb-4' />
       <Text type='h2' content={message} fontSize='medium' fontWeight='regular' className='mb-4' />
-      {buttonText && buttonOnClick && (
-        <Button text={buttonText} onClick={buttonOnClick} appearance='text' className='mx-auto font-normal' />
+      {ctaText && ctaOnClick && (
+        <Button text={ctaText} onClick={ctaOnClick} appearance='text' className='mx-auto font-normal' />
       )}
     </div>
   );

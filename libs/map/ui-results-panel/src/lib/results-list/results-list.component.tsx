@@ -1,5 +1,5 @@
 import { type IThumbnailProps, Thumbnail } from '@ukri/shared/design-system';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export interface IResultsListProps {
   results: IThumbnailProps[];
@@ -8,9 +8,10 @@ export interface IResultsListProps {
 export const ResultsList = ({ results }: IResultsListProps) => {
   const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState<number | null>(null);
 
-  const handleThumbnailSelect = (index: number) => {
+  // add callback to below function
+  const handleThumbnailSelect = useCallback((index: number) => {
     setSelectedThumbnailIndex(index);
-  };
+  }, []);
 
   return (
     <div className='thumbnail-list'>
@@ -21,7 +22,7 @@ export const ResultsList = ({ results }: IResultsListProps) => {
           {...thumbnail}
           selected={selectedThumbnailIndex === index}
           onSelected={() => handleThumbnailSelect(index)}
-          // actual functions to be added in future
+          // TODO actual functions to be added in future
           onAddToCompare={() => {
             return;
           }}

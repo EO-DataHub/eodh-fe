@@ -45,7 +45,7 @@
       },
       "NO_RESULTS": {
         "TITLE": " Sorry, your search returned  no results.",
-        "MESSAGE": " Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets."
+        "MESSAGE": "Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets."
       }
     },
     "NAVIGATION": {
