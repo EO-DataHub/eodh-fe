@@ -20,7 +20,7 @@ export const defaultValues: TForm = {
     },
     sentinel2: {
       enabled: false,
-      l1c: true,
+      l1c: false,
       l2a: true,
       cloudCoverage: 100,
     },

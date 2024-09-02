@@ -1,9 +1,10 @@
 import { Checkbox, Icon, TreeItem, TSlots } from '@ukri/shared/design-system';
 import { ParseKeys } from 'i18next';
-import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
-import { FieldPath, useFormContext, useWatch } from 'react-hook-form';
+import { PropsWithChildren, useCallback, useContext, useEffect, useMemo } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 import { TForm } from '../form.model';
+import { TreeSettings, TTreeSettings } from '../tree.context';
 import { SettingsTree } from './settings-tree.component';
 import { Title } from './title.component';
 
@@ -35,22 +36,23 @@ const SettingsButton = ({ value, disabled, onClick, children }: TSettingsButtonP
   );
 };
 
-type TSatelliteItemProps = PropsWithChildren<{ title: ParseKeys; name: FieldPath<TForm> }>;
+type TSatelliteItemProps = PropsWithChildren<{ title: ParseKeys; name: keyof TTreeSettings }>;
 
 export const SatelliteItem = ({ title, name, children }: TSatelliteItemProps) => {
-  const [showSettings, setShowSettings] = useState(false);
+  const { settings, changeSettings } = useContext(TreeSettings);
   const { register } = useFormContext<TForm>();
   const enabled = useWatch<TForm>({ name });
+  const currentSettings = useMemo(() => settings[name], [settings, name]);
 
   const toggleSettings = useCallback(() => {
-    setShowSettings((value) => !value);
-  }, []);
+    changeSettings((currentSettings) => ({ ...currentSettings, [name]: !currentSettings[name] }));
+  }, [changeSettings, name]);
 
   useEffect(() => {
     if (!enabled) {
-      setShowSettings(false);
+      changeSettings((currentSettings) => ({ ...currentSettings, [name]: false }));
     }
-  }, [enabled]);
+  }, [changeSettings, enabled, name]);
 
   const slots = useMemo(
     (): TSlots => [
@@ -62,7 +64,7 @@ export const SatelliteItem = ({ title, name, children }: TSatelliteItemProps) =>
       {
         position: 'title:after',
         element: (
-          <SettingsButton value={showSettings} onClick={toggleSettings} disabled={!enabled}>
+          <SettingsButton value={currentSettings} onClick={toggleSettings} disabled={!enabled}>
             {children}
           </SettingsButton>
         ),
@@ -70,12 +72,12 @@ export const SatelliteItem = ({ title, name, children }: TSatelliteItemProps) =>
       },
       { position: 'title:after', element: <Checkbox {...register(name)} />, key: 'checkbox' },
     ],
-    [enabled, children, name, register, showSettings, toggleSettings]
+    [currentSettings, toggleSettings, enabled, children, register, name]
   );
 
   return (
     <TreeItem title={<Title title={title} fontWeight='regular' />} slots={slots} expandable={false}>
-      {showSettings && <SettingsTree>{children}</SettingsTree>}
+      {currentSettings && <SettingsTree>{children}</SettingsTree>}
     </TreeItem>
   );
 };
