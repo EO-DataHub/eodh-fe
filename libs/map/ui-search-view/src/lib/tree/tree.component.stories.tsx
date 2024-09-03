@@ -52,7 +52,7 @@ const TreeTemplate: StoryObj<TTreeTemplate> = {
 
 const meta: Meta<TTreeTemplate> = {
   component: TreeTemplate.render,
-  title: 'libs/map/ui-search-panel/Tree',
+  title: 'libs/map/ui-search-view/Tree',
 };
 export default meta;
 
