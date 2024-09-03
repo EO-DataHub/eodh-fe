@@ -23,31 +23,34 @@ type TResultsStateProps =
 type TResultsPanelProps = TResultsStateProps & IBaseResultsPanelProps;
 
 export const ResultsPanel = (props: TResultsPanelProps) => {
-  if (props.status === 'success') {
-    if (props.data.length === 0) {
+  switch (props.status) {
+    case 'success':
+      if (props.data.length === 0) {
+        return (
+          <Error
+            iconName='SatelliteAlt'
+            title='GLOBAL.ERRORS.NO_RESULTS.TITLE'
+            message='GLOBAL.ERRORS.NO_RESULTS.MESSAGE'
+            ctaText='GLOBAL.NAVIGATION.RETURN_TO_SERCH'
+            ctaOnClick={props.onBack}
+          />
+        );
+      }
+      return <ResultsList results={props.data} />;
+
+    case 'error':
       return (
         <Error
-          iconName='SatelliteAlt'
-          title='GLOBAL.ERRORS.NO_RESULTS.TITLE'
-          message='GLOBAL.ERRORS.NO_RESULTS.MESSAGE'
+          title='GLOBAL.ERRORS.SERVER_ERROR.TITLE'
+          message='GLOBAL.ERRORS.SERVER_ERROR.MESSAGE'
           ctaText='GLOBAL.NAVIGATION.RETURN_TO_SERCH'
           ctaOnClick={props.onBack}
         />
       );
-    }
-    return <ResultsList results={props.data} />;
-  }
 
-  if (props.status === 'error') {
-    return (
-      <Error
-        title='GLOBAL.ERRORS.SERVER_ERROR.TITLE'
-        message='GLOBAL.ERRORS.SERVER_ERROR.MESSAGE'
-        ctaText='GLOBAL.NAVIGATION.RETURN_TO_SERCH'
-        ctaOnClick={props.onBack}
-      />
-    );
+    case 'loading':
+    case 'idle':
+    default:
+      return <ResultsViewLoader />;
   }
-
-  return <ResultsViewLoader />;
 };
