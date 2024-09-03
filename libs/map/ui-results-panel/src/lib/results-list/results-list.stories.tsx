@@ -12,7 +12,6 @@ const singleElementMock = {
   cloudCoverage: '39.5%',
   gridCode: '33TTG',
   addedForComparison: false,
-  selected: true,
 };
 
 const meta: Meta<typeof ResultsList> = {

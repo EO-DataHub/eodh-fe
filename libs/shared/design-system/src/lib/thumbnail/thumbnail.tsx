@@ -18,7 +18,7 @@ const ThumbnailInfo = ({ name, iconName }: IThumbnailInfoProps) => {
   );
 };
 
-// TODO: to be rempved in the future once we will work on comparison functionality
+// TODO: to be removed in the future, once we will work on comparison functionality
 const hideCompareButton = 'opacity-0 pointer-events-none';
 
 export interface IThumbnailProps {
@@ -30,10 +30,11 @@ export interface IThumbnailProps {
   gridCode?: string;
   onSelected?: () => void;
   selected?: boolean;
-  addedForComparison?: boolean;
+  className?: string;
+  id: string | number;
+  addedForComparison: boolean;
   onAddToCompare: () => void;
   onRemoveFromCompare: () => void;
-  className?: string;
 }
 
 export const Thumbnail = ({
@@ -45,12 +46,12 @@ export const Thumbnail = ({
   gridCode,
   selected,
   onSelected,
-  addedForComparison = false,
+  className,
+  addedForComparison,
   onAddToCompare,
   onRemoveFromCompare,
-  className,
 }: IThumbnailProps) => {
-  const [isSelected, setIsSelected] = useState(false);
+  const [isSelected, setIsSelected] = useState(selected);
   const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
 
   const handleSelectItem = useCallback(() => {

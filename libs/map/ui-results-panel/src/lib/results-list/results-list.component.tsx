@@ -6,21 +6,21 @@ export interface IResultsListProps {
 }
 
 export const ResultsList = ({ results }: IResultsListProps) => {
-  const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState<number | null>(null);
+  const [selectedThumbnailId, setSelectedThumbnailId] = useState<number | string | null>(null);
 
-  const handleThumbnailSelect = useCallback((index: number) => {
-    setSelectedThumbnailIndex(index);
+  const handleThumbnailSelect = useCallback((thumbnailId: number | string) => {
+    setSelectedThumbnailId(thumbnailId);
   }, []);
 
   return (
-    <div className='thumbnail-list'>
+    <div>
       {results.map((thumbnail, index) => (
         <Thumbnail
           className='mb-4'
           key={index}
           {...thumbnail}
-          selected={selectedThumbnailIndex === index}
-          onSelected={() => handleThumbnailSelect(index)}
+          selected={selectedThumbnailId === thumbnail.id}
+          onSelected={() => handleThumbnailSelect(thumbnail.id)}
           // TODO actual functions to be added in future
           onAddToCompare={() => {
             return;

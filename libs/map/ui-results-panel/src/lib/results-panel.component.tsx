@@ -24,7 +24,7 @@ type TResultsPanelProps = TResultsStateProps & IBaseResultsPanelProps;
 
 export const ResultsPanel = (props: TResultsPanelProps) => {
   switch (props.status) {
-    case 'success':
+    case 'success': {
       if (props.data.length === 0) {
         return (
           <Error
@@ -37,8 +37,8 @@ export const ResultsPanel = (props: TResultsPanelProps) => {
         );
       }
       return <ResultsList results={props.data} />;
-
-    case 'error':
+    }
+    case 'error': {
       return (
         <Error
           title='GLOBAL.ERRORS.SERVER_ERROR.TITLE'
@@ -47,10 +47,11 @@ export const ResultsPanel = (props: TResultsPanelProps) => {
           ctaOnClick={props.onBack}
         />
       );
-
+    }
     case 'loading':
     case 'idle':
-    default:
+    default: {
       return <ResultsViewLoader />;
+    }
   }
 };
