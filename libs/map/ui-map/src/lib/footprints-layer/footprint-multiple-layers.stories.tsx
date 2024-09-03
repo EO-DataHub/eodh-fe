@@ -5,16 +5,18 @@ import { useState } from 'react';
 
 import { Map, MapWrapper } from '../map.component';
 import { IFeatureCollection } from './geo-json.type';
-import geoJsonData2 from './mock2.json';
-import geoJsonData1 from './mockedSampleResponse.json';
-import geoJsonData3 from './superLongMock.json';
-import { useGeoJsonLayer } from './use-footprint-layer.hook';
+import geoJsonData1_sentinel1_1 from './mockedSampleResponse_sentinel1_1.json';
+import geoJsonData1_sentinel1_2 from './mockedSampleResponse_sentinel1_2.json';
+import geoJsonData1_sentinel2_1 from './mockedSampleResponse_sentinel2_1.json';
+import geoJsonData1_sentinel3_1 from './mockedSampleResponse_sentinel3_1.json';
+import geoJsonData1_sentinel5P_1 from './mockedSampleResponse_sentinel5P_1.json';
+import { useFootprintsLayer } from './use-footprint-layer.hook';
 
 const GeoJsonLayerComponent = ({ resultItem }: { resultItem: IFeatureCollection & IFeatureCollection }) => {
   const [visible, setVisible] = useState(true);
   const geojsonObject = resultItem as IFeatureCollection;
 
-  const { updateZindex, toggleVisibility } = useGeoJsonLayer(geojsonObject);
+  const { updateZindex, toggleVisibility } = useFootprintsLayer(geojsonObject);
 
   const onToggleVisibility = () => {
     toggleVisibility(!visible);
@@ -37,9 +39,15 @@ const GeoJsonLayerComponent = ({ resultItem }: { resultItem: IFeatureCollection 
 const MultiMapDisplay = () => {
   return (
     <div>
-      <GeoJsonLayerComponent resultItem={geoJsonData1} />
-      <GeoJsonLayerComponent resultItem={geoJsonData2} />
-      <GeoJsonLayerComponent resultItem={geoJsonData3} />
+      <h3 className='text-lg font-bold'>Sentinel 1</h3>
+      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel1_1} />
+      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel1_2} />
+      <h3 className='text-lg font-bold'>Sentinel 2</h3>
+      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel2_1} />
+      <h3 className='text-lg font-bold'>Sentinel 3</h3>
+      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel3_1} />
+      <h3 className='text-lg font-bold'>Sentinel 5P</h3>
+      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel5P_1} />
     </div>
   );
 };
@@ -61,4 +69,4 @@ export default {
 
 const Template: Story = (args) => <MultiMapDisplay {...args} />;
 
-export const TwoGeoJsonLayers = Template.bind({});
+export const AllSentinelsSamples = Template.bind({});

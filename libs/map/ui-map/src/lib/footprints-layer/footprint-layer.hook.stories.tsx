@@ -4,14 +4,14 @@ import { useState } from 'react';
 
 import { Map, MapWrapper } from '../map.component';
 import { IFeatureCollection } from './geo-json.type';
-import data from './mockedSampleResponse.json';
-import { useGeoJsonLayer } from './use-footprint-layer.hook';
+import geoJsonData1_sentinel1_1 from './mockedSampleResponse_sentinel1_1.json';
+import { useFootprintsLayer } from './use-footprint-layer.hook';
 
 const GeoJsonLayerComponent = () => {
   const [visible, setVisible] = useState(true);
-  const geojsonObject = data as IFeatureCollection;
+  const geojsonObject = geoJsonData1_sentinel1_1 as IFeatureCollection;
 
-  const { updateZindex, toggleVisibility } = useGeoJsonLayer(geojsonObject);
+  const { updateZindex, toggleVisibility } = useFootprintsLayer(geojsonObject);
 
   const onToggleVisibility = () => {
     toggleVisibility(!visible);

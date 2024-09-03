@@ -33,7 +33,7 @@ const highlightStyle = new Style({
   zIndex: 2,
 });
 
-export const useGeoJsonLayer = (geojsonObject: IFeatureCollection) => {
+export const useFootprintsLayer = (geojsonObject: IFeatureCollection) => {
   const map = useContext(MapContext);
   const [vectorLayer, setVectorLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
   const [isVisible, setIsVisible] = useState(true);
