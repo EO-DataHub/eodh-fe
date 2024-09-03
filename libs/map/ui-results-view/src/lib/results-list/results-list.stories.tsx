@@ -8,7 +8,7 @@ const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2
 const singleElementMock: Omit<TCollectionSchema['features'][number], 'id'> = {
   type: 'Feature',
   properties: {
-    datetime: new Date().toDateString(),
+    datetime: '2024-09-03T16:23:22.625Z',
     'eo:cloud_cover': 39.5,
     'grid:code': '33TTG',
   },
