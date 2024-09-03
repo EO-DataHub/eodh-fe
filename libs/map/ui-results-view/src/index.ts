@@ -1,1 +1,1 @@
-export { ResultsPanel } from './lib/results-view.component';
+export { ResultsView } from './lib/results-view.component';

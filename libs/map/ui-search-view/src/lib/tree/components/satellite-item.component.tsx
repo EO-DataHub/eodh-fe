@@ -30,7 +30,7 @@ const SettingsButton = ({ value, disabled, onClick, children }: TSettingsButtonP
   }
 
   return (
-    <button onClick={onClick} disabled={disabled}>
+    <button type='button' onClick={onClick} disabled={disabled}>
       <SettingsIcon value={value} disabled={disabled} />
     </button>
   );

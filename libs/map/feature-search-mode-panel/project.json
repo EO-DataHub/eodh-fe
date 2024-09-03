@@ -1,9 +1,9 @@
 {
-  "name": "map-ui-search-panel",
+  "name": "map-feature-search-mode-panel",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/map/ui-search-panel/src",
+  "sourceRoot": "libs/map/feature-search-mode-panel/src",
   "projectType": "library",
-  "tags": ["type:ui", "scope:map"],
+  "tags": ["type:feature", "scope:map"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
@@ -12,7 +12,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "../../../coverage/libs/map/ui-search-panel"
+        "reportsDirectory": "../../../coverage/libs/map/feature-search-mode-panel"
       }
     }
   }
