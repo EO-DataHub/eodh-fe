@@ -10,6 +10,7 @@ type TReactNode =
 
 interface ITextProps {
   content: ParseKeys | TReactNode;
+  translate?: boolean;
   type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
   fontSize?: 'large' | 'medium' | 'small';
   fontWeight?: 'bold' | 'semibold' | 'regular';
@@ -19,6 +20,7 @@ interface ITextProps {
 export const Text = ({
   className,
   content,
+  translate = true,
   type = 'p',
   fontSize = 'small',
   fontWeight = 'regular',
@@ -26,8 +28,8 @@ export const Text = ({
   const baseStyles = `text-${fontSize}-${fontWeight}`;
   const combinedStyles = clsx(baseStyles, className);
   const { t } = useTranslation();
-  const translatedContent = isString(content) ? t(content) : content;
-
+  const translatedContent = isString(content) && translate ? t(content) : content;
   const Tag = type as keyof JSX.IntrinsicElements;
+
   return <Tag className={combinedStyles}>{translatedContent}</Tag>;
 };

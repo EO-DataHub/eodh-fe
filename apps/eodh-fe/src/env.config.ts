@@ -43,7 +43,7 @@ export const getEnvConfig = (): IEnvConfig => ({
       clientId: getValue(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, ''),
     },
     http: {
-      baseUrl: getValue(import.meta.env.VITE_API_BASE_URL, ''),
+      baseUrl: getValue(import.meta.env.VITE_API_URL, ''),
     },
   },
 });

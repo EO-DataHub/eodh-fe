@@ -1,11 +1,12 @@
-import { type IResultItemProps, ResultItem } from '@ukri/shared/design-system';
+import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
+import { ResultItem } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
 export interface IResultsListProps {
-  results: IResultItemProps[];
+  data: TCollectionSchema['features'];
 }
 
-export const ResultsList = ({ results }: IResultsListProps) => {
+export const ResultsList = ({ data }: IResultsListProps) => {
   const [selectedThumbnailId, setSelectedThumbnailId] = useState<number | string | null>(null);
 
   const handleThumbnailSelect = useCallback((thumbnailId: number | string) => {
@@ -14,13 +15,18 @@ export const ResultsList = ({ results }: IResultsListProps) => {
 
   return (
     <div>
-      {results.map((resultItem, index) => (
+      {data.map((item) => (
         <ResultItem
+          key={item.id}
           className='mb-4'
-          key={index}
-          {...resultItem}
-          selected={selectedThumbnailId === resultItem.id}
-          onSelected={() => handleThumbnailSelect(resultItem.id)}
+          collectionName={item.collection}
+          dateTime={item.properties.datetime}
+          imageUrl={item.assets.thumbnail.href || ''}
+          id={item.id}
+          cloudCoverage={item.properties['eo:cloud_cover']}
+          gridCode={item.properties['grid:code']}
+          selected={selectedThumbnailId === item.id}
+          onSelected={() => handleThumbnailSelect(item.id)}
           // TODO actual functions to be added in future
           onAddToCompare={() => {
             return;

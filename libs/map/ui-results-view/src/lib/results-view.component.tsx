@@ -1,5 +1,5 @@
+import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
 import { Error, ResultsViewLoader } from '@ukri/shared/design-system';
-import { type IResultItemProps } from '@ukri/shared/design-system';
 
 import { ResultsList } from './results-list/results-list.component';
 
@@ -7,25 +7,18 @@ interface IBaseResultsPanelProps {
   onBack: () => void;
 }
 
-type TResultsStateProps =
-  | {
-      status: 'loading' | 'idle';
-    }
-  | {
-      status: 'error';
-      error: Error;
-    }
-  | {
-      status: 'success';
-      data: [] | IResultItemProps[];
-    };
+type TResultsStateProps = {
+  status: 'pending' | 'error' | 'success';
+  data: TCollectionSchema | undefined;
+  error?: Error;
+};
 
 type TResultsViewProps = TResultsStateProps & IBaseResultsPanelProps;
 
 export const ResultsView = (props: TResultsViewProps) => {
   switch (props.status) {
     case 'success': {
-      if (props.data.length === 0) {
+      if (!props.data) {
         return (
           <Error
             iconName='SatelliteAlt'
@@ -36,8 +29,10 @@ export const ResultsView = (props: TResultsViewProps) => {
           />
         );
       }
-      return <ResultsList results={props.data} />;
+
+      return <ResultsList data={props.data.features} />;
     }
+
     case 'error': {
       return (
         <Error
@@ -48,8 +43,8 @@ export const ResultsView = (props: TResultsViewProps) => {
         />
       );
     }
-    case 'loading':
-    case 'idle':
+
+    case 'pending':
     default: {
       return <ResultsViewLoader />;
     }
