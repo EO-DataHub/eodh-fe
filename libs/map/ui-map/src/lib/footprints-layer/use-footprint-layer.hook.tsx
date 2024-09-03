@@ -13,15 +13,17 @@ import { type IFeatureCollection } from './geo-json.type';
 
 const defaultStyle = new Style({
   fill: new Fill({
-    color: 'rgba(0, 0, 255, 0.1)',
+    // Fill do not support opacity, so we need to use rgba here
+    color: 'rgba(68, 131, 255, 0.2)',
   }),
   stroke: new Stroke({
-    color: '#3399CC',
-    width: 1.25,
+    color: getComputedStyle(document.documentElement).getPropertyValue('--colors-primary-main'),
+    width: 1,
   }),
   zIndex: 1,
 });
 
+// TODO styles for highlight footprint to be updated in the future once design will be added
 const highlightStyle = new Style({
   fill: new Fill({
     color: 'rgba(255, 255, 0, 0.3)',
