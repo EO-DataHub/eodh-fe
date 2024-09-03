@@ -1,7 +1,5 @@
-import { TGeometry } from '../stac.model';
 import { getFields } from './fields/get-fields';
 import { createFilterParams } from './filter-params/create.filter-params';
-import { getIntersects } from './get-intersects';
 import { TCatalogSearchParams, TFields, TFilterParam } from './query.model';
 
 export type TSortBy = {
@@ -9,13 +7,13 @@ export type TSortBy = {
   direction: 'desc' | 'asc';
 };
 
-export type TQueryBuilderParams = {
+type TQueryBuilderParams = {
   queryParams?: TCatalogSearchParams;
   limit: number;
   sortBy: TSortBy;
 };
 
-export type TQueryBuilderOptions = {
+type TQueryBuilderOptions = {
   debug?: boolean;
 };
 
@@ -25,7 +23,6 @@ export type TQueryParams = {
   'filter-lang': 'cql-json';
   filter: TFilterParam | object;
   fields: TFields;
-  intersects?: TGeometry;
 };
 
 export type TQuery = {
@@ -34,49 +31,39 @@ export type TQuery = {
 };
 
 export class QueryBuilder {
-  public constructor(
-    protected readonly params: TQueryBuilderParams,
-    protected readonly options: TQueryBuilderOptions = {}
-  ) {}
+  public constructor(protected params: TQueryBuilderParams, protected options?: TQueryBuilderOptions) {}
 
   public build(): TQuery {
     if (!this.params.queryParams) {
-      return this.createDefaultQuery();
+      return {
+        enabled: false,
+        params: {
+          limit: this.params.limit,
+          sortby: [this.params.sortBy],
+          'filter-lang': 'cql-json',
+          filter: {},
+          fields: {},
+        },
+      };
     }
-
-    const filter = createFilterParams(this.params.queryParams);
-    const fields = getFields(this.params.queryParams);
-    const intersects = getIntersects(this.params.queryParams.aoi);
 
     const params: TQueryParams = {
       limit: this.params.limit,
       sortby: [this.params.sortBy],
       'filter-lang': 'cql-json',
-      filter,
-      fields,
-      intersects,
+      filter: createFilterParams(this.params.queryParams),
+      fields: getFields(this.params.queryParams),
     };
     const query: TQuery = {
       enabled: !!Object.keys(params.filter).length,
       params,
     };
 
-    if (this.options.debug) {
+    if (this.options?.debug) {
       // eslint-disable-next-line no-console
       console.log('query', query);
     }
 
     return query;
   }
-
-  private createDefaultQuery = (): TQuery => ({
-    enabled: false,
-    params: {
-      limit: this.params.limit,
-      sortby: [this.params.sortBy],
-      'filter-lang': 'cql-json',
-      filter: {},
-      fields: {},
-    },
-  });
 }
