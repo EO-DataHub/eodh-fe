@@ -1,10 +1,10 @@
-import { ApiError, ResultsViewLoader } from '@ukri/shared/design-system';
+import { Error, ResultsViewLoader } from '@ukri/shared/design-system';
 import { type IThumbnailProps } from '@ukri/shared/design-system';
 
 import { ResultsList } from './results-list/results-list.component';
 
 interface IBaseResultsPanelProps {
-  onReturn: () => void;
+  onBack: () => void;
 }
 
 type TResultsStateProps =
@@ -26,12 +26,12 @@ export const ResultsPanel = (props: TResultsPanelProps) => {
   if (props.status === 'success') {
     if (props.data.length === 0) {
       return (
-        <ApiError
+        <Error
           iconName='SatelliteAlt'
           title='GLOBAL.ERRORS.NO_RESULTS.TITLE'
           message='GLOBAL.ERRORS.NO_RESULTS.MESSAGE'
-          buttonText='GLOBAL.NAVIGATION.RETURN_TO_SERCH'
-          buttonOnClick={props.onReturn}
+          ctaText='GLOBAL.NAVIGATION.RETURN_TO_SERCH'
+          ctaOnClick={props.onBack}
         />
       );
     }
@@ -40,11 +40,11 @@ export const ResultsPanel = (props: TResultsPanelProps) => {
 
   if (props.status === 'error') {
     return (
-      <ApiError
+      <Error
         title='GLOBAL.ERRORS.SERVER_ERROR.TITLE'
         message='GLOBAL.ERRORS.SERVER_ERROR.MESSAGE'
-        buttonText='GLOBAL.NAVIGATION.RETURN_TO_SERCH'
-        buttonOnClick={props.onReturn}
+        ctaText='GLOBAL.NAVIGATION.RETURN_TO_SERCH'
+        ctaOnClick={props.onBack}
       />
     );
   }

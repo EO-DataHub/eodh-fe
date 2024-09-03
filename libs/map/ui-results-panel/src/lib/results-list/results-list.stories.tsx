@@ -2,8 +2,10 @@ import type { Meta } from '@storybook/react';
 
 import { ResultsList } from './results-list.component';
 
+const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2.png';
+
 const singleElementMock = {
-  imageUrl: '/assets/images/imageSample2.png', // image is added in the assets folder in storybook-host
+  imageUrl: imageUrlStoredInPublicAssetsInStorybookHost,
   collectionName: 'Sentinel-1',
   date: '2024-06-11',
   time: '10:19:29 UTC',

@@ -8,9 +8,11 @@ const meta: Meta<typeof Thumbnail> = {
 };
 export default meta;
 
+const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2.png';
+
 export const SampleThumbnail = {
   args: {
-    imageUrl: '/assets/images/imageSample2.png', // image is added in the assets folder in storybook-host
+    imageUrl: imageUrlStoredInPublicAssetsInStorybookHost,
     collectionName: 'Sentinel-1',
     date: '2024-06-11',
     time: '10:19:29 UTC',

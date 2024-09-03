@@ -2,8 +2,10 @@ import type { Meta } from '@storybook/react';
 
 import { ResultsPanel } from './results-panel.component';
 
+const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2.png';
+
 const singleElementMock = {
-  imageUrl: '/assets/images/imageSample2.png', // image is added in the assets folder in storybook-host
+  imageUrl: imageUrlStoredInPublicAssetsInStorybookHost,
   collectionName: 'Sentinel-1',
   date: '2024-06-11',
   time: '10:19:29 UTC',
@@ -43,8 +45,7 @@ export const ResultsPanelSample = {
     status: 'success',
     data: results,
     error: { message: 'Results not found' },
-    onReturn: () => {
-      return;
-    },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onBack: () => {},
   },
 };

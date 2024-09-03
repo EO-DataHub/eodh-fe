@@ -6,15 +6,38 @@ import { TTree } from '../tree.model';
 type TTileProps = Pick<TTree, 'className'> & {
   title: TTree['title'] | null;
   fontWeight: 'bold' | 'semibold' | 'regular';
+  onClick?: () => void;
 };
 
-export const Title = memo(({ title, className = '', fontWeight }: TTileProps) => {
+export const Title = memo(({ title, className = '', fontWeight, onClick }: TTileProps) => {
   if (!title) {
     return null;
   }
 
   if (isValidElement(title)) {
-    return <div className='grow text-left'>{title}</div>;
+    if (onClick) {
+      return <button className='grow text-left'>{title}</button>;
+    }
+
+    return (
+      <div className='grow text-left' onClick={onClick}>
+        {title}
+      </div>
+    );
+  }
+
+  if (onClick) {
+    return (
+      <button className='grow' onClick={onClick}>
+        <Text
+          content={title}
+          type='p'
+          fontSize='medium'
+          fontWeight={fontWeight}
+          className={`text-neutral-dark text-left ${className}`}
+        />
+      </button>
+    );
   }
 
   return (

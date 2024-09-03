@@ -47,8 +47,8 @@
         "MESSAGE": "There was a problem retrieving your search results from the server. Please update your search parameters and try again."
       },
       "NO_RESULTS": {
-        "TITLE": " Sorry, your search returned  no results.",
-        "MESSAGE": " Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets."
+        "TITLE": "Sorry, your search returned  no results.",
+        "MESSAGE": "Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets."
       }
     },
     "NAVIGATION": {
@@ -57,6 +57,9 @@
   },
   "MAP": {
     "SEARCH_PANEL": {
+      "VALIDATION": {
+        "ONE_OF_FIELDS_REQUIRED": "You must select at least one of the following options"
+      },
       "PRIVATE": "Private",
       "PUBLIC": "Public",
       "PLANET": {
