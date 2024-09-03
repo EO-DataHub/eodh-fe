@@ -1,4 +1,4 @@
-import { Error } from '@ukri/shared/design-system';
+import { Error, ResultsViewLoader } from '@ukri/shared/design-system';
 import { type IThumbnailProps } from '@ukri/shared/design-system';
 
 import { ResultsList } from './results-list/results-list.component';
@@ -49,5 +49,5 @@ export const ResultsPanel = (props: TResultsPanelProps) => {
     );
   }
 
-  return <span>Loading ... component will be done in UKRIW-63</span>;
+  return <ResultsViewLoader />;
 };
