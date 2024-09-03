@@ -52,7 +52,7 @@ export const useFootprintsLayer = (geojsonObject: IFeatureCollection) => {
     const newVectorLayer = new VectorLayer({
       source: vectorSource,
       style: defaultStyle,
-      zIndex: 1,
+      zIndex: 2,
       visible: isVisible,
     });
 
