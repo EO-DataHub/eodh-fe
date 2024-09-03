@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react';
 
-import { ResultsPanel } from './results-panel.component';
+import { ResultsView } from './results-view.component';
 
 const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2.png';
 
@@ -34,13 +34,13 @@ const results = [
   },
 ];
 
-const meta: Meta<typeof ResultsPanel> = {
-  component: ResultsPanel,
-  title: 'libs/map/ui-results-panel/ResultsPanel',
+const meta: Meta<typeof ResultsView> = {
+  component: ResultsView,
+  title: 'libs/map/ui-results-view/ResultsView',
 };
 export default meta;
 
-export const ResultsPanelSample = {
+export const ResultsViewSample = {
   args: {
     status: 'success',
     data: results,

@@ -16,7 +16,7 @@ const singleElementMock = {
 
 const meta: Meta<typeof ResultsList> = {
   component: ResultsList,
-  title: 'libs/map/ui-results-panel/results-list/ResultsList',
+  title: 'libs/map/ui-results-view/results-list/ResultsList',
 };
 export default meta;
 

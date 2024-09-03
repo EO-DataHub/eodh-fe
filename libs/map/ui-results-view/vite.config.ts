@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '../../../node_modules/.vite/libs/map/ui-results-panel',
+  cacheDir: '../../../node_modules/.vite/libs/map/ui-results-view',
 
   plugins: [react(), nxViteTsPaths()],
 
@@ -16,10 +16,10 @@ export default defineConfig({
   test: {
     watch: false,
     globals: true,
-    cache: { dir: '../../../node_modules/.vitest/libs/map/ui-results-panel' },
+    cache: { dir: '../../../node_modules/.vitest/libs/map/ui-results-view' },
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
-    coverage: { reportsDirectory: '../../../coverage/libs/map/ui-results-panel', provider: 'v8' },
+    coverage: { reportsDirectory: '../../../coverage/libs/map/ui-results-view', provider: 'v8' },
   },
 });

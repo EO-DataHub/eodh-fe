@@ -1,8 +1,8 @@
-import { type IThumbnailProps, Thumbnail } from '@ukri/shared/design-system';
+import { type IResultItemProps, ResultItem } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
 export interface IResultsListProps {
-  results: IThumbnailProps[];
+  results: IResultItemProps[];
 }
 
 export const ResultsList = ({ results }: IResultsListProps) => {
@@ -14,13 +14,13 @@ export const ResultsList = ({ results }: IResultsListProps) => {
 
   return (
     <div>
-      {results.map((thumbnail, index) => (
-        <Thumbnail
+      {results.map((resultItem, index) => (
+        <ResultItem
           className='mb-4'
           key={index}
-          {...thumbnail}
-          selected={selectedThumbnailId === thumbnail.id}
-          onSelected={() => handleThumbnailSelect(thumbnail.id)}
+          {...resultItem}
+          selected={selectedThumbnailId === resultItem.id}
+          onSelected={() => handleThumbnailSelect(resultItem.id)}
           // TODO actual functions to be added in future
           onAddToCompare={() => {
             return;

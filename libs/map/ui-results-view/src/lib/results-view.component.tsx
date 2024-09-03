@@ -1,5 +1,5 @@
 import { Error, ResultsViewLoader } from '@ukri/shared/design-system';
-import { type IThumbnailProps } from '@ukri/shared/design-system';
+import { type IResultItemProps } from '@ukri/shared/design-system';
 
 import { ResultsList } from './results-list/results-list.component';
 
@@ -17,12 +17,12 @@ type TResultsStateProps =
     }
   | {
       status: 'success';
-      data: [] | IThumbnailProps[];
+      data: [] | IResultItemProps[];
     };
 
-type TResultsPanelProps = TResultsStateProps & IBaseResultsPanelProps;
+type TResultsViewProps = TResultsStateProps & IBaseResultsPanelProps;
 
-export const ResultsPanel = (props: TResultsPanelProps) => {
+export const ResultsView = (props: TResultsViewProps) => {
   switch (props.status) {
     case 'success': {
       if (props.data.length === 0) {

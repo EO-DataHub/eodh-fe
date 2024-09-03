@@ -4,12 +4,12 @@ import { Button } from '../button/button';
 import { Icon, type TIconNames } from '../icon/icon';
 import { Text } from '../text/text';
 
-interface IThumbnailInfoProps {
+interface IResultItemInfoProps {
   name: string;
   iconName: TIconNames;
 }
 
-const ThumbnailInfo = ({ name, iconName }: IThumbnailInfoProps) => {
+const ResultItemInfo = ({ name, iconName }: IResultItemInfoProps) => {
   return (
     <span className='flex mb-1'>
       <Icon name={iconName} width={16} height={16} className='mr-1.5' />
@@ -21,7 +21,7 @@ const ThumbnailInfo = ({ name, iconName }: IThumbnailInfoProps) => {
 // TODO: to be removed in the future, once we will work on comparison functionality
 const hideCompareButton = 'opacity-0 pointer-events-none';
 
-export interface IThumbnailProps {
+export interface IResultItemProps {
   imageUrl: string;
   collectionName: string;
   date: string;
@@ -38,7 +38,7 @@ export interface IThumbnailProps {
   onRemoveFromCompare?: () => void;
 }
 
-export const Thumbnail = ({
+export const ResultItem = ({
   imageUrl,
   collectionName,
   date,
@@ -51,7 +51,7 @@ export const Thumbnail = ({
   addedForComparison,
   onAddToCompare,
   onRemoveFromCompare,
-}: IThumbnailProps) => {
+}: IResultItemProps) => {
   const [isSelected, setIsSelected] = useState(selected);
   const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
 
@@ -80,31 +80,31 @@ export const Thumbnail = ({
     >
       <img
         src={imageUrl}
-        alt='Thumbnail'
+        alt='ResultItem'
         className='w-[132px] h-[132px] object-cover rounded-md cursor-pointer'
         onClick={handleSelectItem}
       />
       <div className='ml-2.5 text-text w-full flex flex-col h-auto'>
         <div className='flex-grow'>
-          <ThumbnailInfo name={collectionName} iconName='Satellite' />
-          <ThumbnailInfo name={date} iconName='Calendar' />
-          <ThumbnailInfo name={time} iconName='Schedule' />
-          {cloudCoverage && <ThumbnailInfo name={cloudCoverage} iconName='Cloud' />}
-          {gridCode && <ThumbnailInfo name={gridCode} iconName='Map' />}
+          <ResultItemInfo name={collectionName} iconName='Satellite' />
+          <ResultItemInfo name={date} iconName='Calendar' />
+          <ResultItemInfo name={time} iconName='Schedule' />
+          {cloudCoverage && <ResultItemInfo name={cloudCoverage} iconName='Cloud' />}
+          {gridCode && <ResultItemInfo name={gridCode} iconName='Map' />}
         </div>
         <div className='flex justify-between mt-auto'>
           <Button
             appearance='text'
             text={
               isAddedForComparison
-                ? 'GLOBAL.DESIGN_SYSTEM.THUMBNAIL.REMOVE_COMPARE'
-                : 'GLOBAL.DESIGN_SYSTEM.THUMBNAIL.ADD_TO_COMPARE'
+                ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.REMOVE_COMPARE'
+                : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.ADD_TO_COMPARE'
             }
             size='medium'
             onClick={handleCompareClick}
             className={`${hideCompareButton} ${isAddedForComparison ? '!text-error' : ''}`}
           />
-          <Button text='GLOBAL.DESIGN_SYSTEM.THUMBNAIL.BUTTON' size='small' onClick={handleSelectItem} />
+          <Button text='GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON' size='small' onClick={handleSelectItem} />
         </div>
       </div>
     </div>

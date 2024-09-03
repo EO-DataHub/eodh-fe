@@ -1,7 +1,7 @@
 {
-  "name": "map-ui-results-panel",
+  "name": "map-ui-results-view",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/map/ui-results-panel/src",
+  "sourceRoot": "libs/map/ui-results-view/src",
   "projectType": "library",
   "tags": ["type:ui", "scope:map"],
   "targets": {
@@ -12,7 +12,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "../../../coverage/libs/map/ui-results-panel"
+        "reportsDirectory": "../../../coverage/libs/map/ui-results-view"
       }
     }
   }

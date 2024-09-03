@@ -18,4 +18,4 @@ export { Spacing } from './lib/tree/spacing.component';
 export type { TSlots } from './lib/tree/tree.model';
 export { Notification } from './lib/notification/notification';
 export { Error } from './lib/error/error';
-export { Thumbnail, type IThumbnailProps } from './lib/thumbnail/thumbnail';
+export { ResultItem, type IResultItemProps } from './lib/result-item/result-item';

@@ -1,16 +1,16 @@
 import type { Meta } from '@storybook/react';
 
-import { Thumbnail } from './thumbnail';
+import { ResultItem } from './result-item';
 
-const meta: Meta<typeof Thumbnail> = {
-  component: Thumbnail,
-  title: 'libs/shared/design-system/Thumbnail',
+const meta: Meta<typeof ResultItem> = {
+  component: ResultItem,
+  title: 'libs/shared/design-system/ResultItem',
 };
 export default meta;
 
 const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2.png';
 
-export const SampleThumbnail = {
+export const SampleResultItem = {
   args: {
     imageUrl: imageUrlStoredInPublicAssetsInStorybookHost,
     collectionName: 'Sentinel-1',
