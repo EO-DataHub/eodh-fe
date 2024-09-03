@@ -11,7 +11,7 @@ import { TAoiLayer } from './aoi-layer.component';
 
 export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
-export const useAioLayer = ({ draw, setDraw }: TAoiLayer) => {
+export const useAoiLayer = ({ draw, setDraw }: TAoiLayer) => {
   const map = useContext(MapContext);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
   const shape = useCurrentShape();
@@ -21,6 +21,7 @@ export const useAioLayer = ({ draw, setDraw }: TAoiLayer) => {
     const vectorSource = new VectorSource({ wrapX: false });
     const vector = new VectorLayer({
       source: vectorSource,
+      zIndex: 1,
     });
 
     map.addLayer(vector);

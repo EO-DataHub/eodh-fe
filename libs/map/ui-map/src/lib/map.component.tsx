@@ -6,6 +6,7 @@ import TileLayer from 'ol/layer/Tile';
 import OlMap from 'ol/Map.js';
 import { fromLonLat } from 'ol/proj';
 import OSM from 'ol/source/OSM';
+import View from 'ol/View.js';
 import OlView from 'ol/View.js';
 import { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
 
@@ -15,6 +16,7 @@ interface IMap {
   addInteraction(interaction: Interaction): void;
   removeInteraction(interaction: Interaction): Interaction | undefined;
   removeLayer(layer: BaseLayer): BaseLayer | undefined;
+  getView(): View;
 }
 
 const defaultMap = {
@@ -26,30 +28,38 @@ const defaultMap = {
   addInteraction() {},
   removeInteraction: () => undefined,
   removeLayer: () => undefined,
+  getView: () => new OlView(),
 };
 
 export const MapContext = createContext<IMap>(defaultMap);
 
-export const MapWrapper = ({ children }: PropsWithChildren) => {
+const londonCoordinates = fromLonLat([-0.118092, 51.509865]);
+
+interface IMapWrapperProps extends PropsWithChildren {
+  zoom?: number;
+  centerCoordinates?: number[];
+}
+
+export const MapWrapper = ({ children, zoom = 8, centerCoordinates = londonCoordinates }: IMapWrapperProps) => {
   const [map, setMap] = useState<IMap>(defaultMap);
 
   useEffect(() => {
     const osmLayer = new TileLayer({
       preload: Infinity,
       source: new OSM(),
+      zIndex: 0, // Base layer should ALWAYS be at the bottom
     });
 
-    const londonCoordinates = fromLonLat([-0.118092, 51.509865]);
     const olMap = new OlMap({
       layers: [osmLayer],
       view: new OlView({
-        center: londonCoordinates,
-        zoom: 8,
+        center: centerCoordinates,
+        zoom: zoom,
       }),
     });
 
     setMap(olMap);
-  }, []);
+  }, [centerCoordinates, zoom]);
 
   return <MapContext.Provider value={map}>{children}</MapContext.Provider>;
 };
