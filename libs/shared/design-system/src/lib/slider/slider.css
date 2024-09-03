@@ -10,15 +10,39 @@
   @apply h-3.5 w-3.5 cursor-pointer appearance-none rounded-full bg-primary transition duration-200 ease-in-out shadow-slider-thumb border-0;
 }
 
+.design-system__slider-range-input:disabled::-webkit-slider-thumb {
+  @apply bg-primary-light cursor-not-allowed;
+}
+
+.design-system__slider-range-input:disabled::-moz-range-thumb {
+  @apply bg-primary-light cursor-not-allowed;
+}
+
+.design-system__slider-range-input:disabled::-webkit-slider-thumb:hover {
+  @apply shadow-slider-thumb;
+}
+
+.design-system__slider-range-input:disabled::-moz-range-thumb:hover {
+  @apply shadow-slider-thumb;
+}
+
+.design-system__slider-range-input:focus:disabled::-webkit-slider-thumb:hover {
+  @apply shadow-slider-thumb;
+}
+
+.design-system__slider-range-input:focus:disabled::-moz-range-thumb:hover {
+  @apply shadow-slider-thumb;
+}
+
 .design-system__slider-range-input::-webkit-slider-thumb:hover {
   @apply shadow-slider-thumb-highlighted;
 }
 
-.design-system__slider-range-input:active::-webkit-slider-thumb {
+.design-system__slider-range-input:active:not(:disabled)::-webkit-slider-thumb {
   @apply shadow-slider-thumb-highlighted;
 }
 
-.design-system__slider-range-input:focus::-webkit-slider-thumb {
+.design-system__slider-range-input:focus:not(:disabled)::-webkit-slider-thumb {
   @apply shadow-slider-thumb-highlighted;
 }
 
@@ -26,10 +50,10 @@
   @apply shadow-slider-thumb-highlighted;
 }
 
-.design-system__slider-range-input:active::-moz-range-thumb {
+.design-system__slider-range-input:active:not(:disabled)::-moz-range-thumb {
   @apply shadow-slider-thumb-highlighted;
 }
 
-.design-system__slider-range-input:focus::-moz-range-thumb {
+.design-system__slider-range-input:focus:not(:disabled)::-moz-range-thumb {
   @apply shadow-slider-thumb-highlighted;
 }

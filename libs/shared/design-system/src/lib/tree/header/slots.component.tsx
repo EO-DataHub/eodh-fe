@@ -2,9 +2,14 @@ import { Fragment, memo, ReactNode } from 'react';
 
 import { TSlotPosition, TSlots } from '../tree.model';
 
-type TSlotsProps = { slots: TSlots | undefined | null; position: TSlotPosition };
+type TSlotsProps = {
+  slots: TSlots | undefined | null;
+  position: TSlotPosition;
+  className?: string;
+  onClick?: () => void;
+};
 
-export const Slots = memo(({ slots, position }: TSlotsProps): ReactNode | ReactNode[] | null => {
+export const Slots = memo(({ slots, position, className, onClick }: TSlotsProps): ReactNode | ReactNode[] | null => {
   if (!slots) {
     return null;
   }
@@ -15,8 +20,16 @@ export const Slots = memo(({ slots, position }: TSlotsProps): ReactNode | ReactN
     return null;
   }
 
+  if (onClick) {
+    <button className={`flex flex-row items-center gap-x-2 ${className}`} onClick={onClick}>
+      {elements.map((i) => (
+        <Fragment key={i.key}>{i.element}</Fragment>
+      ))}
+    </button>;
+  }
+
   return (
-    <div className='flex flex-row items-center gap-x-2'>
+    <div className={`flex flex-row items-center gap-x-2 ${className}`}>
       {elements.map((i) => (
         <Fragment key={i.key}>{i.element}</Fragment>
       ))}

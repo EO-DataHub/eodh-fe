@@ -2,12 +2,17 @@ import { Tree as TreeWrapper } from '@ukri/shared/design-system';
 
 import { PrivateData } from './private-data.component';
 import { PublicData } from './public-data.component';
+import { TreeSettingsProvider, TTreeSettings } from './tree.context';
 
-export const Tree = () => {
+type TTreeProps = { defaultSettings?: TTreeSettings };
+
+export const Tree = ({ defaultSettings }: TTreeProps) => {
   return (
-    <TreeWrapper>
-      <PublicData />
-      <PrivateData />
-    </TreeWrapper>
+    <TreeSettingsProvider defaultSettings={defaultSettings}>
+      <TreeWrapper>
+        <PublicData />
+        <PrivateData />
+      </TreeWrapper>
+    </TreeSettingsProvider>
   );
 };
