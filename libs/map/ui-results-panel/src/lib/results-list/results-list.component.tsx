@@ -8,7 +8,6 @@ export interface IResultsListProps {
 export const ResultsList = ({ results }: IResultsListProps) => {
   const [selectedThumbnailIndex, setSelectedThumbnailIndex] = useState<number | null>(null);
 
-  // add callback to below function
   const handleThumbnailSelect = useCallback((index: number) => {
     setSelectedThumbnailIndex(index);
   }, []);

@@ -44,7 +44,7 @@
         "MESSAGE": "There was a problem retrieving your search results from the server. Please update your search parameters and try again."
       },
       "NO_RESULTS": {
-        "TITLE": " Sorry, your search returned  no results.",
+        "TITLE": "Sorry, your search returned  no results.",
         "MESSAGE": "Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets."
       }
     },
