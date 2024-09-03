@@ -14,9 +14,8 @@ export const SampleResultItem = {
   args: {
     imageUrl: imageUrlStoredInPublicAssetsInStorybookHost,
     collectionName: 'Sentinel-1',
-    date: '2024-06-11',
-    time: '10:19:29 UTC',
-    cloudCoverage: '39.5%',
+    dateTime: '2024-09-03T16:23:22.625Z',
+    cloudCoverage: 39.5,
     gridCode: '33TTG',
     addedForComparison: false,
     selected: false,
