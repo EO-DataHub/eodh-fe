@@ -32,9 +32,9 @@ export interface IThumbnailProps {
   selected?: boolean;
   className?: string;
   id: string | number;
-  addedForComparison: boolean;
-  onAddToCompare: () => void;
-  onRemoveFromCompare: () => void;
+  addedForComparison?: boolean;
+  onAddToCompare?: () => void;
+  onRemoveFromCompare?: () => void;
 }
 
 export const Thumbnail = ({
