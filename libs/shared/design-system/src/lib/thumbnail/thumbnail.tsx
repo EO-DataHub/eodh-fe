@@ -32,6 +32,7 @@ export interface IThumbnailProps {
   selected?: boolean;
   className?: string;
   id: string | number;
+  // TODO rething logic and type definition for comparison functionality
   addedForComparison?: boolean;
   onAddToCompare?: () => void;
   onRemoveFromCompare?: () => void;
