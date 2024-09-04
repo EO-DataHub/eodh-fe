@@ -8,12 +8,14 @@ import VectorSource from 'ol/source/Vector';
 import { Fill, Stroke, Style } from 'ol/style';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
+import { footprintsLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
 import { type IFeatureCollection } from './geo-json.type';
 
 const defaultStyle = new Style({
   fill: new Fill({
     // Fill do not support opacity, so we need to use rgba here
+    // TODO to check if it is possible to get styles from tailwind
     color: 'rgba(68, 131, 255, 0.2)',
   }),
   stroke: new Stroke({
@@ -54,7 +56,7 @@ export const useFootprintsLayer = (geojsonObject: IFeatureCollection) => {
     const newVectorLayer = new VectorLayer({
       source: vectorSource,
       style: defaultStyle,
-      zIndex: 2,
+      zIndex: footprintsLayerZindex,
       visible: isVisible,
     });
 

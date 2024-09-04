@@ -10,6 +10,8 @@ import View from 'ol/View.js';
 import OlView from 'ol/View.js';
 import { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
 
+import { mainMapLayerZindex } from './consts';
+
 interface IMap {
   addLayer(layer: BaseLayer): void;
   setTarget(target?: string | HTMLElement | undefined): void;
@@ -47,7 +49,7 @@ export const MapWrapper = ({ children, zoom = 8, centerCoordinates = londonCoord
     const osmLayer = new TileLayer({
       preload: Infinity,
       source: new OSM(),
-      zIndex: 0, // Base layer should ALWAYS be at the bottom
+      zIndex: mainMapLayerZindex,
     });
 
     const olMap = new OlMap({

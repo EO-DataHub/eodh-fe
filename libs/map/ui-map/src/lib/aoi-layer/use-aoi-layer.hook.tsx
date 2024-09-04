@@ -6,6 +6,7 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { useContext, useEffect, useState } from 'react';
 
+import { aoiLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
 import { TAoiLayer } from './aoi-layer.component';
 
@@ -21,7 +22,7 @@ export const useAoiLayer = ({ draw, setDraw }: TAoiLayer) => {
     const vectorSource = new VectorSource({ wrapX: false });
     const vector = new VectorLayer({
       source: vectorSource,
-      zIndex: 1,
+      zIndex: aoiLayerZindex,
     });
 
     map.addLayer(vector);
