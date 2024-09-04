@@ -1,48 +1,23 @@
 import { DateInput, Icon, Text } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
+import { TForm } from '../tree/form.model';
 import { styles } from './date-range-picker.styles';
-import useDateCalculations from './dates-calculations.hook';
 
 interface IDateRangePickerProps {
   minDate: Date;
   maxDate: Date;
 }
 
-const isDateAfterToDate = (date: Date, toDate?: Date) => {
-  return toDate && date > toDate;
-};
-
-const isDateBeforeFromDate = (date: Date, fromDate?: Date) => {
-  return fromDate && date < fromDate;
-};
+const dateFromFieldName = 'date.from';
+const dateToFieldName = 'date.to';
 
 export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => {
-  const { today, formattedOneMonthAgo } = useDateCalculations();
-
+  const { register, getValues } = useFormContext<TForm>();
   const [isOpen, setIsOpen] = useState(true);
-  const [fromDate, setFromDate] = useState<Date | undefined>(formattedOneMonthAgo);
-  const [toDate, setToDate] = useState<Date | undefined>(today);
-
-  const handleFromDateChange = useCallback(
-    (date: Date) => {
-      setFromDate(date);
-      if (isDateAfterToDate(date, toDate)) {
-        setToDate(undefined);
-      }
-    },
-    [toDate]
-  );
-
-  const handleToDateChange = useCallback(
-    (date: Date) => {
-      setToDate(date);
-      if (isDateBeforeFromDate(date, fromDate)) {
-        setFromDate(undefined);
-      }
-    },
-    [fromDate]
-  );
+  const fromDate = getValues('date.from');
+  const toDate = getValues('date.from');
 
   const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);
@@ -74,8 +49,7 @@ export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => 
               className={styles.dateInput}
               minDate={minDate}
               maxDate={toDate || maxDate}
-              value={fromDate}
-              onChange={handleFromDateChange}
+              {...register(dateFromFieldName)}
             />
           </div>
           <div className={styles.row}>
@@ -90,8 +64,7 @@ export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => 
               className={styles.dateInput}
               minDate={fromDate || minDate}
               maxDate={maxDate}
-              value={toDate}
-              onChange={handleToDateChange}
+              {...register(dateToFieldName)}
             />
           </div>
         </div>

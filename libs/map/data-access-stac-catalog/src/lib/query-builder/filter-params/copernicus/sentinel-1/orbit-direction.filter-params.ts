@@ -1,7 +1,7 @@
-import { TCatalogSearchParams, TFilterParam } from '../../../query.model';
+import { TCopernicusSearchParams, TFilterParam } from '../../../query.model';
 
 export const getOrbitDirectionFilterParams = (
-  params: Omit<TCatalogSearchParams['copernicus']['sentinel1'], 'enabled'>
+  params: Omit<TCopernicusSearchParams['sentinel1'], 'enabled'>
 ): TFilterParam[] => {
   const args: TFilterParam[] = [];
 

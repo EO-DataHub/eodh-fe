@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react';
-import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
+import { TCollection } from '@ukri/map/data-access-stac-catalog';
 import { Button } from '@ukri/shared/design-system';
 
 import { Map, MapWrapper } from '../map.component';
@@ -10,7 +10,7 @@ import { sentinel3CollectionMock } from '../mocks/sentinel-3.collection.mock';
 import { sentinel5CollectionMock } from '../mocks/sentinel-5.collection.mock';
 import { useFootprintsLayer } from './use-footprint-layer.hook';
 
-const GeoJsonLayerComponent = ({ resultItem }: { resultItem: TCollectionSchema }) => {
+const GeoJsonLayerComponent = ({ resultItem }: { resultItem: TCollection }) => {
   const { updateZindex, toggleVisibility } = useFootprintsLayer(resultItem);
 
   return (

@@ -74,15 +74,17 @@ export const TreeError = {
   args: {
     values: {
       ...defaultValues,
-      copernicus: {
-        ...defaultValues.copernicus,
-        sentinel1: {
-          ...defaultValues.copernicus.sentinel1,
-          enabled: true,
-          acquisitionMode: {
-            ...defaultValues.copernicus.sentinel1.acquisitionMode,
-            hh: false,
-            hh_hv: false,
+      data: {
+        copernicus: {
+          ...defaultValues.data.copernicus,
+          sentinel1: {
+            ...defaultValues.data.copernicus.sentinel1,
+            enabled: true,
+            acquisitionMode: {
+              ...defaultValues.data.copernicus.sentinel1.acquisitionMode,
+              hh: false,
+              hh_hv: false,
+            },
           },
         },
       },
