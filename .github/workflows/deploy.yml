@@ -28,10 +28,27 @@ jobs:
       contents: read
     environment: 'dev'
     steps:
+      - name: 'Clone repository'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: 'Download build'
         uses: actions/download-artifact@v4
         with:
           name: image-ukri
+          path: ${{ github.workspace }}/dist/apps/eodh-fe
+      - name: 'Create config file'
+        run: npm run config:create
+        shell: bash
+        env:
+          NODE_DIST_PATH: ${{ github.workspace }}/dist/apps/eodh-fe
+          VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_API_URL: ${{ vars.APP_API_URL }}
+          VITE_TRANSLATION_LANGUAGE_URL: ${{ vars.APP_LANGUAGE }}
+          VITE_TRANSLATION_FALLBACK_LANGUAGE_URL: ${{ vars.APP_FALLBACK_LNG }}
+          VITE_AUTHORIZATION_URL: ${{ vars.APP_AUTHORIZATION_URL }}
+          VITE_AUTHORIZATION_REALM: ${{ vars.APP_AUTHORIZATION_REALM }}
+          VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -39,7 +56,7 @@ jobs:
           role-session-name: ${{ vars.AWS_ROLE_SESSION_NAME }}
           aws-region: ${{ vars.AWS_REGION }}
       - name: 'Deploy to S3'
-        run: aws s3 cp ./ s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
+        run: aws s3 cp ${{ github.workspace }}/dist/apps/eodh-fe s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
       - name: 'Invalidate CloudFront'
         run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
   deployToQa:
