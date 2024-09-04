@@ -6,11 +6,12 @@ import { TreeContext } from '../tree.component';
 
 type TCollapseTree = PropsWithChildren<{
   expanded?: boolean;
+  className?: string;
   expandable?: boolean;
   onClick?: (expanded: boolean) => void;
 }>;
 
-export const Expand = ({ expanded, children, onClick, expandable = true }: TCollapseTree) => {
+export const Expand = ({ expanded, children, onClick, expandable = true, className }: TCollapseTree) => {
   const { spacing } = useContext(TreeContext);
 
   const expand = useCallback(() => {
@@ -25,10 +26,9 @@ export const Expand = ({ expanded, children, onClick, expandable = true }: TColl
 
   return (
     <button
-      className={`flex items-center w-full focus:outline-none disabled:opacity-50 disabled:pointer-events-none ${getSpacingClassName(
+      className={`flex items-center focus:outline-none disabled:opacity-50 disabled:pointer-events-none ${getSpacingClassName(
         spacing
-      )}`}
-      aria-expanded='true'
+      )} ${className}`}
       onClick={expand}
     >
       <div className='flex items-center w-full'>

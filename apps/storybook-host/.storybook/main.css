@@ -12,5 +12,7 @@ body {
 
 :root {
   --colors-primary-main: theme('colors.primary.main');
-  --colors-meutral-light: theme('colors.neutral.light');
+  --colors-primary-light: theme('colors.primary.light');
+  --colors-neutral-light: theme('colors.neutral.light');
+  --colors-bright-mid: theme('colors.bright.mid');
 }
