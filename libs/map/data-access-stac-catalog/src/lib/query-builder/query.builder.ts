@@ -35,16 +35,7 @@ export class QueryBuilder {
 
   public build(): TQuery {
     if (!this.params.queryParams) {
-      return {
-        enabled: false,
-        params: {
-          limit: this.params.limit,
-          sortby: [this.params.sortBy],
-          'filter-lang': 'cql-json',
-          filter: {},
-          fields: {},
-        },
-      };
+      return this.createDefaultQuery();
     }
 
     const params: TQueryParams = {
