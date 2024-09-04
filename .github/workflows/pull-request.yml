@@ -2,6 +2,7 @@ on:
   pull_request:
     branches:
       - 'develop'
+      - 'feature/UKRIW-62-add-integration-for-advanced-settings-for-seintinel-1-and-sentinel-2'
       - 'main'
 
 permissions:
