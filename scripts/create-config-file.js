@@ -19,10 +19,12 @@ const config = {
   },
 };
 
-const distPath = process.env.distPath || '.';
+const distPath = process.env.NODE_DIST_PATH || '.';
 const configOutputFilePath = `${distPath}/config.js`;
 const configDirPath = path.dirname(configOutputFilePath);
 const configFilePath = path.join(configDirPath, path.basename(configOutputFilePath));
+
+console.log('distPath', distPath);
 
 function generateConfigString(config) {
   return `const config = (() => (${config}))();`;
