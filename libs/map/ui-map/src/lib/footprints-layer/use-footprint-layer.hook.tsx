@@ -56,7 +56,6 @@ export const useFootprintsLayer = (geojsonObject: IFeatureCollection) => {
       source: vectorSource,
       style: defaultStyle,
       zIndex: footprintsLayerZindex,
-      // visible: isVisible,
     });
 
     map.addLayer(newVectorLayer);
