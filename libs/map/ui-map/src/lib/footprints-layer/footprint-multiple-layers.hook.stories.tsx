@@ -1,19 +1,17 @@
 import { Meta, Story } from '@storybook/react';
+import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
 import { Button } from '@ukri/shared/design-system';
 
 import { Map, MapWrapper } from '../map.component';
-import geoJsonData1_sentinel1_1 from '../mocks/mockedSampleResponse_sentinel1_1.json';
-import geoJsonData1_sentinel1_2 from '../mocks/mockedSampleResponse_sentinel1_2.json';
-import geoJsonData1_sentinel2_1 from '../mocks/mockedSampleResponse_sentinel2_1.json';
-import geoJsonData1_sentinel3_1 from '../mocks/mockedSampleResponse_sentinel3_1.json';
-import geoJsonData1_sentinel5P_1 from '../mocks/mockedSampleResponse_sentinel5P_1.json';
-import { IFeatureCollection } from './geo-json.type';
+import { sentinel1Item1CollectionMock } from '../mocks/sentinel-1-item1.collection.mock';
+import { sentinel1Item2CollectionMock } from '../mocks/sentinel-1-item2.collection.mock';
+import { sentinel2CollectionMock } from '../mocks/sentinel-2.collection.mock';
+import { sentinel3CollectionMock } from '../mocks/sentinel-3.collection.mock';
+import { sentinel5CollectionMock } from '../mocks/sentinel-5.collection.mock';
 import { useFootprintsLayer } from './use-footprint-layer.hook';
 
-const GeoJsonLayerComponent = ({ resultItem }: { resultItem: IFeatureCollection & IFeatureCollection }) => {
-  const geojsonObject = resultItem as IFeatureCollection;
-
-  const { updateZindex, toggleVisibility } = useFootprintsLayer(geojsonObject);
+const GeoJsonLayerComponent = ({ resultItem }: { resultItem: TCollectionSchema }) => {
+  const { updateZindex, toggleVisibility } = useFootprintsLayer(resultItem);
 
   return (
     <div className='ml-4'>
@@ -32,14 +30,14 @@ const MultiMapDisplay = () => {
   return (
     <div>
       <h3 className='text-lg font-bold'>Sentinel 1</h3>
-      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel1_1} />
-      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel1_2} />
+      <GeoJsonLayerComponent resultItem={sentinel1Item1CollectionMock} />
+      <GeoJsonLayerComponent resultItem={sentinel1Item2CollectionMock} />
       <h3 className='text-lg font-bold'>Sentinel 2</h3>
-      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel2_1} />
+      <GeoJsonLayerComponent resultItem={sentinel2CollectionMock} />
       <h3 className='text-lg font-bold'>Sentinel 3</h3>
-      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel3_1} />
+      <GeoJsonLayerComponent resultItem={sentinel3CollectionMock} />
       <h3 className='text-lg font-bold'>Sentinel 5P</h3>
-      <GeoJsonLayerComponent resultItem={geoJsonData1_sentinel5P_1} />
+      <GeoJsonLayerComponent resultItem={sentinel5CollectionMock} />
     </div>
   );
 };
