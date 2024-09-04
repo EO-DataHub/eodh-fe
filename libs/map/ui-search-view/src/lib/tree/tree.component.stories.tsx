@@ -3,20 +3,20 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { memo, useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { defaultValues } from '../form.default-data';
-import { TFormDefaultValues } from '../form.model';
-import { validationSchema } from '../form.schema';
+import { defaultValues } from './form.default-data';
+import { TForm } from './form.model';
+import { validationSchema } from './form.schema';
 import { Tree as TreeComponent } from './tree.component';
 import { defaultSettings, TTreeSettings } from './tree.context';
 
 type TTreeTemplate = {
-  values: TFormDefaultValues;
+  values: TForm;
   triggerValidation?: boolean;
   settings?: TTreeSettings;
 };
 
 const Form = memo(({ values, settings, triggerValidation }: TTreeTemplate) => {
-  const form = useForm<TFormDefaultValues>({
+  const form = useForm<TForm>({
     values: { ...values },
     resolver: zodResolver(validationSchema),
     reValidateMode: 'onChange',
@@ -74,14 +74,14 @@ export const TreeError = {
   args: {
     values: {
       ...defaultValues,
-      dataSets: {
+      data: {
         copernicus: {
-          ...defaultValues.dataSets.copernicus,
+          ...defaultValues.data.copernicus,
           sentinel1: {
-            ...defaultValues.dataSets.copernicus.sentinel1,
+            ...defaultValues.data.copernicus.sentinel1,
             enabled: true,
             acquisitionMode: {
-              ...defaultValues.dataSets.copernicus.sentinel1.acquisitionMode,
+              ...defaultValues.data.copernicus.sentinel1.acquisitionMode,
               hh: false,
               hh_hv: false,
             },

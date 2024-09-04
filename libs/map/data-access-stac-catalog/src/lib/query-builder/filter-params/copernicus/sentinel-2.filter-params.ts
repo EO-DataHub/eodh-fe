@@ -1,8 +1,8 @@
-import { TCatalogSearchParams, TFilterParam } from '../../query.model';
+import { TCopernicusSearchParams, TFilterParam } from '../../query.model';
 
 const createSentinel2l2aFilterParams = (
   enabled: boolean,
-  params: Omit<TCatalogSearchParams['copernicus']['sentinel2'], 'enabled'>
+  params: Omit<TCopernicusSearchParams['sentinel2'], 'enabled'>
 ) => {
   if (!enabled || !params.l2a) {
     return [];
@@ -36,7 +36,7 @@ const createSentinel2l2aFilterParams = (
 
 const createSentinel2l1cFilterParams = (
   enabled: boolean,
-  params: Omit<TCatalogSearchParams['copernicus']['sentinel2'], 'enabled'>
+  params: Omit<TCopernicusSearchParams['sentinel2'], 'enabled'>
 ) => {
   if (!enabled || !params.l1c) {
     return [];
@@ -70,7 +70,7 @@ const createSentinel2l1cFilterParams = (
 
 export const createSentinel2FilterParams = (
   enabled: boolean,
-  params: Omit<TCatalogSearchParams['copernicus']['sentinel2'], 'enabled'>
+  params: Omit<TCopernicusSearchParams['sentinel2'], 'enabled'>
 ): TFilterParam[] => {
   return [...createSentinel2l1cFilterParams(enabled, params), ...createSentinel2l2aFilterParams(enabled, params)];
 };

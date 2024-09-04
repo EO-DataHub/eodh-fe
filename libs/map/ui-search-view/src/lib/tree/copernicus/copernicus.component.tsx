@@ -8,22 +8,22 @@ import { Sentinel2 } from './sentinel-2.component';
 import { Sentinel3 } from './sentinel-3.component';
 import { Sentinel5P } from './sentinel-5p.component';
 
-const name = 'copernicus.enabled';
+const name = 'data.copernicus.enabled';
 
 export const Copernicus = () => {
   const { register, setValue } = useFormContext<TForm>();
   const { field } = useController<TForm>({ name });
-  const sentinel1 = useWatch<TForm>({ name: 'copernicus.sentinel1.enabled' });
-  const sentinel2 = useWatch<TForm>({ name: 'copernicus.sentinel2.enabled' });
-  const sentinel3 = useWatch<TForm>({ name: 'copernicus.sentinel3.enabled' });
-  const sentinel5 = useWatch<TForm>({ name: 'copernicus.sentinel5.enabled' });
+  const sentinel1 = useWatch<TForm>({ name: 'data.copernicus.sentinel1.enabled' });
+  const sentinel2 = useWatch<TForm>({ name: 'data.copernicus.sentinel2.enabled' });
+  const sentinel3 = useWatch<TForm>({ name: 'data.copernicus.sentinel3.enabled' });
+  const sentinel5 = useWatch<TForm>({ name: 'data.copernicus.sentinel5.enabled' });
 
   const toggleSentinels = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      setValue('copernicus.sentinel1.enabled', event.target.checked);
-      setValue('copernicus.sentinel2.enabled', event.target.checked);
-      setValue('copernicus.sentinel3.enabled', event.target.checked);
-      setValue('copernicus.sentinel5.enabled', event.target.checked);
+      setValue('data.copernicus.sentinel1.enabled', event.target.checked);
+      setValue('data.copernicus.sentinel2.enabled', event.target.checked);
+      setValue('data.copernicus.sentinel3.enabled', event.target.checked);
+      setValue('data.copernicus.sentinel5.enabled', event.target.checked);
       field.onChange(event);
     },
     [field, setValue]

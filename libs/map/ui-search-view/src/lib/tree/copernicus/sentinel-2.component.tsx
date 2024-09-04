@@ -9,11 +9,11 @@ export const Sentinel2 = () => {
   const { register } = useFormContext<TForm>();
 
   return (
-    <SatelliteItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_2.NAME' name='copernicus.sentinel2.enabled'>
-      <SettingsItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_2.SETTINGS.L1C' name='copernicus.sentinel2.l1c' />
-      <SettingsItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_2.SETTINGS.L2A' name='copernicus.sentinel2.l2a' />
+    <SatelliteItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_2.NAME' name='data.copernicus.sentinel2.enabled'>
+      <SettingsItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_2.SETTINGS.L1C' name='data.copernicus.sentinel2.l1c' />
+      <SettingsItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_2.SETTINGS.L2A' name='data.copernicus.sentinel2.l2a' />
       <TreeItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE' expandable={false} level={1}>
-        <Slider {...register('copernicus.sentinel2.cloudCoverage', { valueAsNumber: true })} />
+        <Slider {...register('data.copernicus.sentinel2.cloudCoverage', { valueAsNumber: true })} />
       </TreeItem>
     </SatelliteItem>
   );

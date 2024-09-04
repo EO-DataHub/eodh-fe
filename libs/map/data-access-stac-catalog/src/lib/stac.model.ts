@@ -4,7 +4,7 @@ const coordinateSchema = z.tuple([z.number(), z.number()]);
 
 const polygonSchema = z.object({
   type: z.literal('Polygon'),
-  coordinates: z.array(z.array(coordinateSchema)),
+  coordinates: z.union([z.array(z.array(z.array(z.number()))), z.array(z.array(coordinateSchema))]),
 });
 
 const multiPolygonSchema = z.object({
@@ -12,7 +12,12 @@ const multiPolygonSchema = z.object({
   coordinates: z.array(z.array(z.array(coordinateSchema))),
 });
 
-const geometrySchema = z.union([polygonSchema, multiPolygonSchema]);
+const circleSchema = z.object({
+  type: z.literal('Circle'),
+  coordinates: z.array(z.array(z.array(z.number()))),
+});
+
+const geometrySchema = z.union([polygonSchema, multiPolygonSchema, circleSchema]);
 
 const propertySchema = z.object({
   datetime: z.string(),
@@ -82,4 +87,5 @@ export const collectionSchema = z.object({
   }),
 });
 
-export type TCollectionSchema = z.infer<typeof collectionSchema>;
+export type TGeometry = z.infer<typeof geometrySchema>;
+export type TCollection = z.infer<typeof collectionSchema>;

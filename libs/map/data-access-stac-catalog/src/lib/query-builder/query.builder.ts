@@ -1,3 +1,7 @@
+import { Circle, Geometry } from 'ol/geom';
+import { fromCircle, fromExtent } from 'ol/geom/Polygon';
+
+import { TGeometry } from '../stac.model';
 import { getFields } from './fields/get-fields';
 import { createFilterParams } from './filter-params/create.filter-params';
 import { TCatalogSearchParams, TFields, TFilterParam } from './query.model';
@@ -23,6 +27,7 @@ export type TQueryParams = {
   'filter-lang': 'cql-json';
   filter: TFilterParam | object;
   fields: TFields;
+  intersects?: TGeometry;
 };
 
 export type TQuery = {
@@ -43,6 +48,7 @@ export class QueryBuilder {
 
     const filter = createFilterParams(this.params.queryParams);
     const fields = getFields(this.params.queryParams);
+    const intersects = this.getIntersects();
 
     const params: TQueryParams = {
       limit: this.params.limit,
@@ -50,6 +56,7 @@ export class QueryBuilder {
       'filter-lang': 'cql-json',
       filter,
       fields,
+      intersects,
     };
     const query: TQuery = {
       enabled: !!Object.keys(params.filter).length,
@@ -74,4 +81,24 @@ export class QueryBuilder {
       fields: {},
     },
   });
+
+  private getIntersects = (): TGeometry | undefined => {
+    if (!this.params.queryParams?.aoi) {
+      return undefined;
+    }
+
+    if (this.isCircle(this.params.queryParams.aoi)) {
+      return {
+        type: 'Polygon',
+        coordinates: fromCircle(this.params.queryParams.aoi).getCoordinates(),
+      };
+    }
+
+    return {
+      type: 'Polygon',
+      coordinates: fromExtent(this.params.queryParams.aoi.getExtent()).getCoordinates(),
+    };
+  };
+
+  private isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() === 'Circle';
 }

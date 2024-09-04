@@ -1,4 +1,4 @@
-import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
+import { TCollection } from '@ukri/map/data-access-stac-catalog';
 import { Feature } from 'ol';
 import { click, pointerMove } from 'ol/events/condition';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -37,7 +37,7 @@ const highlightStyle = new Style({
   zIndex: 2,
 });
 
-export const useFootprintsLayer = (geojsonObject?: TCollectionSchema) => {
+export const useFootprintsLayer = (geojsonObject?: TCollection) => {
   const map = useContext(MapContext);
   const [vectorLayer, setVectorLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
 

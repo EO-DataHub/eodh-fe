@@ -1,9 +1,9 @@
-import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
+import { TCollection } from '@ukri/map/data-access-stac-catalog';
 import { ResultItem } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
 export interface IResultsListProps {
-  data: TCollectionSchema['features'];
+  data: TCollection['features'];
 }
 
 export const ResultsList = ({ data }: IResultsListProps) => {

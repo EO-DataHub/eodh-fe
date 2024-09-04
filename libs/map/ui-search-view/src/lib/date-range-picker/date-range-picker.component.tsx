@@ -1,51 +1,27 @@
 import { DateInput, Icon, Text } from '@ukri/shared/design-system';
-import get from 'lodash/get';
 import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { TFormDefaultValues } from '../form.model';
+import { TForm } from '../tree/form.model';
 import { styles } from './date-range-picker.styles';
+
+interface IDateRangePickerProps {
+  minDate: Date;
+  maxDate: Date;
+}
 
 const dateFromFieldName = 'date.from';
 const dateToFieldName = 'date.to';
 
-interface IDateRangePickerProps {
-  dateMin: Date;
-  dateMax: Date;
-}
-
-export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => {
-  const {
-    formState: { errors },
-    register,
-    getValues,
-    trigger,
-  } = useFormContext<TFormDefaultValues>();
+export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => {
+  const { register, getValues } = useFormContext<TForm>();
   const [isOpen, setIsOpen] = useState(true);
-  const dateFrom = getValues('date.from');
-  const dateTo = getValues('date.to');
-  const dateFromError = get(errors, 'date.from');
-  const dateToError = get(errors, 'date.to');
+  const fromDate = getValues('date.from');
+  const toDate = getValues('date.from');
 
   const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
-
-  const triggerDateFromValidation = useCallback(() => {
-    trigger(dateFromFieldName);
-
-    if (dateToError) {
-      trigger(dateToFieldName);
-    }
-  }, [trigger, dateToError]);
-
-  const triggerDateToValidation = useCallback(() => {
-    trigger(dateToFieldName);
-
-    if (dateFromError) {
-      trigger(dateFromFieldName);
-    }
-  }, [dateFromError, trigger]);
 
   return (
     <div className={styles.container}>
@@ -71,10 +47,9 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
             />
             <DateInput
               className={styles.dateInput}
-              minDate={dateMin}
-              maxDate={dateTo || dateMax}
-              {...register(dateFromFieldName, { onChange: triggerDateFromValidation })}
-              error={dateFromError?.message}
+              minDate={minDate}
+              maxDate={toDate || maxDate}
+              {...register(dateFromFieldName)}
             />
           </div>
           <div className={styles.row}>
@@ -87,10 +62,9 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
             />
             <DateInput
               className={styles.dateInput}
-              minDate={dateFrom || dateMin}
-              maxDate={dateMax}
-              {...register(dateToFieldName, { onChange: triggerDateToValidation })}
-              error={dateToError?.message}
+              minDate={fromDate || minDate}
+              maxDate={maxDate}
+              {...register(dateToFieldName)}
             />
           </div>
         </div>

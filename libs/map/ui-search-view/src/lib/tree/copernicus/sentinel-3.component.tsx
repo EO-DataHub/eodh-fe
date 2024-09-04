@@ -8,7 +8,7 @@ import { TForm } from '../form.model';
 
 const CloudCoverage = () => {
   const { register } = useFormContext<TForm>();
-  const enabled = useWatch<TForm>({ name: 'copernicus.sentinel3.slstr' });
+  const enabled = useWatch<TForm>({ name: 'data.copernicus.sentinel3.slstr' });
 
   return (
     <TreeItem
@@ -22,17 +22,23 @@ const CloudCoverage = () => {
       expandable={false}
       level={1}
     >
-      <Slider {...register('copernicus.sentinel3.cloudCoverage', { valueAsNumber: true })} disabled={!enabled} />
+      <Slider {...register('data.copernicus.sentinel3.cloudCoverage', { valueAsNumber: true })} disabled={!enabled} />
     </TreeItem>
   );
 };
 
 export const Sentinel3 = () => {
   return (
-    <SatelliteItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_3.NAME' name='copernicus.sentinel3.enabled'>
-      <SettingsItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_3.SETTINGS.SLSTR' name='copernicus.sentinel3.slstr' />
+    <SatelliteItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_3.NAME' name='data.copernicus.sentinel3.enabled'>
+      <SettingsItem
+        title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_3.SETTINGS.SLSTR'
+        name='data.copernicus.sentinel3.slstr'
+      />
       <CloudCoverage />
-      <SettingsItem title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_3.SETTINGS.OLCI' name='copernicus.sentinel3.olci' />
+      <SettingsItem
+        title='MAP.SEARCH_PANEL.COPERNICUS.SENTINEL_3.SETTINGS.OLCI'
+        name='data.copernicus.sentinel3.olci'
+      />
     </SatelliteItem>
   );
 };

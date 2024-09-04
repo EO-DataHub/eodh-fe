@@ -4,7 +4,7 @@ import { TCatalogSearchParams, TCopernicusParams, TFilterParam } from '../query.
 import { createCopernicusParams } from './copernicus/copernicus.filter-params';
 
 export const createDataFilterParams = (params: TCatalogSearchParams): TFilterParam | object => {
-  const filterParams = (Object.entries(params.dataSets.copernicus) as Entries<typeof params.dataSets.copernicus>)
+  const filterParams = (Object.entries(params.data.copernicus) as Entries<typeof params.data.copernicus>)
     .map(
       ([key, { enabled, ...rest }]) =>
         ({
