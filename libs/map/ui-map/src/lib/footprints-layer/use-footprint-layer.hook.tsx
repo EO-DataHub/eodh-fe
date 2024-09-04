@@ -1,4 +1,4 @@
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
 import { Feature } from 'ol';
 import { click, pointerMove } from 'ol/events/condition';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -37,12 +37,12 @@ const highlightStyle = new Style({
   zIndex: 2,
 });
 
-export const useFootprintsLayer = (geojsonObject?: TCollection) => {
+export const useFootprintsLayer = (geojsonObject: TCollectionSchema) => {
   const map = useContext(MapContext);
   const [vectorLayer, setVectorLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
 
   useEffect(() => {
-    if (!map || !geojsonObject) {
+    if (!map) {
       return;
     }
 
@@ -94,9 +94,10 @@ export const useFootprintsLayer = (geojsonObject?: TCollection) => {
   );
 
   const toggleVisibility = useCallback(() => {
-    if (vectorLayer) {
+    if (vectorLayer !== null) {
       const isVisible = vectorLayer?.getVisible();
       vectorLayer.setVisible(!isVisible);
+      return;
     }
   }, [vectorLayer]);
 

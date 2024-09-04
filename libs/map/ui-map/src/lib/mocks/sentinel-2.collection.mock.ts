@@ -1,6 +1,6 @@
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
 
-export const sentinel2CollectionMock: TCollection = {
+export const sentinel2CollectionMock: TCollectionSchema = {
   type: 'FeatureCollection',
   features: [
     {
@@ -2958,4 +2958,4 @@ export const sentinel2CollectionMock: TCollection = {
     limit: 50,
     returned: 50,
   },
-} as TCollection;
+} as TCollectionSchema;
