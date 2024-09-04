@@ -1,9 +1,9 @@
-import { TCopernicusSearchParams, TFilterParam } from '../../../query.model';
+import { TCatalogSearchParams, TFilterParam } from '../../../query.model';
 
 type TAcquisitionIwMode = 'vv+vv_vh' | 'vv' | 'vv_vh' | undefined;
 
 const getIwAcquisitionMode = (
-  acquisitionMode: TCopernicusSearchParams['sentinel1']['acquisitionMode']
+  acquisitionMode: TCatalogSearchParams['copernicus']['sentinel1']['acquisitionMode']
 ): TAcquisitionIwMode => {
   if (acquisitionMode.vv && acquisitionMode.vv_vh) {
     return 'vv+vv_vh';
@@ -57,7 +57,9 @@ const createPolarizationFilter = (mode: TAcquisitionIwMode): TFilterParam[] => {
   return [{ op: 'and', args: [baseFilter, ...polarizationFilters[mode]] }];
 };
 
-export const getIwFilterParams = (params: Omit<TCopernicusSearchParams['sentinel1'], 'enabled'>): TFilterParam[] => {
+export const getIwFilterParams = (
+  params: Omit<TCatalogSearchParams['copernicus']['sentinel1'], 'enabled'>
+): TFilterParam[] => {
   if (!params.acquisitionMode.iw) {
     return [];
   }
