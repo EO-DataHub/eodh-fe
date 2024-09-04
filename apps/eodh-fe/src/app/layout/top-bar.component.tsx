@@ -10,7 +10,6 @@ export const TopBar = () => {
         <a className='ml-4 my-4 no-underline' href='/'>
           <Logo className='h-11' />
         </a>
-        t1
       </div>
       <AoiLayer>
         <DrawRectangleButton />

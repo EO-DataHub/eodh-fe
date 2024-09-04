@@ -68,19 +68,20 @@ jobs:
       contents: read
     environment: 'qa'
     steps:
-      - name: 'Download build'
-        uses: actions/download-artifact@v4
-        with:
-          name: image-ukri
       - name: 'Clone repository'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: 'Download build'
+        uses: actions/download-artifact@v4
+        with:
+          name: image-ukri
+          path: ${{ github.workspace }}/dist/apps/eodh-fe
       - name: 'Create config file'
         run: npm run config:create
         shell: bash
         env:
-          NODE_DIST_PATH: ${{ github.workspace }}
+          NODE_DIST_PATH: ${{ github.workspace }}/dist/apps/eodh-fe
           VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
           VITE_API_URL: ${{ vars.APP_API_URL }}
           VITE_TRANSLATION_LANGUAGE_URL: ${{ vars.APP_LANGUAGE }}
@@ -95,7 +96,7 @@ jobs:
           role-session-name: ${{ vars.AWS_ROLE_SESSION_NAME }}
           aws-region: ${{ vars.AWS_REGION }}
       - name: 'Deploy to S3'
-        run: aws s3 cp ${{ github.workspace }} s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
+        run: aws s3 cp ${{ github.workspace }}/dist/apps/eodh-fe s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
       - name: 'Invalidate CloudFront'
         run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
   deployToStaging:
@@ -108,19 +109,20 @@ jobs:
       contents: read
     environment: 'staging'
     steps:
-      - name: 'Download build'
-        uses: actions/download-artifact@v4
-        with:
-          name: image-ukri
       - name: 'Clone repository'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: 'Download build'
+        uses: actions/download-artifact@v4
+        with:
+          name: image-ukri
+          path: ${{ github.workspace }}/dist/apps/eodh-fe
       - name: 'Create config file'
         run: npm run config:create
         shell: bash
         env:
-          NODE_DIST_PATH: ${{ github.workspace }}
+          NODE_DIST_PATH: ${{ github.workspace }}/dist/apps/eodh-fe
           VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
           VITE_API_URL: ${{ vars.APP_API_URL }}
           VITE_TRANSLATION_LANGUAGE_URL: ${{ vars.APP_LANGUAGE }}
@@ -135,7 +137,7 @@ jobs:
           role-session-name: ${{ vars.AWS_ROLE_SESSION_NAME }}
           aws-region: ${{ vars.AWS_REGION }}
       - name: 'Deploy to S3'
-        run: aws s3 cp ${{ github.workspace }} s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
+        run: aws s3 cp ${{ github.workspace }}/dist/apps/eodh-fe s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
       - name: 'Invalidate CloudFront'
         run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
   deployToProduction:
@@ -148,19 +150,20 @@ jobs:
       contents: read
     environment: 'prod'
     steps:
-      - name: 'Download build'
-        uses: actions/download-artifact@v4
-        with:
-          name: image-ukri
       - name: 'Clone repository'
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: 'Download build'
+        uses: actions/download-artifact@v4
+        with:
+          name: image-ukri
+          path: ${{ github.workspace }}/dist/apps/eodh-fe
       - name: 'Create config file'
         run: npm run config:create
         shell: bash
         env:
-          NODE_DIST_PATH: ${{ github.workspace }}
+          NODE_DIST_PATH: ${{ github.workspace }}/dist/apps/eodh-fe
           VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
           VITE_API_URL: ${{ vars.APP_API_URL }}
           VITE_TRANSLATION_LANGUAGE_URL: ${{ vars.APP_LANGUAGE }}
@@ -175,6 +178,6 @@ jobs:
           role-session-name: ${{ vars.AWS_ROLE_SESSION_NAME }}
           aws-region: ${{ vars.AWS_REGION }}
       - name: 'Deploy to S3'
-        run: aws s3 cp ${{ github.workspace }} s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
+        run: aws s3 cp ${{ github.workspace }}/dist/apps/eodh-fe s3://${{ vars.AWS_BUCKET_NAME }}/ --recursive
       - name: 'Invalidate CloudFront'
         run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIB_ID }} --paths "/*"
