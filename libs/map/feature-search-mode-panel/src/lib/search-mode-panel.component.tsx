@@ -1,7 +1,8 @@
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
-import { ResultsView } from '@ukri/map/ui-results-view';
 import { SearchView, TForm } from '@ukri/map/ui-search-view';
 import { useCallback, useState } from 'react';
+
+import { ResultsView } from './results-view.component';
 
 export const SearchModePanel = () => {
   const [searchParams, setSearchParams] = useState<TForm | undefined>();

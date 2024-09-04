@@ -37,12 +37,12 @@ const highlightStyle = new Style({
   zIndex: 2,
 });
 
-export const useFootprintsLayer = (geojsonObject: TCollectionSchema) => {
+export const useFootprintsLayer = (geojsonObject?: TCollectionSchema) => {
   const map = useContext(MapContext);
   const [vectorLayer, setVectorLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
 
   useEffect(() => {
-    if (!map) {
+    if (!map || !geojsonObject) {
       return;
     }
 
@@ -94,10 +94,9 @@ export const useFootprintsLayer = (geojsonObject: TCollectionSchema) => {
   );
 
   const toggleVisibility = useCallback(() => {
-    if (vectorLayer !== null) {
+    if (vectorLayer) {
       const isVisible = vectorLayer?.getVisible();
       vectorLayer.setVisible(!isVisible);
-      return;
     }
   }, [vectorLayer]);
 

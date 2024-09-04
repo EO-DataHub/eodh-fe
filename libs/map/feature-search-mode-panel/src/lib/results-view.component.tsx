@@ -1,10 +1,10 @@
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
 import { useFootprintsLayer } from '@ukri/map/ui-map';
 import { ResultsView as UIResultsView } from '@ukri/map/ui-results-view';
 
 type TResultsViewProps = {
   status: 'pending' | 'error' | 'success';
-  data: TCollection | undefined;
+  data: TCollectionSchema | undefined;
   onBack: () => void;
 };
 
