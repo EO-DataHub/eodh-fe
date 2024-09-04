@@ -32,7 +32,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: image-ukri
-      - name: Create config file
+      - name: 'Clone repository'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 'Create config file'
         run: npm run config:create
         shell: bash
         env:
@@ -66,7 +70,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: image-ukri
-      - name: Create config file
+      - name: 'Clone repository'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 'Create config file'
         run: npm run config:create
         shell: bash
         env:
@@ -101,7 +109,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: image-ukri
-      - name: Create config file
+      - name: 'Clone repository'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 'Create config file'
         run: npm run config:create
         shell: bash
         env:
@@ -136,7 +148,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: image-ukri
-      - name: Create config file
+      - name: 'Clone repository'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 'Create config file'
         run: npm run config:create
         shell: bash
         env:
