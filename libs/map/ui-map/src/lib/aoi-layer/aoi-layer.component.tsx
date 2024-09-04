@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useState } from 'react';
 
-import { TDraw, useAioLayer } from './use-aoi-layer.hook';
+import { TDraw, useAoiLayer } from './use-aoi-layer.hook';
 
 export type TAoiLayer = { draw: TDraw | undefined; setDraw: (draw: TDraw | undefined) => void };
 
@@ -12,7 +12,7 @@ export const AoiLayerContext = createContext<TAoiLayer>({
 
 export const AoiLayer = ({ children }: PropsWithChildren) => {
   const [currentDraw, setCurrentDraw] = useState<TDraw | undefined>(undefined);
-  useAioLayer({ draw: currentDraw, setDraw: setCurrentDraw });
+  useAoiLayer({ draw: currentDraw, setDraw: setCurrentDraw });
 
   return (
     <AoiLayerContext.Provider value={{ draw: currentDraw, setDraw: setCurrentDraw }}>

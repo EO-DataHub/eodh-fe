@@ -6,12 +6,13 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { useContext, useEffect, useState } from 'react';
 
+import { aoiLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
 import { TAoiLayer } from './aoi-layer.component';
 
 export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
-export const useAioLayer = ({ draw, setDraw }: TAoiLayer) => {
+export const useAoiLayer = ({ draw, setDraw }: TAoiLayer) => {
   const map = useContext(MapContext);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
   const shape = useCurrentShape();
@@ -21,6 +22,7 @@ export const useAioLayer = ({ draw, setDraw }: TAoiLayer) => {
     const vectorSource = new VectorSource({ wrapX: false });
     const vector = new VectorLayer({
       source: vectorSource,
+      zIndex: aoiLayerZindex,
     });
 
     map.addLayer(vector);
