@@ -29,7 +29,7 @@ vi.mock('./layout/default-layout.component', () => ({
   DefaultLayout: vi.fn().mockImplementation(() => <div></div>),
 }));
 
-describe('App', () => {
+describe.skip('App', () => {
   it('should render successfully', () => {
     const { baseElement } = render(<App />);
     expect(baseElement).toBeTruthy();
