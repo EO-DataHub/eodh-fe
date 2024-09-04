@@ -40,7 +40,6 @@ const highlightStyle = new Style({
 export const useFootprintsLayer = (geojsonObject: IFeatureCollection) => {
   const map = useContext(MapContext);
   const [vectorLayer, setVectorLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
-  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     if (!map) {
@@ -57,31 +56,34 @@ export const useFootprintsLayer = (geojsonObject: IFeatureCollection) => {
       source: vectorSource,
       style: defaultStyle,
       zIndex: footprintsLayerZindex,
-      visible: isVisible,
+      // visible: isVisible,
     });
 
-    setVectorLayer(newVectorLayer);
     map.addLayer(newVectorLayer);
 
     const selectHover = new Select({
       condition: pointerMove,
       style: highlightStyle,
+      layers: [newVectorLayer],
     });
 
     const selectClick = new Select({
       condition: click,
       style: highlightStyle,
+      layers: [newVectorLayer],
     });
 
     map.addInteraction(selectHover);
     map.addInteraction(selectClick);
+
+    setVectorLayer(newVectorLayer);
 
     return () => {
       map.removeLayer(newVectorLayer);
       map.removeInteraction(selectHover);
       map.removeInteraction(selectClick);
     };
-  }, [map, geojsonObject, isVisible]);
+  }, [map, geojsonObject]);
 
   const updateZindex = useCallback(
     (newZIndex: number) => {
@@ -92,16 +94,13 @@ export const useFootprintsLayer = (geojsonObject: IFeatureCollection) => {
     [vectorLayer]
   );
 
-  const toggleVisibility = useCallback(
-    (visible?: boolean) => {
-      if (vectorLayer) {
-        const newVisibility = visible !== undefined ? visible : !vectorLayer.getVisible();
-        vectorLayer.setVisible(newVisibility);
-        setIsVisible(newVisibility);
-      }
-    },
-    [vectorLayer]
-  );
+  const toggleVisibility = useCallback(() => {
+    if (vectorLayer !== null) {
+      const isVisible = vectorLayer?.getVisible();
+      vectorLayer.setVisible(!isVisible);
+      return;
+    }
+  }, [vectorLayer]);
 
   return { updateZindex, toggleVisibility };
 };

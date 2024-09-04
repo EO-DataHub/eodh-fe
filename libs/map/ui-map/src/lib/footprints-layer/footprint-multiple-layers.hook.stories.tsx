@@ -1,7 +1,5 @@
 import { Meta, Story } from '@storybook/react';
 import { Button } from '@ukri/shared/design-system';
-import React from 'react';
-import { useState } from 'react';
 
 import { Map, MapWrapper } from '../map.component';
 import geoJsonData1_sentinel1_1 from '../mocks/mockedSampleResponse_sentinel1_1.json';
@@ -13,15 +11,9 @@ import { IFeatureCollection } from './geo-json.type';
 import { useFootprintsLayer } from './use-footprint-layer.hook';
 
 const GeoJsonLayerComponent = ({ resultItem }: { resultItem: IFeatureCollection & IFeatureCollection }) => {
-  const [visible, setVisible] = useState(true);
   const geojsonObject = resultItem as IFeatureCollection;
 
   const { updateZindex, toggleVisibility } = useFootprintsLayer(geojsonObject);
-
-  const onToggleVisibility = () => {
-    toggleVisibility(!visible);
-    setVisible(!visible);
-  };
 
   return (
     <div className='ml-4'>
@@ -31,7 +23,7 @@ const GeoJsonLayerComponent = ({ resultItem }: { resultItem: IFeatureCollection 
         className='border border-gray-300 rounded-md p-1 w-[300px] my-4'
         placeholder='Inser number to change z-index'
       />
-      <Button onClick={onToggleVisibility} text='Toggle Visible' />
+      <Button onClick={toggleVisibility} text='Toggle Visible' />
     </div>
   );
 };
