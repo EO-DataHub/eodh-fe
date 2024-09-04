@@ -12,6 +12,40 @@ type TCallbacks = {
   onTokenExpired: (() => void)[];
 };
 
+class KeycloakConfigError implements Keycloak {
+  public init = () => Promise.reject();
+  public login = () => Promise.reject();
+  public logout = () => Promise.reject();
+  public register = () => Promise.reject();
+  public loadUserProfile = () => Promise.reject();
+  public loadUserInfo = () => Promise.reject();
+  public accountManagement = () => Promise.reject();
+  public updateToken = () => Promise.reject();
+  public createLoginUrl = () => '';
+  public createAccountUrl = () => '';
+  public createLogoutUrl = () => '';
+  public createRegisterUrl = () => '';
+  public isTokenExpired = () => true;
+  public hasResourceRole = () => false;
+  public hasRealmRole = () => false;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public clearToken = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onReady = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onAuthSuccess = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onAuthError = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onAuthRefreshSuccess = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onAuthRefreshError = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onAuthLogout = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onTokenExpired = () => {};
+}
+
 export class KeycloakAdapter implements IAuthAdapter {
   protected instance: Keycloak;
   private callbacks: TCallbacks = {
@@ -28,14 +62,23 @@ export class KeycloakAdapter implements IAuthAdapter {
   };
 
   public constructor(config: KeycloakConfig) {
-    this.instance = new Keycloak(config);
-    this.instance.onReady = this.runOnReadyCallback;
-    this.instance.onAuthSuccess = this.runAuthSuccessCallback;
-    this.instance.onAuthError = this.runAuthErrorCallback;
-    this.instance.onAuthRefreshSuccess = this.runAuthRefreshSuccessCallback;
-    this.instance.onAuthRefreshError = this.runAuthRefreshErrorCallback;
-    this.instance.onAuthLogout = this.runAuthLogoutCallback;
-    this.instance.onTokenExpired = this.runOnTokenExpiredCallback;
+    if (!config.clientId || !config.realm) {
+      this.instance = new KeycloakConfigError();
+      return;
+    }
+
+    try {
+      this.instance = new Keycloak(config);
+      this.instance.onReady = this.runOnReadyCallback;
+      this.instance.onAuthSuccess = this.runAuthSuccessCallback;
+      this.instance.onAuthError = this.runAuthErrorCallback;
+      this.instance.onAuthRefreshSuccess = this.runAuthRefreshSuccessCallback;
+      this.instance.onAuthRefreshError = this.runAuthRefreshErrorCallback;
+      this.instance.onAuthLogout = this.runAuthLogoutCallback;
+      this.instance.onTokenExpired = this.runOnTokenExpiredCallback;
+    } catch (e) {
+      this.instance = new KeycloakConfigError();
+    }
   }
 
   public init = (initOptions: KeycloakInitOptions): Promise<boolean> => {
