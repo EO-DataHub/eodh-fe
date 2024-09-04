@@ -3,8 +3,8 @@ import { Button } from '@ukri/shared/design-system';
 import { useState } from 'react';
 
 import { Map, MapWrapper } from '../map.component';
+import geoJsonData1_sentinel1_1 from '../mocks/mockedSampleResponse_sentinel1_1.json';
 import { IFeatureCollection } from './geo-json.type';
-import geoJsonData1_sentinel1_1 from './mockedSampleResponse_sentinel1_1.json';
 import { useFootprintsLayer } from './use-footprint-layer.hook';
 
 const GeoJsonLayerComponent = () => {
@@ -32,7 +32,7 @@ const GeoJsonLayerComponent = () => {
 };
 
 export default {
-  title: 'libs/map/ui-map/useGeoJsonLayer-SINGLE_LAYER',
+  title: 'libs/map/ui-map/useFootprintsLayer-SINGLE_LAYER',
   component: GeoJsonLayerComponent,
   decorators: [
     (Story) => (

@@ -4,12 +4,12 @@ import React from 'react';
 import { useState } from 'react';
 
 import { Map, MapWrapper } from '../map.component';
+import geoJsonData1_sentinel1_1 from '../mocks/mockedSampleResponse_sentinel1_1.json';
+import geoJsonData1_sentinel1_2 from '../mocks/mockedSampleResponse_sentinel1_2.json';
+import geoJsonData1_sentinel2_1 from '../mocks/mockedSampleResponse_sentinel2_1.json';
+import geoJsonData1_sentinel3_1 from '../mocks/mockedSampleResponse_sentinel3_1.json';
+import geoJsonData1_sentinel5P_1 from '../mocks/mockedSampleResponse_sentinel5P_1.json';
 import { IFeatureCollection } from './geo-json.type';
-import geoJsonData1_sentinel1_1 from './mockedSampleResponse_sentinel1_1.json';
-import geoJsonData1_sentinel1_2 from './mockedSampleResponse_sentinel1_2.json';
-import geoJsonData1_sentinel2_1 from './mockedSampleResponse_sentinel2_1.json';
-import geoJsonData1_sentinel3_1 from './mockedSampleResponse_sentinel3_1.json';
-import geoJsonData1_sentinel5P_1 from './mockedSampleResponse_sentinel5P_1.json';
 import { useFootprintsLayer } from './use-footprint-layer.hook';
 
 const GeoJsonLayerComponent = ({ resultItem }: { resultItem: IFeatureCollection & IFeatureCollection }) => {
@@ -53,7 +53,7 @@ const MultiMapDisplay = () => {
 };
 
 export default {
-  title: 'libs/map/ui-map/useGeoJsonLayer-MULTIPLE_LAYERS',
+  title: 'libs/map/ui-map/useFootprintsLayer-MULTIPLE_LAYERS',
   component: MultiMapDisplay,
   decorators: [
     (Story) => (
