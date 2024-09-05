@@ -18,7 +18,7 @@ type TResultsViewProps = TResultsStateProps & IBaseResultsPanelProps;
 export const ResultsView = (props: TResultsViewProps) => {
   switch (props.status) {
     case 'success': {
-      if (!props.data || !props.data?.features) {
+      if (!props.data || !props.data?.features.length) {
         return (
           <Error
             iconName='SatelliteAlt'
