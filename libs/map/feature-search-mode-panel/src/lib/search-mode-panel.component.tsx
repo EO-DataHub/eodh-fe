@@ -1,7 +1,9 @@
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { SearchView, TForm } from '@ukri/map/ui-search-view';
+import { Icon, Text } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
+import { Header } from './header.component';
 import { ResultsView } from './results-view.component';
 
 type TSearchParams = TForm | undefined;
@@ -22,12 +24,39 @@ export const SearchModePanel = () => {
 
   switch (view) {
     case 'results': {
-      return <ResultsView status={status} data={data} onBack={changeToSearchView} />;
+      return (
+        <ResultsView status={status} data={data} onBack={changeToSearchView}>
+          <Header>
+            <button onClick={changeToSearchView} className='flex items-center'>
+              <Icon name='ArrowLeft' className='text-neutral-light' />
+              <Text
+                content='MAP.SEARCH_MODE_PANEL.HEADER.BACK_TO_DATA_SETS'
+                type='h3'
+                fontSize='large'
+                fontWeight='bold'
+                className='text-neutral-dark'
+              />
+            </button>
+          </Header>
+        </ResultsView>
+      );
     }
 
     default:
     case 'search': {
-      return <SearchView defaultValues={searchParams} onSubmit={search} />;
+      return (
+        <SearchView defaultValues={searchParams} onSubmit={search}>
+          <Header>
+            <Text
+              content='MAP.SEARCH_MODE_PANEL.HEADER.BROWSE_DATA_SETS'
+              type='h3'
+              fontSize='large'
+              fontWeight='bold'
+              className='text-neutral-dark'
+            />
+          </Header>
+        </SearchView>
+      );
     }
   }
 };

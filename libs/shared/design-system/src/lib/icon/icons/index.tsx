@@ -1,4 +1,5 @@
 export { default as ArrowDown } from './arrow-down';
+export { default as ArrowLeft } from './arrow-left';
 export { default as ArrowDropRight } from './arrow-drop-right';
 export { default as ArrowDropDown } from './arrow-drop-down';
 export { default as Bolt } from './bolt';

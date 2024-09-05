@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import isString from 'lodash/isString';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../icon/icon';
@@ -14,7 +15,7 @@ import {
 } from './button.styles';
 
 interface IButtonProps {
-  text: string;
+  text: string | ReactNode;
   type?: 'button' | 'reset' | 'submit';
   appearance?: 'default' | 'outlined' | 'outlined-white' | 'text';
   size?: 'small' | 'medium' | 'large';
@@ -59,7 +60,7 @@ export const Button = ({
   return (
     <button type={type} className={combinedStyles} onClick={onClick} disabled={disabled}>
       {iconName && <Icon name={iconName} width={iconWidth ?? 24} height={iconHeight ?? 24} />}
-      {t(translatedContent)}
+      {translatedContent}
     </button>
   );
 };
