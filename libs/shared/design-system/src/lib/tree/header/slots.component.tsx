@@ -21,7 +21,7 @@ export const Slots = memo(({ slots, position, className, onClick }: TSlotsProps)
   }
 
   if (onClick) {
-    <button className={`flex flex-row items-center gap-x-2 ${className}`} onClick={onClick}>
+    <button type='button' className={`flex flex-row items-center gap-x-2 ${className}`} onClick={onClick}>
       {elements.map((i) => (
         <Fragment key={i.key}>{i.element}</Fragment>
       ))}

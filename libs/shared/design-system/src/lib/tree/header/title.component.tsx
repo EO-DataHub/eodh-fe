@@ -16,19 +16,23 @@ export const Title = memo(({ title, className = '', fontWeight, onClick }: TTile
 
   if (isValidElement(title)) {
     if (onClick) {
-      return <button className='grow text-left'>{title}</button>;
+      return (
+        <button type='button' className='grow text-left'>
+          {title}
+        </button>
+      );
     }
 
     return (
-      <div className='grow text-left' onClick={onClick}>
+      <button type='button' className='grow text-left' onClick={onClick}>
         {title}
-      </div>
+      </button>
     );
   }
 
   if (onClick) {
     return (
-      <button className='grow' onClick={onClick}>
+      <button type='button' className='grow' onClick={onClick}>
         <Text
           content={title}
           type='p'
