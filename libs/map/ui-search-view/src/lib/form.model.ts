@@ -1,6 +1,7 @@
 import { TDateString } from '@ukri/shared/utils/date';
+import Geometry from 'ol/geom/Geometry';
 
-export type TForm = {
+export type TFormDefaultValues = {
   data: {
     copernicus: {
       enabled: boolean;
@@ -60,4 +61,5 @@ export type TForm = {
     from: TDateString;
     to: TDateString;
   };
+  aoi: Geometry | undefined;
 };

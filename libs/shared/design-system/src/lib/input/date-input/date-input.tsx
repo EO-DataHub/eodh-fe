@@ -5,6 +5,7 @@ import isString from 'lodash/isString';
 import { ChangeEvent, FC, ForwardedRef, forwardRef } from 'react';
 
 import { Icon } from '../../icon/icon';
+import { Text } from '../../text/text';
 import { dateInputStyles } from './date-input.styles';
 
 function formatDateToString(date?: Date | string): string {
@@ -19,6 +20,7 @@ function formatDateToString(date?: Date | string): string {
   if (!isNaN(date.getTime())) {
     return date.toISOString().split('T')[0];
   }
+
   return '';
 }
 
@@ -39,7 +41,7 @@ export const DateInput: FC<IDateInputProps> = forwardRef(
 
     return (
       <div>
-        {error && <span className={dateInputStyles.errorText}>{error}</span>}
+        {error && <Text content={error} fontSize='medium' fontWeight='regular' className={dateInputStyles.errorText} />}
         <div className={clsx(dateInputStyles.container, className)}>
           <input
             ref={ref}

@@ -1,6 +1,6 @@
 import { createDateString, formatDate } from '@ukri/shared/utils/date';
 
-import { TForm } from './form.model';
+import { TFormDefaultValues } from './form.model';
 
 const oneMonthAgo = () => {
   const today = new Date();
@@ -10,7 +10,7 @@ const oneMonthAgo = () => {
   return oneMonthAgo;
 };
 
-export const defaultValues: TForm = {
+export const defaultValues: TFormDefaultValues = {
   data: {
     copernicus: {
       enabled: false,
@@ -70,4 +70,5 @@ export const defaultValues: TForm = {
     from: formatDate(createDateString(oneMonthAgo())),
     to: formatDate(createDateString(new Date())),
   },
+  aoi: undefined,
 };
