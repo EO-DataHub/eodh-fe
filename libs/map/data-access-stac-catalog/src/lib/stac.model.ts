@@ -51,6 +51,7 @@ const featureSchema = z.object({
   stac_version: z.string(),
   assets: z.object({
     thumbnail: assetSchema,
+    visual: assetSchema,
   }),
   links: z.array(linkSchema),
   collection: z.string(),

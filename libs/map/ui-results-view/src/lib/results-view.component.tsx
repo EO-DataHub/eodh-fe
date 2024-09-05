@@ -7,11 +7,17 @@ interface IBaseResultsPanelProps {
   onBack: () => void;
 }
 
-type TResultsStateProps = {
-  status: 'pending' | 'error' | 'success';
-  data: TCollectionSchema | undefined;
-  error?: Error;
-};
+type TResultsStateProps =
+  | {
+      status: 'pending';
+    }
+  | {
+      status: 'success';
+      data: TCollectionSchema;
+    }
+  | {
+      status: 'error';
+    };
 
 type TResultsViewProps = TResultsStateProps & IBaseResultsPanelProps;
 
