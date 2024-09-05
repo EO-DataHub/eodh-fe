@@ -9,7 +9,7 @@ const polygonSchema = z.object({
 
 const multiPolygonSchema = z.object({
   type: z.literal('MultiPolygon'),
-  coordinates: z.array(z.array(z.array(coordinateSchema))),
+  coordinates: z.union([z.array(z.array(z.array(coordinateSchema))), z.array(z.array(z.array(z.array(z.number()))))]),
 });
 
 const circleSchema = z.object({
