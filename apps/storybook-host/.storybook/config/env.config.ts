@@ -34,8 +34,8 @@ export const getEnvConfig = (): IEnvConfig => ({
   baseUrl: getValue(import.meta.env.VITE_BASE_URL, '/'),
   module: {
     translation: {
-      language: getValue(import.meta.env.VITE_TRANSLATION_LANGUAGE_URL, 'en'),
-      fallbackLng: getValue(import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE_URL, 'en'),
+      language: getValue(import.meta.env.VITE_TRANSLATION_LANGUAGE, 'en'),
+      fallbackLng: getValue(import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE, 'en'),
       path: `assets/i18n/{{lang}}.json`,
     },
     authorization: {

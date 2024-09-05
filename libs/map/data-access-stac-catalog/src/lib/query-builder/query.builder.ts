@@ -7,13 +7,13 @@ export type TSortBy = {
   direction: 'desc' | 'asc';
 };
 
-type TQueryBuilderParams = {
+export type TQueryBuilderParams = {
   queryParams?: TCatalogSearchParams;
   limit: number;
   sortBy: TSortBy;
 };
 
-type TQueryBuilderOptions = {
+export type TQueryBuilderOptions = {
   debug?: boolean;
 };
 
@@ -31,39 +31,47 @@ export type TQuery = {
 };
 
 export class QueryBuilder {
-  public constructor(protected params: TQueryBuilderParams, protected options?: TQueryBuilderOptions) {}
+  public constructor(
+    protected readonly params: TQueryBuilderParams,
+    protected readonly options: TQueryBuilderOptions = {}
+  ) {}
 
   public build(): TQuery {
     if (!this.params.queryParams) {
-      return {
-        enabled: false,
-        params: {
-          limit: this.params.limit,
-          sortby: [this.params.sortBy],
-          'filter-lang': 'cql-json',
-          filter: {},
-          fields: {},
-        },
-      };
+      return this.createDefaultQuery();
     }
+
+    const filter = createFilterParams(this.params.queryParams);
+    const fields = getFields(this.params.queryParams);
 
     const params: TQueryParams = {
       limit: this.params.limit,
       sortby: [this.params.sortBy],
       'filter-lang': 'cql-json',
-      filter: createFilterParams(this.params.queryParams),
-      fields: getFields(this.params.queryParams),
+      filter,
+      fields,
     };
     const query: TQuery = {
       enabled: !!Object.keys(params.filter).length,
       params,
     };
 
-    if (this.options?.debug) {
+    if (this.options.debug) {
       // eslint-disable-next-line no-console
       console.log('query', query);
     }
 
     return query;
   }
+
+  private createDefaultQuery = (): TQuery => ({
+    enabled: false,
+    params: {
+      limit: this.params.limit,
+      sortby: [this.params.sortBy],
+      'filter-lang': 'cql-json',
+      filter: {},
+      fields: {},
+    },
+  });
 }

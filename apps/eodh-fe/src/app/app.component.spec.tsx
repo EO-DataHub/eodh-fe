@@ -25,6 +25,47 @@ vi.mock('@ukri/shared/utils/react-query', () => ({
   initHttpClient: vi.fn(),
 }));
 
+vi.mock('../env.config', () => ({
+  getEnvConfig: vi.fn().mockImplementation(() => ({
+    production: false,
+    baseUrl: '',
+    module: {
+      translation: {
+        language: '',
+        fallbackLng: '',
+        path: '',
+      },
+      authorization: {
+        url: '',
+        realm: '',
+        clientId: '',
+      },
+      http: {
+        baseUrl: '',
+      },
+    },
+  })),
+  env: {
+    production: false,
+    baseUrl: '',
+    module: {
+      translation: {
+        language: '',
+        fallbackLng: '',
+        path: '',
+      },
+      authorization: {
+        url: '',
+        realm: '',
+        clientId: '',
+      },
+      http: {
+        baseUrl: '',
+      },
+    },
+  },
+}));
+
 vi.mock('./layout/default-layout.component', () => ({
   DefaultLayout: vi.fn().mockImplementation(() => <div></div>),
 }));

@@ -16,98 +16,54 @@ const getEwAcquisitionMode = (
   return undefined;
 };
 
+const createPolarizationFilter = (mode: TAcquisitionEwMode): TFilterParam[] => {
+  if (!mode) {
+    return [];
+  }
+
+  const baseFilter: TFilterParam = {
+    op: '=',
+    args: [{ property: 'properties.sar:instrument_mode' }, 'EW'],
+  };
+
+  const polarizationFilters: Record<NonNullable<TAcquisitionEwMode>, TFilterParam[]> = {
+    'hh+hh_hv': [
+      {
+        op: 'and',
+        args: [
+          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HH']] },
+          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HV']] },
+        ],
+      },
+    ],
+    hh: [
+      { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HH']] },
+      {
+        op: 'not',
+        args: [{ op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HV']] }],
+      },
+    ],
+    hh_hv: [
+      {
+        op: 'or',
+        args: [
+          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HH']] },
+          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HV']] },
+        ],
+      },
+    ],
+  };
+
+  return [{ op: 'and', args: [baseFilter, ...polarizationFilters[mode]] }];
+};
+
 export const getEwFilterParams = (
   params: Omit<TCatalogSearchParams['copernicus']['sentinel1'], 'enabled'>
 ): TFilterParam[] => {
-  const args: TFilterParam[] = [];
-
   if (!params.acquisitionMode.ew) {
-    return args;
+    return [];
   }
 
-  switch (getEwAcquisitionMode(params.acquisitionMode)) {
-    case 'hh+hh_hv': {
-      args.push({
-        op: 'and',
-        args: [
-          {
-            op: '=',
-            args: [{ property: 'properties.sar:instrument_mode' }, 'EW'],
-          },
-          {
-            op: 'and',
-            args: [
-              {
-                op: 'in',
-                args: [{ property: 'properties.sar:polarizations' }, ['HH']],
-              },
-              {
-                op: 'in',
-                args: [{ property: 'properties.sar:polarizations' }, ['HV']],
-              },
-            ],
-          },
-        ],
-      });
-      break;
-    }
-
-    case 'hh': {
-      args.push({
-        op: 'and',
-        args: [
-          {
-            op: '=',
-            args: [{ property: 'properties.sar:instrument_mode' }, 'EW'],
-          },
-          {
-            op: 'in',
-            args: [{ property: 'properties.sar:polarizations' }, ['HH']],
-          },
-          {
-            op: 'not',
-            args: [
-              {
-                op: 'in',
-                args: [{ property: 'properties.sar:polarizations' }, ['HV']],
-              },
-            ],
-          },
-        ],
-      });
-      break;
-    }
-
-    case 'hh_hv': {
-      args.push({
-        op: 'and',
-        args: [
-          {
-            op: '=',
-            args: [{ property: 'properties.sar:instrument_mode' }, 'EW'],
-          },
-          {
-            op: 'or',
-            args: [
-              {
-                op: 'in',
-                args: [{ property: 'properties.sar:polarizations' }, ['HH']],
-              },
-              {
-                op: 'in',
-                args: [{ property: 'properties.sar:polarizations' }, ['HV']],
-              },
-            ],
-          },
-        ],
-      });
-      break;
-    }
-
-    default: {
-      break;
-    }
-  }
-
-  return args;
+  const mode = getEwAcquisitionMode(params.acquisitionMode);
+  return createPolarizationFilter(mode);
 };

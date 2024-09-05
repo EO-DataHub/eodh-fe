@@ -1,5 +1,4 @@
 import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
-// import { MapContext, useTrueColorImageLayer } from '@ukri/map/ui-map';
 import { GeoTiffLayer } from '@ukri/map/ui-map';
 import { ResultItem } from '@ukri/shared/design-system';
 import { useCallback, useContext, useEffect, useState } from 'react';

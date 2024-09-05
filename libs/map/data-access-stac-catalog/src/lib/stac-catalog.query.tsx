@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-query';
+import { useMemo } from 'react';
 
 import { paths } from './api';
-import { QueryBuilder, TQueryParams, TSortBy } from './query-builder/query.builder';
+import { TQueryBuilderOptions, TQueryBuilderParams, TQueryParams } from './query-builder/query.builder';
 import { TCatalogSearchParams } from './query-builder/query.model';
+import { useQueryBuilder } from './query-builder/use-query-builder.hook';
 import { queryKey } from './query-key.enum';
 import { collectionSchema, TCollectionSchema } from './stac.model';
 
@@ -18,12 +20,26 @@ type TCatalogSearchProps = {
 };
 
 export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
-  const sortBy: TSortBy = {
-    field: 'properties.datetime',
-    direction: 'desc',
-  };
-  const limit = 10;
-  const query = new QueryBuilder({ sortBy, limit, queryParams: params }, { debug: true }).build();
+  const queryBuilderParams: TQueryBuilderParams = useMemo(
+    () => ({
+      queryParams: params,
+      limit: 10,
+      sortBy: {
+        field: 'properties.datetime',
+        direction: 'desc',
+      },
+    }),
+    [params]
+  );
+
+  const queryBuilderOptions: TQueryBuilderOptions = useMemo(
+    () => ({
+      debug: true,
+    }),
+    []
+  );
+
+  const query = useQueryBuilder(queryBuilderParams, queryBuilderOptions);
 
   return useQuery<TExtractFnReturnType<typeof search>>({
     enabled: query.enabled,

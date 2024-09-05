@@ -5,3 +5,4 @@ export { DrawPolygonButton } from './lib/aoi-layer/draw-polygon.component';
 export { DrawRectangleButton } from './lib/aoi-layer/draw-rectangle.component';
 export { TrueColorImageLayer } from './lib/true-color-image-layer/use-true-color-image-layer.hook';
 export { GeoTiffLayer } from './lib/test';
+export { useFootprintsLayer } from './lib/footprints-layer/use-footprint-layer.hook';
