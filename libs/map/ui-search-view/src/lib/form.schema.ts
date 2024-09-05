@@ -36,7 +36,7 @@ export const validationSchema = z.object({
             if (!acquisitionMode.ew && !acquisitionMode.iw) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: 'MAP.SEARCH_PANEL.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+                message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
                 path: ['acquisitionMode', 'ew'],
               });
 
@@ -50,7 +50,7 @@ export const validationSchema = z.object({
             if (acquisitionMode.ew && !acquisitionMode.hh && !acquisitionMode.hh_hv) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: 'MAP.SEARCH_PANEL.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+                message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
                 path: ['acquisitionMode', 'hh'],
               });
 
@@ -64,7 +64,7 @@ export const validationSchema = z.object({
             if (acquisitionMode.iw && !acquisitionMode.vv && !acquisitionMode.vv_vh) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: 'MAP.SEARCH_PANEL.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+                message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
                 path: ['acquisitionMode', 'vv'],
               });
 
@@ -78,7 +78,7 @@ export const validationSchema = z.object({
             if (!orbitDirection.ascending && !orbitDirection.descending) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: 'MAP.SEARCH_PANEL.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+                message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
                 path: ['orbitDirection', 'ascending'],
               });
 
@@ -104,7 +104,7 @@ export const validationSchema = z.object({
             if (!schema.l1c && !schema.l2a) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: 'MAP.SEARCH_PANEL.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+                message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
                 path: ['l1c'],
               });
 
@@ -130,7 +130,7 @@ export const validationSchema = z.object({
             if (!schema.slstr && !schema.olci) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: 'MAP.SEARCH_PANEL.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+                message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
                 path: ['slstr'],
               });
 
@@ -170,7 +170,7 @@ export const validationSchema = z.object({
             ) {
               ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: 'MAP.SEARCH_PANEL.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+                message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
                 path: ['aer_ai'],
               });
 
@@ -227,7 +227,7 @@ export const validationSchema = z.object({
         ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: 'MAP.SEARCH_PANEL.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+            message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
             path: ['sentinel1.enabled'],
           });
 
@@ -278,7 +278,7 @@ export const validationSchema = z.object({
         if (checkDateTo.safeParse(dateTo).error) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: 'MAP.SEARCH_PANEL.VALIDATION.DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO',
+            message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO',
             path: ['to'],
           });
         }
@@ -296,7 +296,7 @@ export const validationSchema = z.object({
         if (checkDateFrom.safeParse(dateFrom).error) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: 'MAP.SEARCH_PANEL.VALIDATION.DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO',
+            message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO',
             path: ['from'],
           });
         }
