@@ -1,0 +1,37 @@
+import { Circle, Geometry, MultiPolygon, Polygon } from 'ol/geom';
+import { fromCircle } from 'ol/geom/Polygon';
+
+import { TGeometry } from '../stac.model';
+
+const isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() === 'Circle';
+
+const isPolygon = (geometry: Geometry): geometry is Polygon => geometry.getType() === 'Polygon';
+
+const isMultiPolygon = (geometry: Geometry): geometry is MultiPolygon => geometry.getType() === 'MultiPolygon';
+
+export const getIntersects = (aoi: Geometry | undefined): TGeometry | undefined => {
+  if (!aoi) {
+    return undefined;
+  }
+
+  const aoiEpsg4326 = aoi.clone().transform('EPSG:3857', 'EPSG:4326');
+
+  if (isCircle(aoiEpsg4326)) {
+    return {
+      type: 'Polygon',
+      coordinates: fromCircle(aoiEpsg4326).getCoordinates(),
+    };
+  } else if (isPolygon(aoiEpsg4326)) {
+    return {
+      type: 'Polygon',
+      coordinates: aoiEpsg4326.getCoordinates(),
+    };
+  } else if (isMultiPolygon(aoiEpsg4326)) {
+    return {
+      type: 'MultiPolygon',
+      coordinates: aoiEpsg4326.getCoordinates(),
+    };
+  }
+
+  return undefined;
+};

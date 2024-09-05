@@ -50,7 +50,7 @@ export type TCatalogSearchParams = {
     from: TDateString;
     to: TDateString;
   };
-  aoi: Geometry;
+  aoi: Geometry | undefined;
 };
 
 export type TCopernicusParams = {
