@@ -3,13 +3,21 @@ import isString from 'lodash/isString';
 
 enum DATE {}
 
-export type TDateStringInternal = string & DATE;
+export type TDateStringInternal = string & { __TYPE__: DATE };
 
-export type TDateInternal = string & DATE;
+export type TDateInternal = string & { __TYPE__: DATE };
 
 export type TDateTimeString = TDateStringInternal | null;
 
 export type TDateString = TDateInternal | null;
+
+export const createDate = (date?: TDateTimeString | TDateString) => {
+  if (!date) {
+    return null;
+  }
+
+  return new Date(date);
+};
 
 export const createIsoStringDate = (date?: TDateTimeString) => {
   if (!date) {

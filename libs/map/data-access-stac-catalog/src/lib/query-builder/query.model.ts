@@ -47,10 +47,10 @@ export type TCatalogSearchParams = {
     copernicus: TCopernicusSearchParams;
   };
   date: {
-    from: TDateString;
-    to: TDateString;
+    from: NonNullable<TDateString>;
+    to: NonNullable<TDateString>;
   };
-  aoi: Geometry | undefined;
+  aoi: Geometry;
 };
 
 export type TCopernicusParams = {

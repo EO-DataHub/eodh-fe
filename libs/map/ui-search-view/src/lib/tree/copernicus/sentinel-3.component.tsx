@@ -1,14 +1,14 @@
 import { Slider, TreeItem } from '@ukri/shared/design-system';
 import { useFormContext, useWatch } from 'react-hook-form';
 
+import { TFormDefaultValues } from '../../form.model';
 import { SatelliteItem } from '../components/satellite-item.component';
 import { SettingsItem } from '../components/settings-item.component';
 import { Title } from '../components/title.component';
-import { TForm } from '../form.model';
 
 const CloudCoverage = () => {
-  const { register } = useFormContext<TForm>();
-  const enabled = useWatch<TForm>({ name: 'data.copernicus.sentinel3.slstr' });
+  const { register } = useFormContext<TFormDefaultValues>();
+  const enabled = useWatch<TFormDefaultValues>({ name: 'data.copernicus.sentinel3.slstr' });
 
   return (
     <TreeItem

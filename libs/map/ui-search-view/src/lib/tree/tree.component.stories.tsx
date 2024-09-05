@@ -3,20 +3,20 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { memo, useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { defaultValues } from './form.default-data';
-import { TForm } from './form.model';
-import { validationSchema } from './form.schema';
+import { defaultValues } from '../form.default-data';
+import { TFormDefaultValues } from '../form.model';
+import { validationSchema } from '../form.schema';
 import { Tree as TreeComponent } from './tree.component';
 import { defaultSettings, TTreeSettings } from './tree.context';
 
 type TTreeTemplate = {
-  values: TForm;
+  values: TFormDefaultValues;
   triggerValidation?: boolean;
   settings?: TTreeSettings;
 };
 
 const Form = memo(({ values, settings, triggerValidation }: TTreeTemplate) => {
-  const form = useForm<TForm>({
+  const form = useForm<TFormDefaultValues>({
     values: { ...values },
     resolver: zodResolver(validationSchema),
     reValidateMode: 'onChange',

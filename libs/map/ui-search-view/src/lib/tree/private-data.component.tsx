@@ -2,18 +2,18 @@ import { TreeItem } from '@ukri/shared/design-system';
 import { ChangeEvent, useCallback, useEffect } from 'react';
 import { useController, useFormContext, useWatch } from 'react-hook-form';
 
+import { TFormDefaultValues } from '../form.model';
 import { CategoryItem } from './components/category-item.component';
 import { SatelliteItem } from './components/satellite-item.component';
-import { TForm } from './form.model';
 
 const name = 'data.planet.enabled';
 
 export const PrivateData = () => {
-  const { setValue } = useFormContext<TForm>();
-  const { field } = useController<TForm>({ name });
-  const planetScope = useWatch<TForm>({ name: 'data.planet.planetScope.enabled' });
-  const skySat = useWatch<TForm>({ name: 'data.planet.skySat.enabled' });
-  const rapidEye = useWatch<TForm>({ name: 'data.planet.rapidEye.enabled' });
+  const { setValue } = useFormContext<TFormDefaultValues>();
+  const { field } = useController<TFormDefaultValues>({ name });
+  const planetScope = useWatch<TFormDefaultValues>({ name: 'data.planet.planetScope.enabled' });
+  const skySat = useWatch<TFormDefaultValues>({ name: 'data.planet.skySat.enabled' });
+  const rapidEye = useWatch<TFormDefaultValues>({ name: 'data.planet.rapidEye.enabled' });
 
   const togglePrivateData = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {

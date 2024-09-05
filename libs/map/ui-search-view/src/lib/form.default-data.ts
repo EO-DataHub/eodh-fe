@@ -11,7 +11,7 @@ const oneMonthAgo = () => {
 };
 
 export const defaultValues: TFormDefaultValues = {
-  dataSets: {
+  data: {
     copernicus: {
       enabled: false,
       sentinel1: {
@@ -41,7 +41,7 @@ export const defaultValues: TFormDefaultValues = {
         cloudCoverage: 100,
         olci: true,
       },
-      sentinel5P: {
+      sentinel5: {
         enabled: false,
         aer_ai: true,
         ch4: true,
