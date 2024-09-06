@@ -8,16 +8,21 @@ import { TFormDefaultValues } from '../../form.model';
 type TSatelliteItemProps = PropsWithChildren<{
   title: ParseKeys;
   name: FieldPath<TFormDefaultValues>;
+  disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }>;
 
-export const CategoryItem = ({ title, name, children, onChange }: TSatelliteItemProps) => {
+export const CategoryItem = ({ title, name, disabled, children, onChange }: TSatelliteItemProps) => {
   const { register } = useFormContext<TFormDefaultValues>();
   const slots = useMemo(
     (): TSlots => [
-      { position: 'title:after', element: <Checkbox {...register(name)} onChange={onChange} />, key: 'checkbox' },
+      {
+        position: 'title:after',
+        element: <Checkbox {...register(name)} onChange={onChange} disabled={disabled} />,
+        key: 'checkbox',
+      },
     ],
-    [register, name, onChange]
+    [register, name, disabled, onChange]
   );
 
   return (

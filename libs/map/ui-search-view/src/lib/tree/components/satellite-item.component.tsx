@@ -38,9 +38,9 @@ const SettingsButton = ({ value, disabled, onClick, children }: TSettingsButtonP
   );
 };
 
-type TCheckboxProps = { name: keyof TTreeSettings };
+type TCheckboxProps = { name: keyof TTreeSettings; disabled?: boolean };
 
-const Checkbox = ({ name }: TCheckboxProps) => {
+const Checkbox = ({ name, disabled }: TCheckboxProps) => {
   const {
     register,
     formState: { errors },
@@ -52,12 +52,12 @@ const Checkbox = ({ name }: TCheckboxProps) => {
     trigger();
   }, [trigger]);
 
-  return <BaseCheckbox {...register(name, { onChange: triggerValidation })} state={state} />;
+  return <BaseCheckbox {...register(name, { onChange: triggerValidation })} state={state} disabled={disabled} />;
 };
 
-type TSatelliteItemProps = PropsWithChildren<{ title: ParseKeys; name: keyof TTreeSettings }>;
+type TSatelliteItemProps = PropsWithChildren<{ title: ParseKeys; name: keyof TTreeSettings; disabled?: boolean }>;
 
-export const SatelliteItem = ({ title, name, children }: TSatelliteItemProps) => {
+export const SatelliteItem = ({ title, name, disabled, children }: TSatelliteItemProps) => {
   const { settings, changeSettings } = useContext(TreeSettings);
   const enabled = useWatch<TFormDefaultValues>({ name });
   const currentSettings = useMemo(() => settings[name], [settings, name]);
@@ -90,16 +90,20 @@ export const SatelliteItem = ({ title, name, children }: TSatelliteItemProps) =>
       },
       {
         position: 'title:after',
-        element: <Checkbox name={name} />,
+        element: <Checkbox name={name} disabled={disabled} />,
         key: 'checkbox',
       },
     ];
-  }, [name, currentSettings, toggleSettings, enabled, children]);
+  }, [name, currentSettings, toggleSettings, enabled, disabled, children]);
 
   return (
     <>
       <Error name={name} />
-      <TreeItem title={<Title title={title} fontWeight='regular' />} slots={slots} expandable={false}>
+      <TreeItem
+        title={<Title title={title} fontWeight='regular' disabled={disabled} />}
+        slots={slots}
+        expandable={false}
+      >
         {currentSettings && <SettingsTree>{children}</SettingsTree>}
       </TreeItem>
     </>
