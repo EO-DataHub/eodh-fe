@@ -38,7 +38,7 @@ export default meta;
 
 export const ResultsListSample = {
   args: {
-    data: [
+    features: [
       {
         id: '1',
         ...singleElementMock,
