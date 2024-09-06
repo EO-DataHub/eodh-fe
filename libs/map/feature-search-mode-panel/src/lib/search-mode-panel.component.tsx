@@ -27,7 +27,7 @@ export const SearchModePanel = () => {
       return (
         <ResultsView status={status} data={data} onBack={changeToSearchView}>
           <Header>
-            <button type='button' onClick={changeToSearchView} className='flex items-center'>
+            <button type='button' onClick={changeToSearchView} className='flex items-center *:hover:text-primary'>
               <Icon name='ArrowLeft' className='text-neutral-light' />
               <Text
                 content='MAP.SEARCH_MODE_PANEL.HEADER.BACK_TO_DATA_SETS'
