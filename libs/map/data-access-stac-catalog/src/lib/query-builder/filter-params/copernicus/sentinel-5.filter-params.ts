@@ -1,5 +1,6 @@
 import { TFilterParam } from '../../query.model';
 
-export const createSentinel5FilterParams = (): TFilterParam[] => {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const createSentinel5PFilterParams = (): TFilterParam[] => {
   return [];
 };

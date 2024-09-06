@@ -2,7 +2,7 @@ import { TCopernicusParams, TFields } from '../../query.model';
 import { getSentinel1Fields } from './sentinel-1.field';
 import { getSentinel2Fields } from './sentinel-2.field';
 import { getSentinel3Fields } from './sentinel-3.field';
-import { getSentinel5Fields } from './sentinel-5.field';
+import { getSentinel5PFields } from './sentinel-5.field';
 
 export const getFieldsForCopernicus = (params: TCopernicusParams): TFields => {
   switch (params.type) {
@@ -18,8 +18,8 @@ export const getFieldsForCopernicus = (params: TCopernicusParams): TFields => {
       return getSentinel3Fields();
     }
 
-    case 'sentinel5': {
-      return getSentinel5Fields();
+    case 'sentinel5P': {
+      return getSentinel5PFields();
     }
 
     default: {

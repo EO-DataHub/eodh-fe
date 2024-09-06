@@ -76,12 +76,12 @@ export const TreeError = {
       ...defaultValues,
       data: {
         copernicus: {
-          ...defaultValues.data.copernicus,
+          ...defaultValues.dataSets.copernicus,
           sentinel1: {
-            ...defaultValues.data.copernicus.sentinel1,
+            ...defaultValues.dataSets.copernicus.sentinel1,
             enabled: true,
             acquisitionMode: {
-              ...defaultValues.data.copernicus.sentinel1.acquisitionMode,
+              ...defaultValues.dataSets.copernicus.sentinel1.acquisitionMode,
               hh: false,
               hh_hv: false,
             },

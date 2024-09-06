@@ -30,7 +30,7 @@ export const ResultsView = (props: TResultsViewProps) => {
         );
       }
 
-      return <ResultsList data={props.data.features} />;
+      return <ResultsList features={props.data.features} />;
     }
 
     case 'error': {

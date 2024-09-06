@@ -5,6 +5,7 @@ import { ResultsView } from './results-view.component';
 
 const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2.png';
 
+// todo: consider moving this mock to separate file
 const singleElementMock: Omit<TCollection['features'][number], 'id'> = {
   type: 'Feature',
   properties: {

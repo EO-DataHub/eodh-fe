@@ -29,7 +29,7 @@ export type TCopernicusSearchParams = {
     cloudCoverage: number;
     olci: boolean;
   };
-  sentinel5: {
+  sentinel5P: {
     enabled: boolean;
     aer_ai: boolean;
     ch4: boolean;
@@ -43,7 +43,7 @@ export type TCopernicusSearchParams = {
 };
 
 export type TCatalogSearchParams = {
-  data: {
+  dataSets: {
     copernicus: TCopernicusSearchParams;
   };
   date: {

@@ -6,7 +6,7 @@ import { z } from 'zod';
 const notDisplayedErrorMessage = '';
 
 export const validationSchema = z.object({
-  data: z.object({
+  dataSets: z.object({
     copernicus: z
       .object({
         sentinel1: z
@@ -141,7 +141,7 @@ export const validationSchema = z.object({
               });
             }
           }),
-        sentinel5: z
+        sentinel5P: z
           .object({
             enabled: z.boolean(),
             aer_ai: z.boolean(),
@@ -223,7 +223,7 @@ export const validationSchema = z.object({
           !schema.sentinel1.enabled &&
           !schema.sentinel2.enabled &&
           !schema.sentinel3.enabled &&
-          !schema.sentinel5.enabled
+          !schema.sentinel5P.enabled
         ) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -246,7 +246,7 @@ export const validationSchema = z.object({
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: notDisplayedErrorMessage,
-            path: ['sentinel5.enabled'],
+            path: ['sentinel5P.enabled'],
           });
         }
       }),

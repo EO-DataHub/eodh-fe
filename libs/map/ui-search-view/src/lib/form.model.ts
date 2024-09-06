@@ -2,7 +2,7 @@ import { TDateString } from '@ukri/shared/utils/date';
 import Geometry from 'ol/geom/Geometry';
 
 export type TFormDefaultValues = {
-  data: {
+  dataSets: {
     copernicus: {
       enabled: boolean;
       sentinel1: {
@@ -32,7 +32,7 @@ export type TFormDefaultValues = {
         cloudCoverage: number;
         olci: boolean;
       };
-      sentinel5: {
+      sentinel5P: {
         enabled: boolean;
         aer_ai: boolean;
         ch4: boolean;

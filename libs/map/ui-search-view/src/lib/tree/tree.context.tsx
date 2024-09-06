@@ -2,23 +2,23 @@ import isFunction from 'lodash/isFunction';
 import { createContext, PropsWithChildren, SetStateAction, useCallback, useState } from 'react';
 
 export type TTreeSettings = {
-  'data.copernicus.sentinel1.enabled': boolean;
-  'data.copernicus.sentinel2.enabled': boolean;
-  'data.copernicus.sentinel3.enabled': boolean;
-  'data.copernicus.sentinel5.enabled': boolean;
-  'data.planet.planetScope.enabled': boolean;
-  'data.planet.skySat.enabled': boolean;
-  'data.planet.rapidEye.enabled': boolean;
+  'dataSets.copernicus.sentinel1.enabled': boolean;
+  'dataSets.copernicus.sentinel2.enabled': boolean;
+  'dataSets.copernicus.sentinel3.enabled': boolean;
+  'dataSets.copernicus.sentinel5P.enabled': boolean;
+  'dataSets.planet.planetScope.enabled': boolean;
+  'dataSets.planet.skySat.enabled': boolean;
+  'dataSets.planet.rapidEye.enabled': boolean;
 };
 
 export const defaultSettings: TTreeSettings = {
-  'data.copernicus.sentinel1.enabled': false,
-  'data.copernicus.sentinel2.enabled': false,
-  'data.copernicus.sentinel3.enabled': false,
-  'data.copernicus.sentinel5.enabled': false,
-  'data.planet.planetScope.enabled': false,
-  'data.planet.skySat.enabled': false,
-  'data.planet.rapidEye.enabled': false,
+  'dataSets.copernicus.sentinel1.enabled': false,
+  'dataSets.copernicus.sentinel2.enabled': false,
+  'dataSets.copernicus.sentinel3.enabled': false,
+  'dataSets.copernicus.sentinel5P.enabled': false,
+  'dataSets.planet.planetScope.enabled': false,
+  'dataSets.planet.skySat.enabled': false,
+  'dataSets.planet.rapidEye.enabled': false,
 };
 
 type TTreeSettingsContext = {

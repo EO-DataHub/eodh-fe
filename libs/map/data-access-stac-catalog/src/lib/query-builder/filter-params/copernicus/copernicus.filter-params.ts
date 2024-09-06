@@ -2,7 +2,7 @@ import { TCopernicusParams, TFilterParam } from '../../query.model';
 import { createSentinel1FilterParams } from './sentinel-1/sentinel-1.filter-params';
 import { createSentinel2FilterParams } from './sentinel-2.filter-params';
 import { createSentinel3FilterParams } from './sentinel-3.filter-params';
-import { createSentinel5FilterParams } from './sentinel-5.filter-params';
+import { createSentinel5PFilterParams } from './sentinel-5.filter-params';
 
 export const createCopernicusParams = (params: TCopernicusParams): TFilterParam[] => {
   switch (params.type) {
@@ -18,8 +18,8 @@ export const createCopernicusParams = (params: TCopernicusParams): TFilterParam[
       return createSentinel3FilterParams();
     }
 
-    case 'sentinel5': {
-      return createSentinel5FilterParams();
+    case 'sentinel5P': {
+      return createSentinel5PFilterParams();
     }
 
     default: {

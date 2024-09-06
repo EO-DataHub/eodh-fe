@@ -2,12 +2,7 @@ on:
   pull_request:
     branches:
       - 'develop'
-      - 'feature/UKRIW-62-add-integration-for-advanced-settings-for-seintinel-1-and-sentinel-2'
       - 'main'
-
-permissions:
-  id-token: write
-  contents: read
 
 jobs:
   build:
@@ -16,20 +11,3 @@ jobs:
   buildStorybook:
     name: 'Build Storybook'
     uses: ./.github/workflows/storybook-build.yml
-  deploy:
-    name: 'Deploy'
-    uses: ./.github/workflows/deploy.yml
-    needs: [build]
-    with:
-      canDeployOnDev: true
-      canDeployOnQA: false
-      canDeployOnStaging: false
-      canDeployOnProduction: false
-    secrets: inherit
-  deployStorybook:
-    name: 'Deploy Storybook'
-    uses: ./.github/workflows/storybook-deploy.yml
-    needs: [buildStorybook]
-    with:
-      canDeploy: true
-    secrets: inherit
