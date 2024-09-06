@@ -2,14 +2,11 @@ import { Meta, Story } from '@storybook/react';
 import { Button } from '@ukri/shared/design-system';
 
 import { Map, MapWrapper } from '../map.component';
-import geoJsonData1_sentinel1_1 from '../mocks/mockedSampleResponse_sentinel1_1.json';
-import { IFeatureCollection } from './geo-json.type';
+import { sentinel1Item1CollectionMock } from '../mocks/sentinel-1-item1.collection.mock';
 import { useFootprintsLayer } from './use-footprint-layer.hook';
 
 const GeoJsonLayerComponent = () => {
-  const geojsonObject = geoJsonData1_sentinel1_1 as IFeatureCollection;
-
-  const { updateZindex, toggleVisibility } = useFootprintsLayer(geojsonObject);
+  const { updateZindex, toggleVisibility } = useFootprintsLayer(sentinel1Item1CollectionMock);
 
   return (
     <div className='ml-4'>

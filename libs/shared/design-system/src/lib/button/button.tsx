@@ -15,6 +15,7 @@ import {
 
 interface IButtonProps {
   text: string;
+  type?: 'button' | 'reset' | 'submit';
   appearance?: 'default' | 'outlined' | 'outlined-white' | 'text';
   size?: 'small' | 'medium' | 'large';
   onClick?: () => void;
@@ -34,6 +35,7 @@ export const Button = ({
   className,
   onClick,
   disabled = false,
+  type = 'button',
 }: IButtonProps) => {
   const baseStyles = getBaseStyles(disabled, appearance);
   const displayStyles = getDisplayStyles();
@@ -55,7 +57,7 @@ export const Button = ({
   );
 
   return (
-    <button className={combinedStyles} onClick={onClick} disabled={disabled}>
+    <button type={type} className={combinedStyles} onClick={onClick} disabled={disabled}>
       {iconName && <Icon name={iconName} width={iconWidth ?? 24} height={iconHeight ?? 24} />}
       {t(translatedContent)}
     </button>

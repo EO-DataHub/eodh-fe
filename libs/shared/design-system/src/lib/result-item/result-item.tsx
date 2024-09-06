@@ -1,19 +1,20 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { Button } from '../button/button';
 import { Icon, type TIconNames } from '../icon/icon';
 import { Text } from '../text/text';
 
 interface IResultItemInfoProps {
-  name: string;
+  value: string;
+  translate: boolean;
   iconName: TIconNames;
 }
 
-const ResultItemInfo = ({ name, iconName }: IResultItemInfoProps) => {
+const ResultItemInfo = ({ value, iconName, translate }: IResultItemInfoProps) => {
   return (
     <span className='flex mb-1'>
       <Icon name={iconName} width={16} height={16} className='mr-1.5' />
-      <Text type='span' content={name} fontSize='medium' fontWeight='regular' />
+      <Text type='span' content={value} translate={translate} fontSize='medium' fontWeight='regular' />
     </span>
   );
 };
@@ -24,9 +25,8 @@ const hideCompareButton = 'opacity-0 pointer-events-none';
 export interface IResultItemProps {
   imageUrl: string;
   collectionName: string;
-  date: string;
-  time: string;
-  cloudCoverage?: string;
+  dateTime: string;
+  cloudCoverage?: number;
   gridCode?: string;
   onSelected?: () => void;
   selected?: boolean;
@@ -41,8 +41,7 @@ export interface IResultItemProps {
 export const ResultItem = ({
   imageUrl,
   collectionName,
-  date,
-  time,
+  dateTime,
   cloudCoverage,
   gridCode,
   selected,
@@ -54,6 +53,8 @@ export const ResultItem = ({
 }: IResultItemProps) => {
   const [isSelected, setIsSelected] = useState(selected);
   const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
+  const time = useMemo(() => `${new Date(dateTime).getHours()}:${new Date(dateTime).getMinutes()}`, [dateTime]);
+  const date = useMemo(() => new Date(dateTime).toISOString().split('T')[0], [dateTime]);
 
   const handleSelectItem = useCallback(() => {
     setIsSelected(!isSelected);
@@ -86,11 +87,13 @@ export const ResultItem = ({
       />
       <div className='ml-2.5 text-text w-full flex flex-col h-auto'>
         <div className='flex-grow'>
-          <ResultItemInfo name={collectionName} iconName='Satellite' />
-          <ResultItemInfo name={date} iconName='Calendar' />
-          <ResultItemInfo name={time} iconName='Schedule' />
-          {cloudCoverage && <ResultItemInfo name={cloudCoverage} iconName='Cloud' />}
-          {gridCode && <ResultItemInfo name={gridCode} iconName='Map' />}
+          <ResultItemInfo value={collectionName} translate={false} iconName='Satellite' />
+          <ResultItemInfo value={date} translate={false} iconName='Calendar' />
+          <ResultItemInfo value={time} translate={false} iconName='Schedule' />
+          {cloudCoverage && (
+            <ResultItemInfo value={`${cloudCoverage.toFixed(1)}%`} translate={false} iconName='Cloud' />
+          )}
+          {gridCode && <ResultItemInfo value={gridCode} translate={false} iconName='Map' />}
         </div>
         <div className='flex justify-between mt-auto'>
           <Button
