@@ -1,4 +1,4 @@
-import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
+import { TCollection } from '@ukri/map/data-access-stac-catalog';
 import { Error, ResultsViewLoader } from '@ukri/shared/design-system';
 
 import { ResultsList } from './results-list/results-list.component';
@@ -9,7 +9,7 @@ interface IBaseResultsPanelProps {
 
 type TResultsStateProps = {
   status: 'pending' | 'error' | 'success';
-  data: TCollectionSchema | undefined;
+  data: TCollection | undefined;
   error?: Error;
 };
 
@@ -18,7 +18,7 @@ type TResultsViewProps = TResultsStateProps & IBaseResultsPanelProps;
 export const ResultsView = (props: TResultsViewProps) => {
   switch (props.status) {
     case 'success': {
-      if (!props.data) {
+      if (!props.data || !props.data?.features.length) {
         return (
           <Error
             iconName='SatelliteAlt'
@@ -30,7 +30,7 @@ export const ResultsView = (props: TResultsViewProps) => {
         );
       }
 
-      return <ResultsList data={props.data.features} />;
+      return <ResultsList features={props.data.features} />;
     }
 
     case 'error': {

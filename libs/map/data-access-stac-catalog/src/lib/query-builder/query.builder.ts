@@ -1,5 +1,7 @@
+import { TGeometry } from '../stac.model';
 import { getFields } from './fields/get-fields';
 import { createFilterParams } from './filter-params/create.filter-params';
+import { getIntersects } from './get-intersects';
 import { TCatalogSearchParams, TFields, TFilterParam } from './query.model';
 
 export type TSortBy = {
@@ -23,6 +25,7 @@ export type TQueryParams = {
   'filter-lang': 'cql-json';
   filter: TFilterParam | object;
   fields: TFields;
+  intersects?: TGeometry;
 };
 
 export type TQuery = {
@@ -43,6 +46,7 @@ export class QueryBuilder {
 
     const filter = createFilterParams(this.params.queryParams);
     const fields = getFields(this.params.queryParams);
+    const intersects = getIntersects(this.params.queryParams.aoi);
 
     const params: TQueryParams = {
       limit: this.params.limit,
@@ -50,6 +54,7 @@ export class QueryBuilder {
       'filter-lang': 'cql-json',
       filter,
       fields,
+      intersects,
     };
     const query: TQuery = {
       enabled: !!Object.keys(params.filter).length,

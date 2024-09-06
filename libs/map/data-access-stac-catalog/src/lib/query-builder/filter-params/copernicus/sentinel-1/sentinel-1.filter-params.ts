@@ -1,10 +1,10 @@
-import { TCatalogSearchParams, TFilterParam } from '../../../query.model';
+import { TCopernicusSearchParams, TFilterParam } from '../../../query.model';
 import { getAcquisitionModeFilterParams } from './acquisition-mode.filter-params';
 import { getOrbitDirectionFilterParams } from './orbit-direction.filter-params';
 
 export const createSentinel1FilterParams = (
   enabled: boolean,
-  params: Omit<TCatalogSearchParams['copernicus']['sentinel1'], 'enabled'>
+  params: Omit<TCopernicusSearchParams['sentinel1'], 'enabled'>
 ): TFilterParam[] => {
   if (!enabled) {
     return [];

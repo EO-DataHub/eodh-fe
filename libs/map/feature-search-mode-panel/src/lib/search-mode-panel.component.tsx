@@ -4,8 +4,10 @@ import { useCallback, useState } from 'react';
 
 import { ResultsView } from './results-view.component';
 
+type TSearchParams = TForm | undefined;
+
 export const SearchModePanel = () => {
-  const [searchParams, setSearchParams] = useState<TForm | undefined>();
+  const [searchParams, setSearchParams] = useState<TSearchParams>();
   const [view, setView] = useState<'search' | 'results'>('search');
   const { data, status } = useCatalogSearch({ params: searchParams });
 

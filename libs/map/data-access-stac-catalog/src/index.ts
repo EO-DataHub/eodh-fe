@@ -1,2 +1,2 @@
 export { useCatalogSearch } from './lib/stac-catalog.query';
-export type { TCollectionSchema } from './lib/stac.model';
+export type { TCollection, TGeometry } from './lib/stac.model';

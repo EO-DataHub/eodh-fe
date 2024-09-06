@@ -1,52 +1,51 @@
 import { DateInput, Icon, Text } from '@ukri/shared/design-system';
+import get from 'lodash/get';
 import { useCallback, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
+import { TFormDefaultValues } from '../form.model';
 import { styles } from './date-range-picker.styles';
-import useDateCalculations from './dates-calculations.hook';
+
+const dateFromFieldName = 'date.from';
+const dateToFieldName = 'date.to';
 
 interface IDateRangePickerProps {
-  minDate: Date;
-  maxDate: Date;
+  dateMin: Date;
+  dateMax: Date;
 }
 
-const isDateAfterToDate = (date: Date, toDate?: Date) => {
-  return toDate && date > toDate;
-};
-
-const isDateBeforeFromDate = (date: Date, fromDate?: Date) => {
-  return fromDate && date < fromDate;
-};
-
-export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => {
-  const { today, formattedOneMonthAgo } = useDateCalculations();
-
+export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => {
+  const {
+    formState: { errors },
+    register,
+    getValues,
+    trigger,
+  } = useFormContext<TFormDefaultValues>();
   const [isOpen, setIsOpen] = useState(true);
-  const [fromDate, setFromDate] = useState<Date | undefined>(formattedOneMonthAgo);
-  const [toDate, setToDate] = useState<Date | undefined>(today);
-
-  const handleFromDateChange = useCallback(
-    (date: Date) => {
-      setFromDate(date);
-      if (isDateAfterToDate(date, toDate)) {
-        setToDate(undefined);
-      }
-    },
-    [toDate]
-  );
-
-  const handleToDateChange = useCallback(
-    (date: Date) => {
-      setToDate(date);
-      if (isDateBeforeFromDate(date, fromDate)) {
-        setFromDate(undefined);
-      }
-    },
-    [fromDate]
-  );
+  const dateFrom = getValues('date.from');
+  const dateTo = getValues('date.to');
+  const dateFromError = get(errors, 'date.from');
+  const dateToError = get(errors, 'date.to');
 
   const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
+
+  const triggerDateFromValidation = useCallback(() => {
+    trigger(dateFromFieldName);
+
+    if (dateToError) {
+      trigger(dateToFieldName);
+    }
+  }, [trigger, dateToError]);
+
+  const triggerDateToValidation = useCallback(() => {
+    trigger(dateToFieldName);
+
+    if (dateFromError) {
+      trigger(dateFromFieldName);
+    }
+  }, [dateFromError, trigger]);
 
   return (
     <div className={styles.container}>
@@ -72,10 +71,10 @@ export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => 
             />
             <DateInput
               className={styles.dateInput}
-              minDate={minDate}
-              maxDate={toDate || maxDate}
-              value={fromDate}
-              onChange={handleFromDateChange}
+              minDate={dateMin}
+              maxDate={dateTo || dateMax}
+              {...register(dateFromFieldName, { onChange: triggerDateFromValidation })}
+              error={dateFromError?.message}
             />
           </div>
           <div className={styles.row}>
@@ -88,10 +87,10 @@ export const DateRangePicker = ({ minDate, maxDate }: IDateRangePickerProps) => 
             />
             <DateInput
               className={styles.dateInput}
-              minDate={fromDate || minDate}
-              maxDate={maxDate}
-              value={toDate}
-              onChange={handleToDateChange}
+              minDate={dateFrom || dateMin}
+              maxDate={dateMax}
+              {...register(dateToFieldName, { onChange: triggerDateToValidation })}
+              error={dateToError?.message}
             />
           </div>
         </div>

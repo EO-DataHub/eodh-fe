@@ -1,10 +1,12 @@
-import { Checkbox, Icon, TreeItem, TSlots } from '@ukri/shared/design-system';
+import { Checkbox as BaseCheckbox, Icon, TreeItem, TSlots } from '@ukri/shared/design-system';
 import { ParseKeys } from 'i18next';
+import get from 'lodash/get';
 import { PropsWithChildren, useCallback, useContext, useEffect, useMemo } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
-import { TForm } from '../form.model';
+import { TFormDefaultValues } from '../../form.model';
 import { TreeSettings, TTreeSettings } from '../tree.context';
+import { Error } from './error.component';
 import { SettingsTree } from './settings-tree.component';
 import { Title } from './title.component';
 
@@ -36,12 +38,28 @@ const SettingsButton = ({ value, disabled, onClick, children }: TSettingsButtonP
   );
 };
 
-type TSatelliteItemProps = PropsWithChildren<{ title: ParseKeys; name: keyof TTreeSettings }>;
+type TCheckboxProps = { name: keyof TTreeSettings; disabled?: boolean };
 
-export const SatelliteItem = ({ title, name, children }: TSatelliteItemProps) => {
+const Checkbox = ({ name, disabled }: TCheckboxProps) => {
+  const {
+    register,
+    formState: { errors },
+    trigger,
+  } = useFormContext<TFormDefaultValues>();
+  const state = get(errors, name) ? 'error' : undefined;
+
+  const triggerValidation = useCallback(() => {
+    trigger();
+  }, [trigger]);
+
+  return <BaseCheckbox {...register(name, { onChange: triggerValidation })} state={state} disabled={disabled} />;
+};
+
+type TSatelliteItemProps = PropsWithChildren<{ title: ParseKeys; name: keyof TTreeSettings; disabled?: boolean }>;
+
+export const SatelliteItem = ({ title, name, disabled, children }: TSatelliteItemProps) => {
   const { settings, changeSettings } = useContext(TreeSettings);
-  const { register } = useFormContext<TForm>();
-  const enabled = useWatch<TForm>({ name });
+  const enabled = useWatch<TFormDefaultValues>({ name });
   const currentSettings = useMemo(() => settings[name], [settings, name]);
 
   const toggleSettings = useCallback(() => {
@@ -54,8 +72,8 @@ export const SatelliteItem = ({ title, name, children }: TSatelliteItemProps) =>
     }
   }, [changeSettings, enabled, name]);
 
-  const slots = useMemo(
-    (): TSlots => [
+  const slots = useMemo((): TSlots => {
+    return [
       {
         position: 'title:before',
         element: <Icon name='Satellite' className='text-neutral-light' />,
@@ -70,14 +88,24 @@ export const SatelliteItem = ({ title, name, children }: TSatelliteItemProps) =>
         ),
         key: 'button',
       },
-      { position: 'title:after', element: <Checkbox {...register(name)} />, key: 'checkbox' },
-    ],
-    [currentSettings, toggleSettings, enabled, children, register, name]
-  );
+      {
+        position: 'title:after',
+        element: <Checkbox name={name} disabled={disabled} />,
+        key: 'checkbox',
+      },
+    ];
+  }, [name, currentSettings, toggleSettings, enabled, disabled, children]);
 
   return (
-    <TreeItem title={<Title title={title} fontWeight='regular' />} slots={slots} expandable={false}>
-      {currentSettings && <SettingsTree>{children}</SettingsTree>}
-    </TreeItem>
+    <>
+      <Error name={name} />
+      <TreeItem
+        title={<Title title={title} fontWeight='regular' disabled={disabled} />}
+        slots={slots}
+        expandable={false}
+      >
+        {currentSettings && <SettingsTree>{children}</SettingsTree>}
+      </TreeItem>
+    </>
   );
 };

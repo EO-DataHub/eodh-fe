@@ -1,4 +1,4 @@
-import { ChangeEvent, ForwardedRef, forwardRef, useCallback } from 'react';
+import { ChangeEvent, ForwardedRef, forwardRef } from 'react';
 
 import { Icon } from '../../icon/icon';
 import { checkboxStyles, getSpanClassName } from './checkbox.styles';
@@ -17,15 +17,6 @@ export const Checkbox = forwardRef(
   ({ id, onChange, onBlur, label, name, state, disabled }: ICheckboxProps, ref: ForwardedRef<HTMLInputElement>) => {
     const spanClassName = getSpanClassName();
 
-    const handleCheckboxChange = useCallback(
-      (event: ChangeEvent<HTMLInputElement>) => {
-        if (onChange) {
-          onChange(event);
-        }
-      },
-      [onChange]
-    );
-
     return (
       <label className={checkboxStyles.label}>
         <input
@@ -35,7 +26,7 @@ export const Checkbox = forwardRef(
           id={id}
           name={name}
           onBlur={onBlur}
-          onChange={handleCheckboxChange}
+          onChange={onChange}
           disabled={disabled}
         />
         <span className={spanClassName}>

@@ -11,6 +11,19 @@ interface Resources {
         TEXTAREA: {
           COUNTER: '{{currentLength}}/{{maxLength}} characters';
         };
+        RESULT_ITEM: {
+          NO_IMAGE: 'No image';
+          BUTTON: 'View';
+          ADD_TO_COMPARE: 'Add to compare';
+          REMOVE_COMPARE: 'Remove compare';
+        };
+        LOADER: {
+          RESULTS_VIEW_LOADER: 'Please wait, searching Data Sets';
+        };
+      };
+      LOGIN: {
+        LOGIN_BUTTON: 'Login';
+        LOGOUT_BUTTON: 'Logout';
       };
       ERRORS: {
         VALIDATION: {
@@ -30,10 +43,26 @@ interface Resources {
         API_ERROR: {
           COMMON: 'Something went wrong, please try again';
         };
+        SERVER_ERROR: {
+          TITLE: 'Server error';
+          MESSAGE: 'There was a problem retrieving your search results from the server. Please update your search parameters and try again.';
+        };
+        NO_RESULTS: {
+          TITLE: 'Sorry, your search returned no results.';
+          MESSAGE: 'Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets.';
+        };
+      };
+      NAVIGATION: {
+        RETURN_TO_SERCH: 'Return to the search menu';
       };
     };
     MAP: {
-      SEARCH_PANEL: {
+      SEARCH_VIEW: {
+        VALIDATION: {
+          ONE_OF_FIELDS_REQUIRED: 'You must select at least one of the following options';
+          DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO: 'Invalid date. Date from should be earlier';
+          DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
+        };
         PRIVATE: 'Private';
         PUBLIC: 'Public';
         PLANET: {

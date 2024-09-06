@@ -1,11 +1,12 @@
 import type { Meta } from '@storybook/react';
-import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
+import { TCollection } from '@ukri/map/data-access-stac-catalog';
 
 import { ResultsView } from './results-view.component';
 
 const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2.png';
 
-const singleElementMock: Omit<TCollectionSchema['features'][number], 'id'> = {
+// todo: consider moving this mock to separate file
+const singleElementMock: Omit<TCollection['features'][number], 'id'> = {
   type: 'Feature',
   properties: {
     datetime: '2024-09-03T16:23:22.625Z',
@@ -29,7 +30,7 @@ const singleElementMock: Omit<TCollectionSchema['features'][number], 'id'> = {
   stac_version: '1.0.0',
 };
 
-const results: TCollectionSchema = {
+const results: TCollection = {
   type: 'FeatureCollection',
   features: [
     {

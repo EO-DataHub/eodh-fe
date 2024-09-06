@@ -20,7 +20,7 @@ export const Header = memo(({ title, slots, className, onClick }: THeaderProps) 
   return (
     <div className={`flex grow rounded-md w-full ${className}`}>
       {onClick && (
-        <button className='flex w-full items-center gap-x-3' onClick={onClick}>
+        <button type='button' className='flex w-full items-center gap-x-3' onClick={onClick}>
           <Slots slots={slots} position='title:before' />
           <Title
             title={title}
