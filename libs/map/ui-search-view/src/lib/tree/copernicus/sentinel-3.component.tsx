@@ -32,7 +32,11 @@ const CloudCoverage = () => {
 
 export const Sentinel3 = () => {
   return (
-    <SatelliteItem title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.NAME' name='dataSets.copernicus.sentinel3.enabled'>
+    <SatelliteItem
+      title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.NAME'
+      name='dataSets.copernicus.sentinel3.enabled'
+      disabled={true}
+    >
       <SettingsItem
         title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.SETTINGS.SLSTR'
         name='dataSets.copernicus.sentinel3.slstr'

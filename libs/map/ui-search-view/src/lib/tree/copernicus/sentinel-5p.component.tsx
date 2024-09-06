@@ -3,7 +3,11 @@ import { SettingsItem } from '../components/settings-item.component';
 
 export const Sentinel5P = () => {
   return (
-    <SatelliteItem title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_5P.NAME' name='dataSets.copernicus.sentinel5P.enabled'>
+    <SatelliteItem
+      title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_5P.NAME'
+      name='dataSets.copernicus.sentinel5P.enabled'
+      disabled={true}
+    >
       <SettingsItem
         title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_5P.SETTINGS.AER_AI'
         name='dataSets.copernicus.sentinel5P.aer_ai'

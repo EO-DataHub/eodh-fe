@@ -15,19 +15,14 @@ export const Copernicus = () => {
   const { field } = useController<TFormDefaultValues>({ name });
   const sentinel1 = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel1.enabled' });
   const sentinel2 = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel2.enabled' });
-  const sentinel3 = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel3.enabled' });
-  const sentinel5P = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel5P.enabled' });
 
   const toggleSentinels = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
+      // todo add Sentinel 3 and Sentinel 5P when they will be supported by api
       setValue('dataSets.copernicus.sentinel1.enabled', event.target.checked);
       setValue('dataSets.copernicus.sentinel2.enabled', event.target.checked);
-      setValue('dataSets.copernicus.sentinel3.enabled', event.target.checked);
-      setValue('dataSets.copernicus.sentinel5P.enabled', event.target.checked);
       trigger('dataSets.copernicus.sentinel1.enabled');
       trigger('dataSets.copernicus.sentinel2.enabled');
-      trigger('dataSets.copernicus.sentinel3.enabled');
-      trigger('dataSets.copernicus.sentinel5P.enabled');
       field.onChange(event);
     },
     [field, setValue, trigger]
@@ -45,12 +40,13 @@ export const Copernicus = () => {
   );
 
   useEffect(() => {
-    if (!!field.value && (!sentinel1 || !sentinel2 || !sentinel3 || !sentinel5P)) {
+    // todo add Sentinel 3 and Sentinel 5P when they will be supported by api
+    if (!!field.value && (!sentinel1 || !sentinel2)) {
       setValue(name, false);
-    } else if (!field.value && sentinel1 && sentinel2 && sentinel3 && sentinel5P) {
+    } else if (!field.value && sentinel1 && sentinel2) {
       setValue(name, true);
     }
-  }, [field.value, sentinel1, sentinel2, sentinel3, sentinel5P, setValue]);
+  }, [field.value, sentinel1, sentinel2, setValue]);
 
   return (
     <TreeItem title='MAP.SEARCH_VIEW.COPERNICUS.NAME' slots={slots} expanded={true}>
