@@ -1,5 +1,4 @@
 import { Map, MapWrapper } from '@ukri/map/ui-map';
-import TileLayer from 'ol/layer/WebGLTile.js';
 
 import { LeftMenu } from './left-menu.component';
 import COGMap from './test';
@@ -9,7 +8,7 @@ export const DefaultLayout = () => {
   return (
     <div className='flex h-screen w-screen flex-col overflow-hidden' data-testid='default-layout'>
       <MapWrapper>
-        {/* <COGMap /> */}
+        <COGMap />
         <TopBar />
         <div className='flex w-full h-full overflow-hidden'>
           <LeftMenu />

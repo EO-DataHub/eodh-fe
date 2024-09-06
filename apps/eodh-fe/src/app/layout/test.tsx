@@ -12,7 +12,7 @@ function COGMap() {
     const source = new GeoTIFF({
       sources: [
         {
-          url: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/36/Q/WD/2020/7/S2A_36QWD_20200701_0_L2A/TCI.tif',
+          url: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/42/L/VQ/2024/3/S2B_42LVQ_20240319_0_L2A/TCI.tif',
         },
       ],
     });

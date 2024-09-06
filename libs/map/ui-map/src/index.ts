@@ -1,4 +1,4 @@
-export { MapWrapper, Map, MapContext } from './lib/map.component';
+export { MapWrapper, MapComponent as Map, MapContext } from './lib/map.component';
 export { AoiLayer } from './lib/aoi-layer/aoi-layer.component';
 export { DrawCircleButton } from './lib/aoi-layer/draw-circle.component';
 export { DrawPolygonButton } from './lib/aoi-layer/draw-polygon.component';
