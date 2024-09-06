@@ -4,7 +4,7 @@ import { TCatalogSearchParams, TCopernicusParams, TFields } from '../query.model
 import { getFieldsForCopernicus } from './copernicus/copernicus.field';
 
 export const getFields = (params: TCatalogSearchParams): TFields => {
-  const copernicusFields = (Object.entries(params.data.copernicus) as Entries<typeof params.data.copernicus>)
+  const copernicusFields = (Object.entries(params.dataSets.copernicus) as Entries<typeof params.dataSets.copernicus>)
     .map(
       ([key, { enabled, ...rest }]) =>
         ({

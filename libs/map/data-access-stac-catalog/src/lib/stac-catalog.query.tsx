@@ -3,7 +3,7 @@ import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-qu
 import { useMemo } from 'react';
 
 import { paths } from './api';
-import { TQueryBuilderOptions, TQueryBuilderParams, TQueryParams } from './query-builder/query.builder';
+import { TQueryBuilderParams, TQueryParams } from './query-builder/query.builder';
 import { TCatalogSearchParams } from './query-builder/query.model';
 import { useQueryBuilder } from './query-builder/use-query-builder.hook';
 import { queryKey } from './query-key.enum';
@@ -23,7 +23,7 @@ export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
   const queryBuilderParams: TQueryBuilderParams = useMemo(
     () => ({
       queryParams: params,
-      limit: 10,
+      limit: 50,
       sortBy: {
         field: 'properties.datetime',
         direction: 'desc',
@@ -32,14 +32,7 @@ export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
     [params]
   );
 
-  const queryBuilderOptions: TQueryBuilderOptions = useMemo(
-    () => ({
-      debug: true,
-    }),
-    []
-  );
-
-  const query = useQueryBuilder(queryBuilderParams, queryBuilderOptions);
+  const query = useQueryBuilder(queryBuilderParams);
 
   return useQuery<TExtractFnReturnType<typeof search>>({
     enabled: query.enabled,

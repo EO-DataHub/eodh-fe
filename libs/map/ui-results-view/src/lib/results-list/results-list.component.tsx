@@ -3,10 +3,10 @@ import { ResultItem } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
 export interface IResultsListProps {
-  data: TCollection['features'];
+  features: TCollection['features'];
 }
 
-export const ResultsList = ({ data }: IResultsListProps) => {
+export const ResultsList = ({ features }: IResultsListProps) => {
   const [selectedThumbnailId, setSelectedThumbnailId] = useState<number | string | null>(null);
 
   const handleThumbnailSelect = useCallback((thumbnailId: number | string) => {
@@ -15,18 +15,18 @@ export const ResultsList = ({ data }: IResultsListProps) => {
 
   return (
     <div>
-      {data.map((item) => (
+      {features.map((feature) => (
         <ResultItem
-          key={item.id}
+          key={feature.id}
           className='mb-4'
-          collectionName={item.collection}
-          dateTime={item.properties.datetime}
-          imageUrl={item.assets.thumbnail.href || ''}
-          id={item.id}
-          cloudCoverage={item.properties['eo:cloud_cover']}
-          gridCode={item.properties['grid:code']}
-          selected={selectedThumbnailId === item.id}
-          onSelected={() => handleThumbnailSelect(item.id)}
+          collectionName={feature.collection}
+          dateTime={feature.properties.datetime}
+          imageUrl={feature.assets.thumbnail.href || ''}
+          id={feature.id}
+          cloudCoverage={feature.properties['eo:cloud_cover']}
+          gridCode={feature.properties['grid:code']}
+          selected={selectedThumbnailId === feature.id}
+          onSelected={() => handleThumbnailSelect(feature.id)}
           // TODO actual functions to be added in future
           onAddToCompare={() => {
             return;

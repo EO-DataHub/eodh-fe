@@ -8,7 +8,7 @@ import { Title } from '../components/title.component';
 
 const CloudCoverage = () => {
   const { register } = useFormContext<TFormDefaultValues>();
-  const enabled = useWatch<TFormDefaultValues>({ name: 'data.copernicus.sentinel3.slstr' });
+  const enabled = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel3.slstr' });
 
   return (
     <TreeItem
@@ -22,20 +22,26 @@ const CloudCoverage = () => {
       expandable={false}
       level={1}
     >
-      <Slider {...register('data.copernicus.sentinel3.cloudCoverage', { valueAsNumber: true })} disabled={!enabled} />
+      <Slider
+        {...register('dataSets.copernicus.sentinel3.cloudCoverage', { valueAsNumber: true })}
+        disabled={!enabled}
+      />
     </TreeItem>
   );
 };
 
 export const Sentinel3 = () => {
   return (
-    <SatelliteItem title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.NAME' name='data.copernicus.sentinel3.enabled'>
+    <SatelliteItem title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.NAME' name='dataSets.copernicus.sentinel3.enabled'>
       <SettingsItem
         title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.SETTINGS.SLSTR'
-        name='data.copernicus.sentinel3.slstr'
+        name='dataSets.copernicus.sentinel3.slstr'
       />
       <CloudCoverage />
-      <SettingsItem title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.SETTINGS.OLCI' name='data.copernicus.sentinel3.olci' />
+      <SettingsItem
+        title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.SETTINGS.OLCI'
+        name='dataSets.copernicus.sentinel3.olci'
+      />
     </SatelliteItem>
   );
 };
