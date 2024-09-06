@@ -21,6 +21,37 @@ const ResultItemInfo = ({ value, iconName }: IResultItemInfoProps) => {
 // TODO: to be removed in the future, once we will work on comparison functionality
 const hideCompareButton = 'opacity-0 pointer-events-none';
 
+interface IImageProps {
+  imageUrl: string;
+  onClick?: () => void;
+}
+
+const Image = ({ imageUrl, onClick }: IImageProps) => {
+  const [displayError, setDislayError] = useState(false);
+
+  const showError = useCallback(() => {
+    setDislayError(true);
+  }, []);
+
+  if (displayError) {
+    return (
+      <div className='flex justify-center items-center w-[132px] min-w-[132px] min-h-[132px] h-[132px] bg-bright-dark'>
+        <Icon name='HideImage' />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={imageUrl}
+      alt='ResultItem'
+      className='w-[132px] h-[132px] object-cover rounded-md cursor-pointer'
+      onClick={onClick}
+      onError={showError}
+    />
+  );
+};
+
 export interface IResultItemProps {
   imageUrl: string;
   collectionName: string;
@@ -78,12 +109,7 @@ export const ResultItem = ({
         selected ? ' border-primary' : 'border-transparent'
       } ${className}`}
     >
-      <img
-        src={imageUrl}
-        alt='ResultItem'
-        className='w-[132px] h-[132px] object-cover rounded-md cursor-pointer'
-        onClick={handleSelectItem}
-      />
+      <Image imageUrl={imageUrl} onClick={handleSelectItem} />
       <div className='ml-2.5 text-text w-full flex flex-col h-auto'>
         <div className='flex-grow'>
           <ResultItemInfo value={collectionName} iconName='Satellite' />
