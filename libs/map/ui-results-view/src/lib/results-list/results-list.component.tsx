@@ -15,7 +15,7 @@ export const ResultsList = ({ features }: IResultsListProps) => {
     (feature: TFeature) => {
       if (selectedFeature?.id !== feature.id) {
         setSelectedFeature(feature);
-        setStacUrl(feature.links.find((link: { rel?: string }) => link.rel === 'self')?.href);
+        setStacUrl(feature.links.find((link) => link.rel === 'self')?.href);
       } else {
         setSelectedFeature(null);
         setStacUrl('');
