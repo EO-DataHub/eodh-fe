@@ -4,3 +4,4 @@ export { DrawCircleButton } from './lib/aoi-layer/draw-circle.component';
 export { DrawPolygonButton } from './lib/aoi-layer/draw-polygon.component';
 export { DrawRectangleButton } from './lib/aoi-layer/draw-rectangle.component';
 export { useFootprintsLayer } from './lib/footprints-layer/use-footprint-layer.hook';
+export { StacLayer } from './lib/stac-layer/stac-layer.component';
