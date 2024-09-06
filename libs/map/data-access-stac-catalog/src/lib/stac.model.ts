@@ -39,6 +39,7 @@ const linkSchema = z.object({
     z.literal('license'),
     z.literal('derived_from'),
     z.literal('thumbnail'),
+    z.literal('next').optional(),
   ]),
   type: z.string().optional(),
   title: z.string().optional(),
