@@ -57,6 +57,12 @@ interface Resources {
       };
     };
     MAP: {
+      SEARCH_MODE_PANEL: {
+        HEADER: {
+          BROWSE_DATA_SETS: 'Browsing data sets';
+          BACK_TO_DATA_SETS: 'Back to data sets';
+        };
+      };
       SEARCH_VIEW: {
         VALIDATION: {
           ONE_OF_FIELDS_REQUIRED: 'You must select at least one of the following options';

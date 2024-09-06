@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@ukri/shared/design-system';
+import { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { AreaOfInterest } from './aoi.component';
@@ -17,7 +18,11 @@ type TSearchPanelProps = {
   onSubmit: (data: TForm) => unknown | Promise<unknown>;
 };
 
-export const SearchView = ({ onSubmit, defaultValues = defaultData }: TSearchPanelProps) => {
+export const SearchView = ({
+  onSubmit,
+  defaultValues = defaultData,
+  children,
+}: PropsWithChildren<TSearchPanelProps>) => {
   const form = useForm<TFormDefaultValues | TForm, unknown, TForm>({
     defaultValues,
     resolver: zodResolver(validationSchema),
@@ -28,6 +33,7 @@ export const SearchView = ({ onSubmit, defaultValues = defaultData }: TSearchPan
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col h-full'>
+        {children}
         <AreaOfInterest />
         <div className='flex-1 overflow-y-auto pb-4'>
           <Tree />

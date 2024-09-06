@@ -1,4 +1,5 @@
 export { default as ArrowDown } from './arrow-down';
+export { default as ArrowLeft } from './arrow-left';
 export { default as ArrowDropRight } from './arrow-drop-right';
 export { default as ArrowDropDown } from './arrow-drop-down';
 export { default as Bolt } from './bolt';
@@ -17,3 +18,4 @@ export { default as Satellite } from './satellite';
 export { default as Schedule } from './schedule';
 export { default as Settings } from './settings';
 export { default as Warning } from './warning';
+export { default as HideImage } from './hide-image';
