@@ -119,6 +119,7 @@ export const MapComponent = ({ className }: { className?: string }) => {
     });
 
     source.on('tileloaderror', function (event) {
+      // eslint-disable-next-line no-console
       console.error('Tile loading error:', event);
     });
 

@@ -1,7 +1,7 @@
 import { TCollectionSchema } from '@ukri/map/data-access-stac-catalog';
 // import { GeoTiffLayer } from '@ukri/map/ui-map';
 import { ResultItem } from '@ukri/shared/design-system';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export interface IResultsListProps {
   data: TCollectionSchema['features'];
