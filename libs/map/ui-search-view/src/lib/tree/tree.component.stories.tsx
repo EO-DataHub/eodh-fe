@@ -74,7 +74,7 @@ export const TreeError = {
   args: {
     values: {
       ...defaultValues,
-      data: {
+      dataSets: {
         copernicus: {
           ...defaultValues.dataSets.copernicus,
           sentinel1: {
