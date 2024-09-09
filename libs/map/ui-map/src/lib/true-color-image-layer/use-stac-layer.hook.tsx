@@ -24,17 +24,21 @@ export const useStacLayer = () => {
       zIndex: stacLayerZindex,
     });
 
-    newStacLayer.addEventListener('sourceready', () => {
+    const handleSourceReady = () => {
       const view = map.getView();
       const extent = newStacLayer.getExtent();
+
       if (extent) {
         view.fit(extent);
         const zoom = view.getZoom();
+
         if (zoom) {
           view.setZoom(zoom - 1);
         }
       }
-    });
+    };
+
+    newStacLayer.addEventListener('sourceready', handleSourceReady);
 
     map.addLayer(newStacLayer);
 
@@ -42,6 +46,7 @@ export const useStacLayer = () => {
 
     return () => {
       map.removeLayer(newStacLayer);
+      newStacLayer.removeEventListener('sourceready', handleSourceReady);
     };
   }, [map, url]);
 

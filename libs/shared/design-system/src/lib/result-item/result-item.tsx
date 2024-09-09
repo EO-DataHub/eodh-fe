@@ -23,10 +23,10 @@ const hideCompareButton = 'opacity-0 pointer-events-none';
 
 interface IImageProps {
   imageUrl: string;
-  onClick?: () => void;
+  onToggle?: () => void;
 }
 
-const Image = ({ imageUrl, onClick }: IImageProps) => {
+const Image = ({ imageUrl, onToggle }: IImageProps) => {
   const [displayError, setDislayError] = useState(false);
 
   const showError = useCallback(() => {
@@ -46,7 +46,7 @@ const Image = ({ imageUrl, onClick }: IImageProps) => {
       src={imageUrl}
       alt='ResultItem'
       className='w-[132px] h-[132px] object-cover rounded-md cursor-pointer'
-      onClick={onClick}
+      onClick={onToggle}
       onError={showError}
     />
   );
@@ -58,11 +58,11 @@ export interface IResultItemProps {
   dateTime: string;
   cloudCoverage?: number;
   gridCode?: string;
-  onSelected?: () => void;
+  onToggleSelectedItem?: () => void;
   selected?: boolean;
   className?: string;
   id: string | number;
-  // TODO rething logic and type definition for comparison functionality
+  // TODO rethink logic and type definition for comparison functionality
   addedForComparison?: boolean;
   onAddToCompare?: () => void;
   onRemoveFromCompare?: () => void;
@@ -75,23 +75,15 @@ export const ResultItem = ({
   cloudCoverage,
   gridCode,
   selected,
-  onSelected,
+  onToggleSelectedItem,
   className,
   addedForComparison,
   onAddToCompare,
   onRemoveFromCompare,
 }: IResultItemProps) => {
-  const [isSelected, setIsSelected] = useState(selected);
   const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
   const time = useMemo(() => `${new Date(dateTime).getHours()}:${new Date(dateTime).getMinutes()}`, [dateTime]);
   const date = useMemo(() => new Date(dateTime).toISOString().split('T')[0], [dateTime]);
-
-  const handleSelectItem = useCallback(() => {
-    setIsSelected(!isSelected);
-    if (onSelected) {
-      onSelected();
-    }
-  }, [isSelected, onSelected]);
 
   const handleCompareClick = useCallback(() => {
     if (!isAddedForComparison && onAddToCompare) {
@@ -109,7 +101,7 @@ export const ResultItem = ({
         selected ? ' border-primary' : 'border-transparent'
       } ${className}`}
     >
-      <Image imageUrl={imageUrl} onClick={handleSelectItem} />
+      <Image imageUrl={imageUrl} onToggle={onToggleSelectedItem} />
       <div className='ml-2.5 text-text w-full flex flex-col h-auto'>
         <div className='flex-grow'>
           <ResultItemInfo value={collectionName} iconName='Satellite' />
@@ -135,7 +127,7 @@ export const ResultItem = ({
               selected ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE' : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW'
             }
             size='small'
-            onClick={handleSelectItem}
+            onClick={onToggleSelectedItem}
           />
         </div>
       </div>

@@ -11,7 +11,7 @@ export const ResultsList = ({ features }: IResultsListProps) => {
   const [selectedFeature, setSelectedFeature] = useState<TFeature | null>(null);
   const setStacUrl = useTrueColorImageUrlMutation();
 
-  const handleThumbnailSelect = useCallback(
+  const handleSelectedItemToggle = useCallback(
     (feature: TFeature) => {
       if (selectedFeature?.id !== feature.id) {
         setSelectedFeature(feature);
@@ -37,7 +37,7 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           cloudCoverage={feature.properties['eo:cloud_cover']}
           gridCode={feature.properties['grid:code']}
           selected={selectedFeature?.id === feature.id}
-          onSelected={() => handleThumbnailSelect(feature)}
+          onToggleSelectedItem={() => handleSelectedItemToggle(feature)}
           // TODO actual functions to be added in future
           onAddToCompare={() => {
             return;
