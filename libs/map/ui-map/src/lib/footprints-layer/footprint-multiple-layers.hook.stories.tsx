@@ -1,6 +1,8 @@
 import { Meta, Story } from '@storybook/react';
+import { useFootprintCollectionMutation, useToggleFootprintLayer } from '@ukri/map/data-access-map';
 import { TCollection } from '@ukri/map/data-access-stac-catalog';
 import { Button } from '@ukri/shared/design-system';
+import { useEffect } from 'react';
 
 import { Map, MapWrapper } from '../map.component';
 import { sentinel1Item1CollectionMock } from '../mocks/sentinel-1-item1.collection.mock';
@@ -8,19 +10,18 @@ import { sentinel1Item2CollectionMock } from '../mocks/sentinel-1-item2.collecti
 import { sentinel2CollectionMock } from '../mocks/sentinel-2.collection.mock';
 import { sentinel3CollectionMock } from '../mocks/sentinel-3.collection.mock';
 import { sentinel5CollectionMock } from '../mocks/sentinel-5.collection.mock';
-import { useFootprintsLayer } from './use-footprint-layer.hook';
+import { FootprintLayerComponent } from './footprint-layer.component';
 
 const GeoJsonLayerComponent = ({ resultItem }: { resultItem: TCollection }) => {
-  const { updateZindex, toggleVisibility } = useFootprintsLayer(resultItem);
+  const setCollection = useFootprintCollectionMutation();
+  const toggleVisibility = useToggleFootprintLayer();
+
+  useEffect(() => {
+    setCollection(resultItem);
+  }, [resultItem, setCollection]);
 
   return (
     <div className='ml-4'>
-      <input
-        type='number'
-        onChange={(e) => updateZindex(parseInt(e.target.value))}
-        className='border border-gray-300 rounded-md p-1 w-[300px] my-4'
-        placeholder='Inser number to change z-index'
-      />
       <Button onClick={toggleVisibility} text='Toggle Visible' />
     </div>
   );
@@ -49,6 +50,7 @@ export default {
     (Story) => (
       <MapWrapper zoom={4}>
         <div className='flex w-full h-[800px] overflow-hidden'>
+          <FootprintLayerComponent />
           <Map className='flex w-full' />
           <Story />
         </div>
