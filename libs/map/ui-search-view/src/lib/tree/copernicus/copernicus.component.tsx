@@ -49,7 +49,7 @@ export const Copernicus = () => {
   }, [field.value, sentinel1, sentinel2, setValue]);
 
   return (
-    <TreeItem title='MAP.SEARCH_VIEW.COPERNICUS.NAME' slots={slots} expanded={true}>
+    <TreeItem title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.NAME' slots={slots} expanded={true}>
       <Sentinel1 />
       <Sentinel2 />
       <Sentinel3 />

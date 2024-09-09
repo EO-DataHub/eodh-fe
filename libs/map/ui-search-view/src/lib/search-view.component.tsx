@@ -1,9 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@ukri/shared/design-system';
+import { Button, Icon } from '@ukri/shared/design-system';
 import { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { AreaOfInterest } from './aoi.component';
+import { useShowChecklist } from './checklist/checklist.store';
+import { useSyncChecklistState } from './checklist/use-checklist.hook';
 import { DateRangePicker } from './date-range-picker/date-range-picker.component';
 import { defaultValues as defaultData } from './form.default-data';
 import { TFormDefaultValues } from './form.model';
@@ -29,6 +31,9 @@ export const SearchView = ({
     reValidateMode: 'onChange',
     mode: 'onChange',
   });
+  const showChecklist = useShowChecklist();
+
+  useSyncChecklistState(form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
 
   return (
     <FormProvider {...form}>
@@ -40,13 +45,20 @@ export const SearchView = ({
         </div>
         <div className='mt-auto shadow-data-range-picker p-4'>
           <DateRangePicker dateMin={minDate} dateMax={today} />
-          <Button
-            type='submit'
-            text='MAP.DATE_RANGE_PICKER.SEARCH'
-            className='w-full flex justify-center mt-0'
-            size='large'
-            disabled={!form.formState.isValid}
-          />
+          <div className='flex'>
+            <Button
+              type='submit'
+              text='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.SEARCH'
+              className='w-full flex justify-center mt-0 mr-2'
+              size='large'
+              disabled={!form.formState.isValid}
+            />
+            <div className='flex items-center relative'>
+              <button type='button' onClick={showChecklist} className='text-neutral-light'>
+                <Icon name='Help' />
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     </FormProvider>

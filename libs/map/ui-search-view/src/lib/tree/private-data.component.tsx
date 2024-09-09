@@ -34,30 +34,30 @@ export const PrivateData = () => {
   }, [field.value, planetScope, rapidEye, setValue, skySat]);
 
   return (
-    <TreeItem title='MAP.SEARCH_VIEW.PRIVATE' expanded={true} className='text-text-primary'>
+    <TreeItem title='MAP.SEARCH_VIEW.DATA_SETS.PRIVATE' expanded={true} className='text-text-primary'>
       <CategoryItem
-        title='MAP.SEARCH_VIEW.PLANET.NAME'
+        title='MAP.SEARCH_VIEW.DATA_SETS.PLANET.NAME'
         name='dataSets.planet.enabled'
         disabled={true}
         onChange={togglePrivateData}
       >
         <SatelliteItem
-          title='MAP.SEARCH_VIEW.PLANET.PLANET_SCOPE.NAME'
+          title='MAP.SEARCH_VIEW.DATA_SETS.PLANET.PLANET_SCOPE.NAME'
           name='dataSets.planet.planetScope.enabled'
           disabled={true}
         />
         <SatelliteItem
-          title='MAP.SEARCH_VIEW.PLANET.SKY_SAT.NAME'
+          title='MAP.SEARCH_VIEW.DATA_SETS.PLANET.SKY_SAT.NAME'
           name='dataSets.planet.skySat.enabled'
           disabled={true}
         />
         <SatelliteItem
-          title='MAP.SEARCH_VIEW.PLANET.RAPID_EYE.NAME'
+          title='MAP.SEARCH_VIEW.DATA_SETS.PLANET.RAPID_EYE.NAME'
           name='dataSets.planet.rapidEye.enabled'
           disabled={true}
         />
       </CategoryItem>
-      <TreeItem title='MAP.SEARCH_VIEW.AIR_BUS.NAME' />
+      <TreeItem title='MAP.SEARCH_VIEW.DATA_SETS.AIR_BUS.NAME' />
     </TreeItem>
   );
 };

@@ -51,7 +51,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
     <div className={styles.container}>
       <div className={styles.header} onClick={toggleOpen}>
         <Text
-          content='MAP.DATE_RANGE_PICKER.TITLE'
+          content='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.TITLE'
           type='h2'
           fontSize='large'
           fontWeight='bold'
@@ -63,7 +63,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
         <div className={styles.content}>
           <div className={`${styles.row} ${styles.rowMarginFrom}`}>
             <Text
-              content='MAP.DATE_RANGE_PICKER.SEARCH_FROM'
+              content='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.SEARCH_FROM'
               type='h3'
               fontSize='medium'
               fontWeight='regular'
@@ -79,7 +79,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
           </div>
           <div className={styles.row}>
             <Text
-              content='MAP.DATE_RANGE_PICKER.SEARCH_TO'
+              content='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.SEARCH_TO'
               type='h3'
               fontSize='medium'
               fontWeight='regular'
