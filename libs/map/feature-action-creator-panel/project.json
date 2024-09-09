@@ -1,0 +1,19 @@
+{
+  "name": "map-feature-action-creator-panel",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/map/feature-action-creator-panel/src",
+  "projectType": "library",
+  "tags": ["type:feature", "scope:map"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../coverage/libs/map/feature-action-creator-panel"
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 export const toggleStyles = {
-  label: 'flex items-center cursor-pointer',
+  label: 'flex items-center cursor-pointer select-none',
   input: 'sr-only',
   background: {
     base: 'w-7 h-[18px] bg-bright rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary peer peer-checked:bg-primary border border-1 border-primary',
@@ -11,7 +11,7 @@ export const toggleStyles = {
     disabled: 'bg-neutral-light',
     checked: 'translate-x-full',
   },
-  labelText: 'ml-3 text-sm font-medium text-text',
+  labelText: 'ml-3',
 };
 
 export const getBackgroundClasses = (disabled?: boolean) => {

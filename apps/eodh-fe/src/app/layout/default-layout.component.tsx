@@ -1,3 +1,4 @@
+import { ActionCreatorPanel } from '@ukri/map/feature-action-creator-panel';
 import { Map, MapWrapper, TrueColorImageLayer } from '@ukri/map/ui-map';
 
 import { LeftMenu } from './left-menu.component';
@@ -11,7 +12,9 @@ export const DefaultLayout = () => {
         <div className='flex w-full h-full overflow-hidden'>
           <LeftMenu />
           <TrueColorImageLayer />
-          <Map className='flex w-full' />
+          <Map className='flex w-full'>
+            <ActionCreatorPanel />
+          </Map>
         </div>
       </MapWrapper>
     </div>
