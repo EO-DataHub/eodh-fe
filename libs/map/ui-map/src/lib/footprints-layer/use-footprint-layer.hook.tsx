@@ -28,7 +28,7 @@ const defaultStyle = new Style({
 // TODO styles for highlight footprint to be updated in the future once design will be added
 const highlightStyle = new Style({
   fill: new Fill({
-    color: 'rgba(255, 255, 0, 0.3)',
+    color: 'rgba(255, 255, 0, 0.0)',
   }),
   stroke: new Stroke({
     color: '#FFCC33',

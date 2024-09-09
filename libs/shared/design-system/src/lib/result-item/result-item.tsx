@@ -130,7 +130,13 @@ export const ResultItem = ({
             onClick={handleCompareClick}
             className={`${hideCompareButton} ${isAddedForComparison ? '!text-error' : ''}`}
           />
-          <Button text='GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON' size='small' onClick={handleSelectItem} />
+          <Button
+            text={
+              selected ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE' : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW'
+            }
+            size='small'
+            onClick={handleSelectItem}
+          />
         </div>
       </div>
     </div>

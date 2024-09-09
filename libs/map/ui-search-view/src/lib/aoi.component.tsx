@@ -1,11 +1,11 @@
-import { useCurrentShape } from '@ukri/map/data-access-map';
+import { useCurrentAoi } from '@ukri/map/data-access-map';
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { TFormDefaultValues } from './form.model';
 
 export const AreaOfInterest = () => {
-  const aoi = useCurrentShape();
+  const aoi = useCurrentAoi();
   const { register, setValue, trigger } = useFormContext<TFormDefaultValues>();
 
   useEffect(() => {

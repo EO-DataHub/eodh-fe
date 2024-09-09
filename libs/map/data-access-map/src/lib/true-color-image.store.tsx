@@ -7,17 +7,17 @@ interface IStacStore {
   setStacUrl: (url: string | undefined) => void;
 }
 
-const useStacStore = create<IStacStore>()(
+const useTrueColorImageStore = create<IStacStore>()(
   devtools((set) => ({
     stacUrl: undefined,
     setStacUrl: (url: string | undefined) => set(() => ({ stacUrl: url })),
   }))
 );
 
-export const useStacUrl = () => {
-  return useStacStore((state) => state.stacUrl);
+export const useTrueColorImageUrl = () => {
+  return useTrueColorImageStore((state) => state.stacUrl);
 };
 
-export const useStacUrlMutation = () => {
-  return useStacStore((state) => state.setStacUrl);
+export const useTrueColorImageUrlMutation = () => {
+  return useTrueColorImageStore((state) => state.setStacUrl);
 };

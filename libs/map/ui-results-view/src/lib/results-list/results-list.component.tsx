@@ -1,5 +1,5 @@
-import { useStacUrlMutation } from '@ukri/map/data-access-map';
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { useTrueColorImageUrlMutation } from '@ukri/map/data-access-map';
+import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { ResultItem } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
@@ -8,20 +8,25 @@ export interface IResultsListProps {
 }
 
 export const ResultsList = ({ features }: IResultsListProps) => {
-  const [selectedFeature, setSelectedFeature] = useState<TCollection['features'][number] | null>(null);
-  const setStacUrl = useStacUrlMutation();
+  const [selectedFeature, setSelectedFeature] = useState<TFeature | null>(null);
+  const setStacUrl = useTrueColorImageUrlMutation();
 
   const handleThumbnailSelect = useCallback(
-    (feature: TCollection['features'][number]) => {
-      setSelectedFeature(feature);
-      setStacUrl(feature.links.find((link) => link.rel === 'self')?.href);
+    (feature: TFeature) => {
+      if (selectedFeature?.id !== feature.id) {
+        setSelectedFeature(feature);
+        setStacUrl(feature.links.find((link: { rel: string }) => link.rel === 'self')?.href);
+      } else {
+        setSelectedFeature(null);
+        setStacUrl('');
+      }
     },
-    [setStacUrl]
+    [selectedFeature, setStacUrl]
   );
 
   return (
-    <div>
-      {features.map((feature) => (
+    <div className='mx-4 mt-4'>
+      {features.map((feature: TFeature) => (
         <ResultItem
           key={feature.id}
           className='mb-4'

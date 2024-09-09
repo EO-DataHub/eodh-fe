@@ -1,2 +1,2 @@
-export { useCurrentShape, useCurrentShapeMutation } from './lib/shape.store';
-export { useStacUrl, useStacUrlMutation } from './lib/stac.store';
+export { useCurrentAoi, useCurrentAoiMutation } from './lib/aoi.store';
+export { useTrueColorImageUrl, useTrueColorImageUrlMutation } from './lib/true-color-image.store';
