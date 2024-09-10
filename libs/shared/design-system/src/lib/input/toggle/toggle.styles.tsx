@@ -32,6 +32,8 @@ export const getLabelTextClasses = (disabled?: boolean, checked?: boolean) => {
     classNames.push(toggleStyles.labelText.disabled);
   } else if (checked) {
     classNames.push(toggleStyles.labelText.checked);
+  } else {
+    classNames.push(toggleStyles.labelText.enabled);
   }
 
   return classNames.join(' ');
