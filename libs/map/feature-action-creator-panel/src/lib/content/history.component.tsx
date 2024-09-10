@@ -1,3 +1,3 @@
 export const History = () => {
-  return <main className='text-text-primary'>History</main>;
+  return <section className='text-text-primary'>History</section>;
 };

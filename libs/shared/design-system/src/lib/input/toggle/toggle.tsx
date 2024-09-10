@@ -1,7 +1,11 @@
-import { useState } from 'react';
-
 import { Text } from '../../text/text';
-import { getBackgroundClasses, getCircleClasses, toggleStyles } from './toggle.styles';
+import {
+  getBackgroundClasses,
+  getCircleClasses,
+  getLabelClasses,
+  getLabelTextClasses,
+  toggleStyles,
+} from './toggle.styles';
 
 interface IToggleProps {
   id: string;
@@ -12,15 +16,9 @@ interface IToggleProps {
   className?: string;
 }
 
-export const Toggle = ({
-  id,
-  checked: initialChecked = false,
-  onChange,
-  label,
-  disabled,
-  className = '',
-}: IToggleProps) => {
-  const [checked, setChecked] = useState(initialChecked);
+export const Toggle = ({ id, checked = false, onChange, label, disabled, className = '' }: IToggleProps) => {
+  const labelClasses = `${getLabelClasses(disabled)} ${className}`;
+  const labelTextClasses = getLabelTextClasses(disabled, checked);
   const backgroundClasses = getBackgroundClasses(disabled);
   const circleClasses = getCircleClasses(disabled, checked);
 
@@ -28,30 +26,21 @@ export const Toggle = ({
     if (disabled) {
       return;
     }
-    const newChecked = !checked;
-    setChecked(newChecked);
+
     if (onChange) {
-      onChange(newChecked);
+      onChange(!checked);
     }
   };
 
   return (
-    <label htmlFor={id} className={`${toggleStyles.label} ${className}`}>
+    <label htmlFor={id} className={labelClasses}>
       <div className='relative'>
         <input type='checkbox' id={id} checked={checked} onChange={handleChange} className={toggleStyles.input} />
         <div className={backgroundClasses}>
           <div className={circleClasses}></div>
         </div>
       </div>
-      {label && (
-        <Text
-          className={toggleStyles.labelText(checked)}
-          content={label}
-          type='p'
-          fontSize='large'
-          fontWeight='semibold'
-        />
-      )}
+      {label && <Text className={labelTextClasses} content={label} type='p' fontSize='large' fontWeight='semibold' />}
     </label>
   );
 };

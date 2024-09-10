@@ -16,15 +16,15 @@ const ToggleContentButton = () => {
 };
 
 export const Header = () => {
-  const { collapsed, enabled, toggle } = useContext(ActionCreator);
+  const { collapsed, enabled, toggle: toggleMode } = useContext(ActionCreator);
 
   return (
-    <header className=''>
-      <main className='flex justify-between p-4'>
+    <header>
+      <section className='flex justify-between p-4'>
         <Toggle
           id='actionCreator'
           checked={enabled}
-          onChange={toggle}
+          onChange={toggleMode}
           label='MAP.ACTION_CREATOR_PANEL.HEADER.ACTION_CREATOR'
         />
 
@@ -32,7 +32,7 @@ export const Header = () => {
           <Icon name='Help' />
           <ToggleContentButton />
         </div>
-      </main>
+      </section>
       {collapsed && <Tabs />}
     </header>
   );

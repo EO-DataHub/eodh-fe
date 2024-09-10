@@ -10,10 +10,6 @@ const ActiveContent = () => {
   const { activeTab } = useContext(ActionCreator);
 
   switch (activeTab) {
-    case 'workflow': {
-      return <Workflow />;
-    }
-
     case 'history': {
       return <History />;
     }
@@ -26,8 +22,9 @@ const ActiveContent = () => {
       return <Help />;
     }
 
+    case 'workflow':
     default: {
-      return null;
+      return <Workflow />;
     }
   }
 };

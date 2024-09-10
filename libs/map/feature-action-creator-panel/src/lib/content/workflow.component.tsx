@@ -1,3 +1,3 @@
 export const Workflow = () => {
-  return <main className='text-text-primary'>Workflow</main>;
+  return <section className='text-text-primary'>Workflow</section>;
 };
