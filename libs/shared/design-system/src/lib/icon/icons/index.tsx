@@ -24,3 +24,4 @@ export { default as CollapseContent } from './content-collapse';
 export { default as ExpandContent } from './content-expand';
 export { default as Visibility } from './visibility';
 export { default as VisibilityOff } from './visibility-off';
+export { default as Erase } from './ink-eraser';

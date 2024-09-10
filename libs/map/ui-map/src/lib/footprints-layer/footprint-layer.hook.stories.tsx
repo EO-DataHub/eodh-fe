@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 import { Map, MapWrapper } from '../map.component';
 import { sentinel1Item1CollectionMock } from '../mocks/sentinel-1-item1.collection.mock';
-import { FootprintLayerComponent } from './footprint-layer.component';
+import { FootprintLayer } from './footprint.layer';
 
 const GeoJsonLayerComponent = () => {
   const setCollection = useFootprintCollectionMutation();
@@ -17,7 +17,7 @@ const GeoJsonLayerComponent = () => {
 
   return (
     <div className='ml-4'>
-      <Button onClick={toggleVisibility} text='Toggle Visible' />
+      <Button onClick={() => toggleVisibility()} text='Toggle Visible' />
     </div>
   );
 };
@@ -29,7 +29,7 @@ export default {
     (Story) => (
       <MapWrapper zoom={4}>
         <div className='flex w-full h-[800px] overflow-hidden'>
-          <FootprintLayerComponent />
+          <FootprintLayer />
           <Map className='flex w-full' />
           <Story />
         </div>

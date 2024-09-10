@@ -37,10 +37,10 @@ const highlightStyle = new Style({
   zIndex: 2,
 });
 
-export const useFootprintLayer = () => {
+export const useFootprintLayer = (id?: string) => {
   const map = useContext(MapContext);
-  const visible = useFootprintLayerVisible();
-  const collection = useFootprintCollection();
+  const visible = useFootprintLayerVisible(id);
+  const collection = useFootprintCollection(id);
   const [layer, setLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
 
   useEffect(() => {

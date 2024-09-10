@@ -1,5 +1,6 @@
 import {
   AoiLayer,
+  ClearButton,
   DrawCircleButton,
   DrawPolygonButton,
   DrawRectangleButton,
@@ -21,6 +22,7 @@ export const TopBar = () => {
         <DrawRectangleButton />
         <DrawCircleButton />
         <DrawPolygonButton />
+        <ClearButton />
         <ToggleLayerButton />
       </AoiLayer>
       <Login className='ml-auto' />
