@@ -6,7 +6,6 @@ import TileLayer from 'ol/layer/Tile';
 import OlMap from 'ol/Map.js';
 import { fromLonLat } from 'ol/proj';
 import OSM from 'ol/source/OSM';
-import View from 'ol/View.js';
 import OlView from 'ol/View.js';
 import { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
 
@@ -18,7 +17,7 @@ interface IMap {
   addInteraction(interaction: Interaction): void;
   removeInteraction(interaction: Interaction): Interaction | undefined;
   removeLayer(layer: BaseLayer): BaseLayer | undefined;
-  getView(): View;
+  getView(): OlView;
 }
 
 const defaultMap = {

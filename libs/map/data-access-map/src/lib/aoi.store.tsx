@@ -3,22 +3,22 @@ import Geometry from 'ol/geom/Geometry';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-interface IShapeStore {
+interface IAoiStore {
   currentShape: undefined | Geometry;
   setCurrentShape: (shape: Geometry | undefined) => void;
 }
 
-const useShapeStore = create<IShapeStore>()(
+const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
     currentShape: undefined,
     setCurrentShape: (shape: Geometry | undefined) => set(() => ({ currentShape: shape?.clone() })),
   }))
 );
 
-export const useCurrentShape = () => {
-  return useShapeStore((state) => state.currentShape);
+export const useCurrentAoi = () => {
+  return useAoiStore((state) => state.currentShape);
 };
 
-export const useCurrentShapeMutation = () => {
-  return useShapeStore((state) => state.setCurrentShape);
+export const useCurrentAoiMutation = () => {
+  return useAoiStore((state) => state.setCurrentShape);
 };

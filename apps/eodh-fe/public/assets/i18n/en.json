@@ -12,7 +12,8 @@
       },
       "RESULT_ITEM": {
         "NO_IMAGE": "No image",
-        "BUTTON": "View",
+        "BUTTON_SHOW": "View",
+        "BUTTON_HIDE": "Hide",
         "ADD_TO_COMPARE": "Add to compare",
         "REMOVE_COMPARE": "Remove compare"
       },

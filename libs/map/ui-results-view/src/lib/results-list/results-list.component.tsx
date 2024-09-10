@@ -1,4 +1,5 @@
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { useTrueColorImageUrlMutation } from '@ukri/map/data-access-map';
+import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { ResultItem } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
@@ -7,15 +8,25 @@ export interface IResultsListProps {
 }
 
 export const ResultsList = ({ features }: IResultsListProps) => {
-  const [selectedThumbnailId, setSelectedThumbnailId] = useState<number | string | null>(null);
+  const [selectedFeature, setSelectedFeature] = useState<TFeature | null>(null);
+  const setStacUrl = useTrueColorImageUrlMutation();
 
-  const handleThumbnailSelect = useCallback((thumbnailId: number | string) => {
-    setSelectedThumbnailId(thumbnailId);
-  }, []);
+  const handleSelectedItemToggle = useCallback(
+    (feature: TFeature) => {
+      if (selectedFeature?.id !== feature.id) {
+        setSelectedFeature(feature);
+        setStacUrl(feature.links.find((link: { rel?: string }) => link.rel === 'self')?.href);
+      } else {
+        setSelectedFeature(null);
+        setStacUrl('');
+      }
+    },
+    [selectedFeature, setStacUrl]
+  );
 
   return (
-    <div>
-      {features.map((feature) => (
+    <div className='mx-4 mt-4'>
+      {features.map((feature: TFeature) => (
         <ResultItem
           key={feature.id}
           className='mb-4'
@@ -25,8 +36,8 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           id={feature.id}
           cloudCoverage={feature.properties['eo:cloud_cover']}
           gridCode={feature.properties['grid:code']}
-          selected={selectedThumbnailId === feature.id}
-          onSelected={() => handleThumbnailSelect(feature.id)}
+          selected={selectedFeature?.id === feature.id}
+          onToggleSelectedItem={() => handleSelectedItemToggle(feature)}
           // TODO actual functions to be added in future
           onAddToCompare={() => {
             return;

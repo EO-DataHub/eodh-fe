@@ -30,7 +30,17 @@ const propertySchema = z.object({
 
 const linkSchema = z.object({
   href: z.string(),
-  rel: z.string(),
+  rel: z.union([
+    z.literal('self'),
+    z.literal('parent'),
+    z.literal('collection'),
+    z.literal('root'),
+    z.literal('canonical'),
+    z.literal('license'),
+    z.literal('derived_from'),
+    z.literal('thumbnail'),
+    z.literal('next').optional(),
+  ]),
   type: z.string().optional(),
   title: z.string().optional(),
   merge: z.boolean().optional(),
@@ -70,6 +80,7 @@ const featureSchema = z.object({
   stac_extensions: z.array(z.string()).optional(),
   assets: z.object({
     thumbnail: assetSchema,
+    visual: assetSchema.optional(),
   }),
   links: z.array(linkSchema),
   collection: z.string(),
@@ -89,3 +100,4 @@ export const collectionSchema = z.object({
 
 export type TGeometry = z.infer<typeof geometrySchema>;
 export type TCollection = z.infer<typeof collectionSchema>;
+export type TFeature = TCollection['features'][number];

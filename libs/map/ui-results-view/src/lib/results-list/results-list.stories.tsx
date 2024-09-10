@@ -1,12 +1,12 @@
 import type { Meta } from '@storybook/react';
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { TFeature } from '@ukri/map/data-access-stac-catalog';
 
 import { ResultsList } from './results-list.component';
 
 const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2.png';
 
 // todo: consider moving this mock to separate file
-const singleElementMock: Omit<TCollection['features'][number], 'id'> = {
+const singleElementMock: Omit<TFeature, 'id'> = {
   type: 'Feature',
   properties: {
     datetime: '2024-09-03T16:23:22.625Z',
