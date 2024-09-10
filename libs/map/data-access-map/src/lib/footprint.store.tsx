@@ -4,8 +4,9 @@ import { TCollection } from '@ukri/map/data-access-stac-catalog'; // todo: [fix 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+const defaultCollectionName = 'default';
+
 interface IFootprintStore {
-  currentCollection: TCollection | undefined;
   collections: {
     [key: string]: {
       collection: TCollection | undefined;
@@ -13,50 +14,84 @@ interface IFootprintStore {
     };
   };
   setCollection: (url: TCollection | undefined, id?: string) => void;
-  visible: boolean;
   toggleVisibility: (id?: string) => void;
+  show: (id?: string) => void;
+  hide: (id?: string) => void;
 }
 
 const useFootprintStore = create<IFootprintStore>()(
   devtools((set) => ({
     currentCollection: undefined,
     collections: {},
-    setCollection: (collection: TCollection | undefined, id?: string) =>
+    setCollection: (collection: TCollection | undefined, id = defaultCollectionName) =>
       set((state) => ({
-        currentCollection: collection,
-        collections: !id
-          ? state.collections
-          : {
-              ...state.collections,
-              [id]: {
-                collection,
-                visible: true,
-              },
-            },
+        collections: {
+          ...state.collections,
+          [id]: {
+            collection,
+            visible: true,
+          },
+        },
       })),
-    visible: true,
-    toggleVisibility: (id?: string) =>
-      set((state) => ({
-        visible: !state.visible,
-        collections: !id
-          ? state.collections
-          : {
-              ...state.collections,
-              [id]: {
-                collection: state.collections[id].collection,
-                visible: !state.collections[id].visible,
-              },
+    toggleVisibility: (id: string = defaultCollectionName) =>
+      set((state) => {
+        const currentCollection = state.collections[id];
+
+        if (!currentCollection) {
+          return state;
+        }
+
+        return {
+          collections: {
+            ...state.collections,
+            [id]: {
+              collection: currentCollection.collection,
+              visible: !currentCollection.visible,
             },
-      })),
+          },
+        };
+      }),
+    show: (id: string = defaultCollectionName) =>
+      set((state) => {
+        const currentCollection = state.collections[id];
+
+        if (!currentCollection) {
+          return state;
+        }
+
+        return {
+          collections: {
+            ...state.collections,
+            [id]: {
+              collection: currentCollection.collection,
+              visible: true,
+            },
+          },
+        };
+      }),
+    hide: (id: string = defaultCollectionName) =>
+      set((state) => {
+        const currentCollection = state.collections[id];
+
+        if (!currentCollection) {
+          return state;
+        }
+
+        return {
+          collections: {
+            ...state.collections,
+            [id]: {
+              collection: currentCollection.collection,
+              visible: false,
+            },
+          },
+        };
+      }),
   }))
 );
 
-export const useFootprintCollection = (id?: string) => {
+export const useFootprintCollection = (id: string = defaultCollectionName) => {
   return useFootprintStore((state) => {
-    if (!id) {
-      return state.currentCollection;
-    }
-
     if (state.collections[id]) {
       return state.collections[id].collection;
     }
@@ -69,10 +104,14 @@ export const useFootprintCollectionMutation = () => {
   return useFootprintStore((state) => state.setCollection);
 };
 
-export const useFootprintLayerVisible = (id?: string) => {
-  return useFootprintStore((state) => (!id ? state.visible : state.collections[id]?.visible));
+export const useFootprintLayerVisible = (id: string = defaultCollectionName) => {
+  return useFootprintStore((state) => state.collections[id]?.visible || false);
 };
 
 export const useToggleFootprintLayer = () => {
-  return useFootprintStore((state) => state.toggleVisibility);
+  return useFootprintStore((state) => ({
+    show: state.show,
+    hide: state.hide,
+    toggle: state.toggleVisibility,
+  }));
 };

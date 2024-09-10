@@ -10,11 +10,15 @@ type TResultsViewProps = {
 };
 
 export const ResultsView = ({ status, data, onBack, children }: PropsWithChildren<TResultsViewProps>) => {
-  const mutation = useFootprintCollectionMutation();
+  const setCollection = useFootprintCollectionMutation();
 
   useEffect(() => {
-    mutation(data);
-  }, [data, mutation]);
+    setCollection(data);
+
+    return () => {
+      setCollection(undefined);
+    };
+  }, [data, setCollection]);
 
   return (
     <div className='flex flex-col flex-1 h-full'>

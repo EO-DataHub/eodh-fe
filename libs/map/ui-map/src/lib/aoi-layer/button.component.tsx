@@ -8,7 +8,7 @@ interface IDrawButtonProps {
 }
 
 export const DrawButton = ({ selected, disabled, onClick, children }: PropsWithChildren<IDrawButtonProps>) => {
-  const baseClassName = 'hover:bg-primary-light hover:text-primary';
+  const baseClassName = !disabled ? 'hover:bg-primary-light hover:text-primary' : '';
   const className =
     selected && !disabled
       ? 'bg-primary text-primary-contrastText [&>svg]:fill-primary-contrastText'

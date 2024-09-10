@@ -11,6 +11,8 @@ interface IAoiStore {
   setCurrentShape: (shape: Geometry | undefined) => void;
   visible: boolean;
   toggleVisibility: () => void;
+  show: () => void;
+  hide: () => void;
   changeMode: (mode: TAoiMode) => void;
 }
 
@@ -21,6 +23,8 @@ const useAoiStore = create<IAoiStore>()(
     setCurrentShape: (shape: Geometry | undefined) => set(() => ({ currentShape: shape?.clone() })),
     visible: true,
     toggleVisibility: () => set((state) => ({ visible: !state.visible })),
+    show: () => set(() => ({ visible: true })),
+    hide: () => set(() => ({ visible: false })),
     changeMode: (mode: TAoiMode) => set(() => ({ mode })),
   }))
 );
@@ -41,8 +45,12 @@ export const useAoiLayerVisible = () => {
   return useAoiStore((state) => state.visible);
 };
 
-export const useToggleAoiLayer = () => {
-  return useAoiStore((state) => state.toggleVisibility);
+export const useChangeAoiLayerVisibility = () => {
+  return useAoiStore((state) => ({
+    show: state.show,
+    hide: state.hide,
+    toggle: state.toggleVisibility,
+  }));
 };
 
 export const useChangeAoiMode = () => {
