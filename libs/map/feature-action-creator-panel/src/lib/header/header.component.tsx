@@ -26,7 +26,6 @@ export const Header = () => {
           checked={enabled}
           onChange={toggle}
           label='MAP.ACTION_CREATOR_PANEL.HEADER.ACTION_CREATOR'
-          className='text-primary'
         />
 
         <div className='flex text-neutral-light gap-2'>

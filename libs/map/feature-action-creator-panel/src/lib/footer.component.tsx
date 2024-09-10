@@ -11,9 +11,9 @@ export const Footer = () => {
   }
 
   return (
-    <footer className='p-4 flex justify-between'>
-      <Button text='Save Workflow' appearance='outlined' />
-      <Button text='Run Action Creator' disabled={true} />
+    <footer className='p-4 flex justify-between gap-4'>
+      <Button text='Save Workflow' appearance='outlined' className='w-1/2' />
+      <Button text='Run Action Creator' className='w-1/2' disabled={true} />
     </footer>
   );
 };

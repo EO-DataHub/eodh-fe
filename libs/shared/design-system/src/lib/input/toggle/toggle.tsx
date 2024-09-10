@@ -44,7 +44,13 @@ export const Toggle = ({
         </div>
       </div>
       {label && (
-        <Text className={toggleStyles.labelText} content={label} type='p' fontSize='large' fontWeight='semibold' />
+        <Text
+          className={toggleStyles.labelText(checked)}
+          content={label}
+          type='p'
+          fontSize='large'
+          fontWeight='semibold'
+        />
       )}
     </label>
   );

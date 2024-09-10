@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import isString from 'lodash/isString';
-import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
+import { ReactNode, useMemo } from 'react';
 
 import { Icon } from '../icon/icon';
 import * as IconsNames from '../icon/icons/index';
+import { Text } from '../text/text';
 import {
   getAppearanceStyles,
   getBaseStyles,
@@ -44,8 +44,14 @@ export const Button = ({
   const appearanceStyles = getAppearanceStyles(appearance);
   const sizeStyles = getSizeStyles(size, appearance);
   const disabledStyles = getDisabledStyles(disabled, appearance);
-  const { t } = useTranslation();
-  const translatedContent = isString(text) ? t(text) : text;
+
+  const content = useMemo(() => {
+    if (!isString(text)) {
+      return text;
+    }
+
+    return <Text content={text} type='p' fontSize='large' fontWeight='bold' className='text-center' />;
+  }, [text]);
 
   const combinedStyles = clsx(
     baseStyles,
@@ -60,7 +66,7 @@ export const Button = ({
   return (
     <button type={type} className={combinedStyles} onClick={onClick} disabled={disabled}>
       {iconName && <Icon name={iconName} width={iconWidth ?? 24} height={iconHeight ?? 24} />}
-      {translatedContent}
+      {content}
     </button>
   );
 };
