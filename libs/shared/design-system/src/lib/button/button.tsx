@@ -51,7 +51,7 @@ export const Button = ({
       return text;
     }
 
-    return <span>{t(text)}</span>;
+    return t(text);
   }, [text, t]);
 
   const combinedStyles = clsx(
