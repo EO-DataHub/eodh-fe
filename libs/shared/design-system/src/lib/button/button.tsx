@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import isString from 'lodash/isString';
 import { ReactNode, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../icon/icon';
 import * as IconsNames from '../icon/icons/index';
-import { Text } from '../text/text';
 import {
   getAppearanceStyles,
   getBaseStyles,
@@ -44,14 +44,15 @@ export const Button = ({
   const appearanceStyles = getAppearanceStyles(appearance);
   const sizeStyles = getSizeStyles(size, appearance);
   const disabledStyles = getDisabledStyles(disabled, appearance);
+  const { t } = useTranslation();
 
   const content = useMemo(() => {
     if (!isString(text)) {
       return text;
     }
 
-    return <Text content={text} type='p' fontSize='large' fontWeight='bold' className='text-center' />;
-  }, [text]);
+    return <span>{t(text)}</span>;
+  }, [text, t]);
 
   const combinedStyles = clsx(
     baseStyles,
