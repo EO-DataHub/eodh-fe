@@ -1,7 +1,7 @@
+import { useFootprintCollectionMutation } from '@ukri/map/data-access-map';
 import { TCollection } from '@ukri/map/data-access-stac-catalog';
-import { useFootprintsLayer } from '@ukri/map/ui-map';
 import { ResultsView as UIResultsView } from '@ukri/map/ui-results-view';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 
 type TResultsViewProps = {
   status: 'pending' | 'error' | 'success';
@@ -10,7 +10,15 @@ type TResultsViewProps = {
 };
 
 export const ResultsView = ({ status, data, onBack, children }: PropsWithChildren<TResultsViewProps>) => {
-  useFootprintsLayer(data);
+  const setCollection = useFootprintCollectionMutation();
+
+  useEffect(() => {
+    setCollection(data);
+
+    return () => {
+      setCollection(undefined);
+    };
+  }, [data, setCollection]);
 
   return (
     <div className='flex flex-col flex-1 h-full'>

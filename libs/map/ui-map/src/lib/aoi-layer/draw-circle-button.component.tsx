@@ -1,3 +1,4 @@
+import { useAoiMode } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { useCallback, useContext, useMemo } from 'react';
@@ -7,6 +8,8 @@ import { DrawButton } from './button.component';
 
 export const DrawCircleButton = () => {
   const { draw, setDraw } = useContext(AoiLayerContext);
+  const mode = useAoiMode();
+  const disabled = useMemo(() => mode !== 'search', [mode]);
 
   const drawCircle = useCallback(() => {
     const circle = new Draw({
@@ -21,7 +24,7 @@ export const DrawCircleButton = () => {
   const selected = useMemo(() => draw?.type === 'circle', [draw?.type]);
 
   return (
-    <DrawButton selected={selected} onClick={drawCircle}>
+    <DrawButton selected={selected} disabled={disabled} onClick={drawCircle}>
       <Icon name='Circle' width={24} height={24} />
     </DrawButton>
   );

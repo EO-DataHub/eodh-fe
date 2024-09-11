@@ -2,12 +2,12 @@ import type {} from '@redux-devtools/extension';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-interface IStacStore {
+interface ITrueImageStore {
   stacUrl: string | undefined;
   setStacUrl: (url: string | undefined) => void;
 }
 
-const useTrueColorImageStore = create<IStacStore>()(
+const useTrueColorImageStore = create<ITrueImageStore>()(
   devtools((set) => ({
     stacUrl: undefined,
     setStacUrl: (url: string | undefined) => set(() => ({ stacUrl: url })),

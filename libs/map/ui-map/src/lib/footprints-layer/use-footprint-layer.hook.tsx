@@ -1,4 +1,4 @@
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { useFootprintCollection, useFootprintLayerVisible } from '@ukri/map/data-access-map';
 import { Feature } from 'ol';
 import { click, pointerMove } from 'ol/events/condition';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -7,7 +7,7 @@ import Select from 'ol/interaction/Select';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Fill, Stroke, Style } from 'ol/style';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { footprintsLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
@@ -37,17 +37,19 @@ const highlightStyle = new Style({
   zIndex: 2,
 });
 
-export const useFootprintsLayer = (geojsonObject?: TCollection) => {
+export const useFootprintLayer = (id?: string) => {
   const map = useContext(MapContext);
-  const [vectorLayer, setVectorLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
+  const visible = useFootprintLayerVisible(id);
+  const collection = useFootprintCollection(id);
+  const [layer, setLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
 
   useEffect(() => {
-    if (!map || !geojsonObject) {
+    if (!map || !collection) {
       return;
     }
 
     const vectorSource = new VectorSource({
-      features: new GeoJSON().readFeatures(geojsonObject, {
+      features: new GeoJSON().readFeatures(collection, {
         featureProjection: map.getView().getProjection(),
       }),
     });
@@ -75,30 +77,20 @@ export const useFootprintsLayer = (geojsonObject?: TCollection) => {
     map.addInteraction(selectHover);
     map.addInteraction(selectClick);
 
-    setVectorLayer(newVectorLayer);
+    setLayer(newVectorLayer);
 
     return () => {
       map.removeLayer(newVectorLayer);
       map.removeInteraction(selectHover);
       map.removeInteraction(selectClick);
     };
-  }, [map, geojsonObject]);
+  }, [map, collection]);
 
-  const updateZindex = useCallback(
-    (newZIndex: number) => {
-      if (vectorLayer) {
-        vectorLayer.setZIndex(newZIndex);
-      }
-    },
-    [vectorLayer]
-  );
-
-  const toggleVisibility = useCallback(() => {
-    if (vectorLayer) {
-      const isVisible = vectorLayer?.getVisible();
-      vectorLayer.setVisible(!isVisible);
+  useEffect(() => {
+    if (!layer) {
+      return;
     }
-  }, [vectorLayer]);
 
-  return { updateZindex, toggleVisibility };
+    layer.setVisible(visible);
+  }, [layer, visible]);
 };

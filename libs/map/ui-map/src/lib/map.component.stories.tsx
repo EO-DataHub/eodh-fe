@@ -10,7 +10,9 @@ const meta: Meta<typeof Map> = {
   decorators: [
     (Story) => (
       <MapWrapper>
-        <Story />
+        <div className='flex w-full h-[800px]'>
+          <Story />
+        </div>
       </MapWrapper>
     ),
   ],
@@ -19,7 +21,9 @@ export default meta;
 type TStory = StoryObj<typeof Map>;
 
 export const MapComponent: TStory = {
-  args: {},
+  args: {
+    className: 'flex w-full h-full',
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     expect(canvas.getByTestId('olMap')).toBeInTheDocument();

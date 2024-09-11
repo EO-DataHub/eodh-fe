@@ -1,6 +1,8 @@
 import { Meta, Story } from '@storybook/react';
+import { useFootprintCollectionMutation, useToggleFootprintLayer } from '@ukri/map/data-access-map';
 import { TCollection } from '@ukri/map/data-access-stac-catalog';
 import { Button } from '@ukri/shared/design-system';
+import { useCallback, useEffect } from 'react';
 
 import { Map, MapWrapper } from '../map.component';
 import { sentinel1Item1CollectionMock } from '../mocks/sentinel-1-item1.collection.mock';
@@ -8,20 +10,23 @@ import { sentinel1Item2CollectionMock } from '../mocks/sentinel-1-item2.collecti
 import { sentinel2CollectionMock } from '../mocks/sentinel-2.collection.mock';
 import { sentinel3CollectionMock } from '../mocks/sentinel-3.collection.mock';
 import { sentinel5CollectionMock } from '../mocks/sentinel-5.collection.mock';
-import { useFootprintsLayer } from './use-footprint-layer.hook';
+import { FootprintLayer } from './footprint.layer';
 
-const GeoJsonLayerComponent = ({ resultItem }: { resultItem: TCollection }) => {
-  const { updateZindex, toggleVisibility } = useFootprintsLayer(resultItem);
+const GeoJsonLayerComponent = ({ resultItem, collectionId }: { resultItem: TCollection; collectionId: string }) => {
+  const setCollection = useFootprintCollectionMutation();
+  const toggleVisibility = useToggleFootprintLayer();
+
+  useEffect(() => {
+    setCollection(resultItem, collectionId);
+  }, [resultItem, collectionId, setCollection]);
+
+  const handleToggleVisibility = useCallback(() => {
+    toggleVisibility(collectionId);
+  }, [collectionId, toggleVisibility]);
 
   return (
     <div className='ml-4'>
-      <input
-        type='number'
-        onChange={(e) => updateZindex(parseInt(e.target.value))}
-        className='border border-gray-300 rounded-md p-1 w-[300px] my-4'
-        placeholder='Inser number to change z-index'
-      />
-      <Button onClick={toggleVisibility} text='Toggle Visible' />
+      <Button onClick={handleToggleVisibility} text='Toggle Visible' />
     </div>
   );
 };
@@ -30,14 +35,14 @@ const MultiMapDisplay = () => {
   return (
     <div>
       <h3 className='text-lg font-bold'>Sentinel 1</h3>
-      <GeoJsonLayerComponent resultItem={sentinel1Item1CollectionMock} />
-      <GeoJsonLayerComponent resultItem={sentinel1Item2CollectionMock} />
+      <GeoJsonLayerComponent resultItem={sentinel1Item1CollectionMock} collectionId='sentinel1Item1' />
+      <GeoJsonLayerComponent resultItem={sentinel1Item2CollectionMock} collectionId='sentinel1Item2' />
       <h3 className='text-lg font-bold'>Sentinel 2</h3>
-      <GeoJsonLayerComponent resultItem={sentinel2CollectionMock} />
+      <GeoJsonLayerComponent resultItem={sentinel2CollectionMock} collectionId='sentinel2' />
       <h3 className='text-lg font-bold'>Sentinel 3</h3>
-      <GeoJsonLayerComponent resultItem={sentinel3CollectionMock} />
+      <GeoJsonLayerComponent resultItem={sentinel3CollectionMock} collectionId='sentinel3' />
       <h3 className='text-lg font-bold'>Sentinel 5P</h3>
-      <GeoJsonLayerComponent resultItem={sentinel5CollectionMock} />
+      <GeoJsonLayerComponent resultItem={sentinel5CollectionMock} collectionId='sentinel5P' />
     </div>
   );
 };
@@ -49,6 +54,11 @@ export default {
     (Story) => (
       <MapWrapper zoom={4}>
         <div className='flex w-full h-[800px] overflow-hidden'>
+          <FootprintLayer id='sentinel1Item1' />
+          <FootprintLayer id='sentinel1Item2' />
+          <FootprintLayer id='sentinel2' />
+          <FootprintLayer id='sentinel3' />
+          <FootprintLayer id='sentinel5P' />
           <Map className='flex w-full' />
           <Story />
         </div>
