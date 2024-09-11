@@ -13,18 +13,18 @@ type TSection = {
 const Section = ({ content, checked }: TSection) => {
   if (checked) {
     return (
-      <section className='flex gap-2 items-center'>
+      <div className='flex gap-2 items-center'>
         <Icon name='CheckedCircle' className='text-success-main' />
         <Text content={content} type='p' fontSize='medium' fontWeight='regular' className='text-neutral-light' />
-      </section>
+      </div>
     );
   }
 
   return (
-    <section className='flex gap-2 items-center'>
+    <div className='flex gap-2 items-center'>
       <Icon name='Circle' className='text-neutral-light' />
       <Text content={content} type='p' fontSize='medium' fontWeight='regular' className='text-text' />
-    </section>
+    </div>
   );
 };
 
@@ -69,16 +69,16 @@ export const Checklist = () => {
           fontWeight='semibold'
           className='text-text'
         />
-        <button className='text-neutral-light absolute -right-0.5 -top-0.5'>
+        <button type='submit' className='text-neutral-light absolute -right-0.5 -top-0.5'>
           <Icon name='Close' />
         </button>
       </header>
 
-      <main className='flex flex-col gap-3 my-3'>
+      <section className='flex flex-col gap-3 my-3'>
         <Section content='MAP.SEARCH_VIEW.CHECKLIST.AREA_OF_INTERESTS' checked={isAoiValid} />
         <Section content='MAP.SEARCH_VIEW.CHECKLIST.DATA_SETS' checked={isDataSetsValid} />
         <Section content='MAP.SEARCH_VIEW.CHECKLIST.DATE_RANGE' checked={isDateRangeValid} />
-      </main>
+      </section>
 
       <footer className='border-t-[1px] border-bright-dark flex justify-center pt-2 text-text'>
         <Checkbox label='MAP.SEARCH_VIEW.CHECKLIST.DONT_SHOW_IT_AGAIN' {...register('permanentHidden')} />

@@ -38,7 +38,9 @@ export const Checkbox = forwardRef(
           <Icon name='Check' />
           <Icon name='Remove' />
         </span>
-        {label && <Text content={label} type='p' fontSize='medium' fontWeight='regular' className='ml-2' />}
+        {label && (
+          <Text content={label} type='p' fontSize='medium' fontWeight='regular' className={checkboxStyles.text} />
+        )}
       </label>
     );
   }

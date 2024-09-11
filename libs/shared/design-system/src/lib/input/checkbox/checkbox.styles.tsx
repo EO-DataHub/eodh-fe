@@ -13,7 +13,7 @@ export const checkboxStyles = {
   span: {
     base: 'w-5 h-5 flex items-center justify-center border-2 rounded-sm transition-colors duration-200 ease-in-out text-white',
   },
-  text: 'text-text-primary ml-2',
+  text: 'ml-2',
 };
 
 export const getSpanClassName = () => {

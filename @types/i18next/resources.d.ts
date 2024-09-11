@@ -163,7 +163,7 @@ interface Resources {
           HEADING: 'Getting started checklist';
           AREA_OF_INTERESTS: 'Use the drawing tools to define an area of interest.';
           DATA_SETS: 'Select one or more Data Sets.';
-          DATE_RANGE: 'Set a date range.';
+          DATE_RANGE: 'Update date range.';
           DONT_SHOW_IT_AGAIN: 'Don’t show again';
         };
       };
