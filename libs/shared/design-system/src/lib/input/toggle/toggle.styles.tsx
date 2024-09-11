@@ -1,25 +1,68 @@
 export const toggleStyles = {
-  label: 'flex items-center cursor-pointer',
-  input: 'sr-only',
+  label: {
+    base: 'flex items-center select-none',
+    enabled: 'cursor-pointer',
+    disabled: 'cursor-not-allowed',
+  },
+  input: 'sr-only peer',
   background: {
-    base: 'w-7 h-[18px] bg-bright rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary peer peer-checked:bg-primary border border-1 border-primary',
-    disabled: 'cursor-not-allowed bg-bright-dark border-text-disabled',
+    base: 'w-7 h-[18px] rounded-full border border-1',
+    disabled: 'bg-bright-light border-bright-mid',
+    enabled:
+      'bg-bright-mid border-bright-dark focus:peer:outline-none peer-focus:ring-2 focus:peer:ring-primary-light peer-checked:bg-bright-main peer-checked:border-primary',
   },
   circle: {
     base: 'absolute top-1 left-1 rounded-full h-2.5 w-2.5 transition-all',
-    enabled: 'bg-primary-main',
-    disabled: 'bg-neutral-light',
-    checked: 'translate-x-full',
+    enabled: 'bg-neutral-light',
+    disabled: 'bg-bright-mid',
+    checked: 'bg-primary-main',
   },
-  labelText: 'ml-3 text-sm font-medium text-text',
+  labelText: {
+    base: 'ml-3',
+    enabled: 'text-text',
+    checked: 'text-primary',
+    disabled: 'text-text',
+  },
+};
+
+export const getLabelTextClasses = (disabled?: boolean, checked?: boolean) => {
+  const classNames = [toggleStyles.labelText.base];
+
+  if (disabled) {
+    classNames.push(toggleStyles.labelText.disabled);
+  } else if (checked) {
+    classNames.push(toggleStyles.labelText.checked);
+  } else {
+    classNames.push(toggleStyles.labelText.enabled);
+  }
+
+  return classNames.join(' ');
+};
+
+export const getLabelClasses = (disabled?: boolean) => {
+  return `${toggleStyles.label.base} ${disabled ? toggleStyles.label.disabled : toggleStyles.label.enabled}`;
 };
 
 export const getBackgroundClasses = (disabled?: boolean) => {
-  return `${toggleStyles.background.base} ${disabled ? toggleStyles.background.disabled : ''}`;
+  return `${toggleStyles.background.base} ${
+    disabled ? toggleStyles.background.disabled : toggleStyles.background.enabled
+  }`;
 };
 
 export const getCircleClasses = (disabled?: boolean, checked?: boolean) => {
-  return `${toggleStyles.circle.base} ${disabled ? toggleStyles.circle.disabled : toggleStyles.circle.enabled} ${
-    checked ? toggleStyles.circle.checked : ''
-  }`;
+  const classNames = [toggleStyles.circle.base];
+
+  if (disabled) {
+    classNames.push(toggleStyles.circle.disabled);
+  } else if (checked) {
+    classNames.push(toggleStyles.circle.checked);
+  } else {
+    classNames.push(toggleStyles.circle.enabled);
+  }
+
+  if (checked) {
+    classNames.push('translate-x-full');
+  }
+
+  return classNames.join(' ');
 };

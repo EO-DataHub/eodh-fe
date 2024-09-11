@@ -1,9 +1,16 @@
-export const getBaseStyles = (disabled: boolean, appearance: 'default' | 'outlined' | 'outlined-white' | 'text') =>
-  !disabled && appearance === 'text'
-    ? 'active:outline-[1px] active:outline-primary focus:outline-[1px] focus:outline-primary'
-    : 'hover:outline hover:outline-[3px] hover:outline-primary-light duration-200 active:outline active:outline-[3px] active:outline-primary-light focus:outline focus:outline-[3px] focus:outline-primary-light';
+export const getBaseStyles = (disabled: boolean, appearance: 'default' | 'outlined' | 'outlined-white' | 'text') => {
+  if (disabled) {
+    return '';
+  }
 
-export const getDisplayStyles = () => 'flex items-center';
+  if (appearance === 'text') {
+    return 'active:outline-[1px] active:outline-primary focus:outline-[1px] focus:outline-primary';
+  }
+
+  return 'hover:outline hover:outline-[3px] hover:outline-primary-light duration-200 active:outline active:outline-[3px] active:outline-primary-light focus:outline focus:outline-[3px] focus:outline-primary-light';
+};
+
+export const getDisplayStyles = () => 'flex items-center justify-center';
 
 export const getShadowStyles = (appearance: 'default' | 'outlined' | 'outlined-white' | 'text') => {
   const shadowStyles = {

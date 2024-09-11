@@ -19,3 +19,6 @@ export { default as Schedule } from './schedule';
 export { default as Settings } from './settings';
 export { default as Warning } from './warning';
 export { default as HideImage } from './hide-image';
+export { default as Help } from './help';
+export { default as CollapseContent } from './content-collapse';
+export { default as ExpandContent } from './content-expand';

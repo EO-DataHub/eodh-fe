@@ -65,7 +65,7 @@ export const MapWrapper = ({ children, zoom = 8, centerCoordinates = londonCoord
   return <MapContext.Provider value={map}>{children}</MapContext.Provider>;
 };
 
-export const Map = ({ className }: { className?: string }) => {
+export const Map = ({ className, children }: PropsWithChildren<{ className?: string }>) => {
   const map = useContext(MapContext);
   const mapRef = useRef<HTMLDivElement | null>(null);
 
@@ -78,5 +78,10 @@ export const Map = ({ className }: { className?: string }) => {
     return () => map.setTarget(undefined);
   }, [map]);
 
-  return <div className={className} data-testid='olMap' ref={mapRef}></div>;
+  return (
+    <div className={`${className} relative`}>
+      {children}
+      <div className={className} data-testid='olMap' ref={mapRef}></div>
+    </div>
+  );
 };

@@ -57,6 +57,23 @@ interface Resources {
       };
     };
     MAP: {
+      ACTION_CREATOR_PANEL: {
+        HEADER: {
+          ACTION_CREATOR: 'Action Creator';
+          TABS: {
+            WORKFLOW: 'Workflow';
+            HISTORY: 'History';
+            PRESETS: 'Presets';
+            HELP: 'Help';
+          };
+        };
+        FOOTER: {
+          BUTTON: {
+            SAVE_WORKFLOW: 'Save Workflow';
+            RUN_ACTION_CREATOR: 'Run Action Creator';
+          };
+        };
+      };
       SEARCH_MODE_PANEL: {
         HEADER: {
           BROWSE_DATA_SETS: 'Browsing data sets';

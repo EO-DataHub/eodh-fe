@@ -19,6 +19,7 @@
     "paths": {
       "@ukri/map/data-access-map": ["libs/map/data-access-map/src/index.ts"],
       "@ukri/map/data-access-stac-catalog": ["libs/map/data-access-stac-catalog/src/index.ts"],
+      "@ukri/map/feature-action-creator-panel": ["libs/map/feature-action-creator-panel/src/index.ts"],
       "@ukri/map/feature-search-mode-panel": ["libs/map/feature-search-mode-panel/src/index.ts"],
       "@ukri/map/ui-map": ["libs/map/ui-map/src/index.ts"],
       "@ukri/map/ui-results-view": ["libs/map/ui-results-view/src/index.ts"],
