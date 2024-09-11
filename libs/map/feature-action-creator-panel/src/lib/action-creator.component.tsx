@@ -10,7 +10,9 @@ type TActionCreatorPanelProps = {
 export const ActionCreator = ({ className = '' }: TActionCreatorPanelProps) => {
   return (
     <ActionCreatorProvider>
-      <section className={`bg-background-main rounded-2xl w-[420px] ${className}`}>
+      <section
+        className={`bg-background-main rounded-2xl w-[420px] border-[1px] border-bright-dark shadow-action-creator ${className}`}
+      >
         <Header />
         <Content />
         <Footer />

@@ -29,7 +29,7 @@ export const Header = () => {
         />
 
         <div className='flex text-neutral-light gap-2'>
-          <Icon name='Help' />
+          <Icon name='Help' width={20} height={20} />
           <ToggleContentButton />
         </div>
       </section>

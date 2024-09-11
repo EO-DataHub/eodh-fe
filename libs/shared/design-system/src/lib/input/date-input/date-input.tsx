@@ -1,8 +1,10 @@
 import './date-input.css';
 
 import clsx from 'clsx';
+import isDate from 'lodash/isDate';
+import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
-import { ChangeEvent, FC, ForwardedRef, forwardRef } from 'react';
+import { ChangeEvent, ForwardedRef, forwardRef } from 'react';
 
 import { Icon } from '../../icon/icon';
 import { Text } from '../../text/text';
@@ -17,7 +19,11 @@ function formatDateToString(date?: Date | string): string {
     return date;
   }
 
-  if (!isNaN(date.getTime())) {
+  if (isNumber(date)) {
+    return new Date(date).toISOString().split('T')[0];
+  }
+
+  if (isDate(date)) {
     return date.toISOString().split('T')[0];
   }
 
@@ -34,8 +40,11 @@ interface IDateInputProps {
   maxDate?: Date | string;
 }
 
-export const DateInput: FC<IDateInputProps> = forwardRef(
-  ({ name, className, minDate, maxDate, error, onChange, onBlur }, ref: ForwardedRef<HTMLInputElement>) => {
+export const DateInput = forwardRef(
+  (
+    { name, className, minDate, maxDate, error, onChange, onBlur }: IDateInputProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
     const formattedMinDate = formatDateToString(minDate);
     const formattedMaxDate = formatDateToString(maxDate);
 

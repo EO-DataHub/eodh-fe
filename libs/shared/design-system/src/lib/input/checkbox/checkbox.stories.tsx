@@ -19,9 +19,9 @@ export const SampleCheckbox = {
 
 const SampleSet = () => (
   <div>
-    <Checkbox id='mapsA' label='Maps set A' />
-    <Checkbox id='mapsB' label='Maps set B' />
-    <Checkbox id='mapsC' label='Maps set C' />
+    <Checkbox id='mapsA' name='mapsA' label='Maps set A' />
+    <Checkbox id='mapsB' name='mapsB' label='Maps set B' />
+    <Checkbox id='mapsC' name='mapsC' label='Maps set C' />
   </div>
 );
 

@@ -1,23 +1,41 @@
 import type { Meta } from '@storybook/react';
-import { useState } from 'react';
 
 import { DateInput } from './date-input';
 
 const meta: Meta<typeof DateInput> = {
   component: DateInput,
   title: 'libs/shared/design-system/input/DateInput',
+  argTypes: {
+    minDate: {
+      control: {
+        type: 'date',
+      },
+    },
+    maxDate: {
+      control: {
+        type: 'date',
+      },
+    },
+  },
+  parameters: {
+    controls: {
+      exclude: ['onChange', 'onBlur', 'className', 'name', 'error'],
+    },
+  },
 };
 export default meta;
 
 export const Default = {
   args: {
-    error: '',
+    minDate: '2024-03-01',
+    maxDate: '2024-09-01',
   },
 };
 
-const Template = () => {
-  const [value, setValue] = useState(new Date());
-  return <DateInput value={value} onChange={(selectedValue) => setValue(selectedValue)} error='Validation error' />;
+export const Error = {
+  args: {
+    minDate: '2024-03-01',
+    maxDate: '2024-09-01',
+    error: 'Validation error',
+  },
 };
-
-export const Error = Template.bind({});
