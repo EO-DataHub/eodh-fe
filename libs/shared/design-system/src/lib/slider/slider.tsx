@@ -18,15 +18,18 @@ interface ISliderProps {
   name: string;
   max?: number | string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (event: ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
 }
 
 export const Slider = forwardRef(
-  ({ name, max = 100, onChange, onBlur, disabled }: ISliderProps, ref: ForwardedRef<HTMLInputElement | undefined>) => {
+  (
+    { name, max = 100, onChange, onBlur, onFocus, disabled }: ISliderProps,
+    ref: ForwardedRef<HTMLInputElement | undefined>
+  ) => {
     const innerRef = useRef<HTMLInputElement>(null);
     const [sliderValue, setSliderValue] = useState(innerRef?.current ? parseInt(innerRef.current.value) : 0);
-    const [isFocused, setIsFocused] = useState(false);
 
     useImperativeHandle(ref, () => (innerRef.current ? innerRef.current : undefined));
 
@@ -48,18 +51,6 @@ export const Slider = forwardRef(
       [onChange]
     );
 
-    const handleFocus = useCallback(() => {
-      setIsFocused(true);
-    }, []);
-
-    const handleBlur = useCallback(
-      (event: ChangeEvent<HTMLInputElement>) => {
-        setIsFocused(false);
-        onBlur(event);
-      },
-      [onBlur]
-    );
-
     const handleMouseUp = useCallback(() => {
       if (innerRef.current) {
         innerRef.current.blur();
@@ -79,8 +70,8 @@ export const Slider = forwardRef(
           min='0'
           max={max}
           onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          onFocus={onFocus}
+          onBlur={onBlur}
           onMouseUp={handleMouseUp}
           className='design-system__slider-range-input'
           style={{ background: getBackgroundStyle }}
