@@ -10,6 +10,12 @@ declare const config: {
     realm: string;
     clientId: string;
   };
+  feature: {
+    search: boolean;
+    actionCreator: boolean;
+    toggleLayerButton: boolean;
+    clearLayerButton: boolean;
+  };
 };
 
 interface IEnvConfig {
@@ -29,6 +35,12 @@ interface IEnvConfig {
     http: {
       baseUrl: string;
     };
+  };
+  feature: {
+    search: boolean;
+    actionCreator: boolean;
+    toggleLayerButton: boolean;
+    clearLayerButton: boolean;
   };
 }
 
@@ -71,6 +83,20 @@ export const getEnvConfig = (): IEnvConfig => ({
     http: {
       baseUrl: getValue(import.meta.env.VITE_API_URL, config?.apiUrl, ''),
     },
+  },
+  feature: {
+    search: getValue(import.meta.env.VITE_FEATURE_FLAG_SEARCH, config?.feature.search, false),
+    actionCreator: getValue(import.meta.env.VITE_FEATURE_FLAG_ACTION_CREATOR, config?.feature.actionCreator, false),
+    toggleLayerButton: getValue(
+      import.meta.env.VITE_FEATURE_FLAG_TOGGLE_LAYER_BUTTON,
+      config?.feature.toggleLayerButton,
+      false
+    ),
+    clearLayerButton: getValue(
+      import.meta.env.VITE_FEATURE_FLAG_CLEAR_LAYER_BUTTON,
+      config?.feature.clearLayerButton,
+      false
+    ),
   },
 });
 

@@ -1,3 +1,23 @@
+declare const config: {
+  baseUrl: string;
+  apiUrl: string;
+  translation: {
+    language: string;
+    fallbackLng: string;
+  };
+  authorization: {
+    url: string;
+    realm: string;
+    clientId: string;
+  };
+  feature: {
+    search: boolean;
+    actionCreator: boolean;
+    toggleLayerButton: boolean;
+    clearLayerButton: boolean;
+  };
+};
+
 interface IEnvConfig {
   production: boolean;
   baseUrl: string;
@@ -16,9 +36,19 @@ interface IEnvConfig {
       baseUrl: string;
     };
   };
+  feature: {
+    search: boolean;
+    actionCreator: boolean;
+    toggleLayerButton: boolean;
+    clearLayerButton: boolean;
+  };
 }
 
-const getValue = <T extends string | string[] | undefined[]>(envValue: T | undefined, defaultValue: T): T => {
+const getValue = <T extends string | string[] | undefined[]>(
+  envValue: T | undefined,
+  configValue: T | undefined,
+  defaultValue: T
+): T => {
   if (
     (Array.isArray(envValue) && !!envValue.filter((item) => !!item).length) ||
     (!Array.isArray(envValue) && envValue)
@@ -26,26 +56,47 @@ const getValue = <T extends string | string[] | undefined[]>(envValue: T | undef
     return envValue;
   }
 
+  if (
+    (Array.isArray(configValue) && !!configValue.filter((item) => !!item).length) ||
+    (!Array.isArray(configValue) && configValue)
+  ) {
+    return configValue;
+  }
+
   return defaultValue;
 };
 
 export const getEnvConfig = (): IEnvConfig => ({
   production: import.meta.env.NODE_ENV !== 'development',
-  baseUrl: getValue(import.meta.env.VITE_BASE_URL, '/'),
+  baseUrl: getValue(import.meta.env.VITE_BASE_URL, config?.baseUrl, '/'),
   module: {
     translation: {
-      language: getValue(import.meta.env.VITE_TRANSLATION_LANGUAGE, 'en'),
-      fallbackLng: getValue(import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE, 'en'),
+      language: getValue(import.meta.env.VITE_TRANSLATION_LANGUAGE, config?.translation.language, 'en'),
+      fallbackLng: getValue(import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE, config?.translation.fallbackLng, 'en'),
       path: `assets/i18n/{{lang}}.json`,
     },
     authorization: {
-      url: getValue(import.meta.env.VITE_AUTHORIZATION_URL, ''),
-      realm: getValue(import.meta.env.VITE_AUTHORIZATION_REALM, ''),
-      clientId: getValue(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, ''),
+      url: getValue(import.meta.env.VITE_AUTHORIZATION_URL, config?.authorization.url, ''),
+      realm: getValue(import.meta.env.VITE_AUTHORIZATION_REALM, config?.authorization.realm, ''),
+      clientId: getValue(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, config?.authorization.clientId, ''),
     },
     http: {
-      baseUrl: getValue(import.meta.env.VITE_API_URL, ''),
+      baseUrl: getValue(import.meta.env.VITE_API_URL, config?.apiUrl, ''),
     },
+  },
+  feature: {
+    search: getValue(import.meta.env.VITE_FEATURE_FLAG_SEARCH, config?.feature.search, false),
+    actionCreator: getValue(import.meta.env.VITE_FEATURE_FLAG_ACTION_CREATOR, config?.feature.actionCreator, false),
+    toggleLayerButton: getValue(
+      import.meta.env.VITE_FEATURE_FLAG_TOGGLE_LAYER_BUTTON,
+      config?.feature.toggleLayerButton,
+      false
+    ),
+    clearLayerButton: getValue(
+      import.meta.env.VITE_FEATURE_FLAG_CLEAR_LAYER_BUTTON,
+      config?.feature.clearLayerButton,
+      false
+    ),
   },
 });
 
