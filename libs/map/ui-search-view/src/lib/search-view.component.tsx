@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { AreaOfInterest } from './aoi.component';
-import { useShowChecklist } from './checklist/checklist.store';
+import { useChecklistState, useShowChecklist } from './checklist/checklist.store';
 import { useSyncChecklistState } from './checklist/use-checklist.hook';
 import { DateRangePicker } from './date-range-picker/date-range-picker.component';
 import { defaultValues as defaultData } from './form.default-data';
@@ -31,6 +31,7 @@ export const SearchView = ({
     reValidateMode: 'onChange',
     mode: 'onChange',
   });
+  const { open: checklistVisible } = useChecklistState();
   const showChecklist = useShowChecklist();
 
   useSyncChecklistState(form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
@@ -49,15 +50,17 @@ export const SearchView = ({
             <Button
               type='submit'
               text='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.SEARCH'
-              className='w-full flex justify-center mt-0 mr-2'
+              className='w-full flex justify-center mt-0'
               size='large'
               disabled={!form.formState.isValid}
             />
-            <div className='flex items-center relative'>
-              <button type='button' onClick={showChecklist} className='text-neutral-light'>
-                <Icon name='Help' />
-              </button>
-            </div>
+            {!checklistVisible && (
+              <div className='flex items-center relative ml-2'>
+                <button type='button' onClick={showChecklist} className='text-neutral-light'>
+                  <Icon name='Help' />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </form>
