@@ -1,3 +1,5 @@
+type TFeatureFlag = 'true' | 'false' | boolean;
+
 declare const config: {
   baseUrl: string;
   apiUrl: string;
@@ -9,6 +11,12 @@ declare const config: {
     url: string;
     realm: string;
     clientId: string;
+  };
+  feature: {
+    search: TFeatureFlag;
+    actionCreator: TFeatureFlag;
+    toggleLayerButton: TFeatureFlag;
+    clearLayerButton: TFeatureFlag;
   };
 };
 
@@ -30,9 +38,15 @@ interface IEnvConfig {
       baseUrl: string;
     };
   };
+  feature: {
+    search: TFeatureFlag;
+    actionCreator: TFeatureFlag;
+    toggleLayerButton: TFeatureFlag;
+    clearLayerButton: TFeatureFlag;
+  };
 }
 
-const getValue = <T extends string | string[] | undefined[]>(
+const getValue = <T extends string | string[] | undefined[] | boolean>(
   envValue: T | undefined,
   configValue: T | undefined,
   defaultValue: T
@@ -56,21 +70,43 @@ const getValue = <T extends string | string[] | undefined[]>(
 
 export const getEnvConfig = (): IEnvConfig => ({
   production: import.meta.env.NODE_ENV !== 'development',
-  baseUrl: getValue(import.meta.env.VITE_BASE_URL, config?.baseUrl, '/'),
+  baseUrl: getValue<string>(import.meta.env.VITE_BASE_URL, config?.baseUrl, '/'),
   module: {
     translation: {
-      language: getValue(import.meta.env.VITE_TRANSLATION_LANGUAGE, config?.translation.language, 'en'),
-      fallbackLng: getValue(import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE, config?.translation.fallbackLng, 'en'),
+      language: getValue<string>(import.meta.env.VITE_TRANSLATION_LANGUAGE, config?.translation.language, 'en'),
+      fallbackLng: getValue<string>(
+        import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE,
+        config?.translation.fallbackLng,
+        'en'
+      ),
       path: `assets/i18n/{{lang}}.json`,
     },
     authorization: {
-      url: getValue(import.meta.env.VITE_AUTHORIZATION_URL, config?.authorization.url, ''),
-      realm: getValue(import.meta.env.VITE_AUTHORIZATION_REALM, config?.authorization.realm, ''),
-      clientId: getValue(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, config?.authorization.clientId, ''),
+      url: getValue<string>(import.meta.env.VITE_AUTHORIZATION_URL, config?.authorization.url, ''),
+      realm: getValue<string>(import.meta.env.VITE_AUTHORIZATION_REALM, config?.authorization.realm, ''),
+      clientId: getValue<string>(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, config?.authorization.clientId, ''),
     },
     http: {
-      baseUrl: getValue(import.meta.env.VITE_API_URL, config?.apiUrl, ''),
+      baseUrl: getValue<string>(import.meta.env.VITE_API_URL, config?.apiUrl, ''),
     },
+  },
+  feature: {
+    search: getValue<TFeatureFlag>(import.meta.env.VITE_FEATURE_FLAG_SEARCH, config?.feature.search, 'false'),
+    actionCreator: getValue<TFeatureFlag>(
+      import.meta.env.VITE_FEATURE_FLAG_ACTION_CREATOR,
+      config?.feature.actionCreator,
+      false
+    ),
+    toggleLayerButton: getValue<TFeatureFlag>(
+      import.meta.env.VITE_FEATURE_FLAG_TOGGLE_LAYER_BUTTON,
+      config?.feature.toggleLayerButton,
+      false
+    ),
+    clearLayerButton: getValue<TFeatureFlag>(
+      import.meta.env.VITE_FEATURE_FLAG_CLEAR_LAYER_BUTTON,
+      config?.feature.clearLayerButton,
+      false
+    ),
   },
 });
 
