@@ -11,10 +11,10 @@ declare const config: {
     clientId: string;
   };
   feature: {
-    search: boolean;
-    actionCreator: boolean;
-    toggleLayerButton: boolean;
-    clearLayerButton: boolean;
+    search: 'true' | 'false';
+    actionCreator: 'true' | 'false';
+    toggleLayerButton: 'true' | 'false';
+    clearLayerButton: 'true' | 'false';
   };
 };
 
@@ -37,10 +37,10 @@ interface IEnvConfig {
     };
   };
   feature: {
-    search: boolean;
-    actionCreator: boolean;
-    toggleLayerButton: boolean;
-    clearLayerButton: boolean;
+    search: 'true' | 'false';
+    actionCreator: 'true' | 'false';
+    toggleLayerButton: 'true' | 'false';
+    clearLayerButton: 'true' | 'false';
   };
 }
 
@@ -68,34 +68,42 @@ const getValue = <T extends string | string[] | undefined[]>(
 
 export const getEnvConfig = (): IEnvConfig => ({
   production: import.meta.env.NODE_ENV !== 'development',
-  baseUrl: getValue(import.meta.env.VITE_BASE_URL, config?.baseUrl, '/'),
+  baseUrl: getValue<string>(import.meta.env.VITE_BASE_URL, config?.baseUrl, '/'),
   module: {
     translation: {
-      language: getValue(import.meta.env.VITE_TRANSLATION_LANGUAGE, config?.translation.language, 'en'),
-      fallbackLng: getValue(import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE, config?.translation.fallbackLng, 'en'),
+      language: getValue<string>(import.meta.env.VITE_TRANSLATION_LANGUAGE, config?.translation.language, 'en'),
+      fallbackLng: getValue<string>(
+        import.meta.env.VITE_TRANSLATION_FALLBACK_LANGUAGE,
+        config?.translation.fallbackLng,
+        'en'
+      ),
       path: `assets/i18n/{{lang}}.json`,
     },
     authorization: {
-      url: getValue(import.meta.env.VITE_AUTHORIZATION_URL, config?.authorization.url, ''),
-      realm: getValue(import.meta.env.VITE_AUTHORIZATION_REALM, config?.authorization.realm, ''),
-      clientId: getValue(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, config?.authorization.clientId, ''),
+      url: getValue<string>(import.meta.env.VITE_AUTHORIZATION_URL, config?.authorization.url, ''),
+      realm: getValue<string>(import.meta.env.VITE_AUTHORIZATION_REALM, config?.authorization.realm, ''),
+      clientId: getValue<string>(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, config?.authorization.clientId, ''),
     },
     http: {
-      baseUrl: getValue(import.meta.env.VITE_API_URL, config?.apiUrl, ''),
+      baseUrl: getValue<string>(import.meta.env.VITE_API_URL, config?.apiUrl, ''),
     },
   },
   feature: {
-    search: getValue(import.meta.env.VITE_FEATURE_FLAG_SEARCH, config?.feature.search, false),
-    actionCreator: getValue(import.meta.env.VITE_FEATURE_FLAG_ACTION_CREATOR, config?.feature.actionCreator, false),
-    toggleLayerButton: getValue(
+    search: getValue<'true' | 'false'>(import.meta.env.VITE_FEATURE_FLAG_SEARCH, config?.feature.search, 'false'),
+    actionCreator: getValue<'true' | 'false'>(
+      import.meta.env.VITE_FEATURE_FLAG_ACTION_CREATOR,
+      config?.feature.actionCreator,
+      'false'
+    ),
+    toggleLayerButton: getValue<'true' | 'false'>(
       import.meta.env.VITE_FEATURE_FLAG_TOGGLE_LAYER_BUTTON,
       config?.feature.toggleLayerButton,
-      false
+      'false'
     ),
-    clearLayerButton: getValue(
+    clearLayerButton: getValue<'true' | 'false'>(
       import.meta.env.VITE_FEATURE_FLAG_CLEAR_LAYER_BUTTON,
       config?.feature.clearLayerButton,
-      false
+      'false'
     ),
   },
 });
