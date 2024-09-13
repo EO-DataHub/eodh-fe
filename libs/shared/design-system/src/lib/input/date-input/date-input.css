@@ -1,0 +1,3 @@
+.design-system__date-input::-webkit-calendar-picker-indicator {
+  @apply text-transparent opacity-0 block bg-no-repeat w-4 h-4 cursor-pointer z-0 w-10 pr-0;
+}

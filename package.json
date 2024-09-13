@@ -1,6 +1,6 @@
 {
   "name": "@ukri/fe",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "scripts": {
     "prepare": "npx husky install",
@@ -24,23 +24,31 @@
     "create-lib": "nx g @spyrosoft/spyro-architecture-plugin:create-lib",
     "group": "nx g @spyrosoft/spyro-architecture-plugin:group",
     "translation:extract": "i18next --config apps/eodh-fe/i18next-parser.config.js",
-    "translation:type:generate": "i18next-resources-for-ts interface -i ./apps/eodh-fe/public/assets/i18n -o @types/resources.d.ts"
+    "translation:type:generate": "i18next-resources-for-ts interface -i ./apps/eodh-fe/public/assets/i18n -o @types/i18next/resources.d.ts",
+    "config:create": "node ./scripts/create-config-file.js"
   },
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "3.0.0",
     "@fontsource/poppins": "5.0.14",
+    "@hookform/resolvers": "3.9.0",
     "@tanstack/react-query": "5.50.1",
+    "axios": "1.7.4",
     "clsx": "2.1.1",
     "date-fns": "3.6.0",
     "i18next": "23.12.2",
     "i18next-http-backend": "2.5.2",
+    "keycloak-js": "25.0.2",
     "ol": "9.2.4",
+    "ol-stac": "1.0.0-beta.10",
+    "proj4": "2.12.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-hook-form": "7.53.0",
     "react-i18next": "15.0.0",
     "react-is": "18.3.1",
     "tslib": "2.3.0",
+    "zod": "3.23.8",
     "zustand": "4.5.4"
   },
   "devDependencies": {
@@ -75,6 +83,7 @@
     "@tanstack/react-query-devtools": "5.50.1",
     "@testing-library/react": "15.0.6",
     "@types/node": "18.16.9",
+    "@types/proj4": "2.5.5",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",
     "@types/react-is": "18.3.0",
@@ -102,6 +111,7 @@
     "prettier": "2.6.2",
     "tailwindcss": "3.4.4",
     "ts-node": "10.9.1",
+    "type-fest": "4.26.0",
     "typescript": "5.4.5",
     "vite": "5.3.0",
     "vitest": "1.6.0",

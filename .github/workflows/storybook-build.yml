@@ -18,6 +18,14 @@ jobs:
         run: npm ci --include=optional
       - name: 'Build'
         run: npm run build:storybook
+        env:
+          VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_API_URL: ${{ vars.APP_API_URL }}
+          VITE_TRANSLATION_LANGUAGE: ${{ vars.APP_TRANSLATION_LANGUAGE }}
+          VITE_TRANSLATION_FALLBACK_LANGUAGE: ${{ vars.APP_TRANSLATION_FALLBACK_LANGUAGE }}
+          VITE_AUTHORIZATION_URL: ${{ vars.APP_AUTHORIZATION_URL }}
+          VITE_AUTHORIZATION_REALM: ${{ vars.APP_AUTHORIZATION_REALM }}
+          VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
       - name: 'Publish'
         uses: actions/upload-artifact@v4
         with:

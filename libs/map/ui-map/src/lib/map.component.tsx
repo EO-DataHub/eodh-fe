@@ -9,12 +9,15 @@ import OSM from 'ol/source/OSM';
 import OlView from 'ol/View.js';
 import { createContext, PropsWithChildren, useContext, useEffect, useRef, useState } from 'react';
 
+import { mainMapLayerZindex } from './consts';
+
 interface IMap {
   addLayer(layer: BaseLayer): void;
   setTarget(target?: string | HTMLElement | undefined): void;
   addInteraction(interaction: Interaction): void;
   removeInteraction(interaction: Interaction): Interaction | undefined;
   removeLayer(layer: BaseLayer): BaseLayer | undefined;
+  getView(): OlView;
 }
 
 const defaultMap = {
@@ -26,35 +29,43 @@ const defaultMap = {
   addInteraction() {},
   removeInteraction: () => undefined,
   removeLayer: () => undefined,
+  getView: () => new OlView(),
 };
 
 export const MapContext = createContext<IMap>(defaultMap);
 
-export const MapWrapper = ({ children }: PropsWithChildren) => {
+const londonCoordinates = fromLonLat([-0.118092, 51.509865]);
+
+interface IMapWrapperProps extends PropsWithChildren {
+  zoom?: number;
+  centerCoordinates?: number[];
+}
+
+export const MapWrapper = ({ children, zoom = 8, centerCoordinates = londonCoordinates }: IMapWrapperProps) => {
   const [map, setMap] = useState<IMap>(defaultMap);
 
   useEffect(() => {
     const osmLayer = new TileLayer({
       preload: Infinity,
       source: new OSM(),
+      zIndex: mainMapLayerZindex,
     });
 
-    const londonCoordinates = fromLonLat([-0.118092, 51.509865]);
     const olMap = new OlMap({
       layers: [osmLayer],
       view: new OlView({
-        center: londonCoordinates,
-        zoom: 8,
+        center: centerCoordinates,
+        zoom: zoom,
       }),
     });
 
     setMap(olMap);
-  }, []);
+  }, [centerCoordinates, zoom]);
 
   return <MapContext.Provider value={map}>{children}</MapContext.Provider>;
 };
 
-export const Map = ({ className }: { className?: string }) => {
+export const Map = ({ className, children }: PropsWithChildren<{ className?: string }>) => {
   const map = useContext(MapContext);
   const mapRef = useRef<HTMLDivElement | null>(null);
 
@@ -67,5 +78,10 @@ export const Map = ({ className }: { className?: string }) => {
     return () => map.setTarget(undefined);
   }, [map]);
 
-  return <div className={className} data-testid='olMap' ref={mapRef}></div>;
+  return (
+    <div className={`${className} relative`}>
+      {children}
+      <div className={className} data-testid='olMap' ref={mapRef}></div>
+    </div>
+  );
 };

@@ -1,0 +1,47 @@
+import { TCopernicusSearchParams, TFilterParam } from '../../query.model';
+
+const createSentinel2FilterParamsHelper = (
+  enabled: boolean,
+  params: Omit<TCopernicusSearchParams['sentinel2'], 'enabled'>,
+  collectionType: string,
+  collectionKey: keyof typeof params
+): TFilterParam[] => {
+  if (!enabled || !params[collectionKey]) {
+    return [];
+  }
+
+  const args: TFilterParam[] = [
+    {
+      op: '=',
+      args: [{ property: 'collection' }, collectionType],
+    },
+  ];
+
+  if (params.cloudCoverage) {
+    args.push({
+      op: '<=',
+      args: [{ property: 'properties.eo:cloud_cover' }, params.cloudCoverage],
+    });
+  }
+
+  if (args.length <= 1) {
+    return args;
+  }
+
+  return [
+    {
+      op: 'and',
+      args: args,
+    },
+  ];
+};
+
+export const createSentinel2FilterParams = (
+  enabled: boolean,
+  params: Omit<TCopernicusSearchParams['sentinel2'], 'enabled'>
+): TFilterParam[] => {
+  return [
+    ...createSentinel2FilterParamsHelper(enabled, params, 'sentinel-2-l1c', 'l1c'),
+    ...createSentinel2FilterParamsHelper(enabled, params, 'sentinel-2-l2a', 'l2a'),
+  ];
+};

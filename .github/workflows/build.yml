@@ -73,6 +73,8 @@ jobs:
         run: npm ci --include=optional
       - name: 'Build'
         run: npm run build
+        env:
+          VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Publish'
         uses: actions/upload-artifact@v4
         with:

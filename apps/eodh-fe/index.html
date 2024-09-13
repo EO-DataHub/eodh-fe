@@ -10,9 +10,10 @@
       http-equiv="content-security-policy"
       content="
         style-src   'self' 'nonce-94bf401884d3eade93c7ab13c45437c5' 'strict-dynamic';
+        worker-src  blob: %VITE_BASE_URL%/e1580240-4509-447d-b8af-40ec4206f933;
         font-src    'self';
         script-src  'self';
-        img-src     'self' https://tile.openstreetmap.org;
+        img-src     'self' https://tile.openstreetmap.org https://sentinel-cogs.s3.us-west-2.amazonaws.com;
       "
     />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -74,6 +75,7 @@
         }
       }
     </style>
+    <script nonce="94bf401884d3eade93c7ab13c45437c5" src="config.js?b=%VITE_BUILD_VERSION_NUMBER%"></script>
   </head>
   <body>
     <div id="root">

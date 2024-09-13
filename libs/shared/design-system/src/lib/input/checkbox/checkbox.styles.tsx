@@ -1,22 +1,21 @@
 export const checkboxStyles = {
-  label: 'flex items-center relative cursor-pointer select-none mb-3',
-  input: 'absolute opacity-0 cursor-pointer h-0 w-0',
+  label: 'flex items-center relative cursor-pointer [&:has(input:disabled)]:cursor-not-allowed select-none m-0.5',
+  input: (state?: 'error' | null) => `absolute opacity-0 h-0 w-0
+  [&:not(checked)+span]:bg-bright-mid [&:not(checked)+span]:border-bright-dark
+  [&:checked+span]:bg-primary [&:checked+span]:border-primary
+  [&:disabled+span]:bg-neutral-light [&:disabled+span]:border-neutral-light
+  [&+span>div:first-child]:hidden [&+span>div:last-child]:hidden
+  [&:checked:not(disabled)+span>div:first-child]:block [&:checked:not(disabled)+span>div:last-child]:hidden
+  [&:disabled+span>div:first-child]:hidden [&:disabled+span>div:last-child]:block
+  [&:checked:disabled+span>div:first-child]:hidden [&:checked:disabled+span>div:last-child]:block
+  ${state === 'error' ? '[&:not(checked)+span]:border-error' : ''}
+  `,
   span: {
-    base: 'w-4 h-4 flex items-center justify-center mr-2 border-1 rounded-sm transition-colors duration-200 ease-in-out text-white',
-    disabled: 'bg-neutral-light border-neutral-light',
-    checked: 'bg-primary border-primary',
-    unchecked: 'bg-bright-mid border-bright-dark',
+    base: 'w-5 h-5 flex items-center justify-center border-2 rounded-sm transition-colors duration-200 ease-in-out text-white',
   },
   text: 'text-text-primary',
 };
 
-export const getSpanClassName = (isChecked?: boolean, disabled?: boolean) => {
-  if (disabled) {
-    return `${checkboxStyles.span.base} ${checkboxStyles.span.disabled}`;
-  }
-
-  if (isChecked) {
-    return `${checkboxStyles.span.base} ${checkboxStyles.span.checked}`;
-  }
-  return `${checkboxStyles.span.base} ${checkboxStyles.span.unchecked}`;
+export const getSpanClassName = () => {
+  return checkboxStyles.span.base;
 };

@@ -1,46 +1,40 @@
-import { useState } from 'react';
+import { ChangeEvent, ForwardedRef, forwardRef } from 'react';
 
 import { Icon } from '../../icon/icon';
 import { checkboxStyles, getSpanClassName } from './checkbox.styles';
 
 interface ICheckboxProps {
-  id: string;
+  id?: string;
   name: string;
-  value: string;
-  initialChecked?: boolean | undefined;
-  disabled?: boolean;
-  onChange?: (checked: boolean) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
   label?: string;
+  state?: 'error' | null;
+  disabled?: boolean;
 }
 
-export const Checkbox = ({ id, initialChecked, disabled, onChange, label, name, value }: ICheckboxProps) => {
-  const [isChecked, setIsChecked] = useState(initialChecked);
-  const spanClassName = getSpanClassName(isChecked, disabled);
+export const Checkbox = forwardRef(
+  ({ id, onChange, onBlur, label, name, state, disabled }: ICheckboxProps, ref: ForwardedRef<HTMLInputElement>) => {
+    const spanClassName = getSpanClassName();
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(!isChecked);
-    if (onChange) {
-      onChange(event.target.checked);
-    }
-  };
-
-  return (
-    <label className={checkboxStyles.label}>
-      <input
-        type='checkbox'
-        className={checkboxStyles.input}
-        checked={isChecked}
-        onChange={handleCheckboxChange}
-        disabled={disabled}
-        id={id}
-        name={name}
-        value={value}
-      />
-      <span className={spanClassName}>
-        {isChecked && !disabled && <Icon name='Check' />}
-        {disabled && <Icon name='Remove' />}
-      </span>
-      <span className={checkboxStyles.text}>{label}</span>
-    </label>
-  );
-};
+    return (
+      <label className={checkboxStyles.label}>
+        <input
+          ref={ref}
+          type='checkbox'
+          className={checkboxStyles.input(state)}
+          id={id}
+          name={name}
+          onBlur={onBlur}
+          onChange={onChange}
+          disabled={disabled}
+        />
+        <span className={spanClassName}>
+          <Icon name='Check' />
+          <Icon name='Remove' />
+        </span>
+        <span className={checkboxStyles.text}>{label}</span>
+      </label>
+    );
+  }
+);
