@@ -12,9 +12,9 @@ const config = (() => ({
     clientId: '',
   },
   feature: {
-    search: 'false',
-    actionCreator: 'false',
-    toggleLayerButton: 'false',
-    clearLayerButton: 'false',
+    search: false,
+    actionCreator: false,
+    toggleLayerButton: false,
+    clearLayerButton: false,
   },
 }))();

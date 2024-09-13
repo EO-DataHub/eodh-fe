@@ -1,3 +1,5 @@
+type TFeatureFlag = 'true' | 'false' | boolean;
+
 declare const config: {
   baseUrl: string;
   apiUrl: string;
@@ -11,10 +13,10 @@ declare const config: {
     clientId: string;
   };
   feature: {
-    search: 'true' | 'false';
-    actionCreator: 'true' | 'false';
-    toggleLayerButton: 'true' | 'false';
-    clearLayerButton: 'true' | 'false';
+    search: TFeatureFlag;
+    actionCreator: TFeatureFlag;
+    toggleLayerButton: TFeatureFlag;
+    clearLayerButton: TFeatureFlag;
   };
 };
 
@@ -37,14 +39,14 @@ interface IEnvConfig {
     };
   };
   feature: {
-    search: 'true' | 'false';
-    actionCreator: 'true' | 'false';
-    toggleLayerButton: 'true' | 'false';
-    clearLayerButton: 'true' | 'false';
+    search: TFeatureFlag;
+    actionCreator: TFeatureFlag;
+    toggleLayerButton: TFeatureFlag;
+    clearLayerButton: TFeatureFlag;
   };
 }
 
-const getValue = <T extends string | string[] | undefined[]>(
+const getValue = <T extends string | string[] | undefined[] | boolean>(
   envValue: T | undefined,
   configValue: T | undefined,
   defaultValue: T
@@ -89,18 +91,18 @@ export const getEnvConfig = (): IEnvConfig => ({
     },
   },
   feature: {
-    search: getValue<'true' | 'false'>(import.meta.env.VITE_FEATURE_FLAG_SEARCH, config?.feature.search, 'false'),
-    actionCreator: getValue<'true' | 'false'>(
+    search: getValue<TFeatureFlag>(import.meta.env.VITE_FEATURE_FLAG_SEARCH, config?.feature.search, 'false'),
+    actionCreator: getValue<TFeatureFlag>(
       import.meta.env.VITE_FEATURE_FLAG_ACTION_CREATOR,
       config?.feature.actionCreator,
       'false'
     ),
-    toggleLayerButton: getValue<'true' | 'false'>(
+    toggleLayerButton: getValue<TFeatureFlag>(
       import.meta.env.VITE_FEATURE_FLAG_TOGGLE_LAYER_BUTTON,
       config?.feature.toggleLayerButton,
       'false'
     ),
-    clearLayerButton: getValue<'true' | 'false'>(
+    clearLayerButton: getValue<TFeatureFlag>(
       import.meta.env.VITE_FEATURE_FLAG_CLEAR_LAYER_BUTTON,
       config?.feature.clearLayerButton,
       'false'
