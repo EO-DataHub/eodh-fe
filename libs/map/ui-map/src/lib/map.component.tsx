@@ -1,5 +1,4 @@
 import 'ol/ol.css';
-import 'ol-ext/dist/ol-ext.css';
 
 import Interaction from 'ol/interaction/Interaction';
 import type BaseLayer from 'ol/layer/Base';

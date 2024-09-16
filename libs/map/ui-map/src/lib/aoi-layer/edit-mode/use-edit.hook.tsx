@@ -3,7 +3,6 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { MapContext } from '../../map.component';
 import { AoiLayerContext } from '../aoi-layer.component';
 import { TEditMode } from './edit-mode.context';
-import { useResizeEdit } from './use-resize-edit.hook';
 import { useSimpleEdit } from './use-simple-edit.hook';
 
 export const useEdit = () => {
@@ -11,7 +10,6 @@ export const useEdit = () => {
   const { draw } = useContext(AoiLayerContext);
   const [editMode, setEditMode] = useState<TEditMode['editMode']>('simple');
   useSimpleEdit(!draw);
-  // useResizeEdit(!draw && editMode === 'resize');
 
   useEffect(() => {
     if (!draw?.draw) {
