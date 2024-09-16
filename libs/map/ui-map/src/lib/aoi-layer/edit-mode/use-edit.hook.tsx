@@ -10,8 +10,8 @@ export const useEdit = () => {
   const map = useContext(MapContext);
   const { draw } = useContext(AoiLayerContext);
   const [editMode, setEditMode] = useState<TEditMode['editMode']>('simple');
-  useSimpleEdit(!draw && editMode === 'simple');
-  useResizeEdit(!draw && editMode === 'resize');
+  useSimpleEdit(!draw);
+  // useResizeEdit(!draw && editMode === 'resize');
 
   useEffect(() => {
     if (!draw?.draw) {
