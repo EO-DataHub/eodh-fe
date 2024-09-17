@@ -19,11 +19,6 @@ export const useSearchMode = () => {
   const setFootprints = useFootprintCollectionMutation();
   const setTrueColorImage = useTrueColorImageUrlMutation();
 
-  const clearDataLayers = useCallback(() => {
-    setFootprints(undefined);
-    setTrueColorImage(undefined);
-  }, [setFootprints, setTrueColorImage]);
-
   const changeView = useCallback(
     (view: 'search' | 'results') => {
       switch (view) {
@@ -53,16 +48,22 @@ export const useSearchMode = () => {
         return;
       }
 
-      clearDataLayers();
       setSearchParams(formData);
       changeView('results');
     },
-    [canUseSearch, changeView, clearDataLayers]
+    [canUseSearch, changeView]
   );
 
   useEffect(() => {
     setFootprints(data);
   }, [data, setFootprints]);
+
+  useEffect(() => {
+    if (status === 'pending') {
+      setFootprints(undefined);
+      setTrueColorImage(undefined);
+    }
+  }, [status, setFootprints, setTrueColorImage]);
 
   return useMemo(
     () => ({
