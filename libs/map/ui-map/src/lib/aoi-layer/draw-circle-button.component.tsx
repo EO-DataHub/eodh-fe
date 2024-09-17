@@ -10,8 +10,14 @@ export const DrawCircleButton = () => {
   const { draw, setDraw } = useContext(AoiLayerContext);
   const mode = useAoiMode();
   const disabled = useMemo(() => mode !== 'search', [mode]);
+  const selected = useMemo(() => draw?.type === 'circle', [draw?.type]);
 
   const drawCircle = useCallback(() => {
+    if (draw?.type === 'circle') {
+      setDraw(undefined);
+      return;
+    }
+
     const circle = new Draw({
       geometryName: 'Circle',
       type: 'Circle',
@@ -19,9 +25,7 @@ export const DrawCircleButton = () => {
     });
 
     setDraw({ draw: circle, type: 'circle' });
-  }, [setDraw]);
-
-  const selected = useMemo(() => draw?.type === 'circle', [draw?.type]);
+  }, [draw, setDraw]);
 
   return (
     <DrawButton selected={selected} disabled={disabled} onClick={drawCircle}>

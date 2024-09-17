@@ -1,39 +1,12 @@
-import { useChangeAoiMode } from '@ukri/map/data-access-map';
-import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
-import { SearchView, TForm } from '@ukri/map/ui-search-view';
+import { SearchView } from '@ukri/map/ui-search-view';
 import { Icon, Text } from '@ukri/shared/design-system';
-import { useFeatureFlag } from '@ukri/shared/utils/feature-flag';
-import { useCallback, useState } from 'react';
 
 import { Header } from './header.component';
 import { ResultsView } from './results-view.component';
-
-type TSearchParams = TForm | undefined;
+import { useSearchMode } from './use-search-mode.hook';
 
 export const SearchModePanel = () => {
-  const [searchParams, setSearchParams] = useState<TSearchParams>();
-  const [view, setView] = useState<'search' | 'results'>('search');
-  const { data, status } = useCatalogSearch({ params: searchParams });
-  const changeAoiMode = useChangeAoiMode();
-  const canUseSearch = useFeatureFlag('search');
-
-  const search = useCallback(
-    (data: TForm) => {
-      if (!canUseSearch) {
-        return;
-      }
-
-      setSearchParams(data);
-      setView('results');
-      changeAoiMode('view');
-    },
-    [canUseSearch, changeAoiMode]
-  );
-
-  const changeToSearchView = useCallback(() => {
-    setView('search');
-    changeAoiMode('search');
-  }, [changeAoiMode]);
+  const { data, status, view, changeToSearchView, search, searchParams } = useSearchMode();
 
   switch (view) {
     case 'results': {

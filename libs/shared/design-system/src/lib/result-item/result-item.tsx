@@ -107,7 +107,7 @@ export const ResultItem = ({
           <ResultItemInfo value={collectionName} iconName='Satellite' />
           <ResultItemInfo value={date} iconName='Calendar' />
           <ResultItemInfo value={time} iconName='Schedule' />
-          {cloudCoverage && <ResultItemInfo value={`${cloudCoverage.toFixed(1)}%`} iconName='Cloud' />}
+          {cloudCoverage && <ResultItemInfo value={`${cloudCoverage.toFixed(2)}%`} iconName='Cloud' />}
           {gridCode && <ResultItemInfo value={gridCode} iconName='Map' />}
         </div>
         <div className='flex justify-between mt-auto'>

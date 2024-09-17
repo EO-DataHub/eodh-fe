@@ -24,15 +24,19 @@ const useFootprintStore = create<IFootprintStore>()(
     currentCollection: undefined,
     collections: {},
     setCollection: (collection: TCollection | undefined, id = defaultCollectionName) =>
-      set((state) => ({
-        collections: {
-          ...state.collections,
-          [id]: {
-            collection,
-            visible: true,
+      set((state) => {
+        const currentCollection = state.collections[id];
+
+        return {
+          collections: {
+            ...state.collections,
+            [id]: {
+              collection: collection ? { ...collection } : undefined,
+              visible: currentCollection ? currentCollection.visible : true,
+            },
           },
-        },
-      })),
+        };
+      }),
     toggleVisibility: (id: string = defaultCollectionName) =>
       set((state) => {
         const currentCollection = state.collections[id];
@@ -105,7 +109,10 @@ export const useFootprintCollectionMutation = () => {
 };
 
 export const useFootprintLayerVisible = (id: string = defaultCollectionName) => {
-  return useFootprintStore((state) => state.collections[id]?.visible || false);
+  return useFootprintStore((state) => {
+    const currentCollection = state.collections[id];
+    return currentCollection ? currentCollection.visible : false;
+  });
 };
 
 export const useToggleFootprintLayer = () => {
