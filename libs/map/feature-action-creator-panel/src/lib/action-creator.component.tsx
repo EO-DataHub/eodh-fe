@@ -1,5 +1,3 @@
-import { useFeatureFlag } from '@ukri/shared/utils/feature-flag';
-
 import { ActionCreatorProvider } from './action-creator-panel.context';
 import { Content } from './content/content.component';
 import { Footer } from './footer.component';
@@ -10,12 +8,6 @@ type TActionCreatorPanelProps = {
 };
 
 export const ActionCreator = ({ className = '' }: TActionCreatorPanelProps) => {
-  const canUseActionCreator = useFeatureFlag('actionCreator');
-
-  if (!canUseActionCreator) {
-    return null;
-  }
-
   return (
     <ActionCreatorProvider>
       <section
