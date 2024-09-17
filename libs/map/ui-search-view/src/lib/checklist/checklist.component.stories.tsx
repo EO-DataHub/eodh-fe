@@ -1,8 +1,20 @@
 import type { Meta } from '@storybook/react';
+import { Button } from '@ukri/shared/design-system';
 import { useEffect } from 'react';
 
 import { Checklist } from './checklist.component';
-import { useSetValidation } from './checklist.store';
+import { useChecklistState, useSetValidation, useShowChecklist } from './checklist.store';
+
+const ToggleChecklistButton = () => {
+  const { open } = useChecklistState();
+  const showChecklist = useShowChecklist();
+
+  return (
+    <div className='ml-4'>
+      <Button onClick={showChecklist} text='Show Checklist' disabled={open} />
+    </div>
+  );
+};
 
 const Template = ({
   aoiValid = false,
@@ -21,7 +33,12 @@ const Template = ({
     setDateRangeValid(dateRangeValid);
   }, [aoiValid, dataSetsValid, dateRangeValid, setAoiValid, setDataSetsValid, setDateRangeValid]);
 
-  return <Checklist />;
+  return (
+    <div className='flex justify-end'>
+      <Checklist />
+      <ToggleChecklistButton />
+    </div>
+  );
 };
 
 const meta: Meta<typeof Template> = {
