@@ -18,6 +18,7 @@ export const shadow = {
   'slider-thumb-highlighted': '0 0 0 3px #fff, 0 0 0 6px #BED4FF, 0px 6px 5px 1px #00000033',
   'data-range-picker': '0px -4px 10px 0px #0000001A',
   'action-creator': '0px 4px 10px 0px #00000010',
+  'action-creator-node': '0px 0px 6px 0px transparent',
 };
 
 export const spacing = {
@@ -27,6 +28,7 @@ export const spacing = {
 export const themeConfig = {
   fontSize: {
     ...fontSize,
+    'action-creator-body': ['10px', { lineHeight: '12px', fontWeight: '500' }],
   },
   boxShadow: {
     ...shadow,
