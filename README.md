@@ -10,7 +10,6 @@
   - [Required steps on pipelines](#Required-steps-on-pipelines)
 - [Release process](#Release-process)
   - [Release process steops](#Release-process-steps)
-- [Feature Flags](#Feature-Flags)
 - [Testing](#Testing)
   - [Unit & integration tests](#Unit--integration-tests)
   - [Storybook tests](#Storybook-tests)
@@ -62,10 +61,6 @@ GitHub's pipelines are used for ci/cd. Check `.github` directory for more detail
 # Release process
 
 We use adjusted `GitFlow` - instead of testing from feature branches, we do tests from `development` branch.
-
-# Feature Flags
-
-Feature flags are described in [docs/feature-flags.md](./docs/feature-flags.md)
 
 ## Release process steps:
 

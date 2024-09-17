@@ -5,7 +5,6 @@ import {
 } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TForm } from '@ukri/map/ui-search-view';
-import { useFeatureFlag } from '@ukri/shared/utils/feature-flag';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type TSearchParams = TForm | undefined;
@@ -15,7 +14,6 @@ export const useSearchMode = () => {
   const [view, setView] = useState<'search' | 'results'>('search');
   const { data, status } = useCatalogSearch({ params: searchParams });
   const changeAoiMode = useChangeAoiMode();
-  const canUseSearch = useFeatureFlag('search');
   const setFootprints = useFootprintCollectionMutation();
   const setTrueColorImage = useTrueColorImageUrlMutation();
 
@@ -44,14 +42,10 @@ export const useSearchMode = () => {
 
   const search = useCallback(
     (formData: TForm) => {
-      if (!canUseSearch) {
-        return;
-      }
-
       setSearchParams(formData);
       changeView('results');
     },
-    [canUseSearch, changeView]
+    [changeView]
   );
 
   useEffect(() => {
