@@ -17,10 +17,15 @@ const createSentinel2FilterParamsHelper = (
     },
   ];
 
-  if (params.cloudCoverage) {
+  if (params.cloudCoverage > 0) {
     args.push({
       op: '<=',
       args: [{ property: 'properties.eo:cloud_cover' }, params.cloudCoverage],
+    });
+  } else if (params.cloudCoverage <= 0) {
+    args.push({
+      op: '=',
+      args: [{ property: 'properties.eo:cloud_cover' }, 0],
     });
   }
 
