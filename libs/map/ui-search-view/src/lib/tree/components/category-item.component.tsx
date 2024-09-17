@@ -26,7 +26,7 @@ export const CategoryItem = ({ title, name, disabled, children, onChange }: TSat
   );
 
   return (
-    <TreeItem title={title} slots={slots} expanded={true}>
+    <TreeItem title={title} slots={slots} expanded={true} disabled={disabled}>
       {children}
     </TreeItem>
   );

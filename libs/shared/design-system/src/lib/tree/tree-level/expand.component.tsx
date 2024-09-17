@@ -12,7 +12,7 @@ type TCollapseTree = PropsWithChildren<{
 }>;
 
 export const Expand = ({ expanded, children, onClick, expandable = true, className }: TCollapseTree) => {
-  const { spacing } = useContext(TreeContext);
+  const { spacing, disabled } = useContext(TreeContext);
 
   const expand = useCallback(() => {
     if (onClick) {
@@ -33,7 +33,9 @@ export const Expand = ({ expanded, children, onClick, expandable = true, classNa
       onClick={expand}
     >
       <div className='flex items-center w-full'>
-        <div className='size-6 flex justify-center items-center text-neutral-light'>
+        <div
+          className={`size-6 flex justify-center items-center ${disabled ? 'text-bright-mid' : 'text-neutral-light'}`}
+        >
           {expanded && <ArrowDropDown />}
           {!expanded && <ArrowDropRight />}
         </div>

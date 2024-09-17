@@ -76,7 +76,7 @@ export const SatelliteItem = ({ title, name, disabled, children }: TSatelliteIte
     return [
       {
         position: 'title:before',
-        element: <Icon name='Satellite' className='text-neutral-light' />,
+        element: <Icon name='Satellite' className={disabled ? 'text-bright-mid' : 'text-neutral-light'} />,
         key: 'Satellite',
       },
       {

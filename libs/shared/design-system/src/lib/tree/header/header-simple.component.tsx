@@ -20,7 +20,7 @@ const classNames = {
 };
 
 export const HeaderSimple = memo(({ title, slots, children }: THeaderSimpleProps) => {
-  const { spacing, expandable } = useContext(TreeContext);
+  const { spacing, expandable, disabled } = useContext(TreeContext);
 
   if (expandable && children) {
     return null;
@@ -30,7 +30,7 @@ export const HeaderSimple = memo(({ title, slots, children }: THeaderSimpleProps
     <div className={classNames.container(spacing)}>
       <div className={classNames.wrapper}>
         <Slots slots={slots} position='title:before' />
-        <Title title={title} fontWeight='regular' />
+        <Title title={title} fontWeight='regular' disabled={disabled} />
         <Slots slots={slots} position='title:after' />
       </div>
     </div>

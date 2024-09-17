@@ -11,7 +11,7 @@ type THeaderProps = Pick<TTree, 'title' | 'slots'> & {
 };
 
 export const Header = memo(({ title, slots, className, onClick }: THeaderProps) => {
-  const { expandable } = useContext(TreeContext);
+  const { expandable, disabled } = useContext(TreeContext);
 
   if (!expandable) {
     return null;
@@ -26,6 +26,7 @@ export const Header = memo(({ title, slots, className, onClick }: THeaderProps) 
             title={title}
             fontWeight={expandable ? 'semibold' : 'regular'}
             className={`${expandable ? 'ml-3' : ''}`}
+            disabled={disabled}
           />
         </button>
       )}
@@ -36,6 +37,7 @@ export const Header = memo(({ title, slots, className, onClick }: THeaderProps) 
             title={title}
             fontWeight={expandable ? 'semibold' : 'regular'}
             className={`${expandable ? 'ml-3' : ''}`}
+            disabled={disabled}
           />
         </div>
       )}

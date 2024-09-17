@@ -57,7 +57,7 @@ export const PrivateData = () => {
           disabled={true}
         />
       </CategoryItem>
-      <TreeItem title='MAP.SEARCH_VIEW.DATA_SETS.AIR_BUS.NAME' />
+      <TreeItem title='MAP.SEARCH_VIEW.DATA_SETS.AIR_BUS.NAME' disabled={true} />
     </TreeItem>
   );
 };
