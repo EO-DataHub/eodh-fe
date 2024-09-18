@@ -1,8 +1,25 @@
-import { ChangeEvent, ForwardedRef, forwardRef } from 'react';
+import isString from 'lodash/isString';
+import { ChangeEvent, ForwardedRef, forwardRef, ReactNode } from 'react';
 
-import { Icon } from '../../icon/icon';
+import { Icon, TIconNames } from '../../icon/icon';
 import { Text } from '../../text/text';
 import { checkboxStyles, getSpanClassName } from './checkbox.styles';
+
+const isIcon = (icon: TIconNames | ReactNode | undefined): icon is TIconNames => isString(icon);
+
+type TCheckboxIconProps = { icon: TIconNames | ReactNode | undefined };
+
+const CheckboxIcon = ({ icon }: TCheckboxIconProps) => {
+  if (!icon) {
+    return null;
+  }
+
+  if (isIcon(icon)) {
+    return <Icon name={icon} />;
+  }
+
+  return icon;
+};
 
 interface ICheckboxProps {
   id?: string;
@@ -13,11 +30,12 @@ interface ICheckboxProps {
   state?: 'error' | null;
   disabled?: boolean;
   className?: string;
+  icon?: TIconNames | ReactNode;
 }
 
 export const Checkbox = forwardRef(
   (
-    { id, onChange, onBlur, label, name, state, disabled, className = '' }: ICheckboxProps,
+    { id, onChange, onBlur, label, name, state, disabled, className = '', icon = 'Check' }: ICheckboxProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const spanClassName = getSpanClassName();
@@ -35,8 +53,7 @@ export const Checkbox = forwardRef(
           disabled={disabled}
         />
         <span className={spanClassName}>
-          <Icon name='Check' />
-          <Icon name='Remove' />
+          <CheckboxIcon icon={icon} />
         </span>
         {label && (
           <Text content={label} type='p' fontSize='medium' fontWeight='regular' className={checkboxStyles.text} />
