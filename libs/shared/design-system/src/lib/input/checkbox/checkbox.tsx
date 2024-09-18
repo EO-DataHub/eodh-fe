@@ -1,6 +1,7 @@
 import { ChangeEvent, ForwardedRef, forwardRef } from 'react';
 
 import { Icon } from '../../icon/icon';
+import { Text } from '../../text/text';
 import { checkboxStyles, getSpanClassName } from './checkbox.styles';
 
 interface ICheckboxProps {
@@ -11,14 +12,18 @@ interface ICheckboxProps {
   label?: string;
   state?: 'error' | null;
   disabled?: boolean;
+  className?: string;
 }
 
 export const Checkbox = forwardRef(
-  ({ id, onChange, onBlur, label, name, state, disabled }: ICheckboxProps, ref: ForwardedRef<HTMLInputElement>) => {
+  (
+    { id, onChange, onBlur, label, name, state, disabled, className = '' }: ICheckboxProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
     const spanClassName = getSpanClassName();
 
     return (
-      <label className={checkboxStyles.label}>
+      <label className={`${checkboxStyles.label} ${className}`}>
         <input
           ref={ref}
           type='checkbox'
@@ -33,7 +38,9 @@ export const Checkbox = forwardRef(
           <Icon name='Check' />
           <Icon name='Remove' />
         </span>
-        <span className={checkboxStyles.text}>{label}</span>
+        {label && (
+          <Text content={label} type='p' fontSize='medium' fontWeight='regular' className={checkboxStyles.text} />
+        )}
       </label>
     );
   }
