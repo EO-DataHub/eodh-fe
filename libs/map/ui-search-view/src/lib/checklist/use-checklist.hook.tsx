@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormState } from 'react-hook-form';
 
 import { TFormDefaultValues } from '../form.model';
@@ -24,25 +24,43 @@ const useAoiValidation = (
   }, [touchedFields.aoi, dirtyFields.aoi, errors.aoi, setAoiValid]);
 };
 
-const isCopernicusDataUntouched = (touchedFields: TFormStateTouchedFields, dirtyFields: TFormStateDirtyFields) => {
-  return (
-    !touchedFields.dataSets?.copernicus?.sentinel1?.enabled &&
-    !touchedFields.dataSets?.copernicus?.sentinel2?.enabled &&
-    !touchedFields.dataSets?.copernicus?.sentinel3?.enabled &&
-    !touchedFields.dataSets?.copernicus?.sentinel5P?.enabled &&
-    !dirtyFields.dataSets?.copernicus?.sentinel1?.enabled &&
-    !dirtyFields.dataSets?.copernicus?.sentinel2?.enabled &&
-    !dirtyFields.dataSets?.copernicus?.sentinel3?.enabled &&
-    !dirtyFields.dataSets?.copernicus?.sentinel5P?.enabled
+const useIsCopernicusDataUntouched = (touchedFields: TFormStateTouchedFields, dirtyFields: TFormStateDirtyFields) => {
+  return useMemo(
+    () =>
+      !touchedFields.dataSets?.copernicus?.sentinel1?.enabled &&
+      !touchedFields.dataSets?.copernicus?.sentinel2?.enabled &&
+      !touchedFields.dataSets?.copernicus?.sentinel3?.enabled &&
+      !touchedFields.dataSets?.copernicus?.sentinel5P?.enabled &&
+      !dirtyFields.dataSets?.copernicus?.sentinel1?.enabled &&
+      !dirtyFields.dataSets?.copernicus?.sentinel2?.enabled &&
+      !dirtyFields.dataSets?.copernicus?.sentinel3?.enabled &&
+      !dirtyFields.dataSets?.copernicus?.sentinel5P?.enabled,
+    [
+      dirtyFields.dataSets?.copernicus?.sentinel1?.enabled,
+      dirtyFields.dataSets?.copernicus?.sentinel2?.enabled,
+      dirtyFields.dataSets?.copernicus?.sentinel3?.enabled,
+      dirtyFields.dataSets?.copernicus?.sentinel5P?.enabled,
+      touchedFields.dataSets?.copernicus?.sentinel1?.enabled,
+      touchedFields.dataSets?.copernicus?.sentinel2?.enabled,
+      touchedFields.dataSets?.copernicus?.sentinel3?.enabled,
+      touchedFields.dataSets?.copernicus?.sentinel5P?.enabled,
+    ]
   );
 };
 
-const isCopernicusDataValid = (errors: TFormStateErrors) => {
-  return (
-    !errors.dataSets?.copernicus?.sentinel1 &&
-    !errors.dataSets?.copernicus?.sentinel2 &&
-    !errors.dataSets?.copernicus?.sentinel3 &&
-    !errors.dataSets?.copernicus?.sentinel5P
+const useIsCopernicusDataValid = (errors: TFormStateErrors) => {
+  return useMemo(
+    () =>
+      !errors.dataSets?.copernicus?.sentinel1 &&
+      !errors.dataSets?.copernicus?.sentinel2 &&
+      !errors.dataSets?.copernicus?.sentinel3 &&
+      !errors.dataSets?.copernicus?.sentinel5P,
+    [
+      errors.dataSets?.copernicus?.sentinel1,
+      errors.dataSets?.copernicus?.sentinel2,
+      errors.dataSets?.copernicus?.sentinel3,
+      errors.dataSets?.copernicus?.sentinel5P,
+    ]
   );
 };
 
@@ -52,14 +70,16 @@ const useDataSetsValidation = (
   errors: TFormStateErrors
 ) => {
   const { setDataSetsValid } = useSetValidation();
+  const isCopernicusDataUntouched = useIsCopernicusDataUntouched(touchedFields, dirtyFields);
+  const isCopernicusDataValid = useIsCopernicusDataValid(errors);
 
   useEffect(() => {
-    if (isCopernicusDataUntouched(touchedFields, dirtyFields)) {
+    if (isCopernicusDataUntouched) {
       return;
     }
 
-    setDataSetsValid(isCopernicusDataValid(errors));
-  }, [touchedFields, dirtyFields, errors, setDataSetsValid]);
+    setDataSetsValid(isCopernicusDataValid);
+  }, [isCopernicusDataUntouched, isCopernicusDataValid, setDataSetsValid]);
 };
 
 const useDateRangeValidation = (

@@ -10,19 +10,20 @@ type TSatelliteItemProps = PropsWithChildren<{
   name: FieldPath<TFormDefaultValues>;
   disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  icon?: 'Check' | 'Remove';
 }>;
 
-export const CategoryItem = ({ title, name, disabled, children, onChange }: TSatelliteItemProps) => {
+export const CategoryItem = ({ title, name, disabled, children, onChange, icon }: TSatelliteItemProps) => {
   const { register } = useFormContext<TFormDefaultValues>();
   const slots = useMemo(
     (): TSlots => [
       {
         position: 'title:after',
-        element: <Checkbox {...register(name)} onChange={onChange} disabled={disabled} />,
+        element: <Checkbox {...register(name)} onChange={onChange} disabled={disabled} icon={icon} />,
         key: 'checkbox',
       },
     ],
-    [register, name, disabled, onChange]
+    [register, name, disabled, icon, onChange]
   );
 
   return (

@@ -34,6 +34,7 @@ export const SettingsItem = ({ title, name, disabled }: TSettingsItemProps) => {
             key: 'checkbox',
           },
         ]}
+        disabled={disabled}
       />
     </>
   );

@@ -1,5 +1,5 @@
 import { TreeItem } from '@ukri/shared/design-system';
-import { ChangeEvent, useCallback, useEffect } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
 import { useController, useFormContext, useWatch } from 'react-hook-form';
 
 import { TFormDefaultValues } from '../form.model';
@@ -14,31 +14,45 @@ export const PrivateData = () => {
   const planetScope = useWatch<TFormDefaultValues>({ name: 'dataSets.planet.planetScope.enabled' });
   const skySat = useWatch<TFormDefaultValues>({ name: 'dataSets.planet.skySat.enabled' });
   const rapidEye = useWatch<TFormDefaultValues>({ name: 'dataSets.planet.rapidEye.enabled' });
+  const privateDataSelectedIcon = useMemo(
+    () => (planetScope && skySat && rapidEye ? 'Check' : 'Remove'),
+    [planetScope, skySat, rapidEye]
+  );
 
   const togglePrivateData = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      setValue('dataSets.planet.planetScope.enabled', event.target.checked);
-      setValue('dataSets.planet.skySat.enabled', event.target.checked);
-      setValue('dataSets.planet.rapidEye.enabled', event.target.checked);
+      const options = { shouldValidate: true, shouldDirty: true, shouldTouch: true };
+      let value = event.target.checked;
+
+      if (!event.target.checked && planetScope && skySat && rapidEye) {
+        value = false;
+      } else if (field.value && (planetScope || skySat || rapidEye)) {
+        value = true;
+      }
+
+      setValue('dataSets.planet.planetScope.enabled', value, options);
+      setValue('dataSets.planet.skySat.enabled', value, options);
+      setValue('dataSets.planet.rapidEye.enabled', value, options);
       field.onChange(event);
     },
-    [field, setValue]
+    [field, planetScope, rapidEye, setValue, skySat]
   );
 
   useEffect(() => {
-    if (!!field.value && (!planetScope || !skySat || !rapidEye)) {
-      setValue(name, false);
-    } else if (!field.value && planetScope && skySat && rapidEye) {
+    if (planetScope || skySat || rapidEye) {
       setValue(name, true);
+    } else if (!planetScope && !skySat && !rapidEye) {
+      setValue(name, false);
     }
   }, [field.value, planetScope, rapidEye, setValue, skySat]);
 
   return (
-    <TreeItem title='MAP.SEARCH_VIEW.DATA_SETS.PRIVATE' expanded={true} className='text-text-primary'>
+    <TreeItem title='MAP.SEARCH_VIEW.DATA_SETS.PRIVATE' expanded={true} className='text-text-primary' disabled={true}>
       <CategoryItem
         title='MAP.SEARCH_VIEW.DATA_SETS.PLANET.NAME'
         name='dataSets.planet.enabled'
         disabled={true}
+        icon={privateDataSelectedIcon}
         onChange={togglePrivateData}
       >
         <SatelliteItem

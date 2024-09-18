@@ -103,6 +103,7 @@ export const SatelliteItem = ({ title, name, disabled, children }: TSatelliteIte
         title={<Title title={title} fontWeight='regular' disabled={disabled} />}
         slots={slots}
         expandable={false}
+        disabled={disabled}
       >
         {currentSettings && <SettingsTree>{children}</SettingsTree>}
       </TreeItem>

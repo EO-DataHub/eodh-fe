@@ -20,8 +20,8 @@ export const Header = memo(({ title, slots, className, onClick }: THeaderProps) 
   return (
     <div className={`flex grow rounded-md w-full ${className}`}>
       {onClick && (
-        <button type='button' className='flex w-full items-center gap-x-3' onClick={onClick}>
-          <Slots slots={slots} position='title:before' />
+        <button type='button' className='flex w-full items-center gap-x-3' onClick={onClick} disabled={disabled}>
+          <Slots slots={slots} position='title:before' disabled={disabled} />
           <Title
             title={title}
             fontWeight={expandable ? 'semibold' : 'regular'}
@@ -32,7 +32,7 @@ export const Header = memo(({ title, slots, className, onClick }: THeaderProps) 
       )}
       {!onClick && (
         <div className='flex w-full items-center gap-x-3'>
-          <Slots slots={slots} position='title:before' />
+          <Slots slots={slots} position='title:before' disabled={disabled} />
           <Title
             title={title}
             fontWeight={expandable ? 'semibold' : 'regular'}
@@ -41,7 +41,7 @@ export const Header = memo(({ title, slots, className, onClick }: THeaderProps) 
           />
         </div>
       )}
-      <Slots slots={slots} position='title:after' className='ml-3' />
+      <Slots slots={slots} position='title:after' disabled={disabled} className='ml-3' />
     </div>
   );
 });

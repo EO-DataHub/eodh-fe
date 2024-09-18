@@ -20,14 +20,14 @@ export const Title = memo(({ title, disabled, className = '', fontWeight, onClic
   if (isValidElement(title)) {
     if (onClick) {
       return (
-        <button type='button' className='grow text-left'>
+        <button type='button' className='grow text-left' disabled={disabled} onClick={onClick}>
           {title}
         </button>
       );
     }
 
     return (
-      <button type='button' className='grow text-left' onClick={onClick}>
+      <button type='button' className='grow text-left' disabled={disabled}>
         {title}
       </button>
     );
@@ -35,7 +35,7 @@ export const Title = memo(({ title, disabled, className = '', fontWeight, onClic
 
   if (onClick) {
     return (
-      <button type='button' className='grow' onClick={onClick}>
+      <button type='button' className='grow' disabled={disabled} onClick={onClick}>
         <Text
           content={title}
           type='p'

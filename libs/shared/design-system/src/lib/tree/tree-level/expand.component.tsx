@@ -27,9 +27,10 @@ export const Expand = ({ expanded, children, onClick, expandable = true, classNa
   return (
     <button
       type='button'
-      className={`flex items-center focus:outline-none disabled:opacity-50 disabled:pointer-events-none ${getSpacingClassName(
+      className={`flex items-center focus:outline-none disabled:pointer-events-none ${getSpacingClassName(
         spacing
       )} ${className}`}
+      disabled={disabled}
       onClick={expand}
     >
       <div className='flex items-center w-full'>
