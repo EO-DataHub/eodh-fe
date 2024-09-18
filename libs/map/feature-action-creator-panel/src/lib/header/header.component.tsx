@@ -1,4 +1,5 @@
 import { Icon, Toggle } from '@ukri/shared/design-system';
+import { useAuth } from '@ukri/shared/utils/authorization';
 import { useContext } from 'react';
 
 import { ActionCreator } from '../action-creator-panel.context';
@@ -17,15 +18,17 @@ const ToggleContentButton = () => {
 
 export const Header = () => {
   const { collapsed, enabled, toggle: toggleMode } = useContext(ActionCreator);
+  const { authenticated } = useAuth();
 
   return (
     <header>
       <section className='flex justify-between p-4'>
         <Toggle
           id='actionCreator'
-          checked={enabled}
-          onChange={toggleMode}
           label='MAP.ACTION_CREATOR_PANEL.HEADER.ACTION_CREATOR'
+          checked={enabled}
+          disabled={!authenticated}
+          onChange={toggleMode}
         />
 
         <div className='flex text-neutral-light gap-2'>
