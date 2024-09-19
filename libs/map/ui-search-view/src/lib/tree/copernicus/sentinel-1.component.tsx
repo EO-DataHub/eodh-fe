@@ -18,17 +18,24 @@ export const Sentinel1 = () => {
         <SettingsItem
           title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.EW'
           name='dataSets.copernicus.sentinel1.acquisitionMode.ew'
+          indent='medium'
         />
 
-        <SettingsSection title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION'>
+        <SettingsSection
+          title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION'
+          indent='large'
+          disabled={!ew}
+        >
           <SettingsItem
             title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.HH'
             name='dataSets.copernicus.sentinel1.acquisitionMode.hh'
+            indent='extraLarge'
             disabled={!ew}
           />
           <SettingsItem
             title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.HH_HV'
             name='dataSets.copernicus.sentinel1.acquisitionMode.hh_hv'
+            indent='extraLarge'
             disabled={!ew}
           />
         </SettingsSection>
@@ -36,17 +43,24 @@ export const Sentinel1 = () => {
         <SettingsItem
           title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.IW'
           name='dataSets.copernicus.sentinel1.acquisitionMode.iw'
+          indent='medium'
         />
 
-        <SettingsSection title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION'>
+        <SettingsSection
+          title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION'
+          indent='large'
+          disabled={!iw}
+        >
           <SettingsItem
             title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV'
             name='dataSets.copernicus.sentinel1.acquisitionMode.vv'
+            indent='extraLarge'
             disabled={!iw}
           />
           <SettingsItem
             title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV_VH'
             name='dataSets.copernicus.sentinel1.acquisitionMode.vv_vh'
+            indent='extraLarge'
             disabled={!iw}
           />
         </SettingsSection>
@@ -56,10 +70,12 @@ export const Sentinel1 = () => {
         <SettingsItem
           title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.ASCENDING'
           name='dataSets.copernicus.sentinel1.orbitDirection.ascending'
+          indent='medium'
         />
         <SettingsItem
           title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.DESCENDING'
           name='dataSets.copernicus.sentinel1.orbitDirection.descending'
+          indent='medium'
         />
       </SettingsSection>
     </SatelliteItem>

@@ -6,11 +6,17 @@ import { FieldPath, useFormContext } from 'react-hook-form';
 
 import { TFormDefaultValues } from '../../form.model';
 import { Error } from './error.component';
+import { getIntend, TIndent } from './indent.utils';
 import { Title } from './title.component';
 
-type TSettingsItemProps = { title: ParseKeys; name: FieldPath<TFormDefaultValues>; disabled?: boolean };
+type TSettingsItemProps = {
+  title: ParseKeys;
+  name: FieldPath<TFormDefaultValues>;
+  disabled?: boolean;
+  indent?: TIndent;
+};
 
-export const SettingsItem = ({ title, name, disabled }: TSettingsItemProps) => {
+export const SettingsItem = ({ title, name, disabled, indent }: TSettingsItemProps) => {
   const {
     register,
     trigger,
@@ -24,7 +30,7 @@ export const SettingsItem = ({ title, name, disabled }: TSettingsItemProps) => {
 
   return (
     <>
-      <Error name={name} />
+      <Error name={name} indent={indent} />
       <TreeItem
         title={<Title title={title} fontWeight='regular' disabled={disabled} />}
         slots={[
@@ -35,6 +41,7 @@ export const SettingsItem = ({ title, name, disabled }: TSettingsItemProps) => {
           },
         ]}
         disabled={disabled}
+        indent={getIntend(indent)}
       />
     </>
   );
