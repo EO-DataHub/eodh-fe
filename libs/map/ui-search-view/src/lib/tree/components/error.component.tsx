@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import { FieldPath, useFormState } from 'react-hook-form';
 
 import { TFormDefaultValues } from '../../form.model';
-import { getIntend, TIndent } from './indent.utils';
+import { getTreeIndent, TIndent } from './indent.provider';
 
 type TErrorProps = {
   name: FieldPath<TFormDefaultValues>;
@@ -21,7 +21,7 @@ export const Error = ({ name, indent }: TErrorProps) => {
   return (
     <TreeItem
       title={<Text content={error.message} fontSize='medium' fontWeight='semibold' className='text-error' />}
-      indent={getIntend(indent)}
+      indent={getTreeIndent(indent)}
     />
   );
 };

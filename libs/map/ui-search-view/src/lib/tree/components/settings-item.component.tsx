@@ -1,28 +1,30 @@
 import { Checkbox, TreeItem } from '@ukri/shared/design-system';
 import { ParseKeys } from 'i18next';
 import get from 'lodash/get';
-import { useCallback, useMemo } from 'react';
+import { PropsWithChildren, useCallback, useMemo } from 'react';
 import { FieldPath, useFormContext } from 'react-hook-form';
 
 import { TFormDefaultValues } from '../../form.model';
 import { Error } from './error.component';
-import { getIntend, TIndent } from './indent.utils';
+import { getTreeIndent, IndentProvider, TIndent, useIndent, useNextIndent } from './indent.provider';
 import { Title } from './title.component';
 
-type TSettingsItemProps = {
+type TSettingsItemProps = PropsWithChildren<{
   title: ParseKeys;
   name: FieldPath<TFormDefaultValues>;
   disabled?: boolean;
   indent?: TIndent;
-};
+}>;
 
-export const SettingsItem = ({ title, name, disabled, indent }: TSettingsItemProps) => {
+export const SettingsItem = ({ title, name, disabled, indent: currentIndent, children }: TSettingsItemProps) => {
   const {
     register,
     trigger,
     formState: { errors },
   } = useFormContext<TFormDefaultValues>();
   const state = useMemo(() => (get(errors, name) ? 'error' : undefined), [errors, name]);
+  const indent = useIndent(currentIndent);
+  const nextIndent = useNextIndent(currentIndent);
 
   const validateFields = useCallback(() => {
     trigger();
@@ -41,8 +43,9 @@ export const SettingsItem = ({ title, name, disabled, indent }: TSettingsItemPro
           },
         ]}
         disabled={disabled}
-        indent={getIntend(indent)}
+        indent={getTreeIndent(indent)}
       />
+      {children && <IndentProvider indent={nextIndent}>{children}</IndentProvider>}
     </>
   );
 };
