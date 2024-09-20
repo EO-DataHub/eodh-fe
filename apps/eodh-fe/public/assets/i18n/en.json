@@ -22,8 +22,8 @@
       }
     },
     "LOGIN": {
-      "LOGIN_BUTTON": "Login",
-      "LOGOUT_BUTTON": "Logout"
+      "LOGIN_BUTTON": "Log in",
+      "LOGOUT_BUTTON": "Log out"
     },
     "ERRORS": {
       "VALIDATION": {
@@ -71,6 +71,14 @@
         "BUTTON": {
           "SAVE_WORKFLOW": "Save Workflow",
           "RUN_ACTION_CREATOR": "Run Action Creator"
+        }
+      },
+      "NODE": {
+        "TITLE": {
+          "AREA": "Area",
+          "DATA_SET": "Data set",
+          "DATE_RANGE": "Date range",
+          "FUNCTION": "Function"
         }
       }
     },

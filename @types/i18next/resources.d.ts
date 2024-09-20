@@ -22,8 +22,8 @@ interface Resources {
         };
       };
       LOGIN: {
-        LOGIN_BUTTON: 'Login';
-        LOGOUT_BUTTON: 'Logout';
+        LOGIN_BUTTON: 'Log in';
+        LOGOUT_BUTTON: 'Log out';
       };
       ERRORS: {
         VALIDATION: {
