@@ -75,7 +75,7 @@ export const Node = ({
   }, [disabled]);
 
   return (
-    <div className={`max-w-[152px]`} onClick={handleNodeClick}>
+    <div className={`w-[152px]`} onClick={handleNodeClick}>
       <div
         className={`
             ${active ? `${nodeType.backgroundColor} ${nodeType.borderColor}` : 'bg-neutral-light border-neutral-light'}
