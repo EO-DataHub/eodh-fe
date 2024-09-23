@@ -2,7 +2,7 @@ import { Select } from '@ukri/shared/design-system';
 
 const options = [
   { value: 'NDVI', label: 'NDVI' },
-  { value: 'False colour (urban)', label: 'False colour (urban) some super long' },
+  { value: 'False colour (urban)', label: 'False colour (urban)' },
   { value: 'Moisture index', label: 'Moisture index' },
   { value: 'SWIR', label: 'SWIR' },
   { value: 'NDWI', label: 'NDWI' },
