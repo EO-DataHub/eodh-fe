@@ -14,7 +14,7 @@ interface IFunctionSelectInputProps {
   onChange: (value: string) => void;
 }
 
-export const FunctionSelectInput = ({ visible = false, onChange }: IFunctionSelectInputProps) => {
+export const FunctionSelectInput = ({ onChange }: IFunctionSelectInputProps) => {
   const handleChange = (value?: string | null) => {
     onChange(value || '');
   };
