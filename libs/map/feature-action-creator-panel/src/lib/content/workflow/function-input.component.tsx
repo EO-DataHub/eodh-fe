@@ -1,9 +1,6 @@
 import { Select } from '@ukri/shared/design-system';
 
-const placeholder = 'GLOBAL.DESIGN_SYSTEM.SELECT.PLACEHOLDER';
-
 const options = [
-  { value: undefined, label: placeholder },
   { value: 'NDVI', label: 'NDVI' },
   { value: 'False colour (urban)', label: 'False colour (urban)' },
   { value: 'Moisture index', label: 'Moisture index' },
@@ -14,15 +11,13 @@ const options = [
 
 interface IFunctionSelectInputProps {
   visible?: boolean;
+  onChange: (value: string) => void;
 }
 
-export const FunctionSelectInput = ({ visible = false }: IFunctionSelectInputProps) => {
-  return (
-    <Select
-      className={`${visible ? 'opacity-0' : 'opacity-100'} w-full`}
-      options={options}
-      placeholder={placeholder}
-      onChange={() => {}}
-    />
-  );
+export const FunctionSelectInput = ({ visible = false, onChange }: IFunctionSelectInputProps) => {
+  const handleChange = (value?: string | null) => {
+    onChange(value || '');
+  };
+
+  return <Select className='w-full h-[36px]' options={options} onChange={handleChange} />;
 };

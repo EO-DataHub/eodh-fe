@@ -15,7 +15,7 @@ interface IOption {
 
 interface ISelectProps {
   options: IOption[];
-  onChange: (option: IOption | null) => void;
+  onChange: (value?: string | null) => void;
   placeholder?: ParseKeys;
   error?: string;
   className?: string;
@@ -41,9 +41,10 @@ export const Select = ({
 
   const handleChange = useCallback(
     (selectedOptionValue: IOption) => {
-      setIsOpen(false);
+      // setIsOpen(false);
       setSelectedOption(selectedOptionValue);
-      onChange(selectedOptionValue);
+      onChange(selectedOptionValue.value);
+      setIsOpen(true);
     },
     [onChange]
   );
@@ -55,9 +56,9 @@ export const Select = ({
   return (
     <div className={clsx(selectStyles.container, className)} ref={ref}>
       {error && <span className={selectStyles.errorMessage}>{error}</span>}
-      <div className={selectStyles.selectWrapper(error)}>
+      <div className={selectStyles.selectWrapper(error)} onClick={handleToggle}>
         {!isOpen && (
-          <div className={selectStyles.button} aria-expanded={isOpen} onClick={handleToggle}>
+          <div className={selectStyles.button} aria-expanded={isOpen}>
             <span className={selectStyles.buttonText}>{selectedOption ? selectedOption.label : t(placeholder)}</span>
             <span className={selectStyles.iconContainer}>
               <Icon name='ArrowDown' className={selectStyles.icon(isOpen)} />
@@ -66,22 +67,20 @@ export const Select = ({
         )}
 
         {isOpen && (
-          <ul
-            className={selectStyles.list}
-            role='listbox'
-            aria-labelledby='listbox-label'
-            aria-expanded={isOpen}
-            // onClick={handleToggle}
-          >
+          <ul className={selectStyles.list} role='listbox' aria-labelledby='listbox-label' aria-expanded={isOpen}>
             <li
               key='placeholder'
-              className={selectStyles.listItem(selectedOption?.value === null)}
+              className={selectStyles.listItem}
               id={`listbox-option-placeholder`}
               role='option'
               aria-selected={selectedOption?.value === null}
-              onClick={() => handleChange({ value: undefined, label: t(placeholder) })}
             >
-              <span className={selectStyles.listItemText(selectedOption?.value === null)}>{t(placeholder)}</span>
+              <span
+                className={selectStyles.listItemText}
+                onClick={() => handleChange({ value: undefined, label: t(placeholder) })}
+              >
+                {t(placeholder)}
+              </span>
               <span className={selectStyles.iconContainer}>
                 <Icon name='ArrowDown' className={selectStyles.icon(isOpen)} />
               </span>
@@ -89,15 +88,14 @@ export const Select = ({
             {options.map((option, index) => (
               <li
                 key={option.value}
-                className={selectStyles.listItem(selectedOption?.value === option.value)}
+                className={selectStyles.listItem}
                 id={`listbox-option-${index}`}
                 role='option'
                 aria-selected={selectedOption?.value === option.value}
                 onClick={() => handleChange(option)}
               >
-                <span className={selectStyles.listItemText(selectedOption?.value === option.value)}>
-                  {t(option.label)}
-                </span>
+                <span className={selectStyles.listItemText}>{t(option.label)}</span>
+                {selectedOption?.value === option.value && <Icon name='Check' className={selectStyles.checkedValue} />}
               </li>
             ))}
           </ul>
