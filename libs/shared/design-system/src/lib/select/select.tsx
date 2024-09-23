@@ -33,7 +33,7 @@ export const Select = ({
   const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState<IOption | undefined>();
   const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setSelectedOption(options.find((option) => option.value === value));
@@ -41,13 +41,25 @@ export const Select = ({
 
   const handleChange = useCallback(
     (selectedOptionValue: IOption) => {
-      // setIsOpen(false);
       setSelectedOption(selectedOptionValue);
       onChange(selectedOptionValue.value);
       setIsOpen(true);
     },
     [onChange]
   );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !(ref.current as Node).contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleToggle = useCallback(() => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -58,8 +70,10 @@ export const Select = ({
       {error && <span className={selectStyles.errorMessage}>{error}</span>}
       <div className={selectStyles.selectWrapper(error)} onClick={handleToggle}>
         {!isOpen && (
-          <div className={selectStyles.button} aria-expanded={isOpen}>
-            <span className={selectStyles.buttonText}>{selectedOption ? selectedOption.label : t(placeholder)}</span>
+          <div className={selectStyles.listItem}>
+            <span className={clsx(selectStyles.buttonText, selectStyles.listItemText)}>
+              {selectedOption ? selectedOption.label : t(placeholder)}
+            </span>
             <span className={selectStyles.iconContainer}>
               <Icon name='ArrowDown' className={selectStyles.icon(isOpen)} />
             </span>
@@ -94,7 +108,7 @@ export const Select = ({
                 aria-selected={selectedOption?.value === option.value}
                 onClick={() => handleChange(option)}
               >
-                <span className={selectStyles.listItemText}>{t(option.label)}</span>
+                <p className={selectStyles.listItemText}>{t(option.label)}</p>
                 {selectedOption?.value === option.value && <Icon name='Check' className={selectStyles.checkedValue} />}
               </li>
             ))}

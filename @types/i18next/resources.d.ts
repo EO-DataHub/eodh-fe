@@ -86,7 +86,7 @@ interface Resources {
           DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO: 'Invalid date. Date from should be earlier';
           DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
         };
-        PRIVATE: 'Private';
+        PRIVATE: 'Commercial';
         PUBLIC: 'Public';
         PLANET: {
           NAME: 'Planet';

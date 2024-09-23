@@ -7,7 +7,7 @@ import { PseudoInput } from './pseudo-input.component';
 
 const meta: Meta<typeof Node> = {
   component: Node,
-  title: 'Example/Node',
+  title: 'libs/map/action-creator-panel/content/Node',
   argTypes: {
     disabled: {
       control: {
@@ -101,7 +101,14 @@ export const AllNodes = (args: React.ComponentProps<typeof Node>) => {
           )}
         </Node>
         <Node {...args} type='function'>
-          {showInputs && <FunctionSelectInput />}
+          {/* eslint-disable-next-line prettier/prettier */}
+          {showInputs && (
+            <FunctionSelectInput
+              onChange={() => {
+                return;
+              }}
+            />
+          )}
         </Node>
       </div>
 
