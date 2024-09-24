@@ -38,7 +38,7 @@ export const Header = memo(({ title, slots, className, onClick }: THeaderProps) 
             <Title
               title={title}
               fontWeight={expandable ? 'semibold' : 'regular'}
-              className={`${expandable ? 'ml-3' : ''}`}
+              className={expandable ? 'ml-3' : ''}
               disabled={disabled}
             />
           </div>
