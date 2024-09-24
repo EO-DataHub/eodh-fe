@@ -20,24 +20,24 @@ export const Workflow = () => {
           {showInputs && <PseudoInput iconName='Polygon' value={'sample aoi'} />}
         </Node>
         <Node {...args} type='dataSet'>
-          {showInputs && <PseudoInput value={'sample dataSet'} />}
+          {/* {showInputs && <PseudoInput value={'sample dataSet'} />} */}
         </Node>
         <Node {...args} type='dateRange'>
-          {showInputs && (
+          {/* {showInputs && (
             <>
               <PseudoInput value={'12/12/2012'} className='mb-1' />
               <PseudoInput value={'22/12/2012'} />
             </>
-          )}
+          )} */}
         </Node>
         <Node {...args} type='function'>
-          {showInputs && (
+          {/* {showInputs && (
             <FunctionSelectInput
               onChange={() => {
                 return;
               }}
             />
-          )}
+          )} */}
         </Node>
       </div>
     </section>
