@@ -22,6 +22,7 @@ interface ISelectProps {
   value?: string;
 }
 
+// TODO change it to not connected component once we will work on function handling ticket (UKRIW-94)
 export const Select = ({
   options,
   onChange,
