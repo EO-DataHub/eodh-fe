@@ -19,7 +19,7 @@ type TWorkflowState = {
 };
 
 const workflowDefaultState: TWorkflowState = {
-  enabledNodes: ['area', 'dataSet', 'dateRange', 'function'],
+  enabledNodes: ['area'],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setEnabledNodes: () => {},
   nodeSelected: undefined,
