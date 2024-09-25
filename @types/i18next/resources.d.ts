@@ -22,8 +22,8 @@ interface Resources {
         };
       };
       LOGIN: {
-        LOGIN_BUTTON: 'Login';
-        LOGOUT_BUTTON: 'Logout';
+        LOGIN_BUTTON: 'Log in';
+        LOGOUT_BUTTON: 'Log out';
       };
       ERRORS: {
         VALIDATION: {
@@ -71,6 +71,24 @@ interface Resources {
           BUTTON: {
             SAVE_WORKFLOW: 'Save Workflow';
             RUN_ACTION_CREATOR: 'Run Action Creator';
+          };
+        };
+        NODE: {
+          AREA: {
+            TITLE: 'Area';
+            INSTRUCTIONS: 'Use the drawing tools to define an area of interest';
+          };
+          DATA_SET: {
+            TITLE: 'Data Set';
+            INSTRUCTIONS: 'Select a data set to search for';
+          };
+          DATE_RANGE: {
+            TITLE: 'Date Range';
+            INSTRUCTIONS: 'Select the date range for the search';
+          };
+          FUNCTION: {
+            TITLE: 'Function';
+            INSTRUCTIONS: 'Select a function to apply to the data set';
           };
         };
       };

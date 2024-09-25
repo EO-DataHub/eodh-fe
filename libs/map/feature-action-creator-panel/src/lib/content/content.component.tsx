@@ -4,7 +4,7 @@ import { ActionCreator } from '../action-creator-panel.context';
 import { Help } from './help.component';
 import { History } from './history.component';
 import { Presets } from './presets.component';
-import { Workflow } from './workflow.component';
+import { Workflow } from './workflow/workflow.component';
 
 const ActiveContent = () => {
   const { activeTab } = useContext(ActionCreator);

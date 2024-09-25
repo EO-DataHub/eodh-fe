@@ -1,3 +1,4 @@
+export { default as ActionCreatorArrow } from './action-creator-arrow';
 export { default as ArrowDown } from './arrow-down';
 export { default as ArrowLeft } from './arrow-left';
 export { default as ArrowDropRight } from './arrow-drop-right';
