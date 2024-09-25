@@ -11,8 +11,14 @@ export const DrawRectangleButton = () => {
   const { draw, setDraw } = useContext(AoiLayerContext);
   const mode = useAoiMode();
   const disabled = useMemo(() => mode !== 'search', [mode]);
+  const selected = useMemo(() => draw?.type === 'rectangle', [draw?.type]);
 
   const drawRectangle = useCallback(() => {
+    if (draw?.type === 'rectangle') {
+      setDraw(undefined);
+      return;
+    }
+
     const rectangle = new Draw({
       geometryName: 'Rectangle',
       type: 'Circle',
@@ -21,9 +27,7 @@ export const DrawRectangleButton = () => {
     });
 
     setDraw({ draw: rectangle, type: 'rectangle' });
-  }, [setDraw]);
-
-  const selected = useMemo(() => draw?.type === 'rectangle', [draw?.type]);
+  }, [draw, setDraw]);
 
   return (
     <DrawButton selected={selected} disabled={disabled} onClick={drawRectangle}>

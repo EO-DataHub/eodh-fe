@@ -6,10 +6,13 @@ import { TTree } from '../tree.model';
 type TTileProps = Pick<TTree, 'className'> & {
   title: TTree['title'] | null;
   fontWeight: 'bold' | 'semibold' | 'regular';
+  disabled: boolean;
   onClick?: () => void;
 };
 
-export const Title = memo(({ title, className = '', fontWeight, onClick }: TTileProps) => {
+export const Title = memo(({ title, disabled, className = '', fontWeight, onClick }: TTileProps) => {
+  const color = disabled ? 'text-bright-mid' : 'text-neutral-dark';
+
   if (!title) {
     return null;
   }
@@ -17,14 +20,14 @@ export const Title = memo(({ title, className = '', fontWeight, onClick }: TTile
   if (isValidElement(title)) {
     if (onClick) {
       return (
-        <button type='button' className='grow text-left'>
+        <button type='button' className='grow text-left' disabled={disabled} onClick={onClick}>
           {title}
         </button>
       );
     }
 
     return (
-      <button type='button' className='grow text-left' onClick={onClick}>
+      <button type='button' className='grow text-left' disabled={disabled}>
         {title}
       </button>
     );
@@ -32,13 +35,13 @@ export const Title = memo(({ title, className = '', fontWeight, onClick }: TTile
 
   if (onClick) {
     return (
-      <button type='button' className='grow' onClick={onClick}>
+      <button type='button' className='grow' disabled={disabled} onClick={onClick}>
         <Text
           content={title}
           type='p'
           fontSize='medium'
           fontWeight={fontWeight}
-          className={`text-neutral-dark text-left ${className}`}
+          className={`${color} text-left ${className}`}
         />
       </button>
     );
@@ -51,7 +54,7 @@ export const Title = memo(({ title, className = '', fontWeight, onClick }: TTile
         type='p'
         fontSize='medium'
         fontWeight={fontWeight}
-        className={`text-neutral-dark text-left ${className}`}
+        className={`${color} text-left ${className}`}
       />
     </div>
   );

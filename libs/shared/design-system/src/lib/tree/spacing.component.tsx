@@ -33,6 +33,11 @@ export const getSpacingClassName = (spacing: TSpacing) => {
     case '4': {
       return 'py-4';
     }
+
+    case 5:
+    case '5': {
+      return 'py-5';
+    }
   }
 };
 

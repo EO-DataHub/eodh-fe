@@ -9,7 +9,7 @@ import { FootprintLayer } from './footprint.layer';
 
 const GeoJsonLayerComponent = () => {
   const setCollection = useFootprintCollectionMutation();
-  const toggleVisibility = useToggleFootprintLayer();
+  const { toggle } = useToggleFootprintLayer();
 
   useEffect(() => {
     setCollection(sentinel1Item1CollectionMock);
@@ -17,7 +17,7 @@ const GeoJsonLayerComponent = () => {
 
   return (
     <div className='ml-4'>
-      <Button onClick={() => toggleVisibility()} text='Toggle Visible' />
+      <Button onClick={() => toggle()} text='Toggle Visible' />
     </div>
   );
 };

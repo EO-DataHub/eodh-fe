@@ -14,4 +14,4 @@ export type TTree = PropsWithChildren<{
   expandable?: boolean;
 }>;
 
-export type TSpacing = '0.5' | '1' | '1.5' | '2' | '3' | '4' | 1 | 2 | 3 | 4;
+export type TSpacing = '0.5' | '1' | '1.5' | '2' | '3' | '4' | '5' | 0 | 1 | 2 | 3 | 4 | 5;

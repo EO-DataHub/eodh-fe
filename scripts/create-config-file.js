@@ -24,8 +24,6 @@ const configOutputFilePath = `${distPath}/config.js`;
 const configDirPath = path.dirname(configOutputFilePath);
 const configFilePath = path.join(configDirPath, path.basename(configOutputFilePath));
 
-console.log('distPath', distPath);
-
 function generateConfigString(config) {
   return `const config = (() => (${config}))();`;
 }

@@ -58,13 +58,17 @@ export const Subtree = ({ title, slots, children, expanded, className = '', onEx
 type TCollapsableTreeLevelProps = TTree & { expanded?: boolean };
 
 export const TreeLevel = ({ title, slots, children, className = '' }: TCollapsableTreeLevelProps) => {
-  const { level, expanded, setExpanded } = useContext(TreeContext);
+  const { level, disabled, expanded, setExpanded } = useContext(TreeContext);
 
   const toggle = useCallback(
     (value: boolean) => {
+      if (disabled) {
+        return;
+      }
+
       setExpanded(value);
     },
-    [setExpanded]
+    [disabled, setExpanded]
   );
 
   return (

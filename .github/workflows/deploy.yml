@@ -37,6 +37,15 @@ jobs:
         with:
           name: image-ukri
           path: ${{ github.workspace }}/dist/apps/eodh-fe
+      - name: 'Replace tokens in index.html file'
+        uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '%'
+          tokenSuffix: '%'
+          files: '["**/*.html"]'
+        env:
+          VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Create config file'
         run: npm run config:create
         shell: bash
@@ -77,6 +86,15 @@ jobs:
         with:
           name: image-ukri
           path: ${{ github.workspace }}/dist/apps/eodh-fe
+      - name: 'Replace tokens in index.html file'
+        uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '%'
+          tokenSuffix: '%'
+          files: '["**/*.html"]'
+        env:
+          VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Create config file'
         run: npm run config:create
         shell: bash
@@ -118,6 +136,15 @@ jobs:
         with:
           name: image-ukri
           path: ${{ github.workspace }}/dist/apps/eodh-fe
+      - name: 'Replace tokens in index.html file'
+        uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '%'
+          tokenSuffix: '%'
+          files: '["**/*.html"]'
+        env:
+          VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Create config file'
         run: npm run config:create
         shell: bash
@@ -159,6 +186,15 @@ jobs:
         with:
           name: image-ukri
           path: ${{ github.workspace }}/dist/apps/eodh-fe
+      - name: 'Replace tokens in index.html file'
+        uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '%'
+          tokenSuffix: '%'
+          files: '["**/*.html"]'
+        env:
+          VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Create config file'
         run: npm run config:create
         shell: bash
