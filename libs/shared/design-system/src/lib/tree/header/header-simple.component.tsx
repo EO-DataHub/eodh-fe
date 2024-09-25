@@ -3,6 +3,7 @@ import { memo, PropsWithChildren, useContext } from 'react';
 import { getSpacingClassName } from '../spacing.component';
 import { TreeContext } from '../tree.component';
 import { TSlots, TSpacing, TTree } from '../tree.model';
+import { Indent } from './indent.component';
 import { Slots } from './slots.component';
 import { Title } from './title.component';
 
@@ -16,7 +17,7 @@ const classNames = {
     `ms-4 ps-3 before:start-[-4px] relative before:absolute before:top-0 before:w-[1px] before:-ms-px before:h-full before:bg-bright-dark ${getSpacingClassName(
       spacing
     )}`,
-  wrapper: 'flex items-center gap-x-3',
+  wrapper: 'items-center gap-x-3',
 };
 
 export const HeaderSimple = memo(({ title, slots, children }: THeaderSimpleProps) => {
@@ -28,11 +29,11 @@ export const HeaderSimple = memo(({ title, slots, children }: THeaderSimpleProps
 
   return (
     <div className={classNames.container(spacing)}>
-      <div className={classNames.wrapper}>
+      <Indent className={classNames.wrapper}>
         <Slots slots={slots} position='title:before' disabled={disabled} />
         <Title title={title} fontWeight='regular' disabled={disabled} />
         <Slots slots={slots} position='title:after' disabled={disabled} />
-      </div>
+      </Indent>
     </div>
   );
 });
