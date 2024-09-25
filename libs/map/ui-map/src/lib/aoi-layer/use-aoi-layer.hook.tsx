@@ -1,22 +1,22 @@
 import { useAoiLayerVisible, useCurrentAoi, useCurrentAoiMutation } from '@ukri/map/data-access-map';
 import Feature from 'ol/Feature';
-import Geometry from 'ol/geom/Geometry';
-import { Draw, Modify } from 'ol/interaction.js';
-import { DrawEvent } from 'ol/interaction/Draw.js';
+import { Draw } from 'ol/interaction.js';
+import { DrawEvent } from 'ol/interaction/Draw';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { aoiLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
-import { TAoiLayer } from './aoi-layer.component';
+import { TVectorLayer } from './aoi-layer.component';
 
 export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
-export const useAoiLayer = ({ draw, setDraw }: TAoiLayer) => {
+export const useAoiLayer = () => {
   const map = useContext(MapContext);
   const visible = useAoiLayerVisible();
-  const [layer, setLayer] = useState<VectorLayer<Feature<Geometry>> | undefined>(undefined);
+  const [draw, setDraw] = useState<TDraw | undefined>(undefined);
+  const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
   const shape = useCurrentAoi();
   const setShape = useCurrentAoiMutation();
@@ -36,21 +36,6 @@ export const useAoiLayer = ({ draw, setDraw }: TAoiLayer) => {
       map.removeLayer(newLayer);
     };
   }, [map]);
-
-  useEffect(() => {
-    if (!source) {
-      return;
-    }
-
-    const modify = new Modify({ source });
-    modify.on('modifyend', (event) => setShape(event.features.pop()?.getGeometry()));
-
-    map.addInteraction(modify);
-
-    return () => {
-      map.removeInteraction(modify);
-    };
-  }, [map, setShape, source]);
 
   useEffect(() => {
     if (!shape) {
@@ -92,5 +77,13 @@ export const useAoiLayer = ({ draw, setDraw }: TAoiLayer) => {
     layer.setVisible(visible);
   }, [layer, visible]);
 
-  return shape;
+  return useMemo(
+    () => ({
+      layer,
+      draw,
+      setDraw,
+      source,
+    }),
+    [draw, source, layer]
+  );
 };

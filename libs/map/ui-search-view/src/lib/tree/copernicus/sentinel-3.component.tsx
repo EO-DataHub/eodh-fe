@@ -14,7 +14,7 @@ const CloudCoverage = () => {
     <TreeItem
       title={
         <Title
-          title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE'
+          title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE'
           fontWeight='regular'
           disabled={!enabled}
         />
@@ -33,17 +33,17 @@ const CloudCoverage = () => {
 export const Sentinel3 = () => {
   return (
     <SatelliteItem
-      title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.NAME'
+      title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_3.NAME'
       name='dataSets.copernicus.sentinel3.enabled'
       disabled={true}
     >
       <SettingsItem
-        title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.SETTINGS.SLSTR'
+        title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_3.SETTINGS.SLSTR'
         name='dataSets.copernicus.sentinel3.slstr'
       />
       <CloudCoverage />
       <SettingsItem
-        title='MAP.SEARCH_VIEW.COPERNICUS.SENTINEL_3.SETTINGS.OLCI'
+        title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_3.SETTINGS.OLCI'
         name='dataSets.copernicus.sentinel3.olci'
       />
     </SatelliteItem>

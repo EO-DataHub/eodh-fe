@@ -11,6 +11,7 @@ type TTree = {
   spacing: TSpacing;
   expandable: boolean;
   expanded: boolean;
+  disabled: boolean;
   setExpanded: (expanded: boolean | ((expanded: boolean) => boolean)) => void;
 };
 
@@ -19,6 +20,7 @@ export const TreeContext = createContext<TTree>({
   spacing: 2,
   expandable: true,
   expanded: false,
+  disabled: false,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setExpanded: () => {},
 });
@@ -38,6 +40,7 @@ type TTreeProviderProps = PropsWithChildren<{
   level: number;
   expandable?: boolean;
   expanded?: boolean;
+  disabled?: boolean;
 }>;
 
 export const TreeProvider = ({
@@ -45,6 +48,7 @@ export const TreeProvider = ({
   level,
   expandable = true,
   expanded: initiallyExpanded = false,
+  disabled = false,
 }: TTreeProviderProps) => {
   const { spacing } = useContext(TreeRootContext);
   const [expanded, setExpanded] = useState(initiallyExpanded);
@@ -56,7 +60,7 @@ export const TreeProvider = ({
   }, [expandable]);
 
   return (
-    <TreeContext.Provider value={{ level, spacing, expanded, setExpanded, expandable }}>
+    <TreeContext.Provider value={{ level, spacing, expanded, setExpanded, expandable, disabled }}>
       {children}
     </TreeContext.Provider>
   );

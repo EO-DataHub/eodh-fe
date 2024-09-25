@@ -58,6 +58,7 @@ export const useFootprintLayer = (id?: string) => {
       source: vectorSource,
       style: defaultStyle,
       zIndex: footprintsLayerZindex,
+      visible: false,
     });
 
     map.addLayer(newVectorLayer);

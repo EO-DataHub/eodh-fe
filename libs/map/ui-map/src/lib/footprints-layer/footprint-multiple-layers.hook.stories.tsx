@@ -14,15 +14,15 @@ import { FootprintLayer } from './footprint.layer';
 
 const GeoJsonLayerComponent = ({ resultItem, collectionId }: { resultItem: TCollection; collectionId: string }) => {
   const setCollection = useFootprintCollectionMutation();
-  const toggleVisibility = useToggleFootprintLayer();
+  const { toggle } = useToggleFootprintLayer();
 
   useEffect(() => {
     setCollection(resultItem, collectionId);
   }, [resultItem, collectionId, setCollection]);
 
   const handleToggleVisibility = useCallback(() => {
-    toggleVisibility(collectionId);
-  }, [collectionId, toggleVisibility]);
+    toggle(collectionId);
+  }, [collectionId, toggle]);
 
   return (
     <div className='ml-4'>

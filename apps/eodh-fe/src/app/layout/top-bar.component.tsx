@@ -6,18 +6,14 @@ import {
   DrawRectangleButton,
   ToggleLayerButton,
 } from '@ukri/map/ui-map';
-import { useFeatureFlag } from '@ukri/shared/utils/feature-flag';
 
 import { Login } from './authorization/login.component';
 import { Logo } from './logo.component';
 
 export const TopBar = () => {
-  const canUseClearButton = useFeatureFlag('clearLayerButton');
-  const canUseToggleLayerButton = useFeatureFlag('toggleLayerButton');
-
   return (
-    <div className='w-full bg-background border-b-[1px] border-bright-mid flex items-center text-text divide-bright-mid divide-x divide-x-reverse'>
-      <div className='w-[360px] box-content h-full bg-bright-main flex items-center border-bright-mid border-r-[1px]'>
+    <div className='w-full bg-background border-b-[1px] border-bright-dark flex items-center text-text divide-bright-dark divide-x divide-x-reverse'>
+      <div className='w-[360px] box-content h-full bg-bright-main flex items-center border-bright-dark border-r-[1px]'>
         <a className='ml-4 my-4 no-underline' href='/'>
           <Logo className='h-11' />
         </a>
@@ -26,8 +22,8 @@ export const TopBar = () => {
         <DrawRectangleButton />
         <DrawCircleButton />
         <DrawPolygonButton />
-        {canUseClearButton && <ClearButton />}
-        {canUseToggleLayerButton && <ToggleLayerButton />}
+        <ClearButton />
+        <ToggleLayerButton />
       </AoiLayer>
       <Login className='ml-auto' />
     </div>

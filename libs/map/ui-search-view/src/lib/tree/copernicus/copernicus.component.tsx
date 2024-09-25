@@ -11,45 +11,53 @@ import { Sentinel5P } from './sentinel-5p.component';
 const name = 'dataSets.copernicus.enabled';
 
 export const Copernicus = () => {
-  const { register, setValue, trigger } = useFormContext<TFormDefaultValues>();
+  const { register, setValue } = useFormContext<TFormDefaultValues>();
   const { field } = useController<TFormDefaultValues>({ name });
   const sentinel1 = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel1.enabled' });
   const sentinel2 = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel2.enabled' });
+  const copernicusSelectedIcon = useMemo(() => (sentinel1 && sentinel2 ? 'Check' : 'Remove'), [sentinel1, sentinel2]);
 
   const toggleSentinels = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
+      const options = { shouldValidate: true, shouldDirty: true, shouldTouch: true };
+      let value = event.target.checked;
+
       // todo add Sentinel 3 and Sentinel 5P when they will be supported by api
-      setValue('dataSets.copernicus.sentinel1.enabled', event.target.checked);
-      setValue('dataSets.copernicus.sentinel2.enabled', event.target.checked);
-      trigger('dataSets.copernicus.sentinel1.enabled');
-      trigger('dataSets.copernicus.sentinel2.enabled');
-      field.onChange(event);
+      if (!event.target.checked && sentinel1 && sentinel2) {
+        value = false;
+      } else if (field.value && (sentinel1 || sentinel2)) {
+        value = true;
+      }
+
+      setValue('dataSets.copernicus.sentinel1.enabled', value, options);
+      setValue('dataSets.copernicus.sentinel2.enabled', value, options);
+      field.onChange({ ...event, target: { ...event.target, checked: value } });
     },
-    [field, setValue, trigger]
+    [field, sentinel1, sentinel2, setValue]
   );
 
   const slots = useMemo(
     (): TSlots => [
       {
         position: 'title:after',
-        element: <Checkbox {...register(name)} onChange={toggleSentinels} />,
+        element: <Checkbox {...register(name)} icon={copernicusSelectedIcon} onChange={toggleSentinels} />,
         key: 'checkbox',
       },
     ],
-    [register, toggleSentinels]
+    [copernicusSelectedIcon, register, toggleSentinels]
   );
 
   useEffect(() => {
     // todo add Sentinel 3 and Sentinel 5P when they will be supported by api
-    if (!!field.value && (!sentinel1 || !sentinel2)) {
-      setValue(name, false);
-    } else if (!field.value && sentinel1 && sentinel2) {
+    if (sentinel1 || sentinel2) {
       setValue(name, true);
+    } else if (!sentinel1 && !sentinel2) {
+      setValue(name, false);
     }
-  }, [field.value, sentinel1, sentinel2, setValue]);
+  }, [sentinel1, sentinel2, setValue]);
 
   return (
-    <TreeItem title='MAP.SEARCH_VIEW.COPERNICUS.NAME' slots={slots} expanded={true}>
+    <TreeItem title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.NAME' slots={slots} expanded={true}>
       <Sentinel1 />
       <Sentinel2 />
       <Sentinel3 />

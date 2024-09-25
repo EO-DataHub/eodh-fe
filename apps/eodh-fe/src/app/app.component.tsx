@@ -1,6 +1,5 @@
 import { AppLoader } from '@ukri/shared/design-system';
 import { AuthInterceptor, AuthProvider, KeycloakAdapter } from '@ukri/shared/utils/authorization';
-import { FeatureFlagProvider } from '@ukri/shared/utils/feature-flag';
 import { initHttpClient, withQueryClient } from '@ukri/shared/utils/react-query';
 import { Suspense } from 'react';
 import { I18nextProvider } from 'react-i18next';
@@ -14,15 +13,13 @@ initHttpClient(getEnvConfig().module.http, [new AuthInterceptor(keycloakAdapter)
 
 export function App() {
   return (
-    <FeatureFlagProvider featureFlags={getEnvConfig().feature}>
-      <AuthProvider adapter={keycloakAdapter}>
-        <Suspense fallback={<AppLoader />}>
-          <I18nextProvider i18n={i18n}>
-            <DefaultLayout />
-          </I18nextProvider>
-        </Suspense>
-      </AuthProvider>
-    </FeatureFlagProvider>
+    <AuthProvider adapter={keycloakAdapter}>
+      <Suspense fallback={<AppLoader />}>
+        <I18nextProvider i18n={i18n}>
+          <DefaultLayout />
+        </I18nextProvider>
+      </Suspense>
+    </AuthProvider>
   );
 }
 

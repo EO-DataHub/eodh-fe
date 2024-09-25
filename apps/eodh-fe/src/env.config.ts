@@ -1,5 +1,3 @@
-type TFeatureFlag = 'true' | 'false' | boolean;
-
 declare const config: {
   baseUrl: string;
   apiUrl: string;
@@ -11,12 +9,6 @@ declare const config: {
     url: string;
     realm: string;
     clientId: string;
-  };
-  feature: {
-    search: TFeatureFlag;
-    actionCreator: TFeatureFlag;
-    toggleLayerButton: TFeatureFlag;
-    clearLayerButton: TFeatureFlag;
   };
 };
 
@@ -37,12 +29,6 @@ interface IEnvConfig {
     http: {
       baseUrl: string;
     };
-  };
-  feature: {
-    search: TFeatureFlag;
-    actionCreator: TFeatureFlag;
-    toggleLayerButton: TFeatureFlag;
-    clearLayerButton: TFeatureFlag;
   };
 }
 
@@ -89,24 +75,6 @@ export const getEnvConfig = (): IEnvConfig => ({
     http: {
       baseUrl: getValue<string>(import.meta.env.VITE_API_URL, config?.apiUrl, ''),
     },
-  },
-  feature: {
-    search: getValue<TFeatureFlag>(import.meta.env.VITE_FEATURE_FLAG_SEARCH, config?.feature.search, 'false'),
-    actionCreator: getValue<TFeatureFlag>(
-      import.meta.env.VITE_FEATURE_FLAG_ACTION_CREATOR,
-      config?.feature.actionCreator,
-      false
-    ),
-    toggleLayerButton: getValue<TFeatureFlag>(
-      import.meta.env.VITE_FEATURE_FLAG_TOGGLE_LAYER_BUTTON,
-      config?.feature.toggleLayerButton,
-      false
-    ),
-    clearLayerButton: getValue<TFeatureFlag>(
-      import.meta.env.VITE_FEATURE_FLAG_CLEAR_LAYER_BUTTON,
-      config?.feature.clearLayerButton,
-      false
-    ),
   },
 });
 
