@@ -8,12 +8,10 @@ export const Workflow = () => {
   return (
     <WorkflowProvider>
       <section className='text-text-primary flex justify-center'>
-        <div>
-          <NodeArea />
-          <NodeDataSet />
-          <NodeDateRange />
-          <NodeFunction />
-        </div>
+        <NodeArea />
+        <NodeDataSet />
+        <NodeDateRange />
+        <NodeFunction />
       </section>
     </WorkflowProvider>
   );
