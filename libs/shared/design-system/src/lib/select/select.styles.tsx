@@ -2,7 +2,7 @@ export const selectStyles = {
   container: 'relative w-64 text-action-creator-body',
 
   selectWrapper: (error?: string) =>
-    `absolute border w-full rounded bg-bright py-[7px] ${
+    `absolute border w-full rounded bg-bright py-0.5 ${
       error ? 'border-error' : 'border-bright-dark'
     } focus:border-primary-light focus:ring-primary-light focus:ring-[3px]`,
 

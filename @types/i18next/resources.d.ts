@@ -73,6 +73,24 @@ interface Resources {
             RUN_ACTION_CREATOR: 'Run Action Creator';
           };
         };
+        NODE: {
+          AREA: {
+            TITLE: 'Area';
+            INSTRUCTIONS: 'Use the drawing tools to define an area of interest';
+          };
+          DATA_SET: {
+            TITLE: 'Data Set';
+            INSTRUCTIONS: 'Select a data set to search for';
+          };
+          DATE_RANGE: {
+            TITLE: 'Date Range';
+            INSTRUCTIONS: 'Select the date range for the search';
+          };
+          FUNCTION: {
+            TITLE: 'Function';
+            INSTRUCTIONS: 'Select a function to apply to the data set';
+          };
+        };
       };
       SEARCH_MODE_PANEL: {
         HEADER: {

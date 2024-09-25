@@ -74,11 +74,28 @@
         }
       },
       "NODE": {
-        "TITLE": {
-          "AREA": "Area",
-          "DATA_SET": "Data set",
-          "DATE_RANGE": "Date range",
-          "FUNCTION": "Function"
+        "AREA": {
+          "TITLE": "Area",
+          "INSTRUCTIONS": "Use the drawing tools to define an area of interest"
+        },
+        "DATA_SET": {
+          "TITLE": "Data Set",
+          "INSTRUCTIONS": "Select a data set"
+        },
+        "DATE_RANGE": {
+          "TITLE": "Date Range",
+          "INSTRUCTIONS": "Select a start and end date range"
+        },
+        "FUNCTION": {
+          "TITLE": "Function",
+          "OPTIONS": {
+            "NDVI": "NDVI",
+            "FALSE_COLOUR": "False colour (urban)",
+            "MOISTURE_INDEX": "Moisture index",
+            "SWIR": "SWIR",
+            "NDWI": "NDWI",
+            "NDSI": "NDSI"
+          }
         }
       }
     },
