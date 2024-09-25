@@ -7,12 +7,14 @@ import { NodeFunction } from './node-function.component';
 export const Workflow = () => {
   return (
     <WorkflowProvider>
-      <section className='text-text-primary flex justify-center'>
-        <NodeArea />
-        <NodeDataSet />
-        <NodeDateRange />
-        <NodeFunction />
-      </section>
+      <div className='flex justify-center'>
+        <section className='text-text-primary flex justify-center flex-col'>
+          <NodeArea />
+          <NodeDataSet />
+          <NodeDateRange />
+          <NodeFunction />
+        </section>
+      </div>
     </WorkflowProvider>
   );
 };
