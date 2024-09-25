@@ -74,29 +74,29 @@
         }
       },
       "NODE": {
-          "AREA":{
-            "TITLE": "Area",
-            "INSTRUCTIONS": "Use the drawing tools to define an area of interest"
-          },
-          "DATA_SET": {
-            "TITLE": "Data Set",
-            "INSTRUCTIONS": "Select a data set"
-          },
-          "DATE_RANGE": {
-            "TITLE": "Date Range",
-            "INSTRUCTIONS": "Select a start and end date range"
-          },
-          "FUNCTION": {
-            "TITLE": "Function",
-            "OPTIONS": {
-              "NDVI": "NDVI" ,
-              "FALSE_COLOUR": "False colour (urban)",
-              "MOISTURE_INDEX": "Moisture index",
-              "SWIR": "SWIR",
-              "NDWI": "NDWI",
-              "NDSI": "NDSI"
-            }
+        "AREA": {
+          "TITLE": "Area",
+          "INSTRUCTIONS": "Use the drawing tools to define an area of interest"
+        },
+        "DATA_SET": {
+          "TITLE": "Data Set",
+          "INSTRUCTIONS": "Select a data set"
+        },
+        "DATE_RANGE": {
+          "TITLE": "Date Range",
+          "INSTRUCTIONS": "Select a start and end date range"
+        },
+        "FUNCTION": {
+          "TITLE": "Function",
+          "OPTIONS": {
+            "NDVI": "NDVI",
+            "FALSE_COLOUR": "False colour (urban)",
+            "MOISTURE_INDEX": "Moisture index",
+            "SWIR": "SWIR",
+            "NDWI": "NDWI",
+            "NDSI": "NDSI"
           }
+        }
       }
     },
     "SEARCH_MODE_PANEL": {

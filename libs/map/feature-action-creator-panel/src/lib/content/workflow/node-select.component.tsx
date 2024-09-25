@@ -3,8 +3,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface INodeSelectProps {
-  visible?: boolean;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 }
 
 const labelPath = 'MAP.ACTION_CREATOR_PANEL.NODE.FUNCTION.OPTIONS';
@@ -24,7 +23,9 @@ export const NodeSelect = ({ onChange }: INodeSelectProps) => {
   }, [t]);
 
   const handleChange = (value?: string | null) => {
-    onChange(value || '');
+    if (onChange) {
+      onChange(value || '');
+    }
   };
 
   return <Select className='w-full h-[26px]' options={options} onChange={handleChange} />;
