@@ -11,7 +11,6 @@ export default meta;
 export const SampleCheckbox = {
   args: {
     id: 'primary',
-    initialChecked: true,
     disabled: false,
     label: 'Sample label',
   },

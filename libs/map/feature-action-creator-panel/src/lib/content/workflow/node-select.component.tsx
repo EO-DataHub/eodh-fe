@@ -1,5 +1,5 @@
 import { Select } from '@ukri/shared/design-system';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface INodeSelectProps {
@@ -22,11 +22,14 @@ export const NodeSelect = ({ onChange }: INodeSelectProps) => {
     ];
   }, [t]);
 
-  const handleChange = (value?: string | null) => {
-    if (onChange) {
-      onChange(value || '');
-    }
-  };
+  const handleChange = useCallback(
+    (value?: string | null) => {
+      if (onChange) {
+        onChange(value || '');
+      }
+    },
+    [onChange]
+  );
 
   return <Select className='w-full h-[26px]' options={options} onChange={handleChange} />;
 };

@@ -18,7 +18,7 @@ interface ISliderProps {
   name: string;
   max?: number | string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
 }
 
@@ -47,6 +47,12 @@ export const Slider = forwardRef(
       [onChange]
     );
 
+    const handleMouseUp = useCallback(() => {
+      if (innerRef.current) {
+        innerRef.current.blur();
+      }
+    }, []);
+
     useEffect(() => {
       setSliderValue(innerRef?.current ? parseInt(innerRef.current.value) : 0);
     }, [innerRef]);
@@ -61,6 +67,7 @@ export const Slider = forwardRef(
           max={max}
           onChange={handleChange}
           onBlur={onBlur}
+          onMouseUp={handleMouseUp}
           className='design-system__slider-range-input'
           style={{ background: getBackgroundStyle }}
           disabled={disabled}

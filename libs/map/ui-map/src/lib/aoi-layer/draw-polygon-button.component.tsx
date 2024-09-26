@@ -10,17 +10,21 @@ export const DrawPolygonButton = () => {
   const { draw, setDraw } = useContext(AoiLayerContext);
   const mode = useAoiMode();
   const disabled = useMemo(() => mode !== 'search', [mode]);
+  const selected = useMemo(() => draw?.type === 'polygon', [draw?.type]);
 
   const drawPolygon = useCallback(() => {
+    if (draw?.type === 'polygon') {
+      setDraw(undefined);
+      return;
+    }
+
     const polygon = new Draw({
       geometryName: 'Polygon',
       type: 'Polygon',
     });
 
     setDraw({ draw: polygon, type: 'polygon' });
-  }, [setDraw]);
-
-  const selected = useMemo(() => draw?.type === 'polygon', [draw?.type]);
+  }, [draw, setDraw]);
 
   return (
     <DrawButton selected={selected} disabled={disabled} onClick={drawPolygon}>

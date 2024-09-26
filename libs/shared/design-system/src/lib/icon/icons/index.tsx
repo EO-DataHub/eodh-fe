@@ -6,6 +6,7 @@ export { default as ArrowDropDown } from './arrow-drop-down';
 export { default as Bolt } from './bolt';
 export { default as Calendar } from './calendar';
 export { default as Check } from './check';
+export { default as CheckedCircle } from './checkek-circle';
 export { default as Circle } from './circle';
 export { default as Close } from './close';
 export { default as Cloud } from './cloud';
