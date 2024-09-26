@@ -1,3 +1,4 @@
+import { Tooltip, useOnboarding } from '@ukri/map/feature-action-creator-panel';
 import {
   AoiLayer,
   ClearButton,
@@ -7,10 +8,13 @@ import {
   ToggleLayerButton,
 } from '@ukri/map/ui-map';
 
+// import { Tooltip } from '@ukri/shared/design-system';
 import { Login } from './authorization/login.component';
 import { Logo } from './logo.component';
 
 export const TopBar = () => {
+  const { onboardingSteps } = useOnboarding();
+
   return (
     <div className='w-full bg-background border-b-[1px] border-bright-mid flex items-center text-text divide-bright-mid divide-x divide-x-reverse'>
       <div className='w-[360px] box-content h-full bg-bright-main flex items-center border-bright-mid border-r-[1px]'>
@@ -18,10 +22,19 @@ export const TopBar = () => {
           <Logo className='h-11' />
         </a>
       </div>
+
       <AoiLayer>
-        <DrawRectangleButton />
-        <DrawCircleButton />
-        <DrawPolygonButton />
+        <Tooltip
+          tipLocation='top'
+          id={onboardingSteps.DRAWING_TOOLS.id}
+          content={onboardingSteps.DRAWING_TOOLS.content}
+        >
+          <>
+            <DrawRectangleButton />
+            <DrawCircleButton />
+            <DrawPolygonButton />
+          </>
+        </Tooltip>
         <ClearButton />
         <ToggleLayerButton />
       </AoiLayer>

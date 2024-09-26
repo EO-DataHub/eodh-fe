@@ -22,7 +22,7 @@ export const Onboarding: React.FC = () => {
   };
 
   return (
-    <Tooltip id={onboardingSteps[currentStep].id} content={onboardingSteps[currentStep].content}>
+    <Tooltip id={onboardingSteps[currentStep].id} content={onboardingSteps[currentStep].content} tipLocation='top'>
       <button onClick={handleNext}>{currentStep < onboardingSteps.length - 1 ? 'Next' : 'Finish'}</button>
     </Tooltip>
   );

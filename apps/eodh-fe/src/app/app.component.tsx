@@ -1,3 +1,4 @@
+import { OnboardingProvider } from '@ukri/map/feature-action-creator-panel';
 import { AppLoader } from '@ukri/shared/design-system';
 import { AuthInterceptor, AuthProvider, KeycloakAdapter } from '@ukri/shared/utils/authorization';
 import { initHttpClient, withQueryClient } from '@ukri/shared/utils/react-query';
@@ -16,7 +17,9 @@ export function App() {
     <AuthProvider adapter={keycloakAdapter}>
       <Suspense fallback={<AppLoader />}>
         <I18nextProvider i18n={i18n}>
-          <DefaultLayout />
+          <OnboardingProvider>
+            <DefaultLayout />
+          </OnboardingProvider>
         </I18nextProvider>
       </Suspense>
     </AuthProvider>

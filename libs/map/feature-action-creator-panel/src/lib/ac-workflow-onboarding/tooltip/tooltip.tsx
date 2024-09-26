@@ -1,8 +1,7 @@
+import { Icon } from '@ukri/shared/design-system';
 import clsx from 'clsx';
-import { PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
-
-import { Icon } from '../icon/icon';
-import { tooltip } from './tooltip.styles';
+import { PropsWithChildren, useCallback, useState } from 'react';
+// import { tooltip } from './tooltip.styles';
 
 type TTipLocation = 'top' | 'bottom' | 'left' | 'right';
 
@@ -25,12 +24,16 @@ export const Tooltip = ({ tipLocation, content, id, children }: PropsWithChildre
   };
 
   const handleClose = useCallback(() => {
-    setIsOpen(false);
-  }, []);
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  }, [isOpen]);
 
   return (
     <div className='relative'>
-      <div data-tooltip-id={id}>{children}</div>
+      <div data-tooltip-id={id} onClick={handleClose}>
+        {children}
+      </div>
       {isOpen && (
         <div
           className={clsx(
