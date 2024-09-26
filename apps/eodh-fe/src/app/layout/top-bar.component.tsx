@@ -1,4 +1,4 @@
-import { Tooltip, useOnboarding } from '@ukri/map/feature-action-creator-panel';
+import { OnboardingTooltip, useOnboarding } from '@ukri/map/feature-action-creator-panel';
 import {
   AoiLayer,
   ClearButton,
@@ -24,8 +24,9 @@ export const TopBar = () => {
       </div>
 
       <AoiLayer>
-        <Tooltip
+        <OnboardingTooltip
           tipLocation='top'
+          // change 'id' to 'stepName'
           id={onboardingSteps.DRAWING_TOOLS.id}
           content={onboardingSteps.DRAWING_TOOLS.content}
         >
@@ -34,7 +35,7 @@ export const TopBar = () => {
             <DrawCircleButton />
             <DrawPolygonButton />
           </>
-        </Tooltip>
+        </OnboardingTooltip>
         <ClearButton />
         <ToggleLayerButton />
       </AoiLayer>

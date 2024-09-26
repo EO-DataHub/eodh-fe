@@ -1,15 +1,23 @@
 import React, { ReactNode, useState } from 'react';
 
-import { Icon } from '../icon/icon';
+import { Icon, TIconNames } from '../icon/icon';
 import { notificationStyles } from './notification.styles';
 
 interface INotificationProps {
   type: 'error' | 'warning' | 'success' | 'information' | 'general';
   children: ReactNode | string;
   className?: string;
+  iconName?: TIconNames;
+  closeButtonVisible?: boolean;
 }
 
-export const Notification = ({ type, children, className }: INotificationProps) => {
+export const Notification = ({
+  type,
+  children,
+  className,
+  iconName = 'Warning',
+  closeButtonVisible = true,
+}: INotificationProps) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClose = () => {
@@ -23,11 +31,13 @@ export const Notification = ({ type, children, className }: INotificationProps) 
   return (
     <div className={className}>
       <div className={`${notificationStyles.container} ${notificationStyles.type[type]}`}>
-        <Icon name='Warning' />
+        <Icon name={iconName} />
         <div className={notificationStyles.content}>{children}</div>
-        <button onClick={handleClose} className='absolute top-2 right-2'>
-          <Icon name='Close' />
-        </button>
+        {closeButtonVisible && (
+          <button onClick={handleClose} className='absolute top-2 right-2'>
+            <Icon name='Close' />
+          </button>
+        )}
       </div>
     </div>
   );

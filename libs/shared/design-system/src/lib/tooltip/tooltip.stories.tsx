@@ -12,9 +12,16 @@ const meta: Meta<typeof Tooltip> = {
       },
       options: ['top', 'bottom', 'left', 'right'],
     },
-    text: {
+    content: {
       control: {
         type: 'text',
+        default: 'Sample text',
+      },
+    },
+    isOpen: {
+      control: {
+        type: 'boolean',
+        default: true,
       },
     },
   },
@@ -23,7 +30,8 @@ export default meta;
 
 export const SampleTooltip = {
   args: {
-    text: 'Sample text',
+    content: 'Sample text',
     tipLocation: 'top',
+    id: 'sample-tooltip',
   },
 };
