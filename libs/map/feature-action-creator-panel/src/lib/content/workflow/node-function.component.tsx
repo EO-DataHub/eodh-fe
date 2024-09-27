@@ -22,21 +22,21 @@ export const NodeFunction = () => {
   return (
     <div onClick={handleClick}>
       <Node type='function'>
-        {/* {showInput && ( */}
-        <OnboardingTooltip
-          tipLocation='right'
-          stepName='FUNCTION_DROPDOWN'
-          content={t(`MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS.FUNCTION_DROPDOWN`)}
-          handleClicked={onboardingNextStep}
-          className='top-0 left-[-110px]'
-        >
-          <NodeSelect
-            onChange={() => {
-              return;
-            }}
-          />
-        </OnboardingTooltip>
-        {/* )} */}
+        {showInput && (
+          <OnboardingTooltip
+            tipLocation='right'
+            stepName='FUNCTION_DROPDOWN'
+            content={t(`MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS.FUNCTION_DROPDOWN`)}
+            handleClicked={onboardingNextStep}
+            className='top-0 left-[-110px]'
+          >
+            <NodeSelect
+              onChange={() => {
+                return;
+              }}
+            />
+          </OnboardingTooltip>
+        )}
       </Node>
     </div>
   );
