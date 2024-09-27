@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 export const tooltip = {
-  baseStyles: `absolute bg-blue-500 text-white p-4 rounded-lg shadow-lg flex justify-between items-center before:content-[''] before:absolute before:border-8 before:border-transparent w-52`,
+  baseStyles: `absolute bg-primary text-primary-contrastText p-3 rounded-lg shadow-lg flex justify-between items-center before:content-[''] before:absolute before:border-8 before:border-transparent w-52`,
   arrowStyles: {
     top: 'before:bottom-full before:left-[calc(50%-8px)]  before:border-b-blue-500',
     bottom: 'before:top-full before:left-[calc(50%-8px)]  before:border-t-blue-500',

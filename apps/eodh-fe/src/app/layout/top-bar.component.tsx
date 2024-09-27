@@ -1,4 +1,3 @@
-import { OnboardingTooltip, useOnboarding } from '@ukri/map/feature-action-creator-panel';
 import {
   AoiLayer,
   ClearButton,
@@ -7,13 +6,15 @@ import {
   DrawRectangleButton,
   ToggleLayerButton,
 } from '@ukri/map/ui-map';
+import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
+import { useTranslation } from 'react-i18next';
 
-// import { Tooltip } from '@ukri/shared/design-system';
 import { Login } from './authorization/login.component';
 import { Logo } from './logo.component';
 
 export const TopBar = () => {
-  const { onboardingSteps } = useOnboarding();
+  const { onboardingNextStep } = useOnboarding();
+  const { t } = useTranslation();
 
   return (
     <div className='w-full bg-background border-b-[1px] border-bright-dark flex items-center text-text divide-bright-dark divide-x divide-x-reverse'>
@@ -26,9 +27,10 @@ export const TopBar = () => {
       <AoiLayer>
         <OnboardingTooltip
           tipLocation='top'
-          // change 'id' to 'stepName'
-          id={onboardingSteps.DRAWING_TOOLS.id}
-          content={onboardingSteps.DRAWING_TOOLS.content}
+          stepName='DRAWING_TOOLS'
+          content={t(`MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS.DRAWING_TOOLS`)}
+          handleClicked={onboardingNextStep}
+          className='bottom-[-50px]'
         >
           <>
             <DrawRectangleButton />

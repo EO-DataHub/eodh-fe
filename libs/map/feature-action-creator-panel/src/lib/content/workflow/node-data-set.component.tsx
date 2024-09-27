@@ -1,3 +1,4 @@
+import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -14,6 +15,7 @@ export const NodeDataSet = ({ value }: INodeDataSetProps) => {
   const [showInput, setShowInput] = useState(false);
   const { enabledNodes, setNodeSelected } = useContext(Workflow);
   const { t } = useTranslation();
+  const { onboardingNextStep } = useOnboarding();
   const instructions = t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.INSTRUCTIONS');
 
   const handleClick = useCallback(() => {
@@ -31,10 +33,18 @@ export const NodeDataSet = ({ value }: INodeDataSetProps) => {
   }, [value]);
 
   return (
-    <div onClick={handleClick}>
-      <Node type='dataSet' text={text}>
-        {showInput && <NodeInput iconName='Satellite' value={value} />}
-      </Node>
-    </div>
+    <OnboardingTooltip
+      tipLocation='right'
+      stepName='DATA_SET_NODE'
+      content={t(`MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS.DATA_SET_NODE`)}
+      handleClicked={onboardingNextStep}
+      className='top-0 left-[-110px]'
+    >
+      <div onClick={handleClick}>
+        <Node type='dataSet' text={text}>
+          {showInput && <NodeInput iconName='Satellite' value={value} />}
+        </Node>
+      </div>
+    </OnboardingTooltip>
   );
 };

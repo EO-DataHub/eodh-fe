@@ -1,7 +1,9 @@
 import { Button, Checkbox, Notification, Text } from '@ukri/shared/design-system';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
+import { useOnboarding } from '../ac-workflow-onboarding.context';
 
 type TChecklistForm = {
   permanentHidden: boolean;
@@ -14,19 +16,25 @@ const defaultValues: TChecklistForm = {
 const contentPath = 'MAP.ACTION_CREATOR_PANEL.ONBOARDING.MODAL';
 
 export const OnboardingModal = () => {
+  const [isOpen, setIsOpen] = useState(true);
   // const { register, handleSubmit, reset } = useForm<TChecklistForm>({ defaultValues });
   const { register, handleSubmit } = useForm<TChecklistForm>({ defaultValues });
   const { t } = useTranslation();
+  const { onboardingComplete, onboardingNextStep } = useOnboarding();
 
   const onNoClick = useCallback(() => {
-    // eslint-disable-next-line no-console
-    console.log('No, let me explore on my own');
-  }, []);
+    onboardingComplete();
+    setIsOpen(false);
+  }, [onboardingComplete]);
 
   const onYesClick = useCallback(() => {
-    // eslint-disable-next-line no-console
-    console.log('Yes, show tooltips');
-  }, []);
+    onboardingNextStep();
+    setIsOpen(false);
+  }, [onboardingNextStep]);
+
+  if (!isOpen) {
+    return;
+  }
 
   return (
     <div className='fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50 pb-16'>

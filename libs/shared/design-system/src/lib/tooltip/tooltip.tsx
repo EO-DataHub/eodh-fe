@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 
 import { Icon } from '../icon/icon';
+import { Text } from '../text/text';
 import { tooltip } from './tooltip.styles';
 
 type TTipLocation = 'top' | 'bottom' | 'left' | 'right';
@@ -29,7 +30,7 @@ export const Tooltip = ({ tipLocation, content, isOpen, className }: PropsWithCh
   return (
     isTooltipOpen && (
       <div className={clsx(tooltip.getTooltipStyles(tipLocation), className)}>
-        <span>{content}</span>
+        <Text content={content} type='p' fontSize='medium' fontWeight='semibold' />
         <button className='ml-2' onClick={handleClose}>
           <Icon name='Close' />
         </button>

@@ -1,3 +1,4 @@
+import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -15,6 +16,7 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
   const [showInput, setShowInput] = useState(false);
   const { enabledNodes, setNodeSelected } = useContext(Workflow);
   const { t } = useTranslation();
+  const { onboardingNextStep } = useOnboarding();
   const instructions = t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.INSTRUCTIONS');
 
   const handleClick = useCallback(() => {
@@ -32,10 +34,18 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
   }, [value, shape]);
 
   return (
-    <div onClick={handleClick}>
-      <Node type='area' text={text}>
-        {showInput && <NodeInput iconName={shape} value={value} />}
-      </Node>
-    </div>
+    <OnboardingTooltip
+      tipLocation='right'
+      stepName='AREA_NODE'
+      content={t(`MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS.AREA_NODE`)}
+      handleClicked={onboardingNextStep}
+      className='top-0 left-[-110px]'
+    >
+      <div onClick={handleClick}>
+        <Node type='area' text={text}>
+          {showInput && <NodeInput iconName={shape} value={value} />}
+        </Node>
+      </div>
+    </OnboardingTooltip>
   );
 };

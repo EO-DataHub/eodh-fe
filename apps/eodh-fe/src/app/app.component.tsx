@@ -1,5 +1,5 @@
-import { OnboardingProvider } from '@ukri/map/feature-action-creator-panel';
 import { AppLoader } from '@ukri/shared/design-system';
+import { OnboardingProvider } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { AuthInterceptor, AuthProvider, KeycloakAdapter } from '@ukri/shared/utils/authorization';
 import { initHttpClient, withQueryClient } from '@ukri/shared/utils/react-query';
 import { Suspense } from 'react';

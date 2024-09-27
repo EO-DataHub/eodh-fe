@@ -100,7 +100,7 @@
       },
       "ONBOARDING": {
         "STEPS": {
-          "AREA_NODE": "Click here to begin using the Action Creator!",
+          "AREA_NODE": "Click here to begin using the Action Creator",
           "DRAWING_TOOLS": "Select a drawing tool",
           "DATA_SET_NODE": "Now click to select the next node and choose a Data Set",
           "DATA_SET_PANEL": "Select a Data Set from the list. Configure settings using the cog icon.",
