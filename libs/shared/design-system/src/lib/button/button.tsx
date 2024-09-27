@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { on } from 'events';
 import isString from 'lodash/isString';
 import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
