@@ -23,33 +23,33 @@ export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children
   const onboardingSteps = useMemo(() => {
     return {
       AREA_NODE: {
-        id: 'step1',
-        step_number: 1,
+        step_name: 'AREA_NODE',
+        next_step: 'DRAWING_TOOLS',
         content: t(`${contentPath}.AREA_NODE`),
       },
       DRAWING_TOOLS: {
-        id: 'step2',
-        step_number: 2,
+        step_name: 'DRAWING_TOOLS',
+        next_step: 'DATA_SET_NODE',
         content: t(`${contentPath}.DRAWING_TOOLS`),
       },
       DATA_SET_NODE: {
-        id: 'step3',
-        step_number: 3,
+        step_name: 'DATA_SET_NODE',
+        next_step: 'DATA_SET_PANEL',
         content: t(`${contentPath}.DATA_SET_NODE`),
       },
       DATA_SET_PANEL: {
-        id: 'step4',
-        step_number: 4,
+        step_name: 'DATA_SET_PANEL',
+        next_step: 'DATE_RANGE_PICKER',
         content: t(`${contentPath}.DATA_SET_PANEL`),
       },
       DATE_RANGE_PICKER: {
-        id: 'step5',
-        step_number: 5,
+        step_name: 'DATE_RANGE_PICKER',
+        next_step: 'FUNCTION_DROPDOWN',
         content: t(`${contentPath}.DATE_RANGE_PICKER`),
       },
       FUNCTION_DROPDOWN: {
-        id: 'step6',
-        step_number: 6,
+        step_name: 'FUNCTION_DROPDOWN',
+        next_step: null,
         content: t(`${contentPath}.FUNCTION_DROPDOWN`),
       },
     };
