@@ -3,7 +3,6 @@ import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-on
 import get from 'lodash/get';
 import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 
 import { TFormDefaultValues } from '../form.model';
 import { styles } from './date-range-picker.styles';
@@ -23,13 +22,12 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
     getValues,
     trigger,
   } = useFormContext<TFormDefaultValues>();
-  const { onboardingNextStep } = useOnboarding();
+  const { onboardingNextStep, onboardingSteps } = useOnboarding();
   const [isOpen, setIsOpen] = useState(true);
   const dateFrom = getValues('date.from');
   const dateTo = getValues('date.to');
   const dateFromError = get(errors, 'date.from');
   const dateToError = get(errors, 'date.to');
-  const { t } = useTranslation();
 
   const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);
@@ -66,8 +64,8 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
       {isOpen && (
         <OnboardingTooltip
           tipLocation='left'
-          stepName='DATE_RANGE_PICKER'
-          content={t(`MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS.DATE_RANGE_PICKER`)}
+          stepName={onboardingSteps.DATE_RANGE_PICKER.step_name}
+          content={onboardingSteps.DATE_RANGE_PICKER.tooltip_text}
           handleClicked={onboardingNextStep}
           className='bottom-0 left-[470px] !fixed'
         >

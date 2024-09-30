@@ -16,7 +16,7 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
   const [showInput, setShowInput] = useState(false);
   const { enabledNodes, setNodeSelected } = useContext(Workflow);
   const { t } = useTranslation();
-  const { onboardingNextStep } = useOnboarding();
+  const { onboardingNextStep, onboardingSteps } = useOnboarding();
   const instructions = t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.INSTRUCTIONS');
 
   const handleClick = useCallback(() => {
@@ -36,8 +36,8 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
   return (
     <OnboardingTooltip
       tipLocation='right'
-      stepName='AREA_NODE'
-      content={t(`MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS.AREA_NODE`)}
+      stepName={onboardingSteps.AREA_NODE.step_name}
+      content={onboardingSteps.AREA_NODE.tooltip_text}
       handleClicked={onboardingNextStep}
       className='top-0 left-[-110px]'
     >

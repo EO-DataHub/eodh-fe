@@ -15,7 +15,7 @@ export const NodeDataSet = ({ value }: INodeDataSetProps) => {
   const [showInput, setShowInput] = useState(false);
   const { enabledNodes, setNodeSelected } = useContext(Workflow);
   const { t } = useTranslation();
-  const { onboardingNextStep } = useOnboarding();
+  const { onboardingNextStep, onboardingSteps } = useOnboarding();
   const instructions = t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.INSTRUCTIONS');
 
   const handleClick = useCallback(() => {
@@ -35,8 +35,8 @@ export const NodeDataSet = ({ value }: INodeDataSetProps) => {
   return (
     <OnboardingTooltip
       tipLocation='right'
-      stepName='DATA_SET_NODE'
-      content={t(`MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS.DATA_SET_NODE`)}
+      stepName={onboardingSteps.DATA_SET_NODE.step_name}
+      content={onboardingSteps.DATA_SET_NODE.tooltip_text}
       handleClicked={onboardingNextStep}
       className='top-0 left-[-110px]'
     >
