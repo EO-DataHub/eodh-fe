@@ -1,3 +1,4 @@
+import isNumber from 'lodash/isNumber';
 import { useCallback, useMemo, useState } from 'react';
 
 import { Button } from '../button/button';
@@ -96,7 +97,7 @@ export const ResultItem = ({
   }, [onAddToCompare, isAddedForComparison, onRemoveFromCompare]);
 
   const cloudCoverageValue = useMemo(() => {
-    return typeof cloudCoverage === 'number' ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage;
+    return isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage;
   }, [cloudCoverage]);
 
   return (
