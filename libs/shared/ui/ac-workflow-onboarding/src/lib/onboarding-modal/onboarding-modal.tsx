@@ -1,15 +1,16 @@
 import { Button, Checkbox, Notification, Text } from '@ukri/shared/design-system';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useOnboarding } from '../ac-workflow-onboarding.context';
+import { useAcOnboardingState, useToggleOnboardingVisibility } from '../ac-workflow-onboarding.store';
 
-type TChecklistForm = {
+type TOnboardingForm = {
   permanentHidden: boolean;
 };
 
-const defaultValues: TChecklistForm = {
+const defaultValues: TOnboardingForm = {
   permanentHidden: false,
 };
 
@@ -17,49 +18,65 @@ const contentPath = 'MAP.ACTION_CREATOR_PANEL.ONBOARDING.MODAL';
 
 export const OnboardingModal = () => {
   const [isOpen, setIsOpen] = useState(true);
-  // const { register, handleSubmit, reset } = useForm<TChecklistForm>({ defaultValues });
-  const { register, handleSubmit } = useForm<TChecklistForm>({ defaultValues });
+  const { register, handleSubmit, reset, watch } = useForm<TOnboardingForm>({ defaultValues });
   const { t } = useTranslation();
   const { onboardingComplete, onboardingNextStep } = useOnboarding();
+  const { permanentHidden } = useAcOnboardingState();
+  const toggleVisibility = useToggleOnboardingVisibility();
+  const permanentHiddenOnboarding = watch('permanentHidden');
 
   const onNoClick = useCallback(() => {
     onboardingComplete();
     setIsOpen(false);
-  }, [onboardingComplete]);
+    toggleVisibility(permanentHiddenOnboarding);
+  }, [onboardingComplete, permanentHiddenOnboarding, toggleVisibility]);
 
   const onYesClick = useCallback(() => {
     onboardingNextStep();
     setIsOpen(false);
-  }, [onboardingNextStep]);
+    toggleVisibility(permanentHiddenOnboarding);
+  }, [onboardingNextStep, permanentHiddenOnboarding, toggleVisibility]);
 
-  if (!isOpen) {
+  useEffect(() => {
+    reset();
+  }, [reset]);
+
+  if (!isOpen || permanentHidden) {
     return;
   }
 
   return (
-    <div className='fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50 pb-16'>
-      <Notification type='general' iconName='Info' closeButtonVisible={false} className='max-w-[530px]'>
-        <Text className='mb-5' type='p' fontSize='medium' fontWeight='semibold' content={t(`${contentPath}.CONTENT`)} />
-        <Checkbox label={t(`${contentPath}.DONT_SHOW_IT_AGAIN`)} {...register('permanentHidden')} />
-        <div className='mt-5 flex justify-end'>
-          <Button
-            size='large'
-            appearance='outlined'
-            type='submit'
-            onClick={handleSubmit(onNoClick)}
-            text={t(`${contentPath}.BUTTON_NO`)}
-            className='!px-3 py-2.5 mr-2.5'
+    <form>
+      <div className='fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50 pb-16'>
+        <Notification type='general' iconName='Info' closeButtonVisible={false} className='max-w-[530px]'>
+          <Text
+            className='mb-5'
+            type='p'
+            fontSize='medium'
+            fontWeight='semibold'
+            content={t(`${contentPath}.CONTENT`)}
           />
-          <Button
-            size='large'
-            appearance='default'
-            type='submit'
-            onClick={handleSubmit(onYesClick)}
-            text={t(`${contentPath}.BUTTON_YES`)}
-            className='!px-3 py-2.5'
-          />
-        </div>
-      </Notification>
-    </div>
+          <Checkbox label={t(`${contentPath}.DONT_SHOW_IT_AGAIN`)} {...register('permanentHidden')} />
+          <div className='mt-5 flex justify-end'>
+            <Button
+              size='large'
+              appearance='outlined'
+              type='submit'
+              onClick={handleSubmit(onNoClick)}
+              text={t(`${contentPath}.BUTTON_NO`)}
+              className='!px-3 py-2.5 mr-2.5'
+            />
+            <Button
+              size='large'
+              appearance='default'
+              type='submit'
+              onClick={handleSubmit(onYesClick)}
+              text={t(`${contentPath}.BUTTON_YES`)}
+              className='!px-3 py-2.5'
+            />
+          </div>
+        </Notification>
+      </div>
+    </form>
   );
 };
