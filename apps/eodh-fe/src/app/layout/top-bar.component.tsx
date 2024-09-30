@@ -30,11 +30,9 @@ export const TopBar = () => {
           handleClicked={onboardingNextStep}
           className='bottom-[-50px]'
         >
-          <>
-            <DrawRectangleButton />
-            <DrawCircleButton />
-            <DrawPolygonButton />
-          </>
+          <DrawRectangleButton />
+          <DrawCircleButton />
+          <DrawPolygonButton />
         </OnboardingTooltip>
         <ClearButton />
         <ToggleLayerButton />
