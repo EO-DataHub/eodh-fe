@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import isString from 'lodash/isString';
-import { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../icon/icon';
@@ -13,6 +13,7 @@ import {
   getShadowStyles,
   getSizeStyles,
 } from './button.styles';
+import { useSafariFix } from './use-safari-fix.hook';
 
 interface IButtonProps {
   text: string | ReactNode;
@@ -38,7 +39,9 @@ export const Button = ({
   disabled = false,
   type = 'button',
 }: IButtonProps) => {
-  const [isActive, setIsActive] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const { isActive, setIsActive } = useSafariFix({ buttonRef });
+  // const [isActive, setIsActive] = useState(false);
   const baseStyles = getBaseStyles(disabled, appearance, isActive);
   const displayStyles = getDisplayStyles();
   const shadowStyles = getShadowStyles(appearance);
@@ -46,7 +49,6 @@ export const Button = ({
   const sizeStyles = getSizeStyles(size, appearance);
   const disabledStyles = getDisabledStyles(disabled, appearance);
   const { t } = useTranslation();
-  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const content = useMemo(() => {
     if (!isString(text)) {
@@ -74,20 +76,7 @@ export const Button = ({
     if (onClick) {
       onClick();
     }
-  }, [onClick, disabled]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: { target: unknown }) => {
-      if (buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
-        setIsActive(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [buttonRef]);
+  }, [onClick, disabled, setIsActive]);
 
   return (
     <button ref={buttonRef} type={type} className={combinedStyles} onClick={handleClick} disabled={disabled}>
