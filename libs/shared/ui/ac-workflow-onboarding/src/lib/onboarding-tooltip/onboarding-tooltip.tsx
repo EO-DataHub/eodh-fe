@@ -1,13 +1,13 @@
 import { Tooltip } from '@ukri/shared/design-system';
 import { PropsWithChildren, useCallback, useState } from 'react';
 
-import { TOnboardingStepsNames, useOnboarding } from '../ac-workflow-onboarding.context';
+import { TStepName, useOnboarding } from '../ac-workflow-onboarding.context';
 
 type TTipLocation = 'top' | 'bottom' | 'left' | 'right';
 
 interface IOnboardingTooltipProps {
   content: string;
-  stepName: TOnboardingStepsNames;
+  stepName: TStepName;
   tipLocation: TTipLocation;
   className?: string;
   handleClicked?: () => void;

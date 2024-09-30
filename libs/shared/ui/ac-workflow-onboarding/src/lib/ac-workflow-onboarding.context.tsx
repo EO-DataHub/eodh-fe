@@ -9,7 +9,7 @@ interface IOnboardingContextType {
   onboardingSteps: TOnboardingSteps;
 }
 
-type TStepName =
+export type TStepName =
   | 'NOT_STARTED'
   | 'AREA_NODE'
   | 'DRAWING_TOOLS'
