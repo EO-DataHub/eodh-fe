@@ -41,7 +41,6 @@ export const Button = ({
 }: IButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { isActive, setIsActive } = useSafariFix({ buttonRef });
-  // const [isActive, setIsActive] = useState(false);
   const baseStyles = getBaseStyles(disabled, appearance, isActive);
   const displayStyles = getDisplayStyles();
   const shadowStyles = getShadowStyles(appearance);
