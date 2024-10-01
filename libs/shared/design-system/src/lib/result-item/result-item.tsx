@@ -1,3 +1,4 @@
+import isNumber from 'lodash/isNumber';
 import { useCallback, useMemo, useState } from 'react';
 
 import { Button } from '../button/button';
@@ -95,6 +96,10 @@ export const ResultItem = ({
     }
   }, [onAddToCompare, isAddedForComparison, onRemoveFromCompare]);
 
+  const cloudCoverageValue = useMemo(() => {
+    return isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage;
+  }, [cloudCoverage]);
+
   return (
     <div
       className={`flex bg-bright-light p-4 rounded-md max-w-96 border-[3px] ${
@@ -107,7 +112,7 @@ export const ResultItem = ({
           <ResultItemInfo value={collectionName} iconName='Satellite' />
           <ResultItemInfo value={date} iconName='Calendar' />
           <ResultItemInfo value={time} iconName='Schedule' />
-          {cloudCoverage && <ResultItemInfo value={`${cloudCoverage.toFixed(2)}%`} iconName='Cloud' />}
+          {cloudCoverageValue && <ResultItemInfo value={cloudCoverageValue} iconName='Cloud' />}
           {gridCode && <ResultItemInfo value={gridCode} iconName='Map' />}
         </div>
         <div className='flex justify-between mt-auto'>
