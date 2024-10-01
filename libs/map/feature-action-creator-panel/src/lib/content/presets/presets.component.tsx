@@ -7,6 +7,7 @@ export const Presets = () => {
         imageUrl='/assets/images/imageSample2.png'
         title='Sample title message'
         description='Some super interesting sample description to preset functionality'
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         onLoadPresetClick={() => {}}
       />
     </section>
