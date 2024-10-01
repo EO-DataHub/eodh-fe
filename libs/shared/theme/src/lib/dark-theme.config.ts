@@ -19,7 +19,7 @@ const colors = {
   text: {
     DEFAULT: '#606060',
     primary: '#606060',
-    secondary: '#A3A3A3',
+    light: '#A3A3A3',
     disabled: '#B4BBCA',
   },
   background: {
