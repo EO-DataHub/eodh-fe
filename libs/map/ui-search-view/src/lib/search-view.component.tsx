@@ -1,10 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Icon } from '@ukri/shared/design-system';
 import debounce from 'lodash/debounce';
-import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
-import { AnyZodObject } from 'zod';
 
 import { AreaOfInterest } from './aoi.component';
 import { useChecklistState, useShowChecklist } from './checklist/checklist.store';
@@ -12,7 +10,7 @@ import { useSyncChecklistState } from './checklist/use-checklist.hook';
 import { DateRangePicker } from './date-range-picker/date-range-picker.component';
 import { defaultValues as defaultData } from './form.default-data';
 import { TFormDefaultValues } from './form.model';
-import { TForm } from './form.schema';
+import { TForm, updateSchema } from './form.schema';
 import { Tree } from './tree/tree.component';
 
 const minDate = new Date('1972-01-01');
@@ -22,7 +20,7 @@ type TSearchPanelProps = {
   defaultValues?: TFormDefaultValues | TForm;
   schema: {
     name: string;
-    schema: AnyZodObject;
+    schema: typeof updateSchema;
   };
   onSubmit: (data: TForm) => unknown | Promise<unknown>;
   onChange?: (data: TForm | TFormDefaultValues) => unknown | Promise<unknown>;
@@ -56,15 +54,26 @@ const useFormUpdate = (
   }, [values, handleChange]);
 };
 
-const useDefaultValues = (defaultValues: TFormDefaultValues | TForm = defaultData, schema: AnyZodObject) => {
+const useDefaultValues = (defaultValues: TFormDefaultValues | TForm = defaultData, schema: typeof updateSchema) => {
   return useMemo(() => {
-    const parse = schema.partial().safeParse(defaultValues);
+    const values: TFormDefaultValues | TForm = { ...defaultData } as TFormDefaultValues | TForm;
+    const aoi = schema.pick({ aoi: true }).safeParse(defaultValues);
+    const dataSets = schema.pick({ dataSets: true }).safeParse(defaultValues);
+    const date = schema.pick({ date: true }).safeParse(defaultValues);
 
-    if (parse.success) {
-      return defaultValues;
+    if (aoi.success) {
+      values.aoi = defaultValues.aoi;
     }
 
-    return defaultData;
+    if (dataSets.success) {
+      values.dataSets = defaultValues.dataSets;
+    }
+
+    if (date.success) {
+      values.date = defaultValues.date;
+    }
+
+    return values;
   }, [defaultValues, schema]);
 };
 
@@ -95,8 +104,6 @@ export const SearchView = ({
     if (currentSchema !== schema.name) {
       form.reset({ ...parsedValues }, { keepDefaultValues: true });
       setCurrentSchema(schema.name);
-    } else if (!isEqual(parsedValues, defaultData)) {
-      form.trigger();
     }
   }, [schema.name, form, currentSchema, parsedValues]);
 
