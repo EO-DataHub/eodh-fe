@@ -10,10 +10,7 @@ export const Sentinel1 = () => {
   const iw = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel1.acquisitionMode.iw' });
 
   return (
-    <SatelliteItem
-      title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.NAME'
-      name='dataSets.copernicus.sentinel1.enabled'
-    >
+    <SatelliteItem title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.NAME' name='dataSets.copernicus.sentinel1'>
       <SettingsSection title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.ACQUISITION_MODE'>
         <SettingsItem
           title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.EW'

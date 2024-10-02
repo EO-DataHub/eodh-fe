@@ -2,23 +2,65 @@ import isFunction from 'lodash/isFunction';
 import { createContext, PropsWithChildren, SetStateAction, useCallback, useState } from 'react';
 
 export type TTreeSettings = {
-  'dataSets.copernicus.sentinel1.enabled': boolean;
-  'dataSets.copernicus.sentinel2.enabled': boolean;
-  'dataSets.copernicus.sentinel3.enabled': boolean;
-  'dataSets.copernicus.sentinel5P.enabled': boolean;
-  'dataSets.planet.planetScope.enabled': boolean;
-  'dataSets.planet.skySat.enabled': boolean;
-  'dataSets.planet.rapidEye.enabled': boolean;
+  'dataSets.copernicus.sentinel1': {
+    enabled: boolean;
+    expanded: boolean;
+  };
+  'dataSets.copernicus.sentinel2': {
+    enabled: boolean;
+    expanded: boolean;
+  };
+  'dataSets.copernicus.sentinel3': {
+    enabled: boolean;
+    expanded: boolean;
+  };
+  'dataSets.copernicus.sentinel5P': {
+    enabled: boolean;
+    expanded: boolean;
+  };
+  'dataSets.planet.planetScope': {
+    enabled: boolean;
+    expanded: boolean;
+  };
+  'dataSets.planet.skySat': {
+    enabled: boolean;
+    expanded: boolean;
+  };
+  'dataSets.planet.rapidEye': {
+    enabled: boolean;
+    expanded: boolean;
+  };
 };
 
 export const defaultSettings: TTreeSettings = {
-  'dataSets.copernicus.sentinel1.enabled': false,
-  'dataSets.copernicus.sentinel2.enabled': false,
-  'dataSets.copernicus.sentinel3.enabled': false,
-  'dataSets.copernicus.sentinel5P.enabled': false,
-  'dataSets.planet.planetScope.enabled': false,
-  'dataSets.planet.skySat.enabled': false,
-  'dataSets.planet.rapidEye.enabled': false,
+  'dataSets.copernicus.sentinel1': {
+    enabled: false,
+    expanded: false,
+  },
+  'dataSets.copernicus.sentinel2': {
+    enabled: false,
+    expanded: false,
+  },
+  'dataSets.copernicus.sentinel3': {
+    enabled: false,
+    expanded: false,
+  },
+  'dataSets.copernicus.sentinel5P': {
+    enabled: false,
+    expanded: false,
+  },
+  'dataSets.planet.planetScope': {
+    enabled: false,
+    expanded: false,
+  },
+  'dataSets.planet.skySat': {
+    enabled: false,
+    expanded: false,
+  },
+  'dataSets.planet.rapidEye': {
+    enabled: false,
+    expanded: false,
+  },
 };
 
 type TTreeSettingsContext = {

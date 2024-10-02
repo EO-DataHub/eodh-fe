@@ -7,6 +7,7 @@ export type TFormDefaultValues = {
       enabled: boolean;
       sentinel1: {
         enabled: boolean;
+        expanded: boolean;
         acquisitionMode: {
           ew: boolean;
           hh: boolean;
@@ -22,18 +23,21 @@ export type TFormDefaultValues = {
       };
       sentinel2: {
         enabled: boolean;
+        expanded: boolean;
         l1c: boolean;
         l2a: boolean;
         cloudCoverage: number;
       };
       sentinel3: {
         enabled: boolean;
+        expanded: boolean;
         slstr: boolean;
         cloudCoverage: number;
         olci: boolean;
       };
       sentinel5P: {
         enabled: boolean;
+        expanded: boolean;
         aer_ai: boolean;
         ch4: boolean;
         cloud: boolean;
@@ -48,12 +52,15 @@ export type TFormDefaultValues = {
       enabled: boolean;
       planetScope: {
         enabled: boolean;
+        expanded: boolean;
       };
       skySat: {
         enabled: boolean;
+        expanded: boolean;
       };
       rapidEye: {
         enabled: boolean;
+        expanded: boolean;
       };
     };
   };

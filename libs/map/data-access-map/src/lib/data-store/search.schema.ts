@@ -262,8 +262,7 @@ const dataSetsSchema = z.object({
     }),
   }),
 });
-
-const dateSchema = z
+const dateSchama = z
   .object({
     from: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error),
     to: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error),
@@ -311,10 +310,10 @@ const dateSchema = z
 
 const aoiSchema = z.custom<Geometry>((value) => isObject(value));
 
-export const updateSchema = z.object({
+export const searchSchema = z.object({
   dataSets: dataSetsSchema,
-  date: dateSchema,
+  date: dateSchama,
   aoi: aoiSchema,
 });
 
-export type TForm = z.infer<typeof updateSchema>;
+export type TSearchData = z.infer<typeof searchSchema>;
