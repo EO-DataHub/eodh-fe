@@ -17,7 +17,7 @@ export const Tree = ({ defaultSettings }: TTreeProps) => {
           tipLocation='left'
           stepName={onboardingSteps.DATA_SET_PANEL.step_name}
           content={onboardingSteps.DATA_SET_PANEL.tooltip_text}
-          handleClicked={onboardingNextStep}
+          onClick={onboardingNextStep}
           className='top-[20%] left-[470px] !fixed'
         >
           <PublicData />

@@ -27,7 +27,7 @@ export const TopBar = () => {
           tipLocation='top'
           stepName={onboardingSteps.DRAWING_TOOLS.step_name}
           content={onboardingSteps.DRAWING_TOOLS.tooltip_text}
-          handleClicked={onboardingNextStep}
+          onClick={onboardingNextStep}
           className='bottom-[-50px]'
         >
           <DrawRectangleButton />

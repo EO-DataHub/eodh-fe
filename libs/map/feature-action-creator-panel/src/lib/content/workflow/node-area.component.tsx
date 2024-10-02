@@ -38,7 +38,7 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
       tipLocation='right'
       stepName={onboardingSteps.AREA_NODE.step_name}
       content={onboardingSteps.AREA_NODE.tooltip_text}
-      handleClicked={onboardingNextStep}
+      onClick={onboardingNextStep}
       className='top-0 left-[-110px]'
     >
       <div onClick={handleClick}>

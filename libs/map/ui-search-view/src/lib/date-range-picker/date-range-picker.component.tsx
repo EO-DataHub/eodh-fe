@@ -66,7 +66,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
           tipLocation='left'
           stepName={onboardingSteps.DATE_RANGE_PICKER.step_name}
           content={onboardingSteps.DATE_RANGE_PICKER.tooltip_text}
-          handleClicked={onboardingNextStep}
+          onClick={onboardingNextStep}
           className='bottom-0 left-[470px] !fixed'
         >
           <div className={styles.content}>

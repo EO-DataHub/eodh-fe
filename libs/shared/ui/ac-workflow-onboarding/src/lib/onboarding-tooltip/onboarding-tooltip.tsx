@@ -10,7 +10,7 @@ interface IOnboardingTooltipProps {
   stepName: TStepName;
   tipLocation: TTipLocation;
   className?: string;
-  handleClicked?: () => void;
+  onClick?: () => void;
 }
 
 export const OnboardingTooltip = ({
@@ -18,7 +18,7 @@ export const OnboardingTooltip = ({
   content,
   stepName,
   children,
-  handleClicked,
+  onClick,
   className,
 }: PropsWithChildren<IOnboardingTooltipProps>) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -27,11 +27,11 @@ export const OnboardingTooltip = ({
   const handleClose = useCallback(() => {
     if (isOpen) {
       setIsOpen(false);
-      if (handleClicked) {
-        handleClicked();
+      if (onClick) {
+        onClick();
       }
     }
-  }, [isOpen, handleClicked]);
+  }, [isOpen, onClick]);
 
   return (
     <div className='relative'>

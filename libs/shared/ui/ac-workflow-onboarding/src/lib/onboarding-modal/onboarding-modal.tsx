@@ -25,13 +25,13 @@ export const OnboardingModal = () => {
   const toggleVisibility = useToggleOnboardingVisibility();
   const permanentHiddenOnboarding = watch('permanentHidden');
 
-  const onNoClick = useCallback(() => {
+  const handleNoClick = useCallback(() => {
     onboardingComplete();
     setIsOpen(false);
     toggleVisibility(permanentHiddenOnboarding);
   }, [onboardingComplete, permanentHiddenOnboarding, toggleVisibility]);
 
-  const onYesClick = useCallback(() => {
+  const handleYesClick = useCallback(() => {
     onboardingNextStep();
     setIsOpen(false);
     toggleVisibility(permanentHiddenOnboarding);
@@ -62,7 +62,7 @@ export const OnboardingModal = () => {
               size='large'
               appearance='outlined'
               type='submit'
-              onClick={handleSubmit(onNoClick)}
+              onClick={handleSubmit(handleNoClick)}
               text={t(`${contentPath}.BUTTON_NO`)}
               className='!px-3 py-2.5 mr-2.5'
             />
@@ -70,7 +70,7 @@ export const OnboardingModal = () => {
               size='large'
               appearance='default'
               type='submit'
-              onClick={handleSubmit(onYesClick)}
+              onClick={handleSubmit(handleYesClick)}
               text={t(`${contentPath}.BUTTON_YES`)}
               className='!px-3 py-2.5'
             />

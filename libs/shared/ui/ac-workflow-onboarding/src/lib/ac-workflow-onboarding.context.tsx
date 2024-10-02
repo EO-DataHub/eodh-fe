@@ -1,5 +1,6 @@
-import React, { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import React, { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { start } from 'repl';
 
 interface IOnboardingContextType {
   currentStep: TStepName;
@@ -35,6 +36,7 @@ const OnboardingContext = createContext<IOnboardingContextType | undefined>(unde
 
 export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentStep, setCurrentStep] = useState<TStepName>('NOT_STARTED');
+  const [displayOnboardingModal, setDisplayOnboardingModal] = useState(false);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
   const { t } = useTranslation();
 
@@ -78,6 +80,11 @@ export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children
     }),
     [t]
   );
+
+  const startOnboarding = useCallback(() => {
+    setCurrentStep('AREA_NODE');
+    setDisplayOnboardingModal(true);
+  }, []);
 
   const onboardingNextStep = () => {
     if (currentStep === 'FINISH') {

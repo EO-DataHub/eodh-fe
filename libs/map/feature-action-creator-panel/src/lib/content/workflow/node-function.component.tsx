@@ -25,7 +25,7 @@ export const NodeFunction = () => {
             tipLocation='right'
             stepName={onboardingSteps.FUNCTION_DROPDOWN.step_name}
             content={onboardingSteps.FUNCTION_DROPDOWN.tooltip_text}
-            handleClicked={onboardingNextStep}
+            onClick={onboardingNextStep}
             className='top-0 left-[-110px]'
           >
             <NodeSelect

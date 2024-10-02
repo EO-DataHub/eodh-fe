@@ -37,7 +37,7 @@ export const NodeDataSet = ({ value }: INodeDataSetProps) => {
       tipLocation='right'
       stepName={onboardingSteps.DATA_SET_NODE.step_name}
       content={onboardingSteps.DATA_SET_NODE.tooltip_text}
-      handleClicked={onboardingNextStep}
+      onClick={onboardingNextStep}
       className='top-0 left-[-110px]'
     >
       <div onClick={handleClick}>
