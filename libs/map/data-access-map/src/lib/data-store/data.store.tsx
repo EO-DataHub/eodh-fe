@@ -14,7 +14,7 @@ const useDataStore = create<TDataStore>()(
       (set) => ({
         ...defaultState,
         updateData: (data: TSearchData | undefined) =>
-          set((state) => (data ? { ...state, state: { ...data } } : { ...state, state: undefined })),
+          set((state) => (data ? { ...state, data: { ...data } } : { ...state, data: undefined })),
         updateState: (data: TSearchData | TSearchDefaultValues | undefined) =>
           set((state) => (isEqual(data, state.state) ? state : { ...state, state: data ? { ...data } : state.state })),
         toggleMode: () => set((state): TDataStore => toggleDataStorage(state)),
