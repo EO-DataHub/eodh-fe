@@ -92,17 +92,13 @@ export const SearchView = ({
   useSyncChecklistState(form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
 
   useEffect(() => {
-    if (!isEqual(parsedValues, defaultData)) {
+    if (currentSchema !== schema.name) {
+      form.reset({ ...parsedValues }, { keepDefaultValues: true });
+      setCurrentSchema(schema.name);
+    } else if (!isEqual(parsedValues, defaultData)) {
       form.trigger();
     }
-  }, [form, parsedValues]);
-
-  useEffect(() => {
-    if (currentSchema !== schema.name) {
-      form.reset({ ...defaultValues }, { keepDefaultValues: true });
-      setCurrentSchema(schema.name);
-    }
-  }, [schema.name, form, currentSchema, defaultValues]);
+  }, [schema.name, form, currentSchema, parsedValues]);
 
   return (
     <FormProvider {...form}>

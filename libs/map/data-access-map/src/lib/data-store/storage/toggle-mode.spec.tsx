@@ -35,13 +35,13 @@ const createMemoryStorage = () => {
   };
 };
 
-type TState = Omit<TDataStore<TData>, 'data' | 'updateData' | 'updateState' | 'toggleMode'>;
+type TState = Omit<TDataStore<TData, TData>, 'data' | 'updateData' | 'updateState' | 'toggleMode'>;
 
 describe('toggleMode', () => {
   const setup = (defaultState: Partial<TState> = {}, storageName = 'state') => {
     const memoryStorage = createMemoryStorage();
     const queryStorage = createMemoryStorage();
-    const toggleMode = createToggleStorage<TData>(memoryStorage, queryStorage)(defaultState, storageName);
+    const toggleMode = createToggleStorage<TData, TData>(memoryStorage, queryStorage)(defaultState, storageName);
 
     return { toggleMode, memoryStorage, queryStorage };
   };
@@ -113,7 +113,7 @@ describe('toggleMode', () => {
       const result = toggleMode(currentState);
 
       expect(memoryStorage.getRawItem(currentMode)).toBeNull();
-      expect(result.data).toBe(undefined);
+      expect(result.state).toBe(undefined);
     });
 
     it(`should return prev state when item exists in Memory Storage`, () => {
