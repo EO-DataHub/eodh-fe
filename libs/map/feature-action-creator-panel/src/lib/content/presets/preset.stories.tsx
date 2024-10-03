@@ -17,7 +17,8 @@ const meta: Meta<typeof Preset> = {
     description: {
       control: {
         type: 'text',
-        default: 'Some super interesting sample description to preset functionality. Some super interesting sample description to preset functionality. Some super interesting sample description to preset functionality',
+        default:
+          'Some super interesting sample description to preset functionality. Some super interesting sample description to preset functionality. Some super interesting sample description to preset functionality',
       },
     },
   },
@@ -28,6 +29,7 @@ export const SamplePresetItem = {
   args: {
     imageUrl: imageUrlStoredInPublicAssetsInStorybookHost,
     title: 'Sample title message',
-    description: 'Some super interesting sample description to preset functionality. Some super interesting sample description to preset functionality. Some super interesting sample description to preset functionality',
+    description:
+      'Some super interesting sample description to preset functionality. Some super interesting sample description to preset functionality. Some super interesting sample description to preset functionality',
   },
 };
