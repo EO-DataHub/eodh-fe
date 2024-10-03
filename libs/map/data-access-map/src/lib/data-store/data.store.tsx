@@ -4,8 +4,8 @@ import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 import { defaultState, TDataStore, TSchema } from './data.model';
+import { searchSchema, TSearchData } from './schema/search/search.schema';
 import { TSearchDefaultValues } from './search.model';
-import { searchSchema, TSearchData } from './search.schema';
 import { dataStorage, dataStorageName, toggleDataStorage } from './storage/data.storage';
 
 const useDataStore = create<TDataStore>()(

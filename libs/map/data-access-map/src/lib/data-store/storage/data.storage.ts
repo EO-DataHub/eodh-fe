@@ -2,7 +2,7 @@ import { compact, createDoubleStorage, createQueryStorage } from '@ukri/shared/u
 import cloneDeep from 'lodash/cloneDeep';
 import mergeWith from 'lodash/mergeWith';
 
-import { defaultState } from '../data.model';
+import { defaultState, TDataStore } from '../data.model';
 import { toggleMode } from './toggle-mode';
 
 export const queryStorage = createQueryStorage({
@@ -20,6 +20,10 @@ export const queryStorage = createQueryStorage({
 
 export const dataStorageName = 'appState';
 
-export const toggleDataStorage = toggleMode(localStorage, queryStorage)(defaultState, dataStorageName);
+export const toggleDataStorage = toggleMode<
+  TDataStore['data'],
+  TDataStore['state'],
+  TDataStore<TDataStore['state'], TDataStore['data']>
+>(localStorage, queryStorage)(defaultState, dataStorageName);
 
 export const dataStorage = createDoubleStorage(localStorage, queryStorage);

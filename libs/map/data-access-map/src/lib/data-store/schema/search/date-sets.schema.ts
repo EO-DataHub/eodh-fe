@@ -1,11 +1,8 @@
-import { createDate, TDateString } from '@ukri/shared/utils/date';
-import isObject from 'lodash/isObject';
-import Geometry from 'ol/geom/Geometry';
 import { z } from 'zod';
 
 const notDisplayedErrorMessage = '';
 
-const dataSetsSchema = z.object({
+export const dataSetsSchema = z.object({
   copernicus: z
     .object({
       sentinel1: z
@@ -262,58 +259,3 @@ const dataSetsSchema = z.object({
     }),
   }),
 });
-const dateSchama = z
-  .object({
-    from: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error),
-    to: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error),
-  })
-  .superRefine((schema, ctx) => {
-    const dateFrom = createDate(schema.from);
-    const dateTo = createDate(schema.to);
-
-    if (dateFrom) {
-      const checkDateTo = z.date().min(dateFrom);
-
-      if (checkDateTo.safeParse(dateTo).error) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO',
-          path: ['to'],
-        });
-      }
-    } else {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'GLOBAL.ERRORS.VALIDATION.INVALID_DATE',
-        path: ['from'],
-      });
-    }
-
-    if (dateTo) {
-      const checkDateFrom = z.date().max(dateTo);
-
-      if (checkDateFrom.safeParse(dateFrom).error) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO',
-          path: ['from'],
-        });
-      }
-    } else {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'GLOBAL.ERRORS.VALIDATION.INVALID_DATE',
-        path: ['to'],
-      });
-    }
-  });
-
-const aoiSchema = z.custom<Geometry>((value) => isObject(value));
-
-export const searchSchema = z.object({
-  dataSets: dataSetsSchema,
-  date: dateSchama,
-  aoi: aoiSchema,
-});
-
-export type TSearchData = z.infer<typeof searchSchema>;

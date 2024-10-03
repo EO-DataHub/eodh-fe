@@ -46,7 +46,7 @@ describe('toggleMode', () => {
     return { toggleMode, memoryStorage, queryStorage };
   };
 
-  it(`should switch to next mode when there item not exists in Memory Storage`, () => {
+  it(`should switch to next mode when item does not exists in Memory Storage`, () => {
     const { toggleMode, memoryStorage } = setup();
     const currentMode: TState['mode'] = 'search';
     const currentState: TState = {
@@ -64,7 +64,7 @@ describe('toggleMode', () => {
     expect(memoryStorage.getRawItem(currentMode)).toBeNull();
   });
 
-  it(`should switch to next mode when there item exists in Memory Storage`, () => {
+  it(`should switch to next mode when item exists in Memory Storage`, () => {
     const { toggleMode, memoryStorage } = setup();
     const prevMode: TState['mode'] = 'action-creator';
     const currentState: TState = {
@@ -101,7 +101,7 @@ describe('toggleMode', () => {
   });
 
   describe('while switching to next mode', () => {
-    it(`should clear data when item not exists in Memory Storage`, () => {
+    it(`should clear data when item does not exists in Memory Storage`, () => {
       const { toggleMode, memoryStorage } = setup();
       const currentMode = 'search';
       const currentState: TState = {

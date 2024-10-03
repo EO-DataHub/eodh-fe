@@ -1,11 +1,10 @@
+import { TSearchData } from './schema/search/search.schema';
 import { defaultValues, TSearchDefaultValues } from './search.model';
-import { TSearchData } from './search.schema';
-
 export type TMode = 'search' | 'action-creator';
 export type TSchema = 'search' | 'action-creator';
 
-type TInitialData = TSearchData | TSearchDefaultValues | undefined;
-type TUpdateData = TSearchData | undefined;
+export type TInitialData = TSearchData | TSearchDefaultValues | undefined;
+export type TUpdateData = TSearchData | undefined;
 
 export type TDataStore<T = TInitialData, U = TUpdateData> = {
   mode: TMode;
@@ -13,7 +12,7 @@ export type TDataStore<T = TInitialData, U = TUpdateData> = {
   data: U;
   state: T;
   updateData: (data: U) => void;
-  updateState: (data: T) => void;
+  updateState: (state: T) => void;
   toggleMode: () => void;
 };
 
