@@ -12,7 +12,9 @@ import { Login } from './authorization/login.component';
 import { Logo } from './logo.component';
 
 export const TopBar = () => {
-  const { onboardingNextStep, onboardingSteps } = useOnboarding();
+  const {
+    context: { onboardingNextStep, onboardingSteps },
+  } = useOnboarding();
 
   return (
     <div className='w-full bg-background border-b-[1px] border-bright-dark flex items-center text-text divide-bright-dark divide-x divide-x-reverse'>

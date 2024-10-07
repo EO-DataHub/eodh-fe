@@ -22,7 +22,9 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
     getValues,
     trigger,
   } = useFormContext<TFormDefaultValues>();
-  const { onboardingNextStep, onboardingSteps } = useOnboarding();
+  const {
+    context: { onboardingNextStep, onboardingSteps },
+  } = useOnboarding();
   const [isOpen, setIsOpen] = useState(true);
   const dateFrom = getValues('date.from');
   const dateTo = getValues('date.to');

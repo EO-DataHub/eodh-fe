@@ -20,7 +20,9 @@ export const OnboardingModal = () => {
   const [isOpen, setIsOpen] = useState(true);
   const { register, handleSubmit, reset, watch } = useForm<TOnboardingForm>({ defaultValues });
   const { t } = useTranslation();
-  const { onboardingComplete, onboardingNextStep } = useOnboarding();
+  const {
+    context: { onboardingComplete, onboardingNextStep },
+  } = useOnboarding();
   const { permanentHidden } = useAcOnboardingState();
   const toggleVisibility = useToggleOnboardingVisibility();
   const permanentHiddenOnboarding = watch('permanentHidden');

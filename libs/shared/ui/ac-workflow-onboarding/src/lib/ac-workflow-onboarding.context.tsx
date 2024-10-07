@@ -1,6 +1,5 @@
 import React, { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { start } from 'repl';
 
 interface IOnboardingContextType {
   currentStep: TStepName;
@@ -8,6 +7,9 @@ interface IOnboardingContextType {
   onboardingComplete: () => void;
   onboardingNextStep: () => void;
   onboardingSteps: TOnboardingSteps;
+  updateShouldDisplayOnboardingModal: (collapsed?: boolean, enabled?: boolean) => boolean;
+  displayOnboardingModal: boolean;
+  setDisplayOnboardingModal: (value: boolean) => void;
 }
 
 export type TStepName =
@@ -81,10 +83,12 @@ export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children
     [t]
   );
 
-  const startOnboarding = useCallback(() => {
-    setCurrentStep('AREA_NODE');
-    setDisplayOnboardingModal(true);
-  }, []);
+  const updateShouldDisplayOnboardingModal = useCallback(
+    (collapsed?: boolean, enabled?: boolean) => {
+      return !isOnboardingComplete && currentStep === 'NOT_STARTED' && !collapsed && !enabled;
+    },
+    [currentStep, isOnboardingComplete]
+  );
 
   const onboardingNextStep = () => {
     if (currentStep === 'FINISH') {
@@ -106,6 +110,9 @@ export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children
         onboardingComplete,
         onboardingNextStep,
         onboardingSteps,
+        updateShouldDisplayOnboardingModal,
+        displayOnboardingModal,
+        setDisplayOnboardingModal,
       }}
     >
       {children}
@@ -113,10 +120,16 @@ export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children
   );
 };
 
-export const useOnboarding = () => {
+export const useOnboarding = (collapsed?: boolean, enabled?: boolean) => {
   const context = useContext(OnboardingContext);
   if (context === undefined) {
     throw new Error('useOnboarding must be used within an OnboardingProvider');
   }
-  return context;
+
+  const { updateShouldDisplayOnboardingModal, setDisplayOnboardingModal } = context;
+
+  const displayOnboadingModal = () => {
+    setDisplayOnboardingModal(updateShouldDisplayOnboardingModal(collapsed, enabled));
+  };
+  return { context, displayOnboadingModal };
 };

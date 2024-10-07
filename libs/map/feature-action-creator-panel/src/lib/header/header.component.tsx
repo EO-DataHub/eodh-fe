@@ -1,7 +1,7 @@
 import { Icon, Toggle } from '@ukri/shared/design-system';
 import { OnboardingModal, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useAuth } from '@ukri/shared/utils/authorization';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useContext } from 'react';
 
 import { ActionCreator } from '../action-creator-panel.context';
 import { Tabs } from './tabs.component';
@@ -18,17 +18,17 @@ const ToggleContentButton = () => {
 };
 
 export const Header = () => {
-  const [displayOnboardingModal, setDisplayOnboardingModal] = useState(false);
   const { collapsed, enabled, toggle: toggleMode } = useContext(ActionCreator);
   const { authenticated } = useAuth();
-  const { currentStep, isOnboardingComplete } = useOnboarding();
+  const {
+    context: { displayOnboardingModal },
+    displayOnboadingModal,
+  } = useOnboarding();
 
   const handleToggleAc = useCallback(() => {
-    if (!enabled) {
-      setDisplayOnboardingModal(!isOnboardingComplete && currentStep === 'NOT_STARTED' && !collapsed);
-    }
+    displayOnboadingModal();
     toggleMode();
-  }, [toggleMode, enabled, isOnboardingComplete, currentStep, collapsed]);
+  }, [toggleMode, displayOnboadingModal]);
 
   return (
     <>

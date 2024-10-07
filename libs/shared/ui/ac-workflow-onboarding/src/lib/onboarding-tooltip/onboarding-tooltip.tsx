@@ -22,7 +22,9 @@ export const OnboardingTooltip = ({
   className,
 }: PropsWithChildren<IOnboardingTooltipProps>) => {
   const [isOpen, setIsOpen] = useState(true);
-  const { isOnboardingComplete, currentStep } = useOnboarding();
+  const {
+    context: { isOnboardingComplete, currentStep },
+  } = useOnboarding();
 
   const handleClose = useCallback(() => {
     if (isOpen) {

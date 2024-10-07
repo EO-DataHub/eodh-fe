@@ -8,7 +8,9 @@ import { TreeSettingsProvider, TTreeSettings } from './tree.context';
 type TTreeProps = { defaultSettings?: TTreeSettings };
 
 export const Tree = ({ defaultSettings }: TTreeProps) => {
-  const { onboardingNextStep, onboardingSteps } = useOnboarding();
+  const {
+    context: { onboardingNextStep, onboardingSteps },
+  } = useOnboarding();
 
   return (
     <TreeSettingsProvider defaultSettings={defaultSettings}>

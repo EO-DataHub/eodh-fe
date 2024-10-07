@@ -15,7 +15,9 @@ export const NodeDataSet = ({ value }: INodeDataSetProps) => {
   const [showInput, setShowInput] = useState(false);
   const { enabledNodes, setNodeSelected } = useContext(Workflow);
   const { t } = useTranslation();
-  const { onboardingNextStep, onboardingSteps } = useOnboarding();
+  const {
+    context: { onboardingNextStep, onboardingSteps },
+  } = useOnboarding();
   const instructions = t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.INSTRUCTIONS');
 
   const handleClick = useCallback(() => {

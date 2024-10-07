@@ -8,7 +8,9 @@ import { Workflow } from './workflow.context';
 export const NodeFunction = () => {
   const { enabledNodes, setNodeSelected } = useContext(Workflow);
   const [showInput, setShowInput] = useState(false);
-  const { onboardingNextStep, onboardingSteps } = useOnboarding();
+  const {
+    context: { onboardingNextStep, onboardingSteps },
+  } = useOnboarding();
 
   const handleClick = useCallback(() => {
     if (enabledNodes.includes('function')) {

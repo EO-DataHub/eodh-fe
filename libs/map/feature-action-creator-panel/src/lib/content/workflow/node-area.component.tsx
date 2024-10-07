@@ -16,7 +16,9 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
   const [showInput, setShowInput] = useState(false);
   const { enabledNodes, setNodeSelected } = useContext(Workflow);
   const { t } = useTranslation();
-  const { onboardingNextStep, onboardingSteps } = useOnboarding();
+  const {
+    context: { onboardingNextStep, onboardingSteps },
+  } = useOnboarding();
   const instructions = t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.INSTRUCTIONS');
 
   const handleClick = useCallback(() => {
