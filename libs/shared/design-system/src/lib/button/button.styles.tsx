@@ -1,13 +1,19 @@
-export const getBaseStyles = (disabled: boolean, appearance: 'default' | 'outlined' | 'outlined-white' | 'text') => {
+export const getBaseStyles = (
+  disabled: boolean,
+  appearance: 'default' | 'outlined' | 'outlined-white' | 'text',
+  isActive: boolean
+) => {
   if (disabled) {
     return '';
   }
 
   if (appearance === 'text') {
-    return 'active:outline-[1px] active:outline-primary focus:outline-[1px] focus:outline-primary';
+    return `focus:outline-[1px] focus:outline-primary ${isActive && 'outline-[1px] outline-primary'}`;
   }
 
-  return 'hover:outline hover:outline-[3px] hover:outline-primary-light duration-200 active:outline active:outline-[3px] active:outline-primary-light focus:outline focus:outline-[3px] focus:outline-primary-light';
+  return `hover:outline hover:outline-[3px] hover:outline-primary-light duration-200 focus:outline focus:outline-[3px] focus:outline-primary-light ${
+    isActive && 'outline outline-[3px] outline-primary-light'
+  }`;
 };
 
 export const getDisplayStyles = () => 'flex items-center justify-center';
@@ -22,14 +28,19 @@ export const getShadowStyles = (appearance: 'default' | 'outlined' | 'outlined-w
   return shadowStyles[appearance];
 };
 
-export const getAppearanceStyles = (appearance: 'default' | 'outlined' | 'outlined-white' | 'text') => {
+export const getAppearanceStyles = (
+  appearance: 'default' | 'outlined' | 'outlined-white' | 'text',
+  isActive: boolean
+) => {
   const appearanceStyles = {
     default: 'bg-primary text-primary-contrastText',
-    outlined:
-      'border border-primary hover:border-primary-light active:border-primary-light focus:border-primary-light text-primary',
-    'outlined-white':
-      'border border-primary-contrastText hover:border-primary-light active:border-primary-light focus:border-primary-light text-primary-contrastText',
-    text: 'text-primary underline active:text-primary-light',
+    outlined: `border border-primary hover:border-primary-light focus:border-primary-light text-primary ${
+      isActive && 'border-primary-light'
+    }`,
+    'outlined-white': `border border-primary-contrastText hover:border-primary-light focus:border-primary-light text-primary-contrastText ${
+      isActive && 'border-primary-light'
+    }`,
+    text: `text-primary underline ${isActive && 'border-primary-light'}`,
   };
   return appearanceStyles[appearance];
 };
