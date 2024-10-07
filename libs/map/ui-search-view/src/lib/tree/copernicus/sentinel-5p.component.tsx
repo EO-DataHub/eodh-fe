@@ -5,7 +5,7 @@ export const Sentinel5P = () => {
   return (
     <SatelliteItem
       title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.NAME'
-      name='dataSets.copernicus.sentinel5P.enabled'
+      name='dataSets.copernicus.sentinel5P'
       disabled={true}
     >
       <SettingsItem

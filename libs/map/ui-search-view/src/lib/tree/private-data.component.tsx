@@ -57,17 +57,17 @@ export const PrivateData = () => {
       >
         <SatelliteItem
           title='MAP.SEARCH_VIEW.DATA_SETS.PLANET.PLANET_SCOPE.NAME'
-          name='dataSets.planet.planetScope.enabled'
+          name='dataSets.planet.planetScope'
           disabled={true}
         />
         <SatelliteItem
           title='MAP.SEARCH_VIEW.DATA_SETS.PLANET.SKY_SAT.NAME'
-          name='dataSets.planet.skySat.enabled'
+          name='dataSets.planet.skySat'
           disabled={true}
         />
         <SatelliteItem
           title='MAP.SEARCH_VIEW.DATA_SETS.PLANET.RAPID_EYE.NAME'
-          name='dataSets.planet.rapidEye.enabled'
+          name='dataSets.planet.rapidEye'
           disabled={true}
         />
       </CategoryItem>

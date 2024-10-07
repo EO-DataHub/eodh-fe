@@ -34,7 +34,7 @@ export const Sentinel3 = () => {
   return (
     <SatelliteItem
       title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_3.NAME'
-      name='dataSets.copernicus.sentinel3.enabled'
+      name='dataSets.copernicus.sentinel3'
       disabled={true}
     >
       <SettingsItem

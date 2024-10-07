@@ -9,10 +9,7 @@ export const Sentinel2 = () => {
   const { register } = useFormContext<TFormDefaultValues>();
 
   return (
-    <SatelliteItem
-      title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.NAME'
-      name='dataSets.copernicus.sentinel2.enabled'
-    >
+    <SatelliteItem title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.NAME' name='dataSets.copernicus.sentinel2'>
       <SettingsItem
         title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.L1C'
         name='dataSets.copernicus.sentinel2.l1c'

@@ -13,3 +13,4 @@ export {
   useToggleFootprintLayer,
   useFootprintCollectionMutation,
 } from './lib/footprint.store';
+export { useData, useMode } from './lib/data-store/data.store';
