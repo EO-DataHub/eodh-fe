@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Meta, StoryObj } from '@storybook/react';
+import { OnboardingProvider } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { memo, useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -53,6 +54,13 @@ const TreeTemplate: StoryObj<TTreeTemplate> = {
 const meta: Meta<TTreeTemplate> = {
   component: TreeTemplate.render,
   title: 'libs/map/ui-search-view/Tree',
+  decorators: [
+    (Story) => (
+      <OnboardingProvider>
+        <Story />
+      </OnboardingProvider>
+    ),
+  ],
 };
 export default meta;
 

@@ -26,6 +26,7 @@
       "@ukri/map/ui-search-view": ["libs/map/ui-search-view/src/index.ts"],
       "@ukri/shared/design-system": ["libs/shared/design-system/src/index.ts"],
       "@ukri/shared/theme": ["libs/shared/theme/src/index.ts"],
+      "@ukri/shared/ui/ac-workflow-onboarding": ["libs/shared/ui/ac-workflow-onboarding/src/index.ts"],
       "@ukri/shared/utils/authorization": ["libs/shared/utils/authorization/src/index.ts"],
       "@ukri/shared/utils/date": ["libs/shared/utils/date/src/index.ts"],
       "@ukri/shared/utils/react-query": ["libs/shared/utils/react-query/src/index.ts"],

@@ -20,3 +20,4 @@ export type { TSlots } from './lib/tree/tree.model';
 export { Notification } from './lib/notification/notification';
 export { Error } from './lib/error/error';
 export { ResultItem, type IResultItemProps } from './lib/result-item/result-item';
+export { Tooltip } from './lib/tooltip/tooltip';

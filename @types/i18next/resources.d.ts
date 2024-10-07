@@ -13,7 +13,8 @@ interface Resources {
         };
         RESULT_ITEM: {
           NO_IMAGE: 'No image';
-          BUTTON: 'View';
+          BUTTON_SHOW: 'View';
+          BUTTON_HIDE: 'Hide';
           ADD_TO_COMPARE: 'Add to compare';
           REMOVE_COMPARE: 'Remove compare';
         };
@@ -80,15 +81,38 @@ interface Resources {
           };
           DATA_SET: {
             TITLE: 'Data Set';
-            INSTRUCTIONS: 'Select a data set to search for';
+            INSTRUCTIONS: 'Select a data set';
           };
           DATE_RANGE: {
             TITLE: 'Date Range';
-            INSTRUCTIONS: 'Select the date range for the search';
+            INSTRUCTIONS: 'Select a start and end date range';
           };
           FUNCTION: {
             TITLE: 'Function';
-            INSTRUCTIONS: 'Select a function to apply to the data set';
+            OPTIONS: {
+              NDVI: 'NDVI';
+              FALSE_COLOUR: 'False colour (urban)';
+              MOISTURE_INDEX: 'Moisture index';
+              SWIR: 'SWIR';
+              NDWI: 'NDWI';
+              NDSI: 'NDSI';
+            };
+          };
+        };
+        ONBOARDING: {
+          STEPS: {
+            AREA_NODE: 'Click here to begin using the Action Creator.';
+            DRAWING_TOOLS: 'Select a drawing tool.';
+            DATA_SET_NODE: 'Now click to select the next node and choose a Data Set.';
+            DATA_SET_PANEL: 'Select a Data Set from the list. Configure settings using the cog icon.';
+            DATE_RANGE_PICKER: 'Select a start and end date range. You can narrow your selection after the Action Creator has run.';
+            FUNCTION_DROPDOWN: 'Click here to select a Function.';
+          };
+          MODAL: {
+            CONTENT: 'The Action Creator is a complex workflow generation tool. We’ve tried to make it as intuitive as possible to use, but if you prefer, we have included helpful tooltips to guide you through the process. Would you like to work with tooltips?';
+            DONT_SHOW_IT_AGAIN: 'Don’t show again';
+            BUTTON_YES: 'Yes, show tooltips';
+            BUTTON_NO: 'No, let me explore on my own';
           };
         };
       };
