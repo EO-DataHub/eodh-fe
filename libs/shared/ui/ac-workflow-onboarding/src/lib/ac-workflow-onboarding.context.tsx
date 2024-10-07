@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 interface IOnboardingContextType {
   currentStep: TStepName;
   isOnboardingComplete: boolean;
-  onboardingComplete: () => void;
-  onboardingNextStep: () => void;
+  completeOnboarding: () => void;
+  goToNextOnboardingStep: () => void;
   onboardingSteps: TOnboardingSteps;
   updateShouldDisplayOnboardingModal: (collapsed?: boolean, enabled?: boolean) => boolean;
   displayOnboardingModal: boolean;
@@ -90,15 +90,15 @@ export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children
     [currentStep, isOnboardingComplete]
   );
 
-  const onboardingNextStep = () => {
+  const goToNextOnboardingStep = () => {
     if (currentStep === 'FINISH') {
-      onboardingComplete();
+      completeOnboarding();
     } else {
       setCurrentStep(onboardingSteps[currentStep].next_step as TStepName);
     }
   };
 
-  const onboardingComplete = () => {
+  const completeOnboarding = () => {
     setIsOnboardingComplete(true);
   };
 
@@ -107,8 +107,8 @@ export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children
       value={{
         currentStep,
         isOnboardingComplete,
-        onboardingComplete,
-        onboardingNextStep,
+        completeOnboarding,
+        goToNextOnboardingStep,
         onboardingSteps,
         updateShouldDisplayOnboardingModal,
         displayOnboardingModal,

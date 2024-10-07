@@ -9,7 +9,7 @@ type TTreeProps = { defaultSettings?: TTreeSettings };
 
 export const Tree = ({ defaultSettings }: TTreeProps) => {
   const {
-    context: { onboardingNextStep, onboardingSteps },
+    context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
 
   return (
@@ -19,7 +19,7 @@ export const Tree = ({ defaultSettings }: TTreeProps) => {
           tipLocation='left'
           stepName={onboardingSteps.DATA_SET_PANEL.step_name}
           content={onboardingSteps.DATA_SET_PANEL.tooltip_text}
-          onClick={onboardingNextStep}
+          onClick={goToNextOnboardingStep}
           className='top-[20%] left-[470px] !fixed'
         >
           <PublicData />

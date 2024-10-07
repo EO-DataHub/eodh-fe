@@ -17,7 +17,7 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
   const { enabledNodes, setNodeSelected } = useContext(Workflow);
   const { t } = useTranslation();
   const {
-    context: { onboardingNextStep, onboardingSteps },
+    context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const instructions = t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.INSTRUCTIONS');
 
@@ -40,7 +40,7 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
       tipLocation='right'
       stepName={onboardingSteps.AREA_NODE.step_name}
       content={onboardingSteps.AREA_NODE.tooltip_text}
-      onClick={onboardingNextStep}
+      onClick={goToNextOnboardingStep}
       className='top-0 left-[-110px]'
     >
       <div onClick={handleClick}>

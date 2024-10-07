@@ -9,7 +9,7 @@ export const NodeFunction = () => {
   const { enabledNodes, setNodeSelected } = useContext(Workflow);
   const [showInput, setShowInput] = useState(false);
   const {
-    context: { onboardingNextStep, onboardingSteps },
+    context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
 
   const handleClick = useCallback(() => {
@@ -27,7 +27,7 @@ export const NodeFunction = () => {
             tipLocation='right'
             stepName={onboardingSteps.FUNCTION_DROPDOWN.step_name}
             content={onboardingSteps.FUNCTION_DROPDOWN.tooltip_text}
-            onClick={onboardingNextStep}
+            onClick={goToNextOnboardingStep}
             className='top-0 left-[-110px]'
           >
             <NodeSelect

@@ -13,7 +13,7 @@ import { Logo } from './logo.component';
 
 export const TopBar = () => {
   const {
-    context: { onboardingNextStep, onboardingSteps },
+    context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
 
   return (
@@ -29,7 +29,7 @@ export const TopBar = () => {
           tipLocation='top'
           stepName={onboardingSteps.DRAWING_TOOLS.step_name}
           content={onboardingSteps.DRAWING_TOOLS.tooltip_text}
-          onClick={onboardingNextStep}
+          onClick={goToNextOnboardingStep}
           className='bottom-[-50px]'
         >
           <DrawRectangleButton />

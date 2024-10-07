@@ -23,7 +23,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
     trigger,
   } = useFormContext<TFormDefaultValues>();
   const {
-    context: { onboardingNextStep, onboardingSteps },
+    context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const [isOpen, setIsOpen] = useState(true);
   const dateFrom = getValues('date.from');
@@ -68,7 +68,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
           tipLocation='left'
           stepName={onboardingSteps.DATE_RANGE_PICKER.step_name}
           content={onboardingSteps.DATE_RANGE_PICKER.tooltip_text}
-          onClick={onboardingNextStep}
+          onClick={goToNextOnboardingStep}
           className='bottom-0 left-[470px] !fixed'
         >
           <div className={styles.content}>
