@@ -1,4 +1,6 @@
-import React, { createContext, FC, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
+// TODO divide ac-workflow-onboarding into 2 libs: generic onboarding and AC onboarding
+// TODO modal by default should call onNext step. And if we need do manual call, then we pass callback and eg we change mode(eg property mode='manual' and onNextStep, ie we do 2 types, in one 2 types should exist, and in other not )
+import { createContext, FC, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface IOnboardingContextType {
