@@ -97,6 +97,9 @@
             "NDSI": "NDSI"
           }
         }
+      },
+      "PRESETS": {
+        "BUTTON": "Load preset"
       }
     },
     "SEARCH_MODE_PANEL": {
