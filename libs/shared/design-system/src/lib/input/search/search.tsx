@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import { Icon } from '../../icon/icon';
 import * as IconsNames from '../../icon/icons/index';
@@ -17,7 +17,7 @@ interface ITextInputProps {
   error?: string;
 }
 
-export const SearchInput: React.FC<ITextInputProps> = ({
+export const SearchInput: FC<ITextInputProps> = ({
   placeholder = 'Start typing...',
   value,
   onChange,

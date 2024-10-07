@@ -1,6 +1,6 @@
 import { Icon } from '@ukri/shared/design-system';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 const searchInputStyles = {
   errorText: 'text-error text-small-semibold m-b-[5px]',
@@ -19,7 +19,7 @@ interface INodeInputProps {
   iconName?: 'Polygon' | 'Circle' | 'Satellite' | 'Square';
 }
 
-export const NodeInput: React.FC<INodeInputProps> = ({ value, onChange, className, iconName }) => {
+export const NodeInput: FC<INodeInputProps> = ({ value, onChange, className, iconName }) => {
   const [inputValue, setInputValue] = useState(value);
 
   const handleClear = () => {

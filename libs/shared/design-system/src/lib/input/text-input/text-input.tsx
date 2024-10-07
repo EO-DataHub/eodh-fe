@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { ParseKeys } from 'i18next';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../../icon/icon';
@@ -19,7 +19,7 @@ interface ITextInputProps {
   error?: string;
 }
 
-export const TextInput: React.FC<ITextInputProps> = ({
+export const TextInput: FC<ITextInputProps> = ({
   placeholder = 'GLOBAL.DESIGN_SYSTEM.TEXTINPUT.PLACEHOLDER',
   value,
   onChange,

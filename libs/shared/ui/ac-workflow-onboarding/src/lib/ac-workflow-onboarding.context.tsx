@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
+import React, { createContext, FC, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface IOnboardingContextType {
@@ -36,7 +36,7 @@ const translationsPath = 'MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS';
 
 const OnboardingContext = createContext<IOnboardingContextType | undefined>(undefined);
 
-export const OnboardingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const OnboardingProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentStep, setCurrentStep] = useState<TStepName>('NOT_STARTED');
   const [displayOnboardingModal, setDisplayOnboardingModal] = useState(false);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
