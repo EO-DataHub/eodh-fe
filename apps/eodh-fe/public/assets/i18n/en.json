@@ -113,6 +113,9 @@
           "BUTTON_YES": "Yes, show tooltips",
           "BUTTON_NO": "No, let me explore on my own"
         }
+      },
+      "PRESETS": {
+        "BUTTON": "Load preset"
       }
     },
     "SEARCH_MODE_PANEL": {

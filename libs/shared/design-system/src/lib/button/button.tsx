@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import isString from 'lodash/isString';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../icon/icon';
@@ -13,6 +13,7 @@ import {
   getShadowStyles,
   getSizeStyles,
 } from './button.styles';
+import { useSafariFix } from './use-safari-fix.hook';
 
 interface IButtonProps {
   text: string | ReactNode;
@@ -38,10 +39,12 @@ export const Button = ({
   disabled = false,
   type = 'button',
 }: IButtonProps) => {
-  const baseStyles = getBaseStyles(disabled, appearance);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const { isActive, setIsActive } = useSafariFix({ buttonRef });
+  const baseStyles = getBaseStyles(disabled, appearance, isActive);
   const displayStyles = getDisplayStyles();
   const shadowStyles = getShadowStyles(appearance);
-  const appearanceStyles = getAppearanceStyles(appearance);
+  const appearanceStyles = getAppearanceStyles(appearance, isActive);
   const sizeStyles = getSizeStyles(size, appearance);
   const disabledStyles = getDisabledStyles(disabled, appearance);
   const { t } = useTranslation();
@@ -64,8 +67,18 @@ export const Button = ({
     className
   );
 
+  const handleClick = useCallback(() => {
+    if (disabled) {
+      return;
+    }
+    setIsActive(true);
+    if (onClick) {
+      onClick();
+    }
+  }, [onClick, disabled, setIsActive]);
+
   return (
-    <button type={type} className={combinedStyles} onClick={onClick} disabled={disabled}>
+    <button ref={buttonRef} type={type} className={combinedStyles} onClick={handleClick} disabled={disabled}>
       {iconName && <Icon name={iconName} width={iconWidth ?? 24} height={iconHeight ?? 24} />}
       {content}
     </button>

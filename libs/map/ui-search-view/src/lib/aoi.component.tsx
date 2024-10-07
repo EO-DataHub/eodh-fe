@@ -12,5 +12,5 @@ export const AreaOfInterest = () => {
     setValue('aoi', aoi, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
   }, [aoi, setValue, trigger]);
 
-  return <input type='hidden' {...register('aoi')} />;
+  return <input type='hidden' {...register('aoi', { setValueAs: (value) => value || undefined })} />;
 };

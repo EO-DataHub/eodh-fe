@@ -6,7 +6,7 @@ import { ResultsView } from './results-view.component';
 import { useSearchMode } from './use-search-mode.hook';
 
 export const SearchModePanel = () => {
-  const { data, status, view, changeToSearchView, search, searchParams } = useSearchMode();
+  const { schema, data, status, state, updateState, view, changeToSearchView, search } = useSearchMode();
 
   switch (view) {
     case 'results': {
@@ -31,7 +31,7 @@ export const SearchModePanel = () => {
     default:
     case 'search': {
       return (
-        <SearchView defaultValues={searchParams} onSubmit={search}>
+        <SearchView defaultValues={state} schema={schema} onChange={updateState} onSubmit={search}>
           <Header>
             <Text
               content='MAP.SEARCH_MODE_PANEL.HEADER.BROWSE_DATA_SETS'

@@ -16,6 +16,7 @@ export const defaultValues: TFormDefaultValues = {
       enabled: false,
       sentinel1: {
         enabled: false,
+        expanded: false,
         acquisitionMode: {
           ew: true,
           hh: true,
@@ -31,18 +32,21 @@ export const defaultValues: TFormDefaultValues = {
       },
       sentinel2: {
         enabled: false,
+        expanded: false,
         l1c: false,
         l2a: true,
         cloudCoverage: 100,
       },
       sentinel3: {
         enabled: false,
+        expanded: false,
         slstr: false,
         cloudCoverage: 100,
         olci: true,
       },
       sentinel5P: {
         enabled: false,
+        expanded: false,
         aer_ai: true,
         ch4: true,
         cloud: true,
@@ -57,12 +61,15 @@ export const defaultValues: TFormDefaultValues = {
       enabled: false,
       planetScope: {
         enabled: false,
+        expanded: false,
       },
       skySat: {
         enabled: false,
+        expanded: false,
       },
       rapidEye: {
         enabled: false,
+        expanded: false,
       },
     },
   },

@@ -84,7 +84,10 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                 className={styles.dateInput}
                 minDate={dateMin}
                 maxDate={dateTo || dateMax}
-                {...register(dateFromFieldName, { onChange: triggerDateFromValidation })}
+                {...register(dateFromFieldName, {
+                  onChange: triggerDateFromValidation,
+                  setValueAs: (value) => value || undefined,
+                })}
                 error={dateFromError?.message}
               />
             </div>
@@ -100,7 +103,10 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                 className={styles.dateInput}
                 minDate={dateFrom || dateMin}
                 maxDate={dateMax}
-                {...register(dateToFieldName, { onChange: triggerDateToValidation })}
+                {...register(dateToFieldName, {
+                  onChange: triggerDateToValidation,
+                  setValueAs: (value) => value || undefined,
+                })}
                 error={dateToError?.message}
               />
             </div>

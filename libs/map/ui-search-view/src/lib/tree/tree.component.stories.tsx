@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { defaultValues } from '../form.default-data';
 import { TFormDefaultValues } from '../form.model';
-import { validationSchema } from '../form.schema';
+import { updateSchema } from '../form.schema';
 import { Tree as TreeComponent } from './tree.component';
 import { defaultSettings, TTreeSettings } from './tree.context';
 
@@ -19,7 +19,7 @@ type TTreeTemplate = {
 const Form = memo(({ values, settings, triggerValidation }: TTreeTemplate) => {
   const form = useForm<TFormDefaultValues>({
     values: { ...values },
-    resolver: zodResolver(validationSchema),
+    resolver: zodResolver(updateSchema),
     reValidateMode: 'onChange',
     mode: 'onChange',
   });
