@@ -2,25 +2,11 @@ import { Meta, Story } from '@storybook/react';
 import { useState } from 'react';
 
 import { Node } from './node.component';
-import { NodeInput } from './node-input.component';
-import { NodeSelect } from './node-select.component';
-import { Workflow } from './workflow.context';
+import { NodeInput } from './nodes/node-input.component';
+import { NodeSelect } from './nodes/node-select.component';
 
-const withWorkflowContext = (Story, context) => {
-  const contextValue = {
-    enabledNodes: context.args.enabledNodes || [],
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    setEnabledNodes: () => {},
-    nodeSelected: context.args.nodeSelected || null,
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    setNodeSelected: () => {},
-  };
-
-  return (
-    <Workflow.Provider value={contextValue}>
-      <Story />
-    </Workflow.Provider>
-  );
+const withWorkflowContext = (Story) => {
+  return <Story />;
 };
 
 const meta: Meta<typeof Node> = {

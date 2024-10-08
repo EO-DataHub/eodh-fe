@@ -1,5 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAoi } from '@ukri/map/data-access-map';
 import { Button, Icon } from '@ukri/shared/design-system';
+import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
@@ -44,6 +46,7 @@ const useFormUpdate = (
         if (onChange) {
           const schema = getSchema(schemaName).initial;
           const parsedValues = schema.safeParse(values);
+
           if (parsedValues.success) {
             onChange(values);
           }
@@ -60,16 +63,16 @@ const useFormUpdate = (
 const useDefaultValues = (defaultValues: TInitialForm = defaultData, schemaName: TSchema) => {
   return useMemo(() => {
     const schema = getSchema(schemaName).initial;
-    const values: TInitialForm = { ...defaultData };
+    const values: TInitialForm = cloneDeep(defaultData);
     const dataSets = schema.pick({ dataSets: true }).safeParse(defaultValues);
     const date = schema.pick({ date: true }).safeParse(defaultValues);
 
-    if (dataSets.success) {
-      values.dataSets = dataSets.data.dataSets ? dataSets.data.dataSets : defaultData.dataSets;
+    if (dataSets.success && dataSets.data.dataSets) {
+      values.dataSets = cloneDeep(dataSets.data.dataSets);
     }
 
-    if (date.success) {
-      values.date = date.data.date ? date.data.date : defaultData.date;
+    if (date.success && date.data.date) {
+      values.date = cloneDeep(date.data.date);
     }
 
     return values;
@@ -110,16 +113,24 @@ export const SearchView = ({
   });
   const { open: checklistVisible } = useChecklistState();
   const showChecklist = useShowChecklist();
+  const { shape } = useAoi();
 
   useFormUpdate(form, schema, onChange);
   useSyncChecklistState(form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
 
   useEffect(() => {
     if (currentSchema !== schema) {
-      form.reset({ ...parsedValues }, { keepDefaultValues: true });
+      form.reset({ ...parsedValues, aoi: shape?.shape }, { keepDefaultValues: true });
       setCurrentSchema(schema);
     }
-  }, [schema, form, currentSchema, parsedValues]);
+  }, [schema, form, currentSchema, parsedValues, shape?.shape]);
+
+  useEffect(() => {
+    if (!defaultValues.dataSets || !defaultValues.date) {
+      const data = cloneDeep(defaultData);
+      form.reset({ dataSets: data.dataSets, date: data.date, aoi: shape?.shape }, { keepDefaultValues: true });
+    }
+  }, [defaultValues, form, shape?.shape]);
 
   return (
     <FormProvider {...form}>

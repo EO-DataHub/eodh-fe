@@ -12,9 +12,10 @@ export type TDateValues = {
 export interface IDateStore extends TDateValues {
   state: TDateState;
   updateDate: (date: TDateValues['date']) => void;
+  changeState: (state: TDateState) => void;
 }
 
-export type TDateStoreState = Omit<IDateStore, 'updateDate'>;
+export type TDateStoreState = Omit<IDateStore, 'updateDate' | 'changeState'>;
 
 export const defaultValues: TDateStoreState = {
   state: 'edit',

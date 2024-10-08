@@ -73,11 +73,12 @@ export type TDataSetsStore<T = TInitialData> = {
   state: TDateSetsState;
   updateDataSets: (state: T) => void;
   changeSchema: (schema: TSchema) => void;
+  changeState: (state: TDateSetsState) => void;
 };
 
 export type TDataSetsStoreState = Omit<TDataSetsStore, 'updateDataSets' | 'changeSchema'>;
 
-export const defaultState: Omit<TDataSetsStore, 'updateDataSets' | 'changeSchema'> = {
+export const defaultState: Omit<TDataSetsStore, 'updateDataSets' | 'changeSchema' | 'changeState'> = {
   state: 'edit',
   schema: 'search',
   dataSets: undefined,

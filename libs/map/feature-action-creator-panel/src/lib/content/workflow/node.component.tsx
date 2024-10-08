@@ -1,8 +1,6 @@
 import { Icon } from '@ukri/shared/design-system';
-import { PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-import { Workflow } from './workflow.context';
 
 type TNodeType = 'area' | 'dataSet' | 'dateRange' | 'function';
 
@@ -10,6 +8,8 @@ interface INodeProps {
   type: TNodeType;
   text?: string;
   error?: string;
+  enabled?: boolean;
+  selected?: boolean;
 }
 
 type TTypeOfNode = {
@@ -73,13 +73,10 @@ const styles = {
   arrow: 'flex justify-center items-center mt-[-3px] mb-0.5',
 };
 
-export const Node = ({ type = 'area', error, text, children }: PropsWithChildren<INodeProps>) => {
+export const Node = ({ type = 'area', error, text, children, enabled, selected }: PropsWithChildren<INodeProps>) => {
   const [active, setActive] = useState(false);
   const { t } = useTranslation();
   const nodeType = typeOfNode[type];
-  const { enabledNodes, nodeSelected, setNodeSelected } = useContext(Workflow);
-
-  const isClickable = useMemo(() => enabledNodes.includes(type), [enabledNodes, type]);
 
   useEffect(() => {
     if (text || children) {
@@ -89,26 +86,18 @@ export const Node = ({ type = 'area', error, text, children }: PropsWithChildren
     }
   }, [text, children]);
 
-  const handleNodeClick = useCallback(() => {
-    if (isClickable && nodeSelected !== type) {
-      setNodeSelected(type);
-    }
-  }, [isClickable, type, nodeSelected, setNodeSelected]);
-
   return (
-    <div className={`${styles.container} ${isClickable ? styles.clickable : ''}`} onClick={handleNodeClick}>
+    <div className={`${styles.container} ${enabled ? styles.clickable : ''}`}>
       <div
         className={`
             ${styles.header.base}
             ${active ? styles.header.active(nodeType) : styles.header.inactive}
-            ${active && nodeSelected === type ? styles.header.selected(nodeType) : ''}`}
+            ${active && selected ? styles.header.selected(nodeType) : ''}`}
       >
         <div className={styles.headerText}>{t(nodeType.title)}</div>
       </div>
       <div
-        className={`${styles.body.base} ${
-          active && nodeSelected === type ? styles.body.active(nodeType) : styles.body.inactive
-        }`}
+        className={`${styles.body.base} ${active && selected ? styles.body.active(nodeType) : styles.body.inactive}`}
       >
         {error && (
           <div className={styles.error}>
@@ -116,7 +105,7 @@ export const Node = ({ type = 'area', error, text, children }: PropsWithChildren
           </div>
         )}
         {children && <div className={styles.childrenWrapper}>{children}</div>}
-        {text && <p className={styles.text}>{text}</p>}
+        {text && <p className={styles.text} dangerouslySetInnerHTML={{ __html: text }}></p>}
       </div>
       {type !== 'function' && (
         <div className={styles.arrow}>
