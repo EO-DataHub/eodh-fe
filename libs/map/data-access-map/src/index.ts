@@ -2,8 +2,8 @@ export {
   useCurrentAoi,
   useCurrentAoiMutation,
   useAoiLayerVisible,
-  useChangeAoiMode,
-  useAoiMode,
+  useClearAoi,
+  useAoiDrawingTools,
 } from './lib/aoi.store';
 export { useTrueColorImageUrl, useTrueColorImageUrlMutation } from './lib/true-color-image.store';
 export { useLayers } from './lib/use-toggle-layers.hook';

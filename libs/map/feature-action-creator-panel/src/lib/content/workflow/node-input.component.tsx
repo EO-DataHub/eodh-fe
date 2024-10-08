@@ -14,18 +14,22 @@ const searchInputStyles = {
 
 interface INodeInputProps {
   value?: string;
-  onChange?: (value: string) => void;
+  onClear?: () => void;
   className?: string;
   iconName?: 'Polygon' | 'Circle' | 'Satellite' | 'Square';
 }
 
-export const NodeInput: FC<INodeInputProps> = ({ value, onChange, className, iconName }) => {
+export const NodeInput: FC<INodeInputProps> = ({ value, onClear, className, iconName }) => {
   const [inputValue, setInputValue] = useState(value);
 
   const handleClear = () => {
-    setInputValue('');
-    if (onChange) {
-      onChange('');
+    if (onClear) {
+      setInputValue('');
+      onClear();
+    } else {
+      // TODO remove after all Nodes are implemented
+      // eslint-disable-next-line no-console
+      console.error('onClear is not defined');
     }
   };
 
@@ -37,7 +41,7 @@ export const NodeInput: FC<INodeInputProps> = ({ value, onChange, className, ico
     <div>
       <div className={clsx(searchInputStyles.container, className)}>
         {iconName && <Icon name={iconName} width={12} height={12} className={searchInputStyles.icon} />}
-        <input type='text' className={searchInputStyles.input} value={inputValue} />
+        <input type='text' className={searchInputStyles.input} value={inputValue} readOnly />
         <button className={searchInputStyles.clearButton} onClick={handleClear}>
           <Icon name='Close' width={16} height={16} />
         </button>

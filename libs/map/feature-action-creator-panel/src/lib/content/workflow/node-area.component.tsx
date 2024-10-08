@@ -1,3 +1,4 @@
+import { useAoiMode, useClearAoi, useCurrentAoi, useDisableAoiDrawingTools } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,14 +8,18 @@ import { NodeInput } from './node-input.component';
 import { Workflow } from './workflow.context';
 
 interface INodeAreaProps {
-  value?: string;
   shape?: 'Polygon' | 'Circle' | 'Square';
 }
 
-export const NodeArea = ({ value, shape }: INodeAreaProps) => {
+export const NodeArea = ({ shape }: INodeAreaProps) => {
+  const [aoiShape, setAoiShape] = useState<'Drawing' | undefined>();
   const [text, setText] = useState('');
   const [showInput, setShowInput] = useState(false);
-  const { enabledNodes, setNodeSelected } = useContext(Workflow);
+  const currentShape = useCurrentAoi();
+  const clearAoi = useClearAoi();
+  const mode = useAoiMode();
+  const disableDrawingTools = useDisableAoiDrawingTools();
+  const { enabledNodes, setNodeSelected, nodeSelected } = useContext(Workflow);
   const { t } = useTranslation();
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
@@ -29,11 +34,24 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
   }, [enabledNodes, instructions, setNodeSelected]);
 
   useEffect(() => {
-    if (value && shape) {
+    console.log('disableDrawingTools in NodeArea');
+    disableDrawingTools({ aoiNodeSelected: nodeSelected === 'area', mode: 'ac-search' });
+  }, [disableDrawingTools, mode, nodeSelected]);
+
+  useEffect(() => {
+    if (currentShape) {
+      setAoiShape('Drawing');
+    } else {
+      setAoiShape(undefined);
+    }
+  }, [currentShape]);
+
+  useEffect(() => {
+    if (aoiShape && 'shape') {
       setText('');
       setShowInput(true);
     }
-  }, [value, shape]);
+  }, [aoiShape]);
 
   return (
     <OnboardingTooltip
@@ -45,7 +63,7 @@ export const NodeArea = ({ value, shape }: INodeAreaProps) => {
     >
       <div onClick={handleClick}>
         <Node type='area' text={text}>
-          {showInput && <NodeInput iconName={shape} value={value} />}
+          {showInput && <NodeInput iconName={shape} value={aoiShape} onClear={clearAoi} />}
         </Node>
       </div>
     </OnboardingTooltip>

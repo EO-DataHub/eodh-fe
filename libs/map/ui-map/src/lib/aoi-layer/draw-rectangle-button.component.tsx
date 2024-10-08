@@ -1,4 +1,4 @@
-import { useAoiMode } from '@ukri/map/data-access-map';
+import { useAoiDrawingToolsDisabled } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { createBox } from 'ol/interaction/Draw.js';
@@ -9,8 +9,9 @@ import { DrawButton } from './button.component';
 
 export const DrawRectangleButton = () => {
   const { draw, setDraw } = useContext(AoiLayerContext);
-  const mode = useAoiMode();
-  const disabled = useMemo(() => mode !== 'search', [mode]);
+  const drawingToolDisabled = useAoiDrawingToolsDisabled();
+
+  const disabled = useMemo(() => drawingToolDisabled, [drawingToolDisabled]);
   const selected = useMemo(() => draw?.type === 'rectangle', [draw?.type]);
 
   const drawRectangle = useCallback(() => {

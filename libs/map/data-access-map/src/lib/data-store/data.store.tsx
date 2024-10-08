@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
+import { useAoiDrawingTools } from '../aoi.store';
 import { defaultState, TDataStore, TSchema } from './data.model';
 import { searchSchema, TSearchData } from './schema/search/search.schema';
 import { TSearchDefaultValues } from './search.model';
@@ -56,8 +57,16 @@ export const useData = () => {
 };
 
 export const useMode = () => {
+  const { enableDrawingTools, disableDrawingTools } = useAoiDrawingTools();
   return useDataStore((state) => ({
     mode: state.mode,
-    toggleMode: state.toggleMode,
+    toggleMode: () => {
+      if (state.mode === 'search') {
+        enableDrawingTools();
+      } else {
+        disableDrawingTools();
+      }
+      state.toggleMode();
+    },
   }));
 };

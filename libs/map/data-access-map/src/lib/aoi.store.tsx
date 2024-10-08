@@ -3,7 +3,9 @@ import { Circle, Geometry, Polygon } from 'ol/geom';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-type TAoiMode = 'search' | 'view';
+import { useMode } from './data-store/data.store';
+
+// type TAoiMode = 'search' | 'view' | 'ac-search' | 'ac-view'; // to review
 
 type TCoordinates = number[][][] | [number, number][][];
 
@@ -18,16 +20,23 @@ type TCoordinate =
       coordinates: TCoordinates;
     };
 
+// dodac obsluge square
+
 interface IAoiStore {
-  mode: TAoiMode;
+  // mode: TAoiMode;
   coordinates: TCoordinate | undefined;
   currentShape: undefined | Geometry;
   setCurrentShape: (shape: Geometry | undefined) => void;
+  clearShape: () => void;
   visible: boolean;
   toggleVisibility: () => void;
   show: () => void;
   hide: () => void;
-  changeMode: (mode: TAoiMode) => void;
+  enableDrawingTools: () => void;
+  disableDrawingTools: () => void;
+  drawingToolsEnabled: boolean;
+  // changeMode: (mode: TAoiMode) => void;
+  // setDisableDrawingTools: ({ aoiNodeSelected, mode }: { aoiNodeSelected?: boolean; mode?: TAoiMode }) => void;
 }
 
 const isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() === 'Circle';
@@ -51,6 +60,7 @@ const getCoordinates = (shape?: Geometry): TCoordinate | undefined => {
       coordinates: shape.getCoordinates(),
     };
   }
+  // dodac obsluge square
 
   return undefined;
 };
@@ -77,7 +87,7 @@ const createPolygon = (coordinate: TCoordinate | undefined): Geometry | undefine
 
 const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
-    mode: 'search',
+    // mode: 'search',
     currentShape: undefined,
     coordinates: undefined,
     setCurrentShape: (shape: Geometry | undefined) =>
@@ -86,17 +96,34 @@ const useAoiStore = create<IAoiStore>()(
         currentShape: createPolygon(getCoordinates(shape)),
         coordinates: getCoordinates(shape),
       })),
+    clearShape: () => set((state) => ({ ...state, currentShape: undefined, coordinates: undefined })),
     visible: true,
     toggleVisibility: () => set((state) => ({ visible: !state.visible })),
     show: () => set(() => ({ visible: true })),
     hide: () => set(() => ({ visible: false })),
-    changeMode: (mode: TAoiMode) => set(() => ({ mode })),
+    enableDrawingTools: () => set(() => ({ drawingToolsEnabled: true })),
+    disableDrawingTools: () => set(() => ({ drawingToolsEnabled: false })),
+    drawingToolsEnabled: true,
+    // changeMode: (mode: TAoiMode) => set(() => ({ mode })),
+    // drawingToolsDisabled: false,
+    //   setDisableDrawingTools: ({ aoiNodeSelected, mode }: { aoiNodeSelected?: boolean; mode?: TAoiMode }) =>
+    //     set(() => {
+    //       let drawingToolsDisabled = false;
+    //       if (mode === 'search') {
+    //         drawingToolsDisabled = false;
+    //         // } else if (mode === 'ac-search') {
+    //         //   drawingToolsDisabled = !aoiNodeSelected;
+    //       } else {
+    //         drawingToolsDisabled = true;
+    //       }
+    //       return { drawingToolsDisabled };
+    //     }),
   }))
 );
 
-export const useAoiMode = () => {
-  return useAoiStore((state) => state.mode);
-};
+// export const useAoiMode = () => {
+//   return useAoiStore((state) => state.mode);
+// };
 
 export const useCurrentAoi = () => {
   return useAoiStore((state) => state.currentShape);
@@ -104,6 +131,10 @@ export const useCurrentAoi = () => {
 
 export const useCurrentAoiMutation = () => {
   return useAoiStore((state) => state.setCurrentShape);
+};
+
+export const useClearAoi = () => {
+  return useAoiStore((state) => state.clearShape);
 };
 
 export const useAoiLayerVisible = () => {
@@ -118,6 +149,10 @@ export const useChangeAoiLayerVisibility = () => {
   }));
 };
 
-export const useChangeAoiMode = () => {
-  return useAoiStore((state) => state.changeMode);
+export const useAoiDrawingTools = () => {
+  return useAoiStore((state) => ({
+    drawingToolsEnabled: state.drawingToolsEnabled,
+    enableDrawingTools: state.enableDrawingTools,
+    disableDrawingTools: state.disableDrawingTools,
+  }));
 };

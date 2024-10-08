@@ -1,9 +1,4 @@
-import {
-  useChangeAoiMode,
-  useData,
-  useFootprintCollectionMutation,
-  useTrueColorImageUrlMutation,
-} from '@ukri/map/data-access-map';
+import { useData, useFootprintCollectionMutation, useTrueColorImageUrlMutation } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TForm } from '@ukri/map/ui-search-view';
 import { useCallback, useEffect, useMemo, useState } from 'react';
