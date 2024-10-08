@@ -1,17 +1,31 @@
 import type {} from '@redux-devtools/extension';
+import { createQueryStorage } from '@ukri/shared/utils/store';
 import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
 import { defaultState, TDataSetsDefaultValues, TDataSetsStore, TDataSetsStoreState, TSchema } from './data-sets.model';
 
 export const useDataSetsStore = create<TDataSetsStore>()(
-  devtools((set) => ({
-    ...defaultState,
-    updateDataSets: (dataSets: TDataSetsDefaultValues | undefined) =>
-      set((state) => (isEqual(dataSets, state.dataSets) ? state : { dataSets })),
-    changeSchema: (schema: TSchema) => set(() => ({ schema })),
-  }))
+  devtools(
+    persist(
+      (set) => ({
+        ...defaultState,
+        updateDataSets: (dataSets: TDataSetsDefaultValues | undefined) =>
+          set((state) => (isEqual(dataSets, state.dataSets) ? state : { dataSets })),
+        changeSchema: (schema: TSchema) => set(() => ({ schema })),
+      }),
+      {
+        name: 'data-sets',
+        storage: createJSONStorage(() => createQueryStorage()),
+        partialize: (state) => ({
+          state: state.state,
+          schema: state.schema,
+          dataSets: state.dataSets,
+        }),
+      }
+    )
+  )
 );
 
 export const getDataSetsStoreState = (): TDataSetsStoreState => {

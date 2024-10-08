@@ -40,3 +40,9 @@ export type TAoiStoreState = Omit<
   IAoiStore,
   'shape' | 'setShape' | 'toggleVisibility' | 'show' | 'hide' | 'changeState' | 'updateShape'
 >;
+
+export const defaultState: TAoiStoreState = {
+  state: 'edit',
+  visible: true,
+  coordinates: undefined,
+};
