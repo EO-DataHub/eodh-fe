@@ -1,5 +1,4 @@
 import type {} from '@redux-devtools/extension';
-import { Geometry } from 'ol/geom';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -16,6 +15,20 @@ export const useAoiStore = create<IAoiStore>()(
         shape: createShape(getCoordinates(shape), shape?.type),
         coordinates: getCoordinates(shape),
       })),
+    updateShape: (shape) =>
+      set((state) => {
+        if (!shape || !state.shape?.type) {
+          return {
+            shape: undefined,
+            coordinates: undefined,
+          };
+        }
+
+        return {
+          shape: createShape(getCoordinates({ type: state.shape.type, shape }), state.shape.type),
+          coordinates: getCoordinates({ type: state.shape.type, shape }),
+        };
+      }),
     visible: true,
     toggleVisibility: () => set((state) => ({ visible: !state.visible })),
     show: () => set(() => ({ visible: true })),
@@ -30,11 +43,12 @@ export const getAoiStoreState = (): TAoiStoreState => {
   return { ...rest };
 };
 
-export const useAoi = (): Omit<IAoiStore, 'coordinates' | 'shape'> & { shape: Geometry | undefined } => {
+export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
   return useAoiStore((state) => ({
     state: state.state,
-    shape: state.shape?.shape,
+    shape: state.shape,
     setShape: state.setShape,
+    updateShape: state.updateShape,
     visible: state.visible,
     toggleVisibility: state.toggleVisibility,
     show: state.show,

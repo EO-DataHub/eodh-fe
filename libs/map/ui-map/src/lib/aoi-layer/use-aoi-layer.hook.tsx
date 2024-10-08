@@ -36,18 +36,18 @@ export const useAoiLayer = () => {
   }, [map]);
 
   useEffect(() => {
-    if (!shape) {
+    if (!shape?.shape) {
       return;
     }
 
     const feature = new Feature();
-    feature.setGeometry(shape);
+    feature.setGeometry(shape.shape);
     source?.addFeature(feature);
 
     return () => {
       source?.removeFeature(feature);
     };
-  }, [shape, source]);
+  }, [shape?.shape, source]);
 
   useEffect(() => {
     if (!draw?.draw) {

@@ -9,8 +9,8 @@ export const AreaOfInterest = () => {
   const { register, setValue, trigger } = useFormContext<TInitialForm, unknown, TUpdateForm>();
 
   useEffect(() => {
-    setValue('aoi', shape, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
-  }, [shape, setValue, trigger]);
+    setValue('aoi', shape?.shape, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
+  }, [shape?.shape, setValue, trigger]);
 
   return <input type='hidden' {...register('aoi', { setValueAs: (value) => value || undefined })} />;
 };

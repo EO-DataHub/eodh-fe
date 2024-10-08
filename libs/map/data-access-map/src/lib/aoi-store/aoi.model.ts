@@ -28,6 +28,7 @@ export interface IAoiStore {
   coordinates: TCoordinate | undefined;
   shape: TShape;
   setShape: (shape: TShape | TCoordinate | undefined) => void;
+  updateShape: (shape: Geometry | undefined) => void;
   visible: boolean;
   toggleVisibility: () => void;
   show: () => void;
@@ -37,5 +38,5 @@ export interface IAoiStore {
 
 export type TAoiStoreState = Omit<
   IAoiStore,
-  'shape' | 'setShape' | 'toggleVisibility' | 'show' | 'hide' | 'changeState'
+  'shape' | 'setShape' | 'toggleVisibility' | 'show' | 'hide' | 'changeState' | 'updateShape'
 >;
