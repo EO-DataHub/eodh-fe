@@ -1,4 +1,4 @@
-import { useAoiMode, useCurrentAoiMutation } from '@ukri/map/data-access-map';
+import { useAoi } from '@ukri/map/data-access-map';
 import { Modify } from 'ol/interaction.js';
 import { useContext, useEffect } from 'react';
 
@@ -8,11 +8,10 @@ import { AoiLayerContext } from '../aoi-layer.component';
 export const useSimpleEdit = (enabled: boolean) => {
   const { source, layer } = useContext(AoiLayerContext);
   const map = useContext(MapContext);
-  const mode = useAoiMode();
-  const setShape = useCurrentAoiMutation();
+  const { state, setShape } = useAoi();
 
   useEffect(() => {
-    if (!enabled || !source || !layer || mode !== 'search') {
+    if (!enabled || !source || !layer || state !== 'edit') {
       return;
     }
 
@@ -24,5 +23,5 @@ export const useSimpleEdit = (enabled: boolean) => {
     return () => {
       map.removeInteraction(modify);
     };
-  }, [enabled, map, mode, source, layer, setShape]);
+  }, [enabled, map, state, source, layer, setShape]);
 };

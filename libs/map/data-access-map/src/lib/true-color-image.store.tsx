@@ -7,7 +7,7 @@ interface ITrueImageStore {
   setStacUrl: (url: string | undefined) => void;
 }
 
-const useTrueColorImageStore = create<ITrueImageStore>()(
+export const useTrueColorImageStore = create<ITrueImageStore>()(
   devtools((set) => ({
     stacUrl: undefined,
     setStacUrl: (url: string | undefined) => set(() => ({ stacUrl: url })),

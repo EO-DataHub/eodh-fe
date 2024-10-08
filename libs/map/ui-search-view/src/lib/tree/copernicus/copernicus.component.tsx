@@ -2,7 +2,7 @@ import { Checkbox, TreeItem, TSlots } from '@ukri/shared/design-system';
 import { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
 import { useController, useFormContext, useWatch } from 'react-hook-form';
 
-import { TFormDefaultValues } from '../../form.model';
+import { TInitialForm, TUpdateForm } from '../../schema/form.schema';
 import { Sentinel1 } from './sentinel-1.component';
 import { Sentinel2 } from './sentinel-2.component';
 import { Sentinel3 } from './sentinel-3.component';
@@ -11,10 +11,10 @@ import { Sentinel5P } from './sentinel-5p.component';
 const name = 'dataSets.copernicus.enabled';
 
 export const Copernicus = () => {
-  const { register, setValue } = useFormContext<TFormDefaultValues>();
-  const { field } = useController<TFormDefaultValues>({ name });
-  const sentinel1 = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel1.enabled' });
-  const sentinel2 = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel2.enabled' });
+  const { register, setValue } = useFormContext<TInitialForm, unknown, TUpdateForm>();
+  const { field } = useController<TInitialForm | TUpdateForm>({ name });
+  const sentinel1 = useWatch<TInitialForm | TUpdateForm>({ name: 'dataSets.copernicus.sentinel1.enabled' });
+  const sentinel2 = useWatch<TInitialForm | TUpdateForm>({ name: 'dataSets.copernicus.sentinel2.enabled' });
   const copernicusSelectedIcon = useMemo(() => (sentinel1 && sentinel2 ? 'Check' : 'Remove'), [sentinel1, sentinel2]);
 
   const toggleSentinels = useCallback(

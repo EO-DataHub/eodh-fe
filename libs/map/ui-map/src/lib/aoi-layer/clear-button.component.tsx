@@ -1,15 +1,12 @@
-import { useAoiLayerVisible, useAoiMode, useCurrentAoi, useCurrentAoiMutation } from '@ukri/map/data-access-map';
+import { useAoi } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { useCallback, useMemo } from 'react';
 
 import { DrawButton } from './button.component';
 
 export const ClearButton = () => {
-  const currentAoi = useCurrentAoi();
-  const visible = useAoiLayerVisible();
-  const setShape = useCurrentAoiMutation();
-  const mode = useAoiMode();
-  const disabled = useMemo(() => mode !== 'search' || !currentAoi || !visible, [mode, currentAoi, visible]);
+  const { shape, visible, setShape, state } = useAoi();
+  const disabled = useMemo(() => state !== 'edit' || !shape || !visible, [state, shape, visible]);
 
   const drawRectangle = useCallback(() => {
     setShape(undefined);

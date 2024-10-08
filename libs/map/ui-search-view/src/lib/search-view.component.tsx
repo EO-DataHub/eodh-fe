@@ -9,24 +9,22 @@ import { useChecklistState, useShowChecklist } from './checklist/checklist.store
 import { useSyncChecklistState } from './checklist/use-checklist.hook';
 import { DateRangePicker } from './date-range-picker/date-range-picker.component';
 import { defaultValues as defaultData } from './form.default-data';
-import { TFormDefaultValues } from './form.model';
-import { TForm, updateSchema } from './form.schema';
+import { initialSchema, TInitialForm, TUpdateForm, updateSchema } from './schema/form.schema';
 import { Tree } from './tree/tree.component';
 
 const minDate = new Date('1972-01-01');
 const today = new Date();
 
+type TSchema = 'search' | 'action-creator';
+
 type TSearchPanelProps = {
-  defaultValues?: TFormDefaultValues | TForm;
-  schema: {
-    name: string;
-    schema: typeof updateSchema;
-  };
-  onSubmit: (data: TForm) => unknown | Promise<unknown>;
-  onChange?: (data: TForm | TFormDefaultValues) => unknown | Promise<unknown>;
+  schema: TSchema;
+  defaultValues?: TInitialForm;
+  onSubmit: (data: TUpdateForm) => unknown | Promise<unknown>;
+  onChange?: (data: TInitialForm) => unknown | Promise<unknown>;
 };
 
-const useFormValues = ({ watch, getValues }: UseFormReturn<TFormDefaultValues | TForm, unknown, TForm>) => {
+const useFormValues = ({ watch, getValues }: UseFormReturn<TInitialForm, unknown, TUpdateForm>) => {
   return {
     ...watch(),
     ...getValues(),
@@ -34,19 +32,24 @@ const useFormValues = ({ watch, getValues }: UseFormReturn<TFormDefaultValues | 
 };
 
 const useFormUpdate = (
-  form: UseFormReturn<TFormDefaultValues | TForm, unknown, TForm>,
+  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>,
+  schemaName: TSchema,
   onChange: TSearchPanelProps['onChange']
 ) => {
   const values = useFormValues(form);
 
   const handleChange = useMemo(
     () =>
-      debounce((values: TFormDefaultValues | TForm) => {
+      debounce((values: TInitialForm) => {
         if (onChange) {
-          onChange(values);
+          const schema = getSchema(schemaName).initial;
+          const parsedValues = schema.safeParse(values);
+          if (parsedValues.success) {
+            onChange(values);
+          }
         }
       }, 200),
-    [onChange]
+    [onChange, schemaName]
   );
 
   useEffect(() => {
@@ -54,58 +57,69 @@ const useFormUpdate = (
   }, [values, handleChange]);
 };
 
-const useDefaultValues = (defaultValues: TFormDefaultValues | TForm = defaultData, schema: typeof updateSchema) => {
+const useDefaultValues = (defaultValues: TInitialForm = defaultData, schemaName: TSchema) => {
   return useMemo(() => {
-    const values: TFormDefaultValues | TForm = { ...defaultData } as TFormDefaultValues | TForm;
-    const aoi = schema.pick({ aoi: true }).safeParse(defaultValues);
+    const schema = getSchema(schemaName).initial;
+    const values: TInitialForm = { ...defaultData };
     const dataSets = schema.pick({ dataSets: true }).safeParse(defaultValues);
     const date = schema.pick({ date: true }).safeParse(defaultValues);
 
-    if (aoi.success) {
-      values.aoi = defaultValues.aoi;
-    }
-
     if (dataSets.success) {
-      values.dataSets = defaultValues.dataSets;
+      values.dataSets = dataSets.data.dataSets ? dataSets.data.dataSets : defaultData.dataSets;
     }
 
     if (date.success) {
-      values.date = defaultValues.date;
+      values.date = date.data.date ? date.data.date : defaultData.date;
     }
 
     return values;
-  }, [defaultValues, schema]);
+  }, [defaultValues, schemaName]);
+};
+
+const getSchema = (schema: TSchema) => {
+  switch (schema) {
+    case 'action-creator': {
+      return {
+        initial: initialSchema,
+        update: updateSchema,
+      };
+    }
+
+    case 'search': {
+      return {
+        initial: initialSchema,
+        update: updateSchema,
+      };
+    }
+  }
 };
 
 export const SearchView = ({
+  schema,
   onSubmit,
   onChange,
   defaultValues = defaultData,
-  schema,
   children,
 }: PropsWithChildren<TSearchPanelProps>) => {
-  const [currentSchema, setCurrentSchema] = useState(schema.name);
-  const parsedValues = useDefaultValues(defaultValues, schema.schema);
-  const form = useForm<TFormDefaultValues | TForm, unknown, TForm>({
+  const [currentSchema, setCurrentSchema] = useState(schema);
+  const parsedValues = useDefaultValues(defaultValues, schema);
+  const form = useForm<TInitialForm, unknown, TUpdateForm>({
     defaultValues: parsedValues,
-    resolver: zodResolver(schema.schema),
+    resolver: zodResolver(getSchema(schema).update),
     reValidateMode: 'onChange',
-    context: {
-      schema: schema.name,
-    },
   });
   const { open: checklistVisible } = useChecklistState();
   const showChecklist = useShowChecklist();
 
-  useFormUpdate(form, onChange);
+  useFormUpdate(form, schema, onChange);
   useSyncChecklistState(form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
 
   useEffect(() => {
-    if (currentSchema !== schema.name) {
+    if (currentSchema !== schema) {
       form.reset({ ...parsedValues }, { keepDefaultValues: true });
-      setCurrentSchema(schema.name);
+      setCurrentSchema(schema);
     }
-  }, [schema.name, form, currentSchema, parsedValues]);
+  }, [schema, form, currentSchema, parsedValues]);
 
   return (
     <FormProvider {...form}>

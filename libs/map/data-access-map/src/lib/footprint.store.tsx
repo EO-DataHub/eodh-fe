@@ -19,7 +19,7 @@ interface IFootprintStore {
   hide: (id?: string) => void;
 }
 
-const useFootprintStore = create<IFootprintStore>()(
+export const useFootprintStore = create<IFootprintStore>()(
   devtools((set) => ({
     currentCollection: undefined,
     collections: {},

@@ -2,18 +2,18 @@ import { TreeItem } from '@ukri/shared/design-system';
 import { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
 import { useController, useFormContext, useWatch } from 'react-hook-form';
 
-import { TFormDefaultValues } from '../form.model';
+import { TInitialForm, TUpdateForm } from '../schema/form.schema';
 import { CategoryItem } from './components/category-item.component';
 import { SatelliteItem } from './components/satellite-item.component';
 
 const name = 'dataSets.planet.enabled';
 
 export const PrivateData = () => {
-  const { setValue } = useFormContext<TFormDefaultValues>();
-  const { field } = useController<TFormDefaultValues>({ name });
-  const planetScope = useWatch<TFormDefaultValues>({ name: 'dataSets.planet.planetScope.enabled' });
-  const skySat = useWatch<TFormDefaultValues>({ name: 'dataSets.planet.skySat.enabled' });
-  const rapidEye = useWatch<TFormDefaultValues>({ name: 'dataSets.planet.rapidEye.enabled' });
+  const { setValue } = useFormContext<TInitialForm, unknown, TUpdateForm>();
+  const { field } = useController<TInitialForm | TUpdateForm>({ name });
+  const planetScope = useWatch<TInitialForm | TUpdateForm>({ name: 'dataSets.planet.planetScope.enabled' });
+  const skySat = useWatch<TInitialForm | TUpdateForm>({ name: 'dataSets.planet.skySat.enabled' });
+  const rapidEye = useWatch<TInitialForm | TUpdateForm>({ name: 'dataSets.planet.rapidEye.enabled' });
   const privateDataSelectedIcon = useMemo(
     () => (planetScope && skySat && rapidEye ? 'Check' : 'Remove'),
     [planetScope, skySat, rapidEye]

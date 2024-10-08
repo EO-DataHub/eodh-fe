@@ -1,14 +1,12 @@
 import { useCallback, useMemo } from 'react';
 
-import { useAoiLayerVisible, useChangeAoiLayerVisibility, useCurrentAoi } from './aoi.store';
+import { useAoi } from './aoi-store/aoi.store';
 import { useFootprintCollection, useFootprintLayerVisible, useToggleFootprintLayer } from './footprint.store';
 
 export const useLayers = () => {
-  const currentShape = useCurrentAoi();
+  const { shape, visible: isAoiLayerVisible, toggle: toggleAoiLayer } = useAoi();
   const footprintCollection = useFootprintCollection();
-  const isAoiLayerVisible = useAoiLayerVisible();
   const isFootprintLayerVisible = useFootprintLayerVisible();
-  const { toggle: toggleAoiLayer } = useChangeAoiLayerVisibility();
   const { toggle: toggleFootprintLayer } = useToggleFootprintLayer();
 
   const toggle = useCallback(() => {
@@ -19,9 +17,9 @@ export const useLayers = () => {
   return useMemo(
     () => ({
       visible: isAoiLayerVisible && isFootprintLayerVisible,
-      enabled: !!footprintCollection || !!currentShape,
+      enabled: !!footprintCollection || !!shape,
       toggle,
     }),
-    [currentShape, footprintCollection, isAoiLayerVisible, isFootprintLayerVisible, toggle]
+    [shape, footprintCollection, isAoiLayerVisible, isFootprintLayerVisible, toggle]
   );
 };

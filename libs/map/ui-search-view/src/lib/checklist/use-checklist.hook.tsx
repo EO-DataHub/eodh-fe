@@ -1,12 +1,12 @@
 import { useEffect, useMemo } from 'react';
 import { FormState } from 'react-hook-form';
 
-import { TFormDefaultValues } from '../form.model';
+import { TInitialForm } from '../schema/form.schema';
 import { useSetValidation } from './checklist.store';
 
-type TFormStateErrors = Pick<FormState<TFormDefaultValues>, 'errors'>['errors'];
-type TFormStateTouchedFields = Pick<FormState<TFormDefaultValues>, 'touchedFields'>['touchedFields'];
-type TFormStateDirtyFields = Pick<FormState<TFormDefaultValues>, 'dirtyFields'>['dirtyFields'];
+type TFormStateErrors = Pick<FormState<TInitialForm>, 'errors'>['errors'];
+type TFormStateTouchedFields = Pick<FormState<TInitialForm>, 'touchedFields'>['touchedFields'];
+type TFormStateDirtyFields = Pick<FormState<TInitialForm>, 'dirtyFields'>['dirtyFields'];
 
 const useAoiValidation = (
   touchedFields: TFormStateTouchedFields,

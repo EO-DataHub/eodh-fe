@@ -1,12 +1,12 @@
 import { Slider, TreeItem } from '@ukri/shared/design-system';
 import { useFormContext } from 'react-hook-form';
 
-import { TFormDefaultValues } from '../../form.model';
+import { TInitialForm, TUpdateForm } from '../../schema/form.schema';
 import { SatelliteItem } from '../components/satellite-item.component';
 import { SettingsItem } from '../components/settings-item.component';
 
 export const Sentinel2 = () => {
-  const { register } = useFormContext<TFormDefaultValues>();
+  const { register } = useFormContext<TInitialForm, unknown, TUpdateForm>();
 
   return (
     <SatelliteItem title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.NAME' name='dataSets.copernicus.sentinel2'>
