@@ -3,8 +3,6 @@ import { Circle, Geometry, Polygon } from 'ol/geom';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { useMode } from './data-store/data.store';
-
 // type TAoiMode = 'search' | 'view' | 'ac-search' | 'ac-view'; // to review
 
 type TCoordinates = number[][][] | [number, number][][];

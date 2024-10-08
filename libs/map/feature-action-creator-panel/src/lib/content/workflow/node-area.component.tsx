@@ -34,7 +34,6 @@ export const NodeArea = ({ shape }: INodeAreaProps) => {
   }, [enabledNodes, instructions, setNodeSelected]);
 
   useEffect(() => {
-    console.log('disableDrawingTools in NodeArea');
     disableDrawingTools({ aoiNodeSelected: nodeSelected === 'area', mode: 'ac-search' });
   }, [disableDrawingTools, mode, nodeSelected]);
 
