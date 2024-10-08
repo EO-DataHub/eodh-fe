@@ -4,12 +4,13 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface INodeSelectProps {
+  value: TDataSetsFunction | undefined;
   onChange?: (value: TDataSetsFunction | undefined) => void;
 }
 
 const labelPath = 'MAP.ACTION_CREATOR_PANEL.NODE.FUNCTION.OPTIONS';
 
-export const NodeSelect = ({ onChange }: INodeSelectProps) => {
+export const NodeSelect = ({ value, onChange }: INodeSelectProps) => {
   const { t } = useTranslation();
 
   const options = useMemo((): { value: TDataSetsFunction; label: string }[] => {
@@ -32,5 +33,5 @@ export const NodeSelect = ({ onChange }: INodeSelectProps) => {
     [onChange]
   );
 
-  return <Select className='w-full h-[26px]' options={options} onChange={handleChange} />;
+  return <Select className='w-full h-[26px]' options={options} value={value} onChange={handleChange} />;
 };

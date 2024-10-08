@@ -16,7 +16,7 @@ export const ActiveNode = ({ enabled, node, onChange }: TValueNodeProps) => {
 
   return (
     <Node type={node.type} enabled={enabled} selected={node.selected}>
-      <NodeSelect onChange={onChange} />
+      <NodeSelect value={undefined} onChange={onChange} />
     </Node>
   );
 };
