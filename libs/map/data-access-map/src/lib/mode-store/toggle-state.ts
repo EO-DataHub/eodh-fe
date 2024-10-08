@@ -106,14 +106,6 @@ const saveStateInLocalStorage = (mode: TMode) => {
   setItemInLocalStorage(storeKeys.TRUE_COLOR_IMAGE(mode), getTrueColorImageStoreState());
 };
 
-const resetLocalStorage = (mode: TMode) => {
-  localStorage.removeItem(storeKeys.AOI(mode));
-  localStorage.removeItem(storeKeys.DATA_SETS(mode));
-  localStorage.removeItem(storeKeys.DATE(mode));
-  localStorage.removeItem(storeKeys.FOOTPRINT(mode));
-  localStorage.removeItem(storeKeys.TRUE_COLOR_IMAGE(mode));
-};
-
 export const toggleMode = (currentMode: TMode): TMode => {
   const newMode = currentMode === 'search' ? 'action-creator' : 'search';
 
@@ -122,6 +114,3 @@ export const toggleMode = (currentMode: TMode): TMode => {
 
   return newMode;
 };
-
-resetLocalStorage('search');
-resetLocalStorage('action-creator');
