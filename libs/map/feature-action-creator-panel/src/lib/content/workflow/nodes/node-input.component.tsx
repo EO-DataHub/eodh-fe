@@ -1,6 +1,6 @@
 import { Icon } from '@ukri/shared/design-system';
 import clsx from 'clsx';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 
 const searchInputStyles = {
   errorText: 'text-error text-small-semibold m-b-[5px]',
@@ -14,31 +14,18 @@ const searchInputStyles = {
 
 interface INodeInputProps {
   value?: string;
-  onChange?: (value: string) => void;
+  onClearButtonClick?: () => void;
   className?: string;
   iconName?: 'Polygon' | 'Circle' | 'Satellite' | 'Square';
 }
 
-export const NodeInput: FC<INodeInputProps> = ({ value, onChange, className, iconName }) => {
-  const [inputValue, setInputValue] = useState(value);
-
-  const handleClear = () => {
-    setInputValue('');
-    if (onChange) {
-      onChange('');
-    }
-  };
-
-  useEffect(() => {
-    setInputValue(value);
-  }, [value]);
-
+export const NodeInput: FC<INodeInputProps> = ({ value, onClearButtonClick, className, iconName }) => {
   return (
     <div>
       <div className={clsx(searchInputStyles.container, className)}>
         {iconName && <Icon name={iconName} width={12} height={12} className={searchInputStyles.icon} />}
-        <input type='text' className={searchInputStyles.input} value={inputValue} />
-        <button className={searchInputStyles.clearButton} onClick={handleClear}>
+        <input readOnly type='text' className={searchInputStyles.input} value={value} />
+        <button className={searchInputStyles.clearButton} onClick={onClearButtonClick}>
           <Icon name='Close' width={16} height={16} />
         </button>
       </div>

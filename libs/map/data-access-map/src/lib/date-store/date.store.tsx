@@ -9,6 +9,7 @@ export const useDateStore = create<IDateStore>()(
   devtools((set) => ({
     ...defaultValues,
     updateDate: (date: TDateValues['date']) => set((state) => (isEqual(date, state.date) ? state : { date })),
+    changeState: (state) => set(() => ({ state })),
   }))
 );
 
@@ -18,9 +19,5 @@ export const getDateStoreState = (): TDateStoreState => ({
 });
 
 export const useDate = (): IDateStore => {
-  return useDateStore((state) => ({
-    state: state.state,
-    date: state.date,
-    updateDate: state.updateDate,
-  }));
+  return useDateStore();
 };

@@ -1,3 +1,5 @@
+import { TIActionCreatorStoreState } from '../action-creator-store/action-creator.model';
+import { getActionCreatorStoreState, useActionCreatorStore } from '../action-creator-store/action-creator.store';
 import { IAoiStore } from '../aoi-store/aoi.model';
 import { getAoiStoreState, useAoiStore } from '../aoi-store/aoi.store';
 import { TDataSetsStore } from '../data-sets-store/data-sets.model';
@@ -16,6 +18,7 @@ const storeKeys = {
   DATE: (mode: TMode) => `${mode}-date`,
   FOOTPRINT: (mode: TMode) => `${mode}-footprint`,
   TRUE_COLOR_IMAGE: (mode: TMode) => `${mode}-true-color-image`,
+  ACTION_CREATOR: (mode: TMode) => `${mode}-action-creator`,
 };
 
 const setItemInLocalStorage = (key: string, value: object) => {
@@ -90,12 +93,23 @@ const restoreTrueColorImageStoreState = (mode: TMode) => {
   useTrueColorImageStore.setState(currentState);
 };
 
+const restoreActionCreatorStoreState = (mode: TMode) => {
+  const currentState = getItemFromLocalStorage<TIActionCreatorStoreState>(storeKeys.ACTION_CREATOR(mode));
+  if (!currentState) {
+    useActionCreatorStore.getState().setNodes(undefined);
+    return;
+  }
+
+  useActionCreatorStore.setState(currentState);
+};
+
 const restoreStateFromLocalStorage = (mode: TMode) => {
   restoreAoiStoreState(mode);
   restoreDataSetsStoreState(mode);
   restoreDateStoreState(mode);
   restoreFootprintStoreState(mode);
   restoreTrueColorImageStoreState(mode);
+  restoreActionCreatorStoreState(mode);
 };
 
 const saveStateInLocalStorage = (mode: TMode) => {
@@ -104,6 +118,7 @@ const saveStateInLocalStorage = (mode: TMode) => {
   setItemInLocalStorage(storeKeys.DATE(mode), getDateStoreState());
   setItemInLocalStorage(storeKeys.FOOTPRINT(mode), getFootprintStoreState());
   setItemInLocalStorage(storeKeys.TRUE_COLOR_IMAGE(mode), getTrueColorImageStoreState());
+  setItemInLocalStorage(storeKeys.ACTION_CREATOR(mode), getActionCreatorStoreState());
 };
 
 const resetLocalStorage = (mode: TMode) => {
@@ -112,6 +127,7 @@ const resetLocalStorage = (mode: TMode) => {
   localStorage.removeItem(storeKeys.DATE(mode));
   localStorage.removeItem(storeKeys.FOOTPRINT(mode));
   localStorage.removeItem(storeKeys.TRUE_COLOR_IMAGE(mode));
+  localStorage.removeItem(storeKeys.ACTION_CREATOR(mode));
 };
 
 export const toggleMode = (currentMode: TMode): TMode => {
