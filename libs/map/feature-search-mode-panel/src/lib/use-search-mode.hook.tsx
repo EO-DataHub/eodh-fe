@@ -4,7 +4,7 @@ import {
   useDate,
   useFootprintCollectionMutation,
   useMode,
-  useTrueColorImageUrlMutation,
+  useTrueColorImage,
 } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TInitialForm, TUpdateForm } from '@ukri/map/ui-search-view';
@@ -20,7 +20,7 @@ export const useSearchMode = () => {
   const { data, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
-  const setTrueColorImage = useTrueColorImageUrlMutation();
+  const { setStacUrl } = useTrueColorImage();
 
   const state = useMemo(
     () => ({
@@ -84,9 +84,9 @@ export const useSearchMode = () => {
   useEffect(() => {
     if (status === 'pending') {
       setFootprints(undefined);
-      setTrueColorImage(undefined);
+      setStacUrl(undefined);
     }
-  }, [status, setFootprints, setTrueColorImage]);
+  }, [status, setFootprints, setStacUrl]);
 
   return useMemo(
     () => ({

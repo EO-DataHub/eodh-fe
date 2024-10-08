@@ -61,65 +61,22 @@ export type TDateSetsDefaultValues = {
   };
 };
 
-export const defaultValues: TDateSetsDefaultValues = {
-  copernicus: {
-    enabled: false,
-    sentinel1: {
-      enabled: false,
-      expanded: false,
-      acquisitionMode: {
-        ew: true,
-        hh: true,
-        hh_hv: true,
-        iw: true,
-        vv: true,
-        vv_vh: true,
-      },
-      orbitDirection: {
-        ascending: true,
-        descending: true,
-      },
-    },
-    sentinel2: {
-      enabled: false,
-      expanded: false,
-      l1c: false,
-      l2a: true,
-      cloudCoverage: 100,
-    },
-    sentinel3: {
-      enabled: false,
-      expanded: false,
-      slstr: false,
-      cloudCoverage: 100,
-      olci: true,
-    },
-    sentinel5P: {
-      enabled: false,
-      expanded: false,
-      aer_ai: true,
-      ch4: true,
-      cloud: true,
-      co: true,
-      hcho: true,
-      no2: true,
-      o3: true,
-      so2: true,
-    },
-  },
-  planet: {
-    enabled: false,
-    planetScope: {
-      enabled: false,
-      expanded: false,
-    },
-    skySat: {
-      enabled: false,
-      expanded: false,
-    },
-    rapidEye: {
-      enabled: false,
-      expanded: false,
-    },
-  },
+export type TSchema = 'search' | 'action-creator';
+
+export type TInitialData = TDateSetsDefaultValues | undefined;
+
+export type TDataSetsStore<T = TInitialData> = {
+  schema: TSchema;
+  dataSets: T;
+  enabled: boolean;
+  updateDataSets: (state: T) => void;
+  changeSchema: (schema: TSchema) => void;
+};
+
+export type TDataSetsStoreState = Omit<TDataSetsStore, 'updateDataSets' | 'changeSchema'>;
+
+export const defaultState: Omit<TDataSetsStore, 'updateDataSets' | 'changeSchema'> = {
+  schema: 'search',
+  dataSets: undefined,
+  enabled: true,
 };

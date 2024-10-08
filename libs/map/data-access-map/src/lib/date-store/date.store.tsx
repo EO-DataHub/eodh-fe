@@ -5,10 +5,12 @@ import { devtools } from 'zustand/middleware';
 
 import { defaultValues, TDateValues } from './date.model';
 
-interface IDateStore extends TDateValues {
+export interface IDateStore extends TDateValues {
   enabled: boolean;
   updateDate: (date: TDateValues['date']) => void;
 }
+
+export type TDateStoreState = Omit<IDateStore, 'updateDate'>;
 
 export const useDateStore = create<IDateStore>()(
   devtools((set) => ({
@@ -17,6 +19,11 @@ export const useDateStore = create<IDateStore>()(
     updateDate: (date: TDateValues['date']) => set((state) => (isEqual(date, state.date) ? state : { date })),
   }))
 );
+
+export const getDateStoreState = (): TDateStoreState => ({
+  date: useDateStore.getState().date,
+  enabled: useDateStore.getState().enabled,
+});
 
 export const useDate = () => {
   return useDateStore((state) => ({

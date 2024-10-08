@@ -1,7 +1,11 @@
 import { useCallback, useMemo } from 'react';
 
 import { useAoi } from './aoi-store/aoi.store';
-import { useFootprintCollection, useFootprintLayerVisible, useToggleFootprintLayer } from './footprint.store';
+import {
+  useFootprintCollection,
+  useFootprintLayerVisible,
+  useToggleFootprintLayer,
+} from './footprint-store/footprint.store';
 
 export const useLayers = () => {
   const { shape, visible: isAoiLayerVisible, toggle: toggleAoiLayer } = useAoi();

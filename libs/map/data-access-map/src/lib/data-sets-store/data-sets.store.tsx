@@ -3,10 +3,9 @@ import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { defaultState, TDataStore, TSchema } from './data.model';
-import { TDateSetsDefaultValues } from './date-sets.model';
+import { defaultState, TDataSetsStore, TDataSetsStoreState, TDateSetsDefaultValues, TSchema } from './date-sets.model';
 
-export const useDataSetsStore = create<TDataStore>()(
+export const useDataSetsStore = create<TDataSetsStore>()(
   devtools((set) => ({
     ...defaultState,
     updateDataSets: (dataSets: TDateSetsDefaultValues | undefined) =>
@@ -14,6 +13,12 @@ export const useDataSetsStore = create<TDataStore>()(
     changeSchema: (schema: TSchema) => set(() => ({ schema })),
   }))
 );
+
+export const getDataSetsStoreState = (): TDataSetsStoreState => {
+  const { updateDataSets, changeSchema, ...rest } = useDataSetsStore.getState();
+
+  return { ...rest };
+};
 
 export const useDataSets = () => {
   return useDataSetsStore((state) => state);

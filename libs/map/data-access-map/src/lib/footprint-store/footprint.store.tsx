@@ -4,20 +4,9 @@ import { TCollection } from '@ukri/map/data-access-stac-catalog'; // todo: [fix 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-const defaultCollectionName = 'default';
+import { IFootprintStore, TFootprintStoreState } from './footprint.model';
 
-interface IFootprintStore {
-  collections: {
-    [key: string]: {
-      collection: TCollection | undefined;
-      visible: boolean;
-    };
-  };
-  setCollection: (url: TCollection | undefined, id?: string) => void;
-  toggleVisibility: (id?: string) => void;
-  show: (id?: string) => void;
-  hide: (id?: string) => void;
-}
+const defaultCollectionName = 'default';
 
 export const useFootprintStore = create<IFootprintStore>()(
   devtools((set) => ({
@@ -93,6 +82,12 @@ export const useFootprintStore = create<IFootprintStore>()(
       }),
   }))
 );
+
+export const getFootprintStoreState = (): TFootprintStoreState => {
+  const { toggleVisibility, show, hide, setCollection, ...rest } = useFootprintStore.getState();
+
+  return { ...rest };
+};
 
 export const useFootprintCollection = (id: string = defaultCollectionName) => {
   return useFootprintStore((state) => {

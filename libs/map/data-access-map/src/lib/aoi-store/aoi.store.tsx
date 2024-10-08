@@ -3,21 +3,8 @@ import { Geometry } from 'ol/geom';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { createPolygon, getCoordinates, TCoordinate } from './geometry';
-
-type TAoiState = 'readonly' | 'edit';
-
-interface IAoiStore {
-  state: TAoiState;
-  coordinates: TCoordinate | undefined;
-  shape: undefined | Geometry;
-  setShape: (shape: Geometry | undefined) => void;
-  visible: boolean;
-  toggle: () => void;
-  show: () => void;
-  hide: () => void;
-  changeState: (state: TAoiState) => void;
-}
+import { IAoiStore, TAoiState, TAoiStoreState } from './aoi.model';
+import { createPolygon, getCoordinates } from './geometry';
 
 export const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
@@ -37,6 +24,12 @@ export const useAoiStore = create<IAoiStore>()(
     changeState: (state: TAoiState) => set(() => ({ state })),
   }))
 );
+
+export const getAoiStoreState = (): TAoiStoreState => {
+  const { show, hide, changeState, toggle, ...rest } = useAoiStore.getState();
+
+  return { ...rest };
+};
 
 export const useAoi = () => {
   return useAoiStore((state) => ({

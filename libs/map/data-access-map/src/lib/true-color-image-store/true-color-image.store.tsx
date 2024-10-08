@@ -2,10 +2,7 @@ import type {} from '@redux-devtools/extension';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-interface ITrueImageStore {
-  stacUrl: string | undefined;
-  setStacUrl: (url: string | undefined) => void;
-}
+import { ITrueImageStore, TTrueImageStoreState } from './true-color-image.model';
 
 export const useTrueColorImageStore = create<ITrueImageStore>()(
   devtools((set) => ({
@@ -14,10 +11,10 @@ export const useTrueColorImageStore = create<ITrueImageStore>()(
   }))
 );
 
-export const useTrueColorImageUrl = () => {
-  return useTrueColorImageStore((state) => state.stacUrl);
-};
+export const getTrueColorImageStoreState = (): TTrueImageStoreState => ({
+  stacUrl: useTrueColorImageStore.getState().stacUrl,
+});
 
-export const useTrueColorImageUrlMutation = () => {
-  return useTrueColorImageStore((state) => state.setStacUrl);
+export const useTrueColorImage = () => {
+  return useTrueColorImageStore();
 };
