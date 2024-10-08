@@ -17,9 +17,20 @@ const isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() 
 
 const isPolygon = (geometry: Geometry): geometry is Polygon => geometry.getType() === 'Polygon';
 
-export const getCoordinates = (shape?: Geometry): TCoordinate | undefined => {
+const isCoordinates = (shape?: Geometry | TCoordinate): shape is TCoordinate => {
+  // eslint-disable-next-line no-prototype-builtins
+  return !!shape?.hasOwnProperty('type') && !shape?.hasOwnProperty('getType');
+};
+
+export const getCoordinates = (shape?: Geometry | TCoordinate): TCoordinate | undefined => {
   if (!shape) {
     return undefined;
+  }
+
+  const coordinates = isCoordinates(shape);
+
+  if (coordinates) {
+    return shape;
   }
 
   if (isCircle(shape)) {

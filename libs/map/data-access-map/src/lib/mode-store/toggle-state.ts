@@ -43,6 +43,7 @@ const restoreAoiStoreState = (mode: TMode) => {
   }
 
   useAoiStore.setState(currentState);
+  useAoiStore.getState().setShape(currentState.coordinates);
   useAoiStore.getState().changeState(mode === 'action-creator' ? 'readonly' : 'edit');
 };
 

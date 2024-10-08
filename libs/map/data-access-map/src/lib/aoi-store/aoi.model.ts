@@ -8,7 +8,7 @@ export interface IAoiStore {
   state: TAoiState;
   coordinates: TCoordinate | undefined;
   shape: undefined | Geometry;
-  setShape: (shape: Geometry | undefined) => void;
+  setShape: (shape: Geometry | TCoordinate | undefined) => void;
   visible: boolean;
   toggle: () => void;
   show: () => void;
@@ -16,4 +16,4 @@ export interface IAoiStore {
   changeState: (state: TAoiState) => void;
 }
 
-export type TAoiStoreState = Omit<IAoiStore, 'setShape' | 'toggle' | 'show' | 'hide' | 'changeState'>;
+export type TAoiStoreState = Omit<IAoiStore, 'shape' | 'setShape' | 'toggle' | 'show' | 'hide' | 'changeState'>;

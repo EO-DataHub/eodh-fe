@@ -4,16 +4,15 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { IAoiStore, TAoiState, TAoiStoreState } from './aoi.model';
-import { createPolygon, getCoordinates } from './geometry';
+import { createPolygon, getCoordinates, TCoordinate } from './geometry';
 
 export const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
     state: 'edit',
     shape: undefined,
     coordinates: undefined,
-    setShape: (shape: Geometry | undefined) =>
-      set((state) => ({
-        ...state,
+    setShape: (shape: Geometry | TCoordinate | undefined) =>
+      set(() => ({
         shape: createPolygon(getCoordinates(shape)),
         coordinates: getCoordinates(shape),
       })),
@@ -26,7 +25,7 @@ export const useAoiStore = create<IAoiStore>()(
 );
 
 export const getAoiStoreState = (): TAoiStoreState => {
-  const { show, hide, changeState, toggle, ...rest } = useAoiStore.getState();
+  const { show, hide, changeState, toggle, shape, ...rest } = useAoiStore.getState();
 
   return { ...rest };
 };
