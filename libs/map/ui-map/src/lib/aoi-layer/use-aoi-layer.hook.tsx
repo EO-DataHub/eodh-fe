@@ -57,7 +57,7 @@ export const useAoiLayer = () => {
     draw.draw.on('drawstart', () => setShape(undefined));
     draw.draw.on('drawend', (event: DrawEvent) => {
       map.removeInteraction(draw.draw);
-      setShape(event.feature.getGeometry());
+      setShape({ type: draw.type, shape: event.feature.getGeometry() });
       setDraw(undefined);
     });
     map.addInteraction(draw.draw);

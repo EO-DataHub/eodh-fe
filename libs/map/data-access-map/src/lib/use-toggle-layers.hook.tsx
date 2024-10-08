@@ -8,7 +8,7 @@ import {
 } from './footprint-store/footprint.store';
 
 export const useLayers = () => {
-  const { shape, visible: isAoiLayerVisible, toggle: toggleAoiLayer } = useAoi();
+  const { shape, visible: isAoiLayerVisible, toggleVisibility: toggleAoiLayer } = useAoi();
   const footprintCollection = useFootprintCollection();
   const isFootprintLayerVisible = useFootprintLayerVisible();
   const { toggle: toggleFootprintLayer } = useToggleFootprintLayer();

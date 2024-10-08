@@ -3,31 +3,23 @@ import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { defaultValues, TDateValues } from './date.model';
-
-export interface IDateStore extends TDateValues {
-  enabled: boolean;
-  updateDate: (date: TDateValues['date']) => void;
-}
-
-export type TDateStoreState = Omit<IDateStore, 'updateDate'>;
+import { defaultValues, IDateStore, TDateStoreState, TDateValues } from './date.model';
 
 export const useDateStore = create<IDateStore>()(
   devtools((set) => ({
     ...defaultValues,
-    enabled: true,
     updateDate: (date: TDateValues['date']) => set((state) => (isEqual(date, state.date) ? state : { date })),
   }))
 );
 
 export const getDateStoreState = (): TDateStoreState => ({
   date: useDateStore.getState().date,
-  enabled: useDateStore.getState().enabled,
+  state: useDateStore.getState().state,
 });
 
-export const useDate = () => {
+export const useDate = (): IDateStore => {
   return useDateStore((state) => ({
-    enabled: state.enabled,
+    state: state.state,
     date: state.date,
     updateDate: state.updateDate,
   }));

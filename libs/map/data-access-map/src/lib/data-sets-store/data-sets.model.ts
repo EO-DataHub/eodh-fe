@@ -1,4 +1,4 @@
-export type TDateSetsDefaultValues = {
+export type TDataSetsDefaultValues = {
   copernicus: {
     enabled: boolean;
     sentinel1?: {
@@ -61,14 +61,16 @@ export type TDateSetsDefaultValues = {
   };
 };
 
+export type TDateSetsState = 'readonly' | 'edit';
+
 export type TSchema = 'search' | 'action-creator';
 
-export type TInitialData = TDateSetsDefaultValues | undefined;
+export type TInitialData = TDataSetsDefaultValues | undefined;
 
 export type TDataSetsStore<T = TInitialData> = {
   schema: TSchema;
   dataSets: T;
-  enabled: boolean;
+  state: TDateSetsState;
   updateDataSets: (state: T) => void;
   changeSchema: (schema: TSchema) => void;
 };
@@ -76,7 +78,7 @@ export type TDataSetsStore<T = TInitialData> = {
 export type TDataSetsStoreState = Omit<TDataSetsStore, 'updateDataSets' | 'changeSchema'>;
 
 export const defaultState: Omit<TDataSetsStore, 'updateDataSets' | 'changeSchema'> = {
+  state: 'edit',
   schema: 'search',
   dataSets: undefined,
-  enabled: true,
 };

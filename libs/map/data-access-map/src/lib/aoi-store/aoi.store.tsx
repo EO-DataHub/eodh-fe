@@ -4,20 +4,20 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { IAoiStore, TAoiState, TAoiStoreState } from './aoi.model';
-import { createPolygon, getCoordinates, TCoordinate } from './geometry';
+import { createShape, getCoordinates } from './geometry';
 
 export const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
     state: 'edit',
     shape: undefined,
     coordinates: undefined,
-    setShape: (shape: Geometry | TCoordinate | undefined) =>
+    setShape: (shape) =>
       set(() => ({
-        shape: createPolygon(getCoordinates(shape)),
+        shape: createShape(getCoordinates(shape), shape?.type),
         coordinates: getCoordinates(shape),
       })),
     visible: true,
-    toggle: () => set((state) => ({ visible: !state.visible })),
+    toggleVisibility: () => set((state) => ({ visible: !state.visible })),
     show: () => set(() => ({ visible: true })),
     hide: () => set(() => ({ visible: false })),
     changeState: (state: TAoiState) => set(() => ({ state })),
@@ -25,18 +25,18 @@ export const useAoiStore = create<IAoiStore>()(
 );
 
 export const getAoiStoreState = (): TAoiStoreState => {
-  const { show, hide, changeState, toggle, shape, ...rest } = useAoiStore.getState();
+  const { show, hide, changeState, toggleVisibility, shape, ...rest } = useAoiStore.getState();
 
   return { ...rest };
 };
 
-export const useAoi = () => {
+export const useAoi = (): Omit<IAoiStore, 'coordinates' | 'shape'> & { shape: Geometry | undefined } => {
   return useAoiStore((state) => ({
     state: state.state,
-    shape: state.shape,
+    shape: state.shape?.shape,
     setShape: state.setShape,
     visible: state.visible,
-    toggle: state.toggle,
+    toggleVisibility: state.toggleVisibility,
     show: state.show,
     hide: state.hide,
     changeState: state.changeState,

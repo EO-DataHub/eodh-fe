@@ -1,8 +1,9 @@
 import { IAoiStore } from '../aoi-store/aoi.model';
 import { getAoiStoreState, useAoiStore } from '../aoi-store/aoi.store';
+import { TDataSetsStore } from '../data-sets-store/data-sets.model';
 import { getDataSetsStoreState, useDataSetsStore } from '../data-sets-store/data-sets.store';
-import { TDataSetsStore } from '../data-sets-store/date-sets.model';
-import { getDateStoreState, TDateStoreState, useDateStore } from '../date-store/date.store';
+import { TDateStoreState } from '../date-store/date.model';
+import { getDateStoreState, useDateStore } from '../date-store/date.store';
 import { TFootprintStoreState } from '../footprint-store/footprint.model';
 import { getFootprintStoreState, useFootprintStore } from '../footprint-store/footprint.store';
 import { TTrueImageStoreState } from '../true-color-image-store/true-color-image.model';
@@ -10,11 +11,11 @@ import { getTrueColorImageStoreState, useTrueColorImageStore } from '../true-col
 import { TMode } from './mode.model';
 
 const storeKeys = {
-  AOI: (mode: TMode) => `aoi-${mode}`,
-  DATA_SETS: (mode: TMode) => `data-sets-${mode}`,
-  DATE: (mode: TMode) => `date-${mode}`,
-  FOOTPRINT: (mode: TMode) => `footprint-${mode}`,
-  TRUE_COLOR_IMAGE: (mode: TMode) => `true-color-image-${mode}`,
+  AOI: (mode: TMode) => `${mode}-aoi`,
+  DATA_SETS: (mode: TMode) => `${mode}-data-sets`,
+  DATE: (mode: TMode) => `${mode}-date`,
+  FOOTPRINT: (mode: TMode) => `${mode}-footprint`,
+  TRUE_COLOR_IMAGE: (mode: TMode) => `${mode}-true-color-image`,
 };
 
 const setItemInLocalStorage = (key: string, value: object) => {

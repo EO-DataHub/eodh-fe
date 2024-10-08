@@ -1,19 +1,41 @@
 import { Geometry } from 'ol/geom';
 
-import { TCoordinate } from './geometry';
+type TCoordinates = number[][][] | [number, number][][];
+
+export type TCoordinate =
+  | {
+      type: 'circle';
+      center: number[];
+      radius: number;
+    }
+  | {
+      type: 'rectangle';
+      coordinates: TCoordinates;
+    }
+  | {
+      type: 'polygon';
+      coordinates: TCoordinates;
+    };
+
+export type TShapeType = 'circle' | 'rectangle' | 'polygon';
+
+export type TShape = { type: TShapeType; shape: Geometry | undefined } | undefined;
 
 export type TAoiState = 'readonly' | 'edit';
 
 export interface IAoiStore {
   state: TAoiState;
   coordinates: TCoordinate | undefined;
-  shape: undefined | Geometry;
-  setShape: (shape: Geometry | TCoordinate | undefined) => void;
+  shape: TShape;
+  setShape: (shape: TShape | TCoordinate | undefined) => void;
   visible: boolean;
-  toggle: () => void;
+  toggleVisibility: () => void;
   show: () => void;
   hide: () => void;
   changeState: (state: TAoiState) => void;
 }
 
-export type TAoiStoreState = Omit<IAoiStore, 'shape' | 'setShape' | 'toggle' | 'show' | 'hide' | 'changeState'>;
+export type TAoiStoreState = Omit<
+  IAoiStore,
+  'shape' | 'setShape' | 'toggleVisibility' | 'show' | 'hide' | 'changeState'
+>;

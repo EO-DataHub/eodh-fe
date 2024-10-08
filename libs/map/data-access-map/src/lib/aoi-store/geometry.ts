@@ -1,28 +1,17 @@
 import { Circle, Geometry, Polygon } from 'ol/geom';
 
-type TCoordinates = number[][][] | [number, number][][];
-
-export type TCoordinate =
-  | {
-      type: 'Circle';
-      center: number[];
-      radius: number;
-    }
-  | {
-      type: 'Polygon';
-      coordinates: TCoordinates;
-    };
+import { TCoordinate, TShape, TShapeType } from './aoi.model';
 
 const isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() === 'Circle';
 
 const isPolygon = (geometry: Geometry): geometry is Polygon => geometry.getType() === 'Polygon';
 
-const isCoordinates = (shape?: Geometry | TCoordinate): shape is TCoordinate => {
+const isCoordinates = (shape: TShape | TCoordinate): shape is TCoordinate => {
   // eslint-disable-next-line no-prototype-builtins
-  return !!shape?.hasOwnProperty('type') && !shape?.hasOwnProperty('getType');
+  return !shape?.hasOwnProperty('shape');
 };
 
-export const getCoordinates = (shape?: Geometry | TCoordinate): TCoordinate | undefined => {
+export const getCoordinates = (shape?: TShape | TCoordinate): TCoordinate | undefined => {
   if (!shape) {
     return undefined;
   }
@@ -33,33 +22,61 @@ export const getCoordinates = (shape?: Geometry | TCoordinate): TCoordinate | un
     return shape;
   }
 
-  if (isCircle(shape)) {
-    return {
-      type: 'Circle',
-      center: shape.getCenter(),
-      radius: shape.getRadius(),
-    };
-  } else if (isPolygon(shape)) {
-    return {
-      type: 'Polygon',
-      coordinates: shape.getCoordinates(),
-    };
+  if (!shape.shape) {
+    return undefined;
+  }
+
+  switch (shape.type) {
+    case 'circle': {
+      if (!isCircle(shape.shape)) {
+        return undefined;
+      }
+
+      return {
+        type: 'circle',
+        center: shape.shape.getCenter(),
+        radius: shape.shape.getRadius(),
+      };
+    }
+
+    case 'rectangle': {
+      if (!isPolygon(shape.shape)) {
+        return undefined;
+      }
+
+      return {
+        type: 'rectangle',
+        coordinates: shape.shape.getCoordinates(),
+      };
+    }
+
+    case 'polygon': {
+      if (!isPolygon(shape.shape)) {
+        return undefined;
+      }
+
+      return {
+        type: 'polygon',
+        coordinates: shape.shape.getCoordinates(),
+      };
+    }
   }
 
   return undefined;
 };
 
-export const createPolygon = (coordinate: TCoordinate | undefined): Geometry | undefined => {
+const createPolygon = (coordinate: TCoordinate | undefined): Geometry | undefined => {
   if (!coordinate) {
     return undefined;
   }
 
   switch (coordinate.type) {
-    case 'Polygon': {
+    case 'rectangle':
+    case 'polygon': {
       return new Polygon(coordinate.coordinates);
     }
 
-    case 'Circle': {
+    case 'circle': {
       return new Circle(coordinate.center, coordinate.radius);
     }
 
@@ -67,4 +84,20 @@ export const createPolygon = (coordinate: TCoordinate | undefined): Geometry | u
       return undefined;
     }
   }
+};
+
+export const createShape = (
+  coordinate: TCoordinate | undefined,
+  type: TShapeType | undefined
+): { type: TShapeType; shape: Geometry | undefined } | undefined => {
+  const shape = createPolygon(coordinate);
+
+  if (!shape || !type) {
+    return undefined;
+  }
+
+  return {
+    type,
+    shape,
+  };
 };

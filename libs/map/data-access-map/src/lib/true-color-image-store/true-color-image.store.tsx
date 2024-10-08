@@ -15,6 +15,6 @@ export const getTrueColorImageStoreState = (): TTrueImageStoreState => ({
   stacUrl: useTrueColorImageStore.getState().stacUrl,
 });
 
-export const useTrueColorImage = () => {
+export const useTrueColorImage = (): ITrueImageStore => {
   return useTrueColorImageStore();
 };

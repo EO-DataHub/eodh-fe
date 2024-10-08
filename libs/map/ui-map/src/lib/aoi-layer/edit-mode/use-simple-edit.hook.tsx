@@ -6,7 +6,7 @@ import { MapContext } from '../../map.component';
 import { AoiLayerContext } from '../aoi-layer.component';
 
 export const useSimpleEdit = (enabled: boolean) => {
-  const { source, layer } = useContext(AoiLayerContext);
+  const { source, layer, draw } = useContext(AoiLayerContext);
   const map = useContext(MapContext);
   const { state, setShape } = useAoi();
 
@@ -16,12 +16,18 @@ export const useSimpleEdit = (enabled: boolean) => {
     }
 
     const modify = new Modify({ source });
-    modify.on('modifyend', (event) => setShape(event.features.pop()?.getGeometry()));
+    modify.on('modifyend', (event) => {
+      if (!draw) {
+        return;
+      }
+
+      setShape({ type: draw.type, shape: event.features.pop()?.getGeometry() });
+    });
 
     map.addInteraction(modify);
 
     return () => {
       map.removeInteraction(modify);
     };
-  }, [enabled, map, state, source, layer, setShape]);
+  }, [enabled, map, state, source, layer, draw, setShape]);
 };
