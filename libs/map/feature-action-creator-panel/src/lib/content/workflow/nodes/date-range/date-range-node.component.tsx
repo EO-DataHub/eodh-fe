@@ -23,11 +23,11 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   }, [node, setActive]);
 
   const clearDateFrom = useCallback(() => {
-    updateDate({ from: undefined, to: date?.to });
+    updateDate({ from: null, to: date?.to });
   }, [date?.to, updateDate]);
 
   const clearDateTo = useCallback(() => {
-    updateDate({ from: date?.from, to: undefined });
+    updateDate({ from: date?.from, to: null });
   }, [date?.from, updateDate]);
 
   useEffect(() => {

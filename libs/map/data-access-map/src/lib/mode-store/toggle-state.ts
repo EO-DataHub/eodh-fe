@@ -66,7 +66,7 @@ const restoreDataSetsStoreState = (mode: TMode) => {
 const restoreDateStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<TDateStoreState>(storeKeys.DATE(mode));
   if (!currentState) {
-    useDateStore.getState().updateDate(undefined);
+    useDateStore.getState().reset();
     return;
   }
 

@@ -3,7 +3,7 @@ import { useAoi } from '@ukri/map/data-access-map';
 import { Button, Icon } from '@ukri/shared/design-system';
 import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
-import mergeWith from 'lodash/mergeWith';
+import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
 
@@ -11,7 +11,6 @@ import { AreaOfInterest } from './aoi.component';
 import { useChecklistState, useShowChecklist } from './checklist/checklist.store';
 import { useSyncChecklistState } from './checklist/use-checklist.hook';
 import { DateRangePicker } from './date-range-picker/date-range-picker.component';
-import { defaultValues as defaultData } from './form.default-data';
 import { initialSchema, TInitialForm, TUpdateForm, updateSchema } from './schema/form.schema';
 import { Tree } from './tree/tree.component';
 
@@ -39,61 +38,32 @@ const useFormUpdate = (
   schemaName: TSchema,
   onChange: TSearchPanelProps['onChange']
 ) => {
+  const [currentSchema, setCurrentSchema] = useState<TSchema>(schemaName);
   const values = useFormValues(form);
 
-  const handleChange = useMemo(
-    () =>
-      debounce((values: TInitialForm) => {
-        if (onChange) {
-          const schema = getSchema(schemaName).initial;
-          const parsedValues = schema.safeParse(values);
+  const handleChange = useMemo(() => {
+    const callback: (schemaA: TSchema, values?: TInitialForm) => void = (schemaA: TSchema) => {
+      if (onChange) {
+        const values = { ...form.watch(), ...form.getValues() };
+        const schema = getSchema(schemaA).initial;
+        const parsedValues = schema.safeParse(values);
 
-          if (parsedValues.success) {
-            onChange(values);
-          }
+        if (parsedValues.success) {
+          onChange(values);
         }
-      }, 200),
-    [onChange, schemaName]
-  );
+      }
+    };
+
+    return debounce(callback, 200);
+  }, [form, onChange]);
 
   useEffect(() => {
-    handleChange(values);
-  }, [values, handleChange]);
-};
-
-const useInitialValues = (defaultValues: TInitialForm) => {
-  return useMemo(() => {
-    const values: TInitialForm = cloneDeep(defaultData);
-
-    if (defaultValues.dataSets) {
-      values.dataSets = mergeWith(cloneDeep(defaultValues.dataSets), values.dataSets);
+    if (schemaName !== currentSchema) {
+      setCurrentSchema(schemaName);
+    } else {
+      handleChange(schemaName, values);
     }
-
-    if (defaultValues.date) {
-      values.date = mergeWith(cloneDeep(defaultValues.date), values.date);
-    }
-
-    return values;
-  }, [defaultValues]);
-};
-
-const useParsedValues = (values: TInitialForm, schemaName: TSchema) => {
-  return useMemo(() => {
-    const schema = getSchema(schemaName).initial;
-    const result: TInitialForm = {};
-    const dataSets = schema.pick({ dataSets: true }).safeParse(values);
-    const date = schema.pick({ date: true }).safeParse(values);
-
-    if (dataSets.success && dataSets.data.dataSets) {
-      result.dataSets = cloneDeep(dataSets.data.dataSets);
-    }
-
-    if (date.success && date.data.date) {
-      result.date = cloneDeep(date.data.date);
-    }
-
-    return result;
-  }, [values, schemaName]);
+  }, [values, handleChange, schemaName, currentSchema]);
 };
 
 const getSchema = (schema: TSchema) => {
@@ -118,12 +88,10 @@ export const SearchView = ({
   schema,
   onSubmit,
   onChange,
-  defaultValues = defaultData,
+  defaultValues,
   children,
 }: PropsWithChildren<TSearchPanelProps>) => {
-  const [currentSchema, setCurrentSchema] = useState(schema);
-  const parsedValues = useParsedValues(defaultValues, schema);
-  const initialValues = useInitialValues(parsedValues);
+  const [initialValues] = useState(defaultValues);
   const form = useForm<TInitialForm, unknown, TUpdateForm>({
     defaultValues: initialValues,
     resolver: zodResolver(getSchema(schema).update),
@@ -137,27 +105,12 @@ export const SearchView = ({
   useSyncChecklistState(form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
 
   useEffect(() => {
-    if (currentSchema !== schema) {
-      form.reset({ ...initialValues, aoi: shape?.shape }, { keepDefaultValues: true });
-      setCurrentSchema(schema);
+    const { aoi, ...rest } = { ...form.getValues(), ...form.watch() };
+    if (defaultValues && !isEqual(rest, defaultValues)) {
+      const data = cloneDeep(defaultValues);
+      form.reset({ dataSets: data.dataSets, date: data.date, aoi: shape?.shape }, { keepDefaultValues: true });
     }
-  }, [schema, form, currentSchema, initialValues, shape?.shape]);
-
-  useEffect(() => {
-    if (!parsedValues.dataSets) {
-      const data = cloneDeep(defaultData);
-      form.reset({ dataSets: data.dataSets, aoi: shape?.shape }, { keepDefaultValues: true });
-    }
-
-    if (!parsedValues.date?.from || !parsedValues.date?.to) {
-      if (!parsedValues.date?.from) {
-        form.setValue('date.from', undefined, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
-      }
-      if (!parsedValues.date?.to) {
-        form.setValue('date.to', undefined, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
-      }
-    }
-  }, [parsedValues, form, shape?.shape]);
+  }, [form, defaultValues, shape?.shape]);
 
   return (
     <FormProvider {...form}>
