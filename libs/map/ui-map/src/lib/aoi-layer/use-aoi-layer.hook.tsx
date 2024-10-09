@@ -1,4 +1,4 @@
-import { useAoiLayerVisible, useCurrentAoi, useCurrentAoiMutation } from '@ukri/map/data-access-map';
+import { useAoi } from '@ukri/map/data-access-map';
 import Feature from 'ol/Feature';
 import { Draw } from 'ol/interaction.js';
 import { DrawEvent } from 'ol/interaction/Draw';
@@ -14,12 +14,10 @@ export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
 export const useAoiLayer = () => {
   const map = useContext(MapContext);
-  const visible = useAoiLayerVisible();
+  const { visible, shape, setShape } = useAoi();
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
-  const shape = useCurrentAoi();
-  const setShape = useCurrentAoiMutation();
 
   useEffect(() => {
     const newSource = new VectorSource({ wrapX: false });
@@ -38,18 +36,18 @@ export const useAoiLayer = () => {
   }, [map]);
 
   useEffect(() => {
-    if (!shape) {
+    if (!shape?.shape) {
       return;
     }
 
     const feature = new Feature();
-    feature.setGeometry(shape);
+    feature.setGeometry(shape.shape);
     source?.addFeature(feature);
 
     return () => {
       source?.removeFeature(feature);
     };
-  }, [shape, source]);
+  }, [shape?.shape, source]);
 
   useEffect(() => {
     if (!draw?.draw) {
@@ -59,7 +57,7 @@ export const useAoiLayer = () => {
     draw.draw.on('drawstart', () => setShape(undefined));
     draw.draw.on('drawend', (event: DrawEvent) => {
       map.removeInteraction(draw.draw);
-      setShape(event.feature.getGeometry());
+      setShape({ type: draw.type, shape: event.feature.getGeometry() });
       setDraw(undefined);
     });
     map.addInteraction(draw.draw);

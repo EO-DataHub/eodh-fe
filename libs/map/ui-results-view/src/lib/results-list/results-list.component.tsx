@@ -1,4 +1,4 @@
-import { useTrueColorImageUrlMutation } from '@ukri/map/data-access-map';
+import { useTrueColorImage } from '@ukri/map/data-access-map';
 import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { ResultItem } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
@@ -9,7 +9,7 @@ export interface IResultsListProps {
 
 export const ResultsList = ({ features }: IResultsListProps) => {
   const [selectedFeature, setSelectedFeature] = useState<TFeature | null>(null);
-  const setStacUrl = useTrueColorImageUrlMutation();
+  const { setStacUrl } = useTrueColorImage();
 
   const handleSelectedItemToggle = useCallback(
     (feature: TFeature) => {

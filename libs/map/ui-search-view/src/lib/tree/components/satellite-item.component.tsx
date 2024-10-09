@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import { PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
-import { TFormDefaultValues } from '../../form.model';
+import { TInitialForm, TUpdateForm } from '../../schema/form.schema';
 import { TTreeSettings } from '../tree.context';
 import { Error } from './error.component';
 import { SettingsTree } from './settings-tree.component';
@@ -45,7 +45,7 @@ const Checkbox = ({ name, disabled }: TCheckboxProps) => {
     register,
     formState: { errors },
     trigger,
-  } = useFormContext<TFormDefaultValues>();
+  } = useFormContext<TInitialForm, unknown, TUpdateForm>();
   const controlName = `${name}.enabled` as const;
   const state = get(errors, controlName) ? 'error' : undefined;
 
@@ -59,9 +59,9 @@ const Checkbox = ({ name, disabled }: TCheckboxProps) => {
 type TSatelliteItemProps = PropsWithChildren<{ title: ParseKeys; name: keyof TTreeSettings; disabled?: boolean }>;
 
 export const SatelliteItem = ({ title, name, disabled, children }: TSatelliteItemProps) => {
-  const { setValue } = useFormContext<TFormDefaultValues>();
-  const enabled = useWatch<TFormDefaultValues>({ name: `${name}.enabled` });
-  const expanded = useWatch<TFormDefaultValues>({ name: `${name}.expanded` });
+  const { setValue } = useFormContext<TInitialForm, unknown, TUpdateForm>();
+  const enabled = useWatch<TInitialForm | TUpdateForm>({ name: `${name}.enabled` });
+  const expanded = useWatch<TInitialForm | TUpdateForm>({ name: `${name}.expanded` });
 
   const toggleSettings = useCallback(() => {
     const options = { shouldDirty: true, shouldValidate: true, shouldTouch: true };

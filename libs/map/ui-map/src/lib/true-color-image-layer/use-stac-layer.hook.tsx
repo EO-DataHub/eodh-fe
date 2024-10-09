@@ -1,4 +1,4 @@
-import { useTrueColorImageUrl } from '@ukri/map/data-access-map';
+import { useTrueColorImage } from '@ukri/map/data-access-map';
 import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
 import proj4 from 'proj4';
@@ -11,16 +11,16 @@ register(proj4);
 
 export const useStacLayer = () => {
   const map = useContext(MapContext);
-  const url = useTrueColorImageUrl();
+  const { stacUrl } = useTrueColorImage();
   const [stacLayer, setStacLayer] = useState<STAC | null>(null);
 
   useEffect(() => {
-    if (!map || !url) {
+    if (!map || !stacUrl) {
       return;
     }
 
     const newStacLayer = new STAC({
-      url,
+      url: stacUrl,
       zIndex: stacLayerZindex,
     });
 
@@ -48,7 +48,7 @@ export const useStacLayer = () => {
       map.removeLayer(newStacLayer);
       newStacLayer.removeEventListener('sourceready', handleSourceReady);
     };
-  }, [map, url]);
+  }, [map, stacUrl]);
 
   const updateZindex = useCallback(
     (newZIndex: number) => {

@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { TFormDefaultValues } from '../form.model';
+import { TInitialForm, TUpdateForm } from '../schema/form.schema';
 import { styles } from './date-range-picker.styles';
 
 const dateFromFieldName = 'date.from';
@@ -21,7 +21,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
     register,
     getValues,
     trigger,
-  } = useFormContext<TFormDefaultValues>();
+  } = useFormContext<TInitialForm, unknown, TUpdateForm>();
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();

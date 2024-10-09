@@ -1,13 +1,13 @@
 import { useWatch } from 'react-hook-form';
 
-import { TFormDefaultValues } from '../../form.model';
+import { TInitialForm, TUpdateForm } from '../../schema/form.schema';
 import { SatelliteItem } from '../components/satellite-item.component';
 import { SettingsItem } from '../components/settings-item.component';
 import { SettingsSection } from '../components/settings-section.component';
 
 export const Sentinel1 = () => {
-  const ew = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel1.acquisitionMode.ew' });
-  const iw = useWatch<TFormDefaultValues>({ name: 'dataSets.copernicus.sentinel1.acquisitionMode.iw' });
+  const ew = useWatch<TInitialForm | TUpdateForm>({ name: 'dataSets.copernicus.sentinel1.acquisitionMode.ew' });
+  const iw = useWatch<TInitialForm | TUpdateForm>({ name: 'dataSets.copernicus.sentinel1.acquisitionMode.iw' });
 
   return (
     <SatelliteItem title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.NAME' name='dataSets.copernicus.sentinel1'>

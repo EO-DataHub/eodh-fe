@@ -5,19 +5,18 @@ import { memo, useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { defaultValues } from '../form.default-data';
-import { TFormDefaultValues } from '../form.model';
-import { updateSchema } from '../form.schema';
+import { TInitialForm, TUpdateForm, updateSchema } from '../schema/form.schema';
 import { Tree as TreeComponent } from './tree.component';
 import { defaultSettings, TTreeSettings } from './tree.context';
 
 type TTreeTemplate = {
-  values: TFormDefaultValues;
+  values: TInitialForm;
   triggerValidation?: boolean;
   settings?: TTreeSettings;
 };
 
 const Form = memo(({ values, settings, triggerValidation }: TTreeTemplate) => {
-  const form = useForm<TFormDefaultValues>({
+  const form = useForm<TInitialForm, unknown, TUpdateForm>({
     values: { ...values },
     resolver: zodResolver(updateSchema),
     reValidateMode: 'onChange',
@@ -84,12 +83,12 @@ export const TreeError = {
       ...defaultValues,
       dataSets: {
         copernicus: {
-          ...defaultValues.dataSets.copernicus,
+          ...defaultValues.dataSets?.copernicus,
           sentinel1: {
-            ...defaultValues.dataSets.copernicus.sentinel1,
+            ...defaultValues.dataSets?.copernicus.sentinel1,
             enabled: true,
             acquisitionMode: {
-              ...defaultValues.dataSets.copernicus.sentinel1.acquisitionMode,
+              ...defaultValues.dataSets?.copernicus.sentinel1?.acquisitionMode,
               hh: false,
               hh_hv: false,
             },

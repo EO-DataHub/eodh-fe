@@ -1,50 +1,80 @@
 import {
-  useChangeAoiMode,
-  useData,
+  useAoi,
+  useDataSets,
+  useDate,
   useFootprintCollectionMutation,
-  useTrueColorImageUrlMutation,
+  useMode,
+  useTrueColorImage,
 } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
-import { TForm } from '@ukri/map/ui-search-view';
+import { TInitialForm, TUpdateForm } from '@ukri/map/ui-search-view';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const useSearchMode = () => {
-  const { schema, data: searchParams, updateData, state, updateState } = useData();
+  const [searchParams, setSearchParams] = useState<TUpdateForm>();
+  const { schema, dataSets, updateDataSets } = useDataSets();
+  const { date, updateDate } = useDate();
+  const { mode } = useMode();
+  const [currentMode, setCurrentMode] = useState(mode);
   const [view, setView] = useState<'search' | 'results'>('search');
   const { data, status } = useCatalogSearch({ params: searchParams });
-  const changeAoiMode = useChangeAoiMode();
+  const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
-  const setTrueColorImage = useTrueColorImageUrlMutation();
+  const { setStacUrl } = useTrueColorImage();
+
+  const state = useMemo(
+    () => ({
+      date,
+      dataSets,
+    }),
+    [date, dataSets]
+  );
+
+  useEffect(() => {
+    // todo move this into data-access layer
+    if (mode !== currentMode) {
+      setView('search');
+      setCurrentMode(mode);
+    }
+  }, [mode, currentMode, setCurrentMode]);
 
   const changeView = useCallback(
     (view: 'search' | 'results') => {
       switch (view) {
         case 'search': {
           setView('search');
-          changeAoiMode('search');
+          changeState('edit');
           return;
         }
 
         case 'results': {
           setView('results');
-          changeAoiMode('view');
+          changeState('readonly');
           return;
         }
       }
     },
-    [changeAoiMode]
+    [changeState]
   );
 
   const changeToSearchView = useCallback(() => {
     changeView('search');
   }, [changeView]);
 
+  const updateState = useCallback(
+    (formData: TInitialForm) => {
+      updateDataSets(formData.dataSets);
+      updateDate(formData.date);
+    },
+    [updateDataSets, updateDate]
+  );
+
   const search = useCallback(
-    (formData: TForm) => {
-      updateData(formData);
+    (formData: TUpdateForm) => {
+      setSearchParams(formData);
       changeView('results');
     },
-    [changeView, updateData]
+    [changeView]
   );
 
   useEffect(() => {
@@ -54,9 +84,9 @@ export const useSearchMode = () => {
   useEffect(() => {
     if (status === 'pending') {
       setFootprints(undefined);
-      setTrueColorImage(undefined);
+      setStacUrl(undefined);
     }
-  }, [status, setFootprints, setTrueColorImage]);
+  }, [status, setFootprints, setStacUrl]);
 
   return useMemo(
     () => ({
@@ -64,11 +94,11 @@ export const useSearchMode = () => {
       status,
       view,
       changeToSearchView,
+      schema,
       state,
       search,
       updateState,
-      schema,
     }),
-    [data, status, view, changeToSearchView, state, search, updateState, schema]
+    [data, status, view, changeToSearchView, schema, state, search, updateState]
   );
 };

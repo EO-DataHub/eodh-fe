@@ -3,18 +3,18 @@ import { ParseKeys } from 'i18next';
 import { ChangeEvent, PropsWithChildren, useMemo } from 'react';
 import { FieldPath, useFormContext } from 'react-hook-form';
 
-import { TFormDefaultValues } from '../../form.model';
+import { TInitialForm, TUpdateForm } from '../../schema/form.schema';
 
 type TSatelliteItemProps = PropsWithChildren<{
   title: ParseKeys;
-  name: FieldPath<TFormDefaultValues>;
+  name: FieldPath<TInitialForm>;
   disabled?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   icon?: 'Check' | 'Remove';
 }>;
 
 export const CategoryItem = ({ title, name, disabled, children, onChange, icon }: TSatelliteItemProps) => {
-  const { register } = useFormContext<TFormDefaultValues>();
+  const { register } = useFormContext<TInitialForm, unknown, TUpdateForm>();
   const slots = useMemo(
     (): TSlots => [
       {
