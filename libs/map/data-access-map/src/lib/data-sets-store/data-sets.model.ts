@@ -61,7 +61,7 @@ export type TDataSetsDefaultValues = {
   };
 };
 
-export type TDateSetsState = 'readonly' | 'edit';
+export type TDataSetsState = 'readonly' | 'edit';
 
 export type TSchema = 'search' | 'action-creator';
 
@@ -70,7 +70,7 @@ export type TInitialData = TDataSetsDefaultValues | undefined;
 export type TDataSetsStore<T = TInitialData> = {
   schema: TSchema;
   dataSets: T;
-  state: TDateSetsState;
+  state: TDataSetsState;
   updateDataSets: (state: T) => void;
   changeSchema: (schema: TSchema) => void;
 };
