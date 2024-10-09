@@ -18,8 +18,10 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   const enabled = useMemo(() => canActivate(node), [node, canActivate]);
 
   const activateNode = useCallback(() => {
-    setActive(node);
-  }, [node, setActive]);
+    if (enabled) {
+      setActive(node);
+    }
+  }, [enabled, node, setActive]);
 
   const updateFunction = useCallback(
     (value: TDataSetsFunction | undefined) => {

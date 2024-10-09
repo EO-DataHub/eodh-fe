@@ -19,8 +19,10 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   const enabled = useMemo(() => canActivate(node), [node, canActivate]);
 
   const activateNode = useCallback(() => {
-    setActive(node);
-  }, [node, setActive]);
+    if (enabled) {
+      setActive(node);
+    }
+  }, [enabled, node, setActive]);
 
   const clearDateFrom = useCallback(() => {
     updateDate({ from: null, to: date?.to });
