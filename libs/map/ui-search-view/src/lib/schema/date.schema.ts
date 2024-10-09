@@ -2,8 +2,8 @@ import { createDate, TDateString } from '@ukri/shared/utils/date';
 import { z } from 'zod';
 
 export const dateInitialSchama = z.object({
-  from: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error),
-  to: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error),
+  from: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).optional(),
+  to: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).optional(),
 });
 
 export const dateUpdateSchama = z

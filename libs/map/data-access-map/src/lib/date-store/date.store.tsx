@@ -8,7 +8,10 @@ import { defaultValues, IDateStore, TDateStoreState, TDateValues } from './date.
 export const useDateStore = create<IDateStore>()(
   devtools((set) => ({
     ...defaultValues,
-    updateDate: (date: TDateValues['date']) => set((state) => (isEqual(date, state.date) ? state : { date })),
+    updateDate: (date: TDateValues['date']) =>
+      set((state) => {
+        return isEqual(date, state.date) ? state : { date: date ? { ...date } : undefined };
+      }),
     changeState: (state) => set(() => ({ state })),
   }))
 );

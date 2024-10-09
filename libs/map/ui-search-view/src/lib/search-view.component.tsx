@@ -3,6 +3,7 @@ import { useAoi } from '@ukri/map/data-access-map';
 import { Button, Icon } from '@ukri/shared/design-system';
 import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
+import mergeWith from 'lodash/mergeWith';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
 
@@ -60,23 +61,39 @@ const useFormUpdate = (
   }, [values, handleChange]);
 };
 
-const useDefaultValues = (defaultValues: TInitialForm = defaultData, schemaName: TSchema) => {
+const useInitialValues = (defaultValues: TInitialForm) => {
   return useMemo(() => {
-    const schema = getSchema(schemaName).initial;
     const values: TInitialForm = cloneDeep(defaultData);
-    const dataSets = schema.pick({ dataSets: true }).safeParse(defaultValues);
-    const date = schema.pick({ date: true }).safeParse(defaultValues);
 
-    if (dataSets.success && dataSets.data.dataSets) {
-      values.dataSets = cloneDeep(dataSets.data.dataSets);
+    if (defaultValues.dataSets) {
+      values.dataSets = mergeWith(cloneDeep(defaultValues.dataSets), values.dataSets);
     }
 
-    if (date.success && date.data.date) {
-      values.date = cloneDeep(date.data.date);
+    if (defaultValues.date) {
+      values.date = mergeWith(cloneDeep(defaultValues.date), values.date);
     }
 
     return values;
-  }, [defaultValues, schemaName]);
+  }, [defaultValues]);
+};
+
+const useParsedValues = (values: TInitialForm, schemaName: TSchema) => {
+  return useMemo(() => {
+    const schema = getSchema(schemaName).initial;
+    const result: TInitialForm = {};
+    const dataSets = schema.pick({ dataSets: true }).safeParse(values);
+    const date = schema.pick({ date: true }).safeParse(values);
+
+    if (dataSets.success && dataSets.data.dataSets) {
+      result.dataSets = cloneDeep(dataSets.data.dataSets);
+    }
+
+    if (date.success && date.data.date) {
+      result.date = cloneDeep(date.data.date);
+    }
+
+    return result;
+  }, [values, schemaName]);
 };
 
 const getSchema = (schema: TSchema) => {
@@ -105,9 +122,10 @@ export const SearchView = ({
   children,
 }: PropsWithChildren<TSearchPanelProps>) => {
   const [currentSchema, setCurrentSchema] = useState(schema);
-  const parsedValues = useDefaultValues(defaultValues, schema);
+  const parsedValues = useParsedValues(defaultValues, schema);
+  const initialValues = useInitialValues(parsedValues);
   const form = useForm<TInitialForm, unknown, TUpdateForm>({
-    defaultValues: parsedValues,
+    defaultValues: initialValues,
     resolver: zodResolver(getSchema(schema).update),
     reValidateMode: 'onChange',
   });
@@ -120,17 +138,26 @@ export const SearchView = ({
 
   useEffect(() => {
     if (currentSchema !== schema) {
-      form.reset({ ...parsedValues, aoi: shape?.shape }, { keepDefaultValues: true });
+      form.reset({ ...initialValues, aoi: shape?.shape }, { keepDefaultValues: true });
       setCurrentSchema(schema);
     }
-  }, [schema, form, currentSchema, parsedValues, shape?.shape]);
+  }, [schema, form, currentSchema, initialValues, shape?.shape]);
 
   useEffect(() => {
-    if (!defaultValues.dataSets || !defaultValues.date) {
+    if (!parsedValues.dataSets) {
       const data = cloneDeep(defaultData);
-      form.reset({ dataSets: data.dataSets, date: data.date, aoi: shape?.shape }, { keepDefaultValues: true });
+      form.reset({ dataSets: data.dataSets, aoi: shape?.shape }, { keepDefaultValues: true });
     }
-  }, [defaultValues, form, shape?.shape]);
+
+    if (!parsedValues.date?.from || !parsedValues.date?.to) {
+      if (!parsedValues.date?.from) {
+        form.setValue('date.from', undefined, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
+      }
+      if (!parsedValues.date?.to) {
+        form.setValue('date.to', undefined, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
+      }
+    }
+  }, [parsedValues, form, shape?.shape]);
 
   return (
     <FormProvider {...form}>

@@ -4,8 +4,8 @@ export type TDateState = 'readonly' | 'edit';
 
 export type TDateValues = {
   date?: {
-    from: TDateString;
-    to: TDateString;
+    from: TDateString | undefined;
+    to: TDateString | undefined;
   };
 };
 

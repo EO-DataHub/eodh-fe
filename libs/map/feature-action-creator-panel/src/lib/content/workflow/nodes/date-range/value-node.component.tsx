@@ -7,22 +7,22 @@ import { NodeInput } from '../node-input.component';
 type TValueNodeProps = {
   node: TDateRangeNode;
   enabled: boolean;
-  onClearButtonClick: () => void;
+  onClearDateFromClick: () => void;
+  onClearDateToClick: () => void;
 };
 
-export const ValueNode = ({ enabled, node, onClearButtonClick }: TValueNodeProps) => {
-  if (!enabled || !node.value) {
+export const ValueNode = ({ enabled, node, onClearDateFromClick, onClearDateToClick }: TValueNodeProps) => {
+  if (!enabled || (!node.value?.from && !node.value?.to)) {
     return;
   }
 
+  const from = node.value?.from ? formatDate(node.value.from)?.toString() : '';
+  const to = node.value?.to ? formatDate(node.value.to)?.toString() : '';
+
   return (
     <Node type={node.type} enabled={enabled} selected={node.selected}>
-      <NodeInput
-        value={formatDate(node.value.from) as string}
-        className='mb-1'
-        onClearButtonClick={onClearButtonClick}
-      />
-      <NodeInput value={formatDate(node.value.from) as string} onClearButtonClick={onClearButtonClick} />
+      <NodeInput value={from} className='mb-1' onClearButtonClick={onClearDateFromClick} />
+      <NodeInput value={to} onClearButtonClick={onClearDateToClick} />
     </Node>
   );
 };

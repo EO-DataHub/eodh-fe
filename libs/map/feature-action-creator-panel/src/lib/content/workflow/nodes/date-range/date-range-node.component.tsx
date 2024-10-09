@@ -1,10 +1,9 @@
 import { TDateRangeNode, useActionCreator, useDate } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { ActiveNode } from '../active-node.component';
 import { EmptyNode } from '../empty-node.component';
+import { ActiveNode } from './active-node.component';
 import { ValueNode } from './value-node.component';
 
 interface IDateRangeNodeProps {
@@ -15,7 +14,6 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
-  const { t } = useTranslation();
   const { setActive, setValue, canActivate } = useActionCreator();
   const { date, updateDate } = useDate();
   const enabled = useMemo(() => canActivate(node), [node, canActivate]);
@@ -24,22 +22,32 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
     setActive(node);
   }, [node, setActive]);
 
-  const clear = useCallback(() => {
-    updateDate(undefined);
-  }, [updateDate]);
+  const clearDateFrom = useCallback(() => {
+    updateDate({ from: undefined, to: date?.to });
+  }, [date?.to, updateDate]);
+
+  const clearDateTo = useCallback(() => {
+    updateDate({ from: date?.from, to: undefined });
+  }, [date?.from, updateDate]);
 
   useEffect(() => {
     if (node.selected) {
-      setValue(node, date);
+      const newDate = !date?.from && !date?.to ? undefined : { from: date?.from, to: date?.to };
+      setValue(node, newDate);
     }
-  }, [node.selected, setValue, node, date]);
+  }, [node.selected, setValue, node, date?.from, date?.to]);
 
   if (!node.tooltip) {
     return (
       <div onClick={activateNode}>
         <EmptyNode node={node} enabled={enabled} />
-        <ActiveNode node={node} enabled={enabled} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATE_RANGE.INSTRUCTIONS')} />
-        <ValueNode node={node} enabled={enabled} onClearButtonClick={clear} />
+        <ActiveNode node={node} enabled={enabled} />
+        <ValueNode
+          node={node}
+          enabled={enabled}
+          onClearDateFromClick={clearDateFrom}
+          onClearDateToClick={clearDateTo}
+        />
       </div>
     );
   }
@@ -54,8 +62,13 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
     >
       <div onClick={activateNode}>
         <EmptyNode node={node} enabled={enabled} />
-        <ActiveNode node={node} enabled={enabled} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATE_RANGE.INSTRUCTIONS')} />
-        <ValueNode node={node} enabled={enabled} onClearButtonClick={clear} />
+        <ActiveNode node={node} enabled={enabled} />
+        <ValueNode
+          node={node}
+          enabled={enabled}
+          onClearDateFromClick={clearDateFrom}
+          onClearDateToClick={clearDateTo}
+        />
       </div>
     </OnboardingTooltip>
   );

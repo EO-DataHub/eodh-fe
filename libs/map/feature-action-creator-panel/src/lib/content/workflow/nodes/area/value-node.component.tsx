@@ -30,9 +30,11 @@ const formatArea = function (text: string, value: TAreaNode['value']) {
   const area = getArea(shape.getExtent());
   let output;
   if (area > 10000) {
-    output = Math.round((area / 1000000) * 100) / 100 + ' ' + 'km<sup>2</sup>';
+    const value = Math.round((area / 1000000) * 100) / 100;
+    output = `${value} km<sup>2</sup>`;
   } else {
-    output = Math.round(area * 100) / 100 + ' ' + 'm<sup>2</sup>';
+    const value = Math.round(area * 100) / 100;
+    output = `${value} m<sup>2</sup>`;
   }
   return `${text.trim()} ${output}`;
 };
