@@ -40,37 +40,47 @@ const getItemFromLocalStorage = <T extends object>(key: string): T | null => {
 
 const restoreAoiStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<IAoiStore>(storeKeys.AOI(mode));
+  const newStoreState = mode === 'action-creator' ? 'readonly' : 'edit';
+
   if (!currentState) {
     useAoiStore.getState().setShape(undefined);
-    useAoiStore.getState().changeState(mode === 'action-creator' ? 'readonly' : 'edit');
+    useAoiStore.getState().changeState(newStoreState);
     return;
   }
 
   useAoiStore.setState(currentState);
   useAoiStore.getState().setShape(currentState.coordinates);
-  useAoiStore.getState().changeState(mode === 'action-creator' ? 'readonly' : 'edit');
+  useAoiStore.getState().changeState(newStoreState);
 };
 
 const restoreDataSetsStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<TDataSetsStore>(storeKeys.DATA_SETS(mode));
+  const newStoreState = mode === 'action-creator' ? 'readonly' : 'edit';
+
   if (!currentState) {
     useDataSetsStore.getState().updateDataSets(undefined);
     useDataSetsStore.getState().changeSchema(mode);
+    useDataSetsStore.getState().changeState(newStoreState);
     return;
   }
 
   useDataSetsStore.setState(currentState);
   useDataSetsStore.getState().changeSchema(mode);
+  useDataSetsStore.getState().changeState(newStoreState);
 };
 
 const restoreDateStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<TDateStoreState>(storeKeys.DATE(mode));
+  const newStoreState = mode === 'action-creator' ? 'readonly' : 'edit';
+
   if (!currentState) {
     useDateStore.getState().reset();
+    useDateStore.getState().changeState(newStoreState);
     return;
   }
 
   useDateStore.setState(currentState);
+  useDateStore.getState().changeState(newStoreState);
 };
 
 const restoreFootprintStoreState = (mode: TMode) => {

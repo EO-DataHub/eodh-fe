@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { TInitialForm, TUpdateForm } from '../schema/form.schema';
+import { useSearchView } from '../search-view.context';
 import { styles } from './date-range-picker.styles';
 
 const dateFromFieldName = 'date.from';
@@ -25,11 +26,13 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
+  const { isDisabled } = useSearchView();
   const [isOpen, setIsOpen] = useState(true);
   const dateFrom = getValues('date.from');
   const dateTo = getValues('date.to');
   const dateFromError = get(errors, 'date.from');
   const dateToError = get(errors, 'date.to');
+  const disabled = isDisabled(false, 'date-range');
 
   const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);
@@ -59,7 +62,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
           type='h2'
           fontSize='large'
           fontWeight='bold'
-          className={styles.textTitle}
+          className={styles.textTitle(disabled)}
         />
         <Icon name='ArrowDown' width={24} height={24} className={`${styles.icon} ${isOpen ? '' : 'rotate-180'}`} />
       </div>
@@ -78,7 +81,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                 type='h3'
                 fontSize='medium'
                 fontWeight='regular'
-                className={styles.textLabel}
+                className={styles.textLabel(disabled)}
               />
               <DateInput
                 className={styles.dateInput}
@@ -88,6 +91,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                   onChange: triggerDateFromValidation,
                 })}
                 error={dateFromError?.message}
+                disabled={isDisabled(false, 'date-range')}
               />
             </div>
             <div className={styles.row}>
@@ -96,7 +100,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                 type='h3'
                 fontSize='medium'
                 fontWeight='regular'
-                className={styles.textLabel}
+                className={styles.textLabel(disabled)}
               />
               <DateInput
                 className={styles.dateInput}
@@ -106,6 +110,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                   onChange: triggerDateToValidation,
                 })}
                 error={dateToError?.message}
+                disabled={isDisabled(false, 'date-range')}
               />
             </div>
           </div>

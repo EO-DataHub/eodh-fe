@@ -16,6 +16,26 @@ export const updateSchema = z.object({
   aoi: aoiSchema,
 });
 
+export type TSchema = 'search' | 'action-creator';
+
+export const getSchema = (schema: TSchema) => {
+  switch (schema) {
+    case 'action-creator': {
+      return {
+        initial: initialSchema,
+        update: updateSchema,
+      };
+    }
+
+    case 'search': {
+      return {
+        initial: initialSchema,
+        update: updateSchema,
+      };
+    }
+  }
+};
+
 export type TInitialForm = z.infer<typeof initialSchema>;
 
 export type TUpdateForm = z.infer<typeof updateSchema>;

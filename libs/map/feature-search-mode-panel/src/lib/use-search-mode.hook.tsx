@@ -7,13 +7,13 @@ import {
   useTrueColorImage,
 } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
-import { TInitialForm, TUpdateForm } from '@ukri/map/ui-search-view';
+import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search-view';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const useSearchMode = () => {
   const [searchParams, setSearchParams] = useState<TUpdateForm>();
-  const { schema, dataSets, updateDataSets } = useDataSets();
-  const { date, updateDate } = useDate();
+  const { state: dataSetsState, schema, dataSets, updateDataSets } = useDataSets();
+  const { state: dateRangeState, date, updateDate } = useDate();
   const { mode } = useMode();
   const [currentMode, setCurrentMode] = useState(mode);
   const [view, setView] = useState<'search' | 'results'>('search');
@@ -22,7 +22,19 @@ export const useSearchMode = () => {
   const setFootprints = useFootprintCollectionMutation();
   const { setStacUrl } = useTrueColorImage();
 
-  const state = useMemo(
+  const state: TSearchViewState | undefined = useMemo(() => {
+    if (dataSetsState === 'edit' && dateRangeState === 'edit') {
+      return 'edit';
+    } else if (dataSetsState === 'readonly' && dateRangeState === 'readonly') {
+      return 'readonly';
+    } else if (dataSetsState === 'edit') {
+      return 'edit/data-sets';
+    } else if (dateRangeState === 'edit') {
+      return 'edit/date-range';
+    }
+  }, [dataSetsState, dateRangeState]);
+
+  const values = useMemo(
     () => ({
       date,
       dataSets,
@@ -91,14 +103,15 @@ export const useSearchMode = () => {
   return useMemo(
     () => ({
       data,
+      state,
       status,
       view,
       changeToSearchView,
       schema,
-      state,
+      values,
       search,
       updateState,
     }),
-    [data, status, view, changeToSearchView, schema, state, search, updateState]
+    [data, state, status, view, changeToSearchView, schema, values, search, updateState]
   );
 };
