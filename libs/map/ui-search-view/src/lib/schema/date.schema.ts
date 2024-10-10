@@ -1,12 +1,12 @@
 import { createDate, TDateString } from '@ukri/shared/utils/date';
 import { z } from 'zod';
 
-export const dateInitialSchama = z.object({
-  from: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).optional(),
-  to: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).optional(),
+export const dateInitialSchema = z.object({
+  from: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).nullable(),
+  to: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).nullable(),
 });
 
-export const dateUpdateSchama = z
+export const dateUpdateSchema = z
   .object({
     from: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error),
     to: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error),

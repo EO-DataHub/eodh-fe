@@ -1,17 +1,19 @@
 import type {} from '@redux-devtools/extension';
+import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { defaultValues, IDateStore, TDateStoreState, TDateValues } from './date.model';
+import { defaultValues, IDateStore, TDateStoreState } from './date.model';
 
 export const useDateStore = create<IDateStore>()(
   devtools((set) => ({
     ...defaultValues,
-    updateDate: (date: TDateValues['date']) =>
+    updateDate: (date) =>
       set((state) => {
-        return isEqual(date, state.date) ? state : { date: date ? { ...date } : undefined };
+        return isEqual(date, state.date) ? state : { date: { from: date?.from || null, to: date?.to || null } };
       }),
+    reset: () => set(() => cloneDeep(defaultValues)),
     changeState: (state) => set(() => ({ state })),
   }))
 );

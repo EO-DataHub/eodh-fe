@@ -19,8 +19,10 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   const enabled = useMemo(() => canActivate(node), [node, canActivate]);
 
   const activateNode = useCallback(() => {
-    setActive(node);
-  }, [node, setActive]);
+    if (enabled) {
+      setActive(node);
+    }
+  }, [enabled, node, setActive]);
 
   const clear = useCallback(() => {
     setShape(undefined);

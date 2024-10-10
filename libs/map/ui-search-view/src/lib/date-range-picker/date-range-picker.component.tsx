@@ -86,7 +86,6 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                 maxDate={dateTo || dateMax}
                 {...register(dateFromFieldName, {
                   onChange: triggerDateFromValidation,
-                  setValueAs: (value) => value || undefined,
                 })}
                 error={dateFromError?.message}
               />
@@ -105,7 +104,6 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                 maxDate={dateMax}
                 {...register(dateToFieldName, {
                   onChange: triggerDateToValidation,
-                  setValueAs: (value) => value || undefined,
                 })}
                 error={dateToError?.message}
               />

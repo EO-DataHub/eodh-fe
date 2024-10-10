@@ -48,8 +48,10 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
   const enabled = useMemo(() => canActivate(node), [node, canActivate]);
 
   const activateNode = useCallback(() => {
-    setActive(node);
-  }, [node, setActive]);
+    if (enabled) {
+      setActive(node);
+    }
+  }, [enabled, node, setActive]);
 
   const clear = useCallback(() => {
     updateDataSets(undefined);

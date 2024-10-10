@@ -4,22 +4,18 @@ import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import {
-  defaultState,
-  TDataSetsDefaultValues,
-  TDataSetsState,
-  TDataSetsStore,
-  TDataSetsStoreState,
-  TSchema,
-} from './data-sets.model';
+import { TDataSetsDefaultValues } from './data-sets.default-values';
+import { defaultState, TDataSetsState, TDataSetsStore, TDataSetsStoreState, TSchema } from './data-sets.model';
 
 export const useDataSetsStore = create<TDataSetsStore>()(
   devtools((set) => ({
     ...defaultState,
     updateDataSets: (dataSets: TDataSetsDefaultValues | undefined) =>
-      set((state) =>
-        isEqual(dataSets, state.dataSets) ? state : { dataSets: dataSets ? cloneDeep(dataSets) : undefined }
-      ),
+      set((state) => {
+        return isEqual(dataSets, state.dataSets)
+          ? state
+          : { dataSets: dataSets ? cloneDeep(dataSets) : defaultState.dataSets };
+      }),
     changeSchema: (schema: TSchema) => set(() => ({ schema })),
     changeState: (state: TDataSetsState) => set(() => ({ state })),
   }))

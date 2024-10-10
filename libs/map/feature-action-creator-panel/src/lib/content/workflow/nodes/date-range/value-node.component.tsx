@@ -12,7 +12,7 @@ type TValueNodeProps = {
 };
 
 export const ValueNode = ({ enabled, node, onClearDateFromClick, onClearDateToClick }: TValueNodeProps) => {
-  if (!enabled || (!node.value?.from && !node.value?.to)) {
+  if (!node.value?.from && !node.value?.to) {
     return;
   }
 

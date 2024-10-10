@@ -15,15 +15,17 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   const enabled = useMemo(() => canActivate(node), [node, canActivate]);
 
   const activateNode = useCallback(() => {
-    setActive(node);
-  }, [node, setActive]);
+    if (enabled) {
+      setActive(node);
+    }
+  }, [enabled, node, setActive]);
 
   const clearDateFrom = useCallback(() => {
-    updateDate({ from: undefined, to: date?.to });
+    updateDate({ from: null, to: date?.to });
   }, [date?.to, updateDate]);
 
   const clearDateTo = useCallback(() => {
-    updateDate({ from: date?.from, to: undefined });
+    updateDate({ from: date?.from, to: null });
   }, [date?.from, updateDate]);
 
   useEffect(() => {
