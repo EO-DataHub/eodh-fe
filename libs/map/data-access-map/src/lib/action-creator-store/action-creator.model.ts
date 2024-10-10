@@ -9,7 +9,7 @@ export type TDataSetsFunction = 'NDVI' | 'SWIR' | 'NDWI' | 'NDSI' | 'FALSE_COLOR
 
 export type TDataSetsNode = TBaseNode & {
   type: 'dataSet';
-  value: 'sentinel1' | 'sentinel2' | 'sentinel3' | 'sentinel5p' | undefined;
+  value: 'sentinel1' | 'sentinel2' | 'sentinel3' | 'sentinel5p' | undefined | null;
   tooltip: boolean;
 };
 
