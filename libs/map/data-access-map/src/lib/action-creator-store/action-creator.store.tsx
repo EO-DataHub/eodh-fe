@@ -61,6 +61,28 @@ export const getActionCreatorStoreState = (): TIActionCreatorStoreState => {
   return { ...rest };
 };
 
+const nodeHasValue = (node?: TNode) => {
+  if (!node) {
+    return false;
+  }
+
+  if (node.type === 'dateRange') {
+    return !!node.value?.from || !!node.value?.to;
+  }
+
+  return !!node.value;
+};
+
+const getNextNodes = (nodes: TNode[], index: number) => {
+  const nextNodes = [];
+
+  for (let i = index; i <= nodes.length; i++) {
+    nextNodes.push(nodes[i]);
+  }
+
+  return nextNodes;
+};
+
 export const useActionCreator = (): IActionCreatorStore & { canActivate: (node: TNode) => boolean } => {
   return useActionCreatorStore((state) => ({
     ...state,
@@ -71,14 +93,11 @@ export const useActionCreator = (): IActionCreatorStore & { canActivate: (node: 
     canActivate: (node: TNode) => {
       return state.nodes.some((currentNode, index) => {
         const isCurrentNode = currentNode.id === node.id;
-        const prevNodeValue = index === 0 || !!state.nodes[index - 1]?.value;
-        let currentNodeValue = !!currentNode.value;
+        const prevNodeValue = index === 0 || nodeHasValue(state.nodes[index - 1]);
+        const nextNodeValue = getNextNodes(state.nodes, index + 1).some(nodeHasValue);
+        const currentNodeValue = nodeHasValue(currentNode);
 
-        if (currentNode.type === 'dateRange') {
-          currentNodeValue = !!currentNode.value?.from || !!currentNode.value?.to;
-        }
-
-        return isCurrentNode && (currentNode.selected || currentNodeValue || prevNodeValue);
+        return isCurrentNode && (currentNode.selected || currentNodeValue || prevNodeValue || nextNodeValue);
       });
     },
   }));
