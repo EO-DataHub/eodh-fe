@@ -10,10 +10,6 @@ type TValueNodeProps = {
 };
 
 export const ValueNode = ({ enabled, node, onChange }: TValueNodeProps) => {
-  if (!enabled || !node.value) {
-    return;
-  }
-
   return (
     <Node type={node.type} enabled={enabled} selected={node.selected}>
       <NodeSelect value={node.value} onChange={onChange} />

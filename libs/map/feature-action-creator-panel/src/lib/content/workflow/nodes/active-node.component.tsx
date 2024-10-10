@@ -9,9 +9,5 @@ type TActiveNodeProps = {
 };
 
 export const ActiveNode = ({ enabled, text, node }: TActiveNodeProps) => {
-  if (!enabled || !node.selected || node.value) {
-    return;
-  }
-
   return <Node type={node.type} text={text} enabled={enabled} selected={node.selected} />;
 };

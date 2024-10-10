@@ -12,17 +12,13 @@ type TValueNodeProps = {
 };
 
 export const ValueNode = ({ enabled, node, onClearDateFromClick, onClearDateToClick }: TValueNodeProps) => {
-  if (!node.value?.from && !node.value?.to) {
-    return;
-  }
-
   const from = node.value?.from ? formatDate(node.value.from)?.toString() : '';
   const to = node.value?.to ? formatDate(node.value.to)?.toString() : '';
 
   return (
     <Node type={node.type} enabled={enabled} selected={node.selected}>
-      <NodeInput value={from} className='mb-1' onClearButtonClick={onClearDateFromClick} />
-      <NodeInput value={to} onClearButtonClick={onClearDateToClick} />
+      <NodeInput value={from} className='mb-1' error={!node.value?.from} onClearButtonClick={onClearDateFromClick} />
+      <NodeInput value={to} error={!node.value?.to} onClearButtonClick={onClearDateToClick} />
     </Node>
   );
 };

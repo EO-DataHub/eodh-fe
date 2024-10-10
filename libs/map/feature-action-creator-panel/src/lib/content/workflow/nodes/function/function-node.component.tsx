@@ -6,6 +6,26 @@ import { EmptyNode } from '../empty-node.component';
 import { ActiveNode } from './active-node.component';
 import { ValueNode } from './value-node.component';
 
+type TNodeProps = {
+  node: TFunctionNode;
+  enabled: boolean;
+  onChange: (value: TDataSetsFunction | undefined) => void;
+};
+
+const Node = ({ node, enabled, onChange }: TNodeProps) => {
+  return useMemo(() => {
+    if (!node.selected && !node.value) {
+      return <EmptyNode node={node} enabled={enabled} />;
+    } else if (node.selected && !node.value) {
+      return <ActiveNode node={node} enabled={enabled} onChange={onChange} />;
+    } else if (node.value) {
+      return <ValueNode node={node} enabled={enabled} onChange={onChange} />;
+    }
+
+    return <EmptyNode node={node} enabled={enabled} />;
+  }, [enabled, node, onChange]);
+};
+
 interface IFunctionNodeProps {
   node: TFunctionNode;
 }
@@ -35,9 +55,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   if (!node.tooltip) {
     return (
       <div onClick={activateNode}>
-        <EmptyNode node={node} enabled={enabled} />
-        <ActiveNode node={node} enabled={enabled} onChange={updateFunction} />
-        <ValueNode node={node} enabled={enabled} onChange={updateFunction} />
+        <Node node={node} enabled={enabled} onChange={updateFunction} />
       </div>
     );
   }
@@ -51,9 +69,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
       className='top-0 left-[-110px]'
     >
       <div onClick={activateNode}>
-        <EmptyNode node={node} enabled={enabled} />
-        <ActiveNode node={node} enabled={enabled} onChange={updateFunction} />
-        <ValueNode node={node} enabled={enabled} onChange={updateFunction} />
+        <Node node={node} enabled={enabled} onChange={updateFunction} />
       </div>
     </OnboardingTooltip>
   );

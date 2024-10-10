@@ -7,13 +7,34 @@ import { ActiveNode } from '../active-node.component';
 import { EmptyNode } from '../empty-node.component';
 import { ValueNode } from './value-node.component';
 
+type TNodeProps = {
+  node: TAreaNode;
+  enabled: boolean;
+  onClearButtonClick: () => void;
+};
+
+const Node = ({ node, enabled, onClearButtonClick }: TNodeProps) => {
+  const { t } = useTranslation();
+
+  return useMemo(() => {
+    if (!node.selected && !node.value) {
+      return <EmptyNode node={node} enabled={enabled} />;
+    } else if (node.selected && !node.value) {
+      return <ActiveNode node={node} enabled={enabled} text={t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.INSTRUCTIONS')} />;
+    } else if (node.value) {
+      return <ValueNode node={node} enabled={enabled} onClearButtonClick={onClearButtonClick} />;
+    }
+
+    return <EmptyNode node={node} enabled={enabled} />;
+  }, [enabled, node, onClearButtonClick, t]);
+};
+
 type TAreaNodeNodeProps = { node: TAreaNode };
 
 export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
-  const { t } = useTranslation();
   const { setActive, setValue, canActivate } = useActionCreator();
   const { shape, setShape } = useAoi();
   const enabled = useMemo(() => canActivate(node), [node, canActivate]);
@@ -37,9 +58,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   if (!node.tooltip) {
     return (
       <div onClick={activateNode}>
-        <EmptyNode node={node} enabled={enabled} />
-        <ActiveNode node={node} enabled={enabled} text={t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.INSTRUCTIONS')} />
-        <ValueNode node={node} enabled={enabled} onClearButtonClick={clear} />
+        <Node node={node} enabled={enabled} onClearButtonClick={clear} />
       </div>
     );
   }
@@ -53,9 +72,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
       className='top-0 left-[-110px]'
     >
       <div onClick={activateNode}>
-        <EmptyNode node={node} enabled={enabled} />
-        <ActiveNode node={node} enabled={enabled} text={t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.INSTRUCTIONS')} />
-        <ValueNode node={node} enabled={enabled} onClearButtonClick={clear} />
+        <Node node={node} enabled={enabled} onClearButtonClick={clear} />
       </div>
     </OnboardingTooltip>
   );

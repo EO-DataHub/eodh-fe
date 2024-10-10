@@ -25,5 +25,12 @@ export const activatePanel = (node: TNode) => {
       useDateStore.getState().changeState('edit');
       return;
     }
+
+    case 'function': {
+      useAoiStore.getState().changeState('readonly');
+      useDataSetsStore.getState().changeState('readonly');
+      useDateStore.getState().changeState('readonly');
+      return;
+    }
   }
 };

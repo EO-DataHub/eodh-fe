@@ -8,9 +8,5 @@ type TEmptyNodeProps = {
 };
 
 export const EmptyNode = ({ node, enabled }: TEmptyNodeProps) => {
-  if (node.selected || node.value) {
-    return;
-  }
-
   return <Node type={node.type} enabled={enabled} selected={node.selected} />;
 };

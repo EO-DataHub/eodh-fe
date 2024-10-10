@@ -70,7 +70,15 @@ export const useActionCreator = (): IActionCreatorStore & { canActivate: (node: 
     },
     canActivate: (node: TNode) => {
       return state.nodes.some((currentNode, index) => {
-        return currentNode.id === node.id && (currentNode.selected || index === 0 || !!state.nodes[index - 1]?.value);
+        const isCurrentNode = currentNode.id === node.id;
+        const prevNodeValue = index === 0 || !!state.nodes[index - 1]?.value;
+        let currentNodeValue = !!currentNode.value;
+
+        if (currentNode.type === 'dateRange') {
+          currentNodeValue = !!currentNode.value?.from || !!currentNode.value?.to;
+        }
+
+        return isCurrentNode && (currentNode.selected || currentNodeValue || prevNodeValue);
       });
     },
   }));

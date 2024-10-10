@@ -48,10 +48,6 @@ type TValueNodeProps = {
 export const ValueNode = ({ enabled, node, onClearButtonClick }: TValueNodeProps) => {
   const { t } = useTranslation();
 
-  if (!enabled || !node.value) {
-    return;
-  }
-
   return (
     <Node
       type={node.type}

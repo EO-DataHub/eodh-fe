@@ -6,17 +6,14 @@ import { NodeInput } from '../node-input.component';
 type TValueNodeProps = {
   node: TDataSetsNode;
   enabled: boolean;
+  error: boolean;
   onClearButtonClick: () => void;
 };
 
-export const ValueNode = ({ enabled, node, onClearButtonClick }: TValueNodeProps) => {
-  if (!enabled || !node.value) {
-    return;
-  }
-
+export const ValueNode = ({ enabled, error, node, onClearButtonClick }: TValueNodeProps) => {
   return (
     <Node type={node.type} enabled={enabled} selected={node.selected}>
-      <NodeInput iconName='Satellite' value={node.value} onClearButtonClick={onClearButtonClick} />
+      <NodeInput iconName='Satellite' value={node.value} error={error} onClearButtonClick={onClearButtonClick} />
     </Node>
   );
 };
