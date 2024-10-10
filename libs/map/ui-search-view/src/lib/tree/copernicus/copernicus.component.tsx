@@ -3,6 +3,7 @@ import { ChangeEvent, useCallback, useEffect, useMemo } from 'react';
 import { useController, useFormContext, useWatch } from 'react-hook-form';
 
 import { TInitialForm, TUpdateForm } from '../../schema/form.schema';
+import { useSearchView } from '../../search-view.context';
 import { Sentinel1 } from './sentinel-1.component';
 import { Sentinel2 } from './sentinel-2.component';
 import { Sentinel3 } from './sentinel-3.component';
@@ -11,6 +12,7 @@ import { Sentinel5P } from './sentinel-5p.component';
 const name = 'dataSets.copernicus.enabled';
 
 export const Copernicus = () => {
+  const { isDisabled } = useSearchView();
   const { register, setValue } = useFormContext<TInitialForm, unknown, TUpdateForm>();
   const { field } = useController<TInitialForm | TUpdateForm>({ name });
   const sentinel1 = useWatch<TInitialForm | TUpdateForm>({ name: 'dataSets.copernicus.sentinel1.enabled' });
@@ -40,11 +42,18 @@ export const Copernicus = () => {
     (): TSlots => [
       {
         position: 'title:after',
-        element: <Checkbox {...register(name)} icon={copernicusSelectedIcon} onChange={toggleSentinels} />,
+        element: (
+          <Checkbox
+            {...register(name)}
+            icon={copernicusSelectedIcon}
+            onChange={toggleSentinels}
+            disabled={isDisabled(false, 'data-sets')}
+          />
+        ),
         key: 'checkbox',
       },
     ],
-    [copernicusSelectedIcon, register, toggleSentinels]
+    [copernicusSelectedIcon, isDisabled, register, toggleSentinels]
   );
 
   useEffect(() => {
@@ -57,7 +66,12 @@ export const Copernicus = () => {
   }, [sentinel1, sentinel2, setValue]);
 
   return (
-    <TreeItem title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.NAME' slots={slots} expanded={true}>
+    <TreeItem
+      title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.NAME'
+      slots={slots}
+      expanded={true}
+      disabled={isDisabled(false, 'data-sets')}
+    >
       <Sentinel1 />
       <Sentinel2 />
       <Sentinel3 />

@@ -2,11 +2,13 @@ import { Slider, TreeItem } from '@ukri/shared/design-system';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import { TInitialForm, TUpdateForm } from '../../schema/form.schema';
+import { useSearchView } from '../../search-view.context';
 import { SatelliteItem } from '../components/satellite-item.component';
 import { SettingsItem } from '../components/settings-item.component';
 import { Title } from '../components/title.component';
 
 const CloudCoverage = () => {
+  const { isDisabled } = useSearchView();
   const { register } = useFormContext<TInitialForm, unknown, TUpdateForm>();
   const enabled = useWatch<TInitialForm | TUpdateForm>({ name: 'dataSets.copernicus.sentinel3.slstr' });
 
@@ -16,7 +18,7 @@ const CloudCoverage = () => {
         <Title
           title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE'
           fontWeight='regular'
-          disabled={!enabled}
+          disabled={isDisabled(!enabled, 'data-sets')}
         />
       }
       expandable={false}
@@ -24,7 +26,7 @@ const CloudCoverage = () => {
     >
       <Slider
         {...register('dataSets.copernicus.sentinel3.cloudCoverage', { valueAsNumber: true })}
-        disabled={!enabled}
+        disabled={isDisabled(!enabled, 'data-sets')}
       />
     </TreeItem>
   );
