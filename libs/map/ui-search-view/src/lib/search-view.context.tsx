@@ -1,10 +1,10 @@
 import { createContext, PropsWithChildren, useCallback, useContext } from 'react';
 
-export type TSearchViewState = 'readonly' | 'edit' | 'edit/data-range' | 'edit/data-sets';
+export type TSearchViewState = 'readonly' | 'edit' | 'edit/date-range' | 'edit/data-sets';
 
 type TSearchViewContext = {
   state: TSearchViewState;
-  isDisabled: <T extends boolean | undefined>(disabled: T, type: 'data-range' | 'data-sets') => T | boolean;
+  isDisabled: <T extends boolean | undefined>(disabled: T, type: 'date-range' | 'data-sets') => T | boolean;
 };
 
 const SearchViewContext = createContext<TSearchViewContext>({ state: 'edit', isDisabled: (disabled) => disabled });
@@ -13,7 +13,7 @@ type TSearchViewProviderProps = PropsWithChildren<{ state: TSearchViewState }>;
 
 export const SearchViewProvider = ({ children, state }: TSearchViewProviderProps) => {
   const isDisabled = useCallback(
-    <T extends boolean | undefined>(disabled: T, type: 'data-range' | 'data-sets') => {
+    <T extends boolean | undefined>(disabled: T, type: 'date-range' | 'data-sets') => {
       switch (state) {
         case 'readonly': {
           return true;
@@ -23,8 +23,8 @@ export const SearchViewProvider = ({ children, state }: TSearchViewProviderProps
           return disabled;
         }
 
-        case 'edit/data-range': {
-          if (type === 'data-range') {
+        case 'edit/date-range': {
+          if (type === 'date-range') {
             return disabled;
           }
 

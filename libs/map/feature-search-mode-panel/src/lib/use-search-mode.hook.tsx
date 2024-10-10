@@ -30,7 +30,7 @@ export const useSearchMode = () => {
     } else if (dataSetsState === 'edit') {
       return 'edit/data-sets';
     } else if (dateRangeState === 'edit') {
-      return 'edit/data-range';
+      return 'edit/date-range';
     }
   }, [dataSetsState, dateRangeState]);
 
