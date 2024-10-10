@@ -1,5 +1,4 @@
 import { TDateRangeNode, useActionCreator, useDate } from '@ukri/map/data-access-map';
-import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { EmptyNode } from '../empty-node.component';
@@ -11,9 +10,6 @@ interface IDateRangeNodeProps {
 }
 
 export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
-  const {
-    context: { goToNextOnboardingStep, onboardingSteps },
-  } = useOnboarding();
   const { setActive, setValue, canActivate } = useActionCreator();
   const { date, updateDate } = useDate();
   const enabled = useMemo(() => canActivate(node), [node, canActivate]);
@@ -37,39 +33,11 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
     }
   }, [node.selected, setValue, node, date?.from, date?.to]);
 
-  if (!node.tooltip) {
-    return (
-      <div onClick={activateNode}>
-        <EmptyNode node={node} enabled={enabled} />
-        <ActiveNode node={node} enabled={enabled} />
-        <ValueNode
-          node={node}
-          enabled={enabled}
-          onClearDateFromClick={clearDateFrom}
-          onClearDateToClick={clearDateTo}
-        />
-      </div>
-    );
-  }
-
   return (
-    <OnboardingTooltip
-      tipLocation='right'
-      stepName={onboardingSteps.DATA_SET_NODE.step_name}
-      content={onboardingSteps.DATA_SET_NODE.tooltip_text}
-      onClick={goToNextOnboardingStep}
-      className='top-0 left-[-110px]'
-    >
-      <div onClick={activateNode}>
-        <EmptyNode node={node} enabled={enabled} />
-        <ActiveNode node={node} enabled={enabled} />
-        <ValueNode
-          node={node}
-          enabled={enabled}
-          onClearDateFromClick={clearDateFrom}
-          onClearDateToClick={clearDateTo}
-        />
-      </div>
-    </OnboardingTooltip>
+    <div onClick={activateNode}>
+      <EmptyNode node={node} enabled={enabled} />
+      <ActiveNode node={node} enabled={enabled} />
+      <ValueNode node={node} enabled={enabled} onClearDateFromClick={clearDateFrom} onClearDateToClick={clearDateTo} />
+    </div>
   );
 };

@@ -7,9 +7,9 @@ import { devtools } from 'zustand/middleware';
 import {
   defaultState,
   TDataSetsDefaultValues,
+  TDataSetsState,
   TDataSetsStore,
   TDataSetsStoreState,
-  TDateSetsState,
   TSchema,
 } from './data-sets.model';
 
@@ -21,7 +21,7 @@ export const useDataSetsStore = create<TDataSetsStore>()(
         isEqual(dataSets, state.dataSets) ? state : { dataSets: dataSets ? cloneDeep(dataSets) : undefined }
       ),
     changeSchema: (schema: TSchema) => set(() => ({ schema })),
-    changeState: (state: TDateSetsState) => set(() => ({ state })),
+    changeState: (state: TDataSetsState) => set(() => ({ state })),
   }))
 );
 
