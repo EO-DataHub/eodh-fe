@@ -24,7 +24,7 @@ export const useActiveDataSet = () => {
   }
 
   return {
-    dataSet: enabled.length !== 1 ? undefined : enabled[0],
+    dataSet: enabled.length !== 1 ? null : enabled[0],
     error: enabled.length > 1,
     updateDataSets,
   };

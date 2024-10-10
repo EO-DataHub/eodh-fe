@@ -13,7 +13,7 @@ type TValueNodeProps = {
 export const ValueNode = ({ enabled, error, node, onClearButtonClick }: TValueNodeProps) => {
   return (
     <Node type={node.type} enabled={enabled} selected={node.selected}>
-      <NodeInput iconName='Satellite' value={node.value} error={error} onClearButtonClick={onClearButtonClick} />
+      <NodeInput iconName='Satellite' value={node.value || ''} error={error} onClearButtonClick={onClearButtonClick} />
     </Node>
   );
 };
