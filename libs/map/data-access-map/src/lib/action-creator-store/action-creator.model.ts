@@ -3,20 +3,21 @@ import { TDateValues } from '../date-store/date.model';
 
 export type TAoiState = 'readonly' | 'edit';
 
-type TBaseNode = { id: string; tooltip?: boolean; selected: boolean };
+type TBaseNode = { id: string; selected: boolean };
 
 export type TDataSetsFunction = 'NDVI' | 'SWIR' | 'NDWI' | 'NDSI' | 'FALSE_COLOR' | 'MOISTURE_INDEX';
 
 export type TDataSetsNode = TBaseNode & {
   type: 'dataSet';
   value: 'sentinel1' | 'sentinel2' | 'sentinel3' | 'sentinel5p' | undefined;
+  tooltip: boolean;
 };
 
-export type TAreaNode = TBaseNode & { type: 'area'; value: TCoordinate | undefined };
+export type TAreaNode = TBaseNode & { type: 'area'; value: TCoordinate | undefined; tooltip: boolean };
 
 export type TDateRangeNode = TBaseNode & { type: 'dateRange'; value: TDateValues['date'] | undefined };
 
-export type TFunctionNode = TBaseNode & { type: 'function'; value: TDataSetsFunction | undefined };
+export type TFunctionNode = TBaseNode & { type: 'function'; value: TDataSetsFunction | undefined; tooltip: boolean };
 
 export type TNode = TAreaNode | TDataSetsNode | TDateRangeNode | TFunctionNode;
 
@@ -52,7 +53,6 @@ export const defaultNodes: TNode[] = [
     id: 'date-1',
     type: 'dateRange',
     value: undefined,
-    tooltip: true,
     selected: false,
   },
   {
