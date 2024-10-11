@@ -9,32 +9,26 @@ type TRequestConfig = {
   params?: IHttpRequest['params'];
 };
 
-export const getHttpClient = (id = 'baseUrl'): AxiosInstance => {
+const instances: { [key: string]: AxiosInstance } = {};
+
+export const getHttpClient = (id = 'baseUrl') => {
   const instance = instances[id];
   if (!instance) {
     throw new Error(`HttpClient isn't initialized`);
   }
 
   return {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    get: <T = any>(url: string, options?: TRequestConfig): Promise<T> => instance!.get(url, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    delete: <T = any>(url: string, options?: TRequestConfig): Promise<T> => instance!.delete(url, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    options: <T = any>(url: string, options?: TRequestConfig): Promise<T> => instance!.options(url, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    post: <T = any, D = any>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
-      instance!.post(url, data, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    put: <T = any, D = any>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
-      instance!.put(url, data, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    patch: <T = any, D = any>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
-      instance!.patch(url, data, options),
+    get: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance.get(url, options),
+    delete: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance.delete(url, options),
+    options: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance.options(url, options),
+    post: <T = unknown, D = unknown>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
+      instance.post(url, data, options),
+    put: <T = unknown, D = unknown>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
+      instance.put(url, data, options),
+    patch: <T = unknown, D = unknown>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
+      instance.patch(url, data, options),
   };
 };
-
-const instances: { [key: string]: AxiosInstance } = {};
 
 export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInterceptor[]): AxiosInstance | void => {
   const { id, baseUrl, ...axiosConfig } = config;

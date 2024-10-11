@@ -69,7 +69,7 @@ export const Content = () => {
 
   return (
     <>
-      <main className='bg-bright-main p-4 h-[450px]  overflow-scroll'>
+      <main className='bg-bright-main p-4 h-[450px]'>
         <ActiveContent />
       </main>
       <Footer>

@@ -35,7 +35,7 @@ export const Presets = () => {
 
   return (
     <>
-      <section className='text-text-primary'>
+      <section className='text-text-primary h-full overflow-scroll'>
         {data?.functions.map((preset, index) => (
           <Preset
             key={preset.identifier}
