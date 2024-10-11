@@ -36,7 +36,7 @@ export const Presets = () => {
   return (
     <>
       <section className='text-text-primary h-full overflow-scroll'>
-        {data?.functions.map((preset, index) => (
+        {data?.functions.map((preset) => (
           <Preset
             key={preset.identifier}
             base64String={preset.thumbnail_b64}
@@ -46,7 +46,7 @@ export const Presets = () => {
               // eslint-disable-next-line no-console
               console.log('onLoadPresetClick', preset.identifier);
             }}
-            className={index !== 0 ? 'mt-4' : ''}
+            className='mb-4'
           />
         ))}
       </section>
