@@ -10,3 +10,4 @@ export {
   useFootprintCollectionMutation,
 } from './lib/footprint-store/footprint.store';
 export { useDataSets } from './lib/data-sets-store/data-sets.store';
+export { useGetPresets } from './lib/presets/presets.query';

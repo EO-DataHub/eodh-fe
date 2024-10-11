@@ -9,7 +9,8 @@ type TRequestConfig = {
   params?: IHttpRequest['params'];
 };
 
-export const getHttpClient = () => {
+export const getHttpClient = (id = 'baseUrl'): AxiosInstance => {
+  const instance = instances[id];
   if (!instance) {
     throw new Error(`HttpClient isn't initialized`);
   }
@@ -33,10 +34,14 @@ export const getHttpClient = () => {
   };
 };
 
-export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInterceptor[]) => {
+const instances: { [key: string]: AxiosInstance } = {};
+
+export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInterceptor[]): AxiosInstance | void => {
+  const { id, baseUrl, ...axiosConfig } = config;
   instance = Axios.create({
     baseURL: config.baseUrl,
     timeout: 60000,
+    ...axiosConfig,
   });
 
   if (!instance || !interceptors.length) {
@@ -46,6 +51,10 @@ export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInt
   applyInterceptors(instance, interceptors);
 
   instance.interceptors.response.use((response) => response.data);
+
+  instances[id] = instance;
+
+  return instance;
 };
 
 const applyInterceptors = (instance: AxiosInstance, interceptors: IHttpInterceptor[]) => {

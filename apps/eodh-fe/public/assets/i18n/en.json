@@ -50,6 +50,11 @@
       "NO_RESULTS": {
         "TITLE": "Sorry, your search returned no results.",
         "MESSAGE": "Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets."
+      },
+      "PRESETS": {
+        "TITLE": "Server error",
+        "MESSAGE": "There was a problem retrieving workflow presets from the server. Please try again later.",
+        "CTA": "Refresh workflow preset list"
       }
     },
     "NAVIGATION": {

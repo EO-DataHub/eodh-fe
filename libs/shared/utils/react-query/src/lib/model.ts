@@ -18,5 +18,6 @@ export interface IHttpInterceptor {
 }
 
 export interface IHttpClientConfig {
+  id: string;
   baseUrl: string;
 }

@@ -28,6 +28,7 @@ interface IEnvConfig {
     };
     http: {
       baseUrl: string;
+      internalApiUrl: string;
     };
   };
 }
@@ -73,7 +74,9 @@ export const getEnvConfig = (): IEnvConfig => ({
       clientId: getValue<string>(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, config?.authorization.clientId, ''),
     },
     http: {
+      // why for baseUrl we use VITE_API_URL url?
       baseUrl: getValue<string>(import.meta.env.VITE_API_URL, config?.apiUrl, ''),
+      internalApiUrl: getValue<string>(import.meta.env.VITE_INTERNAL_API_URL, config?.apiUrl, ''),
     },
   },
 });

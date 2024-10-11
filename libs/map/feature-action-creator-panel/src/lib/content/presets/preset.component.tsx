@@ -1,13 +1,14 @@
 import { Button, Icon, Text } from '@ukri/shared/design-system';
+import clsx from 'clsx';
 import { useCallback, useState } from 'react';
 
 import { presetStyles } from './preset.styles';
 
 interface IImageProps {
-  imageUrl: string;
+  base64String: string;
 }
 
-const Image = ({ imageUrl }: IImageProps) => {
+const Image = ({ base64String }: IImageProps) => {
   const [displayError, setDislayError] = useState(false);
 
   const showError = useCallback(() => {
@@ -24,26 +25,32 @@ const Image = ({ imageUrl }: IImageProps) => {
 
   return (
     <div className={presetStyles.imageContainer}>
-      <img src={imageUrl} alt='ResultItem' className={presetStyles.image} onError={showError} />
+      <img
+        src={`data:image/jpeg;base64,${base64String}`}
+        alt='Preset'
+        className={presetStyles.image}
+        onError={showError}
+      />
     </div>
   );
 };
 
 export interface IResultItemProps {
-  imageUrl: string;
+  base64String: string;
   title: string;
-  description: string;
+  description?: string;
   onLoadPresetClick: () => void;
+  className?: string;
 }
 
-export const Preset = ({ imageUrl, title, description, onLoadPresetClick }: IResultItemProps) => {
+export const Preset = ({ base64String, title, description, onLoadPresetClick, className }: IResultItemProps) => {
   return (
-    <div className={presetStyles.presetContainer}>
-      <Image imageUrl={imageUrl} />
+    <div className={clsx(presetStyles.presetContainer, className)}>
+      <Image base64String={base64String} />
       <div className={presetStyles.contentContainer}>
         <div className='flex-grow'>
           <Text content={title} fontSize='large' fontWeight='regular' className={presetStyles.title} />
-          <Text content={description} fontSize='medium' fontWeight='regular' />
+          {description && <Text content={description} fontSize='medium' fontWeight='regular' />}
         </div>
         <div className={presetStyles.buttonContainer}>
           <Button text={'MAP.ACTION_CREATOR_PANEL.PRESETS.BUTTON'} size='medium' onClick={onLoadPresetClick} />
