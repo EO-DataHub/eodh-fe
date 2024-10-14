@@ -4,6 +4,7 @@ import {
   useDate,
   useFootprintCollectionMutation,
   useMode,
+  useResults,
   useTrueColorImage,
 } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
@@ -11,7 +12,7 @@ import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const useSearchMode = () => {
-  const [searchParams, setSearchParams] = useState<TUpdateForm>();
+  const { searchParams, updateSearchParams } = useResults();
   const { state: dataSetsState, schema, dataSets, updateDataSets } = useDataSets();
   const { state: dateRangeState, date, updateDate } = useDate();
   const { mode } = useMode();
@@ -20,7 +21,7 @@ export const useSearchMode = () => {
   const { data, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
-  const { setStacUrl } = useTrueColorImage();
+  const { setFeature } = useTrueColorImage();
 
   const state: TSearchViewState | undefined = useMemo(() => {
     if (dataSetsState === 'edit' && dateRangeState === 'edit') {
@@ -41,14 +42,6 @@ export const useSearchMode = () => {
     }),
     [date, dataSets]
   );
-
-  useEffect(() => {
-    // todo move this into data-access layer
-    if (mode !== currentMode) {
-      setView('search');
-      setCurrentMode(mode);
-    }
-  }, [mode, currentMode, setCurrentMode]);
 
   const changeView = useCallback(
     (view: 'search' | 'results') => {
@@ -83,11 +76,22 @@ export const useSearchMode = () => {
 
   const search = useCallback(
     (formData: TUpdateForm) => {
-      setSearchParams(formData);
+      updateSearchParams(formData);
       changeView('results');
     },
-    [changeView]
+    [changeView, updateSearchParams]
   );
+
+  useEffect(() => {
+    if (mode !== currentMode) {
+      if (searchParams) {
+        changeView('results');
+      } else {
+        changeView('search');
+      }
+      setCurrentMode(mode);
+    }
+  }, [mode, currentMode, setCurrentMode, searchParams, changeView]);
 
   useEffect(() => {
     setFootprints(data);
@@ -96,9 +100,9 @@ export const useSearchMode = () => {
   useEffect(() => {
     if (status === 'pending') {
       setFootprints(undefined);
-      setStacUrl(undefined);
+      setFeature(undefined);
     }
-  }, [status, setFootprints, setStacUrl]);
+  }, [status, setFootprints, setFeature]);
 
   return useMemo(
     () => ({

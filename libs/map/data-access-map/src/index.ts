@@ -1,5 +1,5 @@
 export { useAoi } from './lib/aoi-store/aoi.store';
-export { createPolygon, getCoordinates } from './lib/aoi-store/geometry';
+export { createGeometry, getCoordinates } from './lib/aoi-store/geometry';
 export { useDate } from './lib/date-store/date.store';
 export { useMode } from './lib/mode-store/mode.store';
 export { useTrueColorImage } from './lib/true-color-image-store/true-color-image.store';
@@ -11,6 +11,7 @@ export {
   useFootprintCollectionMutation,
 } from './lib/footprint-store/footprint.store';
 export { useDataSets } from './lib/data-sets-store/data-sets.store';
+export { useResults } from './lib/results-store/results.store';
 export { useActionCreator } from './lib/action-creator-store/action-creator.store';
 export type {
   TNode,

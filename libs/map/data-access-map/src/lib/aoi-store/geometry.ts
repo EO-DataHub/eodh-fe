@@ -65,7 +65,7 @@ export const getCoordinates = (shape?: TShape | TCoordinate): TCoordinate | unde
   return undefined;
 };
 
-export const createPolygon = (coordinate: TCoordinate | undefined): Geometry | undefined => {
+export const createGeometry = (coordinate: TCoordinate | undefined): Geometry | undefined => {
   if (!coordinate) {
     return undefined;
   }
@@ -90,7 +90,7 @@ export const createShape = (
   coordinate: TCoordinate | undefined,
   type: TShapeType | undefined
 ): { type: TShapeType; shape: Geometry | undefined } | undefined => {
-  const shape = createPolygon(coordinate);
+  const shape = createGeometry(coordinate);
 
   if (!shape || !type) {
     return undefined;

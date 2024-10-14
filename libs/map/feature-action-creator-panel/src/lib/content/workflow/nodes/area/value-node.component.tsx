@@ -1,4 +1,4 @@
-import { createPolygon, TAreaNode } from '@ukri/map/data-access-map';
+import { createGeometry, TAreaNode } from '@ukri/map/data-access-map';
 import { getArea } from 'ol/extent';
 import { useTranslation } from 'react-i18next';
 
@@ -21,21 +21,37 @@ const getIconFromShape = (value: TAreaNode['value']): 'Polygon' | 'Circle' | 'Sq
   }
 };
 
-const formatArea = function (text: string, value: TAreaNode['value']) {
-  const shape = createPolygon(value);
+const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km' | 'miles') {
+  const shape = createGeometry(value);
   if (!shape) {
     return '';
   }
 
-  const area = getArea(shape.getExtent());
   let output;
-  if (area > 10000) {
-    const value = Math.round((area / 1000000) * 100) / 100;
-    output = `${value} km<sup>2</sup>`;
-  } else {
-    const value = Math.round(area * 100) / 100;
-    output = `${value} m<sup>2</sup>`;
+  let area = getArea(shape.getExtent());
+
+  switch (unit) {
+    case 'miles': {
+      area = area * 0.621371;
+      const value = Math.round((area / 1000000) * 100) / 100;
+
+      output = `${value} miles<sup>2</sup>`;
+      break;
+    }
+
+    case 'km': {
+      if (area > 10000) {
+        const value = Math.round((area / 1000000) * 100) / 100;
+
+        output = `${value} km<sup>2</sup>`;
+      } else {
+        const value = Math.round(area * 100) / 100;
+        output = `${value} m<sup>2</sup>`;
+      }
+      break;
+    }
   }
+
   return `${text.trim()} ${output}`;
 };
 
@@ -51,7 +67,7 @@ export const ValueNode = ({ enabled, node, onClearButtonClick }: TValueNodeProps
   return (
     <Node
       type={node.type}
-      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.DESCRIPTION'), node.value)}
+      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.DESCRIPTION'), node.value, 'miles')}
       enabled={enabled}
       selected={node.selected}
     >

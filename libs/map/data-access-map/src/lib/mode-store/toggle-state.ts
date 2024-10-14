@@ -8,12 +8,15 @@ import { TDateStoreState } from '../date-store/date.model';
 import { getDateStoreState, useDateStore } from '../date-store/date.store';
 import { TFootprintStoreState } from '../footprint-store/footprint.model';
 import { getFootprintStoreState, useFootprintStore } from '../footprint-store/footprint.store';
+import { TResultsStore } from '../results-store/results.model';
+import { getResultsStoreState, useResultsStore } from '../results-store/results.store';
 import { TTrueImageStoreState } from '../true-color-image-store/true-color-image.model';
 import { getTrueColorImageStoreState, useTrueColorImageStore } from '../true-color-image-store/true-color-image.store';
 import { TMode } from './mode.model';
 
 const storeKeys = {
   AOI: (mode: TMode) => `${mode}-aoi`,
+  RESULTS: (mode: TMode) => `${mode}-results`,
   DATA_SETS: (mode: TMode) => `${mode}-data-sets`,
   DATE: (mode: TMode) => `${mode}-date`,
   FOOTPRINT: (mode: TMode) => `${mode}-footprint`,
@@ -51,6 +54,19 @@ const restoreAoiStoreState = (mode: TMode) => {
   useAoiStore.setState(currentState);
   useAoiStore.getState().setShape(currentState.coordinates);
   useAoiStore.getState().changeState(newStoreState);
+};
+
+const restoreResultsStoreState = (mode: TMode) => {
+  const currentState = getItemFromLocalStorage<TResultsStore>(storeKeys.RESULTS(mode));
+
+  if (!currentState) {
+    useResultsStore.getState().setShape(undefined);
+    useResultsStore.getState().updateSearchParams(undefined);
+    return;
+  }
+
+  useResultsStore.setState(currentState);
+  useResultsStore.getState().setShape(currentState.coordinates);
 };
 
 const restoreDataSetsStoreState = (mode: TMode) => {
@@ -96,7 +112,7 @@ const restoreFootprintStoreState = (mode: TMode) => {
 const restoreTrueColorImageStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<TTrueImageStoreState>(storeKeys.TRUE_COLOR_IMAGE(mode));
   if (!currentState) {
-    useTrueColorImageStore.getState().setStacUrl(undefined);
+    useTrueColorImageStore.getState().setFeature(undefined);
     return;
   }
 
@@ -115,6 +131,7 @@ const restoreActionCreatorStoreState = (mode: TMode) => {
 
 const restoreStateFromLocalStorage = (mode: TMode) => {
   restoreAoiStoreState(mode);
+  restoreResultsStoreState(mode);
   restoreDataSetsStoreState(mode);
   restoreDateStoreState(mode);
   restoreFootprintStoreState(mode);
@@ -124,6 +141,7 @@ const restoreStateFromLocalStorage = (mode: TMode) => {
 
 const saveStateInLocalStorage = (mode: TMode) => {
   setItemInLocalStorage(storeKeys.AOI(mode), getAoiStoreState());
+  setItemInLocalStorage(storeKeys.RESULTS(mode), getResultsStoreState());
   setItemInLocalStorage(storeKeys.DATA_SETS(mode), getDataSetsStoreState());
   setItemInLocalStorage(storeKeys.DATE(mode), getDateStoreState());
   setItemInLocalStorage(storeKeys.FOOTPRINT(mode), getFootprintStoreState());
@@ -133,6 +151,7 @@ const saveStateInLocalStorage = (mode: TMode) => {
 
 const resetLocalStorage = (mode: TMode) => {
   localStorage.removeItem(storeKeys.AOI(mode));
+  localStorage.removeItem(storeKeys.RESULTS(mode));
   localStorage.removeItem(storeKeys.DATA_SETS(mode));
   localStorage.removeItem(storeKeys.DATE(mode));
   localStorage.removeItem(storeKeys.FOOTPRINT(mode));
