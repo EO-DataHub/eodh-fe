@@ -8,7 +8,7 @@ export const Workflow = () => {
   return (
     <WorkflowProvider>
       <div className='flex justify-center'>
-        <section className='text-text-primary flex justify-center flex-col'>
+        <section className='p-4 text-text-primary flex justify-center flex-col'>
           <NodeArea />
           <NodeDataSet />
           <NodeDateRange />

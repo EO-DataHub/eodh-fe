@@ -1,5 +1,7 @@
 const presets = '/action-creator/functions';
 
-const QUERY_KEY = () => {
-  presets;
+const internalApiUrl = 'internalApiUrl';
+
+export const QUERY_KEY = {
+  PRESETS: internalApiUrl + presets,
 };

@@ -16,16 +16,15 @@ const outputSchema = z.object({
 const functionSchema = z.object({
   name: z.string(),
   identifier: z.string(),
-  // preset: false means that it is clipping function that we can attach to another functions
   preset: z.boolean(),
   description: z.string().optional(),
   thumbnail_b64: z.string(),
   inputs: z.object({
-    stac_collection: inputSchema,
-    date_start: inputSchema,
-    date_end: inputSchema,
-    aoi: inputSchema,
-    bbox: inputSchema,
+    stac_collection: inputSchema.optional(),
+    date_start: inputSchema.optional(),
+    date_end: inputSchema.optional(),
+    aoi: inputSchema.optional(),
+    bbox: inputSchema.optional(),
     index: inputSchema.optional(),
   }),
   outputs: z.object({

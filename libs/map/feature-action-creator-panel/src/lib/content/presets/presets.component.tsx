@@ -8,7 +8,7 @@ interface IErrorMessageProps {
 }
 
 const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
-  <div className='flex flex-col items-center'>
+  <div className='flex flex-col items-center p-4'>
     <Error
       title='GLOBAL.ERRORS.PRESETS.TITLE'
       message='GLOBAL.ERRORS.PRESETS.MESSAGE'
@@ -21,9 +21,15 @@ const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
 export const Presets = () => {
   const { data, error, isLoading, isFetching, refetch } = useGetPresets();
 
+  const handleLoadPreset = (preset: unknown) => {
+    // eslint-disable-next-line no-console
+    console.log('Load preset', preset);
+    return;
+  };
+
   if (isLoading || isFetching) {
     return (
-      <div className='flex justify-center'>
+      <div className='flex justify-center p-4'>
         <LoadingSpinner />
       </div>
     );
@@ -34,22 +40,17 @@ export const Presets = () => {
   }
 
   return (
-    <>
-      <section className='text-text-primary h-full overflow-scroll'>
-        {data?.functions.map((preset) => (
-          <Preset
-            key={preset.identifier}
-            base64String={preset.thumbnail_b64}
-            title={preset.name}
-            description={preset.description}
-            onLoadPresetClick={() => {
-              // eslint-disable-next-line no-console
-              console.log('onLoadPresetClick', preset.identifier);
-            }}
-            className='mb-4'
-          />
-        ))}
-      </section>
-    </>
+    <section className='text-text-primary h-full overflow-scroll p-4 pb-0'>
+      {data?.functions.map((preset) => (
+        <Preset
+          key={preset.identifier}
+          base64String={preset.thumbnail_b64}
+          title={preset.name}
+          description={preset.description}
+          onLoadPresetClick={() => handleLoadPreset(preset)}
+          className='mb-4'
+        />
+      ))}
+    </section>
   );
 };

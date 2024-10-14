@@ -25,12 +25,7 @@ const Image = ({ base64String }: IImageProps) => {
 
   return (
     <div className={presetStyles.imageContainer}>
-      <img
-        src={`data:image/jpeg;base64,${base64String}`}
-        alt='Preset'
-        className={presetStyles.image}
-        onError={showError}
-      />
+      <img src={base64String} alt='Preset' className={presetStyles.image} onError={showError} />
     </div>
   );
 };

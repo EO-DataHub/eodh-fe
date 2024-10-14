@@ -30,7 +30,7 @@ const FooterContent = () => {
         <div className='flex justify-between gap-4 w-full'>
           <span>Export</span>
           <span>Import</span>
-          <Button text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR' className='' disabled={true} />
+          <Button text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR' disabled={true} />
         </div>
       );
     }
@@ -69,7 +69,7 @@ export const Content = () => {
 
   return (
     <>
-      <main className='bg-bright-main p-4 p-b-0 h-[450px]'>
+      <main className='bg-bright-main h-[450px]'>
         <ActiveContent />
       </main>
       <Footer>
