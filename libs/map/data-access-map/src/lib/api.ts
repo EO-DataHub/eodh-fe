@@ -1,7 +1,8 @@
 const presets = '/action-creator/functions';
 
-const internalApiUrl = 'internalApiUrl';
+const eodhProApiUrl = 'EODH_PRO_API_URL';
+const eodhStacApiUrl = 'EODH_STAC_API_URL';
 
 export const QUERY_KEY = {
-  PRESETS: internalApiUrl + presets,
+  PRESETS: eodhProApiUrl + presets,
 };

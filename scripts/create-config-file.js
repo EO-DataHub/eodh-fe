@@ -7,8 +7,12 @@ function getVariableValue(variable, defaultValue = '') {
 
 const config = {
   baseUrl: getVariableValue(process.env.VITE_BASE_URL),
-  apiUrl: getVariableValue(process.env.VITE_API_URL),
-  internalApiUrl: getVariableValue(process.env.VITE_INTERNAL_API_URL),
+  http: {
+    proxyConfig: {
+      EODH_PRO_API_URL: getVariableValue(process.env.VITE_EODH_PRO_API_URL),
+      EODH_STAC_API_URL: getVariableValue(process.env.VITE_EODH_STAC_API_URL),
+    },
+  },
   translation: {
     language: getVariableValue(process.env.VITE_LANGUAGE),
     fallbackLng: getVariableValue(process.env.VITE_FALLBACK_LANGUAGE),

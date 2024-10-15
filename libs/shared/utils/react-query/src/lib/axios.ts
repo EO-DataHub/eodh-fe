@@ -1,6 +1,7 @@
 import Axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 import { IHttpClientConfig, IHttpInterceptor, IHttpRequest } from './model';
+import { ProxyInterceptor } from './proxy.interceptor';
 
 let instance: AxiosInstance | undefined = undefined;
 
@@ -9,44 +10,36 @@ type TRequestConfig = {
   params?: IHttpRequest['params'];
 };
 
-const instances: { [key: string]: AxiosInstance } = {};
-
-export const getHttpClient = (id = 'baseUrl') => {
-  const instance = instances[id];
+export const getHttpClient = () => {
   if (!instance) {
     throw new Error(`HttpClient isn't initialized`);
   }
 
   return {
-    get: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance.get(url, options),
-    delete: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance.delete(url, options),
-    options: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance.options(url, options),
+    get: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance!.get(url, options),
+    delete: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance!.delete(url, options),
+    options: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance!.options(url, options),
     post: <T = unknown, D = unknown>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
-      instance.post(url, data, options),
+      instance!.post(url, data, options),
     put: <T = unknown, D = unknown>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
-      instance.put(url, data, options),
+      instance!.put(url, data, options),
     patch: <T = unknown, D = unknown>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
-      instance.patch(url, data, options),
+      instance!.patch(url, data, options),
   };
 };
 
-export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInterceptor[]): AxiosInstance | void => {
-  const { id, baseUrl, ...axiosConfig } = config;
-  instance = Axios.create({
-    baseURL: config.baseUrl,
-    timeout: 60000,
-    ...axiosConfig,
-  });
-
-  if (!instance || !interceptors.length) {
+export const initHttpClient = (
+  config: IHttpClientConfig,
+  interceptors: IHttpInterceptor[] = []
+): AxiosInstance | void => {
+  if (instance) {
     return;
   }
 
-  applyInterceptors(instance, interceptors);
+  instance = Axios.create({ timeout: 60000 });
+  applyInterceptors(instance, [new ProxyInterceptor(config), ...interceptors]);
 
   instance.interceptors.response.use((response) => response.data);
-
-  instances[id] = instance;
 
   return instance;
 };

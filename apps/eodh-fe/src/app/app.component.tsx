@@ -10,10 +10,8 @@ import i18n from '../i18n';
 import { DefaultLayout } from './layout/default-layout.component';
 
 const keycloakAdapter = new KeycloakAdapter(getEnvConfig().module.authorization);
-initHttpClient({ id: 'baseUrl', baseUrl: getEnvConfig().module.http.baseUrl }, [new AuthInterceptor(keycloakAdapter)]);
-initHttpClient({ id: 'internalApiUrl', baseUrl: getEnvConfig().module.http.internalApiUrl }, [
-  new AuthInterceptor(keycloakAdapter),
-]);
+
+initHttpClient(getEnvConfig().module.http, [new AuthInterceptor(keycloakAdapter)]);
 
 export function App() {
   return (

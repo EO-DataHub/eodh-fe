@@ -17,7 +17,8 @@ export interface IHttpInterceptor {
   handleError(error: IHttpErrorResponse): Promise<IHttpErrorResponse>;
 }
 
+export type TProxyConfig = { [key: string]: string };
+
 export interface IHttpClientConfig {
-  id: string;
-  baseUrl: string;
+  proxyConfig?: TProxyConfig;
 }

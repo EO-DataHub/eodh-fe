@@ -27,8 +27,10 @@ interface IEnvConfig {
       clientId: string;
     };
     http: {
-      baseUrl: string;
-      internalApiUrl: string;
+      proxyConfig: {
+        EODH_PRO_API_URL: string;
+        EODH_STAC_API_URL: string;
+      };
     };
   };
 }
@@ -55,6 +57,15 @@ const getValue = <T extends string | string[] | undefined[] | boolean>(
   return defaultValue;
 };
 
+const eodhProUrl = () => {
+  const apiVersion = '/v1.0';
+  const importedUrl = getValue<string>(import.meta.env.VITE_EODH_PRO_API_URL, config?.authorization.clientId, '');
+  if (importedUrl) {
+    return importedUrl.replace(/\/+$/, '') + apiVersion;
+  }
+  return '';
+};
+
 export const getEnvConfig = (): IEnvConfig => ({
   production: import.meta.env.NODE_ENV !== 'development',
   baseUrl: getValue<string>(import.meta.env.VITE_BASE_URL, config?.baseUrl, '/'),
@@ -74,8 +85,10 @@ export const getEnvConfig = (): IEnvConfig => ({
       clientId: getValue<string>(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, config?.authorization.clientId, ''),
     },
     http: {
-      baseUrl: getValue<string>(import.meta.env.VITE_API_URL, config?.apiUrl, ''),
-      internalApiUrl: getValue<string>(import.meta.env.VITE_INTERNAL_API_URL, config?.apiUrl, ''),
+      proxyConfig: {
+        EODH_PRO_API_URL: eodhProUrl(),
+        EODH_STAC_API_URL: getValue<string>(import.meta.env.VITE_EODH_STAC_API_URL, config?.authorization.clientId, ''),
+      },
     },
   },
 });
