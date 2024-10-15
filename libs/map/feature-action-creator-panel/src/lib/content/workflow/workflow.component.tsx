@@ -1,20 +1,38 @@
-import { WorkflowProvider } from '../workflow/workflow.context';
-import { NodeArea } from './node-area.component';
-import { NodeDataSet } from './node-data-set.component';
-import { NodeDateRange } from './node-date-range.component';
-import { NodeFunction } from './node-function.component';
+import { TNode, useActionCreator } from '@ukri/map/data-access-map';
+
+import { AreaNode } from './nodes/area/area-node.component';
+import { DataSetNode } from './nodes/data-set/data-set-node.component';
+import { NodeDateRange } from './nodes/date-range/date-range-node.component';
+import { NodeFunction } from './nodes/function/function-node.component';
+
+const renderNode = (node: TNode) => {
+  switch (node.type) {
+    case 'area': {
+      return <AreaNode key={node.id} node={node} />;
+    }
+
+    case 'dataSet': {
+      return <DataSetNode key={node.id} node={node} />;
+    }
+
+    case 'dateRange': {
+      return <NodeDateRange key={node.id} node={node} />;
+    }
+
+    case 'function': {
+      return <NodeFunction key={node.id} node={node} />;
+    }
+  }
+};
 
 export const Workflow = () => {
+  const { nodes } = useActionCreator();
+
   return (
-    <WorkflowProvider>
-      <div className='flex justify-center'>
-        <section className='p-4 text-text-primary flex justify-center flex-col'>
-          <NodeArea />
-          <NodeDataSet />
-          <NodeDateRange />
-          <NodeFunction />
-        </section>
-      </div>
-    </WorkflowProvider>
+    <div className='flex justify-center'>
+      <section className='p-4 text-text-primary flex justify-center flex-col'>
+        {nodes.map((node) => renderNode(node))}
+      </section>
+    </div>
   );
 };
