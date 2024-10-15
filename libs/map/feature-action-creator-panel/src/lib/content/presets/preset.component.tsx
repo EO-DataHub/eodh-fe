@@ -5,10 +5,10 @@ import { useCallback, useState } from 'react';
 import { presetStyles } from './preset.styles';
 
 interface IImageProps {
-  base64String: string;
+  imageUrl: string;
 }
 
-const Image = ({ base64String }: IImageProps) => {
+const Image = ({ imageUrl }: IImageProps) => {
   const [displayError, setDislayError] = useState(false);
 
   const showError = useCallback(() => {
@@ -25,23 +25,23 @@ const Image = ({ base64String }: IImageProps) => {
 
   return (
     <div className={presetStyles.imageContainer}>
-      <img src={base64String} alt='Preset' className={presetStyles.image} onError={showError} />
+      <img src={imageUrl} alt='Preset' className={presetStyles.image} onError={showError} />
     </div>
   );
 };
 
 export interface IResultItemProps {
-  base64String: string;
+  imageUrl: string;
   title: string;
   description?: string;
   onLoadPresetClick: () => void;
   className?: string;
 }
 
-export const Preset = ({ base64String, title, description, onLoadPresetClick, className }: IResultItemProps) => {
+export const Preset = ({ imageUrl, title, description, onLoadPresetClick, className }: IResultItemProps) => {
   return (
     <div className={clsx(presetStyles.presetContainer, className)}>
-      <Image base64String={base64String} />
+      <Image imageUrl={imageUrl} />
       <div className={presetStyles.contentContainer}>
         <div className='flex-grow'>
           <Text content={title} fontSize='large' fontWeight='regular' className={presetStyles.title} />
