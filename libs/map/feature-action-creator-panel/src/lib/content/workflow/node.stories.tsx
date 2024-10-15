@@ -1,13 +1,10 @@
-import { Meta, Story } from '@storybook/react';
-import { useState } from 'react';
+import { Meta, StoryObj } from '@storybook/react';
+import { TDataSetsFunction } from '@ukri/map/data-access-map';
+import { useEffect, useState } from 'react';
 
 import { Node } from './node.component';
 import { NodeInput } from './nodes/node-input.component';
 import { NodeSelect } from './nodes/node-select.component';
-
-const withWorkflowContext = (Story) => {
-  return <Story />;
-};
 
 const meta: Meta<typeof Node> = {
   component: Node,
@@ -31,131 +28,155 @@ const meta: Meta<typeof Node> = {
       },
       options: ['area', 'dataSet', 'dateRange', 'function'],
     },
+    enabled: {
+      control: 'boolean',
+    },
+    selected: {
+      control: 'boolean',
+    },
   },
 };
 export default meta;
 
-const Template: Story = (args) => <Node type={'function'} {...args} />;
-
-export const Area = Template.bind({});
-Area.args = {
-  type: 'area',
-  text: 'Area Node',
-  enabledNodes: ['area'],
-  nodeSelected: 'area',
+export const Area: StoryObj<typeof Node> = {
+  args: {
+    type: 'area',
+    text: 'Area Node',
+  },
 };
-Area.decorators = [withWorkflowContext];
 
-export const DataSet = Template.bind({});
-DataSet.args = {
-  type: 'dataSet',
-  text: 'Data Set Node',
-  enabledNodes: ['dataSet'],
-  nodeSelected: 'dataSet',
+export const DataSet: StoryObj<typeof Node> = {
+  args: {
+    type: 'dataSet',
+    text: 'Data Set Node',
+  },
 };
-DataSet.decorators = [withWorkflowContext];
 
-export const DateRange = Template.bind({});
-DateRange.args = {
-  type: 'dateRange',
-  text: 'Date Range Node',
-  enabledNodes: ['dateRange'],
-  nodeSelected: 'dateRange',
+export const DateRange: StoryObj<typeof Node> = {
+  args: {
+    type: 'dateRange',
+    text: 'Date Range Node',
+  },
 };
-DateRange.decorators = [withWorkflowContext];
 
-export const Function = Template.bind({});
-Function.args = {
-  type: 'function',
-  text: 'Function Node',
-  enabledNodes: ['function'],
-  nodeSelected: 'function',
+export const Function: StoryObj<typeof Node> = {
+  args: {
+    type: 'function',
+    text: 'Function Node',
+  },
 };
-Function.decorators = [withWorkflowContext];
 
-export const AllNodes = (args: React.ComponentProps<typeof Node>) => {
-  const [aoi, setAoi] = useState('Sample area');
-  const [dataSet, setDataSet] = useState('Sample data set');
-  const [dateFrom, setDateFrom] = useState('22/12/2021');
-  const [dateTo, setDateTo] = useState('22/12/2022');
-  const [showInputs, setShowInputs] = useState(true);
+type TAllNodesProps = {
+  enabled: boolean;
+  aoi: string;
+  dataSet: string;
+  dateFrom: string;
+  dateTo: string;
+  function: TDataSetsFunction;
+};
 
-  const handleToggleInputs = () => {
-    setShowInputs((prevShowInputs) => !prevShowInputs);
-  };
+export const AllNodes = ({ enabled, aoi, dataSet, dateFrom, dateTo, function: selectedFunction }: TAllNodesProps) => {
+  const [currentAoi, setCurrentAoi] = useState<string | undefined>(aoi);
+  const [currentDataSet, setCurrentDataSet] = useState<string | undefined>(dataSet);
+  const [currentDateFrom, setCurrentDateFrom] = useState<string | undefined>(dateFrom);
+  const [currentDateTo, setCurrentDateTo] = useState<string | undefined>(dateTo);
+
+  useEffect(() => {
+    setCurrentAoi(aoi);
+  }, [aoi]);
+
+  useEffect(() => {
+    setCurrentDataSet(dataSet);
+  }, [dataSet]);
+
+  useEffect(() => {
+    setCurrentDateFrom(dateFrom);
+  }, [dateFrom]);
+
+  useEffect(() => {
+    setCurrentDateTo(dateTo);
+  }, [dateTo]);
 
   return (
     <div>
       <div>
-        <Node {...args} type='area'>
-          {showInputs && <NodeInput iconName='Polygon' value={aoi} />}
+        <Node type='area'>
+          {enabled && <NodeInput iconName='Polygon' value={currentAoi} onClearButtonClick={() => setCurrentAoi('')} />}
         </Node>
-        <Node {...args} type='dataSet'>
-          {showInputs && <NodeInput value={dataSet} iconName='Satellite' />}
+        <Node type='dataSet'>
+          {enabled && (
+            <NodeInput value={currentDataSet} iconName='Satellite' onClearButtonClick={() => setCurrentDataSet('')} />
+          )}
         </Node>
-        <Node {...args} type='dateRange'>
-          {showInputs && (
+        <Node type='dateRange'>
+          {enabled && (
             <>
-              <NodeInput value={dateFrom} className='mb-1' />
-              <NodeInput value={dateTo} />
+              <NodeInput value={currentDateFrom} className='mb-1' onClearButtonClick={() => setCurrentDateFrom('')} />
+              <NodeInput value={currentDateTo} onClearButtonClick={() => setCurrentDateTo('')} />
             </>
           )}
         </Node>
-        <Node {...args} type='function'>
-          {/* eslint-disable-next-line prettier/prettier */}
-          {showInputs && (
-            <NodeSelect
-              onChange={() => {
-                return;
-              }}
-            />
-          )}
-        </Node>
-      </div>
-
-      <button className='bg-primary-light text-white p-2 mt-4' onClick={handleToggleInputs}>
-        Hide inputs
-      </button>
-      <div className='bg-bright-light mt-4 p-2'>
-        Testing panel
-        <div>
-          Select Area
-          <input
-            type='text'
-            placeholder='Sample area'
-            onChange={(e) => setAoi(e.target.value)}
-            className='border m-4 p-2'
-          />
-        </div>
-        <div>
-          Select Data set
-          <input
-            type='text'
-            placeholder='Sample data set'
-            onChange={(e) => setDataSet(e.target.value)}
-            className='border m-4 p-2'
-          />
-        </div>
-        <div>
-          Select Date From
-          <input
-            type='text'
-            placeholder='22/12/2021'
-            onChange={(e) => setDateFrom(e.target.value)}
-            className='border m-4 p-2'
-          />
-        </div>
-        <div>
-          Select Date to
-          <input
-            type='text'
-            placeholder='22/12/2022'
-            onChange={(e) => setDateTo(e.target.value)}
-            className='border m-4 p-2'
-          />
-        </div>
+        <Node type='function'>{enabled && <NodeSelect value={selectedFunction} />}</Node>
       </div>
     </div>
   );
 };
-AllNodes.decorators = [withWorkflowContext];
+AllNodes.argTypes = {
+  error: {
+    table: {
+      disable: true,
+    },
+  },
+  text: {
+    table: {
+      disable: true,
+    },
+  },
+  type: {
+    table: {
+      disable: true,
+    },
+  },
+  selected: {
+    table: {
+      disable: true,
+    },
+  },
+  aoi: {
+    control: {
+      type: 'text',
+      description: 'Use the drawing tools to define an area of interest',
+    },
+  },
+  dataSet: {
+    control: {
+      type: 'text',
+      description: 'Select Data Set',
+    },
+  },
+  dateFrom: {
+    control: {
+      type: 'text',
+      description: 'Select Date From',
+    },
+  },
+  dateTo: {
+    control: {
+      type: 'text',
+      description: 'Select Date To',
+    },
+  },
+  function: {
+    control: {
+      type: 'select',
+    },
+    options: ['NDVI', 'FALSE_COLOR', 'MOISTURE_INDEX', 'SWIR', 'NDWI', 'NDSI'],
+  },
+};
+AllNodes.args = {
+  aoi: 'Area of Interest',
+  dataSet: 'Sentinel2',
+  dateFrom: '22/12/2021',
+  dateTo: '22/12/2022',
+  function: 'NDVI',
+};
