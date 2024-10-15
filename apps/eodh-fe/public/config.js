@@ -5,7 +5,7 @@ const config = (() => ({
       EODH_PRO_API_URL: '',
       EODH_STAC_API_URL: '',
     },
-  },  
+  },
   baseUrl: '',
   translation: {
     language: '',

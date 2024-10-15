@@ -53,7 +53,7 @@ jobs:
           NODE_DIST_PATH: ${{ github.workspace }}/dist/apps/eodh-fe
           VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
           VITE_EODH_STAC_API_URL: ${{ vars.APP_EODH_STAC_API_URL }}
-          VITE_EODH_PRO_API_URL: ${{ vars.APP_EODH_PRO_API_URL }} 
+          VITE_EODH_PRO_API_URL: ${{ vars.APP_EODH_PRO_API_URL }}
           VITE_TRANSLATION_LANGUAGE: ${{ vars.APP_TRANSLATION_LANGUAGE }}
           VITE_TRANSLATION_FALLBACK_LANGUAGE: ${{ vars.APP_TRANSLATION_FALLBACK_LANGUAGE }}
           VITE_AUTHORIZATION_URL: ${{ vars.APP_AUTHORIZATION_URL }}
