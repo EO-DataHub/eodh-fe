@@ -12,15 +12,16 @@ export class ProxyInterceptor implements IHttpInterceptor {
   };
 
   private handleRequest = (request: IHttpRequest, proxyConfig?: TProxyConfig): IHttpRequest => {
-    if (!proxyConfig || Object.keys(proxyConfig).length === 0) {
+    if (!proxyConfig || !Object.keys(proxyConfig).length) {
       return request;
     }
+
     const arrayOfUrls = Object.entries(proxyConfig)
       .map(([key]) => {
         return request.url?.startsWith(key) ? request.url?.replace(key, proxyConfig[key]) : undefined;
       })
       .filter((url) => !!url);
 
-    return { ...request, url: arrayOfUrls.length > 0 ? arrayOfUrls.pop() : request.url };
+    return { ...request, url: arrayOfUrls.length ? arrayOfUrls.pop() : request.url };
   };
 }

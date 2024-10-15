@@ -28,10 +28,7 @@ export const getHttpClient = () => {
   };
 };
 
-export const initHttpClient = (
-  config: IHttpClientConfig,
-  interceptors: IHttpInterceptor[] = []
-): AxiosInstance | void => {
+export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInterceptor[] = []): void => {
   if (instance) {
     return;
   }
@@ -40,8 +37,6 @@ export const initHttpClient = (
   applyInterceptors(instance, [new ProxyInterceptor(config), ...interceptors]);
 
   instance.interceptors.response.use((response) => response.data);
-
-  return instance;
 };
 
 const applyInterceptors = (instance: AxiosInstance, interceptors: IHttpInterceptor[]) => {

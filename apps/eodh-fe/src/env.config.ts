@@ -57,12 +57,14 @@ const getValue = <T extends string | string[] | undefined[] | boolean>(
   return defaultValue;
 };
 
-const eodhProUrl = () => {
+const getEodhProUrl = () => {
   const apiVersion = '/v1.0';
   const importedUrl = getValue<string>(import.meta.env.VITE_EODH_PRO_API_URL, config?.authorization.clientId, '');
+
   if (importedUrl) {
     return importedUrl.replace(/\/+$/, '') + apiVersion;
   }
+
   return '';
 };
 
@@ -86,7 +88,7 @@ export const getEnvConfig = (): IEnvConfig => ({
     },
     http: {
       proxyConfig: {
-        EODH_PRO_API_URL: eodhProUrl(),
+        EODH_PRO_API_URL: getEodhProUrl(),
         EODH_STAC_API_URL: getValue<string>(import.meta.env.VITE_EODH_STAC_API_URL, config?.authorization.clientId, ''),
       },
     },
