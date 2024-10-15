@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { TInitialForm, TUpdateForm } from '../schema/form.schema';
+import { useSearchView } from '../search-view.context';
 import { styles } from './date-range-picker.styles';
 
 const dateFromFieldName = 'date.from';
@@ -25,11 +26,13 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
+  const { isDisabled } = useSearchView();
   const [isOpen, setIsOpen] = useState(true);
   const dateFrom = getValues('date.from');
   const dateTo = getValues('date.to');
   const dateFromError = get(errors, 'date.from');
   const dateToError = get(errors, 'date.to');
+  const disabled = isDisabled(false, 'date-range');
 
   const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);
@@ -86,9 +89,9 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                 maxDate={dateTo || dateMax}
                 {...register(dateFromFieldName, {
                   onChange: triggerDateFromValidation,
-                  setValueAs: (value) => value || undefined,
                 })}
                 error={dateFromError?.message}
+                disabled={disabled}
               />
             </div>
             <div className={styles.row}>
@@ -105,9 +108,9 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                 maxDate={dateMax}
                 {...register(dateToFieldName, {
                   onChange: triggerDateToValidation,
-                  setValueAs: (value) => value || undefined,
                 })}
                 error={dateToError?.message}
+                disabled={disabled}
               />
             </div>
           </div>

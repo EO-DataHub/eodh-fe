@@ -76,7 +76,9 @@
       "NODE": {
         "AREA": {
           "TITLE": "Area",
-          "INSTRUCTIONS": "Use the drawing tools to define an area of interest"
+          "DEFAULT_VALUE": "Drawing 1",
+          "INSTRUCTIONS": "Use the drawing tools to define an area of interest",
+          "DESCRIPTION": "Total area:"
         },
         "DATA_SET": {
           "TITLE": "Data Set",

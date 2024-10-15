@@ -77,7 +77,9 @@ interface Resources {
         NODE: {
           AREA: {
             TITLE: 'Area';
+            DEFAULT_VALUE: 'Drawing 1';
             INSTRUCTIONS: 'Use the drawing tools to define an area of interest';
+            DESCRIPTION: 'Total area:';
           };
           DATA_SET: {
             TITLE: 'Data Set';
@@ -114,6 +116,9 @@ interface Resources {
             BUTTON_YES: 'Yes, show tooltips';
             BUTTON_NO: 'No, let me explore on my own';
           };
+        };
+        PRESETS: {
+          BUTTON: 'Load preset';
         };
       };
       SEARCH_MODE_PANEL: {

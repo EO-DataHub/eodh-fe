@@ -5,6 +5,7 @@ import { PropsWithChildren, useCallback, useMemo } from 'react';
 import { FieldPath, useFormContext } from 'react-hook-form';
 
 import { TInitialForm, TUpdateForm } from '../../schema/form.schema';
+import { useSearchView } from '../../search-view.context';
 import { Error } from './error.component';
 import { getTreeIndent, IndentProvider, TIndent, useIndent, useNextIndent } from './indent.provider';
 import { Title } from './title.component';
@@ -17,6 +18,7 @@ type TSettingsItemProps = PropsWithChildren<{
 }>;
 
 export const SettingsItem = ({ title, name, disabled, indent: currentIndent, children }: TSettingsItemProps) => {
+  const { isDisabled } = useSearchView();
   const {
     register,
     trigger,
@@ -34,15 +36,21 @@ export const SettingsItem = ({ title, name, disabled, indent: currentIndent, chi
     <>
       <Error name={name} indent={indent} />
       <TreeItem
-        title={<Title title={title} fontWeight='regular' disabled={disabled} />}
+        title={<Title title={title} fontWeight='regular' disabled={isDisabled(disabled, 'data-sets')} />}
         slots={[
           {
             position: 'title:after',
-            element: <Checkbox {...register(name, { onChange: validateFields })} state={state} disabled={disabled} />,
+            element: (
+              <Checkbox
+                {...register(name, { onChange: validateFields })}
+                state={state}
+                disabled={isDisabled(disabled, 'data-sets')}
+              />
+            ),
             key: 'checkbox',
           },
         ]}
-        disabled={disabled}
+        disabled={isDisabled(disabled, 'data-sets')}
         indent={getTreeIndent(indent)}
       />
       {children && <IndentProvider indent={nextIndent}>{children}</IndentProvider>}
