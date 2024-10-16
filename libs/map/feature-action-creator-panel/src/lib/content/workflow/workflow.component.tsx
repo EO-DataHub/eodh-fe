@@ -30,7 +30,7 @@ export const Workflow = () => {
 
   return (
     <div className='flex justify-center'>
-      <section className='text-text-primary flex justify-center flex-col'>
+      <section className='p-4 text-text-primary flex justify-center flex-col'>
         {nodes.map((node) => renderNode(node))}
       </section>
     </div>

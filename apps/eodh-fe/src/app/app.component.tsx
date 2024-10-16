@@ -10,6 +10,7 @@ import i18n from '../i18n';
 import { DefaultLayout } from './layout/default-layout.component';
 
 const keycloakAdapter = new KeycloakAdapter(getEnvConfig().module.authorization);
+
 initHttpClient(getEnvConfig().module.http, [new AuthInterceptor(keycloakAdapter)]);
 
 export function App() {

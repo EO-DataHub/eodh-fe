@@ -51,10 +51,10 @@ export const getSizeStyles = (
 ) => {
   const sizeStyles = {
     small: `text-small-bold ${appearance === 'default' && 'text-shadow-text-small'} ${
-      appearance === 'text' ? 'px-1 rounded-[1px]' : 'px-2 py-1 rounded-md'
+      appearance === 'text' ? 'px-1 rounded-[1px]' : 'px-2 py-1 rounded'
     }`,
     medium: `text-medium-semibold ${appearance === 'default' && 'text-shadow-text-small'} ${
-      appearance === 'text' ? 'px-1 rounded-[1px]' : 'px-5 py-1 rounded-lg'
+      appearance === 'text' ? 'px-1 rounded-[1px]' : 'px-5 py-1 rounded'
     }`,
     large: `text-large-bold ${appearance === 'default' && 'text-shadow-text'} ${
       appearance === 'text' ? 'px-1 rounded-[1px]' : 'px-6 py-1.5 rounded-lg'

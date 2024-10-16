@@ -1,6 +1,7 @@
 import Axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 import { IHttpClientConfig, IHttpInterceptor, IHttpRequest } from './model';
+import { ProxyInterceptor } from './proxy.interceptor';
 
 let instance: AxiosInstance | undefined = undefined;
 
@@ -15,35 +16,25 @@ export const getHttpClient = () => {
   }
 
   return {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    get: <T = any>(url: string, options?: TRequestConfig): Promise<T> => instance!.get(url, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    delete: <T = any>(url: string, options?: TRequestConfig): Promise<T> => instance!.delete(url, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    options: <T = any>(url: string, options?: TRequestConfig): Promise<T> => instance!.options(url, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    post: <T = any, D = any>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
+    get: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance!.get(url, options),
+    delete: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance!.delete(url, options),
+    options: <T = unknown>(url: string, options?: TRequestConfig): Promise<T> => instance!.options(url, options),
+    post: <T = unknown, D = unknown>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
       instance!.post(url, data, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    put: <T = any, D = any>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
+    put: <T = unknown, D = unknown>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
       instance!.put(url, data, options),
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    patch: <T = any, D = any>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
+    patch: <T = unknown, D = unknown>(url: string, data?: D, options?: TRequestConfig): Promise<T> =>
       instance!.patch(url, data, options),
   };
 };
 
-export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInterceptor[]) => {
-  instance = Axios.create({
-    baseURL: config.baseUrl,
-    timeout: 60000,
-  });
-
-  if (!instance || !interceptors.length) {
+export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInterceptor[] = []): void => {
+  if (instance) {
     return;
   }
 
-  applyInterceptors(instance, interceptors);
+  instance = Axios.create({ timeout: 60000 });
+  applyInterceptors(instance, [new ProxyInterceptor(config), ...interceptors]);
 
   instance.interceptors.response.use((response) => response.data);
 };

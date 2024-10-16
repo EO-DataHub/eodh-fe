@@ -1,4 +1,5 @@
 import { Button, Icon, Text } from '@ukri/shared/design-system';
+import clsx from 'clsx';
 import { useCallback, useState } from 'react';
 
 import { presetStyles } from './preset.styles';
@@ -24,7 +25,7 @@ const Image = ({ imageUrl }: IImageProps) => {
 
   return (
     <div className={presetStyles.imageContainer}>
-      <img src={imageUrl} alt='ResultItem' className={presetStyles.image} onError={showError} />
+      <img src={imageUrl} alt='Preset' className={presetStyles.image} onError={showError} />
     </div>
   );
 };
@@ -32,18 +33,19 @@ const Image = ({ imageUrl }: IImageProps) => {
 export interface IResultItemProps {
   imageUrl: string;
   title: string;
-  description: string;
+  description?: string;
   onLoadPresetClick: () => void;
+  className?: string;
 }
 
-export const Preset = ({ imageUrl, title, description, onLoadPresetClick }: IResultItemProps) => {
+export const Preset = ({ imageUrl, title, description, onLoadPresetClick, className }: IResultItemProps) => {
   return (
-    <div className={presetStyles.presetContainer}>
+    <div className={clsx(presetStyles.presetContainer, className)}>
       <Image imageUrl={imageUrl} />
       <div className={presetStyles.contentContainer}>
         <div className='flex-grow'>
           <Text content={title} fontSize='large' fontWeight='regular' className={presetStyles.title} />
-          <Text content={description} fontSize='medium' fontWeight='regular' />
+          {description && <Text content={description} fontSize='medium' fontWeight='regular' />}
         </div>
         <div className={presetStyles.buttonContainer}>
           <Button text={'MAP.ACTION_CREATOR_PANEL.PRESETS.BUTTON'} size='medium' onClick={onLoadPresetClick} />
