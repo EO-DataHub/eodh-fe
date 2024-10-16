@@ -57,15 +57,23 @@ const getValue = <T extends string | string[] | undefined[] | boolean>(
   return defaultValue;
 };
 
+const removeTrailingSlashes = (url: string) => {
+  return url.replace(/\/+$/, '');
+};
+
 const getEodhProUrl = () => {
   const apiVersion = '/v1.0';
   const importedUrl = getValue<string>(import.meta.env.VITE_EODH_PRO_API_URL, config?.authorization.clientId, '');
 
   if (importedUrl) {
-    return importedUrl.replace(/\/+$/, '') + apiVersion;
+    return removeTrailingSlashes(importedUrl) + apiVersion;
   }
 
   return '';
+};
+
+const getEodhStacUrl = () => {
+  getValue<string>(import.meta.env.VITE_EODH_STAC_API_URL, config?.authorization.clientId, '');
 };
 
 export const getEnvConfig = (): IEnvConfig => ({
