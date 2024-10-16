@@ -73,7 +73,8 @@ const getEodhProUrl = () => {
 };
 
 const getEodhStacUrl = () => {
-  getValue<string>(import.meta.env.VITE_EODH_STAC_API_URL, config?.authorization.clientId, '');
+  const importedUrl = getValue<string>(import.meta.env.VITE_EODH_STAC_API_URL, config?.authorization.clientId, '');
+  return removeTrailingSlashes(importedUrl);
 };
 
 export const getEnvConfig = (): IEnvConfig => ({
@@ -97,7 +98,7 @@ export const getEnvConfig = (): IEnvConfig => ({
     http: {
       proxyConfig: {
         EODH_PRO_API_URL: getEodhProUrl(),
-        EODH_STAC_API_URL: getValue<string>(import.meta.env.VITE_EODH_STAC_API_URL, config?.authorization.clientId, ''),
+        EODH_STAC_API_URL: getEodhStacUrl(),
       },
     },
   },
