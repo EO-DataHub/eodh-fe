@@ -44,7 +44,7 @@ export const Presets = () => {
       {data?.functions.map((preset) => (
         <Preset
           key={preset.identifier}
-          imageUrl={preset.thumbnail_b64}
+          imageUrl={preset.imageUrl}
           title={preset.name}
           description={preset.description}
           onLoadPresetClick={() => handleLoadPreset(preset)}

@@ -3,14 +3,11 @@ import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-qu
 
 import { QUERY_KEY } from '../api';
 import { presetsSchema, TPresets } from './presets.model';
-import { formatPresetsResponse } from './response-formatter';
 
 const presets = async (): Promise<TPresets> => {
   const response = await getHttpClient().get(QUERY_KEY.PRESETS);
 
-  const formattedResponse = formatPresetsResponse(response as TPresets);
-
-  return presetsSchema.parse(formattedResponse);
+  return presetsSchema.parse(response);
 };
 
 export const useGetPresets = () => {
