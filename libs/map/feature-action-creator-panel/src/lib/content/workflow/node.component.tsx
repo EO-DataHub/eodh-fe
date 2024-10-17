@@ -8,8 +8,9 @@ interface INodeProps {
   type: TNodeType;
   text?: string;
   error?: string;
-  enabled?: boolean;
+  clickable?: boolean;
   selected?: boolean;
+  className?: string;
 }
 
 type TTypeOfNode = {
@@ -73,7 +74,15 @@ const styles = {
   arrow: 'flex justify-center items-center mt-[-3px] mb-0.5',
 };
 
-export const Node = ({ type = 'area', error, text, children, enabled, selected }: PropsWithChildren<INodeProps>) => {
+export const Node = ({
+  type = 'area',
+  error,
+  text,
+  children,
+  clickable,
+  selected,
+  className = '',
+}: PropsWithChildren<INodeProps>) => {
   const [active, setActive] = useState(false);
   const { t } = useTranslation();
   const nodeType = typeOfNode[type];
@@ -87,7 +96,7 @@ export const Node = ({ type = 'area', error, text, children, enabled, selected }
   }, [text, children]);
 
   return (
-    <div className={`${styles.container} ${enabled ? styles.clickable : ''}`}>
+    <div className={`${styles.container} ${clickable ? styles.clickable : ''} ${className}`}>
       <div
         className={`
             ${styles.header.base}

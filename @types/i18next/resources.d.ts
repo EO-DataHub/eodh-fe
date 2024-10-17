@@ -52,6 +52,11 @@ interface Resources {
           TITLE: 'Sorry, your search returned no results.';
           MESSAGE: 'Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets.';
         };
+        PRESETS: {
+          TITLE: 'Server error';
+          MESSAGE: 'There was a problem retrieving workflow presets from the server. Please try again later.';
+          CTA: 'Refresh workflow preset list';
+        };
       };
       NAVIGATION: {
         RETURN_TO_SERCH: 'Return to the search menu';
@@ -119,6 +124,19 @@ interface Resources {
         };
         PRESETS: {
           BUTTON: 'Load preset';
+        };
+        WORKFLOW: {
+          WORKFLOW_PROCESSING_MODAL: {
+            HEADER: 'The Action Creator is currently processing your workflow.';
+            CONTENT: {
+              INFORMATION: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window. We will notify you once your data is ready to view.';
+              BROWSE_DATA: 'In the meantime you can browse map data or start a new workflow.';
+            };
+            BUTTON: {
+              EXPORT_CONFIGURATION: 'Export configuration';
+              VIEW_HISTORY: 'View history';
+            };
+          };
         };
       };
       SEARCH_MODE_PANEL: {
