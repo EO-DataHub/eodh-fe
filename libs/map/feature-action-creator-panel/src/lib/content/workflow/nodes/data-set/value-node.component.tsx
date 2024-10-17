@@ -1,18 +1,19 @@
-import { TDataSetsNode } from '@ukri/map/data-access-map';
+import { TDataSetsNode, useActionCreator } from '@ukri/map/data-access-map';
 
 import { Node } from '../../node.component';
 import { NodeInput } from '../node-input.component';
 
 type TValueNodeProps = {
   node: TDataSetsNode;
-  enabled: boolean;
   error: boolean;
   onClearButtonClick: () => void;
 };
 
-export const ValueNode = ({ enabled, error, node, onClearButtonClick }: TValueNodeProps) => {
+export const ValueNode = ({ error, node, onClearButtonClick }: TValueNodeProps) => {
+  const { canActivate } = useActionCreator();
+
   return (
-    <Node type={node.type} enabled={enabled} selected={node.selected}>
+    <Node type={node.type} clickable={canActivate(node)} selected={node.selected}>
       <NodeInput iconName='Satellite' value={node.value || ''} error={error} onClearButtonClick={onClearButtonClick} />
     </Node>
   );

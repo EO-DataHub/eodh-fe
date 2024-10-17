@@ -1,3 +1,12 @@
+import { Container, Content, Footer } from './container.component';
+
 export const History = () => {
-  return <section className='text-text-primary p-4'>History</section>;
+  return (
+    <Container>
+      <Content>
+        <section className='text-text-primary p-4'>History</section>
+      </Content>
+      <Footer></Footer>
+    </Container>
+  );
 };
