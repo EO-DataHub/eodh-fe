@@ -129,6 +129,19 @@ interface Resources {
         PRESETS: {
           BUTTON: 'Load preset';
         };
+        WORKFLOW: {
+          WORKFLOW_PROCESSING_MODAL: {
+            HEADER: 'The Action Creator is currently processing your workflow.';
+            CONTENT: {
+              INFORMATION: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window. We will notify you once your data is ready to view.';
+              BROWSE_DATA: 'In the meantime you can browse map data or start a new workflow.';
+            };
+            BUTTON: {
+              EXPORT_CONFIGURATION: 'Export configuration';
+              VIEW_HISTORY: 'View history';
+            };
+          };
+        };
       };
       SEARCH_MODE_PANEL: {
         HEADER: {

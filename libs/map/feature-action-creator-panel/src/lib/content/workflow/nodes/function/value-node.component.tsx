@@ -1,18 +1,20 @@
-import { TDataSetsFunction, TFunctionNode } from '@ukri/map/data-access-map';
+import { TFunctionNode, useActionCreator } from '@ukri/map/data-access-map';
 
 import { Node } from '../../node.component';
-import { NodeSelect } from '../node-select.component';
+import { NodeSelect, TOption } from '../node-select.component';
 
 type TValueNodeProps = {
   node: TFunctionNode;
-  enabled: boolean;
-  onChange?: (value: TDataSetsFunction | undefined) => void;
+  options: TOption[];
+  onChange?: (value: string | null | undefined) => void;
 };
 
-export const ValueNode = ({ enabled, node, onChange }: TValueNodeProps) => {
+export const ValueNode = ({ node, options, onChange }: TValueNodeProps) => {
+  const { canActivate } = useActionCreator();
+
   return (
-    <Node type={node.type} enabled={enabled} selected={node.selected}>
-      <NodeSelect value={node.value} onChange={onChange} />
+    <Node type={node.type} clickable={canActivate(node)} selected={node.selected}>
+      <NodeSelect value={node.value} options={options || []} onChange={onChange} />
     </Node>
   );
 };

@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { IModeStore, TMode } from './mode.model';
-import { toggleMode } from './toggle-state';
+import { toggleMode } from './toggle-mode';
 
 const useModeStore = create<IModeStore>()(
   devtools((set) => ({

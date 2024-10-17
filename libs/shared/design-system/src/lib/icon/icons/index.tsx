@@ -29,3 +29,4 @@ export { default as VisibilityOff } from './visibility-off';
 export { default as Erase } from './ink-eraser';
 export { default as Info } from './info';
 export { default as SwapVert } from './swap-vert';
+export { default as Upload } from './upload';

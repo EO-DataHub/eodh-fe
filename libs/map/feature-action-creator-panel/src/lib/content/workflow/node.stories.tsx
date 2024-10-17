@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { TDataSetsFunction } from '@ukri/map/data-access-map';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Node } from './node.component';
 import { NodeInput } from './nodes/node-input.component';
@@ -28,7 +27,7 @@ const meta: Meta<typeof Node> = {
       },
       options: ['area', 'dataSet', 'dateRange', 'function'],
     },
-    enabled: {
+    clickable: {
       control: 'boolean',
     },
     selected: {
@@ -72,7 +71,7 @@ type TAllNodesProps = {
   dataSet: string;
   dateFrom: string;
   dateTo: string;
-  function: TDataSetsFunction;
+  function: string;
 };
 
 export const AllNodes = ({ enabled, aoi, dataSet, dateFrom, dateTo, function: selectedFunction }: TAllNodesProps) => {
@@ -80,6 +79,16 @@ export const AllNodes = ({ enabled, aoi, dataSet, dateFrom, dateTo, function: se
   const [currentDataSet, setCurrentDataSet] = useState<string | undefined>(dataSet);
   const [currentDateFrom, setCurrentDateFrom] = useState<string | undefined>(dateFrom);
   const [currentDateTo, setCurrentDateTo] = useState<string | undefined>(dateTo);
+  const options = useMemo((): { value: string; label: string }[] => {
+    return [
+      { value: 'NDVI', label: 'NDVI' },
+      { value: 'FALSE_COLOR', label: 'False Color' },
+      { value: 'MOISTURE_INDEX', label: 'Moisture Index' },
+      { value: 'SWIR', label: 'SWIR' },
+      { value: 'NDWI', label: 'NDWI' },
+      { value: 'NDSI', label: 'NDSI' },
+    ];
+  }, []);
 
   useEffect(() => {
     setCurrentAoi(aoi);
@@ -116,7 +125,7 @@ export const AllNodes = ({ enabled, aoi, dataSet, dateFrom, dateTo, function: se
             </>
           )}
         </Node>
-        <Node type='function'>{enabled && <NodeSelect value={selectedFunction} />}</Node>
+        <Node type='function'>{enabled && <NodeSelect value={selectedFunction} options={options} />}</Node>
       </div>
     </div>
   );

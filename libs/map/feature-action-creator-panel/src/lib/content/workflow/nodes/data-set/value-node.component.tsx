@@ -1,15 +1,8 @@
-import { TDataSetsNode } from '@ukri/map/data-access-map';
+import { TDataSetsNode, useActionCreator } from '@ukri/map/data-access-map';
 import { useTranslation } from 'react-i18next';
 
 import { Node } from '../../node.component';
 import { NodeInput } from '../node-input.component';
-
-type TValueNodeProps = {
-  node: TDataSetsNode;
-  enabled: boolean;
-  error: boolean;
-  onClearButtonClick: () => void;
-};
 
 const useNodeTranslation = (node: TValueNodeProps['node']) => {
   const { t } = useTranslation();
@@ -35,11 +28,18 @@ const useNodeTranslation = (node: TValueNodeProps['node']) => {
   return '';
 };
 
-export const ValueNode = ({ enabled, error, node, onClearButtonClick }: TValueNodeProps) => {
+type TValueNodeProps = {
+  node: TDataSetsNode;
+  error: boolean;
+  onClearButtonClick: () => void;
+};
+
+export const ValueNode = ({ error, node, onClearButtonClick }: TValueNodeProps) => {
+  const { canActivate } = useActionCreator();
   const value = useNodeTranslation(node);
 
   return (
-    <Node type={node.type} enabled={enabled} selected={node.selected}>
+    <Node type={node.type} clickable={canActivate(node)} selected={node.selected}>
       <NodeInput iconName='Satellite' value={value} error={error} onClearButtonClick={onClearButtonClick} />
     </Node>
   );

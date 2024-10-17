@@ -1,27 +1,29 @@
-export { useAoi } from './lib/aoi-store/aoi.store';
-export { createGeometry, getCoordinates } from './lib/aoi-store/geometry';
-export { useDate } from './lib/date-store/date.store';
-export { useMode } from './lib/mode-store/mode.store';
-export { useTrueColorImage } from './lib/true-color-image-store/true-color-image.store';
-export { useLayers } from './lib/use-toggle-layers.hook';
+export { useAoi } from './lib/store/aoi/aoi.store';
+export { createGeometry, getCoordinates } from './lib/store/aoi/geometry';
+export { useDate } from './lib/store/date/date.store';
+export { useMode } from './lib/store/mode.store';
+export { useTrueColorImage } from './lib/store/true-color-image/true-color-image.store';
+export { useLayers } from './lib/store/use-toggle-layers.hook';
 export {
   useFootprintLayerVisible,
   useFootprintCollection,
   useToggleFootprintLayer,
   useFootprintCollectionMutation,
-} from './lib/footprint-store/footprint.store';
-export { useDataSets } from './lib/data-sets-store/data-sets.store';
-export { useGetPresets } from './lib/presets/presets.query';
+} from './lib/store/footprint/footprint.store';
+export { useDataSets } from './lib/store/data-sets/data-sets.store';
+export { useGetPresets } from './lib/query/presets.query';
 export { useGetHistory } from './lib/history/history.query';
 export type { IHistoryParams } from './lib/history/history.query';
 export type { THistory, THistoryItem } from './lib/history/history.model';
-export { useResults } from './lib/results-store/results.store';
-export { useActionCreator } from './lib/action-creator-store/action-creator.store';
+export { useResults } from './lib/store/results/results.store';
+export { useActionCreator } from './lib/store/action-creator/action-creator.store';
 export type {
   TNode,
   TAreaNode,
   TDateRangeNode,
   TDataSetsNode,
   TFunctionNode,
-  TDataSetsFunction,
-} from './lib/action-creator-store/action-creator.model';
+} from './lib/store/action-creator/action-creator.model';
+export { useFunctions } from './lib/query/function.query';
+export { useCreateWorkflow } from './lib/mutation/workflow.mutation';
+export type { TFunction } from './lib/query/function.model';
