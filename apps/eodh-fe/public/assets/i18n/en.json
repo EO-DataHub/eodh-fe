@@ -123,6 +123,23 @@
       },
       "PRESETS": {
         "BUTTON": "Load preset"
+      },
+      "HISTORY": {
+        "TITLE": "Workflow",
+        "VIEW_RESULTS": "View results",
+        "HIDE_RESULTS": "Hide results",
+        "SAVED_ON": "Saved on",
+        "SAVED_AT": "at",
+        "STATUS": {
+          "READY": "Ready",
+          "PROCESSING": "Processing",
+          "FAILED": "Failed"
+        },
+        "SORT_FILTER": {
+          "SORT": "Sort",
+          "NEWEST": "Newest first",
+          "OLDEST": "Oldest first"
+        }
       }
     },
     "SEARCH_MODE_PANEL": {
