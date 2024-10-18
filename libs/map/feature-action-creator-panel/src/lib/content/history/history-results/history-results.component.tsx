@@ -1,26 +1,22 @@
-import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
+// TODO remove this component ???
 
-// import { HistoryResults } from './history-results/history-results.component';
-import { HistoryTile } from './history-tile/history-tile.component';
-import { SortFilter } from './sort-filter/sort-filter.component';
-import { useHistoryData } from './use-history-data.hook';
+import { Button, LoadingSpinner } from '@ukri/shared/design-system';
+import { useEffect } from 'react';
 
-interface IErrorMessageProps {
-  refetch: () => void;
+import { HistoryTile } from '../history-tile/history-tile.component';
+import { useHistoryData } from '../use-history-data.hook';
+
+interface IHistoryResultsProps {
+  sortOrder: 'asc' | 'desc';
 }
 
-const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
-  <div className='flex flex-col items-center p-4'>
-    <Error
-      title='GLOBAL.ERRORS.PRESETS.TITLE'
-      message='GLOBAL.ERRORS.PRESETS.MESSAGE'
-      ctaText='GLOBAL.ERRORS.PRESETS.CTA'
-      ctaOnClick={refetch}
-    />
-  </div>
-);
-export const History = () => {
-  const { allResults, handleSortChange, loadMore, data, error, isLoading, isFetching, refetch } = useHistoryData();
+export const HistoryResults = ({ sortOrder }: IHistoryResultsProps) => {
+  const { allResults, loadMore, data, isLoading, isFetching, setAllResults, setPage } = useHistoryData();
+
+  useEffect(() => {
+    setAllResults([]);
+    setPage(1);
+  }, [sortOrder]);
 
   if ((isLoading || isFetching) && allResults.length === 0) {
     return (
@@ -29,19 +25,10 @@ export const History = () => {
       </div>
     );
   }
-
-  if (error) {
-    return <ErrorMessage refetch={refetch} />;
-  }
-
   const hasMoreResults = data && data.results.length === 25;
 
   return (
-    <section className='text-text-primary h-full overflow-scroll p-4'>
-      <div className='flex justify-end'>
-        <SortFilter onSortChange={handleSortChange} />
-      </div>
-
+    <>
       {allResults.map((workflow) => (
         <HistoryTile
           key={workflow.submission_id}
@@ -70,6 +57,6 @@ export const History = () => {
           />
         </div>
       )}
-    </section>
+    </>
   );
 };

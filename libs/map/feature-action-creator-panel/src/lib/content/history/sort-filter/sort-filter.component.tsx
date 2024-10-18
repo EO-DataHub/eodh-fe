@@ -3,6 +3,8 @@ import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { sortFilterStyles } from './sort-filter.styles';
+
 type TSortOrder = 'newest' | 'oldest';
 
 interface ISortFilterProps {
@@ -10,7 +12,7 @@ interface ISortFilterProps {
   className?: string;
 }
 
-export const SortFilter: React.FC<ISortFilterProps> = ({ onSortChange, className }) => {
+export const SortFilter = React.memo(({ onSortChange, className }: ISortFilterProps) => {
   const [sortOrder, setSortOrder] = useState<TSortOrder | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
@@ -38,11 +40,8 @@ export const SortFilter: React.FC<ISortFilterProps> = ({ onSortChange, className
   };
 
   return (
-    <div ref={dropdownRef} className={clsx('relative inline-block text-left', className)}>
-      <button
-        onClick={toggleDropdown}
-        className={`inline-flex items-center text-xs text-text group hover:text-primary focus:outline-none`}
-      >
+    <div ref={dropdownRef} className={clsx(sortFilterStyles.container, className)}>
+      <button onClick={toggleDropdown} className={sortFilterStyles.button}>
         {t('MAP.ACTION_CREATOR_PANEL.HISTORY.SORT_FILTER.SORT')}{' '}
         {sortOrder
           ? sortOrder === 'newest'
@@ -51,26 +50,26 @@ export const SortFilter: React.FC<ISortFilterProps> = ({ onSortChange, className
           : ''}
         <Icon
           name='SwapVert'
-          className={`group-hover:text-primary ${sortOrder ? 'text-text' : 'text-neutral-light'}`}
+          className={clsx(
+            sortFilterStyles.icon,
+            sortOrder ? sortFilterStyles.iconActive : sortFilterStyles.iconInactive
+          )}
         />
       </button>
 
       {isOpen && (
-        <div className='absolute right-0 origin-top-right rounded-md shadow-action-creator focus:outline-none p-3.5 pr-4 bg-background min-w-28'>
+        <div className={sortFilterStyles.dropdownMenu}>
           <button
             onClick={() => handleSortSelection('newest')}
-            className={`block text-sm text-text hover:text-primary pb-1`}
+            className={clsx(sortFilterStyles.dropdownButton, sortFilterStyles.dropdownButtonNewest)}
           >
             {t('MAP.ACTION_CREATOR_PANEL.HISTORY.SORT_FILTER.NEWEST')}
           </button>
-          <button
-            onClick={() => handleSortSelection('oldest')}
-            className={`block text-sm text-text hover:text-primary`}
-          >
+          <button onClick={() => handleSortSelection('oldest')} className={sortFilterStyles.dropdownButton}>
             {t('MAP.ACTION_CREATOR_PANEL.HISTORY.SORT_FILTER.OLDEST')}
           </button>
         </div>
       )}
     </div>
   );
-};
+});

@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-const StatusEnum = z.enum(['submitted', 'running', 'cancel-request', 'successful', 'failed', 'cancelled']);
+const statusEnum = z.enum(['submitted', 'running', 'cancel-request', 'successful', 'failed', 'cancelled']);
 
-const SubmissionSchema = z.object({
+const submissionSchema = z.object({
   submission_id: z.string().uuid(),
-  status: StatusEnum.transform((status) => {
+  status: statusEnum.transform((status) => {
     if (['failed', 'cancel-request', 'cancelled'].includes(status)) {
       return 'FAILED';
     } else if (['submitted', 'running'].includes(status)) {
@@ -29,7 +29,7 @@ const SubmissionSchema = z.object({
 });
 
 export const historySchema = z.object({
-  results: z.array(SubmissionSchema),
+  results: z.array(submissionSchema),
   total_items: z.number().int(),
   current_page: z.number().int(),
   total_pages: z.number().int(),
@@ -39,5 +39,7 @@ export const historySchema = z.object({
   order_direction: z.enum(['asc', 'desc']),
 });
 
+export type THistoryItem = z.infer<typeof submissionSchema>;
 export type THistory = z.infer<typeof historySchema>;
+
 export const TransformedStatusEnum = z.enum(['FAILED', 'PROCESSING', 'READY']);
