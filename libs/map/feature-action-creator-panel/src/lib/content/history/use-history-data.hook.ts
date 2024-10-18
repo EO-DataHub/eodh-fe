@@ -5,7 +5,6 @@ type TSortOrder = 'newest' | 'oldest';
 type TSortKey = 'default' | TSortOrder;
 
 interface IUseHistoryData {
-  page: number;
   allResults: THistoryItem[];
   handleSortChange: (order: TSortOrder) => void;
   loadMore: () => void;
@@ -15,9 +14,6 @@ interface IUseHistoryData {
   isFetching: boolean;
   refetch: () => void;
   sortKey: TSortKey;
-  sortOrder: 'asc' | 'desc';
-  setAllResults: (results: THistoryItem[]) => void;
-  setPage: (page: number) => void;
 }
 
 export const useHistoryData = (): IUseHistoryData => {
@@ -60,7 +56,6 @@ export const useHistoryData = (): IUseHistoryData => {
   }, [data, isLoading, isFetching, allResults]);
 
   return {
-    page,
     allResults,
     handleSortChange,
     loadMore,
@@ -70,8 +65,5 @@ export const useHistoryData = (): IUseHistoryData => {
     isFetching,
     refetch,
     sortKey,
-    sortOrder,
-    setAllResults,
-    setPage,
   };
 };
