@@ -54,24 +54,29 @@ export const HistoryTile = ({
 }: IHistoryTileProps) => {
   const { t } = useTranslation();
 
-  const workflowName = `${function_identifier} ${workflowId}`;
-  const date = `${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_ON')} ${savedAtDate} ${t(
-    'MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_AT'
-  )} ${savedAtHour}`;
-
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
       <div className={historyTileStyles.section}>
         <div className={historyTileStyles.textContainer}>
+          <Text content={function_identifier} fontSize='medium' fontWeight='semibold' />
           <Text
-            content={truncateString(workflowName, 25)}
-            fontSize='medium'
-            fontWeight='semibold'
-            className={clsx('font-medium', historyTileStyles.workflowName)}
+            content={`ID: ${truncateString(workflowId, 25)}`}
+            fontSize='small'
+            fontWeight='regular'
+            className={historyTileStyles.workflowId}
           />
         </div>
-        <div className={historyTileStyles.textContainer}>
-          <Text content={date} fontSize='medium' fontWeight='regular' />
+        <div className={clsx(historyTileStyles.textContainer, historyTileStyles.date)}>
+          <Text
+            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_ON')} ${savedAtDate} `}
+            fontSize='medium'
+            fontWeight='regular'
+          />
+          <Text
+            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_AT')} ${savedAtHour}`}
+            fontSize='medium'
+            fontWeight='regular'
+          />
         </div>
       </div>
       <div className={historyTileStyles.section}>

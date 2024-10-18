@@ -1,6 +1,5 @@
 import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
 
-// import { HistoryResults } from './history-results/history-results.component';
 import { HistoryTile } from './history-tile/history-tile.component';
 import { SortFilter } from './sort-filter/sort-filter.component';
 import { useHistoryData } from './use-history-data.hook';
@@ -12,15 +11,16 @@ interface IErrorMessageProps {
 const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
   <div className='flex flex-col items-center p-4'>
     <Error
-      title='GLOBAL.ERRORS.PRESETS.TITLE'
-      message='GLOBAL.ERRORS.PRESETS.MESSAGE'
-      ctaText='GLOBAL.ERRORS.PRESETS.CTA'
+      title='MAP.ACTION_CREATOR_PANEL.HISTORY.ERROR.TITLE'
+      message='MAP.ACTION_CREATOR_PANEL.HISTORY.ERROR.MESSAGE'
+      ctaText='MAP.ACTION_CREATOR_PANEL.HISTORY.ERROR.CTA'
       ctaOnClick={refetch}
     />
   </div>
 );
 export const History = () => {
-  const { allResults, handleSortChange, loadMore, data, error, isLoading, isFetching, refetch } = useHistoryData();
+  const { allResults, handleSortChange, loadMore, data, error, isLoading, isFetching, refetch, sortKey } =
+    useHistoryData();
 
   if ((isLoading || isFetching) && allResults.length === 0) {
     return (
@@ -39,7 +39,7 @@ export const History = () => {
   return (
     <section className='text-text-primary h-full overflow-scroll p-4'>
       <div className='flex justify-end'>
-        <SortFilter onSortChange={handleSortChange} />
+        <SortFilter onSortChange={handleSortChange} sortKey={sortKey} />
       </div>
 
       {allResults.map((workflow) => (

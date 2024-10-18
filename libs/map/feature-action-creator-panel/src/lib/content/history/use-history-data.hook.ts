@@ -1,27 +1,32 @@
 import { IHistoryParams, THistory, THistoryItem, useGetHistory } from '@ukri/map/data-access-map';
 import { useCallback, useEffect, useState } from 'react';
 
+type TSortOrder = 'newest' | 'oldest';
+type TSortKey = 'default' | TSortOrder;
+
 interface IUseHistoryData {
   page: number;
   allResults: THistoryItem[];
-  handleSortChange: (order: 'newest' | 'oldest') => void;
+  handleSortChange: (order: TSortOrder) => void;
   loadMore: () => void;
   data?: THistory;
   error: Error | null;
   isLoading: boolean;
   isFetching: boolean;
   refetch: () => void;
-  sortKey: string;
+  sortKey: TSortKey;
   sortOrder: 'asc' | 'desc';
+  setAllResults: (results: THistoryItem[]) => void;
+  setPage: (page: number) => void;
 }
 
 export const useHistoryData = (): IUseHistoryData => {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [page, setPage] = useState(1);
   const [allResults, setAllResults] = useState<THistoryItem[]>([]);
-  const [sortKey, setSortKey] = useState('default');
+  const [sortKey, setSortKey] = useState<TSortKey>('default');
 
-  const handleSortChange = useCallback((order: 'newest' | 'oldest') => {
+  const handleSortChange = useCallback((order: TSortOrder) => {
     setSortKey(order);
     setSortOrder(order === 'newest' ? 'desc' : 'asc');
     setPage(1);
@@ -66,6 +71,7 @@ export const useHistoryData = (): IUseHistoryData => {
     refetch,
     sortKey,
     sortOrder,
+    setAllResults,
     setPage,
   };
 };

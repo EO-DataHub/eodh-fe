@@ -139,7 +139,12 @@
           "NEWEST": "Newest first",
           "OLDEST": "Oldest first"
         },
-        "LOAD_MORE": "Load more"
+        "LOAD_MORE": "Load more",
+        "ERROR": {
+          "TITLE": "Server error",
+          "MESSAGE": "There was a problem retrieving workflow history from the server. Please try again later.",
+          "CTA": "Refresh workflow history list"
+        }
       }
     },
     "SEARCH_MODE_PANEL": {

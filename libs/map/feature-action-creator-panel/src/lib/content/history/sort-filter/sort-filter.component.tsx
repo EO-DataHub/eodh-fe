@@ -9,10 +9,11 @@ type TSortOrder = 'newest' | 'oldest';
 
 interface ISortFilterProps {
   onSortChange: (order: TSortOrder) => void;
+  sortKey: 'default' | 'newest' | 'oldest';
   className?: string;
 }
 
-export const SortFilter = React.memo(({ onSortChange, className }: ISortFilterProps) => {
+export const SortFilter = React.memo(({ onSortChange, sortKey, className }: ISortFilterProps) => {
   const [sortOrder, setSortOrder] = useState<TSortOrder | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
@@ -43,8 +44,8 @@ export const SortFilter = React.memo(({ onSortChange, className }: ISortFilterPr
     <div ref={dropdownRef} className={clsx(sortFilterStyles.container, className)}>
       <button onClick={toggleDropdown} className={sortFilterStyles.button}>
         {t('MAP.ACTION_CREATOR_PANEL.HISTORY.SORT_FILTER.SORT')}{' '}
-        {sortOrder
-          ? sortOrder === 'newest'
+        {sortKey && sortKey !== 'default'
+          ? sortKey === 'newest'
             ? `(${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SORT_FILTER.NEWEST')})`
             : `(${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SORT_FILTER.OLDEST')})`
           : ''}
