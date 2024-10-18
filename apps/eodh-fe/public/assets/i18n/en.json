@@ -125,7 +125,6 @@
         "BUTTON": "Load preset"
       },
       "HISTORY": {
-        "TITLE": "Workflow",
         "VIEW_RESULTS": "View results",
         "HIDE_RESULTS": "Hide results",
         "SAVED_ON": "Saved on",
@@ -139,7 +138,8 @@
           "SORT": "Sort",
           "NEWEST": "Newest first",
           "OLDEST": "Oldest first"
-        }
+        },
+        "LOAD_MORE": "Load more"
       }
     },
     "SEARCH_MODE_PANEL": {

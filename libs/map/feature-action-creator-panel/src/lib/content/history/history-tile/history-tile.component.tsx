@@ -22,11 +22,19 @@ const Tag = ({ status }: { status: 'READY' | 'PROCESSING' | 'FAILED' }) => {
   );
 };
 
+const truncateString = (str: string, maxLength: number) => {
+  if (str.length > maxLength) {
+    return str.slice(0, maxLength) + '...';
+  }
+  return str;
+};
+
 export interface IHistoryTileProps {
   workflowId: string;
+  function_identifier: string;
   savedAtDate: string;
   savedAtHour: string;
-  status: 'READY' | 'PROCESSING' | 'FAILED';
+  status?: 'READY' | 'PROCESSING' | 'FAILED';
   selected: boolean;
   onViewResult: () => void;
   onHideResult: () => void;
@@ -35,6 +43,7 @@ export interface IHistoryTileProps {
 
 export const HistoryTile = ({
   workflowId,
+  function_identifier,
   savedAtDate,
   savedAtHour,
   status,
@@ -45,7 +54,7 @@ export const HistoryTile = ({
 }: IHistoryTileProps) => {
   const { t } = useTranslation();
 
-  const workflowName = `${t('MAP.ACTION_CREATOR_PANEL.HISTORY.TITLE')}_${workflowId}`;
+  const workflowName = `${function_identifier} ${workflowId}`;
   const date = `${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_ON')} ${savedAtDate} ${t(
     'MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_AT'
   )} ${savedAtHour}`;
@@ -53,11 +62,20 @@ export const HistoryTile = ({
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
       <div className={historyTileStyles.section}>
-        <Text content={workflowName} fontSize='medium' fontWeight='semibold' className='font-medium' />
-        <Text content={date} fontSize='medium' fontWeight='regular' />
+        <div className={historyTileStyles.textContainer}>
+          <Text
+            content={truncateString(workflowName, 25)}
+            fontSize='medium'
+            fontWeight='semibold'
+            className={clsx('font-medium', historyTileStyles.workflowName)}
+          />
+        </div>
+        <div className={historyTileStyles.textContainer}>
+          <Text content={date} fontSize='medium' fontWeight='regular' />
+        </div>
       </div>
       <div className={historyTileStyles.section}>
-        <Tag status={status} />
+        {status && <Tag status={status} />}
         {status !== 'FAILED' && (
           <Button
             text={

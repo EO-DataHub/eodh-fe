@@ -1,45 +1,43 @@
-import z from 'zod';
+import { z } from 'zod';
 
-const inputSchema = z.object({
-  type: z.string(),
-  required: z.boolean(),
-  description: z.string(),
-  default: z.union([z.string(), z.null()]),
-  options: z.union([z.array(z.string()), z.null()]),
-});
+const StatusEnum = z.enum(['submitted', 'running', 'cancel-request', 'successful', 'failed', 'cancelled']);
 
-const outputSchema = z.object({
-  type: z.string(),
-  description: z.string(),
-});
-
-const functionSchema = z
-  .object({
-    name: z.string(),
-    identifier: z.string(),
-    preset: z.boolean(),
-    description: z.string().optional(),
-    thumbnail_b64: z.string(),
-    inputs: z.object({
-      stac_collection: inputSchema.optional(),
-      date_start: inputSchema.optional(),
-      date_end: inputSchema.optional(),
-      aoi: inputSchema.optional(),
-      bbox: inputSchema.optional(),
-      index: inputSchema.optional(),
+const SubmissionSchema = z.object({
+  submission_id: z.string().uuid(),
+  status: StatusEnum.transform((status) => {
+    if (['failed', 'cancel-request', 'cancelled'].includes(status)) {
+      return 'FAILED';
+    } else if (['submitted', 'running'].includes(status)) {
+      return 'PROCESSING';
+    } else if (status === 'successful') {
+      return 'READY';
+    }
+  }),
+  function_identifier: z.string(),
+  submitted_at: z
+    .string()
+    .datetime()
+    .transform((dateString) => {
+      const date = new Date(dateString);
+      return {
+        date: date.toISOString().split('T')[0],
+        hour: `${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}`,
+      };
     }),
-    outputs: z.object({
-      collection: outputSchema,
-    }),
-  })
-  .transform((data) => ({
-    ...data,
-    imageUrl: data.thumbnail_b64 && `data:image/jpeg;base64,${data.thumbnail_b64}`,
-  }));
-
-export const presetsSchema = z.object({
-  functions: z.array(functionSchema),
-  total: z.number(),
+  finished_at: z.union([z.string().datetime(), z.null(), z.undefined()]),
+  successful: z.union([z.boolean(), z.null(), z.undefined()]),
 });
 
-export type TPresets = z.infer<typeof presetsSchema>;
+export const historySchema = z.object({
+  results: z.array(SubmissionSchema),
+  total_items: z.number().int(),
+  current_page: z.number().int(),
+  total_pages: z.number().int(),
+  results_on_current_page: z.number().int(),
+  results_per_page: z.number().int(),
+  ordered_by: z.string(),
+  order_direction: z.enum(['asc', 'desc']),
+});
+
+export type THistory = z.infer<typeof historySchema>;
+export const TransformedStatusEnum = z.enum(['FAILED', 'PROCESSING', 'READY']);

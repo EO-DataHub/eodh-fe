@@ -13,6 +13,8 @@ export {
 export { useDataSets } from './lib/data-sets-store/data-sets.store';
 export { useGetPresets } from './lib/presets/presets.query';
 export { useGetHistory } from './lib/history/history.query';
+export type { IHistoryParams } from './lib/history/history.query';
+// export { THistory } from './lib/history/history.model';
 export { useResults } from './lib/results-store/results.store';
 export { useActionCreator } from './lib/action-creator-store/action-creator.store';
 export type {

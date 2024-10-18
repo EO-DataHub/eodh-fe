@@ -4,4 +4,6 @@ export const historyTileStyles = {
       selected ? 'border-primary-main' : 'border-background-main'
     }`,
   section: 'flex justify-between items-center w-full',
+  textContainer: 'flex-shrink whitespace-nowrap',
+  workflowName: 'overflow-hidden text-ellipsis mr-2',
 };
