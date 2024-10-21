@@ -20,17 +20,17 @@ const getOptions = (data: { standalone: boolean; identifier: string; name: strin
 type TNodeProps = {
   node: TFunctionNode;
   data: TFunction[] | undefined;
-  status: 'success' | 'error' | 'pending';
+  isLoading: boolean;
   onChange: (value: string | undefined | null) => void;
 };
 
-const Node = ({ node, data, status, onChange }: TNodeProps) => {
+const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
   return useMemo(() => {
     const options = getOptions(data);
 
     if (!node.selected && !node.value) {
       return <EmptyNode node={node} />;
-    } else if (status === 'pending') {
+    } else if (isLoading) {
       return <LoadingNode node={node} />;
     } else if (node.selected && !node.value) {
       return <ActiveNode node={node} options={options} onChange={onChange} />;
@@ -39,7 +39,7 @@ const Node = ({ node, data, status, onChange }: TNodeProps) => {
     }
 
     return <EmptyNode node={node} />;
-  }, [data, node, onChange, status]);
+  }, [data, node, onChange, isLoading]);
 };
 
 interface IFunctionNodeProps {
@@ -51,7 +51,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
-  const { data, status } = useFunctions();
+  const { data, isLoading } = useFunctions();
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
@@ -72,7 +72,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   if (!node.tooltip) {
     return (
       <div onClick={activateNode}>
-        <Node node={node} data={data} status={status} onChange={updateFunction} />
+        <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
       </div>
     );
   }
@@ -86,7 +86,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
       className='top-0 left-[-110px]'
     >
       <div onClick={activateNode}>
-        <Node node={node} data={data} status={status} onChange={updateFunction} />
+        <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
       </div>
     </OnboardingTooltip>
   );

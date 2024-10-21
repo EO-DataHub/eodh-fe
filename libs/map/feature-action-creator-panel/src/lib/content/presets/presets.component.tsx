@@ -30,7 +30,7 @@ const PresetsContainer = ({ children }: PropsWithChildren) => {
 };
 
 export const Presets = () => {
-  const { data, error, isLoading, isFetching, refetch } = useGetPresets();
+  const { data, error, isLoading, refetch } = useGetPresets();
 
   const handleLoadPreset = (preset: unknown) => {
     // eslint-disable-next-line no-console
@@ -38,7 +38,7 @@ export const Presets = () => {
     return;
   };
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <PresetsContainer>
         <div className='flex justify-center p-4'>
