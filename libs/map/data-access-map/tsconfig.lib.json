@@ -19,6 +19,5 @@
     "src/**/*.jsx",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "../feature-action-creator-panel/src/lib/content/history/use-history-data.hook.ts"
   ]
 }
