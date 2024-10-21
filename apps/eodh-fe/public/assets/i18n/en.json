@@ -129,6 +129,7 @@
         "HIDE_RESULTS": "Hide results",
         "SAVED_ON": "Saved on",
         "SAVED_AT": "at",
+        "ID": "ID",
         "STATUS": {
           "READY": "Ready",
           "PROCESSING": "Processing",

@@ -4,6 +4,29 @@ import { useTranslation } from 'react-i18next';
 
 import { historyTileStyles } from './history-tile.styles';
 
+interface IBasicButtonProps {
+  onClick: () => void;
+  status?: 'READY' | 'PROCESSING';
+}
+
+const ShowButton = ({ onClick, status }: IBasicButtonProps) => (
+  <Button
+    text='MAP.ACTION_CREATOR_PANEL.HISTORY.VIEW_RESULTS'
+    size='medium'
+    onClick={onClick}
+    disabled={status === 'PROCESSING'}
+  />
+);
+
+const HideButton = ({ onClick, status }: IBasicButtonProps) => (
+  <Button
+    text='MAP.ACTION_CREATOR_PANEL.HISTORY.HIDE_RESULTS'
+    size='medium'
+    onClick={onClick}
+    disabled={status === 'PROCESSING'}
+  />
+);
+
 const Tag = ({ status }: { status: 'READY' | 'PROCESSING' | 'FAILED' }) => {
   const tagStyles = {
     READY: 'bg-success text-success-contrastText',
@@ -81,18 +104,12 @@ export const HistoryTile = ({
       </div>
       <div className={historyTileStyles.section}>
         {status && <Tag status={status} />}
-        {status !== 'FAILED' && (
-          <Button
-            text={
-              selected
-                ? 'MAP.ACTION_CREATOR_PANEL.HISTORY.HIDE_RESULTS'
-                : 'MAP.ACTION_CREATOR_PANEL.HISTORY.VIEW_RESULTS'
-            }
-            size='medium'
-            onClick={selected ? onHideResult : onViewResult}
-            disabled={status === 'PROCESSING'}
-          />
-        )}
+        {status !== 'FAILED' &&
+          (selected ? (
+            <HideButton onClick={onHideResult} status={status} />
+          ) : (
+            <ShowButton onClick={onViewResult} status={status} />
+          ))}
       </div>
     </div>
   );

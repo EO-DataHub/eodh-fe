@@ -1,6 +1,6 @@
-import { Icon } from '@ukri/shared/design-system';
+import { Icon, useOutsideClick } from '@ukri/shared/design-system';
 import clsx from 'clsx';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { sortFilterStyles } from './sort-filter.styles';
@@ -19,18 +19,7 @@ export const SortFilter = memo(({ onSortChange, sortKey, className }: ISortFilte
   const { t } = useTranslation();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  useOutsideClick(dropdownRef, () => setIsOpen(false));
 
   const toggleDropdown = useCallback(() => setIsOpen(!isOpen), [isOpen]);
 

@@ -21,3 +21,4 @@ export { Notification } from './lib/notification/notification';
 export { Error } from './lib/error/error';
 export { ResultItem, type IResultItemProps } from './lib/result-item/result-item';
 export { Tooltip } from './lib/tooltip/tooltip';
+export { useOutsideClick } from './lib/hooks/use-outside-click';
