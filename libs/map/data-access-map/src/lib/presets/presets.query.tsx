@@ -4,16 +4,16 @@ import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-qu
 import { QUERY_KEY } from '../api';
 import { presetsSchema, TPresets } from './presets.model';
 
-const presets = async (): Promise<TPresets> => {
+const getPresetsResults = async (): Promise<TPresets> => {
   const response = await getHttpClient().get(QUERY_KEY.PRESETS);
 
   return presetsSchema.parse(response);
 };
 
 export const useGetPresets = () => {
-  return useQuery<TExtractFnReturnType<typeof presets>>({
+  return useQuery<TExtractFnReturnType<typeof getPresetsResults>>({
     queryKey: [QUERY_KEY.PRESETS],
-    queryFn: () => presets(),
+    queryFn: () => getPresetsResults(),
     enabled: true,
   });
 };

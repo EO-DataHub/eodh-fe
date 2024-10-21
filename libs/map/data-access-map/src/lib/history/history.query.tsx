@@ -11,7 +11,7 @@ export interface IHistoryParams {
   perPage?: number;
 }
 
-const history = async ({
+const getHistoryResults = async ({
   orderBy = 'submitted_at',
   orderDirection = 'asc',
   page = 1,
@@ -30,9 +30,9 @@ const history = async ({
 };
 
 export const useGetHistory = (params: IHistoryParams) => {
-  return useQuery<TExtractFnReturnType<typeof history>>({
+  return useQuery<TExtractFnReturnType<typeof getHistoryResults>>({
     queryKey: [QUERY_KEY.HISTORY, params.orderDirection, params.page, params.perPage],
-    queryFn: () => history(params),
+    queryFn: () => getHistoryResults(params),
     enabled: true,
   });
 };
