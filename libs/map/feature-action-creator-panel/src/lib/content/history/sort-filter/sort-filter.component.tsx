@@ -1,6 +1,6 @@
 import { Icon } from '@ukri/shared/design-system';
 import clsx from 'clsx';
-import React, { useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { sortFilterStyles } from './sort-filter.styles';
@@ -13,7 +13,7 @@ interface ISortFilterProps {
   className?: string;
 }
 
-export const SortFilter = React.memo(({ onSortChange, sortKey, className }: ISortFilterProps) => {
+export const SortFilter = memo(({ onSortChange, sortKey, className }: ISortFilterProps) => {
   const [sortOrder, setSortOrder] = useState<TSortOrder | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
@@ -32,13 +32,16 @@ export const SortFilter = React.memo(({ onSortChange, sortKey, className }: ISor
     };
   }, []);
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleDropdown = useCallback(() => setIsOpen(!isOpen), [isOpen]);
 
-  const handleSortSelection = (order: TSortOrder) => {
-    setSortOrder(order);
-    setIsOpen(false);
-    onSortChange(order);
-  };
+  const handleSortSelection = useCallback(
+    (order: TSortOrder) => {
+      setSortOrder(order);
+      setIsOpen(false);
+      onSortChange(order);
+    },
+    [onSortChange]
+  );
 
   return (
     <div ref={dropdownRef} className={clsx(sortFilterStyles.container, className)}>

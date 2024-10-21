@@ -60,7 +60,7 @@ export const HistoryTile = ({
         <div className={historyTileStyles.textContainer}>
           <Text content={function_identifier} fontSize='medium' fontWeight='semibold' />
           <Text
-            content={`ID: ${truncateString(workflowId, 25)}`}
+            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.ID')}: ${truncateString(workflowId, 25)}`}
             fontSize='small'
             fontWeight='regular'
             className={historyTileStyles.workflowId}

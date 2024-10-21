@@ -19,7 +19,7 @@ const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
 );
 
 export const Presets = () => {
-  const { data, error, isLoading, isFetching, refetch } = useGetPresets();
+  const { data, error, isPending, isFetching, refetch } = useGetPresets();
 
   const handleLoadPreset = (preset: unknown) => {
     // eslint-disable-next-line no-console
@@ -27,7 +27,7 @@ export const Presets = () => {
     return;
   };
 
-  if (isLoading || isFetching) {
+  if (isPending || isFetching) {
     return (
       <div className='flex justify-center p-4'>
         <LoadingSpinner />

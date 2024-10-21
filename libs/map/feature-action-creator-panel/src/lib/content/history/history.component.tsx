@@ -19,10 +19,10 @@ const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
   </div>
 );
 export const History = () => {
-  const { allResults, handleSortChange, loadMore, data, error, isLoading, isFetching, refetch, sortKey } =
+  const { allResults, handleSortChange, loadMore, data, error, isPending, isFetching, refetch, sortKey } =
     useHistoryData();
 
-  if ((isLoading || isFetching) && allResults.length === 0) {
+  if ((isPending || isFetching) && allResults.length === 0) {
     return (
       <div className='flex justify-center p-4'>
         <LoadingSpinner />
@@ -44,11 +44,11 @@ export const History = () => {
 
       {allResults.map((workflow) => (
         <HistoryTile
-          key={workflow.submission_id}
-          function_identifier={workflow.function_identifier}
-          workflowId={workflow.submission_id}
-          savedAtDate={workflow.submitted_at.date}
-          savedAtHour={workflow.submitted_at.hour}
+          key={workflow.submissionId}
+          function_identifier={workflow.functionIdentifier}
+          workflowId={workflow.submissionId}
+          savedAtDate={workflow.submittedAt.date}
+          savedAtHour={workflow.submittedAt.hour}
           status={workflow.status}
           selected={false}
           // eslint-disable-next-line @typescript-eslint/no-empty-function

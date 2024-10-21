@@ -10,7 +10,7 @@ interface IUseHistoryData {
   loadMore: () => void;
   data?: THistory;
   error: Error | null;
-  isLoading: boolean;
+  isPending: boolean;
   isFetching: boolean;
   refetch: () => void;
   sortKey: TSortKey;
@@ -36,24 +36,24 @@ export const useHistoryData = (): IUseHistoryData => {
     perPage: 25,
   };
 
-  const { data, error, isLoading, isFetching, refetch } = useGetHistory(params);
+  const { data, error, isPending, isFetching, refetch } = useGetHistory(params);
 
-  const loadMore = () => {
+  const loadMore = useCallback(() => {
     if (data && data.results.length > 0) {
       setPage((prevPage) => prevPage + 1);
     }
-  };
+  }, [data]);
 
   useEffect(() => {
-    if (data && !isLoading && !isFetching) {
+    if (data && !isPending && !isFetching) {
       const newResults = data.results.filter(
-        (newItem) => !allResults.some((existingItem) => existingItem.submission_id === newItem.submission_id)
+        (newItem) => !allResults.some((existingItem) => existingItem.submissionId === newItem.submissionId)
       );
       if (newResults.length > 0) {
         setAllResults((prevResults) => [...prevResults, ...newResults]);
       }
     }
-  }, [data, isLoading, isFetching, allResults]);
+  }, [data, isPending, isFetching, allResults]);
 
   return {
     allResults,
@@ -61,7 +61,7 @@ export const useHistoryData = (): IUseHistoryData => {
     loadMore,
     data,
     error,
-    isLoading,
+    isPending,
     isFetching,
     refetch,
     sortKey,
