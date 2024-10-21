@@ -87,7 +87,11 @@ export const useSearchMode = () => {
       if (searchParams) {
         changeView('results');
       } else {
-        changeView('search');
+        if (mode === 'action-creator') {
+          setView('search');
+        } else {
+          changeView('search');
+        }
       }
       setCurrentMode(mode);
     }

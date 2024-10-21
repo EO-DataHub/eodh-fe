@@ -51,13 +51,15 @@ export const DateInput = forwardRef(
 
     return (
       <div>
-        {error && <Text content={error} fontSize='medium' fontWeight='regular' className={dateInputStyles.errorText} />}
+        {!disabled && error && (
+          <Text content={error} fontSize='medium' fontWeight='regular' className={dateInputStyles.errorText} />
+        )}
         <div className={clsx(dateInputStyles.container, className)}>
           <input
             ref={ref}
             type='date'
             name={name}
-            className={clsx('design-system__date-input', dateInputStyles.input(!!error))}
+            className={clsx('design-system__date-input', dateInputStyles.input(!disabled && !!error))}
             onChange={onChange}
             onBlur={onBlur}
             min={formattedMinDate}

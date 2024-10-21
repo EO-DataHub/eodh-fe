@@ -4,7 +4,7 @@ import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { defaultValues, IDateStore, TDateStoreState } from './date.model';
+import { defaultEmptyValues, defaultValues, IDateStore, TDateStoreState } from './date.model';
 
 export const useDateStore = create<IDateStore>()(
   devtools((set) => ({
@@ -13,7 +13,7 @@ export const useDateStore = create<IDateStore>()(
       set((state) => {
         return isEqual(date, state.date) ? state : { date: { from: date?.from || null, to: date?.to || null } };
       }),
-    reset: () => set(() => cloneDeep(defaultValues)),
+    reset: (resetToNull = false) => set(() => (resetToNull ? cloneDeep(defaultEmptyValues) : cloneDeep(defaultValues))),
     changeState: (state) => set(() => ({ state })),
   }))
 );

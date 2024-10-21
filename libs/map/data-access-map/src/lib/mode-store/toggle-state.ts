@@ -90,7 +90,7 @@ const restoreDateStoreState = (mode: TMode) => {
   const newStoreState = mode === 'action-creator' ? 'readonly' : 'edit';
 
   if (!currentState) {
-    useDateStore.getState().reset();
+    useDateStore.getState().reset(mode === 'action-creator');
     useDateStore.getState().changeState(newStoreState);
     return;
   }
