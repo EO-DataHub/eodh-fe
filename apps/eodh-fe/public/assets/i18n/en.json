@@ -87,7 +87,11 @@
         },
         "DATA_SET": {
           "TITLE": "Data Set",
-          "INSTRUCTIONS": "Select a data set"
+          "INSTRUCTIONS": "Select a data set",
+          "SENTINEL_1": "Sentinel-1",
+          "SENTINEL_2": "Sentinel-2",
+          "SENTINEL_3": "Sentinel-3",
+          "SENTINEL_5P": "Sentinel-5P"
         },
         "DATE_RANGE": {
           "TITLE": "Date Range",

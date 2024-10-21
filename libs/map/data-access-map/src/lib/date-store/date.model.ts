@@ -12,7 +12,7 @@ export type TDateValues = {
 export interface IDateStore extends TDateValues {
   state: TDateState;
   updateDate: (date: Partial<TDateValues['date']> | undefined) => void;
-  reset: (resetToNull: boolean) => void;
+  reset: () => void;
   changeState: (state: TDateState) => void;
 }
 
@@ -31,13 +31,5 @@ export const defaultValues: TDateStoreState = {
   date: {
     from: formatDate(createDateString(oneMonthAgo())),
     to: formatDate(createDateString(new Date())),
-  },
-};
-
-export const defaultEmptyValues: TDateStoreState = {
-  state: 'edit',
-  date: {
-    from: null,
-    to: null,
   },
 };
