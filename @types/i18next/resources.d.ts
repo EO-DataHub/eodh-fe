@@ -131,14 +131,20 @@ interface Resources {
         };
         WORKFLOW: {
           WORKFLOW_PROCESSING_MODAL: {
-            HEADER: 'The Action Creator is currently processing your workflow.';
-            CONTENT: {
-              INFORMATION: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window. We will notify you once your data is ready to view.';
-              BROWSE_DATA: 'In the meantime you can browse map data or start a new workflow.';
+            SUCCESS: {
+              HEADER: 'The Action Creator is currently processing your workflow.';
+              CONTENT: {
+                INFORMATION: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window. We will notify you once your data is ready to view.';
+                BROWSE_DATA: 'In the meantime you can browse map data or start a new workflow.';
+              };
+              BUTTON: {
+                EXPORT_CONFIGURATION: 'Export configuration';
+                VIEW_HISTORY: 'View history';
+              };
             };
-            BUTTON: {
-              EXPORT_CONFIGURATION: 'Export configuration';
-              VIEW_HISTORY: 'View history';
+            IN_PROGRESS: {
+              HEADER: 'Processing Workflow, please wait...';
+              CONTENT: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window.';
             };
           };
         };

@@ -1,14 +1,6 @@
 import { TAreaNode, TDataSetsNode, TDateRangeNode, TFunctionNode, TNode } from './action-creator.model';
 
-const getNextNodes = (nodes: TNode[], index: number) => {
-  const nextNodes = [];
-
-  for (let i = index; i <= nodes.length; i++) {
-    nextNodes.push(nodes[i]);
-  }
-
-  return nextNodes;
-};
+const getNextNodes = (nodes: TNode[], index: number): TNode[] => nodes.slice(index);
 
 export const nodeHasValue = (node?: TNode) => {
   if (!node) {

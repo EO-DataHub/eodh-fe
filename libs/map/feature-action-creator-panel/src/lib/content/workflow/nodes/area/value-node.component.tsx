@@ -2,7 +2,7 @@ import { createGeometry, TAreaNode, useActionCreator } from '@ukri/map/data-acce
 import { getArea } from 'ol/extent';
 import { useTranslation } from 'react-i18next';
 
-import { Node } from '../../node.component';
+import { Node } from '../node.component';
 import { NodeInput } from '../node-input.component';
 
 const getIconFromShape = (value: TAreaNode['value']): 'Polygon' | 'Circle' | 'Square' | undefined => {

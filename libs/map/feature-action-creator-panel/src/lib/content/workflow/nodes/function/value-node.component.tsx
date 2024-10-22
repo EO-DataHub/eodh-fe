@@ -1,6 +1,6 @@
 import { TFunctionNode, useActionCreator } from '@ukri/map/data-access-map';
 
-import { Node } from '../../node.component';
+import { Node } from '../node.component';
 import { NodeSelect, TOption } from '../node-select.component';
 
 type TValueNodeProps = {

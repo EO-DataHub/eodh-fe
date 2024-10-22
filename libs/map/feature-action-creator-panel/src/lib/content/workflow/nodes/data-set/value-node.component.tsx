@@ -1,7 +1,7 @@
 import { TDataSetsNode, useActionCreator } from '@ukri/map/data-access-map';
 import { useTranslation } from 'react-i18next';
 
-import { Node } from '../../node.component';
+import { Node } from '../node.component';
 import { NodeInput } from '../node-input.component';
 
 const useNodeTranslation = (node: TValueNodeProps['node']) => {

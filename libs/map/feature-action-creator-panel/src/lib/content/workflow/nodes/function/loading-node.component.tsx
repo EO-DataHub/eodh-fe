@@ -1,7 +1,7 @@
 import { TFunctionNode } from '@ukri/map/data-access-map';
 import { LoadingInput } from '@ukri/shared/design-system';
 
-import { Node } from '../../node.component';
+import { Node } from '../node.component';
 
 type TValueNodeProps = {
   node: TFunctionNode;

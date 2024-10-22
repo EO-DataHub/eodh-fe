@@ -1,7 +1,7 @@
 import { TDateRangeNode, useActionCreator } from '@ukri/map/data-access-map';
 import { formatDate } from '@ukri/shared/utils/date';
 
-import { Node } from '../../node.component';
+import { Node } from '../node.component';
 import { NodeInput } from '../node-input.component';
 
 type TValueNodeProps = {

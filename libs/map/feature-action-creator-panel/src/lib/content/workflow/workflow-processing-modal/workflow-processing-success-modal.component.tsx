@@ -2,9 +2,10 @@ import { useActionCreator } from '@ukri/map/data-access-map';
 import { Button, Icon, Text } from '@ukri/shared/design-system';
 import { useCallback, useContext } from 'react';
 
-import { ActionCreator } from '../../action-creator-panel.context';
+import { ActionCreator } from '../../../action-creator-panel.context';
+import { styles } from './workflow-processing-modal.styles';
 
-export const WorkflowProcessingModal = () => {
+export const WorkflowProcessingSuccessModal = () => {
   const { setActiveTab } = useContext(ActionCreator);
   const { reset } = useActionCreator();
 
@@ -14,29 +15,29 @@ export const WorkflowProcessingModal = () => {
   }, [reset, setActiveTab]);
 
   return (
-    <div className='bg-opacity-20 bg-black absolute top-0 left-0 w-full h-full max-h-full max-w-full overflow-hidden flex items-center justify-center'>
-      <div className='mx-8 p-8 bg-bright-light rounded-lg'>
-        <div className='flex flex-row'>
-          <div className='mr-5'>
-            <Icon name='Info' className='text-neutral-light' width={28} height={28} />
+    <div className={styles.background}>
+      <div className={styles.container}>
+        <div className={styles.bodyContainer}>
+          <div className={styles.infoIconContainer}>
+            <Icon name='Info' className={styles.infoIcon} width={28} height={28} />
           </div>
-          <div className='flex flex-col gap-4'>
+          <div className={styles.body}>
             <Text
-              content='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.HEADER'
+              content='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.SUCCESS.HEADER'
               type='h3'
               fontSize='large'
               fontWeight='semibold'
               className='text-text'
             />
             <Text
-              content='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.CONTENT.INFORMATION'
+              content='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.SUCCESS.CONTENT.INFORMATION'
               type='p'
               fontSize='medium'
               fontWeight='regular'
               className='text-text'
             />
             <Text
-              content='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.CONTENT.BROWSE_DATA'
+              content='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.SUCCESS.CONTENT.BROWSE_DATA'
               type='p'
               fontSize='medium'
               fontWeight='regular'
@@ -44,9 +45,9 @@ export const WorkflowProcessingModal = () => {
             />
           </div>
         </div>
-        <div className='flex mt-5 gap-2 justify-end'>
+        <div className={styles.buttonsContainer}>
           <Button
-            text='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.BUTTON.EXPORT_CONFIGURATION'
+            text='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.SUCCESS.BUTTON.EXPORT_CONFIGURATION'
             iconName='Upload'
             appearance='outlined'
             size='small'
@@ -55,7 +56,7 @@ export const WorkflowProcessingModal = () => {
             disabled={true}
           />
           <Button
-            text='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.BUTTON.VIEW_HISTORY'
+            text='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WORKFLOW_PROCESSING_MODAL.SUCCESS.BUTTON.VIEW_HISTORY'
             size='small'
             onClick={goToHistoryTab}
           />

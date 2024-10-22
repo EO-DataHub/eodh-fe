@@ -15,7 +15,7 @@ import { AreaNode } from './nodes/area/area-node.component';
 import { DataSetNode } from './nodes/data-set/data-set-node.component';
 import { NodeDateRange } from './nodes/date-range/date-range-node.component';
 import { NodeFunction } from './nodes/function/function-node.component';
-import { WorkflowProcessingModal } from './workflow-processing-modal.component';
+import { WorkflowProcessingModal } from './workflow-processing-modal/workflow-processing-modal.component';
 
 const renderNode = (node: TNode) => {
   switch (node.type) {
@@ -39,7 +39,7 @@ const renderNode = (node: TNode) => {
 
 export const Workflow = () => {
   const { nodes, isValid, getNodesByType } = useActionCreator();
-  const { isPending, isSuccess, mutate } = useCreateWorkflow();
+  const { status, isPending, mutate } = useCreateWorkflow();
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
@@ -77,7 +77,7 @@ export const Workflow = () => {
             {nodes.map((node) => renderNode(node))}
           </section>
         </div>
-        {isSuccess && <WorkflowProcessingModal />}
+        <WorkflowProcessingModal status={status} />
       </Content>
       <Footer>
         <div className='flex justify-between gap-4 w-full'>

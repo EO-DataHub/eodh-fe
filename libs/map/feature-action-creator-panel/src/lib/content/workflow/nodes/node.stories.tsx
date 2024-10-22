@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Node } from './node.component';
-import { NodeInput } from './nodes/node-input.component';
-import { NodeSelect } from './nodes/node-select.component';
+import { NodeInput } from './node-input.component';
+import { NodeSelect } from './node-select.component';
 
 const meta: Meta<typeof Node> = {
   component: Node,

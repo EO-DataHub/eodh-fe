@@ -10,11 +10,9 @@ interface ITextInputProps {
 
 export const LoadingInput: FC<ITextInputProps> = ({ className }) => {
   return (
-    <div>
-      <div className={clsx(loadingInputStyles.container, className)}>
-        <div className={loadingInputStyles.input}>
-          <LoadingSpinner size='xs' />
-        </div>
+    <div className={clsx(loadingInputStyles.container, className)}>
+      <div className={loadingInputStyles.input}>
+        <LoadingSpinner size='xs' />
       </div>
     </div>
   );
