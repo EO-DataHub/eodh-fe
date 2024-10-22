@@ -19,22 +19,22 @@ const meta: Meta<typeof HistoryTile> = {
         default: 'READY',
       },
     },
-    savedAtDate: {
+    submittedAtDate: {
       control: {
         type: 'text',
-        default: '2024-10-17',
-      },
-    },
-    savedAtHour: {
-      control: {
-        type: 'text',
-        default: '9:16',
+        default: '2024-10-05T14:27:05.752000Z',
       },
     },
     selected: {
       control: {
         type: 'boolean',
         default: false,
+      },
+    },
+    function_identifier: {
+      control: {
+        type: 'text',
+        default: 'raster-calculate',
       },
     },
   },
@@ -44,8 +44,8 @@ export default meta;
 export const SampleHistoryItem = {
   args: {
     workflowId: 'huwd786zf6s4vcd7',
-    savedAtDate: '2024-10-17',
-    savedAtHour: '9:16',
+    submittedAtDate: '2024-10-05T14:27:05.752000Z',
     status: 'READY',
+    function_identifier: 'raster-calculate',
   },
 };
