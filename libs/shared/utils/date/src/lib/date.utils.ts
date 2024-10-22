@@ -11,6 +11,8 @@ export type TDateTimeString = TDateStringInternal | null;
 
 export type TDateString = TDateInternal | null;
 
+type TDateFormat = 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YY';
+
 export const createDate = (date?: TDateTimeString | TDateString) => {
   if (!date) {
     return null;
@@ -27,9 +29,7 @@ export const createIsoStringDate = (date?: TDateTimeString) => {
   return new Date(date).toISOString();
 };
 
-type TDateFormatting = 'YYYY-MM-DD' | 'DD-MM-YY';
-
-export const formatDate = (date: TDateTimeString, format: TDateFormatting = 'YYYY-MM-DD'): TDateString => {
+export const formatDate = (date: TDateTimeString, format: TDateFormat = 'YYYY-MM-DD'): TDateString => {
   if (!date) {
     return null;
   }
@@ -41,6 +41,14 @@ export const formatDate = (date: TDateTimeString, format: TDateFormatting = 'YYY
       dateString = createIsoStringDate(date).split('T')[0];
       break;
     }
+
+    case 'DD/MM/YYYY': {
+      const dateValues = createIsoStringDate(date).split('T')[0].split('-');
+      dateString = `${dateValues[2]}/${dateValues[1]}/${dateValues[0]}`;
+      break;
+      break;
+    }
+
     case 'DD-MM-YY': {
       const dateFormatted = createDate(date);
       if (dateFormatted) {
@@ -55,7 +63,7 @@ export const formatDate = (date: TDateTimeString, format: TDateFormatting = 'YYY
     }
   }
 
-  if (checkValidDateYYYYMMDD(dateString) || checkValidDateDDMMYY(dateString)) {
+  if (checkValidDateStr(dateString)) {
     return dateString;
   }
 
@@ -64,22 +72,20 @@ export const formatDate = (date: TDateTimeString, format: TDateFormatting = 'YYY
   return null;
 };
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const checkValidDateYYYYMMDD = (str: string): str is TDateStringInternal => {
+const checkValidDateStr = (str: string): str is TDateStringInternal => {
   if (str.match(/^\d{4}-\d{2}-\d{2}$/) !== null) {
     return true;
   }
 
-  return str.match(/^\d{4}-\d{2}-\d{2}$/) !== null;
-};
+  if (str.match(/^\d{2}\/\d{2}\/\d{4}$/) !== null) {
+    return true;
+  }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const checkValidDateDDMMYY = (str: string): str is TDateStringInternal => {
   if (str.match(/^\d{2}-\d{2}-\d{2}$/) !== null) {
     return true;
   }
 
-  return str.match(/^\d{4}-\d{2}-\d{2}$/) !== null;
+  return false;
 };
 
 const checkValidDateTimeStr = (str: string): str is TDateStringInternal => {

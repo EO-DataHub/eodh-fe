@@ -4,7 +4,6 @@ type TDataSet = 'sentinel1' | 'sentinel2' | 'sentinel3' | 'sentinel5p';
 
 export const useActiveDataSet = () => {
   const { dataSets, updateDataSets } = useDataSets();
-
   const enabled: TDataSet[] = [];
 
   if (dataSets?.copernicus.sentinel1?.enabled) {

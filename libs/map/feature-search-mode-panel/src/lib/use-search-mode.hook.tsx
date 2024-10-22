@@ -17,7 +17,7 @@ export const useSearchMode = () => {
   const { state: dateRangeState, date, updateDate } = useDate();
   const { mode } = useMode();
   const [currentMode, setCurrentMode] = useState(mode);
-  const [view, setView] = useState<'search' | 'results'>('search');
+  const [currentView, setCurrentView] = useState<'search' | 'results'>('search');
   const { data, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
@@ -47,13 +47,13 @@ export const useSearchMode = () => {
     (view: 'search' | 'results') => {
       switch (view) {
         case 'search': {
-          setView('search');
+          setCurrentView('search');
           changeState('edit');
           return;
         }
 
         case 'results': {
-          setView('results');
+          setCurrentView('results');
           changeState('readonly');
           return;
         }
@@ -87,7 +87,11 @@ export const useSearchMode = () => {
       if (searchParams) {
         changeView('results');
       } else {
-        changeView('search');
+        if (mode === 'action-creator') {
+          setCurrentView('search');
+        } else {
+          changeView('search');
+        }
       }
       setCurrentMode(mode);
     }
@@ -109,13 +113,13 @@ export const useSearchMode = () => {
       data,
       state,
       status,
-      view,
+      view: currentView,
       changeToSearchView,
       schema,
       values,
       search,
       updateState,
     }),
-    [data, state, status, view, changeToSearchView, schema, values, search, updateState]
+    [data, state, status, currentView, changeToSearchView, schema, values, search, updateState]
   );
 };

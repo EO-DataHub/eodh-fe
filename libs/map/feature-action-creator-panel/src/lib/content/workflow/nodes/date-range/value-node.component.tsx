@@ -12,8 +12,8 @@ type TValueNodeProps = {
 };
 
 export const ValueNode = ({ enabled, node, onClearDateFromClick, onClearDateToClick }: TValueNodeProps) => {
-  const from = node.value?.from ? formatDate(node.value.from)?.toString() : '';
-  const to = node.value?.to ? formatDate(node.value.to)?.toString() : '';
+  const from = node.value?.from ? formatDate(node.value.from, 'DD/MM/YYYY')?.toString() : '';
+  const to = node.value?.to ? formatDate(node.value.to, 'DD/MM/YYYY')?.toString() : '';
 
   return (
     <Node type={node.type} enabled={enabled} selected={node.selected}>

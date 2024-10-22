@@ -52,6 +52,11 @@ interface Resources {
           TITLE: 'Sorry, your search returned no results.';
           MESSAGE: 'Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets.';
         };
+        PRESETS: {
+          TITLE: 'Server error';
+          MESSAGE: 'There was a problem retrieving workflow presets from the server. Please try again later.';
+          CTA: 'Refresh workflow preset list';
+        };
       };
       NAVIGATION: {
         RETURN_TO_SERCH: 'Return to the search menu';
@@ -84,6 +89,10 @@ interface Resources {
           DATA_SET: {
             TITLE: 'Data Set';
             INSTRUCTIONS: 'Select a data set';
+            SENTINEL_1: 'Sentinel-1';
+            SENTINEL_2: 'Sentinel-2';
+            SENTINEL_3: 'Sentinel-3';
+            SENTINEL_5P: 'Sentinel-5P';
           };
           DATE_RANGE: {
             TITLE: 'Date Range';

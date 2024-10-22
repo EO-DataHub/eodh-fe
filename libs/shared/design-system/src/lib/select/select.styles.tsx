@@ -2,7 +2,7 @@ export const selectStyles = {
   container: 'relative w-64 text-action-creator-body',
 
   selectWrapper: (error?: string) =>
-    `absolute border w-full rounded bg-bright py-0.5 ${
+    `absolute border w-full rounded bg-bright ${
       error ? 'border-error' : 'border-bright-dark'
     } focus:border-primary-light focus:ring-primary-light focus:ring-[3px]`,
 
@@ -11,10 +11,11 @@ export const selectStyles = {
 
   errorMessage: 'text-error text-small-semibold m-b-[5px]',
   buttonText: 'truncate max-w-[100px]',
-  iconContainer: 'absolute right-[-12px] inset-y-0 flex items-center pr-2 pointer-events-none',
-  icon: (isOpen: boolean) => `h-5 w-5 text-text transform transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`,
+  iconContainer: 'absolute right-0.5 flex items-center pointer-events-none',
+  icon: (isOpen: boolean) => `text-neutral-light transform transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`,
 
-  listItem: 'cursor-default select-none relative mx-2 text-neutral-dark hover:bg-background-main',
+  listItem:
+    'relative flex items-center py-0.5 select-none relative px-2 text-neutral-dark hover:bg-background-main cursor-pointer',
   listItemText: 'block font-normal py-1 rounded inline-block break-words',
-  checkedValue: 'absolute right-[-12px] inset-y-0 flex items-end pr-1.5  text-neutral-light',
+  checkedValue: 'absolute right-0.5 flex items-end text-neutral-light',
 };
