@@ -47,8 +47,7 @@ export const History = () => {
           key={workflow.submissionId}
           function_identifier={workflow.functionIdentifier}
           workflowId={workflow.submissionId}
-          savedAtDate={workflow.submittedAt.date}
-          savedAtHour={workflow.submittedAt.hour}
+          submittedAtDate={workflow.submittedAtDate}
           status={workflow.status}
           selected={false}
           // eslint-disable-next-line @typescript-eslint/no-empty-function

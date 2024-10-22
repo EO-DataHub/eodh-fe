@@ -1,4 +1,5 @@
 import { Button, Text } from '@ukri/shared/design-system';
+import { createDateString, formatDate } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -55,8 +56,7 @@ const truncateString = (str: string, maxLength: number) => {
 export interface IHistoryTileProps {
   workflowId: string;
   function_identifier: string;
-  savedAtDate: string;
-  savedAtHour: string;
+  submittedAtDate: string;
   status?: 'READY' | 'PROCESSING' | 'FAILED';
   selected: boolean;
   onViewResult: () => void;
@@ -67,8 +67,7 @@ export interface IHistoryTileProps {
 export const HistoryTile = ({
   workflowId,
   function_identifier,
-  savedAtDate,
-  savedAtHour,
+  submittedAtDate,
   status,
   selected,
   onViewResult,
@@ -76,6 +75,14 @@ export const HistoryTile = ({
   className,
 }: IHistoryTileProps) => {
   const { t } = useTranslation();
+  const submittedAt = new Date(submittedAtDate);
+
+  const submittedHour = `${submittedAt.getUTCHours().toString().padStart(2, '0')}:${submittedAt
+    .getUTCMinutes()
+    .toString()
+    .padStart(2, '0')}`;
+
+  const submittedDate = formatDate(createDateString(submittedAt), 'DD-MM-YY');
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
@@ -91,12 +98,12 @@ export const HistoryTile = ({
         </div>
         <div className={clsx(historyTileStyles.textContainer, historyTileStyles.date)}>
           <Text
-            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_ON')} ${savedAtDate} `}
+            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_ON')} ${submittedDate} `}
             fontSize='medium'
             fontWeight='regular'
           />
           <Text
-            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_AT')} ${savedAtHour}`}
+            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.SAVED_AT')} ${submittedHour}`}
             fontSize='medium'
             fontWeight='regular'
           />

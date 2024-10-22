@@ -15,16 +15,7 @@ const submissionSchema = z
       }
     }),
     function_identifier: z.string(),
-    submitted_at: z
-      .string()
-      .datetime()
-      .transform((dateString) => {
-        const date = new Date(dateString);
-        return {
-          date: date.toISOString().split('T')[0],
-          hour: `${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}`,
-        };
-      }),
+    submitted_at: z.string(),
     finished_at: z.union([z.string().datetime(), z.null(), z.undefined()]),
     successful: z.union([z.boolean(), z.null(), z.undefined()]),
   })
@@ -34,6 +25,7 @@ const submissionSchema = z
     functionIdentifier: data.function_identifier,
     submittedAt: data.submitted_at,
     finishedAt: data.finished_at,
+    submittedAtDate: data.submitted_at,
     successful: data.successful,
   }));
 
