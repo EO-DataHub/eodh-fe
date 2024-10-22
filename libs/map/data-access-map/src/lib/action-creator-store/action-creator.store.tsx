@@ -52,11 +52,23 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
       set(() => ({
         nodes: nodes ? nodes : defaultNodes,
       })),
+    reset: (newState) =>
+      set((state) => {
+        const nodes = newState?.nodes ? newState?.nodes : defaultNodes;
+
+        activatePanel(nodes.find((node) => node.selected));
+
+        return {
+          ...state,
+          ...newState,
+          nodes,
+        };
+      }),
   }))
 );
 
 export const getActionCreatorStoreState = (): TIActionCreatorStoreState => {
-  const { setActive, setValue, ...rest } = useActionCreatorStore.getState();
+  const { setActive, setValue, reset, ...rest } = useActionCreatorStore.getState();
 
   return { ...rest };
 };
