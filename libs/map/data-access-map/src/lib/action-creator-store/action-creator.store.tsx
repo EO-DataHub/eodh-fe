@@ -17,7 +17,7 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
     ...defaultValues,
     setActive: (node) =>
       set((state) => {
-        const nodeToUpdate = state.nodes.find((currentNode) => currentNode.id === node.id);
+        const nodeToUpdate = state.nodes.find((currentNode) => currentNode.id === node?.id);
 
         if (nodeToUpdate?.selected) {
           return state;
@@ -26,7 +26,7 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
         return {
           nodes: state.nodes.map((currentNode) => ({
             ...currentNode,
-            selected: currentNode.id === node.id,
+            selected: currentNode.id === node?.id,
           })),
         };
       }),
@@ -86,7 +86,7 @@ const getNextNodes = (nodes: TNode[], index: number) => {
 export const useActionCreator = (): IActionCreatorStore & { canActivate: (node: TNode) => boolean } => {
   return useActionCreatorStore((state) => ({
     ...state,
-    setActive: (node: TNode) => {
+    setActive: (node?: TNode) => {
       activatePanel(node);
       state.setActive(node);
     },

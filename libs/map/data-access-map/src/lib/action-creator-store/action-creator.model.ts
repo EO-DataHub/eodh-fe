@@ -24,7 +24,7 @@ export type TNode = TAreaNode | TDataSetsNode | TDateRangeNode | TFunctionNode;
 export interface IActionCreatorStore {
   state: TAoiState;
   nodes: TNode[];
-  setActive: (node: TNode) => void;
+  setActive: (node?: TNode) => void;
   setValue: <T extends TNode>(node: T, value: T['value']) => void;
   setNodes: (nodes?: TNode[]) => void;
 }

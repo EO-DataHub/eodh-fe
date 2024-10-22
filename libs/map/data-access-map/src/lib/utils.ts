@@ -3,8 +3,8 @@ import { useAoiStore } from './aoi-store/aoi.store';
 import { useDataSetsStore } from './data-sets-store/data-sets.store';
 import { useDateStore } from './date-store/date.store';
 
-export const activatePanel = (node: TNode) => {
-  switch (node.type) {
+export const activatePanel = (node?: TNode) => {
+  switch (node?.type) {
     case 'area': {
       useAoiStore.getState().changeState('edit');
       useDataSetsStore.getState().changeState('readonly');
@@ -31,6 +31,12 @@ export const activatePanel = (node: TNode) => {
       useDataSetsStore.getState().changeState('readonly');
       useDateStore.getState().changeState('readonly');
       return;
+    }
+
+    default: {
+      useAoiStore.getState().changeState('readonly');
+      useDataSetsStore.getState().changeState('readonly');
+      useDateStore.getState().changeState('readonly');
     }
   }
 };
