@@ -10,6 +10,12 @@ declare const config: {
     realm: string;
     clientId: string;
   };
+  http: {
+    proxyConfig: {
+      EODH_PRO_API_URL: string;
+      EODH_STAC_API_URL: string;
+    };
+  };
 };
 
 interface IEnvConfig {
@@ -63,7 +69,11 @@ const removeTrailingSlashes = (url: string) => {
 
 const getEodhProUrl = () => {
   const apiVersion = '/v1.0';
-  const importedUrl = getValue<string>(import.meta.env.VITE_EODH_PRO_API_URL, config?.authorization.clientId, '');
+  const importedUrl = getValue<string>(
+    import.meta.env.VITE_EODH_PRO_API_URL,
+    config?.http.proxyConfig.EODH_PRO_API_URL,
+    ''
+  );
 
   if (importedUrl) {
     return removeTrailingSlashes(importedUrl) + apiVersion;
@@ -73,7 +83,11 @@ const getEodhProUrl = () => {
 };
 
 const getEodhStacUrl = () => {
-  const importedUrl = getValue<string>(import.meta.env.VITE_EODH_STAC_API_URL, config?.authorization.clientId, '');
+  const importedUrl = getValue<string>(
+    import.meta.env.VITE_EODH_STAC_API_URL,
+    config?.http.proxyConfig.EODH_STAC_API_URL,
+    ''
+  );
   return removeTrailingSlashes(importedUrl);
 };
 
