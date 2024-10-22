@@ -8,20 +8,36 @@ const useNodeTranslation = (node: TValueNodeProps['node']) => {
   const { t } = useTranslation();
 
   switch (node.value) {
-    case 'sentinel1': {
+    case 'sentinel-1': {
       return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_1');
     }
 
-    case 'sentinel2': {
+    case 'sentinel-2-l1c': {
       return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_2');
     }
 
-    case 'sentinel3': {
+    case 'sentinel-2-l2a': {
+      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_2');
+    }
+
+    case 'sentinel-3': {
       return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_3');
     }
 
-    case 'sentinel5p': {
+    case 'sentinel-5p': {
       return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_5P');
+    }
+
+    case 'esacci-globallc': {
+      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.AUXILIARY.GLOBAL_LAND_COVER');
+    }
+
+    case 'clms-corinelc': {
+      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.AUXILIARY.CORINE_LAND_COVER');
+    }
+
+    case 'clms-water-bodies': {
+      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.AUXILIARY.WATER_BODIES');
     }
   }
 

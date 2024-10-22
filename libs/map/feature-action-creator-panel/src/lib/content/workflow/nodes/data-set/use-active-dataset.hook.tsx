@@ -1,10 +1,8 @@
-import { useDataSets } from '@ukri/map/data-access-map';
-
-type TDataSet = 'sentinel-1' | 'sentinel-2-l1c' | 'sentinel-2-l2a' | 'sentinel-3' | 'sentinel-5p';
+import { TDataSetValue, useDataSets } from '@ukri/map/data-access-map';
 
 export const useActiveDataSet = () => {
   const { dataSets, updateDataSets } = useDataSets();
-  const enabled: TDataSet[] = [];
+  const enabled: TDataSetValue[] = [];
 
   if (dataSets?.copernicus.sentinel1?.enabled) {
     enabled.push('sentinel-1');
@@ -24,6 +22,22 @@ export const useActiveDataSet = () => {
 
   if (dataSets?.copernicus.sentinel5P?.enabled) {
     enabled.push('sentinel-5p');
+  }
+
+  if (dataSets?.copernicus.sentinel5P?.enabled) {
+    enabled.push('sentinel-5p');
+  }
+
+  if (dataSets?.auxiliary?.esacciGloballc?.enabled) {
+    enabled.push('esacci-globallc');
+  }
+
+  if (dataSets?.auxiliary?.clmsCorinelc?.enabled) {
+    enabled.push('clms-corinelc');
+  }
+
+  if (dataSets?.auxiliary?.clmsWaterBodies?.enabled) {
+    enabled.push('clms-water-bodies');
   }
 
   return {

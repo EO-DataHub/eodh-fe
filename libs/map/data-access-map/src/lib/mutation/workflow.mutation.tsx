@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { TDateString } from '@ukri/shared/utils/date';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
 
-import { paths } from '../query/api';
+import { paths } from '../api';
 import { TCoordinate } from '../store/aoi/aoi.model';
 import { createGeometry } from '../store/aoi/geometry';
 import { getIntersects, TGeometry } from './get-intersects';

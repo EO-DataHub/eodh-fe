@@ -31,42 +31,42 @@ export const copernicusInitialSchema = z.object({
     .optional(),
 });
 
-export const copernicusUpdateSchema = z
-  .object({
-    sentinel1: sentinel1Schema.superRefine(sentinel1Refine),
-    sentinel2: sentinel2Schema.superRefine(sentinel2Refine),
-    sentinel3: sentinel3Schema.superRefine(sentinel3Refine),
-    sentinel5P: sentinel5pSchema.superRefine(sentinel5pRefine),
-  })
-  .superRefine((schema, ctx) => {
-    if (
-      !schema.sentinel1.enabled &&
-      !schema.sentinel2.enabled &&
-      !schema.sentinel3.enabled &&
-      !schema.sentinel5P.enabled
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
-        path: ['sentinel1.enabled'],
-      });
+export const copernicusUpdateGenericSchema = z.object({
+  sentinel1: sentinel1Schema.superRefine(sentinel1Refine),
+  sentinel2: sentinel2Schema.superRefine(sentinel2Refine),
+  sentinel3: sentinel3Schema.superRefine(sentinel3Refine),
+  sentinel5P: sentinel5pSchema.superRefine(sentinel5pRefine),
+});
 
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: notDisplayedErrorMessage,
-        path: ['sentinel2.enabled'],
-      });
+export const copernicusUpdateSchema = copernicusUpdateGenericSchema.superRefine((schema, ctx) => {
+  if (
+    !schema.sentinel1.enabled &&
+    !schema.sentinel2.enabled &&
+    !schema.sentinel3.enabled &&
+    !schema.sentinel5P.enabled
+  ) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+      path: ['sentinel1.enabled'],
+    });
 
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: notDisplayedErrorMessage,
-        path: ['sentinel3.enabled'],
-      });
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['sentinel2.enabled'],
+    });
 
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: notDisplayedErrorMessage,
-        path: ['sentinel5P.enabled'],
-      });
-    }
-  });
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['sentinel3.enabled'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['sentinel5P.enabled'],
+    });
+  }
+});

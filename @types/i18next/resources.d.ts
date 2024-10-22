@@ -134,6 +134,29 @@ interface Resources {
         PRESETS: {
           BUTTON: 'Load preset';
         };
+        HISTORY: {
+          VIEW_RESULTS: 'View results';
+          HIDE_RESULTS: 'Hide results';
+          SAVED_ON: 'Saved on';
+          SAVED_AT: 'at';
+          ID: 'ID';
+          STATUS: {
+            READY: 'Ready';
+            PROCESSING: 'Processing';
+            FAILED: 'Failed';
+          };
+          SORT_FILTER: {
+            SORT: 'Sort';
+            NEWEST: 'Newest first';
+            OLDEST: 'Oldest first';
+          };
+          LOAD_MORE: 'Load more';
+          ERROR: {
+            TITLE: 'Server error';
+            MESSAGE: 'There was a problem retrieving workflow history from the server. Please try again later.';
+            CTA: 'Refresh workflow history list';
+          };
+        };
         WORKFLOW: {
           WORKFLOW_PROCESSING_MODAL: {
             SUCCESS: {

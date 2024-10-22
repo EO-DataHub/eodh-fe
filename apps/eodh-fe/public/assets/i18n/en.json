@@ -91,8 +91,7 @@
           "SENTINEL_1": "Sentinel-1",
           "SENTINEL_2": "Sentinel-2",
           "SENTINEL_3": "Sentinel-3",
-          "SENTINEL_5P": "Sentinel-5P"
-          "INSTRUCTIONS": "Select a data set",
+          "SENTINEL_5P": "Sentinel-5P",
           "AUXILIARY": {
             "GLOBAL_LAND_COVER": "Global Land Cover",
             "CORINE_LAND_COVER": "CORINE Land Cover",

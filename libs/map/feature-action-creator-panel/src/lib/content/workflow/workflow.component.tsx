@@ -59,8 +59,7 @@ export const Workflow = () => {
 
     mutate({
       aoi: aoiNode.value,
-      // todo real use data sets when those will be added into TreeView component
-      dataSet: 'esacci-globallc',
+      dataSet: dataSetNode.value,
       date: {
         from: dateRangeNode.value.from,
         to: dateRangeNode.value.to,

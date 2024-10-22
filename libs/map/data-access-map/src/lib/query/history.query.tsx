@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-query';
 
-import { QUERY_KEY } from '../api';
+import { paths } from '../api';
 import { historySchema, THistory } from './history.model';
 
 export interface IHistoryParams {
@@ -17,7 +17,7 @@ const getHistoryResults = async ({
   page = 1,
   perPage = 25,
 }: IHistoryParams): Promise<THistory> => {
-  const response = await getHttpClient().get(QUERY_KEY.HISTORY, {
+  const response = await getHttpClient().get(paths.WORKFLOW, {
     params: {
       order_by: orderBy,
       order_direction: orderDirection,
@@ -31,7 +31,7 @@ const getHistoryResults = async ({
 
 export const useGetHistory = (params: IHistoryParams) => {
   return useQuery<TExtractFnReturnType<typeof getHistoryResults>>({
-    queryKey: [QUERY_KEY.HISTORY, params.orderDirection, params.page, params.perPage],
+    queryKey: [paths.WORKFLOW, params.orderDirection, params.page, params.perPage],
     queryFn: () => getHistoryResults(params),
     enabled: true,
   });

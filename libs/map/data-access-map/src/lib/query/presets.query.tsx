@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-query';
 
-import { paths } from './api';
+import { paths } from '../api';
 import { presetsSchema, TPreset } from './presets.model';
 import { queryKey } from './query-key.const';
 

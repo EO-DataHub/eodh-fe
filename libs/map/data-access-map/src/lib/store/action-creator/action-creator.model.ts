@@ -3,11 +3,21 @@ import { TDateValues } from '../date/date.model';
 
 export type TAoiState = 'readonly' | 'edit';
 
+export type TDataSetValue =
+  | 'sentinel-1'
+  | 'sentinel-2-l1c'
+  | 'sentinel-2-l2a'
+  | 'sentinel-3'
+  | 'sentinel-5p'
+  | 'esacci-globallc'
+  | 'clms-corinelc'
+  | 'clms-water-bodies';
+
 type TBaseNode = { id: string; selected: boolean };
 
 export type TDataSetsNode = TBaseNode & {
   type: 'dataSet';
-  value: 'sentinel-1' | 'sentinel-2-l1c' | 'sentinel-2-l2a' | 'sentinel-3' | 'sentinel-5p' | undefined | null;
+  value: TDataSetValue | undefined | null;
   tooltip: boolean;
 };
 

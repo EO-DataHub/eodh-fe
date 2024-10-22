@@ -12,9 +12,9 @@ export {
 } from './lib/store/footprint/footprint.store';
 export { useDataSets } from './lib/store/data-sets/data-sets.store';
 export { useGetPresets } from './lib/query/presets.query';
-export { useGetHistory } from './lib/history/history.query';
-export type { IHistoryParams } from './lib/history/history.query';
-export type { THistory, THistoryItem } from './lib/history/history.model';
+export { useGetHistory } from './lib/query/history.query';
+export type { IHistoryParams } from './lib/query/history.query';
+export type { THistory, THistoryItem } from './lib/query/history.model';
 export { useResults } from './lib/store/results/results.store';
 export { useActionCreator } from './lib/store/action-creator/action-creator.store';
 export type {
@@ -23,6 +23,7 @@ export type {
   TDateRangeNode,
   TDataSetsNode,
   TFunctionNode,
+  TDataSetValue,
 } from './lib/store/action-creator/action-creator.model';
 export { useFunctions } from './lib/query/function.query';
 export { useCreateWorkflow } from './lib/mutation/workflow.mutation';
