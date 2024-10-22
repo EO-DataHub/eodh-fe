@@ -1,4 +1,5 @@
 const presets = '/action-creator/functions';
+const history = '/action-creator/submissions';
 
 const eodhProApiUrl = 'EODH_PRO_API_URL';
 
@@ -12,4 +13,5 @@ type TQueryKey = {
 
 export const QUERY_KEY: TQueryKey = {
   PRESETS: `${eodhProApiUrl}${presets}`,
+  HISTORY: `${eodhProApiUrl}${history}`,
 };

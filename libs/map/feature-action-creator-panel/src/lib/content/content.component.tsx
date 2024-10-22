@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { ActionCreator } from '../action-creator-panel.context';
 import { Footer } from './footer.component';
 import { Help } from './help.component';
-import { History } from './history.component';
+import { History } from './history/history.component';
 import { Presets } from './presets/presets.component';
 import { Workflow } from './workflow/workflow.component';
 

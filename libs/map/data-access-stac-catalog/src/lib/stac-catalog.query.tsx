@@ -9,7 +9,7 @@ import { useQueryBuilder } from './query-builder/use-query-builder.hook';
 import { queryKey } from './query-key.enum';
 import { collectionSchema, TCollection } from './stac.model';
 
-const search = async (params: TQueryParams): Promise<TCollection> => {
+const getSearchResults = async (params: TQueryParams): Promise<TCollection> => {
   const response = await getHttpClient().post(paths.STAC_CATALOGUE, params);
 
   return collectionSchema.parse(response);
@@ -34,9 +34,9 @@ export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
 
   const query = useQueryBuilder(queryBuilderParams);
 
-  return useQuery<TExtractFnReturnType<typeof search>>({
+  return useQuery<TExtractFnReturnType<typeof getSearchResults>>({
     enabled: query.enabled,
     queryKey: queryKey.CATALOG_SEARCH(query.params),
-    queryFn: () => search(query.params),
+    queryFn: () => getSearchResults(query.params),
   });
 };

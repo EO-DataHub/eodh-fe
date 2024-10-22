@@ -3,6 +3,7 @@ import { ParseKeys } from 'i18next';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useOutsideClick } from '../hooks/use-outside-click';
 import { Icon } from '../icon/icon';
 import { selectStyles } from './select.styles';
 
@@ -36,6 +37,8 @@ export const Select = ({
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  useOutsideClick(ref, () => setIsOpen(false));
+
   useEffect(() => {
     setSelectedOption(options.find((option) => option.value === value));
   }, [value, options]);
@@ -48,19 +51,6 @@ export const Select = ({
     },
     [onChange]
   );
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !(ref.current as Node).contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   const handleToggle = useCallback(() => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
