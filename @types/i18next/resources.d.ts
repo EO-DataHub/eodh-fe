@@ -93,6 +93,11 @@ interface Resources {
             SENTINEL_2: 'Sentinel-2';
             SENTINEL_3: 'Sentinel-3';
             SENTINEL_5P: 'Sentinel-5P';
+            AUXILIARY: {
+              GLOBAL_LAND_COVER: 'Global Land Cover';
+              CORINE_LAND_COVER: 'CORINE Land Cover';
+              WATER_BODIES: 'Water Bodies';
+            };
           };
           DATE_RANGE: {
             TITLE: 'Date Range';
@@ -178,6 +183,12 @@ interface Resources {
           };
           AIR_BUS: {
             NAME: 'AirBus';
+          };
+          AUXILIARY: {
+            NAME: 'Auxiliary';
+            GLOBAL_LAND_COVER: 'Global Land Cover';
+            CORINE_LAND_COVER: 'CORINE Land Cover';
+            WATER_BODIES: 'Water Bodies';
           };
           COPERNICUS: {
             NAME: 'Copernicus';

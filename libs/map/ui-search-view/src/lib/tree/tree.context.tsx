@@ -30,6 +30,15 @@ export type TTreeSettings = {
     enabled: boolean;
     expanded: boolean;
   };
+  'dataSets.auxiliary.esacciGloballc': {
+    enabled: boolean;
+  };
+  'dataSets.auxiliary.clmsCorinelc': {
+    enabled: boolean;
+  };
+  'dataSets.auxiliary.clmsWaterBodies': {
+    enabled: boolean;
+  };
 };
 
 export const defaultSettings: TTreeSettings = {
@@ -60,6 +69,15 @@ export const defaultSettings: TTreeSettings = {
   'dataSets.planet.rapidEye': {
     enabled: false,
     expanded: false,
+  },
+  'dataSets.auxiliary.esacciGloballc': {
+    enabled: false,
+  },
+  'dataSets.auxiliary.clmsCorinelc': {
+    enabled: false,
+  },
+  'dataSets.auxiliary.clmsWaterBodies': {
+    enabled: false,
   },
 };
 

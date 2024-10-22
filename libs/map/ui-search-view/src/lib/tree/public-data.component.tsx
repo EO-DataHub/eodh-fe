@@ -1,9 +1,15 @@
 import { TreeItem } from '@ukri/shared/design-system';
 
+import { TSchema } from '../schema/form.schema';
 import { useSearchView } from '../search-view.context';
+import { AuxiliaryData } from './auxiliary-data.component';
 import { Copernicus } from './copernicus/copernicus.component';
 
-export const PublicData = () => {
+type TPublicDataProps = {
+  schema: TSchema;
+};
+
+export const PublicData = ({ schema }: TPublicDataProps) => {
   const { isDisabled } = useSearchView();
 
   return (
@@ -14,6 +20,7 @@ export const PublicData = () => {
       disabled={isDisabled(false, 'data-sets')}
     >
       <Copernicus />
+      {schema === 'action-creator' && <AuxiliaryData />}
     </TreeItem>
   );
 };

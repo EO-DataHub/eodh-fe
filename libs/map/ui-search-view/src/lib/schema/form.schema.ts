@@ -1,17 +1,34 @@
 import { z } from 'zod';
 
 import { aoiSchema } from './aoi.schema';
-import { dataSetsInitialSchema, dataSetsUpdateSchema } from './data-sets.schema';
+import {
+  dataSetsActionCreatorInitialSchema,
+  dataSetsActionCreatorUpdateSchema,
+  dataSetsSearchInitialSchema,
+  dataSetsSearchUpdateSchema,
+} from './data-sets.schema';
 import { dateInitialSchema, dateUpdateSchema } from './date.schema';
 
-export const initialSchema = z.object({
-  dataSets: dataSetsInitialSchema,
+export const initialSearchSchema = z.object({
+  dataSets: dataSetsSearchInitialSchema,
   date: dateInitialSchema,
   aoi: aoiSchema.optional(),
 });
 
-export const updateSchema = z.object({
-  dataSets: dataSetsUpdateSchema,
+export const updateSearchSchema = z.object({
+  dataSets: dataSetsSearchUpdateSchema,
+  date: dateUpdateSchema,
+  aoi: aoiSchema,
+});
+
+export const initialActionCreatorSchema = z.object({
+  dataSets: dataSetsActionCreatorInitialSchema,
+  date: dateInitialSchema,
+  aoi: aoiSchema.optional(),
+});
+
+export const updateActionCreatorSchema = z.object({
+  dataSets: dataSetsActionCreatorUpdateSchema,
   date: dateUpdateSchema,
   aoi: aoiSchema,
 });
@@ -22,20 +39,20 @@ export const getSchema = (schema: TSchema) => {
   switch (schema) {
     case 'action-creator': {
       return {
-        initial: initialSchema,
-        update: updateSchema,
+        initial: initialActionCreatorSchema,
+        update: updateActionCreatorSchema,
       };
     }
 
     case 'search': {
       return {
-        initial: initialSchema,
-        update: updateSchema,
+        initial: initialSearchSchema,
+        update: updateSearchSchema,
       };
     }
   }
 };
 
-export type TInitialForm = z.infer<typeof initialSchema>;
+export type TInitialForm = z.infer<typeof initialSearchSchema> | z.infer<typeof initialActionCreatorSchema>;
 
-export type TUpdateForm = z.infer<typeof updateSchema>;
+export type TUpdateForm = z.infer<typeof updateSearchSchema> | z.infer<typeof updateActionCreatorSchema>;

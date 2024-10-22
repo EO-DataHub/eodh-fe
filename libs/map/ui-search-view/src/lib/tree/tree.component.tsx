@@ -1,13 +1,14 @@
 import { Tree as TreeWrapper } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 
+import { TSchema } from '../schema/form.schema';
 import { PrivateData } from './private-data.component';
 import { PublicData } from './public-data.component';
 import { TreeSettingsProvider, TTreeSettings } from './tree.context';
 
-type TTreeProps = { defaultSettings?: TTreeSettings };
+type TTreeProps = { defaultSettings?: TTreeSettings; schema: TSchema };
 
-export const Tree = ({ defaultSettings }: TTreeProps) => {
+export const Tree = ({ defaultSettings, schema }: TTreeProps) => {
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
@@ -22,7 +23,7 @@ export const Tree = ({ defaultSettings }: TTreeProps) => {
           onClick={goToNextOnboardingStep}
           className='top-[20%] left-[470px] !fixed'
         >
-          <PublicData />
+          <PublicData schema={schema} />
           <PrivateData />
         </OnboardingTooltip>
       </TreeWrapper>

@@ -16,5 +16,6 @@ export const useFunctions = () => {
     queryKey: queryKey.FUNCTIONS(),
     queryFn: () => getFunctions(),
     enabled: true,
+    staleTime: 60 * 1000,
   });
 };

@@ -16,5 +16,6 @@ export const useGetPresets = () => {
     queryKey: queryKey.PRESETS(),
     queryFn: () => presets(),
     enabled: true,
+    staleTime: 60 * 1000,
   });
 };
