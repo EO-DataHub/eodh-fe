@@ -11,12 +11,12 @@ type TValueNodeProps = {
 };
 
 export const ValueNode = ({ node, onClearDateFromClick, onClearDateToClick }: TValueNodeProps) => {
-  const { canActivate } = useActionCreator();
+  const { canActivateNode } = useActionCreator();
   const from = node.value?.from ? formatDate(node.value.from, 'DD/MM/YYYY')?.toString() : '';
   const to = node.value?.to ? formatDate(node.value.to, 'DD/MM/YYYY')?.toString() : '';
 
   return (
-    <Node type={node.type} clickable={canActivate(node)} selected={node.selected}>
+    <Node type={node.type} clickable={canActivateNode(node)} selected={node.selected}>
       <NodeInput value={from} className='mb-1' error={!node.value?.from} onClearButtonClick={onClearDateFromClick} />
       <NodeInput value={to} error={!node.value?.to} onClearButtonClick={onClearDateToClick} />
     </Node>

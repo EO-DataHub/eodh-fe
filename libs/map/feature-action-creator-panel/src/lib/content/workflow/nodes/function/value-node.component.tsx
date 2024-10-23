@@ -10,10 +10,10 @@ type TValueNodeProps = {
 };
 
 export const ValueNode = ({ node, options, onChange }: TValueNodeProps) => {
-  const { canActivate } = useActionCreator();
+  const { canActivateNode } = useActionCreator();
 
   return (
-    <Node type={node.type} clickable={canActivate(node)} selected={node.selected}>
+    <Node type={node.type} clickable={canActivateNode(node)} selected={node.selected}>
       <NodeSelect value={node.value} options={options || []} onChange={onChange} />
     </Node>
   );

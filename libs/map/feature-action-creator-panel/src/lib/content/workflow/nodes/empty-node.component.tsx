@@ -7,7 +7,7 @@ type TEmptyNodeProps = {
 };
 
 export const EmptyNode = ({ node }: TEmptyNodeProps) => {
-  const { canActivate } = useActionCreator();
+  const { canActivateNode } = useActionCreator();
 
-  return <Node type={node.type} clickable={canActivate(node)} selected={node.selected} />;
+  return <Node type={node.type} clickable={canActivateNode(node)} selected={node.selected} />;
 };

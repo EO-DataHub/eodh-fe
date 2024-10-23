@@ -98,7 +98,7 @@ export const useActionCreator = (): TActionCreatorProps => {
       activatePanel(node);
       state.setActive(node);
     },
-    canActivate: (node: TNode) => canActivate(state.nodes, node),
+    canActivateNode: (node: TNode) => canActivate(state.nodes, node),
     isValid: state.nodes.every(nodeHasValue),
     getNodesByType: <T extends TNode>(type: T['type']) => getNodes<T>(state.nodes, type),
     reset: () => state.setNodes(),

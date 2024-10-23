@@ -51,11 +51,11 @@ type TValueNodeProps = {
 };
 
 export const ValueNode = ({ error, node, onClearButtonClick }: TValueNodeProps) => {
-  const { canActivate } = useActionCreator();
+  const { canActivateNode } = useActionCreator();
   const value = useNodeTranslation(node);
 
   return (
-    <Node type={node.type} clickable={canActivate(node)} selected={node.selected}>
+    <Node type={node.type} clickable={canActivateNode(node)} selected={node.selected}>
       <NodeInput iconName='Satellite' value={value} error={error} onClearButtonClick={onClearButtonClick} />
     </Node>
   );
