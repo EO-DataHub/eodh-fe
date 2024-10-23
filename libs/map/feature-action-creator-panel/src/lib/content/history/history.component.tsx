@@ -34,7 +34,7 @@ export const History = () => {
     return <ErrorMessage refetch={refetch} />;
   }
 
-  const hasMoreResults = data && data.results.length === 25;
+  const hasMoreResults = data ? data.currentPage < data.totalPages : false;
 
   return (
     <section className='text-text-primary h-full overflow-scroll p-4'>
