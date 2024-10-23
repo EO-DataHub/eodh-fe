@@ -39,15 +39,15 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
-  const { setActive, setValue, canActivate } = useActionCreator();
+  const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { dataSet, error, updateDataSets } = useActiveDataSet();
-  const enabled = useMemo(() => canActivate(node), [node, canActivate]);
+  const enabled = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
     if (enabled) {
-      setActive(node);
+      setActiveNode(node);
     }
-  }, [enabled, node, setActive]);
+  }, [enabled, node, setActiveNode]);
 
   const clear = useCallback(() => {
     updateDataSets(undefined);

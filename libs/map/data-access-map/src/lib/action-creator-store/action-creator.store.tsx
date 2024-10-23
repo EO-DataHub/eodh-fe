@@ -95,14 +95,28 @@ const getNextNodes = (nodes: TNode[], index: number) => {
   return nextNodes;
 };
 
-export const useActionCreator = (): IActionCreatorStore & { canActivate: (node: TNode) => boolean } => {
+type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive'> & {
+  canActivateNode: (node: TNode) => boolean;
+  setActiveNode: (node?: TNode) => void;
+  enable: () => void;
+  disable: () => void;
+};
+
+export const useActionCreator = (): TActionCreatorProps => {
   return useActionCreatorStore((state) => ({
     ...state,
-    setActive: (node?: TNode) => {
+    enable: () => {
+      const node = state.nodes.find((node) => node.selected);
+      activatePanel(node);
+    },
+    disable: () => {
+      activatePanel(undefined);
+    },
+    setActiveNode: (node?: TNode) => {
       activatePanel(node);
       state.setActive(node);
     },
-    canActivate: (node: TNode) => {
+    canActivateNode: (node: TNode) => {
       return state.nodes.some((currentNode, index) => {
         const isCurrentNode = currentNode.id === node.id;
         const prevNodeValue = index === 0 || nodeHasValue(state.nodes[index - 1]);

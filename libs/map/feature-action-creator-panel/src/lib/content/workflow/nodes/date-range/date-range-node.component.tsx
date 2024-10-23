@@ -43,15 +43,15 @@ interface IDateRangeNodeProps {
 }
 
 export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
-  const { setActive, setValue, canActivate } = useActionCreator();
+  const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { date, updateDate } = useDate();
-  const enabled = useMemo(() => canActivate(node), [node, canActivate]);
+  const enabled = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
     if (enabled) {
-      setActive(node);
+      setActiveNode(node);
     }
-  }, [enabled, node, setActive]);
+  }, [enabled, node, setActiveNode]);
 
   const clearDateFrom = useCallback(() => {
     updateDate({ from: null, to: date?.to });

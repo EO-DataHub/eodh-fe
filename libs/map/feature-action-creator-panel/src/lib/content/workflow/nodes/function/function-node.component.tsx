@@ -34,14 +34,14 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
-  const { setActive, setValue, canActivate } = useActionCreator();
-  const enabled = useMemo(() => canActivate(node), [node, canActivate]);
+  const { setActiveNode, setValue, canActivateNode } = useActionCreator();
+  const enabled = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
     if (enabled) {
-      setActive(node);
+      setActiveNode(node);
     }
-  }, [enabled, node, setActive]);
+  }, [enabled, node, setActiveNode]);
 
   const updateFunction = useCallback(
     (value: TDataSetsFunction | undefined) => {
