@@ -77,8 +77,8 @@ export const HistoryTile = ({
   const { t } = useTranslation();
   const submittedAt = new Date(submittedAtDate);
 
-  const submittedHour = `${submittedAt.getUTCHours().toString().padStart(2, '0')}:${submittedAt
-    .getUTCMinutes()
+  const submittedHour = `${submittedAt.getHours().toString().padStart(2, '0')}:${submittedAt
+    .getMinutes()
     .toString()
     .padStart(2, '0')}`;
 
