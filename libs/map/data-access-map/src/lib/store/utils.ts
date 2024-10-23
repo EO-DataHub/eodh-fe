@@ -40,3 +40,9 @@ export const activatePanel = (node?: TNode) => {
     }
   }
 };
+
+export const reset = () => {
+  useAoiStore.getState().setShape(undefined);
+  useDataSetsStore.getState().updateDataSets(undefined);
+  useDateStore.getState().reset();
+};
