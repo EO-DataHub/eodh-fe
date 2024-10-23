@@ -35,15 +35,15 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
-  const { setActive, setValue, canActivate } = useActionCreator();
+  const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { shape, setShape } = useAoi();
-  const enabled = useMemo(() => canActivate(node), [node, canActivate]);
+  const enabled = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
     if (enabled) {
-      setActive(node);
+      setActiveNode(node);
     }
-  }, [enabled, node, setActive]);
+  }, [enabled, node, setActiveNode]);
 
   const clear = useCallback(() => {
     setShape(undefined);

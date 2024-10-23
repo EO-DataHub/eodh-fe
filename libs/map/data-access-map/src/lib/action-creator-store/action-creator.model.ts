@@ -27,11 +27,12 @@ export interface IActionCreatorStore {
   setActive: (node?: TNode) => void;
   setValue: <T extends TNode>(node: T, value: T['value']) => void;
   setNodes: (nodes?: TNode[]) => void;
+  reset: (nodes?: TIActionCreatorStoreState) => void;
 }
 
 export type TIActionCreatorStoreState = Omit<
   IActionCreatorStore,
-  'setActive' | 'canActivate' | 'setValue' | 'setNodes'
+  'setActive' | 'canActivate' | 'setValue' | 'setNodes' | 'reset'
 >;
 
 export const defaultNodes: TNode[] = [
