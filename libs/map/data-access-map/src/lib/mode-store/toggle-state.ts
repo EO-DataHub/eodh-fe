@@ -121,12 +121,18 @@ const restoreTrueColorImageStoreState = (mode: TMode) => {
 
 const restoreActionCreatorStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<TIActionCreatorStoreState>(storeKeys.ACTION_CREATOR(mode));
-  if (!currentState) {
-    useActionCreatorStore.getState().reset();
+
+  if (mode === 'action-creator') {
+    useActionCreatorStore.getState().reset(currentState || undefined);
     return;
   }
 
-  useActionCreatorStore.getState().reset(currentState);
+  if (!currentState) {
+    useActionCreatorStore.getState().setNodes(undefined);
+    return;
+  }
+
+  useActionCreatorStore.setState(currentState);
 };
 
 const restoreStateFromLocalStorage = (mode: TMode) => {
