@@ -46,15 +46,14 @@ export const formatDate = (date: TDateTimeString, format: TDateFormat = 'YYYY-MM
       const dateValues = createIsoStringDate(date).split('T')[0].split('-');
       dateString = `${dateValues[2]}/${dateValues[1]}/${dateValues[0]}`;
       break;
-      break;
     }
 
     case 'DD-MM-YY': {
       const dateFormatted = createDate(date);
       if (dateFormatted) {
-        const day = dateFormatted.getUTCDate().toString().padStart(2, '0');
-        const month = (dateFormatted.getUTCMonth() + 1).toString().padStart(2, '0');
-        const year = dateFormatted.getUTCFullYear().toString().slice(-2);
+        const day = dateFormatted.getDate().toString().padStart(2, '0');
+        const month = (dateFormatted.getMonth() + 1).toString().padStart(2, '0');
+        const year = dateFormatted.getFullYear().toString().slice(-2);
         dateString = `${day}-${month}-${year}`;
       } else {
         dateString = '';

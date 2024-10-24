@@ -1,5 +1,5 @@
 import { Button, Text } from '@ukri/shared/design-system';
-import { createDateString, formatDate } from '@ukri/shared/utils/date';
+import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -75,14 +75,10 @@ export const HistoryTile = ({
   className,
 }: IHistoryTileProps) => {
   const { t } = useTranslation();
-  const submittedAt = new Date(submittedAtDate);
 
-  const submittedHour = `${submittedAt.getUTCHours().toString().padStart(2, '0')}:${submittedAt
-    .getUTCMinutes()
-    .toString()
-    .padStart(2, '0')}`;
+  const submittedHour = formatHour(createDateString(submittedAtDate));
 
-  const submittedDate = formatDate(createDateString(submittedAt), 'DD-MM-YY');
+  const submittedDate = formatDate(createDateString(submittedAtDate), 'DD-MM-YY');
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
