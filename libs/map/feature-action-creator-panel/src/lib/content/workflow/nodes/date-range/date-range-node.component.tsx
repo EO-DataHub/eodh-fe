@@ -8,34 +8,26 @@ import { ValueNode } from './value-node.component';
 
 type TNodeProps = {
   node: TDateRangeNode;
-  enabled: boolean;
   onClearDateFromClick: () => void;
   onClearDateToClick: () => void;
 };
 
-const Node = ({ node, enabled, onClearDateFromClick, onClearDateToClick }: TNodeProps) => {
+const Node = ({ node, onClearDateFromClick, onClearDateToClick }: TNodeProps) => {
   const { t } = useTranslation();
 
   return useMemo(() => {
     if (!node.selected && !node.value) {
-      return <EmptyNode node={node} enabled={enabled} />;
+      return <EmptyNode node={node} />;
     } else if (node.selected && !node.value?.from && !node.value?.to) {
-      return (
-        <ActiveNode node={node} enabled={enabled} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATE_RANGE.INSTRUCTIONS')} />
-      );
+      return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATE_RANGE.INSTRUCTIONS')} />;
     } else if (node.value?.from || node.value?.to) {
       return (
-        <ValueNode
-          node={node}
-          enabled={enabled}
-          onClearDateFromClick={onClearDateFromClick}
-          onClearDateToClick={onClearDateToClick}
-        />
+        <ValueNode node={node} onClearDateFromClick={onClearDateFromClick} onClearDateToClick={onClearDateToClick} />
       );
     }
 
-    return <EmptyNode node={node} enabled={enabled} />;
-  }, [node, enabled, t, onClearDateFromClick, onClearDateToClick]);
+    return <EmptyNode node={node} />;
+  }, [node, t, onClearDateFromClick, onClearDateToClick]);
 };
 
 interface IDateRangeNodeProps {
@@ -45,13 +37,13 @@ interface IDateRangeNodeProps {
 export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { date, updateDate } = useDate();
-  const enabled = useMemo(() => canActivateNode(node), [node, canActivateNode]);
+  const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
-    if (enabled) {
+    if (canBeActivated) {
       setActiveNode(node);
     }
-  }, [enabled, node, setActiveNode]);
+  }, [canBeActivated, node, setActiveNode]);
 
   const clearDateFrom = useCallback(() => {
     updateDate({ from: null, to: date?.to });
@@ -70,7 +62,7 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
 
   return (
     <div onClick={activateNode}>
-      <Node node={node} enabled={enabled} onClearDateFromClick={clearDateFrom} onClearDateToClick={clearDateTo} />
+      <Node node={node} onClearDateFromClick={clearDateFrom} onClearDateToClick={clearDateTo} />
     </div>
   );
 };

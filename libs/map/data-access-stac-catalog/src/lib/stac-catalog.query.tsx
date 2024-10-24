@@ -6,7 +6,7 @@ import { paths } from './api';
 import { TQueryBuilderParams, TQueryParams } from './query-builder/query.builder';
 import { TCatalogSearchParams } from './query-builder/query.model';
 import { useQueryBuilder } from './query-builder/use-query-builder.hook';
-import { queryKey } from './query-key.enum';
+import { queryKey } from './query-key.const';
 import { collectionSchema, TCollection } from './stac.model';
 
 const getSearchResults = async (params: TQueryParams): Promise<TCollection> => {

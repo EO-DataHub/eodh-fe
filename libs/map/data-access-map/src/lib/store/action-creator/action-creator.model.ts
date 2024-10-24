@@ -1,15 +1,23 @@
-import { TCoordinate } from '../aoi-store/aoi.model';
-import { TDateValues } from '../date-store/date.model';
+import { TCoordinate } from '../aoi/aoi.model';
+import { TDateValues } from '../date/date.model';
 
 export type TAoiState = 'readonly' | 'edit';
 
-type TBaseNode = { id: string; selected: boolean };
+export type TDataSetValue =
+  | 'sentinel-1'
+  | 'sentinel-2-l1c'
+  | 'sentinel-2-l2a'
+  | 'sentinel-3'
+  | 'sentinel-5p'
+  | 'esacci-globallc'
+  | 'clms-corinelc'
+  | 'clms-water-bodies';
 
-export type TDataSetsFunction = 'NDVI' | 'SWIR' | 'NDWI' | 'NDSI' | 'FALSE_COLOR' | 'MOISTURE_INDEX';
+type TBaseNode = { id: string; selected: boolean };
 
 export type TDataSetsNode = TBaseNode & {
   type: 'dataSet';
-  value: 'sentinel1' | 'sentinel2' | 'sentinel3' | 'sentinel5p' | undefined | null;
+  value: TDataSetValue | undefined | null;
   tooltip: boolean;
 };
 
@@ -17,7 +25,7 @@ export type TAreaNode = TBaseNode & { type: 'area'; value: TCoordinate | undefin
 
 export type TDateRangeNode = TBaseNode & { type: 'dateRange'; value: TDateValues['date'] | undefined };
 
-export type TFunctionNode = TBaseNode & { type: 'function'; value: TDataSetsFunction | undefined; tooltip: boolean };
+export type TFunctionNode = TBaseNode & { type: 'function'; value: string | undefined; tooltip: boolean };
 
 export type TNode = TAreaNode | TDataSetsNode | TDateRangeNode | TFunctionNode;
 
@@ -25,7 +33,7 @@ export interface IActionCreatorStore {
   state: TAoiState;
   nodes: TNode[];
   setActive: (node?: TNode) => void;
-  setValue: <T extends TNode>(node: T, value: T['value']) => void;
+  setValue: <T extends TNode>(node: T, value: T['value'] | null) => void;
   setNodes: (nodes?: TNode[]) => void;
   reset: (nodes?: TIActionCreatorStoreState) => void;
 }

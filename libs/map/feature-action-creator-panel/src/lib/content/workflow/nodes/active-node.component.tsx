@@ -1,13 +1,14 @@
-import { TNode } from '@ukri/map/data-access-map';
+import { TNode, useActionCreator } from '@ukri/map/data-access-map';
 
-import { Node } from '../node.component';
+import { Node } from './node.component';
 
 type TActiveNodeProps = {
   node: TNode;
   text: string;
-  enabled: boolean;
 };
 
-export const ActiveNode = ({ enabled, text, node }: TActiveNodeProps) => {
-  return <Node type={node.type} text={text} enabled={enabled} selected={node.selected} />;
+export const ActiveNode = ({ text, node }: TActiveNodeProps) => {
+  const { canActivateNode } = useActionCreator();
+
+  return <Node type={node.type} text={text} clickable={canActivateNode(node)} selected={node.selected} />;
 };

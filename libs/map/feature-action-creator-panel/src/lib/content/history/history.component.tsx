@@ -1,5 +1,6 @@
 import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
 
+import { Container, Content, Footer } from '../container.component';
 import { HistoryTile } from './history-tile/history-tile.component';
 import { SortFilter } from './sort-filter/sort-filter.component';
 import { useHistoryData } from './use-history-data.hook';
@@ -24,51 +25,68 @@ export const History = () => {
 
   if ((isPending || isFetching) && allResults.length === 0) {
     return (
-      <div className='flex justify-center p-4'>
-        <LoadingSpinner />
-      </div>
+      <Container>
+        <Content>
+          <div className='flex justify-center p-4'>
+            <LoadingSpinner />
+          </div>
+        </Content>
+        <Footer></Footer>
+      </Container>
     );
   }
 
   if (error) {
-    return <ErrorMessage refetch={refetch} />;
+    return (
+      <Container>
+        <Content>
+          <ErrorMessage refetch={refetch} />;
+        </Content>
+        <Footer></Footer>
+      </Container>
+    );
   }
 
   const hasMoreResults = data ? data.currentPage < data.totalPages : false;
 
   return (
-    <section className='text-text-primary h-full overflow-scroll p-4'>
-      <div className='flex justify-end'>
-        <SortFilter onSortChange={handleSortChange} sortKey={sortKey} />
-      </div>
+    <Container>
+      <Content>
+        <section className='text-text-primary h-full overflow-scroll p-4'>
+          <div className='flex justify-end'>
+            <SortFilter onSortChange={handleSortChange} sortKey={sortKey} />
+          </div>
 
-      {allResults.map((workflow) => (
-        <HistoryTile
-          key={workflow.submissionId}
-          function_identifier={workflow.functionIdentifier}
-          workflowId={workflow.submissionId}
-          submittedAtDate={workflow.submittedAtDate}
-          status={workflow.status}
-          selected={false}
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          onViewResult={() => {}}
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          onHideResult={() => {}}
-          className='mt-5'
-        />
-      ))}
+          {allResults.map((workflow) => (
+            <HistoryTile
+              key={workflow.submissionId}
+              function_identifier={workflow.functionIdentifier}
+              workflowId={workflow.submissionId}
+              submittedAtDate={workflow.submittedAtDate}
+              status={workflow.status}
+              selected={false}
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              onViewResult={() => {}}
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              onHideResult={() => {}}
+              className='mt-5'
+            />
+          ))}
 
-      {hasMoreResults && (
-        <div className='flex justify-center mt-5'>
-          <Button
-            onClick={loadMore}
-            disabled={isFetching}
-            text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
-            appearance='outlined'
-            size='large'
-          />
-        </div>
-      )}
-    </section>
+          {hasMoreResults && (
+            <div className='flex justify-center mt-5'>
+              <Button
+                onClick={loadMore}
+                disabled={isFetching}
+                text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
+                appearance='outlined'
+                size='large'
+              />
+            </div>
+          )}
+        </section>
+      </Content>
+      <Footer></Footer>
+    </Container>
   );
 };

@@ -59,7 +59,7 @@ export const SearchView = ({
           {children}
           <AreaOfInterest />
           <div className='flex-1 overflow-y-auto pb-4'>
-            <Tree />
+            <Tree schema={schema} />
           </div>
           <div className='mt-auto shadow-date-range-picker p-4'>
             <DateRangePicker dateMin={minDate} dateMax={today} />

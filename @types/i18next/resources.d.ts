@@ -93,6 +93,11 @@ interface Resources {
             SENTINEL_2: 'Sentinel-2';
             SENTINEL_3: 'Sentinel-3';
             SENTINEL_5P: 'Sentinel-5P';
+            AUXILIARY: {
+              GLOBAL_LAND_COVER: 'Global Land Cover';
+              CORINE_LAND_COVER: 'CORINE Land Cover';
+              WATER_BODIES: 'Water Bodies';
+            };
           };
           DATE_RANGE: {
             TITLE: 'Date Range';
@@ -129,6 +134,48 @@ interface Resources {
         PRESETS: {
           BUTTON: 'Load preset';
         };
+        HISTORY: {
+          VIEW_RESULTS: 'View results';
+          HIDE_RESULTS: 'Hide results';
+          SAVED_ON: 'Saved on';
+          SAVED_AT: 'at';
+          ID: 'ID';
+          STATUS: {
+            READY: 'Ready';
+            PROCESSING: 'Processing';
+            FAILED: 'Failed';
+          };
+          SORT_FILTER: {
+            SORT: 'Sort';
+            NEWEST: 'Newest first';
+            OLDEST: 'Oldest first';
+          };
+          LOAD_MORE: 'Load more';
+          ERROR: {
+            TITLE: 'Server error';
+            MESSAGE: 'There was a problem retrieving workflow history from the server. Please try again later.';
+            CTA: 'Refresh workflow history list';
+          };
+        };
+        WORKFLOW: {
+          WORKFLOW_PROCESSING_MODAL: {
+            SUCCESS: {
+              HEADER: 'The Action Creator is currently processing your workflow.';
+              CONTENT: {
+                INFORMATION: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window. We will notify you once your data is ready to view.';
+                BROWSE_DATA: 'In the meantime you can browse map data or start a new workflow.';
+              };
+              BUTTON: {
+                EXPORT_CONFIGURATION: 'Export configuration';
+                VIEW_HISTORY: 'View history';
+              };
+            };
+            IN_PROGRESS: {
+              HEADER: 'Processing Workflow, please wait...';
+              CONTENT: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window.';
+            };
+          };
+        };
       };
       SEARCH_MODE_PANEL: {
         HEADER: {
@@ -159,6 +206,12 @@ interface Resources {
           };
           AIR_BUS: {
             NAME: 'AirBus';
+          };
+          AUXILIARY: {
+            NAME: 'Auxiliary';
+            GLOBAL_LAND_COVER: 'Global Land Cover';
+            CORINE_LAND_COVER: 'CORINE Land Cover';
+            WATER_BODIES: 'Water Bodies';
           };
           COPERNICUS: {
             NAME: 'Copernicus';

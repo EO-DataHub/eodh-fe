@@ -1,18 +1,18 @@
-import { TIActionCreatorStoreState } from '../action-creator-store/action-creator.model';
-import { getActionCreatorStoreState, useActionCreatorStore } from '../action-creator-store/action-creator.store';
-import { IAoiStore } from '../aoi-store/aoi.model';
-import { getAoiStoreState, useAoiStore } from '../aoi-store/aoi.store';
-import { TDataSetsStore } from '../data-sets-store/data-sets.model';
-import { getDataSetsStoreState, useDataSetsStore } from '../data-sets-store/data-sets.store';
-import { TDateStoreState } from '../date-store/date.model';
-import { getDateStoreState, useDateStore } from '../date-store/date.store';
-import { TFootprintStoreState } from '../footprint-store/footprint.model';
-import { getFootprintStoreState, useFootprintStore } from '../footprint-store/footprint.store';
-import { TResultsStore } from '../results-store/results.model';
-import { getResultsStoreState, useResultsStore } from '../results-store/results.store';
-import { TTrueImageStoreState } from '../true-color-image-store/true-color-image.model';
-import { getTrueColorImageStoreState, useTrueColorImageStore } from '../true-color-image-store/true-color-image.store';
+import { TIActionCreatorStoreState } from './action-creator/action-creator.model';
+import { getActionCreatorStoreState, useActionCreatorStore } from './action-creator/action-creator.store';
+import { IAoiStore } from './aoi/aoi.model';
+import { getAoiStoreState, useAoiStore } from './aoi/aoi.store';
+import { TDataSetsStore } from './data-sets/data-sets.model';
+import { getDataSetsStoreState, useDataSetsStore } from './data-sets/data-sets.store';
+import { TDateStoreState } from './date/date.model';
+import { getDateStoreState, useDateStore } from './date/date.store';
+import { TFootprintStoreState } from './footprint/footprint.model';
+import { getFootprintStoreState, useFootprintStore } from './footprint/footprint.store';
 import { TMode } from './mode.model';
+import { TResultsStore } from './results/results.model';
+import { getResultsStoreState, useResultsStore } from './results/results.store';
+import { TTrueImageStoreState } from './true-color-image/true-color-image.model';
+import { getTrueColorImageStoreState, useTrueColorImageStore } from './true-color-image/true-color-image.store';
 
 const storeKeys = {
   AOI: (mode: TMode) => `${mode}-aoi`,

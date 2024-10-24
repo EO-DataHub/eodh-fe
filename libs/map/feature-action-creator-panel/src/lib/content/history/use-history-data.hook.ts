@@ -21,6 +21,13 @@ export const useHistoryData = (): IUseHistoryData => {
   const [page, setPage] = useState(1);
   const [allResults, setAllResults] = useState<THistoryItem[]>([]);
   const [sortKey, setSortKey] = useState<TSortKey>('default');
+  const params: IHistoryParams = {
+    orderBy: 'submitted_at',
+    orderDirection: sortOrder,
+    page: page,
+    perPage: 25,
+  };
+  const { data, error, isPending, isFetching, refetch } = useGetHistory(params);
 
   const handleSortChange = useCallback((order: TSortOrder) => {
     setSortKey(order);
@@ -28,15 +35,6 @@ export const useHistoryData = (): IUseHistoryData => {
     setPage(1);
     setAllResults([]);
   }, []);
-
-  const params: IHistoryParams = {
-    orderBy: 'submitted_at',
-    orderDirection: sortOrder,
-    page: page,
-    perPage: 25,
-  };
-
-  const { data, error, isPending, isFetching, refetch } = useGetHistory(params);
 
   const loadMore = useCallback(() => {
     if (data && data.results.length > 0) {

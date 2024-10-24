@@ -1,8 +1,8 @@
-import { createGeometry, TAreaNode } from '@ukri/map/data-access-map';
+import { createGeometry, TAreaNode, useActionCreator } from '@ukri/map/data-access-map';
 import { getArea } from 'ol/extent';
 import { useTranslation } from 'react-i18next';
 
-import { Node } from '../../node.component';
+import { Node } from '../node.component';
 import { NodeInput } from '../node-input.component';
 
 const getIconFromShape = (value: TAreaNode['value']): 'Polygon' | 'Circle' | 'Square' | undefined => {
@@ -57,18 +57,18 @@ const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km'
 
 type TValueNodeProps = {
   node: TAreaNode;
-  enabled: boolean;
   onClearButtonClick: () => void;
 };
 
-export const ValueNode = ({ enabled, node, onClearButtonClick }: TValueNodeProps) => {
+export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
   const { t } = useTranslation();
+  const { canActivateNode } = useActionCreator();
 
   return (
     <Node
       type={node.type}
       text={formatArea(t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.DESCRIPTION'), node.value, 'miles')}
-      enabled={enabled}
+      clickable={canActivateNode(node)}
       selected={node.selected}
     >
       <NodeInput

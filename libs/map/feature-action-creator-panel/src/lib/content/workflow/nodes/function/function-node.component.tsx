@@ -1,29 +1,45 @@
-import { TDataSetsFunction, TFunctionNode, useActionCreator } from '@ukri/map/data-access-map';
+import { TFunction, TFunctionNode, useActionCreator, useFunctions } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useMemo } from 'react';
 
 import { EmptyNode } from '../empty-node.component';
+import { TOption } from '../node-select.component';
 import { ActiveNode } from './active-node.component';
+import { LoadingNode } from './loading-node.component';
 import { ValueNode } from './value-node.component';
+
+const getOptions = (data: { standalone: boolean; identifier: string; name: string }[] | undefined): TOption[] => {
+  return (data || [])
+    ?.filter((item) => item.standalone)
+    .map((item) => ({
+      value: item.identifier,
+      label: item.name,
+    }));
+};
 
 type TNodeProps = {
   node: TFunctionNode;
-  enabled: boolean;
-  onChange: (value: TDataSetsFunction | undefined) => void;
+  data: TFunction[] | undefined;
+  isLoading: boolean;
+  onChange: (value: string | undefined | null) => void;
 };
 
-const Node = ({ node, enabled, onChange }: TNodeProps) => {
+const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
   return useMemo(() => {
+    const options = getOptions(data);
+
     if (!node.selected && !node.value) {
-      return <EmptyNode node={node} enabled={enabled} />;
+      return <EmptyNode node={node} />;
+    } else if (isLoading) {
+      return <LoadingNode node={node} />;
     } else if (node.selected && !node.value) {
-      return <ActiveNode node={node} enabled={enabled} onChange={onChange} />;
+      return <ActiveNode node={node} options={options} onChange={onChange} />;
     } else if (node.value) {
-      return <ValueNode node={node} enabled={enabled} onChange={onChange} />;
+      return <ValueNode node={node} options={options} onChange={onChange} />;
     }
 
-    return <EmptyNode node={node} enabled={enabled} />;
-  }, [enabled, node, onChange]);
+    return <EmptyNode node={node} />;
+  }, [data, node, onChange, isLoading]);
 };
 
 interface IFunctionNodeProps {
@@ -35,16 +51,17 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
-  const enabled = useMemo(() => canActivateNode(node), [node, canActivateNode]);
+  const { data, isLoading } = useFunctions();
+  const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
-    if (enabled) {
+    if (canBeActivated) {
       setActiveNode(node);
     }
-  }, [enabled, node, setActiveNode]);
+  }, [canBeActivated, node, setActiveNode]);
 
   const updateFunction = useCallback(
-    (value: TDataSetsFunction | undefined) => {
+    (value: string | undefined | null) => {
       if (node.selected) {
         setValue(node, value);
       }
@@ -55,7 +72,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   if (!node.tooltip) {
     return (
       <div onClick={activateNode}>
-        <Node node={node} enabled={enabled} onChange={updateFunction} />
+        <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
       </div>
     );
   }
@@ -69,7 +86,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
       className='top-0 left-[-110px]'
     >
       <div onClick={activateNode}>
-        <Node node={node} enabled={enabled} onChange={updateFunction} />
+        <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
       </div>
     </OnboardingTooltip>
   );

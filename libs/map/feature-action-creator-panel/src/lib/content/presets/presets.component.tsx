@@ -1,6 +1,8 @@
 import { useGetPresets } from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
+import { PropsWithChildren } from 'react';
 
+import { Container, Content, Footer } from '../container.component';
 import { Preset } from './preset.component';
 
 interface IErrorMessageProps {
@@ -18,8 +20,17 @@ const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
   </div>
 );
 
+const PresetsContainer = ({ children }: PropsWithChildren) => {
+  return (
+    <Container>
+      <Content>{children}</Content>
+      <Footer></Footer>
+    </Container>
+  );
+};
+
 export const Presets = () => {
-  const { data, error, isLoading, isFetching, refetch } = useGetPresets();
+  const { data, error, isLoading, refetch } = useGetPresets();
 
   const handleLoadPreset = (preset: unknown) => {
     // eslint-disable-next-line no-console
@@ -27,30 +38,38 @@ export const Presets = () => {
     return;
   };
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
-      <div className='flex justify-center p-4'>
-        <LoadingSpinner />
-      </div>
+      <PresetsContainer>
+        <div className='flex justify-center p-4'>
+          <LoadingSpinner />
+        </div>
+      </PresetsContainer>
     );
   }
 
   if (error) {
-    return <ErrorMessage refetch={refetch} />;
+    return (
+      <PresetsContainer>
+        <ErrorMessage refetch={refetch} />
+      </PresetsContainer>
+    );
   }
 
   return (
-    <section className='text-text-primary h-full overflow-scroll p-4 pb-0'>
-      {data?.functions.map((preset) => (
-        <Preset
-          key={preset.identifier}
-          imageUrl={preset.imageUrl}
-          title={preset.name}
-          description={preset.description}
-          onLoadPresetClick={() => handleLoadPreset(preset)}
-          className='mb-4'
-        />
-      ))}
-    </section>
+    <PresetsContainer>
+      <section className='text-text-primary h-full overflow-scroll p-4 pb-0'>
+        {data?.map((preset) => (
+          <Preset
+            key={preset.identifier}
+            imageUrl={preset.imageUrl}
+            title={preset.name}
+            description={preset.description}
+            onLoadPresetClick={() => handleLoadPreset(preset)}
+            className='mb-4'
+          />
+        ))}
+      </section>
+    </PresetsContainer>
   );
 };

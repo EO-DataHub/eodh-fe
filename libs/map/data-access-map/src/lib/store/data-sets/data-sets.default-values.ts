@@ -44,6 +44,20 @@ export type TDataSetsDefaultValues = {
       so2: boolean;
     };
   };
+  auxiliary?: {
+    esacciGloballc?: {
+      enabled: boolean;
+      expanded: boolean;
+    };
+    clmsCorinelc?: {
+      enabled: boolean;
+      expanded: boolean;
+    };
+    clmsWaterBodies?: {
+      enabled: boolean;
+      expanded: boolean;
+    };
+  };
   planet: {
     enabled: boolean;
     planetScope: {
@@ -105,6 +119,20 @@ export const dataSets: TDataSetsDefaultValues = {
       no2: true,
       o3: true,
       so2: true,
+    },
+  },
+  auxiliary: {
+    esacciGloballc: {
+      enabled: false,
+      expanded: false,
+    },
+    clmsCorinelc: {
+      enabled: false,
+      expanded: false,
+    },
+    clmsWaterBodies: {
+      enabled: false,
+      expanded: false,
     },
   },
   planet: {

@@ -10,27 +10,24 @@ import { ValueNode } from './value-node.component';
 
 type TNodeProps = {
   node: TDataSetsNode;
-  enabled: boolean;
   error: boolean;
   onClearButtonClick: () => void;
 };
 
-const Node = ({ node, enabled, error, onClearButtonClick }: TNodeProps) => {
+const Node = ({ node, error, onClearButtonClick }: TNodeProps) => {
   const { t } = useTranslation();
 
   return useMemo(() => {
     if (!node.selected && !node.value) {
-      return <EmptyNode node={node} enabled={enabled} />;
+      return <EmptyNode node={node} />;
     } else if (node.selected && !node.value && !error) {
-      return (
-        <ActiveNode node={node} enabled={enabled} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.INSTRUCTIONS')} />
-      );
+      return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.INSTRUCTIONS')} />;
     } else if (node.value || error) {
-      return <ValueNode node={node} enabled={enabled} error={error} onClearButtonClick={onClearButtonClick} />;
+      return <ValueNode node={node} error={error} onClearButtonClick={onClearButtonClick} />;
     }
 
-    return <EmptyNode node={node} enabled={enabled} />;
-  }, [enabled, error, node, onClearButtonClick, t]);
+    return <EmptyNode node={node} />;
+  }, [error, node, onClearButtonClick, t]);
 };
 
 type TDataSetNodeProps = { node: TDataSetsNode };
@@ -41,13 +38,13 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { dataSet, error, updateDataSets } = useActiveDataSet();
-  const enabled = useMemo(() => canActivateNode(node), [node, canActivateNode]);
+  const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
-    if (enabled) {
+    if (canBeActivated) {
       setActiveNode(node);
     }
-  }, [enabled, node, setActiveNode]);
+  }, [canBeActivated, node, setActiveNode]);
 
   const clear = useCallback(() => {
     updateDataSets(undefined);
@@ -62,7 +59,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
   if (!node.tooltip) {
     return (
       <div onClick={activateNode}>
-        <Node node={node} enabled={enabled} error={error} onClearButtonClick={clear} />
+        <Node node={node} error={error} onClearButtonClick={clear} />
       </div>
     );
   }
@@ -76,7 +73,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
       className='top-0 left-[-110px]'
     >
       <div onClick={activateNode}>
-        <Node node={node} enabled={enabled} error={error} onClearButtonClick={clear} />
+        <Node node={node} error={error} onClearButtonClick={clear} />
       </div>
     </OnboardingTooltip>
   );

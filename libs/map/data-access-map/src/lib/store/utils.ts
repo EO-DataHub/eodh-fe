@@ -1,7 +1,7 @@
-import { TNode } from './action-creator-store/action-creator.model';
-import { useAoiStore } from './aoi-store/aoi.store';
-import { useDataSetsStore } from './data-sets-store/data-sets.store';
-import { useDateStore } from './date-store/date.store';
+import { TNode } from './action-creator/action-creator.model';
+import { useAoiStore } from './aoi/aoi.store';
+import { useDataSetsStore } from './data-sets/data-sets.store';
+import { useDateStore } from './date/date.store';
 
 export const activatePanel = (node?: TNode) => {
   switch (node?.type) {
@@ -39,4 +39,10 @@ export const activatePanel = (node?: TNode) => {
       useDateStore.getState().changeState('readonly');
     }
   }
+};
+
+export const reset = () => {
+  useAoiStore.getState().setShape(undefined);
+  useDataSetsStore.getState().updateDataSets(undefined);
+  useDateStore.getState().reset();
 };
