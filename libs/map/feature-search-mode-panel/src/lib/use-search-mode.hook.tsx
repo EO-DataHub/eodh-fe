@@ -82,6 +82,13 @@ export const useSearchMode = () => {
     [changeView, updateSearchParams]
   );
 
+  const displayWorkflowResults = useCallback(
+    (workflowId) => {
+      changeView('results');
+    },
+    [changeView]
+  );
+
   useEffect(() => {
     if (mode !== currentMode) {
       if (searchParams) {
@@ -118,8 +125,9 @@ export const useSearchMode = () => {
       schema,
       values,
       search,
+      displayWorkflowResults,
       updateState,
     }),
-    [data, state, status, currentView, changeToSearchView, schema, values, search, updateState]
+    [data, state, status, currentView, changeToSearchView, schema, values, search, updateState, displayWorkflowResults]
   );
 };

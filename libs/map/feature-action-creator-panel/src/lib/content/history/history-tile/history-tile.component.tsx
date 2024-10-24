@@ -1,6 +1,9 @@
+import { useGetWorkflowResult } from '@ukri/map/data-access-map';
+import { useSearchMode } from '@ukri/map/feature-search-mode-panel';
 import { Button, Text } from '@ukri/shared/design-system';
 import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { historyTileStyles } from './history-tile.styles';
@@ -8,14 +11,15 @@ import { historyTileStyles } from './history-tile.styles';
 interface IBasicButtonProps {
   onClick: () => void;
   status?: 'READY' | 'PROCESSING';
+  disabled?: boolean;
 }
 
-const ShowButton = ({ onClick, status }: IBasicButtonProps) => (
+const ShowButton = ({ onClick, status, disabled }: IBasicButtonProps) => (
   <Button
     text='MAP.ACTION_CREATOR_PANEL.HISTORY.VIEW_RESULTS'
     size='medium'
     onClick={onClick}
-    disabled={status === 'PROCESSING'}
+    disabled={status === 'PROCESSING' || disabled}
   />
 );
 
@@ -59,9 +63,9 @@ export interface IHistoryTileProps {
   submittedAtDate: string;
   status?: 'READY' | 'PROCESSING' | 'FAILED';
   selected: boolean;
-  onViewResult: () => void;
-  onHideResult: () => void;
   className?: string;
+  onViewResult: (submissionId: string) => void;
+  onHideResult: () => void;
 }
 
 export const HistoryTile = ({
@@ -69,16 +73,30 @@ export const HistoryTile = ({
   function_identifier,
   submittedAtDate,
   status,
+  className,
   selected,
   onViewResult,
   onHideResult,
-  className,
 }: IHistoryTileProps) => {
+  const [jobId, setJobId] = useState<string | null>(null);
   const { t } = useTranslation();
+
+  const { displayWorkflowResults } = useSearchMode();
+  const { isPending, isFetching } = useGetWorkflowResult({ jobId });
 
   const submittedHour = formatHour(createDateString(submittedAtDate));
 
   const submittedDate = formatDate(createDateString(submittedAtDate), 'DD-MM-YY');
+
+  const handleSeeResults = () => {
+    onViewResult(workflowId);
+    setJobId(workflowId);
+  };
+
+  const handleHideResults = () => {
+    onHideResult();
+    setJobId(null);
+  };
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
@@ -108,10 +126,10 @@ export const HistoryTile = ({
       <div className={historyTileStyles.section}>
         {status && <Tag status={status} />}
         {status !== 'FAILED' &&
-          (selected ? (
-            <HideButton onClick={onHideResult} status={status} />
+          (selected && (!isFetching || !isPending) ? (
+            <HideButton onClick={handleHideResults} status={status} />
           ) : (
-            <ShowButton onClick={onViewResult} status={status} />
+            <ShowButton onClick={handleSeeResults} status={status} disabled={isFetching} />
           ))}
       </div>
     </div>
