@@ -75,7 +75,6 @@ export const HistoryTile = ({
   className,
 }: IHistoryTileProps) => {
   const { t } = useTranslation();
-  const submittedAt = new Date(submittedAtDate);
 
   const submittedHour = formatHour(createDateString(submittedAtDate));
 
