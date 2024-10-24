@@ -32,12 +32,15 @@ export type TTreeSettings = {
   };
   'dataSets.auxiliary.esacciGloballc': {
     enabled: boolean;
+    expanded: boolean;
   };
   'dataSets.auxiliary.clmsCorinelc': {
     enabled: boolean;
+    expanded: boolean;
   };
   'dataSets.auxiliary.clmsWaterBodies': {
     enabled: boolean;
+    expanded: boolean;
   };
 };
 
@@ -72,12 +75,15 @@ export const defaultSettings: TTreeSettings = {
   },
   'dataSets.auxiliary.esacciGloballc': {
     enabled: false,
+    expanded: false,
   },
   'dataSets.auxiliary.clmsCorinelc': {
     enabled: false,
+    expanded: false,
   },
   'dataSets.auxiliary.clmsWaterBodies': {
     enabled: false,
+    expanded: false,
   },
 };
 

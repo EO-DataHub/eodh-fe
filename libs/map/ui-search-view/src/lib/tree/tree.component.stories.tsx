@@ -5,7 +5,7 @@ import { createDateString, formatDate } from '@ukri/shared/utils/date';
 import { memo, useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { TInitialForm, TUpdateForm, updateSchema } from '../schema/form.schema';
+import { TInitialForm, TUpdateForm, updateSearchSchema } from '../schema/form.schema';
 import { Tree as TreeComponent } from './tree.component';
 import { defaultSettings, TTreeSettings } from './tree.context';
 
@@ -95,7 +95,7 @@ type TTreeTemplate = {
 const Form = memo(({ values, settings, triggerValidation }: TTreeTemplate) => {
   const form = useForm<TInitialForm, unknown, TUpdateForm>({
     values: { ...values },
-    resolver: zodResolver(updateSchema),
+    resolver: zodResolver(updateSearchSchema),
     reValidateMode: 'onChange',
     mode: 'onChange',
   });
@@ -115,7 +115,7 @@ const Form = memo(({ values, settings, triggerValidation }: TTreeTemplate) => {
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(submit)}>
-        <TreeComponent defaultSettings={settings} />
+        <TreeComponent defaultSettings={settings} schema='search' />
       </form>
     </FormProvider>
   );

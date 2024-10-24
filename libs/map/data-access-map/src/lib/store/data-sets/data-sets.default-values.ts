@@ -47,12 +47,15 @@ export type TDataSetsDefaultValues = {
   auxiliary?: {
     esacciGloballc?: {
       enabled: boolean;
+      expanded: boolean;
     };
     clmsCorinelc?: {
       enabled: boolean;
+      expanded: boolean;
     };
     clmsWaterBodies?: {
       enabled: boolean;
+      expanded: boolean;
     };
   };
   planet: {
@@ -121,12 +124,15 @@ export const dataSets: TDataSetsDefaultValues = {
   auxiliary: {
     esacciGloballc: {
       enabled: false,
+      expanded: false,
     },
     clmsCorinelc: {
       enabled: false,
+      expanded: false,
     },
     clmsWaterBodies: {
       enabled: false,
+      expanded: false,
     },
   },
   planet: {
