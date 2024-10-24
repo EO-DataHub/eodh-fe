@@ -17,7 +17,7 @@ interface IUseHistoryData {
 }
 
 export const useHistoryData = (): IUseHistoryData => {
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [page, setPage] = useState(1);
   const [allResults, setAllResults] = useState<THistoryItem[]>([]);
   const [sortKey, setSortKey] = useState<TSortKey>('default');

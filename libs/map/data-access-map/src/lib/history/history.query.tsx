@@ -13,7 +13,7 @@ export interface IHistoryParams {
 
 const getHistoryResults = async ({
   orderBy = 'submitted_at',
-  orderDirection = 'asc',
+  orderDirection = 'desc',
   page = 1,
   perPage = 25,
 }: IHistoryParams): Promise<THistory> => {
