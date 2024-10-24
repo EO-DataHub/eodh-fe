@@ -46,7 +46,6 @@ export const formatDate = (date: TDateTimeString, format: TDateFormat = 'YYYY-MM
       const dateValues = createIsoStringDate(date).split('T')[0].split('-');
       dateString = `${dateValues[2]}/${dateValues[1]}/${dateValues[0]}`;
       break;
-      break;
     }
 
     case 'DD-MM-YY': {
