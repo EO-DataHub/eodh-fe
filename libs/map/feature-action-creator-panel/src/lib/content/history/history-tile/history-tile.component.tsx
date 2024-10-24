@@ -1,5 +1,5 @@
 import { useGetWorkflowResult } from '@ukri/map/data-access-map';
-import { useSearchMode } from '@ukri/map/feature-search-mode-panel';
+// import { useSearchMode } from '@ukri/map/feature-search-mode-panel';
 import { Button, Text } from '@ukri/shared/design-system';
 import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
@@ -81,7 +81,7 @@ export const HistoryTile = ({
   const [jobId, setJobId] = useState<string | null>(null);
   const { t } = useTranslation();
 
-  const { displayWorkflowResults } = useSearchMode();
+  // const { displayWorkflowResults } = useSearchMode();
   const { isPending, isFetching } = useGetWorkflowResult({ jobId });
 
   const submittedHour = formatHour(createDateString(submittedAtDate));
