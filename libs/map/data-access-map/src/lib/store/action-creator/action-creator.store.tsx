@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { activatePanel, reset } from '../utils';
+import { activatePanel, loadPreset, reset, TLoadPresetProps } from '../utils';
 import {
   defaultNodes,
   defaultValues,
@@ -20,15 +20,24 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
       set((state) => {
         const nodeToUpdate = state.nodes.find((currentNode) => currentNode.id === node?.id);
 
-        if (nodeToUpdate?.selected) {
+        if (nodeToUpdate?.state === 'active') {
           return state;
         }
 
         return {
-          nodes: state.nodes.map((currentNode) => ({
-            ...currentNode,
-            selected: currentNode.id === node?.id,
-          })),
+          nodes: state.nodes.map((currentNode) => {
+            if (currentNode.id === node?.id) {
+              return {
+                ...currentNode,
+                state: 'active',
+              };
+            }
+
+            return {
+              ...currentNode,
+              state: currentNode.state === 'active' ? 'not-active' : currentNode.state,
+            };
+          }),
         };
       }),
     setValue: (node, value) =>
@@ -57,7 +66,7 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
       set((state) => {
         const nodes = newState?.nodes ? newState?.nodes : defaultNodes;
 
-        activatePanel(nodes.find((node) => node.selected));
+        activatePanel(nodes.find((node) => node.state === 'active'));
 
         return {
           ...state,
@@ -74,7 +83,7 @@ export const getActionCreatorStoreState = (): TIActionCreatorStoreState => {
   return { ...rest };
 };
 
-type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive'> & {
+type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive' | 'reset'> & {
   canActivateNode: (node: TNode) => boolean;
   setActiveNode: (node?: TNode) => void;
   enable: () => void;
@@ -82,13 +91,14 @@ type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive'> & {
   isValid: boolean;
   getNodesByType: <T extends TNode>(type: T['type']) => T[];
   reset: () => void;
+  loadPreset: (preset: TLoadPresetProps) => void;
 };
 
 export const useActionCreator = (): TActionCreatorProps => {
   return useActionCreatorStore((state) => ({
     ...state,
     enable: () => {
-      const node = state.nodes.find((node) => node.selected);
+      const node = state.nodes.find((node) => node.state === 'active');
       activatePanel(node);
     },
     disable: () => {
@@ -105,5 +115,6 @@ export const useActionCreator = (): TActionCreatorProps => {
       state.setNodes();
       reset();
     },
+    loadPreset: ({ dataSet, functionName }: TLoadPresetProps) => loadPreset({ dataSet, functionName }),
   }));
 };

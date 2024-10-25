@@ -1,7 +1,8 @@
-import { useGetPresets } from '@ukri/map/data-access-map';
+import { TPreset, useActionCreator, useGetPresets } from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useCallback, useContext } from 'react';
 
+import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
 import { Preset } from './preset.component';
 
@@ -30,13 +31,18 @@ const PresetsContainer = ({ children }: PropsWithChildren) => {
 };
 
 export const Presets = () => {
+  const { setActiveTab } = useContext(ActionCreator);
   const { data, error, isLoading, refetch } = useGetPresets();
+  const { loadPreset } = useActionCreator();
 
-  const handleLoadPreset = (preset: unknown) => {
-    // eslint-disable-next-line no-console
-    console.log('Load preset', preset);
-    return;
-  };
+  const handleLoadPreset = useCallback(
+    (preset: TPreset) => {
+      loadPreset({ dataSet: preset.defaultValues.dataSet, functionName: preset.defaultValues.function });
+      setActiveTab('workflow');
+      return;
+    },
+    [loadPreset, setActiveTab]
+  );
 
   if (isLoading) {
     return (

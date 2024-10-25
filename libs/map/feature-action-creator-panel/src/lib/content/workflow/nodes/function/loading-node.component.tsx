@@ -9,7 +9,7 @@ type TValueNodeProps = {
 
 export const LoadingNode = ({ node }: TValueNodeProps) => {
   return (
-    <Node type={node.type} clickable={false} selected={node.selected}>
+    <Node type={node.type} clickable={false} selected={node.state === 'active'}>
       <LoadingInput />
     </Node>
   );

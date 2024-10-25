@@ -13,6 +13,13 @@ const stringSchema = z.object({
   options: z.array(z.string()),
 });
 
+const collectionSchema = z.object({
+  type: z.literal('string'),
+  required: z.boolean(),
+  default: z.string(),
+  options: z.array(z.string()),
+});
+
 const numberSchema = z.object({
   type: z.literal('number'),
   required: z.boolean(),
@@ -21,7 +28,7 @@ const numberSchema = z.object({
 
 const inputSchema = z.union([booleanSchema, stringSchema, numberSchema]);
 
-const functionSchema = z
+const presetSchema = z
   .object({
     name: z.string(),
     preset: z.boolean(),
@@ -29,7 +36,7 @@ const functionSchema = z
     description: z.string().optional(),
     thumbnail_b64: z.string(),
     inputs: z.object({
-      stac_collection: inputSchema.optional(),
+      stac_collection: collectionSchema.optional(),
       calibrate: inputSchema.optional(),
       index: inputSchema.optional(),
       limit: inputSchema.optional(),
@@ -43,12 +50,13 @@ const functionSchema = z
     imageUrl: data.thumbnail_b64 && `data:image/jpeg;base64,${data.thumbnail_b64}`,
     defaultValues: {
       dataSet: data.inputs.stac_collection?.default,
+      function: data.identifier,
     },
   }));
 
 export const presetsSchema = z.object({
-  functions: z.array(functionSchema),
+  functions: z.array(presetSchema),
   total: z.number(),
 });
 
-export type TPreset = z.infer<typeof functionSchema>;
+export type TPreset = z.infer<typeof presetSchema>;

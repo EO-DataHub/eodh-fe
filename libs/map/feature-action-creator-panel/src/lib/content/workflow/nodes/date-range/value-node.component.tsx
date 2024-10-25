@@ -16,7 +16,7 @@ export const ValueNode = ({ node, onClearDateFromClick, onClearDateToClick }: TV
   const to = node.value?.to ? formatDate(node.value.to, 'DD/MM/YYYY')?.toString() : '';
 
   return (
-    <Node type={node.type} clickable={canActivateNode(node)} selected={node.selected}>
+    <Node type={node.type} clickable={canActivateNode(node)} selected={node.state === 'active'}>
       <NodeInput value={from} className='mb-1' error={!node.value?.from} onClearButtonClick={onClearDateFromClick} />
       <NodeInput value={to} error={!node.value?.to} onClearButtonClick={onClearDateToClick} />
     </Node>
