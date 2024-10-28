@@ -11,6 +11,7 @@ import { planetSchema } from './data-sets/planet.schema';
 const notDisplayedErrorMessage = '';
 
 export const dataSetsSearchInitialSchema = z.object({
+  status: z.union([z.literal('initial'), z.literal('updated')]),
   copernicus: copernicusInitialSchema,
   planet: planetSchema,
 });
@@ -21,6 +22,7 @@ export const dataSetsSearchUpdateSchema = z.object({
 });
 
 export const dataSetsActionCreatorInitialSchema = z.object({
+  status: z.union([z.literal('initial'), z.literal('updated')]),
   copernicus: copernicusInitialSchema,
   auxiliary: auxiliaryInitialSchema,
   planet: planetSchema,

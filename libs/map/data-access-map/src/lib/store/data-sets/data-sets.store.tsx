@@ -10,11 +10,11 @@ import { defaultState, TDataSetsState, TDataSetsStore, TDataSetsStoreState, TSch
 export const useDataSetsStore = create<TDataSetsStore>()(
   devtools((set) => ({
     ...defaultState,
-    updateDataSets: (dataSets: TDataSetsDefaultValues | undefined) =>
+    updateDataSets: (dataSets: Omit<TDataSetsDefaultValues, 'status'> | undefined) =>
       set((state) => {
         return isEqual(dataSets, state.dataSets)
           ? state
-          : { dataSets: dataSets ? cloneDeep(dataSets) : defaultState.dataSets };
+          : { dataSets: dataSets ? { ...cloneDeep(dataSets), status: 'updated' } : defaultState.dataSets };
       }),
     changeSchema: (schema: TSchema) => set(() => ({ schema })),
     changeState: (state: TDataSetsState) => set(() => ({ state })),
