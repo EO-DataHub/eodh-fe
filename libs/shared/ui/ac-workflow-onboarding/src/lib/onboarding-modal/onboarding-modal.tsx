@@ -43,6 +43,8 @@ export const OnboardingModal = () => {
     reset();
   }, [reset]);
 
+  return;
+
   if (!isOpen || permanentHidden) {
     return;
   }
