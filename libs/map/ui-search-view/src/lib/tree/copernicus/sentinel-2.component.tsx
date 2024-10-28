@@ -23,6 +23,7 @@ export const Sentinel2 = () => {
       <TreeItem
         title='MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE'
         expandable={false}
+        disabled={isDisabled(false, 'data-sets')}
         level={1}
       >
         <Slider

@@ -28,17 +28,22 @@ const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
   return useMemo(() => {
     const options = getOptions(data);
 
-    if (!node.selected && !node.value) {
-      return <EmptyNode node={node} />;
-    } else if (isLoading) {
-      return <LoadingNode node={node} />;
-    } else if (node.selected && !node.value) {
-      return <ActiveNode node={node} options={options} onChange={onChange} />;
-    } else if (node.value) {
-      return <ValueNode node={node} options={options} onChange={onChange} />;
-    }
+    switch (node.state) {
+      case 'initial': {
+        return <EmptyNode node={node} />;
+      }
 
-    return <EmptyNode node={node} />;
+      case 'active':
+      case 'not-active': {
+        if (isLoading) {
+          return <LoadingNode node={node} />;
+        } else if (!node.value) {
+          return <ActiveNode node={node} options={options} onChange={onChange} />;
+        }
+
+        return <ValueNode node={node} options={options} onChange={onChange} />;
+      }
+    }
   }, [data, node, onChange, isLoading]);
 };
 
@@ -62,7 +67,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
 
   const updateFunction = useCallback(
     (value: string | undefined | null) => {
-      if (node.selected) {
+      if (node.state === 'active') {
         setValue(node, value);
       }
     },

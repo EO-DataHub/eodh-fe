@@ -10,6 +10,7 @@ const isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() 
 
 const isPolygon = (geometry: Geometry): geometry is Polygon => geometry.getType() === 'Polygon';
 
+// todo this code is repeated in data-access-stac-catalog. We should figure it out in the future how to not repeat it
 export const getIntersects = (aoi: Geometry | undefined): TGeometry | undefined => {
   if (!aoi) {
     return undefined;

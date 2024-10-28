@@ -16,15 +16,20 @@ const Node = ({ node, onClearButtonClick }: TNodeProps) => {
   const { t } = useTranslation();
 
   return useMemo(() => {
-    if (!node.selected && !node.value) {
-      return <EmptyNode node={node} />;
-    } else if (node.selected && !node.value) {
-      return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.INSTRUCTIONS')} />;
-    } else if (node.value) {
-      return <ValueNode node={node} onClearButtonClick={onClearButtonClick} />;
-    }
+    switch (node.state) {
+      case 'initial': {
+        return <EmptyNode node={node} />;
+      }
 
-    return <EmptyNode node={node} />;
+      case 'active':
+      case 'not-active': {
+        if (!node.value) {
+          return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.INSTRUCTIONS')} />;
+        }
+
+        return <ValueNode node={node} onClearButtonClick={onClearButtonClick} />;
+      }
+    }
   }, [node, onClearButtonClick, t]);
 };
 
@@ -49,10 +54,10 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   }, [setShape]);
 
   useEffect(() => {
-    if (node.selected) {
+    if (node.state !== 'initial') {
       setValue(node, getCoordinates(shape));
     }
-  }, [node.selected, shape, setValue, node]);
+  }, [node.state, shape, setValue, node]);
 
   if (!node.tooltip) {
     return (

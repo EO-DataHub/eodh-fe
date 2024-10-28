@@ -16,17 +16,22 @@ const Node = ({ node, onClearDateFromClick, onClearDateToClick }: TNodeProps) =>
   const { t } = useTranslation();
 
   return useMemo(() => {
-    if (!node.selected && !node.value) {
-      return <EmptyNode node={node} />;
-    } else if (node.selected && !node.value?.from && !node.value?.to) {
-      return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATE_RANGE.INSTRUCTIONS')} />;
-    } else if (node.value?.from || node.value?.to) {
-      return (
-        <ValueNode node={node} onClearDateFromClick={onClearDateFromClick} onClearDateToClick={onClearDateToClick} />
-      );
-    }
+    switch (node.state) {
+      case 'initial': {
+        return <EmptyNode node={node} />;
+      }
 
-    return <EmptyNode node={node} />;
+      case 'active':
+      case 'not-active': {
+        if (!node.value?.from && !node.value?.to) {
+          return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATE_RANGE.INSTRUCTIONS')} />;
+        }
+
+        return (
+          <ValueNode node={node} onClearDateFromClick={onClearDateFromClick} onClearDateToClick={onClearDateToClick} />
+        );
+      }
+    }
   }, [node, t, onClearDateFromClick, onClearDateToClick]);
 };
 
@@ -54,11 +59,11 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   }, [date?.from, updateDate]);
 
   useEffect(() => {
-    if (node.selected) {
+    if (node.state !== 'initial') {
       const newDate = !date?.from && !date?.to ? undefined : { from: date?.from, to: date?.to };
       setValue(node, newDate);
     }
-  }, [node.selected, setValue, node, date?.from, date?.to]);
+  }, [node.state, setValue, node, date?.from, date?.to]);
 
   return (
     <div onClick={activateNode}>
