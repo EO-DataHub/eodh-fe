@@ -27,7 +27,7 @@ const presetSchema = z
     preset: z.boolean(),
     identifier: z.string(),
     description: z.string().optional(),
-    thumbnail_b64: z.string().optional(),
+    thumbnail_b64: z.string().nullish(),
     inputs: z.object({
       stac_collection: z
         .object({
@@ -47,7 +47,7 @@ const presetSchema = z
     identifier: data.identifier,
     name: data.name,
     description: data.description,
-    imageUrl: data.thumbnail_b64 && `data:image/jpeg;base64,${data.thumbnail_b64}`,
+    imageUrl: data.thumbnail_b64 ? `data:image/jpeg;base64,${data.thumbnail_b64}` : undefined,
     defaultValues: {
       dataSet: data.inputs.stac_collection?.default,
       function: data.identifier,
