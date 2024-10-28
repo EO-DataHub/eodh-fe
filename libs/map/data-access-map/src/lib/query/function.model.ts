@@ -44,7 +44,13 @@ const inputSchema = z.union([booleanSchema, stringSchema, numberSchema, dateTime
 const functionSchema = z
   .object({
     name: z.string(),
-    identifier: z.string(),
+    identifier: z.union([
+      z.literal('raster-calculate'),
+      z.literal('lulc-change'),
+      z.literal('water-quality'),
+      z.literal('clip'),
+      z.string(),
+    ]),
     preset: z.boolean(),
     description: z.string().optional(),
     thumbnail_b64: z.string(),

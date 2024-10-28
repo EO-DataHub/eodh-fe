@@ -26,7 +26,7 @@ const Node = ({ node, error, onClearButtonClick }: TNodeProps) => {
       case 'active':
       case 'not-active': {
         if (!node.value && !error) {
-          return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.INSTRUCTIONS')} />;
+          return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.INSTRUCTIONS')} />;
         }
 
         return <ValueNode node={node} error={error} onClearButtonClick={onClearButtonClick} />;
