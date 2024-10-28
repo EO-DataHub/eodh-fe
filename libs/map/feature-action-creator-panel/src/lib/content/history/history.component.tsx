@@ -1,3 +1,4 @@
+// import { useSearchMode } from '@ukri/map/feature-search-mode-panel';
 import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
@@ -22,21 +23,21 @@ const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
 );
 export const History = () => {
   const [selectedResult, setSelectedResult] = useState<string | null>(null);
-  const { displayWorkflowResults } = useSearchMode();
+  // const { displayWorkflowResults } = useSearchMode();
   const { allResults, handleSortChange, loadMore, data, error, isPending, isFetching, refetch, sortKey } =
     useHistoryData();
 
-  const onViewResult = useCallback(
-    (submissionId: string) => {
-      setSelectedResult(submissionId);
-      displayWorkflowResults();
-    },
-    [displayWorkflowResults]
-  );
+  // const onViewResult = useCallback(
+  //   (submissionId: string) => {
+  //     setSelectedResult(submissionId);
+  //     displayWorkflowResults();
+  //   },
+  //   [displayWorkflowResults]
+  // );
 
-  const onHideResult = useCallback(() => {
-    setSelectedResult(null);
-  }, []);
+  // const onHideResult = useCallback(() => {
+  //   setSelectedResult(null);
+  // }, []);
 
   if ((isPending || isFetching) && allResults.length === 0) {
     return (
@@ -80,8 +81,10 @@ export const History = () => {
               submittedAtDate={workflow.submittedAtDate}
               status={workflow.status}
               selected={selectedResult === workflow.submissionId}
-              onViewResult={onViewResult}
-              onHideResult={onHideResult}
+              onHideResult={() => setSelectedResult(null)}
+              onViewResult={() => setSelectedResult(workflow.submissionId)}
+              // onViewResult={onViewResult}
+              // onHideResult={onHideResult}
               className='mt-5'
             />
           ))}
