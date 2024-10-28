@@ -1,6 +1,7 @@
 import { TFunction, TFunctionNode, useActionCreator, useFunctions } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { EmptyNode } from '../empty-node.component';
 import { TOption } from '../node-select.component';
@@ -8,13 +9,40 @@ import { ActiveNode } from './active-node.component';
 import { LoadingNode } from './loading-node.component';
 import { ValueNode } from './value-node.component';
 
-const getOptions = (data: { standalone: boolean; identifier: string; name: string }[] | undefined): TOption[] => {
-  return (data || [])
-    ?.filter((item) => item.standalone)
-    .map((item) => ({
-      value: item.identifier,
-      label: item.name,
-    }));
+type TFunctionIdentifier = 'raster-calculate' | 'lulc-change' | 'water-quality' | 'clip' | string;
+
+const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier) => {
+  switch (functionIdentifier) {
+    case 'raster-calculate': {
+      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.RASTER_CALCULATOR';
+    }
+
+    case 'lulc-change': {
+      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.LAND_COVER_CHANGES';
+    }
+
+    case 'water-quality': {
+      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.WATER_QUALITY';
+    }
+
+    case 'clip': {
+      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.CLIP';
+    }
+  }
+
+  return null;
+};
+
+const useOptions = () => {
+  const { t } = useTranslation();
+
+  return (data: { standalone: boolean; identifier: string; name: string }[] | undefined): TOption[] =>
+    (data || [])
+      ?.filter((item) => item.standalone)
+      .map((item) => ({
+        value: item.identifier,
+        label: t(getFunctionTranslationKey(item.identifier) || ''),
+      }));
 };
 
 type TNodeProps = {
@@ -25,6 +53,8 @@ type TNodeProps = {
 };
 
 const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
+  const getOptions = useOptions();
+
   return useMemo(() => {
     const options = getOptions(data);
 
@@ -44,7 +74,7 @@ const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
         return <ValueNode node={node} options={options} onChange={onChange} />;
       }
     }
-  }, [data, node, onChange, isLoading]);
+  }, [data, node, onChange, isLoading, getOptions]);
 };
 
 interface IFunctionNodeProps {

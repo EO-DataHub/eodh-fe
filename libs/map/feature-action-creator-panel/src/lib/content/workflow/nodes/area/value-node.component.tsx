@@ -67,13 +67,13 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
   return (
     <Node
       type={node.type}
-      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.DESCRIPTION'), node.value, 'miles')}
+      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, 'miles')}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
     >
       <NodeInput
         iconName={getIconFromShape(node.value)}
-        value={t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.DEFAULT_VALUE')}
+        value={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DEFAULT_VALUE')}
         onClearButtonClick={onClearButtonClick}
       />
     </Node>

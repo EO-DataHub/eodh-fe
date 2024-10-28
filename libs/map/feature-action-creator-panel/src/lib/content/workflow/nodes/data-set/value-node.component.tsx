@@ -9,35 +9,35 @@ const useNodeTranslation = (node: TValueNodeProps['node']) => {
 
   switch (node.value) {
     case 'sentinel-1': {
-      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_1');
+      return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_1');
     }
 
     case 'sentinel-2-l1c': {
-      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_2');
+      return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_2');
     }
 
     case 'sentinel-2-l2a': {
-      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_2');
+      return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_2');
     }
 
     case 'sentinel-3': {
-      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_3');
+      return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_3');
     }
 
     case 'sentinel-5p': {
-      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.SENTINEL_5P');
+      return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_5P');
     }
 
     case 'esacci-globallc': {
-      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.AUXILIARY.GLOBAL_LAND_COVER');
+      return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.AUXILIARY.GLOBAL_LAND_COVER');
     }
 
     case 'clms-corinelc': {
-      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.AUXILIARY.CORINE_LAND_COVER');
+      return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.AUXILIARY.CORINE_LAND_COVER');
     }
 
     case 'clms-water-bodies': {
-      return t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.AUXILIARY.WATER_BODIES');
+      return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.AUXILIARY.WATER_BODIES');
     }
   }
 

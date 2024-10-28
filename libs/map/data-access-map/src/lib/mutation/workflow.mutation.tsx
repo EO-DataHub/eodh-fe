@@ -1,11 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import { TDateString } from '@ukri/shared/utils/date';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
+import { AxiosError } from 'axios';
 
 import { paths } from '../api';
 import { TCoordinate } from '../store/aoi/aoi.model';
 import { createGeometry } from '../store/aoi/geometry';
 import { getIntersects, TGeometry } from './get-intersects';
+import { IErrorResponse, useWorkflowMessage } from './workflow.error';
 import { TWorkflowCreated, workflowCreatedSchema } from './workflow.model';
 
 type TWorkflowCreateParams = {
@@ -51,7 +53,10 @@ const createWorkflow = async (params: TWorkflowCreateParams): Promise<TWorkflowC
 };
 
 export const useCreateWorkflow = () => {
+  const { showErrorMessage } = useWorkflowMessage();
+
   return useMutation({
     mutationFn: createWorkflow,
+    onError: (error: AxiosError<IErrorResponse>) => showErrorMessage(error),
   });
 };
