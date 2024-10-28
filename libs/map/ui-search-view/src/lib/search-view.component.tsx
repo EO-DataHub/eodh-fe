@@ -46,11 +46,18 @@ export const SearchView = ({
 
   useEffect(() => {
     const { aoi, ...rest } = { ...form.getValues(), ...form.watch() };
+
     if (defaultValues && !isEqual(rest, defaultValues)) {
       const data = cloneDeep(defaultValues);
       form.reset({ dataSets: data.dataSets, date: data.date, aoi: shape?.shape }, { keepDefaultValues: true });
+
+      if (state === 'edit') {
+        form.trigger();
+      } else {
+        form.clearErrors();
+      }
     }
-  }, [form, defaultValues, shape?.shape]);
+  }, [form, defaultValues, shape?.shape, state]);
 
   return (
     <SearchViewProvider state={state}>
