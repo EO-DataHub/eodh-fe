@@ -13,13 +13,6 @@ const stringSchema = z.object({
   options: z.array(z.string()),
 });
 
-const collectionSchema = z.object({
-  type: z.literal('string'),
-  required: z.boolean(),
-  default: z.string(),
-  options: z.array(z.string()),
-});
-
 const numberSchema = z.object({
   type: z.literal('number'),
   required: z.boolean(),
@@ -34,9 +27,16 @@ const presetSchema = z
     preset: z.boolean(),
     identifier: z.string(),
     description: z.string().optional(),
-    thumbnail_b64: z.string(),
+    thumbnail_b64: z.string().optional(),
     inputs: z.object({
-      stac_collection: collectionSchema.optional(),
+      stac_collection: z
+        .object({
+          type: z.literal('string'),
+          required: z.boolean(),
+          default: z.string(),
+          options: z.array(z.string()),
+        })
+        .optional(),
       calibrate: inputSchema.optional(),
       index: inputSchema.optional(),
       limit: inputSchema.optional(),
