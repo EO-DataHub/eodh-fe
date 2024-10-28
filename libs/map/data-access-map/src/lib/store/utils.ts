@@ -56,11 +56,20 @@ export type TLoadPresetProps = {
 
 export const loadPreset = ({ dataSet, functionName }: TLoadPresetProps) => {
   const nodes: TNode[] = defaultNodes.map((node) => {
-    if (node.type === 'function') {
-      return { ...node, state: 'not-active', value: functionName };
-    }
+    switch (node.type) {
+      case 'area':
+      case 'dateRange': {
+        return { ...node, state: 'initial' };
+      }
 
-    return { ...node, state: 'not-active' };
+      case 'dataSet': {
+        return { ...node, state: 'not-active' };
+      }
+
+      case 'function': {
+        return { ...node, state: 'not-active', value: functionName };
+      }
+    }
   });
 
   useAoiStore.getState().setShape(undefined);
