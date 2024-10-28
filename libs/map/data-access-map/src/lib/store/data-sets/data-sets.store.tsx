@@ -4,7 +4,7 @@ import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { TDataSetsDefaultValues } from './data-sets.default-values';
+import { dataSets, TDataSetsDefaultValues } from './data-sets.default-values';
 import {
   defaultState,
   TDataSetsState,
@@ -23,9 +23,9 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
 
       return {
         dataSets: {
-          ...state.dataSets,
+          ...dataSets,
           copernicus: {
-            ...state.dataSets.copernicus,
+            ...dataSets.copernicus,
             sentinel1: {
               ...state.dataSets.copernicus.sentinel1,
               enabled: true,
@@ -40,13 +40,17 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
         return state;
       }
 
+      const sentinel2 = dataSets.copernicus.sentinel2
+        ? dataSets.copernicus.sentinel2
+        : state.dataSets.copernicus.sentinel2;
+
       return {
         dataSets: {
-          ...state.dataSets,
+          ...dataSets,
           copernicus: {
-            ...state.dataSets.copernicus,
+            ...dataSets.copernicus,
             sentinel2: {
-              ...state.dataSets.copernicus.sentinel2,
+              ...sentinel2,
               enabled: true,
               expanded: true,
               l1c: true,
@@ -62,13 +66,17 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
         return state;
       }
 
+      const sentinel2 = dataSets.copernicus.sentinel2
+        ? dataSets.copernicus.sentinel2
+        : state.dataSets.copernicus.sentinel2;
+
       return {
         dataSets: {
-          ...state.dataSets,
+          ...dataSets,
           copernicus: {
-            ...state.dataSets.copernicus,
+            ...dataSets.copernicus,
             sentinel2: {
-              ...state.dataSets.copernicus.sentinel2,
+              ...sentinel2,
               enabled: true,
               expanded: true,
               l1c: false,
@@ -84,13 +92,17 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
         return state;
       }
 
+      const sentinel3 = dataSets.copernicus.sentinel3
+        ? dataSets.copernicus.sentinel3
+        : state.dataSets.copernicus.sentinel3;
+
       return {
         dataSets: {
-          ...state.dataSets,
+          ...dataSets,
           copernicus: {
-            ...state.dataSets.copernicus,
+            ...dataSets.copernicus,
             sentinel3: {
-              ...state.dataSets.copernicus.sentinel3,
+              ...sentinel3,
               enabled: true,
             },
           },
@@ -103,13 +115,17 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
         return state;
       }
 
+      const sentinel5P = dataSets.copernicus.sentinel5P
+        ? dataSets.copernicus.sentinel5P
+        : state.dataSets.copernicus.sentinel5P;
+
       return {
         dataSets: {
-          ...state.dataSets,
+          ...dataSets,
           copernicus: {
-            ...state.dataSets.copernicus,
+            ...dataSets.copernicus,
             sentinel5P: {
-              ...state.dataSets.copernicus.sentinel5P,
+              ...sentinel5P,
               enabled: true,
             },
           },
@@ -122,13 +138,17 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
         return state;
       }
 
+      const esacciGloballc = dataSets.auxiliary?.esacciGloballc
+        ? dataSets.auxiliary?.esacciGloballc
+        : state.dataSets.auxiliary?.esacciGloballc;
+
       return {
         dataSets: {
-          ...state.dataSets,
+          ...dataSets,
           auxiliary: {
-            ...state.dataSets.auxiliary,
+            ...dataSets.auxiliary,
             esacciGloballc: {
-              ...state.dataSets.auxiliary?.esacciGloballc,
+              ...esacciGloballc,
               enabled: true,
             },
           },
@@ -141,13 +161,17 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
         return state;
       }
 
+      const clmsCorinelc = dataSets.auxiliary?.clmsCorinelc
+        ? dataSets.auxiliary?.clmsCorinelc
+        : state.dataSets.auxiliary?.clmsCorinelc;
+
       return {
         dataSets: {
-          ...state.dataSets,
+          ...dataSets,
           auxiliary: {
-            ...state.dataSets.auxiliary,
+            ...dataSets.auxiliary,
             clmsCorinelc: {
-              ...state.dataSets.auxiliary?.clmsCorinelc,
+              ...clmsCorinelc,
               enabled: true,
             },
           },
@@ -160,13 +184,17 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
         return state;
       }
 
+      const clmsWaterBodies = dataSets.auxiliary?.clmsWaterBodies
+        ? dataSets.auxiliary?.clmsWaterBodies
+        : state.dataSets.auxiliary?.clmsWaterBodies;
+
       return {
         dataSets: {
-          ...state.dataSets,
+          ...dataSets,
           auxiliary: {
-            ...state.dataSets.auxiliary,
+            ...dataSets.auxiliary,
             clmsWaterBodies: {
-              ...state.dataSets.auxiliary?.clmsWaterBodies,
+              ...clmsWaterBodies,
               enabled: true,
             },
           },

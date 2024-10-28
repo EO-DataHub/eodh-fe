@@ -63,6 +63,8 @@ export const loadPreset = ({ dataSet, functionName }: TLoadPresetProps) => {
     return { ...node, state: 'not-active' };
   });
 
+  useAoiStore.getState().setShape(undefined);
   useDataSetsStore.getState().enableDataSet(dataSet);
+  useDateStore.getState().reset();
   useActionCreatorStore.getState().setNodes(nodes);
 };
