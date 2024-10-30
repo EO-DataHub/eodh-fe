@@ -11,7 +11,19 @@ export interface IWorkflowResultsParams {
 
 const getWorkflowResults = async ({ jobId, userWorkspace }: IWorkflowResultsParams): Promise<TCollection> => {
   const url = paths.WORKFLOW_RESULT.replace('{user_workspace}', userWorkspace ?? '').replace('{job_id}', jobId ?? '');
-  const response = await getHttpClient().get(url);
+
+  const requestBody = {
+    collections: [`col_${jobId}`],
+    limit: 10,
+    sortby: [
+      {
+        field: 'properties.datetime',
+        direction: 'desc',
+      },
+    ],
+    'filter-lang': 'cql-json',
+  };
+  const response = await getHttpClient().post(url, requestBody);
 
   return collectionSchema.parse(response);
 };
