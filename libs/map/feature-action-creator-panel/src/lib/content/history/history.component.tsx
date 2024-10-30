@@ -1,6 +1,5 @@
-// import { useSearchMode } from '@ukri/map/feature-search-mode-panel';
 import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { Container, Content, Footer } from '../container.component';
 import { HistoryTile } from './history-tile/history-tile.component';
@@ -23,21 +22,8 @@ const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
 );
 export const History = () => {
   const [selectedResult, setSelectedResult] = useState<string | null>(null);
-  // const { displayWorkflowResults } = useSearchMode();
   const { allResults, handleSortChange, loadMore, data, error, isPending, isFetching, refetch, sortKey } =
     useHistoryData();
-
-  // const onViewResult = useCallback(
-  //   (submissionId: string) => {
-  //     setSelectedResult(submissionId);
-  //     displayWorkflowResults();
-  //   },
-  //   [displayWorkflowResults]
-  // );
-
-  // const onHideResult = useCallback(() => {
-  //   setSelectedResult(null);
-  // }, []);
 
   if ((isPending || isFetching) && allResults.length === 0) {
     return (

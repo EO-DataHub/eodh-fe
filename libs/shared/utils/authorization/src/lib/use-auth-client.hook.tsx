@@ -1,12 +1,18 @@
+import { jwtDecode } from 'jwt-decode';
 import { KeycloakError, KeycloakInitOptions } from 'keycloak-js';
 import { useCallback, useEffect, useState } from 'react';
 
 import { IAuthAdapter, TAuthClientEvent, TAuthClientTokens } from './types';
 
+interface IDecodedToken {
+  preferred_username: string;
+}
+
 type TState = {
   initialized: boolean;
   isAuthenticated: boolean;
   isLoading: boolean;
+  userWorkspace?: string;
 };
 
 type TUseAuthProps = {
@@ -20,11 +26,26 @@ type TUseAuthProps = {
 const isUserAuthenticated = (authClient: IAuthAdapter) =>
   !!authClient.getToken().idToken && !!authClient.getToken().token;
 
+const userWorkspace = (authClient: IAuthAdapter) => {
+  const token = authClient.getToken().token;
+  if (token) {
+    try {
+      const decoded = jwtDecode<IDecodedToken>(token);
+      return decoded.preferred_username;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error decoding token:', error);
+    }
+  }
+  return undefined;
+};
+
 export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, autoRefreshToken }: TUseAuthProps) => {
   const [state, setState] = useState<TState>({
     initialized: false,
     isAuthenticated: false,
     isLoading: true,
+    userWorkspace: undefined,
   });
 
   const updateState = useCallback(
@@ -42,6 +63,7 @@ export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, auto
           initialized: true,
           isAuthenticated,
           isLoading,
+          userWorkspace: userWorkspace(authClient),
         });
       }
 
@@ -104,5 +126,6 @@ export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, auto
     initialized: state.initialized,
     isAuthenticated: state.isAuthenticated,
     isLoading: state.isLoading,
+    userWorkspace: state.userWorkspace,
   };
 };

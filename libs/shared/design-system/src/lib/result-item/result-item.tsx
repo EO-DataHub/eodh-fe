@@ -1,3 +1,4 @@
+import { formatDate, formatHour, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -12,7 +13,7 @@ interface IResultItemInfoProps {
 
 const ResultItemInfo = ({ value, iconName }: IResultItemInfoProps) => {
   return (
-    <span className='flex mb-1'>
+    <span className='flex items-start mb-1'>
       <Icon name={iconName} width={16} height={16} className='mr-1.5' />
       <Text type='span' content={value} translate={false} fontSize='medium' fontWeight='regular' />
     </span>
@@ -83,8 +84,8 @@ export const ResultItem = ({
   onRemoveFromCompare,
 }: IResultItemProps) => {
   const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
-  const time = useMemo(() => `${new Date(dateTime).getHours()}:${new Date(dateTime).getMinutes()}`, [dateTime]);
-  const date = useMemo(() => new Date(dateTime).toISOString().split('T')[0], [dateTime]);
+  const time = useMemo(() => formatHour(dateTime as TDateTimeString), [dateTime]);
+  const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
 
   const handleCompareClick = useCallback(() => {
     if (!isAddedForComparison && onAddToCompare) {
@@ -110,8 +111,8 @@ export const ResultItem = ({
       <div className='ml-2.5 text-text w-full flex flex-col h-auto'>
         <div className='flex-grow'>
           <ResultItemInfo value={collectionName} iconName='Satellite' />
-          <ResultItemInfo value={date} iconName='Calendar' />
-          <ResultItemInfo value={time} iconName='Schedule' />
+          <ResultItemInfo value={date ?? ''} iconName='Calendar' />
+          <ResultItemInfo value={time ?? ''} iconName='Schedule' />
           {cloudCoverageValue && <ResultItemInfo value={cloudCoverageValue} iconName='Cloud' />}
           {gridCode && <ResultItemInfo value={gridCode} iconName='Map' />}
         </div>

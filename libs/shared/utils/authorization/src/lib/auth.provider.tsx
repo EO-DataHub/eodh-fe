@@ -16,7 +16,7 @@ type TAuthProvider = PropsWithChildren<{
 
 export const AuthProvider = memo(
   ({ children, LoadingComponent, onEvent, onTokens, initOptions, adapter, autoRefreshToken = true }: TAuthProvider) => {
-    const { initialized, isLoading, isAuthenticated } = useAuthClient({
+    const { initialized, isLoading, isAuthenticated, userWorkspace } = useAuthClient({
       authClient: adapter,
       onEvent,
       onTokens,
@@ -29,7 +29,7 @@ export const AuthProvider = memo(
     }
 
     return (
-      <AuthContext.Provider value={{ initialized, authClient: adapter, authenticated: isAuthenticated }}>
+      <AuthContext.Provider value={{ initialized, authClient: adapter, authenticated: isAuthenticated, userWorkspace }}>
         {children}
       </AuthContext.Provider>
     );

@@ -1,11 +1,7 @@
-import { useGetWorkflowResult } from '@ukri/map/data-access-map';
-// import { useSearchMode } from '@ukri/map/feature-search-mode-panel';
 import { Button, Text } from '@ukri/shared/design-system';
-import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
+import { useHistoryTile } from './history-tile.hook';
 import { historyTileStyles } from './history-tile.styles';
 
 interface IBasicButtonProps {
@@ -78,25 +74,8 @@ export const HistoryTile = ({
   onViewResult,
   onHideResult,
 }: IHistoryTileProps) => {
-  const [jobId, setJobId] = useState<string | null>(null);
-  const { t } = useTranslation();
-
-  // const { displayWorkflowResults } = useSearchMode();
-  const { isPending, isFetching } = useGetWorkflowResult({ jobId });
-
-  const submittedHour = formatHour(createDateString(submittedAtDate));
-
-  const submittedDate = formatDate(createDateString(submittedAtDate), 'DD-MM-YY');
-
-  const handleSeeResults = () => {
-    onViewResult(workflowId);
-    setJobId(workflowId);
-  };
-
-  const handleHideResults = () => {
-    onHideResult();
-    setJobId(null);
-  };
+  const { isPending, isFetching, submittedHour, submittedDate, handleSeeResults, handleHideResults, t } =
+    useHistoryTile(workflowId, submittedAtDate, onViewResult, onHideResult);
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
