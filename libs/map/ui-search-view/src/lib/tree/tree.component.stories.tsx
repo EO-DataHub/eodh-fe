@@ -19,6 +19,7 @@ const oneMonthAgo = () => {
 
 export const defaultValues: TInitialForm = {
   dataSets: {
+    status: 'initial',
     copernicus: {
       enabled: false,
       sentinel1: {

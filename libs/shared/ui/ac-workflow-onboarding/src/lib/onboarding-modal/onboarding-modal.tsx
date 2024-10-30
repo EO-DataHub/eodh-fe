@@ -17,7 +17,7 @@ const defaultValues: TOnboardingForm = {
 const contentPath = 'MAP.ACTION_CREATOR_PANEL.ONBOARDING.MODAL';
 
 export const OnboardingModal = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const { register, handleSubmit, reset, watch } = useForm<TOnboardingForm>({ defaultValues });
   const { t } = useTranslation();
   const {
@@ -42,6 +42,8 @@ export const OnboardingModal = () => {
   useEffect(() => {
     reset();
   }, [reset]);
+
+  return;
 
   if (!isOpen || permanentHidden) {
     return;

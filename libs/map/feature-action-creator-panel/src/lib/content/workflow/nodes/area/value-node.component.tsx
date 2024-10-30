@@ -69,7 +69,7 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
       type={node.type}
       text={formatArea(t('MAP.ACTION_CREATOR_PANEL.NODE.AREA.DESCRIPTION'), node.value, 'miles')}
       clickable={canActivateNode(node)}
-      selected={node.selected}
+      selected={node.state === 'active'}
     >
       <NodeInput
         iconName={getIconFromShape(node.value)}

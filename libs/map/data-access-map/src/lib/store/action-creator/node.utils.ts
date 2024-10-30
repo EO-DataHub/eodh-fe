@@ -21,7 +21,7 @@ export const canActivate = (nodes: TNode[], node: TNode) => {
     const nextNodeValue = getNextNodes(nodes, index + 1).some(nodeHasValue);
     const currentNodeValue = nodeHasValue(currentNode);
 
-    return isCurrentNode && (currentNode.selected || currentNodeValue || prevNodeValue || nextNodeValue);
+    return isCurrentNode && (currentNode.state === 'active' || currentNodeValue || prevNodeValue || nextNodeValue);
   });
 };
 

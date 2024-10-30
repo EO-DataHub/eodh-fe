@@ -1,4 +1,5 @@
 export type TDataSetsDefaultValues = {
+  status: 'initial' | 'updated';
   copernicus: {
     enabled: boolean;
     sentinel1?: {
@@ -76,6 +77,7 @@ export type TDataSetsDefaultValues = {
 };
 
 export const dataSets: TDataSetsDefaultValues = {
+  status: 'initial',
   copernicus: {
     enabled: false,
     sentinel1: {

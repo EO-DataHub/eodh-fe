@@ -55,7 +55,7 @@ export const ValueNode = ({ error, node, onClearButtonClick }: TValueNodeProps) 
   const value = useNodeTranslation(node);
 
   return (
-    <Node type={node.type} clickable={canActivateNode(node)} selected={node.selected}>
+    <Node type={node.type} clickable={canActivateNode(node)} selected={node.state === 'active'}>
       <NodeInput iconName='Satellite' value={value} error={error} onClearButtonClick={onClearButtonClick} />
     </Node>
   );

@@ -18,15 +18,20 @@ const Node = ({ node, error, onClearButtonClick }: TNodeProps) => {
   const { t } = useTranslation();
 
   return useMemo(() => {
-    if (!node.selected && !node.value) {
-      return <EmptyNode node={node} />;
-    } else if (node.selected && !node.value && !error) {
-      return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.INSTRUCTIONS')} />;
-    } else if (node.value || error) {
-      return <ValueNode node={node} error={error} onClearButtonClick={onClearButtonClick} />;
-    }
+    switch (node.state) {
+      case 'initial': {
+        return <EmptyNode node={node} />;
+      }
 
-    return <EmptyNode node={node} />;
+      case 'active':
+      case 'not-active': {
+        if (!node.value && !error) {
+          return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.NODE.DATA_SET.INSTRUCTIONS')} />;
+        }
+
+        return <ValueNode node={node} error={error} onClearButtonClick={onClearButtonClick} />;
+      }
+    }
   }, [error, node, onClearButtonClick, t]);
 };
 
@@ -51,10 +56,10 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
   }, [updateDataSets]);
 
   useEffect(() => {
-    if (node.selected) {
+    if (node.state !== 'initial') {
       setValue(node, dataSet);
     }
-  }, [node.selected, dataSet, setValue, node]);
+  }, [node.state, dataSet, setValue, node]);
 
   if (!node.tooltip) {
     return (

@@ -10,5 +10,5 @@ type TActiveNodeProps = {
 export const ActiveNode = ({ text, node }: TActiveNodeProps) => {
   const { canActivateNode } = useActionCreator();
 
-  return <Node type={node.type} text={text} clickable={canActivateNode(node)} selected={node.selected} />;
+  return <Node type={node.type} text={text} clickable={canActivateNode(node)} selected={node.state === 'active'} />;
 };

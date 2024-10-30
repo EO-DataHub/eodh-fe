@@ -13,7 +13,7 @@ export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {
   const { canActivateNode } = useActionCreator();
 
   return (
-    <Node type={node.type} clickable={canActivateNode(node)} selected={node.selected}>
+    <Node type={node.type} clickable={canActivateNode(node)} selected={node.state === 'active'}>
       <NodeSelect value={undefined} options={options} onChange={onChange} />
     </Node>
   );

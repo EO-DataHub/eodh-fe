@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react';
 import { presetStyles } from './preset.styles';
 
 interface IImageProps {
-  imageUrl: string;
+  imageUrl: string | undefined;
 }
 
 const Image = ({ imageUrl }: IImageProps) => {
@@ -15,7 +15,7 @@ const Image = ({ imageUrl }: IImageProps) => {
     setDislayError(true);
   }, []);
 
-  if (displayError) {
+  if (!imageUrl || displayError) {
     return (
       <div className={presetStyles.errorContainer}>
         <Icon name='HideImage' />
@@ -31,7 +31,7 @@ const Image = ({ imageUrl }: IImageProps) => {
 };
 
 export interface IResultItemProps {
-  imageUrl: string;
+  imageUrl: string | undefined;
   title: string;
   description?: string;
   onLoadPresetClick: () => void;

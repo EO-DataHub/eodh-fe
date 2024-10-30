@@ -13,19 +13,20 @@ export type TDataSetValue =
   | 'clms-corinelc'
   | 'clms-water-bodies';
 
-type TBaseNode = { id: string; selected: boolean };
+type TBaseNodeState = 'initial' | 'active' | 'not-active';
+
+type TBaseNode = { id: string; tooltip: boolean; state: TBaseNodeState };
 
 export type TDataSetsNode = TBaseNode & {
   type: 'dataSet';
   value: TDataSetValue | undefined | null;
-  tooltip: boolean;
 };
 
-export type TAreaNode = TBaseNode & { type: 'area'; value: TCoordinate | undefined; tooltip: boolean };
+export type TAreaNode = TBaseNode & { type: 'area'; value: TCoordinate | undefined };
 
-export type TDateRangeNode = TBaseNode & { type: 'dateRange'; value: TDateValues['date'] | undefined };
+export type TDateRangeNode = Omit<TBaseNode, 'tooltip'> & { type: 'dateRange'; value: TDateValues['date'] | undefined };
 
-export type TFunctionNode = TBaseNode & { type: 'function'; value: string | undefined; tooltip: boolean };
+export type TFunctionNode = TBaseNode & { type: 'function'; value: string | undefined };
 
 export type TNode = TAreaNode | TDataSetsNode | TDateRangeNode | TFunctionNode;
 
@@ -47,29 +48,29 @@ export const defaultNodes: TNode[] = [
   {
     id: 'area-1',
     type: 'area',
+    state: 'initial',
     value: undefined,
     tooltip: true,
-    selected: false,
   },
   {
     id: 'data-set-1',
     type: 'dataSet',
+    state: 'initial',
     value: undefined,
     tooltip: true,
-    selected: false,
   },
   {
     id: 'date-1',
     type: 'dateRange',
+    state: 'initial',
     value: undefined,
-    selected: false,
   },
   {
     id: 'function-1',
     type: 'function',
+    state: 'initial',
     value: undefined,
     tooltip: true,
-    selected: false,
   },
 ];
 
