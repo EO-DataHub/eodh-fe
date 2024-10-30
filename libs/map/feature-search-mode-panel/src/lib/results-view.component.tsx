@@ -5,7 +5,7 @@ import { PropsWithChildren } from 'react';
 type TResultsViewProps = {
   status: 'pending' | 'error' | 'success';
   data: TCollection | undefined;
-  onBack: () => void;
+  onBack?: () => void;
 };
 
 export const ResultsView = ({ status, data, onBack, children }: PropsWithChildren<TResultsViewProps>) => {

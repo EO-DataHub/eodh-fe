@@ -6,7 +6,19 @@ import { ResultsView } from './results-view.component';
 import { useSearchMode } from './use-search-mode.hook';
 
 export const SearchModePanel = () => {
-  const { schema, data, state, status, values, updateState, view, changeToSearchView, search } = useSearchMode();
+  const {
+    schema,
+    data,
+    state,
+    status,
+    values,
+    updateState,
+    view,
+    changeToSearchView,
+    search,
+    acWorkflowResultsData,
+    acResultsStatus,
+  } = useSearchMode();
 
   switch (view) {
     case 'results': {
@@ -28,7 +40,24 @@ export const SearchModePanel = () => {
       );
     }
 
+    case 'acResultsView': {
+      return (
+        <ResultsView status={acResultsStatus} data={acWorkflowResultsData}>
+          <Header>
+            <Text
+              content='MAP.ACTION_CREATOR_MODE_RESULTS.HEADER.AC_WORKFLOW_RESULTS'
+              type='h3'
+              fontSize='large'
+              fontWeight='bold'
+              className='text-neutral-dark'
+            />
+          </Header>
+        </ResultsView>
+      );
+    }
+
     default:
+    case 'acTreeView':
     case 'search': {
       return (
         <SearchView state={state} defaultValues={values} schema={schema} onChange={updateState} onSubmit={search}>

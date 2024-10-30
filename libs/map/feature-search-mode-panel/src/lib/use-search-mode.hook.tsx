@@ -7,7 +7,8 @@ import {
   useResults,
   useTrueColorImage,
 } from '@ukri/map/data-access-map';
-import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
+import { useGetWorkflowResults } from '@ukri/map/data-access-map';
+import { TCollection, useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search-view';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -15,9 +16,9 @@ export const useSearchMode = () => {
   const { searchParams, updateSearchParams } = useResults();
   const { state: dataSetsState, schema, dataSets, updateDataSets } = useDataSets();
   const { state: dateRangeState, date, updateDate } = useDate();
-  const { mode } = useMode();
+  const { mode, acView, acResultsData, acResultStatus } = useMode();
   const [currentMode, setCurrentMode] = useState(mode);
-  const [currentView, setCurrentView] = useState<'search' | 'results'>('search');
+  const [currentView, setCurrentView] = useState<'search' | 'results' | 'acTreeView' | 'acResultsView'>('search');
   const { data, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
@@ -82,13 +83,6 @@ export const useSearchMode = () => {
     [changeView, updateSearchParams]
   );
 
-  // const displayWorkflowResults = useCallback(
-  //   (workflowId) => {
-  //     changeView('results');
-  //   },
-  //   [changeView]
-  // );
-
   useEffect(() => {
     if (mode !== currentMode) {
       if (searchParams) {
@@ -103,6 +97,14 @@ export const useSearchMode = () => {
       setCurrentMode(mode);
     }
   }, [mode, currentMode, setCurrentMode, searchParams, changeView]);
+
+  useEffect(() => {
+    if (acView === 'acResultsView') {
+      setCurrentView('acResultsView');
+    } else {
+      setCurrentView('acTreeView');
+    }
+  }, [acView]);
 
   useEffect(() => {
     setFootprints(data);
@@ -125,9 +127,22 @@ export const useSearchMode = () => {
       schema,
       values,
       search,
-      // displayWorkflowResults,
       updateState,
+      acWorkflowResultsData: acResultsData,
+      acResultsStatus: acResultStatus,
     }),
-    [data, state, status, currentView, changeToSearchView, schema, values, search, updateState]
+    [
+      data,
+      state,
+      status,
+      currentView,
+      changeToSearchView,
+      schema,
+      values,
+      search,
+      updateState,
+      acResultStatus,
+      acResultsData,
+    ]
   );
 };

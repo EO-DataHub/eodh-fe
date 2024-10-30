@@ -1,4 +1,5 @@
 import { useActionCreator } from '@ukri/map/data-access-map';
+import { useMode } from '@ukri/map/data-access-map';
 import { Text } from '@ukri/shared/design-system';
 import { ParseKeys } from 'i18next';
 import { useCallback, useContext } from 'react';
@@ -13,6 +14,7 @@ type TTabProps = {
 const Tab = ({ name, tab }: TTabProps) => {
   const { activeTab, setActiveTab } = useContext(ActionCreator);
   const { enable, disable } = useActionCreator();
+  const { acView, changeAcView } = useMode();
   const buttonClassName =
     activeTab === tab ? 'border-primary text-primary border-b-2 px-1 pt-2 pb-[6px] z-20' : 'px-1 py-2 text-text';
 
@@ -23,7 +25,10 @@ const Tab = ({ name, tab }: TTabProps) => {
     } else {
       disable();
     }
-  }, [tab, setActiveTab, enable, disable]);
+    if (acView === 'acResultsView') {
+      changeAcView('acTreeView');
+    }
+  }, [tab, setActiveTab, enable, disable, acView, changeAcView]);
 
   return (
     <button type='button' className={buttonClassName} onClick={changeTab}>

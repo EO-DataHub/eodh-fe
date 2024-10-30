@@ -4,7 +4,7 @@ import { Error, ResultsViewLoader } from '@ukri/shared/design-system';
 import { ResultsList } from './results-list/results-list.component';
 
 interface IBaseResultsPanelProps {
-  onBack: () => void;
+  onBack?: () => void;
 }
 
 type TResultsStateProps = {
