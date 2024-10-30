@@ -1,5 +1,5 @@
 import { useTrueColorImage } from '@ukri/map/data-access-map';
-import { useAuth } from '@ukri/shared/utils/authorization';
+// import { useAuth } from '@ukri/shared/utils/authorization';
 import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
 import proj4 from 'proj4';
@@ -12,7 +12,7 @@ register(proj4);
 
 export const useStacLayer = () => {
   const map = useContext(MapContext);
-  const { getToken } = useAuth();
+  // const { getToken } = useAuth();
   const { stacUrl } = useTrueColorImage();
   const [stacLayer, setStacLayer] = useState<STAC | null>(null);
 
@@ -20,14 +20,14 @@ export const useStacLayer = () => {
     if (!map || !stacUrl) {
       return;
     }
-    console.log('token', getToken().token);
+    // console.log('token', getToken().token);
 
     const newStacLayer = new STAC({
       url: stacUrl,
       zIndex: stacLayerZindex,
-      headers: {
-        Authorization: `Bearer ${getToken().token}`,
-      },
+      // headers: {
+      //   Authorization: `Bearer ${getToken().token}`,
+      // },
       // requestHeaders: {
       //   Authorization: `Bearer ${getToken().token}`,
       // },
