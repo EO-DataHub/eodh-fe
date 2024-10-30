@@ -13,6 +13,7 @@ type TState = {
   isAuthenticated: boolean;
   isLoading: boolean;
   userWorkspace?: string;
+  token?: string;
 };
 
 type TUseAuthProps = {

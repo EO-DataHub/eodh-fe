@@ -20,5 +20,6 @@ export function useAuth(): Required<TAuthContextProps<IAuthAdapter>> {
     authenticated,
     authClient,
     userWorkspace: userWorkspace ?? '',
+    getToken: () => authClient.getToken(),
   };
 }

@@ -7,6 +7,7 @@ export type TAuthContextProps<T extends IAuthAdapter> = {
   initialized: boolean;
   authenticated: boolean;
   userWorkspace?: string;
+  getToken?: () => { token: string | undefined; idToken: string | undefined; refreshToken: string | undefined };
 };
 
 export const AuthContext = createContext<TAuthContextProps<IAuthAdapter>>({
@@ -14,4 +15,5 @@ export const AuthContext = createContext<TAuthContextProps<IAuthAdapter>>({
   authenticated: false,
   authClient: undefined,
   userWorkspace: undefined,
+  getToken: () => ({ token: undefined, idToken: undefined, refreshToken: undefined }),
 });
