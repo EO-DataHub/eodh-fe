@@ -1,10 +1,7 @@
+import { Button, Icon, Text, TIconNames } from '@ukri/shared/design-system';
 import { formatDate, formatHour, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
 import { useCallback, useMemo, useState } from 'react';
-
-import { Button } from '../button/button';
-import { Icon, type TIconNames } from '../icon/icon';
-import { Text } from '../text/text';
 
 interface IResultItemInfoProps {
   value: string;

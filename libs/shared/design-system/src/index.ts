@@ -1,6 +1,7 @@
 export { Button } from './lib/button/button';
 export { Text } from './lib/text/text';
 export { Icon } from './lib/icon/icon';
+export type { TIconNames } from './lib/icon/icon';
 export * as IconsNames from './lib/icon/icons/index';
 export { Checkbox } from './lib/input/checkbox/checkbox';
 export { RadioButton } from './lib/input/radio-button/radio-button';
@@ -20,6 +21,5 @@ export { Spacing } from './lib/tree/spacing.component';
 export type { TSlots } from './lib/tree/tree.model';
 export { Notification } from './lib/notification/notification';
 export { Error } from './lib/error/error';
-export { ResultItem, type IResultItemProps } from './lib/result-item/result-item';
 export { Tooltip } from './lib/tooltip/tooltip';
 export { useOutsideClick } from './lib/hooks/use-outside-click';
