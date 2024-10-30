@@ -1,7 +1,8 @@
 import { useTrueColorImage } from '@ukri/map/data-access-map';
 import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
-import { ResultItem } from '@ukri/shared/design-system';
 import { useCallback } from 'react';
+
+import { ResultItem } from './result-item/result-item';
 
 export interface IResultsListProps {
   features: TCollection['features'];

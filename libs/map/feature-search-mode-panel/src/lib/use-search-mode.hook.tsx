@@ -7,8 +7,7 @@ import {
   useResults,
   useTrueColorImage,
 } from '@ukri/map/data-access-map';
-import { useGetWorkflowResults } from '@ukri/map/data-access-map';
-import { TCollection, useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
+import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search-view';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 

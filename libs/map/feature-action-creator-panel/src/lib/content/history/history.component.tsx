@@ -69,8 +69,6 @@ export const History = () => {
               selected={selectedResult === workflow.submissionId}
               onHideResult={() => setSelectedResult(null)}
               onViewResult={() => setSelectedResult(workflow.submissionId)}
-              // onViewResult={onViewResult}
-              // onHideResult={onHideResult}
               className='mt-5'
             />
           ))}

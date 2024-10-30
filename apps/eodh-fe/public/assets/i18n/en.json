@@ -176,7 +176,7 @@
         }
       }
     },
-    "ACTION_CREATOR_MODE_RESULTS": { 
+    "ACTION_CREATOR_MODE_RESULTS": {
       "HEADER": {
         "AC_WORKFLOW_RESULTS": "Action Creator workflow results"
       }
