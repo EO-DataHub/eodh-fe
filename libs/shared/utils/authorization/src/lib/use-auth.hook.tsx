@@ -14,10 +14,11 @@ export function useAuth<T extends IBaseIdentityClaims>(): Required<TAuthContextP
     throw new Error('authClient has not been assigned to AuthProvider');
   }
 
-  const { authClient, initialized, authenticated } = ctx;
+  const { authClient, initialized, authenticated, userWorkspace } = ctx;
   return {
     initialized,
     authenticated,
     authClient,
+    userWorkspace: userWorkspace ?? '',
   };
 }
