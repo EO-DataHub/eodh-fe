@@ -1,10 +1,9 @@
 on:
   workflow_call:
 
-
 jobs:
   CheckLint:
-    name: 'Run linter and prettier'
+    name: 'Run linter and prettier '
     runs-on: ubuntu-20.04
     steps:
       - name: 'Clone repository'
