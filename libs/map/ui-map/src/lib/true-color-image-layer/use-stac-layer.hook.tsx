@@ -1,4 +1,5 @@
 import { useTrueColorImage } from '@ukri/map/data-access-map';
+import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
 import proj4 from 'proj4';
@@ -11,6 +12,7 @@ register(proj4);
 
 export const useStacLayer = () => {
   const map = useContext(MapContext);
+  const httpClient = getHttpClient();
   const { stacUrl } = useTrueColorImage();
   const [stacLayer, setStacLayer] = useState<STAC | null>(null);
 
@@ -19,12 +21,14 @@ export const useStacLayer = () => {
       return;
     }
 
-    const newStacLayer = new STAC({
-      url: stacUrl,
-      zIndex: stacLayerZindex,
-    });
+    let isSubscribed = true;
+    let newStacLayer: STAC | null = null;
 
     const handleSourceReady = () => {
+      if (!newStacLayer) {
+        return;
+      }
+
       const view = map.getView();
       const extent = newStacLayer.getExtent();
 
@@ -38,17 +42,35 @@ export const useStacLayer = () => {
       }
     };
 
-    newStacLayer.addEventListener('sourceready', handleSourceReady);
+    const fetchStacItem = async () => {
+      const data = await httpClient.get(stacUrl);
 
-    map.addLayer(newStacLayer);
+      if (!isSubscribed) {
+        return;
+      }
 
-    setStacLayer(newStacLayer);
+      newStacLayer = new STAC({
+        data,
+        zIndex: stacLayerZindex,
+      });
+
+      newStacLayer.addEventListener('sourceready', handleSourceReady);
+      map.addLayer(newStacLayer);
+      setStacLayer(newStacLayer);
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    fetchStacItem().catch(() => {});
 
     return () => {
-      map.removeLayer(newStacLayer);
-      newStacLayer.removeEventListener('sourceready', handleSourceReady);
+      isSubscribed = false;
+
+      if (newStacLayer) {
+        map.removeLayer(newStacLayer);
+        newStacLayer.removeEventListener('sourceready', handleSourceReady);
+      }
     };
-  }, [map, stacUrl]);
+  }, [map, stacUrl, httpClient]);
 
   const updateZindex = useCallback(
     (newZIndex: number) => {
