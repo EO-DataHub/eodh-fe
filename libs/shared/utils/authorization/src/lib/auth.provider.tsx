@@ -1,37 +1,46 @@
 import { KeycloakError, KeycloakInitOptions } from 'keycloak-js';
-import { memo, PropsWithChildren } from 'react';
+import { Context, memo, PropsWithChildren } from 'react';
 
-import { AuthContext } from './auth.context';
-import { IAuthAdapter, TAuthClientEvent, TAuthClientTokens } from './types';
+import { AuthContext, TAuthContextProps } from './auth.context';
+import { IAuthAdapter, IBaseIdentityClaims, TAuthClientEvent, TAuthClientTokens } from './types';
 import { useAuthClient } from './use-auth-client.hook';
 
-type TAuthProvider = PropsWithChildren<{
+type TAuthProvider<T extends IBaseIdentityClaims> = PropsWithChildren<{
   LoadingComponent?: JSX.Element;
   onEvent?: (eventType: TAuthClientEvent, error?: KeycloakError) => void;
   onTokens?: (tokens: TAuthClientTokens) => void;
   initOptions?: KeycloakInitOptions;
-  adapter: IAuthAdapter;
+  adapter: IAuthAdapter<T>;
   autoRefreshToken?: boolean;
 }>;
 
 export const AuthProvider = memo(
-  ({ children, LoadingComponent, onEvent, onTokens, initOptions, adapter, autoRefreshToken = true }: TAuthProvider) => {
-    const { initialized, isLoading, isAuthenticated, userWorkspace } = useAuthClient({
+  <T extends IBaseIdentityClaims>({
+    children,
+    LoadingComponent,
+    onEvent,
+    onTokens,
+    initOptions,
+    adapter,
+    autoRefreshToken = true,
+  }: TAuthProvider<T>) => {
+    const { initialized, isLoading, isAuthenticated } = useAuthClient({
       authClient: adapter,
       onEvent,
       onTokens,
       initOptions,
       autoRefreshToken,
     });
+    const TypedAuthContext = AuthContext as Context<TAuthContextProps<T>>;
 
     if (!!LoadingComponent && (!initialized || isLoading)) {
       return LoadingComponent;
     }
 
     return (
-      <AuthContext.Provider value={{ initialized, authClient: adapter, authenticated: isAuthenticated, userWorkspace }}>
+      <TypedAuthContext.Provider value={{ initialized, authClient: adapter, authenticated: isAuthenticated }}>
         {children}
-      </AuthContext.Provider>
+      </TypedAuthContext.Provider>
     );
   }
 );

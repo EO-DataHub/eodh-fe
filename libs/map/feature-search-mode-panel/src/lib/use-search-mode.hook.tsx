@@ -12,12 +12,12 @@ import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const useSearchMode = () => {
-  const { searchParams, updateSearchParams } = useResults();
+  const { searchType, searchParams, updateSearchParams } = useResults();
   const { state: dataSetsState, schema, dataSets, updateDataSets } = useDataSets();
   const { state: dateRangeState, date, updateDate } = useDate();
-  const { mode, acView, acResultsData, acResultStatus } = useMode();
+  const { mode } = useMode();
   const [currentMode, setCurrentMode] = useState(mode);
-  const [currentView, setCurrentView] = useState<'search' | 'results' | 'acTreeView' | 'acResultsView'>('search');
+  const [currentView, setCurrentView] = useState<'search' | 'results'>('search');
   const { data, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
@@ -98,14 +98,6 @@ export const useSearchMode = () => {
   }, [mode, currentMode, setCurrentMode, searchParams, changeView]);
 
   useEffect(() => {
-    if (acView === 'acResultsView') {
-      setCurrentView('acResultsView');
-    } else {
-      setCurrentView('acTreeView');
-    }
-  }, [acView]);
-
-  useEffect(() => {
     setFootprints(data);
   }, [data, setFootprints]);
 
@@ -126,22 +118,9 @@ export const useSearchMode = () => {
       schema,
       values,
       search,
+      searchType,
       updateState,
-      acWorkflowResultsData: acResultsData,
-      acResultsStatus: acResultStatus,
     }),
-    [
-      data,
-      state,
-      status,
-      currentView,
-      changeToSearchView,
-      schema,
-      values,
-      search,
-      updateState,
-      acResultStatus,
-      acResultsData,
-    ]
+    [data, state, status, currentView, changeToSearchView, schema, values, search, searchType, updateState]
   );
 };

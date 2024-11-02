@@ -1,8 +1,12 @@
 import { createIsoStringDate } from '@ukri/shared/utils/date';
 
-import { TCatalogSearchParams, TFilterParam } from '../query.model';
+import { TFilterParam, TSearchParams } from '../query.model';
 
-export const createDateTimeFilterParams = (params: TCatalogSearchParams): TFilterParam => {
+export const createDateTimeFilterParams = (params: TSearchParams): TFilterParam | object => {
+  if (!params.date?.from || !params.date.to) {
+    return {};
+  }
+
   return {
     op: 'between',
     args: [

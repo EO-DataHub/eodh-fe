@@ -1,6 +1,16 @@
 import Keycloak, { KeycloakError, KeycloakInitOptions } from 'keycloak-js';
 
-export interface IAuthAdapter {
+export interface IBaseIdentityClaims {
+  iss: string;
+  sub: string;
+  aud: string;
+  exp: number;
+  iat: number;
+}
+
+export type TIdentityClaims<T extends object> = T & IBaseIdentityClaims;
+
+export interface IAuthAdapter<T extends IBaseIdentityClaims> {
   updateToken: Keycloak['updateToken'];
   login: Keycloak['login'];
   logout: Keycloak['logout'];
@@ -9,6 +19,7 @@ export interface IAuthAdapter {
     idToken: Keycloak['idToken'];
     refreshToken: Keycloak['refreshToken'];
   };
+  getIdentityClaims(): T | null;
   init: (initOptions: KeycloakInitOptions) => Promise<boolean>;
   onReady: (fn: (authenticated?: boolean) => void) => void;
   offReady: (fn: (authenticated?: boolean) => void) => void;

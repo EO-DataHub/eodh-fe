@@ -1,32 +1,10 @@
-import { Button, Text } from '@ukri/shared/design-system';
+import { Text } from '@ukri/shared/design-system';
+import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
+import { PropsWithChildren, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { useHistoryTile } from './history-tile.hook';
 import { historyTileStyles } from './history-tile.styles';
-
-interface IBasicButtonProps {
-  onClick: () => void;
-  status?: 'READY' | 'PROCESSING';
-  disabled?: boolean;
-}
-
-const ShowButton = ({ onClick, status, disabled }: IBasicButtonProps) => (
-  <Button
-    text='MAP.ACTION_CREATOR_PANEL.HISTORY.VIEW_RESULTS'
-    size='medium'
-    onClick={onClick}
-    disabled={status === 'PROCESSING' || disabled}
-  />
-);
-
-const HideButton = ({ onClick, status }: IBasicButtonProps) => (
-  <Button
-    text='MAP.ACTION_CREATOR_PANEL.HISTORY.HIDE_RESULTS'
-    size='medium'
-    onClick={onClick}
-    disabled={status === 'PROCESSING'}
-  />
-);
 
 const Tag = ({ status }: { status: 'READY' | 'PROCESSING' | 'FAILED' }) => {
   const tagStyles = {
@@ -71,11 +49,11 @@ export const HistoryTile = ({
   status,
   className,
   selected,
-  onViewResult,
-  onHideResult,
-}: IHistoryTileProps) => {
-  const { isPending, isFetching, submittedHour, submittedDate, handleSeeResults, handleHideResults, t } =
-    useHistoryTile(workflowId, submittedAtDate, onViewResult, onHideResult);
+  children,
+}: PropsWithChildren<IHistoryTileProps>) => {
+  const { t } = useTranslation();
+  const submittedHour = useMemo(() => formatHour(createDateString(submittedAtDate)), [submittedAtDate]);
+  const submittedDate = useMemo(() => formatDate(createDateString(submittedAtDate), 'DD-MM-YY'), [submittedAtDate]);
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
@@ -104,12 +82,7 @@ export const HistoryTile = ({
       </div>
       <div className={historyTileStyles.section}>
         {status && <Tag status={status} />}
-        {status !== 'FAILED' &&
-          (selected && (!isFetching || !isPending) ? (
-            <HideButton onClick={handleHideResults} status={status} />
-          ) : (
-            <ShowButton onClick={handleSeeResults} status={status} disabled={isFetching} />
-          ))}
+        {children}
       </div>
     </div>
   );

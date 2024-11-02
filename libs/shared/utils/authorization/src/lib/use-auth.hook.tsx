@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 
 import { AuthContext, TAuthContextProps } from './auth.context';
-import { IAuthAdapter } from './types';
+import { IBaseIdentityClaims } from './types';
 
-export function useAuth(): Required<TAuthContextProps<IAuthAdapter>> {
+export function useAuth<T extends IBaseIdentityClaims>(): Required<TAuthContextProps<T>> {
   const ctx = useContext(AuthContext);
 
   if (!ctx) {
@@ -14,11 +14,10 @@ export function useAuth(): Required<TAuthContextProps<IAuthAdapter>> {
     throw new Error('authClient has not been assigned to AuthProvider');
   }
 
-  const { authClient, initialized, authenticated, userWorkspace } = ctx;
+  const { authClient, initialized, authenticated } = ctx;
   return {
     initialized,
     authenticated,
     authClient,
-    userWorkspace: userWorkspace ?? '',
   };
 }

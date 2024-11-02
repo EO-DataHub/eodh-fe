@@ -1,9 +1,13 @@
 import type { Entries } from 'type-fest';
 
-import { TCatalogSearchParams, TCopernicusParams, TFields } from '../query.model';
+import { TCopernicusParams, TFields, TSearchParams } from '../query.model';
 import { getFieldsForCopernicus } from './copernicus/copernicus.field';
 
-export const getFields = (params: TCatalogSearchParams): TFields => {
+export const getFields = (params: TSearchParams): TFields => {
+  if (!params.dataSets?.copernicus) {
+    return {};
+  }
+
   const copernicusFields = (Object.entries(params.dataSets.copernicus) as Entries<typeof params.dataSets.copernicus>)
     .map(
       ([key, { enabled, ...rest }]) =>
