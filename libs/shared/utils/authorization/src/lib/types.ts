@@ -10,7 +10,7 @@ export interface IBaseIdentityClaims {
 
 export type TIdentityClaims<T extends object> = T & IBaseIdentityClaims;
 
-export interface IAuthAdapter<T extends IBaseIdentityClaims> {
+export interface IAuthAdapter<T extends IBaseIdentityClaims = IBaseIdentityClaims> {
   updateToken: Keycloak['updateToken'];
   login: Keycloak['login'];
   logout: Keycloak['logout'];
