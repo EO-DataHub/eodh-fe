@@ -30,3 +30,4 @@ export { default as Erase } from './ink-eraser';
 export { default as Info } from './info';
 export { default as SwapVert } from './swap-vert';
 export { default as Upload } from './upload';
+export { default as Report } from './report';
