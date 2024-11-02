@@ -1,6 +1,7 @@
 on:
   workflow_call:
 
+
 jobs:
   CheckLint:
     name: 'Run linter and prettier'
