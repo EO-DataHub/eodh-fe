@@ -1,7 +1,7 @@
 import { useAoi, useResults } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TIdentityClaims, useAuth } from '@ukri/shared/utils/authorization';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export const useLoadHistoryResults = () => {
   const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
@@ -23,6 +23,12 @@ export const useLoadHistoryResults = () => {
   const hideResults = useCallback(() => {
     changeState('readonly');
   }, [changeState]);
+
+  useEffect(() => {
+    if (status === 'error') {
+      updateSearchParams(undefined);
+    }
+  }, [status, updateSearchParams]);
 
   return {
     status,

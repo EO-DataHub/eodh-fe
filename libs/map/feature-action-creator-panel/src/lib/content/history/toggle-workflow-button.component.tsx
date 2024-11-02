@@ -54,14 +54,7 @@ export const ToggleWorkflowButton = ({
     }
 
     case 'pending': {
-      return (
-        <Button
-          text={<LoadingSpinner size='xs' />}
-          size='medium'
-          onClick={onHide}
-          disabled={workflowStatus === 'PROCESSING'}
-        />
-      );
+      return <Button text={<LoadingSpinner size='xs' />} size='medium' onClick={onHide} disabled={true} />;
     }
   }
 };
