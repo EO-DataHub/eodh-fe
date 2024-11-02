@@ -17,3 +17,52 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+.notistack-SnackbarContainer .notistack-CollapseWrapper .notistack-Snackbar {
+  @apply relative;
+}
+
+.notistack-SnackbarContainer .notistack-CollapseWrapper .notistack-Snackbar .notistack-MuiContent {
+  @apply p-7 pr-16 text-medium-semibold;
+}
+
+.notistack-SnackbarContainer .notistack-CollapseWrapper .notistack-Snackbar .notistack-MuiContent #notistack-snackbar {
+  @apply p-0 items-start;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
+  .notistack-MuiContent
+  #notistack-snackbar
+  > div {
+  @apply mr-4;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-success {
+  @apply bg-success text-success-contrastText;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-error {
+  @apply bg-error text-error-contrastText;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-warning {
+  @apply bg-warning text-warning-contrastText;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-info {
+  @apply bg-information text-information-contrastText;
+}
