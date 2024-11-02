@@ -171,7 +171,7 @@ export const useWorkflowMessage = () => {
         return;
       }
 
-      enqueueSnackbar(message, { variant: 'error' });
+      enqueueSnackbar(message, { variant: 'error', persist: true });
     },
   };
 };
