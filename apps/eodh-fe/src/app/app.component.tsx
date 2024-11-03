@@ -8,7 +8,6 @@ import { I18nextProvider } from 'react-i18next';
 import { getEnvConfig } from '../env.config';
 import i18n from '../i18n';
 import { DefaultLayout } from './layout/default-layout.component';
-import { SnackbarProvider } from './snackbar-provider.component';
 
 const keycloakAdapter = new KeycloakAdapter(getEnvConfig().module.authorization);
 
