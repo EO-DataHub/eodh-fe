@@ -17,7 +17,6 @@ export const SnackbarProvider = ({ children }: PropsWithChildren) => {
         vertical: 'bottom',
         horizontal: 'center',
       }}
-      preventDuplicate={true}
       action={(snackbarKey) => <SnackbarCloseButton snackbarKey={snackbarKey} />}
     >
       {children}
