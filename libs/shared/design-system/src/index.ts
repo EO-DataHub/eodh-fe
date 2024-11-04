@@ -4,6 +4,7 @@ export { Icon } from './lib/icon/icon';
 export type { TIconNames } from './lib/icon/icon';
 export * as IconsNames from './lib/icon/icons/index';
 export { Checkbox } from './lib/input/checkbox/checkbox';
+export { ControlledCheckbox } from './lib/input/checkbox/controlled-checkbox.component';
 export { RadioButton } from './lib/input/radio-button/radio-button';
 export { Toggle } from './lib/input/toggle/toggle';
 export { Select } from './lib/select/select';

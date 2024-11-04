@@ -13,6 +13,8 @@ import { SearchViewProvider, TSearchViewState } from './search-view.context';
 import { SubmitButton } from './submit-button.component';
 import { Tree } from './tree/tree.component';
 import { useFormUpdate } from './use-form-update.component';
+import { DynamicTree } from './tree-model/tree.component';
+import { dynamicTree } from './tree-model/tree-model';
 
 const minDate = new Date('1972-01-01');
 const today = new Date();
@@ -65,6 +67,9 @@ export const SearchView = ({
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col h-full'>
           {children}
           <AreaOfInterest />
+          <div className='flex-1 overflow-y-auto pb-4'>
+            <DynamicTree tree={dynamicTree} />
+          </div>
           <div className='flex-1 overflow-y-auto pb-4'>
             <Tree schema={schema} />
           </div>
