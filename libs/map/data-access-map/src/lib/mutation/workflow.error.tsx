@@ -118,9 +118,13 @@ const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier) => {
 const useErrorMessage = () => {
   const { t } = useTranslation();
 
-  return (error?: TErrorMessage) => {
+  return (error?: TErrorMessage | AxiosError<IErrorResponse>) => {
     if (!error) {
       return null;
+    }
+
+    if (error instanceof AxiosError) {
+      return t('GLOBAL.ERRORS.SERVER_ERROR.MESSAGE');
     }
 
     switch (error.type) {
@@ -165,6 +169,8 @@ export const useWorkflowMessage = () => {
   return {
     showErrorMessage: (error: AxiosError<IErrorResponse>) => {
       if (!error.response?.data.detail.length) {
+        const message = translateMessage(error);
+        enqueueSnackbar(message, { variant: 'error', persist: true });
         return;
       }
 
