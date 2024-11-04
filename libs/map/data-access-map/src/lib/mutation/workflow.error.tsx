@@ -55,42 +55,20 @@ export interface IErrorResponse {
   detail: TErrorMessage[];
 }
 
-const getCollectionTranslationKey = (collection: TCollectionName) => {
-  switch (collection) {
-    case 'sentinel-1': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_1';
-    }
+const BASE_KEY = 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET';
+const collectionTranslationMap: Record<TCollectionName, string> = {
+  'sentinel-1': `${BASE_KEY}.SENTINEL_1`,
+  'sentinel-2-l1c': `${BASE_KEY}.SENTINEL_2`,
+  'sentinel-2-l2a': `${BASE_KEY}.SENTINEL_2`,
+  'sentinel-3': `${BASE_KEY}.SENTINEL_3`,
+  'sentinel-5p': `${BASE_KEY}.SENTINEL_5P`,
+  'esacci-globallc': `${BASE_KEY}.AUXILIARY.GLOBAL_LAND_COVER`,
+  'clms-corinelc': `${BASE_KEY}.AUXILIARY.CORINE_LAND_COVER`,
+  'clms-water-bodies': `${BASE_KEY}.AUXILIARY.WATER_BODIES`,
+};
 
-    case 'sentinel-2-l1c': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_2';
-    }
-
-    case 'sentinel-2-l2a': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_2';
-    }
-
-    case 'sentinel-3': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_3';
-    }
-
-    case 'sentinel-5p': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_5P';
-    }
-
-    case 'esacci-globallc': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.AUXILIARY.GLOBAL_LAND_COVER';
-    }
-
-    case 'clms-corinelc': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.AUXILIARY.CORINE_LAND_COVER';
-    }
-
-    case 'clms-water-bodies': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.AUXILIARY.WATER_BODIES';
-    }
-  }
-
-  return null;
+const getCollectionTranslationKey = (collection: TCollectionName): string | null => {
+  return collectionTranslationMap[collection] || null;
 };
 
 const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier) => {
