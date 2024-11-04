@@ -14,7 +14,6 @@ register(proj4);
 export const useStacLayer = () => {
   const map = useContext(MapContext);
   const { authClient } = useAuth();
-  const httpClient = getHttpClient();
   const { stacUrl } = useTrueColorImage();
   const [stacLayer, setStacLayer] = useState<STAC | null>(null);
 
@@ -45,7 +44,7 @@ export const useStacLayer = () => {
     };
 
     const fetchStacItem = async () => {
-      const data = await httpClient.get(stacUrl);
+      const data = await getHttpClient().get(stacUrl);
 
       if (!isSubscribed) {
         return;
@@ -81,7 +80,7 @@ export const useStacLayer = () => {
         newStacLayer.removeEventListener('sourceready', handleSourceReady);
       }
     };
-  }, [map, stacUrl, httpClient, authClient]);
+  }, [map, stacUrl, authClient]);
 
   const updateZindex = useCallback(
     (newZIndex: number) => {
