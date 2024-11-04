@@ -21,8 +21,9 @@ export const useLoadHistoryResults = () => {
   );
 
   const hideResults = useCallback(() => {
+    updateSearchParams(undefined);
     changeState('readonly');
-  }, [changeState]);
+  }, [changeState, updateSearchParams]);
 
   useEffect(() => {
     if (status === 'error') {

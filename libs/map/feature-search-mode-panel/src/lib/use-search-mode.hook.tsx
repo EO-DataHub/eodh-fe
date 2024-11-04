@@ -94,8 +94,16 @@ export const useSearchMode = () => {
         }
       }
       setCurrentMode(mode);
+    } else if (searchParams && currentView !== 'results') {
+      changeView('results');
+    } else if (!searchParams && currentView === 'results') {
+      if (mode === 'action-creator') {
+        setCurrentView('search');
+      } else {
+        changeView('search');
+      }
     }
-  }, [mode, currentMode, setCurrentMode, searchParams, changeView]);
+  }, [mode, currentMode, setCurrentMode, searchParams, currentView, changeView]);
 
   useEffect(() => {
     setFootprints(data);

@@ -1,4 +1,5 @@
 import { useTrueColorImage } from '@ukri/map/data-access-map';
+import { useAuth } from '@ukri/shared/utils/authorization';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
@@ -12,6 +13,7 @@ register(proj4);
 
 export const useStacLayer = () => {
   const map = useContext(MapContext);
+  const { authClient } = useAuth();
   const httpClient = getHttpClient();
   const { stacUrl } = useTrueColorImage();
   const [stacLayer, setStacLayer] = useState<STAC | null>(null);
@@ -52,6 +54,15 @@ export const useStacLayer = () => {
       newStacLayer = new STAC({
         data,
         zIndex: stacLayerZindex,
+        getSourceOptions: (type, options) => {
+          const token = authClient.getToken().token;
+          (options as { sourceOptions?: object }).sourceOptions =
+            (options as { sourceOptions?: object }).sourceOptions || {};
+          (options as { sourceOptions: { headers: object } }).sourceOptions.headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          return options;
+        },
       });
 
       newStacLayer.addEventListener('sourceready', handleSourceReady);
@@ -70,7 +81,7 @@ export const useStacLayer = () => {
         newStacLayer.removeEventListener('sourceready', handleSourceReady);
       }
     };
-  }, [map, stacUrl, httpClient]);
+  }, [map, stacUrl, httpClient, authClient]);
 
   const updateZindex = useCallback(
     (newZIndex: number) => {

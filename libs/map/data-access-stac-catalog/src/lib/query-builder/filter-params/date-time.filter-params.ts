@@ -2,9 +2,9 @@ import { createIsoStringDate } from '@ukri/shared/utils/date';
 
 import { TFilterParam, TSearchParams } from '../query.model';
 
-export const createDateTimeFilterParams = (params: TSearchParams): TFilterParam | object => {
+export const createDateTimeFilterParams = (params: TSearchParams): TFilterParam | null => {
   if (!params.date?.from || !params.date.to) {
-    return {};
+    return null;
   }
 
   return {
