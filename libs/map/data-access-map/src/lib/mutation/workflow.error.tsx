@@ -150,6 +150,10 @@ const useErrorMessage = () => {
       case 'invalid_date_range_error': {
         return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.INVALID_DATE_RANGE');
       }
+
+      default: {
+        return t('GLOBAL.ERRORS.SERVER_ERROR.MESSAGE');
+      }
     }
   };
 };
