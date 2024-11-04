@@ -2,6 +2,7 @@ import { Button, LoadingSpinner } from '@ukri/shared/design-system';
 
 interface IToggleWorkflowButtonProps {
   selectedWorkflowId: string | null;
+  selected: boolean;
   workflowStatus: 'READY' | 'PROCESSING' | 'FAILED' | undefined;
   loadResultsStatus: 'pending' | 'error' | 'success';
   onShow: () => void;
@@ -10,6 +11,7 @@ interface IToggleWorkflowButtonProps {
 
 export const ToggleWorkflowButton = ({
   selectedWorkflowId,
+  selected,
   workflowStatus,
   loadResultsStatus,
   onShow,
@@ -19,7 +21,7 @@ export const ToggleWorkflowButton = ({
     return null;
   }
 
-  if (!selectedWorkflowId) {
+  if (!selectedWorkflowId || !selected) {
     return (
       <Button
         text='MAP.ACTION_CREATOR_PANEL.HISTORY.VIEW_RESULTS'
@@ -54,7 +56,7 @@ export const ToggleWorkflowButton = ({
     }
 
     case 'pending': {
-      return <Button text={<LoadingSpinner size='xs' />} size='medium' onClick={onHide} disabled={true} />;
+      return <Button text={<LoadingSpinner size='xs' />} size='medium' disabled={true} />;
     }
   }
 };

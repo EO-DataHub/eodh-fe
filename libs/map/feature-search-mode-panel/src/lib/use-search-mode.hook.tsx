@@ -9,15 +9,13 @@ import {
 } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search-view';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 export const useSearchMode = () => {
   const { searchType, searchParams, updateSearchParams } = useResults();
   const { state: dataSetsState, schema, dataSets, updateDataSets } = useDataSets();
   const { state: dateRangeState, date, updateDate } = useDate();
-  const { mode } = useMode();
-  const [currentMode, setCurrentMode] = useState(mode);
-  const [currentView, setCurrentView] = useState<'search' | 'results'>('search');
+  const { view: currentView, changeView: setCurrentView } = useMode();
   const { data, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
@@ -59,7 +57,7 @@ export const useSearchMode = () => {
         }
       }
     },
-    [changeState]
+    [changeState, setCurrentView]
   );
 
   const changeToSearchView = useCallback(() => {
@@ -81,29 +79,6 @@ export const useSearchMode = () => {
     },
     [changeView, updateSearchParams]
   );
-
-  useEffect(() => {
-    if (mode !== currentMode) {
-      if (searchParams) {
-        changeView('results');
-      } else {
-        if (mode === 'action-creator') {
-          setCurrentView('search');
-        } else {
-          changeView('search');
-        }
-      }
-      setCurrentMode(mode);
-    } else if (searchParams && currentView !== 'results') {
-      changeView('results');
-    } else if (!searchParams && currentView === 'results') {
-      if (mode === 'action-creator') {
-        setCurrentView('search');
-      } else {
-        changeView('search');
-      }
-    }
-  }, [mode, currentMode, setCurrentMode, searchParams, currentView, changeView]);
 
   useEffect(() => {
     setFootprints(data);

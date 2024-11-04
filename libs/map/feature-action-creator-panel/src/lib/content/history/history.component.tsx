@@ -71,6 +71,7 @@ export const History = () => {
               onViewResult={() => showResults(workflow.submissionId)}
             >
               <ToggleWorkflowButton
+                selected={selectedResult === workflow.submissionId}
                 selectedWorkflowId={selectedResult}
                 loadResultsStatus={status}
                 workflowStatus={workflow.status}

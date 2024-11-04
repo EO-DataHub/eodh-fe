@@ -1,13 +1,14 @@
-import { useAoi, useResults } from '@ukri/map/data-access-map';
+import { useAoi, useMode, useResults } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TIdentityClaims, useAuth } from '@ukri/shared/utils/authorization';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 
 export const useLoadHistoryResults = () => {
   const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
   const { searchParams, updateSearchParams } = useResults();
   const { data, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
+  const { changeView } = useMode();
 
   const showResults = useCallback(
     (jobId: string) => {
@@ -15,21 +16,17 @@ export const useLoadHistoryResults = () => {
 
       if (userWorkspace) {
         updateSearchParams({ jobId, userWorkspace });
+        changeView('results');
       }
     },
-    [authClient, updateSearchParams]
+    [authClient, changeView, updateSearchParams]
   );
 
   const hideResults = useCallback(() => {
     updateSearchParams(undefined);
     changeState('readonly');
-  }, [changeState, updateSearchParams]);
-
-  useEffect(() => {
-    if (status === 'error') {
-      updateSearchParams(undefined);
-    }
-  }, [status, updateSearchParams]);
+    changeView('search');
+  }, [changeState, changeView, updateSearchParams]);
 
   return {
     status,
