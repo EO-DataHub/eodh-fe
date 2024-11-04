@@ -171,6 +171,7 @@ const saveStateInLocalStorage = (mode: TMode) => {
 };
 
 const resetLocalStorage = (mode: TMode) => {
+  localStorage.removeItem(storeKeys.MODE(mode));
   localStorage.removeItem(storeKeys.AOI(mode));
   localStorage.removeItem(storeKeys.RESULTS(mode));
   localStorage.removeItem(storeKeys.DATA_SETS(mode));
