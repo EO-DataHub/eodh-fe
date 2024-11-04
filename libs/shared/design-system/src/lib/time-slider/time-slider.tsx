@@ -1,6 +1,11 @@
 import { Tooltip } from '@mui/material';
 import Slider from '@mui/material/Slider';
-import React, { useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
+
+const getMonth = (value: number) => {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return months[value];
+};
 
 type TMarkProps = {
   'data-index': number;
@@ -50,7 +55,41 @@ const CustomMark = (props: TMarkProps) => {
   );
 };
 
-export const TimeSlider: React.FC = () => {
+type TLabelProps = {
+  'data-index': number;
+  className: string;
+  style: {
+    right: string;
+  };
+};
+
+const CustomLabel = (props: PropsWithChildren<TLabelProps>) => {
+  console.log('props', props);
+
+  const month = props.ownerState.max - props.ownerState.min === 1 ? getMonth(props['data-index']) : '';
+
+  return (
+    <div
+      className={props.className}
+      style={{
+        ...props.style,
+        position: 'absolute',
+        width: 'auto',
+        bottom: '-20px',
+      }}
+    >
+      {month && <div className='relative bottom-2 left-1/2 translate-x-1/2'>{month}</div>}
+      <div className='absolute -translate-x-1/2'>{props.children}</div>
+    </div>
+  );
+};
+
+interface ITimeSliderProps {
+  min: number;
+  max: number;
+}
+
+export const TimeSlider = ({ min, max }: ITimeSliderProps) => {
   const [value, setValue] = useState<number[]>([2017, 2022]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
@@ -74,19 +113,20 @@ export const TimeSlider: React.FC = () => {
   };
 
   return (
-    <div className='w-full max-w-4xl mx-auto p-4'>
+    <div className='w-full mx-auto p-4'>
       <h2 className='text-lg font-semibold mb-4 text-gray-500'>timeline</h2>
       <Slider
         value={value}
         onChange={handleChange}
         valueLabelDisplay='auto'
-        min={2015}
-        max={2024}
+        min={min}
+        max={max}
         step={1 / 12}
         marks={generateMarks()}
         slots={{
           valueLabel: ValueLabelComponent,
           mark: CustomMark,
+          markLabel: CustomLabel,
         }}
         sx={{
           color: '#1976d2',
