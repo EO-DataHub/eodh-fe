@@ -1,15 +1,11 @@
 const stacCatalogue = '/api/catalogue/stac/catalogs/supported-datasets/earth-search-aws/search';
+const workflowResult =
+  '/api/catalogue/stac/catalogs/user-datasets/{user_workspace}/processing-results/cat_{job_id}/search';
 
 const eodhStacApiUrl = 'EODH_STAC_API_URL';
 
-type TApi = 'EODH_PRO_API_URL' | 'EODH_STAC_API_URL';
-
-type TPath = `${TApi}/${string}`;
-
-type TPaths = {
-  [key: string]: TPath;
-};
-
-export const paths: TPaths = {
+export const paths = {
   STAC_CATALOGUE: `${eodhStacApiUrl}${stacCatalogue}`,
+  WORKFLOW_RESULT: ({ userWorkspace, jobId }: { userWorkspace: string; jobId: string }) =>
+    `${eodhStacApiUrl}${workflowResult.replace('{user_workspace}', userWorkspace).replace('{job_id}', jobId)}`,
 };

@@ -3,7 +3,9 @@ import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
 import { Container, Content, Footer } from '../container.component';
 import { HistoryTile } from './history-tile/history-tile.component';
 import { SortFilter } from './sort-filter/sort-filter.component';
+import { ToggleWorkflowButton } from './toggle-workflow-button.component';
 import { useHistoryData } from './use-history-data.hook';
+import { useLoadHistoryResults } from './use-load-history-results.hook';
 
 interface IErrorMessageProps {
   refetch: () => void;
@@ -19,11 +21,13 @@ const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
     />
   </div>
 );
-export const History = () => {
-  const { allResults, handleSortChange, loadMore, data, error, isPending, isFetching, refetch, sortKey } =
-    useHistoryData();
 
-  if ((isPending || isFetching) && allResults.length === 0) {
+export const History = () => {
+  const { results, changeOrder, loadMore, error, isPending, isFetching, refetch, orderBy, hasMoreResults } =
+    useHistoryData();
+  const { selectedResult, showResults, hideResults, status } = useLoadHistoryResults();
+
+  if ((isPending || isFetching) && results.length === 0) {
     return (
       <Container>
         <Content>
@@ -47,30 +51,34 @@ export const History = () => {
     );
   }
 
-  const hasMoreResults = data ? data.currentPage < data.totalPages : false;
-
   return (
     <Container>
       <Content>
         <section className='text-text-primary h-full overflow-scroll p-4'>
           <div className='flex justify-end'>
-            <SortFilter onSortChange={handleSortChange} sortKey={sortKey} />
+            <SortFilter onSortChange={changeOrder} sortKey={orderBy} />
           </div>
 
-          {allResults.map((workflow) => (
+          {results.map((workflow) => (
             <HistoryTile
               key={workflow.submissionId}
               function_identifier={workflow.functionIdentifier}
               workflowId={workflow.submissionId}
               submittedAtDate={workflow.submittedAtDate}
               status={workflow.status}
-              selected={false}
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
-              onViewResult={() => {}}
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
-              onHideResult={() => {}}
-              className='mt-5'
-            />
+              selected={selectedResult === workflow.submissionId}
+              onHideResult={hideResults}
+              onViewResult={() => showResults(workflow.submissionId)}
+            >
+              <ToggleWorkflowButton
+                selected={selectedResult === workflow.submissionId}
+                selectedWorkflowId={selectedResult}
+                loadResultsStatus={status}
+                workflowStatus={workflow.status}
+                onHide={hideResults}
+                onShow={() => showResults(workflow.submissionId)}
+              />
+            </HistoryTile>
           ))}
 
           {hasMoreResults && (

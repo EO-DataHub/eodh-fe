@@ -73,16 +73,32 @@ export type TCoordinate =
       coordinates: TCoordinates;
     };
 
-export type TSearchParams = {
+export type TCatalogueSearchParams = {
   dataSets: TDataSets;
   date: {
     from: NonNullable<TDateString>;
     to: NonNullable<TDateString>;
   };
   aoi: Geometry;
+  jobId?: never;
+  userWorkspace?: never;
 };
 
+export type TWorkflowSearchParams = {
+  dataSets?: never;
+  aoi?: never;
+  date?: {
+    from: NonNullable<TDateString>;
+    to: NonNullable<TDateString>;
+  };
+  jobId: string;
+  userWorkspace: string;
+};
+
+export type TSearchParams = TCatalogueSearchParams | TWorkflowSearchParams;
+
 export type TResultsStore<T = TSearchParams> = {
+  searchType: 'catalogue' | 'workflow' | undefined;
   searchParams: T | undefined;
   coordinates: TCoordinate | undefined;
   updateSearchParams: (state: T | undefined) => void;
@@ -92,6 +108,7 @@ export type TResultsStore<T = TSearchParams> = {
 export type TResultsStoreState = Omit<TResultsStore, 'setShape' | 'updateSearchParams'>;
 
 export const defaultState: TResultsStoreState = {
+  searchType: undefined,
   searchParams: undefined,
   coordinates: undefined,
 };

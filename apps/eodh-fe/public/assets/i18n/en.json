@@ -180,6 +180,11 @@
         }
       }
     },
+    "ACTION_CREATOR_MODE_RESULTS": {
+      "HEADER": {
+        "AC_WORKFLOW_RESULTS": "Action Creator workflow results"
+      }
+    },
     "SEARCH_MODE_PANEL": {
       "HEADER": {
         "BROWSE_DATA_SETS": "Browsing data sets",

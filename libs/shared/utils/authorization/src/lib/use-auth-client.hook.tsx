@@ -1,7 +1,7 @@
 import { KeycloakError, KeycloakInitOptions } from 'keycloak-js';
 import { useCallback, useEffect, useState } from 'react';
 
-import { IAuthAdapter, TAuthClientEvent, TAuthClientTokens } from './types';
+import { IAuthAdapter, IBaseIdentityClaims, TAuthClientEvent, TAuthClientTokens } from './types';
 
 type TState = {
   initialized: boolean;
@@ -9,18 +9,24 @@ type TState = {
   isLoading: boolean;
 };
 
-type TUseAuthProps = {
-  authClient: IAuthAdapter;
+type TUseAuthProps<T extends IBaseIdentityClaims> = {
+  authClient: IAuthAdapter<T>;
   onEvent?: (eventType: TAuthClientEvent, error?: KeycloakError) => void;
   onTokens?: (tokens: TAuthClientTokens) => void;
   initOptions?: KeycloakInitOptions;
   autoRefreshToken: boolean;
 };
 
-const isUserAuthenticated = (authClient: IAuthAdapter) =>
+const isUserAuthenticated = <T extends IBaseIdentityClaims>(authClient: IAuthAdapter<T>) =>
   !!authClient.getToken().idToken && !!authClient.getToken().token;
 
-export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, autoRefreshToken }: TUseAuthProps) => {
+export const useAuthClient = <T extends IBaseIdentityClaims>({
+  onEvent,
+  onTokens,
+  initOptions,
+  authClient,
+  autoRefreshToken,
+}: TUseAuthProps<T>) => {
   const [state, setState] = useState<TState>({
     initialized: false,
     isAuthenticated: false,
@@ -34,7 +40,7 @@ export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, auto
       onEvent && onEvent(event);
 
       const isLoading = false;
-      const isAuthenticated = isUserAuthenticated(authClient);
+      const isAuthenticated = isUserAuthenticated<T>(authClient);
 
       // Avoid double-refresh if state hasn't changed
       if (!prevInitialized || isAuthenticated !== prevAuthenticated || isLoading !== prevLoading) {

@@ -43,6 +43,8 @@ export type TCopernicusSearchParams = {
 };
 
 export type TCatalogSearchParams = {
+  userWorkspace?: never;
+  jobId?: never;
   dataSets: {
     copernicus: TCopernicusSearchParams;
   };
@@ -52,6 +54,19 @@ export type TCatalogSearchParams = {
   };
   aoi: Geometry;
 };
+
+export type TWorkflowSearchParams = {
+  dataSets?: never;
+  aoi?: never;
+  userWorkspace: string;
+  jobId: string;
+  date?: {
+    from: NonNullable<TDateString>;
+    to: NonNullable<TDateString>;
+  };
+};
+
+export type TSearchParams = TCatalogSearchParams | TWorkflowSearchParams;
 
 export type TCopernicusParams = {
   [Key in keyof TCopernicusSearchParams]: {

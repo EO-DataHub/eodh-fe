@@ -1,32 +1,10 @@
-import { Button, Text } from '@ukri/shared/design-system';
+import { Text } from '@ukri/shared/design-system';
 import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
+import { PropsWithChildren, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { historyTileStyles } from './history-tile.styles';
-
-interface IBasicButtonProps {
-  onClick: () => void;
-  status?: 'READY' | 'PROCESSING';
-}
-
-const ShowButton = ({ onClick, status }: IBasicButtonProps) => (
-  <Button
-    text='MAP.ACTION_CREATOR_PANEL.HISTORY.VIEW_RESULTS'
-    size='medium'
-    onClick={onClick}
-    disabled={status === 'PROCESSING'}
-  />
-);
-
-const HideButton = ({ onClick, status }: IBasicButtonProps) => (
-  <Button
-    text='MAP.ACTION_CREATOR_PANEL.HISTORY.HIDE_RESULTS'
-    size='medium'
-    onClick={onClick}
-    disabled={status === 'PROCESSING'}
-  />
-);
 
 const Tag = ({ status }: { status: 'READY' | 'PROCESSING' | 'FAILED' }) => {
   const tagStyles = {
@@ -59,9 +37,9 @@ export interface IHistoryTileProps {
   submittedAtDate: string;
   status?: 'READY' | 'PROCESSING' | 'FAILED';
   selected: boolean;
-  onViewResult: () => void;
-  onHideResult: () => void;
   className?: string;
+  onViewResult: (submissionId: string) => void;
+  onHideResult: () => void;
 }
 
 export const HistoryTile = ({
@@ -69,16 +47,13 @@ export const HistoryTile = ({
   function_identifier,
   submittedAtDate,
   status,
-  selected,
-  onViewResult,
-  onHideResult,
   className,
-}: IHistoryTileProps) => {
+  selected,
+  children,
+}: PropsWithChildren<IHistoryTileProps>) => {
   const { t } = useTranslation();
-
-  const submittedHour = formatHour(createDateString(submittedAtDate));
-
-  const submittedDate = formatDate(createDateString(submittedAtDate), 'DD-MM-YY');
+  const submittedHour = useMemo(() => formatHour(createDateString(submittedAtDate)), [submittedAtDate]);
+  const submittedDate = useMemo(() => formatDate(createDateString(submittedAtDate), 'DD-MM-YY'), [submittedAtDate]);
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
@@ -107,12 +82,7 @@ export const HistoryTile = ({
       </div>
       <div className={historyTileStyles.section}>
         {status && <Tag status={status} />}
-        {status !== 'FAILED' &&
-          (selected ? (
-            <HideButton onClick={onHideResult} status={status} />
-          ) : (
-            <ShowButton onClick={onViewResult} status={status} />
-          ))}
+        {children}
       </div>
     </div>
   );
