@@ -8,13 +8,15 @@ import { TDateStoreState } from './date/date.model';
 import { getDateStoreState, useDateStore } from './date/date.store';
 import { TFootprintStoreState } from './footprint/footprint.model';
 import { getFootprintStoreState, useFootprintStore } from './footprint/footprint.store';
-import { TMode } from './mode.model';
+import { IModeStore, TMode } from './mode.model';
+import { getModeStoreState, useModeStore } from './mode.store';
 import { TResultsStore } from './results/results.model';
 import { getResultsStoreState, useResultsStore } from './results/results.store';
 import { TTrueImageStoreState } from './true-color-image/true-color-image.model';
 import { getTrueColorImageStoreState, useTrueColorImageStore } from './true-color-image/true-color-image.store';
 
 const storeKeys = {
+  MODE: (mode: TMode) => `${mode}-mode`,
   AOI: (mode: TMode) => `${mode}-aoi`,
   RESULTS: (mode: TMode) => `${mode}-results`,
   DATA_SETS: (mode: TMode) => `${mode}-data-sets`,
@@ -39,6 +41,17 @@ const getItemFromLocalStorage = <T extends object>(key: string): T | null => {
   }
 
   return JSON.parse(item);
+};
+
+const restoreModeStoreState = (mode: TMode) => {
+  const currentState = getItemFromLocalStorage<IModeStore>(storeKeys.MODE(mode));
+
+  if (!currentState) {
+    useModeStore.getState().reset();
+    return;
+  }
+
+  useModeStore.setState(currentState);
 };
 
 const restoreAoiStoreState = (mode: TMode) => {
@@ -136,6 +149,7 @@ const restoreActionCreatorStoreState = (mode: TMode) => {
 };
 
 const restoreStateFromLocalStorage = (mode: TMode) => {
+  restoreModeStoreState(mode);
   restoreAoiStoreState(mode);
   restoreResultsStoreState(mode);
   restoreDataSetsStoreState(mode);
@@ -146,6 +160,7 @@ const restoreStateFromLocalStorage = (mode: TMode) => {
 };
 
 const saveStateInLocalStorage = (mode: TMode) => {
+  setItemInLocalStorage(storeKeys.MODE(mode), getModeStoreState());
   setItemInLocalStorage(storeKeys.AOI(mode), getAoiStoreState());
   setItemInLocalStorage(storeKeys.RESULTS(mode), getResultsStoreState());
   setItemInLocalStorage(storeKeys.DATA_SETS(mode), getDataSetsStoreState());
@@ -156,6 +171,7 @@ const saveStateInLocalStorage = (mode: TMode) => {
 };
 
 const resetLocalStorage = (mode: TMode) => {
+  localStorage.removeItem(storeKeys.MODE(mode));
   localStorage.removeItem(storeKeys.AOI(mode));
   localStorage.removeItem(storeKeys.RESULTS(mode));
   localStorage.removeItem(storeKeys.DATA_SETS(mode));

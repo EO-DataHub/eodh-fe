@@ -94,42 +94,6 @@
           "RUN_ACTION_CREATOR": "Run Action Creator"
         }
       },
-      "NODE": {
-        "AREA": {
-          "TITLE": "Area",
-          "DEFAULT_VALUE": "Drawing 1",
-          "INSTRUCTIONS": "Use the drawing tools to define an area of interest",
-          "DESCRIPTION": "Total area:"
-        },
-        "DATA_SET": {
-          "TITLE": "Data Set",
-          "INSTRUCTIONS": "Select a data set",
-          "SENTINEL_1": "Sentinel-1",
-          "SENTINEL_2": "Sentinel-2",
-          "SENTINEL_3": "Sentinel-3",
-          "SENTINEL_5P": "Sentinel-5P",
-          "AUXILIARY": {
-            "GLOBAL_LAND_COVER": "Global Land Cover",
-            "CORINE_LAND_COVER": "CORINE Land Cover",
-            "WATER_BODIES": "Water Bodies"
-          }
-        },
-        "DATE_RANGE": {
-          "TITLE": "Date Range",
-          "INSTRUCTIONS": "Select a start and end date range"
-        },
-        "FUNCTION": {
-          "TITLE": "Function",
-          "OPTIONS": {
-            "NDVI": "NDVI",
-            "FALSE_COLOUR": "False colour (urban)",
-            "MOISTURE_INDEX": "Moisture index",
-            "SWIR": "SWIR",
-            "NDWI": "NDWI",
-            "NDSI": "NDSI"
-          }
-        }
-      },
       "ONBOARDING": {
         "STEPS": {
           "AREA_NODE": "Click here to begin using the Action Creator.",
@@ -173,6 +137,12 @@
         }
       },
       "WORKFLOW": {
+        "ERROR": {
+          "AOI_TOO_BIG": "Area exceeds {{maxSize}} square miles.",
+          "AOI_MISSING": "Area of Interest is missing.",
+          "INVALID_DATE_RANGE": "End date cannot be before start date.",
+          "COLLECTION_NOT_SUPPORTED": "Collection {{collection}} cannot be used with {{function}} function! Valid options are: {{options}}."
+        },
         "WORKFLOW_PROCESSING_MODAL": {
           "SUCCESS": {
             "HEADER": "The Action Creator is currently processing your workflow.",
@@ -188,6 +158,40 @@
           "IN_PROGRESS": {
             "HEADER": "Processing Workflow, please wait...",
             "CONTENT": "Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window."
+          }
+        },
+        "NODE": {
+          "AREA": {
+            "TITLE": "Area",
+            "DEFAULT_VALUE": "Drawing 1",
+            "INSTRUCTIONS": "Use the drawing tools to define an area of interest",
+            "DESCRIPTION": "Total area:"
+          },
+          "DATA_SET": {
+            "TITLE": "Data Set",
+            "INSTRUCTIONS": "Select a data set",
+            "SENTINEL_1": "Sentinel-1",
+            "SENTINEL_2": "Sentinel-2",
+            "SENTINEL_3": "Sentinel-3",
+            "SENTINEL_5P": "Sentinel-5P",
+            "AUXILIARY": {
+              "GLOBAL_LAND_COVER": "Global Land Cover",
+              "CORINE_LAND_COVER": "CORINE Land Cover",
+              "WATER_BODIES": "Water Bodies"
+            }
+          },
+          "DATE_RANGE": {
+            "TITLE": "Date Range",
+            "INSTRUCTIONS": "Select a start and end date range"
+          },
+          "FUNCTION": {
+            "TITLE": "Function",
+            "OPTIONS": {
+              "RASTER_CALCULATOR": "Raster Calculator",
+              "LAND_COVER_CHANGES": "Land Cover Change Detection",
+              "WATER_QUALITY": "Water Quality",
+              "CLIP": "Clip"
+            }
           }
         }
       }

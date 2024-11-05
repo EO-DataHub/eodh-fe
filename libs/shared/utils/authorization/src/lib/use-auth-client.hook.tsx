@@ -1,51 +1,36 @@
-import { jwtDecode } from 'jwt-decode';
 import { KeycloakError, KeycloakInitOptions } from 'keycloak-js';
 import { useCallback, useEffect, useState } from 'react';
 
-import { IAuthAdapter, TAuthClientEvent, TAuthClientTokens } from './types';
-
-interface IDecodedToken {
-  preferred_username: string;
-}
+import { IAuthAdapter, IBaseIdentityClaims, TAuthClientEvent, TAuthClientTokens } from './types';
 
 type TState = {
   initialized: boolean;
   isAuthenticated: boolean;
   isLoading: boolean;
-  userWorkspace?: string;
 };
 
-type TUseAuthProps = {
-  authClient: IAuthAdapter;
+type TUseAuthProps<T extends IBaseIdentityClaims> = {
+  authClient: IAuthAdapter<T>;
   onEvent?: (eventType: TAuthClientEvent, error?: KeycloakError) => void;
   onTokens?: (tokens: TAuthClientTokens) => void;
   initOptions?: KeycloakInitOptions;
   autoRefreshToken: boolean;
 };
 
-const isUserAuthenticated = (authClient: IAuthAdapter) =>
+const isUserAuthenticated = <T extends IBaseIdentityClaims>(authClient: IAuthAdapter<T>) =>
   !!authClient.getToken().idToken && !!authClient.getToken().token;
 
-const userWorkspace = (authClient: IAuthAdapter) => {
-  const token = authClient.getToken().token;
-  if (token) {
-    try {
-      const decoded = jwtDecode<IDecodedToken>(token);
-      return decoded.preferred_username;
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error decoding token:', error);
-    }
-  }
-  return undefined;
-};
-
-export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, autoRefreshToken }: TUseAuthProps) => {
+export const useAuthClient = <T extends IBaseIdentityClaims>({
+  onEvent,
+  onTokens,
+  initOptions,
+  authClient,
+  autoRefreshToken,
+}: TUseAuthProps<T>) => {
   const [state, setState] = useState<TState>({
     initialized: false,
     isAuthenticated: false,
     isLoading: true,
-    userWorkspace: undefined,
   });
 
   const updateState = useCallback(
@@ -55,7 +40,7 @@ export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, auto
       onEvent && onEvent(event);
 
       const isLoading = false;
-      const isAuthenticated = isUserAuthenticated(authClient);
+      const isAuthenticated = isUserAuthenticated<T>(authClient);
 
       // Avoid double-refresh if state hasn't changed
       if (!prevInitialized || isAuthenticated !== prevAuthenticated || isLoading !== prevLoading) {
@@ -63,7 +48,6 @@ export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, auto
           initialized: true,
           isAuthenticated,
           isLoading,
-          userWorkspace: userWorkspace(authClient),
         });
       }
 
@@ -126,6 +110,5 @@ export const useAuthClient = ({ onEvent, onTokens, initOptions, authClient, auto
     initialized: state.initialized,
     isAuthenticated: state.isAuthenticated,
     isLoading: state.isLoading,
-    userWorkspace: state.userWorkspace,
   };
 };

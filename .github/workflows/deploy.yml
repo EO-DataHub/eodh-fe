@@ -45,6 +45,7 @@ jobs:
           files: '["**/*.html"]'
         env:
           VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_EODH_STAC_API_URL: ${{ vars.APP_EODH_STAC_API_URL }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Create config file'
         run: npm run config:create
@@ -95,6 +96,7 @@ jobs:
           files: '["**/*.html"]'
         env:
           VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_EODH_STAC_API_URL: ${{ vars.APP_EODH_STAC_API_URL }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Create config file'
         run: npm run config:create
@@ -146,6 +148,7 @@ jobs:
           files: '["**/*.html"]'
         env:
           VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_EODH_STAC_API_URL: ${{ vars.APP_EODH_STAC_API_URL }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Create config file'
         run: npm run config:create
@@ -197,6 +200,7 @@ jobs:
           files: '["**/*.html"]'
         env:
           VITE_BASE_URL: ${{ vars.APP_BASE_URL }}
+          VITE_EODH_STAC_API_URL: ${{ vars.APP_EODH_STAC_API_URL }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Create config file'
         run: npm run config:create

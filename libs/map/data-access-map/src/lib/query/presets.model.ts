@@ -25,7 +25,13 @@ const presetSchema = z
   .object({
     name: z.string(),
     preset: z.boolean(),
-    identifier: z.string(),
+    identifier: z.union([
+      z.literal('raster-calculate'),
+      z.literal('lulc-change'),
+      z.literal('water-quality'),
+      z.literal('clip'),
+      z.string(),
+    ]),
     description: z.string().optional(),
     thumbnail_b64: z.string().nullish(),
     inputs: z.object({

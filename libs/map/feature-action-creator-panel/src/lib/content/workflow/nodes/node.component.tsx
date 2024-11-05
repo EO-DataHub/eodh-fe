@@ -22,7 +22,7 @@ type TTypeOfNode = {
   };
 };
 
-const titlePath = 'MAP.ACTION_CREATOR_PANEL.NODE';
+const titlePath = 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE';
 
 const typeOfNode: TTypeOfNode = {
   area: {
