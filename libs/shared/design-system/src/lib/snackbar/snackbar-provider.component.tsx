@@ -4,6 +4,7 @@ import { PropsWithChildren } from 'react';
 import { Icon } from '../icon/icon';
 import { SnackbarCloseButton } from './snackbar-close-button.component';
 
+// todo use custom Notification component [https://ukri-spyrosoft.atlassian.net/browse/UKRIW-543]
 export const SnackbarProvider = ({ children }: PropsWithChildren) => {
   return (
     <NotistackProvider

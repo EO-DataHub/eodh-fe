@@ -55,16 +55,23 @@ export interface IErrorResponse {
   detail: TErrorMessage[];
 }
 
-const BASE_KEY = 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET';
+const BASE_KEY = 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE';
 const collectionTranslationMap: Record<TCollectionName, string> = {
-  'sentinel-1': `${BASE_KEY}.SENTINEL_1`,
-  'sentinel-2-l1c': `${BASE_KEY}.SENTINEL_2`,
-  'sentinel-2-l2a': `${BASE_KEY}.SENTINEL_2`,
-  'sentinel-3': `${BASE_KEY}.SENTINEL_3`,
-  'sentinel-5p': `${BASE_KEY}.SENTINEL_5P`,
-  'esacci-globallc': `${BASE_KEY}.AUXILIARY.GLOBAL_LAND_COVER`,
-  'clms-corinelc': `${BASE_KEY}.AUXILIARY.CORINE_LAND_COVER`,
-  'clms-water-bodies': `${BASE_KEY}.AUXILIARY.WATER_BODIES`,
+  'sentinel-1': `${BASE_KEY}.DATA_SET.SENTINEL_1`,
+  'sentinel-2-l1c': `${BASE_KEY}.DATA_SET.SENTINEL_2`,
+  'sentinel-2-l2a': `${BASE_KEY}.DATA_SET.SENTINEL_2`,
+  'sentinel-3': `${BASE_KEY}.DATA_SET.SENTINEL_3`,
+  'sentinel-5p': `${BASE_KEY}.DATA_SET.SENTINEL_5P`,
+  'esacci-globallc': `${BASE_KEY}.DATA_SET.AUXILIARY.GLOBAL_LAND_COVER`,
+  'clms-corinelc': `${BASE_KEY}.DATA_SET.AUXILIARY.CORINE_LAND_COVER`,
+  'clms-water-bodies': `${BASE_KEY}.DATA_SET.AUXILIARY.WATER_BODIES`,
+};
+
+const functionTranslationMap: Record<TFunctionIdentifier, string> = {
+  'raster-calculate': `${BASE_KEY}.FUNCTION.OPTIONS.RASTER_CALCULATOR`,
+  'lulc-change': `${BASE_KEY}.FUNCTION.OPTIONS.LAND_COVER_CHANGES`,
+  'water-quality': `${BASE_KEY}.WORKFLOW.NODE.FUNCTION.OPTIONS.WATER_QUALITY`,
+  clip: `${BASE_KEY}.FUNCTION.OPTIONS.CLIP`,
 };
 
 const getCollectionTranslationKey = (collection: TCollectionName): string | null => {
@@ -72,25 +79,7 @@ const getCollectionTranslationKey = (collection: TCollectionName): string | null
 };
 
 const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier) => {
-  switch (functionIdentifier) {
-    case 'raster-calculate': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.RASTER_CALCULATOR';
-    }
-
-    case 'lulc-change': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.LAND_COVER_CHANGES';
-    }
-
-    case 'water-quality': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.WATER_QUALITY';
-    }
-
-    case 'clip': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.CLIP';
-    }
-  }
-
-  return null;
+  return functionTranslationMap[functionIdentifier] || null;
 };
 
 const useErrorMessage = () => {

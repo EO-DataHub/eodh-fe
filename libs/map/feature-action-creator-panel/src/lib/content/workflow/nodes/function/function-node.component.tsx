@@ -10,27 +10,16 @@ import { LoadingNode } from './loading-node.component';
 import { ValueNode } from './value-node.component';
 
 type TFunctionIdentifier = 'raster-calculate' | 'lulc-change' | 'water-quality' | 'clip' | string;
+const BASE_KEY = 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE';
+const functionTranslationMap: Record<TFunctionIdentifier, string> = {
+  'raster-calculate': `${BASE_KEY}.FUNCTION.OPTIONS.RASTER_CALCULATOR`,
+  'lulc-change': `${BASE_KEY}.FUNCTION.OPTIONS.LAND_COVER_CHANGES`,
+  'water-quality': `${BASE_KEY}.WORKFLOW.NODE.FUNCTION.OPTIONS.WATER_QUALITY`,
+  clip: `${BASE_KEY}.FUNCTION.OPTIONS.CLIP`,
+};
 
 const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier) => {
-  switch (functionIdentifier) {
-    case 'raster-calculate': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.RASTER_CALCULATOR';
-    }
-
-    case 'lulc-change': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.LAND_COVER_CHANGES';
-    }
-
-    case 'water-quality': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.WATER_QUALITY';
-    }
-
-    case 'clip': {
-      return 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.FUNCTION.OPTIONS.CLIP';
-    }
-  }
-
-  return null;
+  return functionTranslationMap[functionIdentifier] || null;
 };
 
 const useOptions = () => {
