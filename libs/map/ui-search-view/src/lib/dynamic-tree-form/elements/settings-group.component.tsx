@@ -1,7 +1,7 @@
 import { TreeItem } from '@ukri/shared/design-system';
 import { PropsWithChildren } from 'react';
 
-import { IDynamicTreeSettingGroup } from '../tree.model';
+import { IDynamicTreeSettingGroup } from '../tree-dynamic.model';
 import { getTreeIndent, IndentProvider, TIndent, useIndent, useNextIndent } from './indent.provider';
 import { Title } from './title.component';
 

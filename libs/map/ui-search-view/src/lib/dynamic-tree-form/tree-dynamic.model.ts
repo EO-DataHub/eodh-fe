@@ -1,217 +1,69 @@
-import { TDynamicTreeModel } from './tree.model';
+export interface IDynamicBaseItem {
+  translationKey: string;
+}
 
-export const dynamicTreeForm: TDynamicTreeModel = [
-  {
-    translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.PUBLIC',
-    type: 'category',
-    options: {
-      expendable: true,
-      disabled: false,
-    },
-    controls: [
-      {
-        name: 'public.expand',
-        type: 'expand',
-        value: true,
-      },
-    ],
-    children: [
-      {
-        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.NAME',
-        type: 'category',
-        controls: [
-          {
-            name: 'public.copernicus.expand',
-            type: 'expand',
-            value: true,
-          },
-          {
-            name: 'public.copernicus.enable',
-            type: 'checkbox',
-            value: false,
-          },
-        ],
-        children: [
-          {
-            translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.NAME',
-            type: 'item',
-            controls: [
-              {
-                name: 'public.copernicus.sentinel1.enable',
-                type: 'button',
-                value: true,
-              },
-              {
-                name: 'public.copernicus.sentinel1.expand',
-                type: 'checkbox',
-              },
-            ],
-            children: [
-              {
-                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.ACQUISITION_MODE',
-                type: 'settingGroup',
-                children: [
-                  {
-                    type: 'settingItem',
-                    translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.EW',
-                    controls: [
-                      {
-                        name: 'public.copernicus.sentinel1.acquisitionMode.ew',
-                        type: 'checkbox',
-                        value: true,
-                      },
-                    ],
-                    children: [
-                      {
-                        type: 'settingGroup',
-                        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION',
-                        children: [
-                          {
-                            type: 'settingItem',
-                            translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.HH',
-                            controls: [
-                              {
-                                name: 'public.copernicus.sentinel1.acquisitionMode.hh',
-                                type: 'checkbox',
-                                value: true,
-                              },
-                            ],
-                          },
-                          {
-                            type: 'settingItem',
-                            translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.HH_HV',
-                            controls: [
-                              {
-                                name: 'public.copernicus.sentinel1.acquisitionMode.hh_hv',
-                                type: 'checkbox',
-                                value: true,
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  {
-                    type: 'settingItem',
-                    translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.IW',
-                    controls: [
-                      {
-                        name: 'public.copernicus.sentinel1.acquisitionMode.iw',
-                        type: 'checkbox',
-                        value: true,
-                      },
-                    ],
-                    children: [
-                      {
-                        type: 'settingGroup',
-                        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION',
-                        children: [
-                          {
-                            type: 'settingItem',
-                            translationKey: 'VV',
-                            controls: [
-                              {
-                                name: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV',
-                                type: 'checkbox',
-                                value: true,
-                              },
-                            ],
-                          },
-                          {
-                            type: 'settingItem',
-                            translationKey: 'VV+VH',
-                            controls: [
-                              {
-                                name: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV_VH',
-                                type: 'checkbox',
-                                value: true,
-                              },
-                            ],
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.ORBIT_DIRECTION',
-                type: 'settingGroup',
-                children: [
-                  {
-                    type: 'settingItem',
-                    translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.ASCENDING',
-                    controls: [
-                      {
-                        name: 'public.copernicus.sentinel1.orbitDirection.ascending',
-                        type: 'checkbox',
-                        value: true,
-                      },
-                    ],
-                  },
-                  {
-                    type: 'settingItem',
-                    translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.DESCENDING',
-                    controls: [
-                      {
-                        name: 'public.copernicus.sentinel1.orbitDirection.descending',
-                        type: 'checkbox',
-                        value: true,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.NAME',
-            type: 'item',
-            controls: [
-              {
-                name: 'public.copernicus.sentinel2.enable',
-                type: 'button',
-                value: true,
-              },
-              {
-                name: 'public.copernicus.sentinel2.expand',
-                type: 'checkbox',
-              },
-            ],
-            children: [
-              {
-                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.L1C',
-                type: 'settingItem',
-                controls: [
-                  {
-                    name: 'public.copernicus.sentinel2.l1c',
-                    type: 'checkbox',
-                    value: true,
-                  },
-                ],
-              },
-              {
-                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.L2A',
-                type: 'settingItem',
-                controls: [
-                  {
-                    name: 'public.copernicus.sentinel2.l2a',
-                    type: 'checkbox',
-                    value: true,
-                  },
-                ],
-              },
-              {
-                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
-                type: 'slider',
-                name: 'public.copernicus.sentinel2.cloudCoverage',
-                value: 100,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
+export interface IBasicOption {
+  disabled?: boolean;
+}
+
+export interface IOption extends IBasicOption {
+  expendable?: boolean;
+}
+
+export interface IValueControl {
+  name: string;
+  type: 'checkbox' | 'radio';
+  value?: boolean;
+}
+
+export interface IActionControl {
+  name: string;
+  type: 'expand' | 'button';
+  value?: boolean;
+}
+
+export interface IDynamicSlider extends IDynamicBaseItem {
+  type: 'slider';
+  options?: IBasicOption;
+  name: string;
+  value?: number;
+  controls?: never;
+  children?: never;
+}
+
+export interface IDynamicTreeSettingItem extends IDynamicBaseItem {
+  type: 'settingItem';
+  children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem)[];
+  controls?: IValueControl[];
+  options?: IBasicOption;
+}
+
+export interface IDynamicTreeSettingGroup extends IDynamicBaseItem {
+  type: 'settingGroup';
+  children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem)[];
+  controls?: IValueControl[];
+  options?: IBasicOption;
+}
+
+export interface IDynamicTreeItem extends IDynamicBaseItem {
+  type: 'item';
+  options?: IOption;
+  children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem | IDynamicSlider)[] | IDynamicTreeItem[];
+  controls?: (IValueControl | IActionControl)[];
+}
+
+export interface IDynamicTreeCategory extends IDynamicBaseItem {
+  type: 'category';
+  options?: IOption;
+  children?: IDynamicTreeCategory[] | IDynamicTreeItem[];
+  controls?: (IValueControl | IActionControl)[];
+}
+
+export type TDynamicTreeModel = (IDynamicTreeCategory | IDynamicTreeItem)[];
+
+export type TDynamicTreeElement =
+  | IDynamicTreeCategory
+  | IDynamicTreeItem
+  | IDynamicTreeSettingGroup
+  | IDynamicTreeSettingItem
+  | IDynamicSlider;

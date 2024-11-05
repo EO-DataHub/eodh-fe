@@ -4,7 +4,9 @@ import set from 'lodash/set';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { TreeElement } from './elements/tree-element.component';
-import { TDynamicTreeElement, TDynamicTreeModel } from './tree.model';
+import { TDynamicTreeElement, TDynamicTreeModel } from './tree-dynamic.model';
+import { TreeBuilder } from './tree-builder/tree.builder';
+import { useMemo } from 'react';
 
 const getControls = (tree: TDynamicTreeElement[]): { name: string; value?: boolean | number }[] => {
   let results: { name: string; value?: boolean | number }[] = [];
@@ -48,8 +50,11 @@ export const DynamicTreeForm = ({ tree }: TTreeProps) => {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
 
-  // const controls = getControlsAsObject(tree);
-  // console.log('controls', controls);
+  const treeBuilder = useMemo(() => new TreeBuilder(tree), [tree]);
+  const treeBuilderObject = useMemo(() => new TreeBuilder(tree).toObject(), [tree]);
+
+  const controls = getControlsAsObject(tree);
+  console.log('controls', controls, treeBuilder, treeBuilderObject);
 
   const form2 = useForm({
     defaultValues: getControlsAsObject(tree),

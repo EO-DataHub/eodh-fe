@@ -3,7 +3,7 @@ import isArray from 'lodash/isArray';
 import { ChangeEvent, PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
 import { useController, useFormContext, useWatch } from 'react-hook-form';
 
-import { IDynamicTreeCategory } from '../tree.model';
+import { IDynamicTreeCategory } from '../tree-dynamic.model';
 
 type TTreeCategoryProps = {
   item: IDynamicTreeCategory;

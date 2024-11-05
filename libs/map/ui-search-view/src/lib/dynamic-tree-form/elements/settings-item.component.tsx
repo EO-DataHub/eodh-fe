@@ -2,7 +2,7 @@ import { Checkbox, TreeItem, TSlots } from '@ukri/shared/design-system';
 import { PropsWithChildren, useCallback, useMemo } from 'react';
 import { get, useFormContext } from 'react-hook-form';
 
-import { IDynamicTreeSettingItem } from '../tree.model';
+import { IDynamicTreeSettingItem } from '../tree-dynamic.model';
 import { Error } from './error.component';
 import { getTreeIndent, IndentProvider, TIndent, useIndent, useNextIndent } from './indent.provider';
 import { Title } from './title.component';

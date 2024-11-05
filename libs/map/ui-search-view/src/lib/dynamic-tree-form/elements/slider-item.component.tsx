@@ -1,7 +1,7 @@
 import { Slider, TreeItem } from '@ukri/shared/design-system';
 import { useFormContext } from 'react-hook-form';
 
-import { IDynamicSlider } from '../tree.model';
+import { IDynamicSlider } from '../tree-dynamic.model';
 
 type TSettingsSection = { item: IDynamicSlider };
 

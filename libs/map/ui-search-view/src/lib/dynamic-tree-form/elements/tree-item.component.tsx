@@ -3,7 +3,7 @@ import { PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
 import { get, useFormContext, useWatch } from 'react-hook-form';
 
 import { SettingsTree } from '../../tree/components/settings-tree.component';
-import { IDynamicTreeItem } from '../tree.model';
+import { IDynamicTreeItem } from '../tree-dynamic.model';
 import { Title } from './title.component';
 
 type TSettingsIconProps = { value: boolean; disabled: boolean };

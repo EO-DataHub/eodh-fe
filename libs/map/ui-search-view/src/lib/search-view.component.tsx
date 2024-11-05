@@ -9,7 +9,7 @@ import { AreaOfInterest } from './aoi.component';
 import { useSyncChecklistState } from './checklist/use-checklist.hook';
 import { DateRangePicker } from './date-range-picker/date-range-picker.component';
 import { DynamicTreeForm } from './dynamic-tree-form/tree.component';
-import { dynamicTreeForm } from './dynamic-tree-form/tree-dynamic.model';
+import { dynamicTreeForm } from './dynamic-tree-form/tree.dynamic';
 import { getSchema, TInitialForm, TSchema, TUpdateForm } from './schema/form.schema';
 import { SearchViewProvider, TSearchViewState } from './search-view.context';
 import { SubmitButton } from './submit-button.component';

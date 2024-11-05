@@ -1,4 +1,4 @@
-import { TDynamicTreeElement } from '../tree.model';
+import { TDynamicTreeElement } from '../tree-dynamic.model';
 import { SettingsGroup } from './settings-group.component';
 import { SettingsItem } from './settings-item.component';
 import { SliderItem } from './slider-item.component';
