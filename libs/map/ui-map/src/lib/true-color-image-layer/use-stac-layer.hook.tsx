@@ -70,7 +70,7 @@ export const useStacLayer = () => {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    fetchStacItem().catch(() => {});
+    fetchStacItem().catch(() => {}); // todo add displaying error
 
     return () => {
       isSubscribed = false;
