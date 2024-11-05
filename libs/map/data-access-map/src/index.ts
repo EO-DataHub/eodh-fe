@@ -28,5 +28,4 @@ export type {
 export { useFunctions } from './lib/query/function.query';
 export { useCreateWorkflow } from './lib/mutation/workflow.mutation';
 export type { TFunction } from './lib/query/function.model';
-export { useGetWorkflowResult } from './lib/query/workflow-result.query';
 export type { TPreset } from './lib/query/presets.model';

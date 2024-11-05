@@ -1,5 +1,4 @@
 export type TMode = 'search' | 'action-creator';
-export type TACView = 'acTreeView' | 'acResultsView';
 
 export type TView = 'search' | 'results';
 
