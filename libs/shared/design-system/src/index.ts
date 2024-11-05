@@ -23,3 +23,4 @@ export { Notification } from './lib/notification/notification';
 export { Error } from './lib/error/error';
 export { Tooltip } from './lib/tooltip/tooltip';
 export { useOutsideClick } from './lib/hooks/use-outside-click';
+export { TimeSlider } from './lib/time-slider/time-slider';

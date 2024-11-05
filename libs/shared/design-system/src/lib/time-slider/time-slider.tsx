@@ -1,168 +1,120 @@
 import { Tooltip } from '@mui/material';
 import Slider from '@mui/material/Slider';
-import React, { PropsWithChildren, useState } from 'react';
+import { createDate, dateToNumber, type TDateString, type TDateTimeString } from '@ukri/shared/utils/date';
+import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-const getMonth = (value: number) => {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  return months[value];
-};
+import { sliderStyles } from './time-slider.styles';
 
-type TMarkProps = {
-  'data-index': number;
-  className: string;
-  style: {
-    right: string;
-  };
-};
+const translationPath = 'GLOBAL.DESIGN_SYSTEM.TIME_SLIDER.MONTHS';
 
-interface IValueLabelComponentProps {
-  children: React.ReactElement;
-  value: number;
-}
+const MONTH_KEYS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
-const ValueLabelComponent = (props: IValueLabelComponentProps) => {
-  const { children, value } = props;
-
-  // Convert value to year and month
+const ValueLabelComponent: React.FC<{ children: React.ReactElement; value: number }> = ({ children, value }) => {
+  const { t } = useTranslation();
+  const MONTHS = useMemo(() => MONTH_KEYS.map((key) => t(`${translationPath}.${key}`)), [t]);
   const year = Math.floor(value);
   const monthIndex = Math.round((value - year) * 12);
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
   return (
-    <Tooltip enterTouchDelay={0} placement='top' title={`${months[monthIndex]} ${year}`}>
+    <Tooltip enterTouchDelay={0} placement='top' title={`${MONTHS[monthIndex]} ${year}`}>
       {children}
     </Tooltip>
   );
 };
 
-function isZeroOrMultipleOf12(number: number) {
-  return number === 0 || number % 12 === 0;
-}
+const CustomMark: React.FC<{ 'data-index': number; className: string; style: { right: string } }> = (props) => (
+  <div
+    className={`absolute bg-bright-dark bottom-0 ${props.className}`}
+    style={{
+      ...props.style,
+      width: 1,
+      height: props['data-index'] % 12 === 0 ? 46 : 30,
+    }}
+  />
+);
 
-const CustomMark = (props: TMarkProps) => {
-  return (
-    <div
-      className={props.className}
-      style={{
-        ...props.style,
-        position: 'absolute',
-        width: 1,
-        height: `${isZeroOrMultipleOf12(props['data-index']) ? 46 : 30}px`,
-        background: '#D8D8D8',
-        bottom: 0,
-      }}
-    ></div>
-  );
-};
-
-type TLabelProps = {
+const CustomLabel: React.FC<{
   'data-index': number;
   className: string;
-  style: {
-    right: string;
-  };
-};
-
-const CustomLabel = (props: PropsWithChildren<TLabelProps>) => {
-  console.log('props', props);
-
-  const month = props.ownerState.max - props.ownerState.min === 1 ? getMonth(props['data-index']) : '';
+  ownerState: { min: number; max: number };
+  style: { right: string };
+  children: React.ReactNode;
+}> = (props) => {
+  const { t } = useTranslation();
+  const MONTHS = useMemo(() => MONTH_KEYS.map((key) => t(`${translationPath}.${key}`)), [t]);
+  const month = props.ownerState.max - props.ownerState.min === 1 ? MONTHS[props['data-index']] : '';
 
   return (
-    <div
-      className={props.className}
-      style={{
-        ...props.style,
-        position: 'absolute',
-        width: 'auto',
-        bottom: '-20px',
-      }}
-    >
-      {month && <div className='relative bottom-2 left-1/2 translate-x-1/2'>{month}</div>}
+    <div className={props.className} style={{ ...props.style, position: 'absolute', width: 'auto', bottom: '-5px' }}>
+      {month && <div className='relative bottom-auto left-1/2 translate-x-1/2'>{month}</div>}
       <div className='absolute -translate-x-1/2'>{props.children}</div>
     </div>
   );
 };
 
 interface ITimeSliderProps {
-  min: number;
-  max: number;
+  min: TDateString | TDateTimeString;
+  max: TDateString | TDateTimeString;
+  initialValues?: [TDateString, TDateString];
+  className?: string;
 }
 
-export const TimeSlider = ({ min, max }: ITimeSliderProps) => {
-  const [value, setValue] = useState<number[]>([2017, 2022]);
+export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, initialValues = [min, max], className }) => {
+  const getEndYear = (date: TDateString): number => {
+    const adjustedDate = createDate(date);
+    if (adjustedDate && (adjustedDate.getMonth() !== 0 || adjustedDate.getDate() !== 1)) {
+      adjustedDate.setFullYear(adjustedDate.getFullYear() + 1);
+    }
+    adjustedDate?.setMonth(0, 1);
+    return dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+  };
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
+  const getBeginingOfYear = (date: TDateString): number => {
+    const adjustedDate = createDate(date);
+    adjustedDate?.setMonth(0, 1);
+    return dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+  };
+
+  const minNum = getBeginingOfYear(min);
+  const maxNum = getEndYear(max);
+  const [value, setValue] = useState<number[]>(initialValues.map(dateToNumber) as [number, number]);
+
+  const handleChange = (_: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
 
-  const generateMarks = () => {
-    const marks = [];
-    for (let year = 2015; year <= 2024; year++) {
+  const marks = useMemo(() => {
+    const result = [];
+    for (let year = Math.floor(minNum); year <= Math.ceil(maxNum); year++) {
       for (let month = 0; month < 12; month++) {
         const value = year + month / 12;
-        marks.push({
-          value,
-          label: month === 0 ? `${year}` : '',
-          color: month === 0 ? 'red' : 'green',
-          mark: <>AAA</>,
-        });
+        if (value >= minNum && value <= maxNum) {
+          result.push({ value, label: month === 0 ? `${year}` : '' });
+        }
       }
     }
-    return marks;
-  };
+    return result;
+  }, [minNum, maxNum]);
 
   return (
-    <div className='w-full mx-auto p-4'>
-      <h2 className='text-lg font-semibold mb-4 text-gray-500'>timeline</h2>
-      <Slider
-        value={value}
-        onChange={handleChange}
-        valueLabelDisplay='auto'
-        min={min}
-        max={max}
-        step={1 / 12}
-        marks={generateMarks()}
-        slots={{
-          valueLabel: ValueLabelComponent,
-          mark: CustomMark,
-          markLabel: CustomLabel,
-        }}
-        sx={{
-          color: '#1976d2',
-          height: 8,
-
-          '& .MuiSlider-track': {
-            border: 'none',
-            backgroundColor: '#1976d2',
-          },
-          '& .MuiSlider-thumb': {
-            height: 24,
-            width: 24,
-            backgroundColor: '#fff',
-            border: '2px solid currentColor',
-            '&:hover': {
-              boxShadow: '0px 0px 0px 8px rgba(25,118,210,0.16)',
-            },
-            '& .Mui-active': {
-              boxShadow: '0px 0px 0px 14px rgba(25,118,210,0.16)',
-            },
-          },
-          '& .MuiSlider-rail': {
-            opacity: 1,
-            backgroundColor: '#bfbfbf',
-          },
-          '& .MuiSlider-mark': {
-            backgroundColor: '#bfbfbf',
-            height: 12,
-            width: 2,
-          },
-          '& .MuiSlider-markLabel': {
-            color: '#9e9e9e',
-            fontSize: '12px',
-          },
-        }}
-      />
+    <div className={`h-[76px] w-full relative bg-background-main ${className}`}>
+      <div className='w-full px-[24px] pb-4 pt-[13px] absolute top-0'>
+        <Slider
+          value={value}
+          onChange={handleChange}
+          valueLabelDisplay='auto'
+          min={minNum}
+          max={maxNum}
+          step={1 / 12}
+          marks={marks}
+          slots={{
+            valueLabel: ValueLabelComponent,
+            mark: CustomMark,
+            markLabel: CustomLabel,
+          }}
+          sx={sliderStyles}
+        />
+      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { ActionCreatorPanel } from '@ukri/map/feature-action-creator-panel';
 import { FootprintLayer, Map, MapWrapper, TrueColorImageLayer } from '@ukri/map/ui-map';
 import { Checklist } from '@ukri/map/ui-search-view';
 
+import { BottomPanel } from './bottom-panel.component';
 import { LeftMenu } from './left-menu.component';
 import { TopBar } from './top-bar.component';
 
@@ -18,6 +19,7 @@ export const DefaultLayout = () => {
             <Checklist />
             <ActionCreatorPanel />
           </Map>
+          <BottomPanel className='absolute' />
         </div>
       </MapWrapper>
     </div>
