@@ -11,7 +11,23 @@ export const SearchModePanel = () => {
 
   switch (view) {
     case 'results': {
-      return <ResultsView status={status} searchType={searchType} data={data} onBack={changeToSearchView} />;
+      if (searchType === 'workflow' || searchType === 'catalogue') {
+        return <ResultsView status={status} searchType={searchType} data={data} onBack={changeToSearchView} />;
+      }
+
+      return (
+        <SearchView state={state} defaultValues={values} schema={schema} onChange={updateState} onSubmit={search}>
+          <Header>
+            <Text
+              content='MAP.SEARCH_MODE_PANEL.HEADER.BROWSE_DATA_SETS'
+              type='h3'
+              fontSize='large'
+              fontWeight='bold'
+              className='text-neutral-dark'
+            />
+          </Header>
+        </SearchView>
+      );
     }
 
     default:
