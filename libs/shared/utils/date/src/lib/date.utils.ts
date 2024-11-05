@@ -27,6 +27,21 @@ export const numberToDate = (num: number): TDateString => {
   return new Date(year, month, 1).toISOString().split('T')[0] as TDateString;
 };
 
+export const getEndYear = (date: TDateString): number => {
+  const adjustedDate = createDate(date);
+  if (adjustedDate && (adjustedDate.getMonth() !== 0 || adjustedDate.getDate() !== 1)) {
+    adjustedDate.setFullYear(adjustedDate.getFullYear() + 1);
+  }
+  adjustedDate?.setMonth(0, 1);
+  return dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+};
+
+export const getBeginingOfYear = (date: TDateString): number => {
+  const adjustedDate = createDate(date);
+  adjustedDate?.setMonth(0, 1);
+  return dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+};
+
 export const createDate = (date?: TDateTimeString | TDateString) => {
   if (!date) {
     return null;

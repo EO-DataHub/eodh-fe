@@ -1,4 +1,5 @@
 import { Meta, Story } from '@storybook/react';
+import { TDateStringInternal } from '@ukri/shared/utils/date';
 
 import { TimeSlider } from './time-slider';
 
@@ -12,7 +13,11 @@ export default {
 } as Meta;
 
 const Template: Story = (args) => (
-  <TimeSlider min='2000-11-01T00:00:00+00:00' max='2018-10-01T00:00:00+00:00' {...args} />
+  <TimeSlider
+    min={'2000-11-01T00:00:00+00:00' as TDateStringInternal}
+    max={'2018-10-01T00:00:00+00:00' as TDateStringInternal}
+    {...args}
+  />
 );
 
 export const Default = Template.bind({});

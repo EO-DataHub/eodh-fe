@@ -5,6 +5,8 @@ export {
   createDate,
   numberToDate,
   dateToNumber,
+  getBeginingOfYear,
+  getEndYear,
   type TDateTimeString,
   type TDateString,
   type TDateStringInternal,
