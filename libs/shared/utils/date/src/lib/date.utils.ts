@@ -69,10 +69,6 @@ export const getBeginingOfYear = (date: TDateString): number => {
 };
 
 export const createDate = (date?: TDateTimeString | TDateString) => {
-  if (!date) {
-    return null;
-  }
-
   return new Date(date);
 };
 
