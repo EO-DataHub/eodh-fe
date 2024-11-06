@@ -7,7 +7,10 @@ export const useControl = (item: ITreeItem) => {
     () => item.model.controls.settings?.name || '',
     [item.model.controls.settings?.name]
   );
-  const showSettingsControlName = useMemo(() => item.model.controls.settings?.name || '', [item.model.controls.settings?.name]);
+  const showSettingsControlName = useMemo(
+    () => item.model.controls.settings?.name || '',
+    [item.model.controls.settings?.name]
+  );
   const valueControlName = useMemo(() => item.model.controls.value.name, [item.model.controls.value.name]);
   const disabled = useMemo(() => item.model.options?.disabled, [item.model.options?.disabled]);
 

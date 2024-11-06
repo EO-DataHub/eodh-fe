@@ -1,9 +1,9 @@
 import { TreeItem } from '@ukri/shared/design-system';
 import { PropsWithChildren } from 'react';
 
+import { ITreeSettingGroup } from '../tree.model';
 import { getTreeIndent, IndentProvider, TIndent, useIndent, useNextIndent } from './indent.provider';
 import { Title } from './title.component';
-import { ITreeSettingGroup } from '../tree.model';
 
 type TSettingsSection = PropsWithChildren<{ item: ITreeSettingGroup; indent?: TIndent; disabled?: boolean }>;
 

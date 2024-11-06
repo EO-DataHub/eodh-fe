@@ -1,10 +1,11 @@
 import isString from 'lodash/isString';
 
 import {
+  IDynamicSimpleControl,
   IDynamicValueControl,
-  TControlType,
+  ISimpleControl,
   IValueControl,
-  ISimpleControl, IDynamicSimpleControl,
+  TControlType,
 } from '../../tree.model';
 
 export class SimpleControl implements ISimpleControl {
@@ -13,7 +14,9 @@ export class SimpleControl implements ISimpleControl {
   public expanded = true;
   public disabled = false;
 
-  public constructor(props?: IDynamicSimpleControl | ISimpleControl | IDynamicValueControl | IValueControl | TControlType) {
+  public constructor(
+    props?: IDynamicSimpleControl | ISimpleControl | IDynamicValueControl | IValueControl | TControlType
+  ) {
     if (isString(props)) {
       return;
     }

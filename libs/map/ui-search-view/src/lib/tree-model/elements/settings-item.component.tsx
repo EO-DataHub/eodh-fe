@@ -1,10 +1,10 @@
 import { ControlledCheckbox, TreeItem } from '@ukri/shared/design-system';
 import { PropsWithChildren } from 'react';
 
+import { ITreeSettingItem } from '../tree.model';
 import { Error } from './error.component';
 import { getTreeIndent, IndentProvider, TIndent, useIndent, useNextIndent } from './indent.provider';
 import { Title } from './title.component';
-import { ITreeSettingItem } from '../tree.model';
 
 type TSettingsItemProps = PropsWithChildren<{
   item: ITreeSettingItem;
@@ -15,9 +15,7 @@ export const SettingsItem = ({ item, indent: currentIndent, children }: TSetting
   const indent = useIndent(currentIndent);
   const nextIndent = useNextIndent(currentIndent);
 
-  const handleChange = () => {
-
-  }
+  const handleChange = () => {};
 
   return (
     <>
@@ -28,7 +26,12 @@ export const SettingsItem = ({ item, indent: currentIndent, children }: TSetting
           {
             position: 'title:after',
             element: (
-              <ControlledCheckbox name={item.name} value={!!item.control.value} disabled={item.control.disabled} onChange={handleChange} />
+              <ControlledCheckbox
+                name={item.name}
+                value={!!item.control.value}
+                disabled={item.control.disabled}
+                onChange={handleChange}
+              />
             ),
             key: 'checkbox',
           },

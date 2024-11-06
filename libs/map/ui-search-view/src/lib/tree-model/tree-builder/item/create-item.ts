@@ -1,14 +1,17 @@
 import { TDynamicTreeElement, TTreeElement } from '../../tree.model';
-import { BasicTreeItem } from './basic-tree.item';
-import { ValueControl } from '../control/value.control';
 import { SimpleControl } from '../control/simple.control';
+import { ValueControl } from '../control/value.control';
+import { BasicTreeItem } from './basic-tree.item';
 import { TreeCategory, TreeItem } from './tree.item';
 import { TreeSettingGroup, TreeSettingItem } from './tree-setting';
 
-export const createItem = (item: TDynamicTreeElement | TTreeElement, parent: BasicTreeItem<ValueControl | SimpleControl>) => {
+export const createItem = (
+  item: TDynamicTreeElement | TTreeElement,
+  parent: BasicTreeItem<ValueControl | SimpleControl>
+) => {
   switch (item.type) {
     case 'category': {
-      return new TreeCategory(item, parent)
+      return new TreeCategory(item, parent);
     }
 
     case 'item': {
@@ -27,4 +30,4 @@ export const createItem = (item: TDynamicTreeElement | TTreeElement, parent: Bas
       return null;
     }
   }
-}
+};

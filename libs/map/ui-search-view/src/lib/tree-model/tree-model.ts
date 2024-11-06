@@ -69,10 +69,10 @@ export const dynamicTree: TDynamicTreeModel = [
                             type: 'settingItem',
                             translationKey: 'HH+HV',
                             control: 'checkbox',
-                          }
-                        ]
-                      }
-                    ]
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     name: 'iw',
@@ -100,12 +100,12 @@ export const dynamicTree: TDynamicTreeModel = [
                             type: 'settingItem',
                             translationKey: 'VV+VH',
                             control: 'checkbox',
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 translationKey: 'Orbit direction:',
@@ -131,13 +131,13 @@ export const dynamicTree: TDynamicTreeModel = [
                     type: 'settingItem',
                     translationKey: 'Descending',
                     control: 'checkbox',
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];

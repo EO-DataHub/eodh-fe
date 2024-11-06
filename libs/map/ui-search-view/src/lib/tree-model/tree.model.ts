@@ -25,7 +25,8 @@ export interface IDynamicSimpleControl {
   disabled?: boolean;
 }
 
-export interface IDynamicValueControl extends Omit<IDynamicSimpleControl, 'type' | 'defaultValue' | 'valueMode' | 'triggerMode' | 'reValidateMode'> {
+export interface IDynamicValueControl
+  extends Omit<IDynamicSimpleControl, 'type' | 'defaultValue' | 'valueMode' | 'triggerMode' | 'reValidateMode'> {
   type: TControlType;
   defaultValue?: boolean;
   value?: never;
@@ -40,26 +41,30 @@ export interface IDynamicTreeSettingItem extends IDynamicBaseItem<IDynamicValueC
   children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem)[];
 }
 
-export interface IDynamicTreeSettingGroup extends IDynamicBaseItem<IDynamicSimpleControl | IDynamicValueControl | TControlType> {
+export interface IDynamicTreeSettingGroup
+  extends IDynamicBaseItem<IDynamicSimpleControl | IDynamicValueControl | TControlType> {
   type: 'settingGroup';
   name?: string;
-  children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem)[]
+  children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem)[];
 }
 
 export interface IDynamicTreeItem extends IDynamicBaseItem<IDynamicValueControl | TControlType> {
   type: 'item';
   name: string;
-  children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem)[]
+  children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem)[];
 }
 
 export interface IDynamicTreeCategory extends IDynamicBaseItem<IDynamicSimpleControl | IDynamicValueControl> {
   type: 'category';
   name: string;
   expendable?: boolean;
-  children?: (IDynamicTreeCategory | IDynamicTreeItem)[]
+  children?: (IDynamicTreeCategory | IDynamicTreeItem)[];
 }
 
-export interface ISimpleControl extends Required<Omit<IDynamicSimpleControl, 'type' | 'defaultValue' | 'value' | 'valueMode' | 'triggerMode' | 'reValidateMode'>> {
+export interface ISimpleControl
+  extends Required<
+    Omit<IDynamicSimpleControl, 'type' | 'defaultValue' | 'value' | 'valueMode' | 'triggerMode' | 'reValidateMode'>
+  > {
   defaultValue?: never;
   value?: never;
   valueMode?: never;
@@ -73,7 +78,10 @@ export interface IValueControl extends Required<Omit<IDynamicValueControl, 'defa
   value: boolean | undefined;
 }
 
-export interface IBaseItem<T extends IValueControl | ISimpleControl> extends Required<Omit<IDynamicBaseItem<IDynamicValueControl | IDynamicSimpleControl | TControlType>,  'id' | 'control'>> {
+export interface IBaseItem<T extends IValueControl | ISimpleControl>
+  extends Required<
+    Omit<IDynamicBaseItem<IDynamicValueControl | IDynamicSimpleControl | TControlType>, 'id' | 'control'>
+  > {
   id: string;
   control: T;
 }
@@ -100,12 +108,16 @@ export interface ITreeItem extends IBaseItem<IValueControl> {
 export interface ITreeCategory extends IBaseItem<ISimpleControl | IValueControl> {
   type: 'category';
   name: string;
-  children?: (ITreeItem | ITreeCategory)[]
+  children?: (ITreeItem | ITreeCategory)[];
 }
 
 export type TDynamicTreeModel = (IDynamicTreeCategory | IDynamicTreeItem)[];
 
-export type TDynamicTreeElement = IDynamicTreeCategory | IDynamicTreeItem | IDynamicTreeSettingGroup | IDynamicTreeSettingItem;
+export type TDynamicTreeElement =
+  | IDynamicTreeCategory
+  | IDynamicTreeItem
+  | IDynamicTreeSettingGroup
+  | IDynamicTreeSettingItem;
 
 export type TTreeModel = (ITreeCategory | ITreeItem)[];
 

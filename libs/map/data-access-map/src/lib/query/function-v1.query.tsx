@@ -8,10 +8,6 @@ import { queryKey } from './query-key.const';
 const getFunctions = async (): Promise<TFunction[]> => {
   const response = await getHttpClient().get(paths.FUNCTIONS);
 
-  const p = functionListSchema.safeParse(response);
-
-  console.log('parse', p);
-
   return functionListSchema.parse(response).functions;
 };
 

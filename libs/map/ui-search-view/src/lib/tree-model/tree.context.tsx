@@ -1,8 +1,9 @@
 import { createContext, PropsWithChildren, useCallback, useContext, useState } from 'react';
-import { TDynamicTreeModel, TTreeElement } from './tree.model';
-import { Tree } from './tree-builder/tree.builder';
-import { TreeSettingGroup, TreeSettingItem } from './tree-builder/item/tree-setting';
+
+import { TDynamicTreeModel } from './tree.model';
 import { TreeCategory, TreeItem } from './tree-builder/item/tree.item';
+import { TreeSettingGroup, TreeSettingItem } from './tree-builder/item/tree-setting';
+import { Tree } from './tree-builder/tree.builder';
 
 type TTreeSettingsContext = {
   tree: Tree;
@@ -15,11 +16,10 @@ const TreeContext = createContext<TTreeSettingsContext>({
   update: () => {},
 });
 
-
 type TTreeEl = TreeSettingItem | TreeSettingGroup | TreeItem | TreeCategory;
 
 const findElement = (id: string, items: TTreeEl[]): TTreeEl | undefined => {
-  let result: TTreeEl | undefined = undefined
+  let result: TTreeEl | undefined = undefined;
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
@@ -38,32 +38,35 @@ const findElement = (id: string, items: TTreeEl[]): TTreeEl | undefined => {
   }
 
   return result;
-}
+};
 
 type TTreeProviderProps = {
   defaultValues: TDynamicTreeModel;
-}
+};
 
 export const TreeProvider = ({ defaultValues, children }: PropsWithChildren<TTreeProviderProps>) => {
   const [tree, setTree] = useState(new Tree(defaultValues));
 
-  const update = useCallback((id: string, type: 'value' | 'expand') => {
-    const element = findElement(id, tree.items);
+  const update = useCallback(
+    (id: string, type: 'value' | 'expand') => {
+      const element = findElement(id, tree.items);
 
-    console.log('element', id, element);
+      console.log('element', id, element);
 
-    if (!element) {
-      return;
-    }
+      if (!element) {
+        return;
+      }
 
-    element.update(type);
-    console.log('tree.items', tree.items, type);
-    setTree(new Tree(tree.items));
-  }, [tree, setTree]);
+      element.update(type);
+      console.log('tree.items', tree.items, type);
+      setTree(new Tree(tree.items));
+    },
+    [tree, setTree]
+  );
 
   return <TreeContext.Provider value={{ tree, update }}>{children}</TreeContext.Provider>;
 };
 
 export const useTreeContext = () => {
   return useContext(TreeContext);
-}
+};

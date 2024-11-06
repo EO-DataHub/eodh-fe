@@ -8,29 +8,46 @@ interface IControlledCheckboxProps extends Omit<ICheckboxProps, 'onChange' | 'on
   onBlur?: (value: boolean) => void;
 }
 
-export const ControlledCheckbox = ({ id, label, name, value, state, disabled, onChange, onBlur, className = '', icon = 'Check' }: IControlledCheckboxProps) => {
+export const ControlledCheckbox = ({
+  id,
+  label,
+  name,
+  value,
+  state,
+  disabled,
+  onChange,
+  onBlur,
+  className = '',
+  icon = 'Check',
+}: IControlledCheckboxProps) => {
   const [internalValue, setInternalValue] = useState<boolean | undefined>(value);
   const innerRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.checked;
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.checked;
 
-    setInternalValue(value);
+      setInternalValue(value);
 
-    if (onChange) {
-      onChange(value);
-    }
-  }, [onChange, setInternalValue]);
+      if (onChange) {
+        onChange(value);
+      }
+    },
+    [onChange, setInternalValue]
+  );
 
-  const handleBlur = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const value = !!event.target.value;
+  const handleBlur = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = !!event.target.value;
 
-    setInternalValue(value);
+      setInternalValue(value);
 
-    if (onBlur) {
-      onBlur(value);
-    }
-  }, [onBlur, setInternalValue]);
+      if (onBlur) {
+        onBlur(value);
+      }
+    },
+    [onBlur, setInternalValue]
+  );
 
   useEffect(() => {
     if (innerRef.current) {
@@ -42,5 +59,18 @@ export const ControlledCheckbox = ({ id, label, name, value, state, disabled, on
     setInternalValue(value);
   }, [value, setInternalValue]);
 
-  return <Checkbox ref={innerRef} id={id} name={name} label={label} state={state} disabled={disabled} className={className} icon={icon} onChange={handleChange} onBlur={handleBlur} />
-}
+  return (
+    <Checkbox
+      ref={innerRef}
+      id={id}
+      name={name}
+      label={label}
+      state={state}
+      disabled={disabled}
+      className={className}
+      icon={icon}
+      onChange={handleChange}
+      onBlur={handleBlur}
+    />
+  );
+};

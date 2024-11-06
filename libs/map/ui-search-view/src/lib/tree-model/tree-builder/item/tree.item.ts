@@ -8,12 +8,12 @@ import {
   ITreeItem,
   IValueControl,
 } from '../../tree.model';
-import { BasicTreeItem } from './basic-tree.item';
-import { ValueControl } from '../control/value.control';
-import { TreeSettingGroup, TreeSettingItem } from './tree-setting';
 import { SimpleControl } from '../control/simple.control';
+import { ValueControl } from '../control/value.control';
 import { Tree } from '../tree.builder';
+import { BasicTreeItem } from './basic-tree.item';
 import { createItemChildren, createItemSettingChildren } from './create-children';
+import { TreeSettingGroup, TreeSettingItem } from './tree-setting';
 
 const getDefaultControlProps = (props: IDynamicTreeItem | ITreeItem): IDynamicValueControl | IValueControl => {
   if (props.id) {
@@ -27,7 +27,7 @@ const getDefaultControlProps = (props: IDynamicTreeItem | ITreeItem): IDynamicVa
       visible: true,
       expendable: false,
       type: props.control,
-    }
+    };
   }
 
   return {
@@ -37,8 +37,8 @@ const getDefaultControlProps = (props: IDynamicTreeItem | ITreeItem): IDynamicVa
     visible: true,
     expendable: false,
     type: props.control?.type ? props.control?.type : 'checkbox',
-  }
-}
+  };
+};
 
 export class TreeItem extends BasicTreeItem<ValueControl> implements ITreeItem {
   public type = 'item' as const;
@@ -53,19 +53,19 @@ export class TreeItem extends BasicTreeItem<ValueControl> implements ITreeItem {
     this.control.updateValue({ value: this.control.value, children: this.children });
   }
 
-  public update = <T extends ValueControl>(type: 'value' | 'expand') => {
+  public update = (type: 'value' | 'expand') => {
     switch (type) {
       case 'value': {
-        this.control.updateValue({ value: !this.control.value, children: this.children })
+        this.control.updateValue({ value: !this.control.value, children: this.children });
         break;
       }
 
       case 'expand': {
-        this.partialUpdate({ expanded: !this.control.expanded })
+        this.partialUpdate({ expanded: !this.control.expanded });
         break;
       }
     }
-  }
+  };
 
   public toObject = () => ({
     translationKey: this.translationKey,
@@ -85,7 +85,7 @@ export class TreeItem extends BasicTreeItem<ValueControl> implements ITreeItem {
         visible: this,
         expendable: false,
         type: props.control,
-      }
+      };
     }
 
     return {
@@ -94,8 +94,8 @@ export class TreeItem extends BasicTreeItem<ValueControl> implements ITreeItem {
       disabled: props.control?.disabled !== undefined ? props.control?.disabled : false,
       visible: this,
       expendable: false,
-    }
-  }
+    };
+  };
 }
 
 export class TreeCategory extends BasicTreeItem implements ITreeCategory {
@@ -103,7 +103,10 @@ export class TreeCategory extends BasicTreeItem implements ITreeCategory {
   public name: string;
   public children: (TreeCategory | TreeItem)[] = [];
 
-  public constructor(props: IDynamicTreeCategory | ITreeCategory, parent: BasicTreeItem<ValueControl | SimpleControl> | Tree) {
+  public constructor(
+    props: IDynamicTreeCategory | ITreeCategory,
+    parent: BasicTreeItem<ValueControl | SimpleControl> | Tree
+  ) {
     super(props.id, props, props.control, parent);
 
     this.name = props.name;
@@ -118,18 +121,18 @@ export class TreeCategory extends BasicTreeItem implements ITreeCategory {
     switch (type) {
       case 'value': {
         if (this.control instanceof ValueControl) {
-          this.control.updateValue({ value: !this.control.value, children: this.children })
+          this.control.updateValue({ value: !this.control.value, children: this.children });
         }
 
         break;
       }
 
       case 'expand': {
-        this.partialUpdate({ expanded: !this.control.expanded })
+        this.partialUpdate({ expanded: !this.control.expanded });
         break;
       }
     }
-  }
+  };
 
   public toObject = () => ({
     translationKey: this.translationKey,

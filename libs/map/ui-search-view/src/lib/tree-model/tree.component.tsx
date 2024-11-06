@@ -1,20 +1,20 @@
 import { Tree as TreeWrapper } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 
-import { TDynamicTreeModel } from './tree.model';
 import { TreeElement } from './elements/tree-element.component';
 import { TreeProvider, useTreeContext } from './tree.context';
+import { TDynamicTreeModel } from './tree.model';
 import { dynamicTree } from './tree-model';
 
 const Tree = () => {
-  const { tree } = useTreeContext()
+  const { tree } = useTreeContext();
 
-  return tree.items.map((item) => <TreeElement key={item.name} item={item} />)
-}
+  return tree.items.map((item) => <TreeElement key={item.name} item={item} />);
+};
 
 type TTreeProps = {
-  tree: TDynamicTreeModel,
-}
+  tree: TDynamicTreeModel;
+};
 
 export const DynamicTree = ({ tree }: TTreeProps) => {
   const {

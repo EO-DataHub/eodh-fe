@@ -7,7 +7,7 @@ export class Tree {
   public items: (TreeCategory | TreeItem)[] = [];
 
   public constructor(items: TDynamicTreeModel | TTreeModel) {
-    items.forEach(item => {
+    items.forEach((item) => {
       switch (item.type) {
         case 'category': {
           this.items.push(new TreeCategory(item, this));
@@ -19,7 +19,6 @@ export class Tree {
           break;
         }
       }
-    })
+    });
   }
 }
-

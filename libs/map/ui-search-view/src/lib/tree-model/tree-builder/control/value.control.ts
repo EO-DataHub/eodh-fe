@@ -1,11 +1,6 @@
 import isString from 'lodash/isString';
-import isArray from 'lodash/isArray';
 
-import {
-  IDynamicValueControl,
-  TControlType,
-  IValueControl, ISimpleControl,
-} from '../../tree.model';
+import { IDynamicValueControl, ISimpleControl, IValueControl, TControlType } from '../../tree.model';
 import { SimpleControl } from './simple.control';
 
 export class ValueControl extends SimpleControl implements IValueControl {
@@ -42,7 +37,13 @@ export class ValueControl extends SimpleControl implements IValueControl {
     }
   }
 
-  public updateValue = ({ value, children = [] }: { value?: boolean | undefined, children?: { control: ValueControl | SimpleControl }[] }) => {
+  public updateValue = ({
+    value,
+    children = [],
+  }: {
+    value?: boolean | undefined;
+    children?: { control: ValueControl | SimpleControl }[];
+  }) => {
     switch (this.valueMode) {
       case 'self': {
         this.value = value === undefined ? value : !!value;
@@ -52,17 +53,19 @@ export class ValueControl extends SimpleControl implements IValueControl {
       }
 
       case 'children': {
-        console.log('update---children', this.value)
-        const filteredItems: ValueControl[] = children.map(item => item.control).filter((item): item is ValueControl => item instanceof ValueControl);
-        const hasSelectedElements = filteredItems.some(item => item.value)
+        console.log('update---children', this.value);
+        const filteredItems: ValueControl[] = children
+          .map((item) => item.control)
+          .filter((item): item is ValueControl => item instanceof ValueControl);
+        const hasSelectedElements = filteredItems.some((item) => item.value);
 
         if (!hasSelectedElements && !this.value) {
           this.value = true;
-          filteredItems.forEach(item => {
+          filteredItems.forEach((item) => {
             item.updateValue({ value: this.value });
-          })
+          });
         } else {
-          this.value = filteredItems.every(item => item.value);
+          this.value = filteredItems.every((item) => item.value);
           // filteredItems.forEach(item => {
           //   item.updateValue({ value: this.value });
           // })
@@ -71,29 +74,34 @@ export class ValueControl extends SimpleControl implements IValueControl {
         this.expanded = this.value ? this.expanded : false;
       }
     }
-  }
+  };
 
-  public getValue = ({ value, children }: { value?: boolean | undefined, children: { control: IValueControl | ISimpleControl }[] }) => {
+  public getValue = ({
+    value,
+    children,
+  }: {
+    value?: boolean | undefined;
+    children: { control: IValueControl | ISimpleControl }[];
+  }) => {
     switch (this.valueMode) {
       case 'self': {
         return value === undefined ? value : !!value;
       }
 
       case 'children': {
-        console.log('update---children', this.value)
-        const filteredItems = children.filter(item => !!item.control.type);
-        const hasSelectedElements = filteredItems.some(item => item.control.value)
+        console.log('update---children', this.value);
+        const filteredItems = children.filter((item) => !!item.control.type);
+        const hasSelectedElements = filteredItems.some((item) => item.control.value);
 
         if (!hasSelectedElements && !this.value) {
           return true;
-        } else {
-          return filteredItems.every(item => item.control.value);
         }
+        return filteredItems.every((item) => item.control.value);
       }
     }
 
     return null;
-  }
+  };
 
   public toObject = () => ({
     visible: this.visible,

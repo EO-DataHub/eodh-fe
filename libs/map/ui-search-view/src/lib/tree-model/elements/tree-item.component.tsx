@@ -1,15 +1,10 @@
-import {
-  ControlledCheckbox,
-  Icon,
-  TreeItem as UiTreeItem,
-  TSlots,
-} from '@ukri/shared/design-system';
+import { ControlledCheckbox, Icon, TreeItem as UiTreeItem, TSlots } from '@ukri/shared/design-system';
 import { PropsWithChildren, useCallback, useMemo } from 'react';
 
-import { ITreeItem } from '../tree.model';
-import { useTreeContext } from '../tree.context';
-import { Title } from './title.component';
 import { SettingsTree } from '../../tree/components/settings-tree.component';
+import { useTreeContext } from '../tree.context';
+import { ITreeItem } from '../tree.model';
+import { Title } from './title.component';
 
 type TSettingsIconProps = { value: boolean; disabled: boolean };
 
@@ -41,19 +36,19 @@ const SettingsButton = ({ value, disabled, onClick, children }: TSettingsButtonP
 
 type TTreeItemProps = {
   item: ITreeItem;
-}
+};
 
 export const TreeItem = ({ item, children }: PropsWithChildren<TTreeItemProps>) => {
   const { update } = useTreeContext();
 
   const toggleSettings = useCallback(() => {
-    update(item.id, 'expand')
+    update(item.id, 'expand');
   }, [item.id, update]);
 
   const toggle = useCallback(() => {
     // const newValue = !item.control.value;
     // const expanded = newValue ? item.control.expanded : false;
-    update(item.id, 'value')
+    update(item.id, 'value');
   }, [item.id, update]);
 
   console.log('item', item);
@@ -62,18 +57,17 @@ export const TreeItem = ({ item, children }: PropsWithChildren<TTreeItemProps>) 
     return [
       {
         position: 'title:before',
-        element: (
-          <Icon
-            name='Satellite'
-            className={item.control.disabled ? 'text-bright-mid' : 'text-neutral-light'}
-          />
-        ),
+        element: <Icon name='Satellite' className={item.control.disabled ? 'text-bright-mid' : 'text-neutral-light'} />,
         key: 'Satellite',
       },
       {
         position: 'title:after',
         element: (
-          <SettingsButton value={!!item.control.expanded} onClick={toggleSettings} disabled={!item.control.value || item.control.disabled}>
+          <SettingsButton
+            value={!!item.control.expanded}
+            onClick={toggleSettings}
+            disabled={!item.control.value || item.control.disabled}
+          >
             {children}
           </SettingsButton>
         ),
@@ -81,11 +75,18 @@ export const TreeItem = ({ item, children }: PropsWithChildren<TTreeItemProps>) 
       },
       {
         position: 'title:after',
-        element: <ControlledCheckbox name={item.name} value={!!item.control.value} disabled={item.control.disabled} onChange={toggle} />,
+        element: (
+          <ControlledCheckbox
+            name={item.name}
+            value={!!item.control.value}
+            disabled={item.control.disabled}
+            onChange={toggle}
+          />
+        ),
         key: 'checkbox',
       },
     ];
-  }, [item.control.value, item.control.disabled, item.name, children]);
+  }, [children, item.control.disabled, item.control.expanded, item.control.value, item.name, toggle, toggleSettings]);
 
   return (
     <UiTreeItem
@@ -97,5 +98,5 @@ export const TreeItem = ({ item, children }: PropsWithChildren<TTreeItemProps>) 
     >
       {item.control.expanded && <SettingsTree>{children}</SettingsTree>}
     </UiTreeItem>
-  )
-}
+  );
+};

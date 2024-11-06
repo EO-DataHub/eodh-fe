@@ -1,3 +1,1 @@
-export const isValid = () => {
-
-}
+export const isValid = () => {};

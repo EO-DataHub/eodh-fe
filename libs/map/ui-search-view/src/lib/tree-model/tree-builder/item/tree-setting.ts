@@ -1,5 +1,3 @@
-import { BasicTreeItem } from './basic-tree.item';
-import { ValueControl } from '../control/value.control';
 import {
   IDynamicTreeSettingGroup,
   IDynamicTreeSettingItem,
@@ -7,6 +5,8 @@ import {
   ITreeSettingItem,
 } from '../../tree.model';
 import { SimpleControl } from '../control/simple.control';
+import { ValueControl } from '../control/value.control';
+import { BasicTreeItem } from './basic-tree.item';
 import { createItemSettingChildren } from './create-children';
 
 export class TreeSettingItem extends BasicTreeItem<ValueControl> implements ITreeSettingItem {
@@ -14,7 +14,10 @@ export class TreeSettingItem extends BasicTreeItem<ValueControl> implements ITre
   public name: string;
   public children: (TreeSettingItem | TreeSettingGroup)[] = [];
 
-  public constructor(props: IDynamicTreeSettingItem | ITreeSettingItem, parent: BasicTreeItem<ValueControl | SimpleControl>) {
+  public constructor(
+    props: IDynamicTreeSettingItem | ITreeSettingItem,
+    parent: BasicTreeItem<ValueControl | SimpleControl>
+  ) {
     super(props.id, props, props.control, parent);
 
     this.name = props.name;
@@ -22,19 +25,19 @@ export class TreeSettingItem extends BasicTreeItem<ValueControl> implements ITre
     this.control.updateValue({ value: this.control.value, children: this.children });
   }
 
-  public update = <T extends ValueControl>(type: 'value' | 'expand') => {
+  public update = (type: 'value' | 'expand') => {
     switch (type) {
       case 'value': {
-        this.control.updateValue({ value: !this.control.value, children: this.children })
+        this.control.updateValue({ value: !this.control.value, children: this.children });
         break;
       }
 
       case 'expand': {
-        this.partialUpdate({ expanded: !this.control.expanded })
+        this.partialUpdate({ expanded: !this.control.expanded });
         break;
       }
     }
-  }
+  };
 
   public toObject = () => ({
     translationKey: this.translationKey,
@@ -48,21 +51,24 @@ export class TreeSettingGroup extends BasicTreeItem<SimpleControl> implements IT
   public name: string | undefined = undefined;
   public children: (TreeSettingItem | TreeSettingGroup)[] = [];
 
-  public constructor(props: IDynamicTreeSettingGroup | ITreeSettingGroup, parent: BasicTreeItem<ValueControl | SimpleControl>) {
+  public constructor(
+    props: IDynamicTreeSettingGroup | ITreeSettingGroup,
+    parent: BasicTreeItem<ValueControl | SimpleControl>
+  ) {
     super(props.id, props, props.control, parent);
 
     this.name = props.name;
     this.children = createItemSettingChildren(props.children, this);
   }
 
-  public update = <T extends ValueControl>(type: 'value' | 'expand') => {
+  public update = (type: 'value' | 'expand') => {
     switch (type) {
       case 'expand': {
-        this.partialUpdate({ expanded: !this.control.expanded })
+        this.partialUpdate({ expanded: !this.control.expanded });
         break;
       }
     }
-  }
+  };
 
   public toObject = () => ({
     translationKey: this.translationKey,
