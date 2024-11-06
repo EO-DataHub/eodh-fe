@@ -92,3 +92,10 @@ export interface ITreeRoot {
 }
 
 export type TTreeElement = ITreeCategory | ITreeItem | ITreeSettingsGroup | ITreeSettingsItem | ITreeSlider;
+
+export type TTreeElementIterable =
+  | ITreeCategoryIterable
+  | ITreeItemIterable
+  | ITreeSettingsGroupIterable
+  | ITreeSettingsItemIterable
+  | ITreeSliderIterable;

@@ -16,7 +16,13 @@ export interface IValueControl {
   value?: boolean;
 }
 
-export interface IActionControl {
+export interface IExpandControl {
+  name: string;
+  type: 'expand' | 'button';
+  value?: boolean;
+}
+
+export interface IButtonControl {
   name: string;
   type: 'expand' | 'button';
   value?: boolean;
@@ -34,14 +40,15 @@ export interface IDynamicSlider extends IDynamicBaseItem {
 export interface IDynamicTreeSettingItem extends IDynamicBaseItem {
   type: 'settingItem';
   children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem)[];
-  controls?: IValueControl[];
+  controls: {
+    value: IValueControl;
+  };
   options?: IBasicOption;
 }
 
 export interface IDynamicTreeSettingGroup extends IDynamicBaseItem {
   type: 'settingGroup';
   children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem)[];
-  controls?: IValueControl[];
   options?: IBasicOption;
 }
 
@@ -49,14 +56,21 @@ export interface IDynamicTreeItem extends IDynamicBaseItem {
   type: 'item';
   options?: IOption;
   children?: (IDynamicTreeSettingGroup | IDynamicTreeSettingItem | IDynamicSlider)[] | IDynamicTreeItem[];
-  controls?: (IValueControl | IActionControl)[];
+  controls: {
+    value: IValueControl;
+    expand?: IExpandControl;
+    settings?: IButtonControl;
+  };
 }
 
 export interface IDynamicTreeCategory extends IDynamicBaseItem {
   type: 'category';
   options?: IOption;
   children?: IDynamicTreeCategory[] | IDynamicTreeItem[];
-  controls?: (IValueControl | IActionControl)[];
+  controls: {
+    expand: IExpandControl;
+    value?: IValueControl;
+  };
 }
 
 export type TDynamicTreeModel = (IDynamicTreeCategory | IDynamicTreeItem)[];

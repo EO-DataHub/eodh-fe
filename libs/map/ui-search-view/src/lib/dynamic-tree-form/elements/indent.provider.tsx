@@ -51,6 +51,10 @@ export const IntendContext = createContext<TIndent | undefined>(undefined);
 type TIndentProviderProps = { indent?: TIndent };
 
 export const IndentProvider = ({ indent, children }: PropsWithChildren<TIndentProviderProps>) => {
+  if (!children) {
+    return null;
+  }
+
   return <IntendContext.Provider value={indent}>{children}</IntendContext.Provider>;
 };
 

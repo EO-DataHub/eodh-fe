@@ -1,24 +1,33 @@
 import { TreeItem } from '@ukri/shared/design-system';
-import { PropsWithChildren } from 'react';
+import { ReactNode, useMemo } from 'react';
 
-import { IDynamicTreeSettingGroup } from '../tree-dynamic.model';
+import { ITreeSettingsGroup } from '../tree-builder/tree-builder.model';
 import { getTreeIndent, IndentProvider, TIndent, useIndent, useNextIndent } from './indent.provider';
 import { Title } from './title.component';
 
-type TSettingsSection = PropsWithChildren<{ item: IDynamicTreeSettingGroup; indent?: TIndent; disabled?: boolean }>;
+type TSettingsSection = {
+  item: ITreeSettingsGroup;
+  disabled?: boolean;
+  indent?: TIndent;
+  children: (disabled?: boolean) => ReactNode;
+};
 
-export const SettingsGroup = ({ item, indent: currentIndent, children }: TSettingsSection) => {
+export const SettingsGroup = ({ item, disabled: forceDisabled, indent: currentIndent, children }: TSettingsSection) => {
   const indent = useIndent(currentIndent);
   const nextIndent = useNextIndent(currentIndent);
+  const disabled = useMemo(
+    () => item.model.options?.disabled || forceDisabled,
+    [item.model.options?.disabled, forceDisabled]
+  );
 
   return (
     <>
       <TreeItem
-        title={<Title title={item.translationKey} disabled={item.options?.disabled} />}
+        title={<Title title={item.model.translationKey} disabled={disabled} />}
         indent={getTreeIndent(indent)}
-        disabled={item.options?.disabled}
+        disabled={disabled}
       />
-      {children && <IndentProvider indent={nextIndent}>{children}</IndentProvider>}
+      <IndentProvider indent={nextIndent}>{children(disabled)}</IndentProvider>
     </>
   );
 };
