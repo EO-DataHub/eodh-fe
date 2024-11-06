@@ -1,6 +1,6 @@
 export const sliderStyles = {
   container: 'h-[76px] w-full relative bg-background-main',
-  innerContainer: 'w-full px-[24px] pb-4 pt-[17px] absolute top-0',
+  innerContainer: 'w-full px-6 pb-4 pt-[17px] absolute top-0',
   slider: `h-2
   [&_.MuiSlider-track]:border-none
   [&_.MuiSlider-track]:h-[5px]
