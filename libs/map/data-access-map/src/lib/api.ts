@@ -1,7 +1,7 @@
 const functions = '/action-creator/functions';
 const history = '/action-creator/submissions';
 const collectionInfo =
-  '/catalogs/user-datasets/{user_workspace}/processing-results/{catalog_id}/collections/{collection_id}';
+  '/catalogs/user-datasets/{user_workspace}/processing-results/cat_{job_id}/collections/col_{job_id}';
 
 const eodhProApiUrl = 'EODH_PRO_API_URL';
 
