@@ -32,19 +32,19 @@ interface ITimeSliderProps {
 }
 
 export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, initialValues = [min, max], className }) => {
-  const minNum = getBeginingOfYear(min);
-  const maxNum = getEndYear(max);
+  const minNum = getBeginingOfYear(min) ?? undefined;
+  const maxNum = getEndYear(max) ?? undefined;
   const [value, setValue] = useState<number[]>(initialValues.map(dateToNumber) as [number, number]);
 
   const updateSliderValue = useCallback((_: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
   }, []);
 
-  const marks = useMemo(() => getMarks(minNum, maxNum), [minNum, maxNum]);
+  const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);
 
   return (
-    <div className={`h-[76px] w-full relative bg-background-main ${className}`}>
-      <div className='w-full px-[24px] pb-4 pt-[13px] absolute top-0'>
+    <div className={`${sliderStyles.container} ${className}`}>
+      <div className={sliderStyles.innerContainer}>
         <Slider
           value={value}
           onChange={updateSliderValue}
@@ -58,7 +58,41 @@ export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, initialValues
             mark: CustomMark,
             markLabel: CustomLabel,
           }}
-          sx={sliderStyles}
+          className={sliderStyles.slider}
+          // sx={{
+          //   height: 8,
+          //   '& .MuiSlider-track': {
+          //     border: 'none',
+          //     backgroundColor: '#1976d2',
+          //     zIndex: 1,
+          //   },
+          //   '& .MuiSlider-thumb': {
+          //     height: 24,
+          //     width: 24,
+          //     zIndex: 2,
+          //     backgroundColor: '#fff',
+          //     border: '2px solid currentColor',
+          //     '&:hover': {
+          //       boxShadow: '0px 0px 0px 8px rgba(25,118,210,0.16)',
+          //     },
+          //     '& .Mui-active': {
+          //       boxShadow: '0px 0px 0px 14px rgba(25,118,210,0.16)',
+          //     },
+          //   },
+          //   '& .MuiSlider-rail': {
+          //     opacity: 1,
+          //     backgroundColor: '#E7E7E7',
+          //   },
+          //   '& .MuiSlider-mark': {
+          //     backgroundColor: '#D8D8D8',
+          //     height: 12,
+          //     width: 2,
+          //   },
+          //   '& .MuiSlider-markLabel': {
+          //     color: '#9e9e9e',
+          //     fontSize: '12px',
+          //   },
+          // }}
         />
       </div>
     </div>

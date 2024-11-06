@@ -16,7 +16,7 @@ export const BottomPanel = ({ className }: IBottomPanel) => {
       >
         <TimeSlider
           min={'2000-01-01T00:00:00+00:00' as TDateString}
-          max={'2018-10-01T00:00:00+00:00' as TDateString}
+          max={'2001-01-01T00:00:00+00:00' as TDateString}
           className='grow'
         />
       </div>

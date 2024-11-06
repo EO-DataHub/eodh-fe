@@ -3,7 +3,6 @@ export {
   createDateString,
   formatDate,
   createDate,
-  numberToDate,
   dateToNumber,
   getBeginingOfYear,
   getEndYear,

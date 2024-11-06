@@ -44,10 +44,10 @@ interface ICustomLabelProps {
 }
 
 export const CustomLabel = ({
-  'data-index': dataIndex,
-  className,
   ownerState,
+  className,
   style,
+  'data-index': dataIndex,
   children,
 }: PropsWithChildren<ICustomLabelProps>) => {
   const { t } = useTranslation();
@@ -55,9 +55,15 @@ export const CustomLabel = ({
   const month = ownerState.max - ownerState.min === 1 ? MONTHS[dataIndex] : '';
 
   return (
-    <div className={`absolute w-auto -bottom-[5px] ${className}`} style={{ ...style }}>
-      {month && <div className='relative bottom-auto left-1/2 translate-x-1/2'>{month}</div>}
-      <div className='absolute -translate-x-1/2'>{children}</div>
+    <div>
+      {month && (
+        <div className={`absolute bottom-auto w-1/12 flex ${className}`} style={{ ...style }}>
+          <span className='relative w-full text-center mt-[5px]'>{month}</span>
+        </div>
+      )}
+      <div className={`absolute w-auto -bottom-[5px] ${className}`} style={{ ...style }}>
+        <div className='absolute -translate-x-1/2'>{children}</div>
+      </div>
     </div>
   );
 };
