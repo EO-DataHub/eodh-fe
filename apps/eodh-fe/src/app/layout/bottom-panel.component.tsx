@@ -36,10 +36,11 @@ export const BottomPanel = ({ className }: IBottomPanel) => {
 
 // export const BottomPanel = ({ className }: IBottomPanel) => {
 //   const { searchParams, updateSearchParams } = useResults();
-//   const { schema, data, state, status, values, updateState, view, changeToSearchView, search, searchType } =
-//     useSearchMode();
-//   console.log(searchParams);
-//   console.log('values', values);
+// //   const { schema, data, state, status, values, updateState, view, changeToSearchView, search, searchType } =
+// //     useSearchMode();
+// //   console.log(searchParams);
+// //   console.log('values', values);
+
 //   return (
 //     <div
 //       className={`ml-[360px] w-[calc(100%-360px)] h-[76px] bg-background-main border-b-[1px] border-bright-dark flex items-center text-text bottom-0 ${className}`}
