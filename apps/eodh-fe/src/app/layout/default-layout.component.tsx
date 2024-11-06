@@ -13,13 +13,15 @@ export const DefaultLayout = () => {
         <TopBar />
         <div className='flex w-full h-full overflow-hidden'>
           <LeftMenu />
-          <TrueColorImageLayer />
-          <FootprintLayer />
-          <Map className='flex w-full'>
-            <Checklist />
-            <ActionCreatorPanel />
-          </Map>
-          <BottomPanel className='absolute' />
+          <div className='flex w-full h-full flex-col'>
+            <TrueColorImageLayer />
+            <FootprintLayer />
+            <Map className='flex w-full h-full'>
+              <Checklist />
+              <ActionCreatorPanel />
+            </Map>
+            <BottomPanel />
+          </div>
         </div>
       </MapWrapper>
     </div>
