@@ -42,7 +42,7 @@ export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, initialValues
 
   return (
     <div className={`h-[76px] w-full relative bg-background-main ${className}`}>
-      <div className='w-full px-[24px] pb-4 pt-[13px] absolute top-0'>
+      <div className='w-full px-[24px] pt-[13px] absolute top-0'>
         <Slider
           value={value}
           onChange={handleChange}
