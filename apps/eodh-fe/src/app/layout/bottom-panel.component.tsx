@@ -1,5 +1,4 @@
 import { useMode } from '@ukri/map/data-access-map';
-import { useGetCollectionInfo } from '@ukri/map/data-access-map';
 import { TimeSlider } from '@ukri/shared/ui/time-slider';
 import { createDateString } from '@ukri/shared/utils/date';
 
@@ -9,10 +8,6 @@ interface IBottomPanel {
 
 export const BottomPanel = ({ className }: IBottomPanel) => {
   const { view } = useMode();
-  const { data, isLoading } = useGetCollectionInfo({
-    jobId: '8ce4ab3e-9a96-11ef-b86f-162a9bcf4bd6',
-    userWorkspace: 'eopro-spyro-test',
-  });
 
   if (view !== 'results') {
     return null;
