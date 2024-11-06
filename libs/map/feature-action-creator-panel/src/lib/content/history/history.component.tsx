@@ -68,8 +68,6 @@ export const History = () => {
               submittedAtDate={workflow.submittedAtDate}
               status={workflow.status}
               selected={selectedResult === workflow.submissionId}
-              onHideResult={hideResults}
-              onViewResult={() => showResults(workflow.submissionId)}
             >
               <ToggleWorkflowButton
                 selected={selectedResult === workflow.submissionId}
