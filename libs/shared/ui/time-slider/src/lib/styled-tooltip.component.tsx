@@ -13,6 +13,7 @@ export const StyledTooltip = styled(({ className, title, ...props }: PropsWithCh
   </Tooltip>
 ))(() => ({
   [`& .${tooltipClasses.tooltip}`]: {
+    // TODO use color tokens in the future
     backgroundColor: '#fff',
     color: '#606060',
     fontSize: '12px',

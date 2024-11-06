@@ -20,6 +20,7 @@ export const dateToNumber = (date: TDateTimeString | TDateString): number | null
     console.error('Invalid date');
     return null;
   }
+
   return d.getFullYear() + d.getMonth() / 12;
 };
 
@@ -35,6 +36,7 @@ export const getEndYear = (date: TDateString): number | null => {
     console.error('Invalid date');
     return null;
   }
+
   return result;
 };
 
@@ -47,6 +49,7 @@ export const getBeginingOfYear = (date: TDateString): number | null => {
     console.error('Invalid date');
     return null;
   }
+
   return result;
 };
 
