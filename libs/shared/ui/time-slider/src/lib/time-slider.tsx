@@ -13,6 +13,7 @@ import { sliderStyles } from './time-slider.styles';
 
 const getMarks = (minNum: number, maxNum: number) => {
   const result = [];
+
   for (let year = Math.floor(minNum); year <= Math.ceil(maxNum); year++) {
     for (let month = 0; month < 12; month++) {
       const value = year + month / 12;
@@ -21,6 +22,7 @@ const getMarks = (minNum: number, maxNum: number) => {
       }
     }
   }
+
   return result;
 };
 
@@ -37,7 +39,7 @@ export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, initialValues
   const [value, setValue] = useState<number[]>(initialValues.map(dateToNumber) as [number, number]);
 
   const updateSliderValue = useCallback((_: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
+    setValue(Array.isArray(newValue) ? newValue : [newValue]);
   }, []);
 
   const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);

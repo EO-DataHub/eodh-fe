@@ -20,7 +20,7 @@ export const DefaultLayout = () => {
               <Checklist />
               <ActionCreatorPanel />
             </Map>
-            <BottomPanel className='' />
+            <BottomPanel />
           </div>
         </div>
       </MapWrapper>
