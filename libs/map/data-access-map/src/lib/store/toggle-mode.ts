@@ -79,7 +79,7 @@ const restoreResultsStoreState = (mode: TMode) => {
   }
 
   useResultsStore.setState(currentState);
-  useResultsStore.getState().setShape(currentState.coordinates);
+  useResultsStore.getState().restore(currentState.coordinates, currentState.searchParams);
 };
 
 const restoreDataSetsStoreState = (mode: TMode) => {
