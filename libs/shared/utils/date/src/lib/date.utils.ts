@@ -13,33 +13,41 @@ export type TDateString = TDateInternal | null;
 
 type TDateFormat = 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YY';
 
-export const dateToNumber = (date: TDateTimeString | TDateString): number => {
+export const dateToNumber = (date: TDateTimeString | TDateString): number | null => {
   const d = createDate(date);
   if (d === null) {
-    throw new Error('Invalid date');
+    // eslint-disable-next-line no-console
+    console.error('Invalid date');
+    return null;
   }
   return d.getFullYear() + d.getMonth() / 12;
 };
 
-export const numberToDate = (num: number): TDateString => {
-  const year = Math.floor(num);
-  const month = Math.floor((num - year) * 12);
-  return new Date(year, month, 1).toISOString().split('T')[0] as TDateString;
-};
-
-export const getEndYear = (date: TDateString): number => {
+export const getEndYear = (date: TDateString): number | null => {
   const adjustedDate = createDate(date);
   if (adjustedDate && (adjustedDate.getMonth() !== 0 || adjustedDate.getDate() !== 1)) {
     adjustedDate.setFullYear(adjustedDate.getFullYear() + 1);
   }
   adjustedDate?.setMonth(0, 1);
-  return dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+  const result = dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+  if (result === null) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid date');
+    return null;
+  }
+  return result;
 };
 
-export const getBeginingOfYear = (date: TDateString): number => {
+export const getBeginingOfYear = (date: TDateString): number | null => {
   const adjustedDate = createDate(date);
   adjustedDate?.setMonth(0, 1);
-  return dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+  const result = dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+  if (result === null) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid date');
+    return null;
+  }
+  return result;
 };
 
 export const createDate = (date?: TDateTimeString | TDateString) => {

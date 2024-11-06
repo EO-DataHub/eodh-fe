@@ -1,5 +1,5 @@
 import { Tooltip, tooltipClasses } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import React, { PropsWithChildren } from 'react';
 
 interface IStyledTooltipProps {

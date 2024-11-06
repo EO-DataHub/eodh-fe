@@ -1,4 +1,3 @@
-import { useMode } from '@ukri/map/data-access-map';
 import { ActionCreatorPanel } from '@ukri/map/feature-action-creator-panel';
 import { FootprintLayer, Map, MapWrapper, TrueColorImageLayer } from '@ukri/map/ui-map';
 import { Checklist } from '@ukri/map/ui-search-view';
@@ -8,7 +7,6 @@ import { LeftMenu } from './left-menu.component';
 import { TopBar } from './top-bar.component';
 
 export const DefaultLayout = () => {
-  const { view } = useMode();
   return (
     <div className='flex h-screen w-screen flex-col overflow-hidden' data-testid='default-layout'>
       <MapWrapper>
@@ -21,7 +19,7 @@ export const DefaultLayout = () => {
             <Checklist />
             <ActionCreatorPanel />
           </Map>
-          {view === 'results' ? <BottomPanel className='absolute' /> : null}
+          <BottomPanel className='absolute' />
         </div>
       </MapWrapper>
     </div>
