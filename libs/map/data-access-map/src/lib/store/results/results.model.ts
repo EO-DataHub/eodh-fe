@@ -76,8 +76,8 @@ export type TCoordinate =
 export type TCatalogueSearchParams = {
   dataSets: TDataSets;
   date: {
-    from: NonNullable<TDateString>;
-    to: NonNullable<TDateString>;
+    from?: NonNullable<TDateString>;
+    to?: NonNullable<TDateString>;
   };
   aoi: Geometry;
   jobId?: never;

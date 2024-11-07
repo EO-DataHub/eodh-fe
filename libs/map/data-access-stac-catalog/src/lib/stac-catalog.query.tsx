@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getHttpClient } from '@ukri/shared/utils/react-query';
+import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-query';
 import { useMemo } from 'react';
 
 import { paths } from './api';
@@ -48,7 +48,7 @@ export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
 
   const query = useQueryBuilder(queryBuilderParams);
 
-  return useQuery<TCollection>({
+  return useQuery<TExtractFnReturnType<typeof getSearchResults>>({
     enabled: query.enabled,
     queryKey: queryKey.CATALOG_SEARCH(query.params),
     queryFn: () => getResults(query.params, params),
