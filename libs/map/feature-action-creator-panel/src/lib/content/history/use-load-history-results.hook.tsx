@@ -15,7 +15,6 @@ export const useLoadHistoryResults = () => {
   const showResults = useCallback(
     (jobId: string) => {
       const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
-      console.log('collectionInfo', collectionInfo);
 
       if (userWorkspace) {
         if (collectionInfo?.collectionInterval) {
