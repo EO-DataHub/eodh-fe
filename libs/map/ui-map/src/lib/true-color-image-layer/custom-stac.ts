@@ -6,6 +6,7 @@ import SourceType from 'ol-stac/source/type';
 import { IAsset, IClassificationItem, IColorMapItem, IOptions, ISTACWithColorMap } from './custom-stac.model';
 import { getGeoTiffSourceInfoFromAsset, getProjection, hexToRgb } from './utils';
 
+// TODO - this is a temporary fix to allow the use of the STACWithColorMap class, as addGeoTiff_ is a private methid that cant be overriden
 // @ts-expect-error - needed for build
 export class STACWithColorMap extends STAC {
   async addGeoTiff_(this: ISTACWithColorMap, asset: IAsset): Promise<WebGLTileLayer | undefined> {
