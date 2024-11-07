@@ -32,3 +32,4 @@ export type { TPreset } from './lib/query/presets.model';
 export { fetchImage } from './lib/query/protected-image.query';
 export { useGetWorkflowResult } from './lib/query/workflow-result.query';
 export { useGetCollectionInfo } from './lib/query/collection-info.query';
+export { useCollectionInfo } from './lib/query/collection-info.query';
