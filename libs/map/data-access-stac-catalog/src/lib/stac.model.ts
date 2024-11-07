@@ -98,47 +98,6 @@ export const collectionSchema = z.object({
   }),
 });
 
-const intervalSchema = z.array(z.array(z.string()).length(2)).length(1);
-
-const extentSchema = z.object({
-  spatial: z.object({
-    bbox: z.array(z.array(z.number()).length(4)).length(1),
-  }),
-  temporal: z.object({
-    interval: intervalSchema,
-  }),
-});
-
-const collectionInfoLinkSchema = z.object({
-  href: z.string(),
-  rel: z.string(),
-  type: z.string().optional(),
-});
-
-export const collectionInfoSchema = z
-  .object({
-    type: z.literal('Collection'),
-    stac_version: z.string(),
-    id: z.string(),
-    title: z.string(),
-    description: z.string(),
-    links: z.array(collectionInfoLinkSchema),
-    keywords: z.array(z.string()),
-    license: z.string(),
-    extent: extentSchema,
-    stac_extensions: z.array(z.string()),
-    providers: z.array(z.unknown()),
-    summaries: z.record(z.unknown()),
-    assets: z.record(z.unknown()),
-  })
-  .transform((data) => {
-    return {
-      collectionInterval: data.extent.temporal.interval[0],
-    };
-  });
-
 export type TGeometry = z.infer<typeof geometrySchema>;
 export type TCollection = z.infer<typeof collectionSchema>;
-export type TCollectionInfo = z.infer<typeof collectionInfoSchema>;
 export type TFeature = TCollection['features'][number];
-export type TWorkflowResults = TCollection & TCollectionInfo;

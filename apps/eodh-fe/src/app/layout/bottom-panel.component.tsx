@@ -7,7 +7,6 @@ interface IBottomPanel {
 
 export const BottomPanel = ({ className }: IBottomPanel) => {
   const { view } = useMode();
-  // const { data } = useLoadHistoryResults();
 
   if (view !== 'results') {
     return null;
