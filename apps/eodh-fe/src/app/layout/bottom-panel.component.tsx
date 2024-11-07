@@ -1,6 +1,5 @@
 import { useMode } from '@ukri/map/data-access-map';
-import { TimeSlider } from '@ukri/shared/ui/time-slider';
-import { createDateString } from '@ukri/shared/utils/date';
+import { TimelineAnalyticsDashboard } from '@ukri/map/feature-timeline-analytics-dashboard';
 
 interface IBottomPanel {
   className?: string;
@@ -17,11 +16,7 @@ export const BottomPanel = ({ className }: IBottomPanel) => {
     <div
       className={`w-full h-[76px] bg-background-main border-b-[1px] border-bright-dark flex items-center text-text bottom-0 ${className}`}
     >
-      <TimeSlider
-        min={createDateString('2000-01-01T00:00:00+00:00')}
-        max={createDateString('2001-01-01T00:00:00+00:00')}
-        className='grow'
-      />
+      <TimelineAnalyticsDashboard className='grow' />
     </div>
   );
 };
