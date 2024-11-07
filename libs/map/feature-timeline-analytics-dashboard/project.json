@@ -12,7 +12,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-         "reportsDirectory": "../../../coverage/libs/map/feature-timeline-analytics-dashboard"
+        "reportsDirectory": "../../../coverage/libs/map/feature-timeline-analytics-dashboard"
       }
     }
   }

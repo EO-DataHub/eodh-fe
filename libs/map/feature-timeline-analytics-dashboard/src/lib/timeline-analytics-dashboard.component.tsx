@@ -1,4 +1,4 @@
-import { useResults } from '@ukri/map/data-access-map';
+// import { useResults } from '@ukri/map/data-access-map';
 import { TimeSlider } from '@ukri/shared/ui/time-slider';
 import { createDateString } from '@ukri/shared/utils/date';
 
@@ -7,8 +7,8 @@ type TActionCreatorPanelProps = {
 };
 
 export const TimelineAnalyticsDashboard = ({ className = '' }: TActionCreatorPanelProps) => {
-  const { searchParams } = useResults();
-  console.log('searchParams', searchParams);
+  // const { searchParams } = useResults();
+  // console.log('searchParams', searchParams);
   return (
     <TimeSlider
       // min={createDateString(data?.collectionInterval?.[0] ?? undefined)}
