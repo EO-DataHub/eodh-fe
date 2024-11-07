@@ -8,7 +8,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
-import { CustomSTAC } from './custom-stac';
+import { STACWithColorMap } from './custom-stac';
 
 register(proj4);
 
@@ -16,7 +16,7 @@ export const useStacLayer = () => {
   const map = useContext(MapContext);
   const { authClient } = useAuth();
   const { stacUrl } = useTrueColorImage();
-  const [stacLayer, setStacLayer] = useState<STAC | CustomSTAC | null>(null);
+  const [stacLayer, setStacLayer] = useState<STAC | STACWithColorMap | null>(null);
   const { mode } = useMode();
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const useStacLayer = () => {
     }
 
     let isSubscribed = true;
-    let newStacLayer: STAC | CustomSTAC | null = null;
+    let newStacLayer: STAC | STACWithColorMap | null = null;
 
     const handleSourceReady = () => {
       if (!newStacLayer) {
@@ -46,7 +46,7 @@ export const useStacLayer = () => {
     };
 
     const loadPublicStacItem = () => {
-      newStacLayer = new CustomSTAC({
+      newStacLayer = new STACWithColorMap({
         url: stacUrl,
         zIndex: stacLayerZindex,
       });
@@ -62,7 +62,7 @@ export const useStacLayer = () => {
       }
       const data = await getHttpClient().get(stacUrl);
 
-      newStacLayer = new CustomSTAC({
+      newStacLayer = new STACWithColorMap({
         data,
         zIndex: stacLayerZindex,
         getSourceOptions: (type, options) => {
