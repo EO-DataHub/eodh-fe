@@ -6,6 +6,7 @@ import SourceType from 'ol-stac/source/type';
 import { IAsset, IClassificationItem, IColorMapItem, IOptions, ISTACWithColorMap } from './custom-stac.model';
 import { getGeoTiffSourceInfoFromAsset, getProjection, hexToRgb } from './utils';
 
+// TODO - to fix in the future
 export class STACWithColorMap extends STAC {
   async addGeoTiff_(this: ISTACWithColorMap, asset: IAsset): Promise<WebGLTileLayer | undefined> {
     if (!this.displayOverview_) {
