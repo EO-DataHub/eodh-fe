@@ -53,18 +53,17 @@ export async function getProjection(reference: any, defaultProjection: any = und
   return projection;
 }
 
-const ndvi = ['/', ['-', ['band', 2], ['band', 1]], ['+', ['band', 2], ['band', 1]]];
-const ndvi2 = ['band', 1];
-
-function hexToRgbA(hex: string) {
-  let c;
+function hexToRgb(hex: string) {
+  let c: string;
 
   if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-    c = hex.substring(1).split('');
-    if (c.length == 3) {
-      c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    let tmp: string[] = hex.substring(1).split('');
+
+    if (tmp.length === 3) {
+      tmp = [tmp[0], tmp[0], tmp[1], tmp[1], tmp[2], tmp[2]];
     }
-    c = '0x' + c.join('');
+    c = '0x' + tmp.join('');
+
     return ['color', (c >> 16) & 255, (c >> 8) & 255, c & 255];
   }
 }
@@ -103,74 +102,14 @@ export class CustomSTAC extends STAC {
       }
       return await (this as any).addTileLayerForImagery_(asset);
     };
-    const bandsColor = (this.getData() as any).assets.data['classification:classes'].map((item) => [
-      item.value,
-      `#${item['color-hint']}`,
-    ]);
-    const colors = (this.getData() as any).assets.data['classification:classes'].map((item) =>
-      hexToRgbA(`#${item['color-hint']}`)
-    ).map(item => !item ? ['color', 0, 0, 0] : item);
-    console.log('bandsColor', bandsColor, colors);
 
-    function colors2() {
-      const stops = [];
-      for (let i = 0; i <= colors.length; ++i) {
-        const color = colors[i];
-        if (color) {
-          stops[i * 2] = i;
-          // stops[i * 2] = ['var', `value${i}`, color];
-          // const red = ['var', `red${colors[i][1]}`];
-          // const green = ['var', `green${colors[i][2]}`];
-          // const blue = ['var', `blue${colors[i][3]}`];
-          // stops[i * 2 + 1] = ['color', red, green, blue];
-
-          // const red = ['var', `red${colors[i][1]}`];
-          // const green = ['var', `green${colors[i][2]}`];
-          // const blue = ['var', `blue${colors[i][3]}`];
-          stops[i * 2 + 1] = ['color', colors[i][1], colors[i][2], colors[i][3]];
-        }
-      }
-      return stops;
-    }
-
-    function colors3() {
-      const stops = [];
-      for (let i = 0; i <= 20; ++i) {
-        stops[i * 2] = ['var', `value${i}`];
-        const red = ['var', `red${i}`];
-        const green = ['var', `green${i}`];
-        const blue = ['var', `blue${i}`];
-        stops[i * 2 + 1] = ['color', red, green, blue];
-      }
-      return stops;
-    }
-    console.log('colors2', colors, colors2());
     try {
-      const source = new GeoTIFF(options);
+      const source = new GeoTIFF({ ...options, normalize: !this.hasColorMap(asset) });
       const layer = new WebGLTileLayer({
         source,
-        style: {
-          // color: [['color', 255, 255, 255], ['color', 255, 255, 255]],
-          color: [
-            // 'array',
-            'interpolate',
-            ['linear'],
-            ndvi2,
-            ...colors2(),
-            // ...colors,
-            // -0.2, // ndvi values <= -0.2 will get the color below
-            // [191, 191, 191],
-            // 0, // ndvi values between -0.2 and 0 will get an interpolated color between the one above and the one below
-            // [255, 255, 224],
-            // 0.2,
-            // [145, 191, 82],
-            // 0.4,
-            // [79, 138, 46],
-            // 0.6,
-            // [15, 84, 10],
-          ],
-        },
+        style: this.getColorMapStyles(asset),
       });
+
       if ((this as any).useTileLayerAsFallback_) {
         const errorFn = () => tileserverFallback(asset, layer);
         source.on('error', errorFn);
@@ -194,4 +133,42 @@ export class CustomSTAC extends STAC {
       (this as any).handleError_(error);
     }
   }
+
+  protected hasColorMap = (asset: any): boolean => {
+    const classification = this.getClassificationClasses(asset);
+    return classification && Array.isArray(classification);
+  };
+
+  protected getClassificationClasses = (asset) => {
+    return asset.getMetadata('classification:classes');
+  };
+
+  protected getColorMapStyles = (asset: any) => {
+    if (!this.hasColorMap(asset)) {
+      return undefined;
+    }
+
+    return this.getClassificationColorMapStyles(asset);
+  };
+
+  protected getClassificationColorMapStyles = (asset: any) => {
+    const classification = this.getClassificationClasses(asset);
+    if (!classification || !Array.isArray(classification)) {
+      return;
+    }
+
+    const colorMap = classification.map((item) => ({
+      value: item.value,
+      color: hexToRgb(`#${item['color-hint']}`),
+    }));
+
+    return {
+      color: [
+        'interpolate',
+        ['linear'],
+        ['band', 1],
+        ...colorMap.map((item) => [item.value, item.color ? item.color : ['color', 0, 0, 0]]).flat(),
+      ],
+    };
+  };
 }
