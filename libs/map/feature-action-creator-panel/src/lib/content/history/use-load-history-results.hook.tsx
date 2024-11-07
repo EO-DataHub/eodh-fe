@@ -7,7 +7,7 @@ import { useCallback } from 'react';
 export const useLoadHistoryResults = () => {
   const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
   const { searchParams, updateSearchParams } = useResults();
-  const { data: collectionInfo } = useCollectionInfo({ params: searchParams });
+  // const { data: collectionInfo } = useCollectionInfo({ params: searchParams });
   const { data, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const { changeView } = useMode();
@@ -17,13 +17,13 @@ export const useLoadHistoryResults = () => {
       const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
 
       if (userWorkspace) {
-        if (collectionInfo?.collectionInterval) {
-          updateSearchParams({ jobId, userWorkspace, date: collectionInfo.collectionInterval });
-        }
+        // if (collectionInfo?.collectionInterval) {
+        updateSearchParams({ jobId, userWorkspace });
+        // }
         changeView('results');
       }
     },
-    [authClient, changeView, updateSearchParams, collectionInfo]
+    [authClient, changeView, updateSearchParams]
   );
 
   const hideResults = useCallback(() => {

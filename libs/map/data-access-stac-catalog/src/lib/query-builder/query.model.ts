@@ -48,9 +48,9 @@ export type TCatalogSearchParams = {
   dataSets: {
     copernicus: TCopernicusSearchParams;
   };
-  date: {
-    from: NonNullable<TDateString>;
-    to: NonNullable<TDateString>;
+  date?: {
+    from?: NonNullable<TDateString>;
+    to?: NonNullable<TDateString>;
   };
   aoi: Geometry;
 };
