@@ -2,12 +2,12 @@ export const selectStyles = {
   container: 'relative w-64 text-action-creator-body',
 
   selectWrapper: (error?: string) =>
-    `absolute border w-full rounded bg-bright ${
+    `absolute border w-full rounded bg-bright [&:has(ul)]:z-10  ${
       error ? 'border-error' : 'border-bright-dark'
     } focus:border-primary-light focus:ring-primary-light focus:ring-[3px]`,
 
   button: 'pl-2 pr-10 text-left cursor-default focus:outline-none',
-  list: 'z-10 max-h-60 overflow-auto focus:outline-none',
+  list: 'z-20 max-h-60 overflow-auto focus:outline-none',
 
   errorMessage: 'text-error text-small-semibold m-b-[5px]',
   buttonText: 'truncate max-w-[100px]',

@@ -91,7 +91,7 @@ const useErrorMessage = () => {
     }
 
     if (error instanceof AxiosError) {
-      return t('GLOBAL.ERRORS.SERVER_ERROR.MESSAGE');
+      return t('GLOBAL.ERRORS.API_ERROR.MESSAGE');
     }
 
     switch (error.type) {

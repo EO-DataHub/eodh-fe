@@ -1,5 +1,6 @@
 import { TCoordinate } from '../aoi/aoi.model';
 import { TDateValues } from '../date/date.model';
+import { createNode } from './node.utils';
 
 export type TAoiState = 'readonly' | 'edit';
 
@@ -15,7 +16,7 @@ export type TDataSetValue =
 
 type TBaseNodeState = 'initial' | 'active' | 'not-active';
 
-type TBaseNode = { id: string; tooltip: boolean; state: TBaseNodeState };
+type TBaseNode = { id: string; tooltip: boolean; state: TBaseNodeState; order: number };
 
 export type TDataSetsNode = TBaseNode & {
   type: 'dataSet';
@@ -35,43 +36,22 @@ export interface IActionCreatorStore {
   nodes: TNode[];
   setActive: (node?: TNode) => void;
   setValue: <T extends TNode>(node: T, value: T['value'] | null) => void;
+  addNode: (node: TNode) => void;
+  removeNode: (node: TNode) => void;
   setNodes: (nodes?: TNode[]) => void;
   reset: (nodes?: TIActionCreatorStoreState) => void;
 }
 
 export type TIActionCreatorStoreState = Omit<
   IActionCreatorStore,
-  'setActive' | 'canActivate' | 'setValue' | 'setNodes' | 'reset'
+  'setActive' | 'canActivate' | 'setValue' | 'addNode' | 'removeNode' | 'setNodes' | 'reset'
 >;
 
 export const defaultNodes: TNode[] = [
-  {
-    id: 'area-1',
-    type: 'area',
-    state: 'initial',
-    value: undefined,
-    tooltip: true,
-  },
-  {
-    id: 'data-set-1',
-    type: 'dataSet',
-    state: 'initial',
-    value: undefined,
-    tooltip: true,
-  },
-  {
-    id: 'date-1',
-    type: 'dateRange',
-    state: 'initial',
-    value: undefined,
-  },
-  {
-    id: 'function-1',
-    type: 'function',
-    state: 'initial',
-    value: undefined,
-    tooltip: true,
-  },
+  createNode(1, 'area', 1),
+  createNode(1, 'dataSet', 2),
+  createNode(1, 'dateRange', 3),
+  createNode(1, 'function', 4),
 ];
 
 export const defaultValues: TIActionCreatorStoreState = {

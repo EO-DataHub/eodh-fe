@@ -8,7 +8,7 @@ import { queryKey } from './query-key.const';
 const presets = async (): Promise<TPreset[]> => {
   const response = await getHttpClient().get(paths.PRESETS);
 
-  return presetsSchema.parse(response).functions.filter((item) => item.preset);
+  return presetsSchema.parse(response).presets;
 };
 
 export const useGetPresets = () => {

@@ -1,22 +1,15 @@
 import z from 'zod';
 
-const booleanSchema = z.object({
-  type: z.literal('boolean'),
-  required: z.boolean(),
-  default: z.boolean(),
-});
-
 const stringSchema = z.object({
   type: z.literal('string'),
   required: z.boolean(),
-  default: z.string().nullish(),
-  options: z.array(z.string()),
-});
-
-const numberSchema = z.object({
-  type: z.literal('number'),
-  required: z.boolean(),
-  default: z.number(),
+  default: z.string(),
+  options: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    })
+  ),
 });
 
 const dateTimeSchema = z.object({
@@ -39,53 +32,50 @@ const polygonSchema = z.object({
   default: geometrySchema.nullish(),
 });
 
-const inputSchema = z.union([booleanSchema, stringSchema, numberSchema, dateTimeSchema, polygonSchema]);
-
-const functionSchema = z
+export const functionSchema = z
   .object({
-    name: z.string(),
     identifier: z.union([
-      z.literal('raster-calculate'),
-      z.literal('lulc-change'),
-      z.literal('water-quality'),
+      z.literal('land-cover-change-detection'),
+      z.literal('ndvi'),
+      z.literal('evi'),
+      z.literal('savi'),
       z.literal('clip'),
       z.string(),
     ]),
-    preset: z.boolean(),
+    standalone: z.boolean(),
+    visible: z.boolean(),
+    name: z.string(),
     description: z.string().optional(),
-    thumbnail_b64: z.string(),
     inputs: z.object({
-      stac_collection: inputSchema.optional(),
-      date_start: inputSchema.optional(),
-      date_end: inputSchema.optional(),
-      aoi: inputSchema.optional(),
-      calibrate: inputSchema.optional(),
-      index: inputSchema.optional(),
-      limit: inputSchema.optional(),
+      stac_collection: stringSchema.optional(),
+      date_start: dateTimeSchema.optional(),
+      date_end: dateTimeSchema.optional(),
+      aoi: polygonSchema.optional(),
     }),
     outputs: z.object({
       collection: z.object({
-        type: z.string(),
+        type: z.union([z.literal('stac_collection'), z.string()]),
       }),
     }),
   })
-  .transform((data) => ({
-    name: data.name,
-    identifier: data.identifier,
-    standalone: data.preset,
-    inputs: {
-      ...data,
-      aoi: data.inputs.aoi,
-      stacCollection: data.inputs.stac_collection,
-      dateStart: data.inputs.date_start,
-      dateEnd: data.inputs.date_end,
-    },
-    params: {
-      index: data.inputs.index,
-      limit: data.inputs.limit,
-      calibrate: data.inputs.calibrate,
-    },
-  }));
+  .transform((data) => {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { stac_collection, date_start, date_end, ...rest } = data.inputs;
+
+    return {
+      name: data.name,
+      identifier: data.identifier,
+      standalone: data.standalone,
+      visible: data.visible,
+      inputs: {
+        ...rest,
+        aoi: data.inputs.aoi,
+        stacCollection: stac_collection,
+        dateStart: date_start,
+        dateEnd: date_end,
+      },
+    };
+  });
 
 export const functionListSchema = z.object({
   functions: z.array(functionSchema),

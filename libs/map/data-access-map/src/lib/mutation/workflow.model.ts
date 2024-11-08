@@ -22,15 +22,20 @@ export const workflowCreatedSchema = z
     finished_at: z.coerce.date().nullable(),
     successful: z.boolean().nullable(),
     spec: z.object({
-      preset_function: z.object({
-        function_identifier: z.string(),
-        inputs: z.object({
-          aoi: aoiSchema,
-          date_start: z.coerce.date(),
-          date_end: z.coerce.date(),
-          stac_collection: z.string(),
-        }),
-      }),
+      workflow: z.record(
+        z.string(),
+        z.object({
+          identifier: z.string(),
+          order: z.number(),
+          inputs: z.object({
+            aoi: aoiSchema.optional(),
+            date_start: z.coerce.date().optional(),
+            date_end: z.coerce.date().optional(),
+            stac_collection: z.string().optional(),
+            identifier: z.string().optional(),
+          }),
+        })
+      ),
     }),
   })
   .transform((data) => ({
@@ -40,15 +45,6 @@ export const workflowCreatedSchema = z
     runningAt: data.running_at,
     finishedAt: data.finished_at,
     successful: data.successful,
-    params: {
-      functionIdentifier: data.spec.preset_function.function_identifier,
-      inputs: {
-        aoi: data.spec.preset_function.inputs.aoi,
-        dataSet: data.spec.preset_function.inputs.stac_collection,
-        dateStart: data.spec.preset_function.inputs.date_start,
-        dateEnd: data.spec.preset_function.inputs.date_end,
-      },
-    },
   }));
 
 export type TWorkflowCreated = z.infer<typeof workflowCreatedSchema>;

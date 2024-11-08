@@ -6,6 +6,7 @@ import {
   TNode,
   useActionCreator,
   useCreateWorkflow,
+  useFunctions,
 } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
 import { useCallback } from 'react';
@@ -39,43 +40,47 @@ const renderNode = (node: TNode) => {
 
 export const Workflow = () => {
   const { nodes, isValid, getNodesByType } = useActionCreator();
-  const { status, isPending, mutate } = useCreateWorkflow();
+  const { status, isPending, isSuccess, mutate } = useCreateWorkflow();
+  const { data } = useFunctions();
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
     const dataSetNode = getNodesByType<TDataSetsNode>('dataSet').pop();
     const dateRangeNode = getNodesByType<TDateRangeNode>('dateRange').pop();
-    const functionNode = getNodesByType<TFunctionNode>('function').pop();
+    const functionNodes = getNodesByType<TFunctionNode>('function');
 
     if (
       !aoiNode?.value ||
       !dataSetNode?.value ||
       !dateRangeNode?.value?.from ||
       !dateRangeNode?.value?.to ||
-      !functionNode?.value
+      !functionNodes.length ||
+      !data?.length
     ) {
       return;
     }
 
     mutate({
-      aoi: aoiNode.value,
-      dataSet: dataSetNode.value,
-      date: {
-        from: dateRangeNode.value.from,
-        to: dateRangeNode.value.to,
+      nodes: {
+        aoi: aoiNode,
+        dataSet: dataSetNode,
+        dateRange: dateRangeNode,
+        functions: functionNodes,
       },
-      function: functionNode.value,
+      functions: data,
     });
-  }, [getNodesByType, mutate]);
+  }, [data, getNodesByType, mutate]);
 
   return (
     <Container>
       <Content>
-        <div className='flex justify-center'>
-          <section className='p-4 text-text-primary flex justify-center flex-col'>
-            {nodes.map((node) => renderNode(node))}
-          </section>
-        </div>
+        <section className='h-full overflow-scroll'>
+          <div className='flex justify-center'>
+            <section className='p-4 text-text-primary flex justify-center flex-col'>
+              {nodes.sort((a, b) => a.order - b.order).map((node) => renderNode(node))}
+            </section>
+          </div>
+        </section>
         <WorkflowProcessingModal status={status} />
       </Content>
       <Footer>
@@ -84,7 +89,7 @@ export const Workflow = () => {
           <span>Import</span>
           <Button
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
-            disabled={!isValid || isPending}
+            disabled={!isValid || isPending || isSuccess}
             onClick={createWorkflow}
           />
         </div>
