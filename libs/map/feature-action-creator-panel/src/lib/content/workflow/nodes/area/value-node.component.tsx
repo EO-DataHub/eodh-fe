@@ -67,6 +67,7 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
   return (
     <Node
       type={node.type}
+      active={true}
       text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, 'miles')}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}

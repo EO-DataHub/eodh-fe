@@ -11,7 +11,13 @@ export const LoadingNode = ({ node }: TValueNodeProps) => {
   const { isLast } = useActionCreator();
 
   return (
-    <Node type={node.type} clickable={false} selected={node.state === 'active'} hasNextNode={!isLast(node)}>
+    <Node
+      type={node.type}
+      clickable={false}
+      selected={node.state === 'active'}
+      hasNextNode={!isLast(node)}
+      active={true}
+    >
       <LoadingInput />
     </Node>
   );

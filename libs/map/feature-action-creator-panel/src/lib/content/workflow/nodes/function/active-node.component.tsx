@@ -14,6 +14,7 @@ export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {
 
   return (
     <Node
+      active={true}
       type={node.type}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}

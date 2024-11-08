@@ -8,11 +8,12 @@ export type TOption = {
 
 interface INodeSelectProps {
   value: string | undefined;
+  disabled?: boolean;
   options: TOption[];
   onChange?: (value: string | null | undefined) => void;
 }
 
-export const NodeSelect = ({ value, options, onChange }: INodeSelectProps) => {
+export const NodeSelect = ({ value, options, disabled, onChange }: INodeSelectProps) => {
   const handleChange = useCallback(
     (value?: string | null | undefined) => {
       if (onChange) {
@@ -22,5 +23,7 @@ export const NodeSelect = ({ value, options, onChange }: INodeSelectProps) => {
     [onChange]
   );
 
-  return <Select className='w-full h-[26px]' options={options} value={value} onChange={handleChange} />;
+  return (
+    <Select className='w-full h-[26px]' options={options} value={value} disabled={disabled} onChange={handleChange} />
+  );
 };

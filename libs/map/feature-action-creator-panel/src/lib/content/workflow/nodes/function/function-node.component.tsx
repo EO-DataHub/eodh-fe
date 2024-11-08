@@ -108,7 +108,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
       onClick={goToNextOnboardingStep}
       className='top-0 left-[-110px]'
     >
-      <div onClick={activateNode}>
+      <div id={node.id} onClick={activateNode}>
         <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
       </div>
     </OnboardingTooltip>

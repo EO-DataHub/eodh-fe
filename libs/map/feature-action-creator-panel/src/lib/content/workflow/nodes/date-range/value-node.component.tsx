@@ -18,6 +18,7 @@ export const ValueNode = ({ node, onClearDateFromClick, onClearDateToClick }: TV
   return (
     <Node
       type={node.type}
+      active={true}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}

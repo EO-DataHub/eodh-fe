@@ -57,6 +57,7 @@ export const ValueNode = ({ error, node, onClearButtonClick }: TValueNodeProps) 
   return (
     <Node
       type={node.type}
+      active={true}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}

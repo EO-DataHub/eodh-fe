@@ -118,6 +118,7 @@ type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive' | 'addNode' | '
   canRemoveNode: (node: TNode) => boolean;
   getValidFunctions: (node: TNode, functions: TBaseFunction[] | undefined) => TBaseFunction[];
   canAddNextNode: (node: TNode, functions?: TBaseFunction[] | undefined) => boolean;
+  canBeActive: (node: TNode) => boolean;
 };
 
 export const useActionCreator = (): TActionCreatorProps => {
@@ -142,12 +143,12 @@ export const useActionCreator = (): TActionCreatorProps => {
       reset();
     },
     addNode: () => state.addNode(createNode(nanoid(), 'function', state.nodes.length + 1)),
-    loadPreset: ({ dataSet, functionName }: TLoadPresetProps) => loadPreset({ dataSet, functionName }),
+    loadPreset: ({ dataSet, functions }: TLoadPresetProps) => loadPreset({ dataSet, functions }),
     isLast: (node: TNode) => state.nodes.at(-1) === node,
     canRemoveNode: (node: TNode) => {
-      const nodes = state.nodes.filter((item) => item.type === 'function');
+      const nodes = state.nodes.filter((item) => isFunctionNode(item));
 
-      if (node.type !== 'function' || nodes.length <= 1) {
+      if (!isFunctionNode(node) || nodes.length <= 1) {
         return false;
       }
 
@@ -156,12 +157,25 @@ export const useActionCreator = (): TActionCreatorProps => {
     getValidFunctions: (node: TNode, functions: TBaseFunction[] | undefined): TBaseFunction[] =>
       getValidFunctions(state.nodes, node, functions),
     canAddNextNode: (node: TNode, functions?: TBaseFunction[] | undefined): boolean => {
-      if (node.type !== 'function' || !functions || state.nodes.at(-1) !== node || !node.value) {
+      if (!isFunctionNode(node) || !functions || state.nodes.at(-1) !== node || !node.value) {
         return false;
       }
 
       const newNode = createNode(nanoid(), 'function', state.nodes.length + 1);
       return !!getValidFunctions([...state.nodes, newNode], newNode, functions).length;
+    },
+    canBeActive: (node: TNode): boolean => {
+      if (!isFunctionNode(node)) {
+        return true;
+      }
+
+      const nodes = state.nodes.filter((item) => isFunctionNode(item));
+
+      if (nodes.length <= 1 || state.nodes.at(-1) === node) {
+        return true;
+      }
+
+      return state.nodes.at(-1)?.state === 'initial';
     },
   }));
 };

@@ -43,7 +43,10 @@ const presetSchema = z
     imageUrl: data.thumbnail_b64 ? `data:image/jpeg;base64,${data.thumbnail_b64}` : undefined,
     defaultValues: {
       dataSet: data.workflow['land-cover-change-detection'].inputs.stac_collection,
-      function: data.identifier,
+      functions: Object.entries(data.workflow).map(([, item]) => ({
+        identifier: item.identifier,
+        order: item.order,
+      })),
     },
   }));
 

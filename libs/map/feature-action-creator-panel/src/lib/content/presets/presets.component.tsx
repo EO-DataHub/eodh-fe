@@ -37,7 +37,7 @@ export const Presets = () => {
 
   const handleLoadPreset = useCallback(
     (preset: TPreset) => {
-      loadPreset({ dataSet: preset.defaultValues.dataSet, functionName: preset.defaultValues.function });
+      loadPreset({ dataSet: preset.defaultValues.dataSet, functions: preset.defaultValues.functions });
       setActiveTab('workflow');
       return;
     },

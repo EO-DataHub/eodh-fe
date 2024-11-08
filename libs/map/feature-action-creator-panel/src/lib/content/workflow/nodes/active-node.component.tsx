@@ -14,6 +14,7 @@ export const ActiveNode = ({ text, node }: TActiveNodeProps) => {
     <Node
       type={node.type}
       text={text}
+      active={true}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}

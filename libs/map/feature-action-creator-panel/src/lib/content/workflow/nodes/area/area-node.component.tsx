@@ -75,7 +75,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
       onClick={goToNextOnboardingStep}
       className='top-0 left-[-110px]'
     >
-      <div onClick={activateNode}>
+      <div id={node.id} onClick={activateNode}>
         <Node node={node} onClearButtonClick={clear} />
       </div>
     </OnboardingTooltip>

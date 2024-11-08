@@ -1,5 +1,5 @@
 import { Icon } from '@ukri/shared/design-system';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type TNodeType = 'area' | 'dataSet' | 'dateRange' | 'function';
@@ -74,6 +74,7 @@ const styles = {
 interface INodeProps {
   type: TNodeType;
   hasNextNode: boolean;
+  active: boolean;
   text?: string;
   error?: string;
   clickable?: boolean;
@@ -92,6 +93,7 @@ export const Node = ({
   children,
   clickable,
   selected,
+  active,
   canAddNode = false,
   canRemoveNode = false,
   hasNextNode = false,
@@ -99,17 +101,14 @@ export const Node = ({
   onAddNode,
   onRemoveNode,
 }: PropsWithChildren<INodeProps>) => {
-  const [active, setActive] = useState(false);
   const { t } = useTranslation();
   const nodeType = typeOfNode[type];
 
-  useEffect(() => {
-    if (text || children) {
-      setActive(true);
-    } else {
-      setActive(false);
+  const handleAddNode = useCallback(() => {
+    if (onAddNode) {
+      onAddNode();
     }
-  }, [text, children]);
+  }, [onAddNode]);
 
   return (
     <div className={`${styles.container} ${clickable ? styles.clickable : ''} ${className}`}>
@@ -144,7 +143,7 @@ export const Node = ({
       )}
       {!hasNextNode && (
         <div className={styles.add.container}>
-          <button className={styles.add.button} disabled={!canAddNode} onClick={onAddNode}>
+          <button className={styles.add.button} disabled={!canAddNode} onClick={handleAddNode}>
             <Icon name='Add' />
           </button>
         </div>

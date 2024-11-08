@@ -77,7 +77,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
       onClick={goToNextOnboardingStep}
       className='top-0 left-[-110px]'
     >
-      <div onClick={activateNode}>
+      <div id={node.id} onClick={activateNode}>
         <Node node={node} error={error} onClearButtonClick={clear} />
       </div>
     </OnboardingTooltip>

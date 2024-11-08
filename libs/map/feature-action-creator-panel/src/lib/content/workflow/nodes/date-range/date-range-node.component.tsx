@@ -66,7 +66,7 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   }, [node.state, setValue, node, date?.from, date?.to]);
 
   return (
-    <div onClick={activateNode}>
+    <div id={node.id} onClick={activateNode}>
       <Node node={node} onClearDateFromClick={clearDateFrom} onClearDateToClick={clearDateTo} />
     </div>
   );
