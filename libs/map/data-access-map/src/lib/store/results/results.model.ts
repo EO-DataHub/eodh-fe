@@ -103,9 +103,10 @@ export type TResultsStore<T = TSearchParams> = {
   coordinates: TCoordinate | undefined;
   updateSearchParams: (state: T | undefined) => void;
   setShape: (coordinates: TCoordinate | undefined) => void;
+  restore: (coordinates: TCoordinate | undefined, searchParams: Omit<TSearchParams, 'aoi'> | undefined) => void;
 };
 
-export type TResultsStoreState = Omit<TResultsStore, 'setShape' | 'updateSearchParams'>;
+export type TResultsStoreState = Omit<TResultsStore, 'setShape' | 'updateSearchParams' | 'restore'>;
 
 export const defaultState: TResultsStoreState = {
   searchType: undefined,

@@ -1,4 +1,4 @@
-import { useTrueColorImage } from '@ukri/map/data-access-map';
+import { useMode, useTrueColorImage } from '@ukri/map/data-access-map';
 import { useAuth } from '@ukri/shared/utils/authorization';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { register } from 'ol/proj/proj4.js';
@@ -8,6 +8,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
+import { STACWithColorMap } from './custom-stac';
 
 register(proj4);
 
@@ -15,7 +16,8 @@ export const useStacLayer = () => {
   const map = useContext(MapContext);
   const { authClient } = useAuth();
   const { stacUrl } = useTrueColorImage();
-  const [stacLayer, setStacLayer] = useState<STAC | null>(null);
+  const [stacLayer, setStacLayer] = useState<STAC | STACWithColorMap | null>(null);
+  const { mode } = useMode();
 
   useEffect(() => {
     if (!map || !stacUrl) {
@@ -23,7 +25,7 @@ export const useStacLayer = () => {
     }
 
     let isSubscribed = true;
-    let newStacLayer: STAC | null = null;
+    let newStacLayer: STAC | STACWithColorMap | null = null;
 
     const handleSourceReady = () => {
       if (!newStacLayer) {
@@ -43,14 +45,24 @@ export const useStacLayer = () => {
       }
     };
 
-    const fetchStacItem = async () => {
-      const data = await getHttpClient().get(stacUrl);
+    const loadPublicStacItem = () => {
+      newStacLayer = new STACWithColorMap({
+        url: stacUrl,
+        zIndex: stacLayerZindex,
+      });
 
+      newStacLayer.addEventListener('sourceready', handleSourceReady);
+      map.addLayer(newStacLayer);
+      setStacLayer(newStacLayer);
+    };
+
+    const fetchPrivateStacItem = async () => {
       if (!isSubscribed) {
         return;
       }
+      const data = await getHttpClient().get(stacUrl);
 
-      newStacLayer = new STAC({
+      newStacLayer = new STACWithColorMap({
         data,
         zIndex: stacLayerZindex,
         getSourceOptions: (type, options) => {
@@ -69,8 +81,12 @@ export const useStacLayer = () => {
       setStacLayer(newStacLayer);
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    fetchStacItem().catch(() => {}); // todo add displaying error
+    if (mode === 'search') {
+      loadPublicStacItem();
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      fetchPrivateStacItem().catch(() => {}); // todo add displaying error
+    }
 
     return () => {
       isSubscribed = false;
@@ -80,7 +96,7 @@ export const useStacLayer = () => {
         newStacLayer.removeEventListener('sourceready', handleSourceReady);
       }
     };
-  }, [map, stacUrl, authClient]);
+  }, [map, stacUrl, authClient, mode]);
 
   const updateZindex = useCallback(
     (newZIndex: number) => {
