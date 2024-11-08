@@ -7,6 +7,7 @@ import { devtools } from 'zustand/middleware';
 import { createGeometry, getCoordinates } from './geometry';
 import {
   defaultState,
+  TCatalogueSearchParams,
   TCoordinate,
   TResultsStore,
   TResultsStoreState,
@@ -14,7 +15,12 @@ import {
   TWorkflowSearchParams,
 } from './results.model';
 
-const isWorkflow = (params: TSearchParams): params is TWorkflowSearchParams => !!params.jobId && !!params.userWorkspace;
+const isWorkflow = (params: Omit<TSearchParams, 'aoi'>): params is TWorkflowSearchParams =>
+  !!params.jobId && !!params.userWorkspace;
+
+const isCatalogue = (
+  params: Omit<TSearchParams, 'aoi'> & { aoi?: TCatalogueSearchParams['aoi'] }
+): params is TCatalogueSearchParams => !!params.aoi && !!params.dataSets;
 
 const getSearchType = (params: TSearchParams | undefined) => {
   if (!params) {
@@ -73,16 +79,59 @@ export const useResultsStore = create<TResultsStore>()(
           searchType: 'catalogue',
         };
       }),
+    restore: (coordinates: TCoordinate | undefined, searchParams: Omit<TSearchParams, 'aoi'> | undefined) =>
+      set(() => {
+        if (searchParams && isWorkflow(searchParams)) {
+          return {
+            searchParams: {
+              ...searchParams,
+              aoi: undefined,
+            },
+            coordinates,
+            searchType: 'workflow',
+          };
+        }
+
+        const newSearchParams = {
+          ...searchParams,
+          aoi: createGeometry(coordinates),
+        };
+
+        if (isCatalogue(newSearchParams)) {
+          return {
+            searchParams: newSearchParams,
+            coordinates,
+            searchType: 'catalogue',
+          };
+        }
+
+        return {
+          searchParams: undefined,
+          coordinates: undefined,
+          searchType: undefined,
+        };
+      }),
   }))
 );
 
-export const getResultsStoreState = (): TResultsStoreState => {
-  const { updateSearchParams, setShape, ...rest } = useResultsStore.getState();
+export const getResultsStoreState = (): Omit<TResultsStoreState, 'searchParams'> & {
+  searchParams?: Omit<TSearchParams, 'aoi'>;
+} => {
+  const { updateSearchParams, setShape, searchParams, ...rest } = useResultsStore.getState();
 
-  return { ...rest };
+  if (!searchParams) {
+    return { ...rest };
+  }
+
+  const { aoi, ...searchParamsRest } = searchParams;
+
+  return {
+    ...rest,
+    searchParams: searchParamsRest,
+  };
 };
 
-export const useResults = (): Omit<TResultsStore, 'coordinates' | 'setShape'> => {
+export const useResults = (): Omit<TResultsStore, 'coordinates' | 'setShape' | 'restore'> => {
   return useResultsStore((state) => ({
     searchType: state.searchType,
     searchParams: state.searchParams,
