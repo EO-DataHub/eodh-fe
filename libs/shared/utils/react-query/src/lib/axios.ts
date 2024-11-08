@@ -5,7 +5,7 @@ import { ProxyInterceptor } from './proxy.interceptor';
 
 let instance: AxiosInstance | undefined = undefined;
 
-type TRequestConfig = {
+export type TRequestConfig = {
   headers?: IHttpRequest['headers'];
   params?: IHttpRequest['params'];
 };

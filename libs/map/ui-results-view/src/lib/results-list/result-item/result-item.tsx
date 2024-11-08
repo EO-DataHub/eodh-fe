@@ -1,7 +1,9 @@
+import { useMode } from '@ukri/map/data-access-map';
+import { fetchImage } from '@ukri/map/data-access-map';
 import { Button, Icon, Text, TIconNames } from '@ukri/shared/design-system';
 import { formatDate, formatHour, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 interface IResultItemInfoProps {
   value: string;
@@ -26,11 +28,43 @@ interface IImageProps {
 }
 
 const Image = ({ imageUrl, onToggle }: IImageProps) => {
+  const { mode } = useMode();
   const [displayError, setDislayError] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
+
+  const getAssetImage = useCallback(
+    async (imageUrl: string): Promise<Blob | string> => {
+      if (mode === 'action-creator') {
+        const response = await fetchImage(imageUrl);
+        return response;
+      } else if (mode === 'search') {
+        return imageUrl;
+      }
+      return '';
+    },
+    [mode]
+  );
 
   const showError = useCallback(() => {
     setDislayError(true);
   }, []);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const image = await getAssetImage(imageUrl);
+        if (typeof image === 'string') {
+          setImageSrc(image);
+        } else {
+          setImageSrc(imageUrl);
+        }
+      } catch (error) {
+        showError();
+      }
+    };
+
+    fetchImage();
+  }, [imageUrl, getAssetImage, showError]);
 
   if (displayError) {
     return (
@@ -42,7 +76,7 @@ const Image = ({ imageUrl, onToggle }: IImageProps) => {
 
   return (
     <img
-      src={imageUrl}
+      src={imageSrc}
       alt='ResultItem'
       className='w-[132px] h-[132px] object-cover rounded-md cursor-pointer'
       onClick={onToggle}
