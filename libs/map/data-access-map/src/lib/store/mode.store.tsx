@@ -18,7 +18,6 @@ export const useModeStore = create<IModeStore>()(
 
 export const getModeStoreState = (): TModeStoreState => {
   const { changeMode, changeView, toggleMode, reset, mode, ...rest } = useModeStore.getState();
-
   return { ...rest };
 };
 

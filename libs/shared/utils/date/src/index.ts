@@ -3,6 +3,9 @@ export {
   createDateString,
   formatDate,
   createDate,
+  dateToNumber,
+  getBeginingOfYear,
+  getEndYear,
   type TDateTimeString,
   type TDateString,
 } from './lib/date.utils';

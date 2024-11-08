@@ -13,6 +13,46 @@ export type TDateString = TDateInternal | null;
 
 type TDateFormat = 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YY';
 
+export const dateToNumber = (date: TDateTimeString | TDateString): number | null => {
+  const d = createDate(date);
+  if (d === null) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid date');
+    return null;
+  }
+
+  return d.getFullYear() + d.getMonth() / 12;
+};
+
+export const getEndYear = (date: TDateString): number | null => {
+  const adjustedDate = createDate(date);
+  if (adjustedDate && (adjustedDate.getMonth() !== 0 || adjustedDate.getDate() !== 1)) {
+    adjustedDate.setFullYear(adjustedDate.getFullYear() + 1);
+  }
+  adjustedDate?.setMonth(0, 1);
+  const result = dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+  if (result === null) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid date');
+    return null;
+  }
+
+  return result;
+};
+
+export const getBeginingOfYear = (date: TDateString): number | null => {
+  const adjustedDate = createDate(date);
+  adjustedDate?.setMonth(0, 1);
+  const result = dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+  if (result === null) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid date');
+    return null;
+  }
+
+  return result;
+};
+
 export const createDate = (date?: TDateTimeString | TDateString) => {
   if (!date) {
     return null;
@@ -87,12 +127,19 @@ const checkValidDateStr = (str: string): str is TDateStringInternal => {
   return false;
 };
 
-const checkValidDateTimeStr = (str: string): str is TDateStringInternal => {
-  if (str.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z$/) !== null) {
-    return true;
+const checkValidDateTimeStr = (dateTimeStr: string): dateTimeStr is TDateStringInternal => {
+  const iso8601Regex = /^(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2}))?)$/;
+
+  if (!iso8601Regex.test(dateTimeStr)) {
+    return false;
   }
 
-  return str.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/) !== null;
+  const date = new Date(dateTimeStr);
+  if (isNaN(date.getTime())) {
+    return false;
+  }
+
+  return true;
 };
 
 export function createDateString(date?: Date | string): TDateTimeString {
