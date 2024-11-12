@@ -1,6 +1,6 @@
 import { TFunction, TFunctionNode, TNode, useActionCreator, useFunctions } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { EmptyNode } from '../empty-node.component';
@@ -76,9 +76,11 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { data, isLoading } = useFunctions();
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
+  const functionRef = useRef<HTMLDivElement>(null);
 
   const activateNode = useCallback(() => {
     if (canBeActivated) {
+      functionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
     }
   }, [canBeActivated, node, setActiveNode]);
@@ -94,7 +96,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
 
   if (!node.tooltip) {
     return (
-      <div onClick={activateNode}>
+      <div onClick={activateNode} ref={functionRef}>
         <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
       </div>
     );
@@ -108,7 +110,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
       onClick={goToNextOnboardingStep}
       className='top-0 left-[-110px]'
     >
-      <div id={node.id} onClick={activateNode}>
+      <div id={node.id} onClick={activateNode} ref={functionRef}>
         <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
       </div>
     </OnboardingTooltip>
