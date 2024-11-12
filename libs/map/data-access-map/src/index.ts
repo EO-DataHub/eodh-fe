@@ -30,3 +30,4 @@ export { useCreateWorkflow } from './lib/mutation/workflow.mutation';
 export type { TFunction } from './lib/query/function.model';
 export type { TPreset } from './lib/query/presets.model';
 export { useCollectionInfo } from './lib/query/collection-info.query';
+export { fetchImage } from './lib/query/protected-image.query';
