@@ -8,7 +8,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
-import { STACWithColorMap } from './custom-stac';
+import { STACWithColorMap } from './stac/stac-with-color-map';
 
 register(proj4);
 
