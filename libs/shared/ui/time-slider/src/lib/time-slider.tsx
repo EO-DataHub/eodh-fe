@@ -3,10 +3,11 @@ import {
   dateToNumber,
   getBeginingOfYear,
   getEndYear,
+  numberToDate,
   type TDateString,
   type TDateTimeString,
 } from '@ukri/shared/utils/date';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CustomLabel, CustomMark, ValueLabelComponent } from './custom-components';
 import { sliderStyles } from './time-slider.styles';
@@ -26,21 +27,32 @@ const getMarks = (minNum: number, maxNum: number) => {
   return result;
 };
 
+type TDate = TDateString | TDateTimeString;
+
 interface ITimeSliderProps {
-  min: TDateString | TDateTimeString;
-  max: TDateString | TDateTimeString;
-  initialValues?: [TDateString, TDateString];
+  min: TDate;
+  max: TDate;
   className?: string;
+  onUpdate: (dateFrom: Date, dateTo: Date) => void;
 }
 
-export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, initialValues = [min, max], className }) => {
+export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, onUpdate, className }) => {
   const minNum = getBeginingOfYear(min) ?? undefined;
   const maxNum = getEndYear(max) ?? undefined;
-  const [value, setValue] = useState<number[]>(initialValues.map(dateToNumber) as [number, number]);
+  const [value, setValue] = useState<number[]>([0, 0]);
+
+  useEffect(() => {
+    setValue([dateToNumber(min) ?? 0, dateToNumber(max) ?? 0]);
+  }, [min, max]);
 
   const updateSliderValue = useCallback((_: Event, newValue: number | number[]) => {
-    setValue(Array.isArray(newValue) ? newValue : [newValue]);
+    const updatedValue = Array.isArray(newValue) ? newValue : [newValue];
+    setValue(updatedValue);
   }, []);
+
+  useEffect(() => {
+    onUpdate(numberToDate(value[0]), numberToDate(value[1], true));
+  }, [value, onUpdate]);
 
   const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);
 
