@@ -66,7 +66,7 @@ export const Function: StoryObj<typeof Node> = {
 };
 
 type TAllNodesProps = {
-  enabled: boolean;
+  active: boolean;
   aoi: string;
   dataSet: string;
   dateFrom: string;
@@ -74,7 +74,7 @@ type TAllNodesProps = {
   function: string;
 };
 
-export const AllNodes = ({ enabled, aoi, dataSet, dateFrom, dateTo, function: selectedFunction }: TAllNodesProps) => {
+export const AllNodes = ({ active, aoi, dataSet, dateFrom, dateTo, function: selectedFunction }: TAllNodesProps) => {
   const [currentAoi, setCurrentAoi] = useState<string | undefined>(aoi);
   const [currentDataSet, setCurrentDataSet] = useState<string | undefined>(dataSet);
   const [currentDateFrom, setCurrentDateFrom] = useState<string | undefined>(dateFrom);
@@ -109,30 +109,35 @@ export const AllNodes = ({ enabled, aoi, dataSet, dateFrom, dateTo, function: se
   return (
     <div>
       <div>
-        <Node type='area' active={true} clickable={true} selected={true} hasNextNode={true}>
-          {enabled && <NodeInput iconName='Polygon' value={currentAoi} onClearButtonClick={() => setCurrentAoi('')} />}
+        <Node type='area' active={active} clickable={true} selected={true} hasNextNode={true}>
+          {active && <NodeInput iconName='Polygon' value={currentAoi} onClearButtonClick={() => setCurrentAoi('')} />}
         </Node>
-        <Node type='dataSet' active={true} clickable={true} selected={false} hasNextNode={true}>
-          {enabled && (
+        <Node type='dataSet' active={active} clickable={true} selected={false} hasNextNode={true}>
+          {active && (
             <NodeInput value={currentDataSet} iconName='Satellite' onClearButtonClick={() => setCurrentDataSet('')} />
           )}
         </Node>
-        <Node type='dateRange' active={true} clickable={true} selected={false} hasNextNode={true}>
-          {enabled && (
+        <Node type='dateRange' active={active} clickable={true} selected={false} hasNextNode={true}>
+          {active && (
             <>
               <NodeInput value={currentDateFrom} className='mb-1' onClearButtonClick={() => setCurrentDateFrom('')} />
               <NodeInput value={currentDateTo} onClearButtonClick={() => setCurrentDateTo('')} />
             </>
           )}
         </Node>
-        <Node type='function' active={true} clickable={true} selected={false} hasNextNode={false}>
-          {enabled && <NodeSelect value={selectedFunction} options={options} />}
+        <Node type='function' active={active} clickable={true} selected={false} hasNextNode={false}>
+          {active && <NodeSelect value={selectedFunction} options={options} />}
         </Node>
       </div>
     </div>
   );
 };
 AllNodes.argTypes = {
+  active: {
+    control: {
+      type: 'boolean',
+    },
+  },
   error: {
     table: {
       disable: true,
@@ -149,6 +154,36 @@ AllNodes.argTypes = {
     },
   },
   selected: {
+    table: {
+      disable: true,
+    },
+  },
+  clickable: {
+    table: {
+      disable: true,
+    },
+  },
+  canAddNode: {
+    table: {
+      disable: true,
+    },
+  },
+  canRemoveNode: {
+    table: {
+      disable: true,
+    },
+  },
+  hasNextNode: {
+    table: {
+      disable: true,
+    },
+  },
+  onAddNode: {
+    table: {
+      disable: true,
+    },
+  },
+  onRemoveNode: {
     table: {
       disable: true,
     },
