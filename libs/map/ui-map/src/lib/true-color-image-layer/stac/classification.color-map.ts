@@ -43,7 +43,7 @@ const getEqualColorMapSteps = (
     if (item) {
       const color = hexToRgb(`#${item['color-hint']}`);
 
-      stops.push([['==', ['band', 1], item.value], color ? color : ['color', 0, 0, 0, 0]]);
+      stops.push([['==', ['band', 1], item.value], color ? color : ['color', 0, 0, 0]]);
     }
   }
 
@@ -78,7 +78,7 @@ export const getClassificationStyles = (asset: IAsset): Record<string, unknown> 
 
   if (options.length === 1) {
     return {
-      color: ['case', ...getEqualColorMapSteps(options).flat(), [0, 0, 0]],
+      color: ['case', ...getEqualColorMapSteps(options).flat(), [0, 0, 0, 0]],
     };
   }
 

@@ -75,8 +75,11 @@ export const useStacLayer = () => {
           return options;
         },
       });
+      // todo remove after rewriting ol-stac library
+      setTimeout(() => {
+        handleSourceReady();
+      }, 1000);
 
-      newStacLayer.addEventListener('sourceready', handleSourceReady);
       map.addLayer(newStacLayer);
       setStacLayer(newStacLayer);
     };

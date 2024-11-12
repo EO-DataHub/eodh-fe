@@ -51,7 +51,7 @@ const colorMapSchema = z.object({
   v_min: z.number(),
   v_max: z.number(),
   steps: z.number(),
-  reverse: z.boolean().default(false),
+  reverse: z.boolean().optional().default(false),
 });
 
 type TColorMapOptions = z.infer<typeof colorMapSchema>;
