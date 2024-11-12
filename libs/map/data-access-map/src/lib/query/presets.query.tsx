@@ -8,10 +8,6 @@ import { queryKey } from './query-key.const';
 const presets = async (): Promise<TPreset[]> => {
   const response = await getHttpClient().get(paths.PRESETS);
 
-  const x = presetsSchema.safeParse(response);
-
-  console.log('x', x.error);
-
   return presetsSchema.parse(response).presets;
 };
 

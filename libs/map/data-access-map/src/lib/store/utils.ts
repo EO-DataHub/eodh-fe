@@ -1,15 +1,15 @@
+import { TDateTimeString } from '@ukri/shared/utils/date';
 import { nanoid } from 'nanoid';
 
 import { defaultNodes, TNode } from './action-creator/action-creator.model';
 import { useActionCreatorStore } from './action-creator/action-creator.store';
 import { createNode, isFunctionNode } from './action-creator/node.utils';
+import { TCoordinate } from './aoi/aoi.model';
 import { useAoiStore } from './aoi/aoi.store';
+import { createShape } from './aoi/geometry';
 import { TDataSetValue } from './data-sets/data-sets.model';
 import { useDataSetsStore } from './data-sets/data-sets.store';
 import { useDateStore } from './date/date.store';
-import { TDateTimeString } from '@ukri/shared/utils/date';
-import { TCoordinate } from './aoi/aoi.model';
-import { createShape, getCoordinates } from './aoi/geometry';
 
 export const activatePanel = (node?: TNode) => {
   switch (node?.type) {
@@ -84,24 +84,28 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
         case 'dataSet': {
           return { ...node, state: 'not-active' };
         }
+
+        default: {
+          return undefined;
+        }
       }
-    });
+    })
+    .filter((item) => !!item);
   const functionNodes = functions.map(({ identifier, order }) => ({
     ...createNode(nanoid(), 'function', nodes.length + order),
     state: 'not-active',
     value: identifier,
   }));
+  const shape = createShape(aoi, aoi?.type);
 
-  console.log('load-preset', createShape(aoi, aoi?.type));
-
-  useAoiStore.getState().setShape(aoi)
   useDataSetsStore.getState().enableDataSet(dataSet);
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
 
-  if (aoi) {
-    useAoiStore.getState().setShape(createShape(aoi, aoi.type))
+  if (shape) {
+    shape.shape = shape?.shape?.clone().transform('EPSG:4326', 'EPSG:3857');
+    useAoiStore.getState().setShape(shape, true);
   } else {
-    useAoiStore.getState().setShape(undefined)
+    useAoiStore.getState().setShape(undefined);
   }
 
   if (dateRange) {

@@ -13,8 +13,7 @@ type TValueNodeProps = {
 };
 
 export const ValueNode = ({ node, options, functions, onChange }: TValueNodeProps) => {
-  const { canActivateNode, isLast, addNode, removeNode, canRemoveNode, canAddNextNode, editable } =
-    useActionCreator();
+  const { canActivateNode, isLast, addNode, removeNode, canRemoveNode, canAddNextNode, editable } = useActionCreator();
 
   return (
     <Node

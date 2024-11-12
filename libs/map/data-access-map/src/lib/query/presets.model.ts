@@ -1,5 +1,5 @@
-import z from 'zod';
 import { TDateString } from '@ukri/shared/utils/date';
+import z from 'zod';
 
 const coordinateSchema = z.tuple([z.number(), z.number()]);
 
@@ -32,8 +32,10 @@ const presetSchema = z
         order: z.number(),
         inputs: z.object({
           aoi: polygonSchema.optional(),
-          // date_start: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error).optional(),
-          // date_end: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error).optional(),
+          date_start: z
+            .custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error)
+            .optional(),
+          date_end: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error).optional(),
           identifier: z.string(),
           stac_collection: z.string(),
         }),
@@ -41,14 +43,15 @@ const presetSchema = z
     }),
   })
   .transform((data) => {
-    // const dateFrom = data.workflow['land-cover-change-detection'].inputs.date_start
-    // const dateTo = data.workflow['land-cover-change-detection'].inputs.date_end
-    // const dateRange = dateFrom && dateTo ? {
-    //   from: dateFrom,
-    //   to: dateTo,
-    // } : undefined;
-
-    console.log('parse', data.workflow['land-cover-change-detection'].inputs.aoi);
+    const dateFrom = data.workflow['land-cover-change-detection'].inputs.date_start;
+    const dateTo = data.workflow['land-cover-change-detection'].inputs.date_end;
+    const dateRange =
+      dateFrom && dateTo
+        ? {
+            from: dateFrom,
+            to: dateTo,
+          }
+        : undefined;
 
     return {
       identifier: data.identifier,
@@ -57,14 +60,14 @@ const presetSchema = z
       imageUrl: data.thumbnail_b64 ? `data:image/jpeg;base64,${data.thumbnail_b64}` : undefined,
       defaultValues: {
         aoi: data.workflow['land-cover-change-detection'].inputs.aoi,
-        dateRange: undefined,
+        dateRange,
         dataSet: data.workflow['land-cover-change-detection'].inputs.stac_collection,
         functions: Object.entries(data.workflow).map(([, item]) => ({
           identifier: item.identifier,
           order: item.order,
         })),
       },
-    }
+    };
   });
 
 export const presetsSchema = z.object({

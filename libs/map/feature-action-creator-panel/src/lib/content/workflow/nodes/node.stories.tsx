@@ -125,7 +125,9 @@ export const AllNodes = ({ enabled, aoi, dataSet, dateFrom, dateTo, function: se
             </>
           )}
         </Node>
-        <Node type='function' active={true} clickable={true} selected={false} hasNextNode={false}>{enabled && <NodeSelect value={selectedFunction} options={options} />}</Node>
+        <Node type='function' active={true} clickable={true} selected={false} hasNextNode={false}>
+          {enabled && <NodeSelect value={selectedFunction} options={options} />}
+        </Node>
       </div>
     </div>
   );

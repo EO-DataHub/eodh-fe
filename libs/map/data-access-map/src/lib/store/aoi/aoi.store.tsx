@@ -10,14 +10,13 @@ export const useAoiStore = create<IAoiStore>()(
     state: 'edit',
     shape: undefined,
     coordinates: undefined,
-    setShape: (shape) =>
-      set(() => {
-        console.log('corods', getCoordinates(shape))
-        return {
-          shape: createShape(getCoordinates(shape), shape?.type),
-          coordinates: getCoordinates(shape),
-        }
-      }),
+    fitToAoi: false,
+    setShape: (shape, fitToAoi?: boolean) =>
+      set(() => ({
+        shape: createShape(getCoordinates(shape), shape?.type),
+        coordinates: getCoordinates(shape),
+        fitToAoi: fitToAoi !== undefined ? fitToAoi : undefined,
+      })),
     updateShape: (shape) =>
       set((state) => {
         if (!shape || !state.shape?.type) {
@@ -48,6 +47,7 @@ export const getAoiStoreState = (): TAoiStoreState => {
 
 export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
   return useAoiStore((state) => ({
+    fitToAoi: state.fitToAoi,
     state: state.state,
     shape: state.shape,
     setShape: state.setShape,

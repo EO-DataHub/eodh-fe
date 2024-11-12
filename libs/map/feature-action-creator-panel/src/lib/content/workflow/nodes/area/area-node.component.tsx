@@ -63,7 +63,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
 
   if (!node.tooltip) {
     return (
-      <div onClick={activateNode}>
+      <div ref={nodeRef} onClick={activateNode}>
         <Node node={node} onClearButtonClick={clear} />
       </div>
     );
@@ -77,7 +77,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
       onClick={goToNextOnboardingStep}
       className='top-0 left-[-110px]'
     >
-      <div id={node.id} onClick={activateNode}>
+      <div id={node.id} ref={nodeRef} onClick={activateNode}>
         <Node node={node} onClearButtonClick={clear} />
       </div>
     </OnboardingTooltip>

@@ -143,7 +143,8 @@ export const useActionCreator = (): TActionCreatorProps => {
       reset();
     },
     addNode: () => state.addNode(createNode(nanoid(), 'function', state.nodes.length + 1)),
-    loadPreset: ({ dataSet, functions, aoi, dateRange }: TLoadPresetProps) => loadPreset({ dataSet, functions, aoi, dateRange }),
+    loadPreset: ({ dataSet, functions, aoi, dateRange }: TLoadPresetProps) =>
+      loadPreset({ dataSet, functions, aoi, dateRange }),
     isLast: (node: TNode) => state.nodes.at(-1) === node,
     canRemoveNode: (node: TNode) => {
       const nodes = state.nodes.filter((item) => isFunctionNode(item));
