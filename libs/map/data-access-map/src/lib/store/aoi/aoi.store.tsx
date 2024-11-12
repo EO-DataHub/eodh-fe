@@ -11,10 +11,13 @@ export const useAoiStore = create<IAoiStore>()(
     shape: undefined,
     coordinates: undefined,
     setShape: (shape) =>
-      set(() => ({
-        shape: createShape(getCoordinates(shape), shape?.type),
-        coordinates: getCoordinates(shape),
-      })),
+      set(() => {
+        console.log('corods', getCoordinates(shape))
+        return {
+          shape: createShape(getCoordinates(shape), shape?.type),
+          coordinates: getCoordinates(shape),
+        }
+      }),
     updateShape: (shape) =>
       set((state) => {
         if (!shape || !state.shape?.type) {

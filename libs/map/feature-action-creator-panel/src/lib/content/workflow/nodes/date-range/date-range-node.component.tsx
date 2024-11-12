@@ -1,5 +1,5 @@
 import { TDateRangeNode, useActionCreator, useDate } from '@ukri/map/data-access-map';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ActiveNode } from '../active-node.component';
@@ -42,10 +42,12 @@ interface IDateRangeNodeProps {
 export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { date, updateDate } = useDate();
+  const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
     if (canBeActivated) {
+      nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
     }
   }, [canBeActivated, node, setActiveNode]);
@@ -66,7 +68,7 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   }, [node.state, setValue, node, date?.from, date?.to]);
 
   return (
-    <div id={node.id} onClick={activateNode}>
+    <div id={node.id} ref={nodeRef} onClick={activateNode}>
       <Node node={node} onClearDateFromClick={clearDateFrom} onClearDateToClick={clearDateTo} />
     </div>
   );

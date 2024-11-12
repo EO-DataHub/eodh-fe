@@ -75,12 +75,12 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { data, isLoading } = useFunctions();
+  const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
-  const functionRef = useRef<HTMLDivElement>(null);
 
   const activateNode = useCallback(() => {
     if (canBeActivated) {
-      functionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
     }
   }, [canBeActivated, node, setActiveNode]);
@@ -96,7 +96,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
 
   if (!node.tooltip) {
     return (
-      <div onClick={activateNode} ref={functionRef}>
+      <div ref={nodeRef} onClick={activateNode}>
         <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
       </div>
     );
@@ -110,7 +110,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
       onClick={goToNextOnboardingStep}
       className='top-0 left-[-110px]'
     >
-      <div id={node.id} onClick={activateNode} ref={functionRef}>
+      <div id={node.id} ref={nodeRef} onClick={activateNode}>
         <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
       </div>
     </OnboardingTooltip>

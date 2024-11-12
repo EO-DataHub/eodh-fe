@@ -7,6 +7,9 @@ import { useAoiStore } from './aoi/aoi.store';
 import { TDataSetValue } from './data-sets/data-sets.model';
 import { useDataSetsStore } from './data-sets/data-sets.store';
 import { useDateStore } from './date/date.store';
+import { TDateTimeString } from '@ukri/shared/utils/date';
+import { TCoordinate } from './aoi/aoi.model';
+import { createShape, getCoordinates } from './aoi/geometry';
 
 export const activatePanel = (node?: TNode) => {
   switch (node?.type) {
@@ -58,16 +61,24 @@ export type TLoadPresetProps = {
     identifier: string;
     order: number;
   }[];
+  aoi?: TCoordinate;
+  dateRange?: {
+    from: TDateTimeString;
+    to: TDateTimeString;
+  };
 };
 
-export const loadPreset = ({ dataSet, functions }: TLoadPresetProps) => {
+export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetProps) => {
   const nodes = defaultNodes
     .filter((node) => !isFunctionNode(node))
     .map((node) => {
       switch (node.type) {
-        case 'area':
+        case 'area': {
+          return { ...node, state: aoi ? 'not-active' : 'initial' };
+        }
+
         case 'dateRange': {
-          return { ...node, state: 'initial' };
+          return { ...node, state: dateRange ? 'not-active' : 'initial' };
         }
 
         case 'dataSet': {
@@ -81,8 +92,21 @@ export const loadPreset = ({ dataSet, functions }: TLoadPresetProps) => {
     value: identifier,
   }));
 
-  useAoiStore.getState().setShape(undefined);
+  console.log('load-preset', createShape(aoi, aoi?.type));
+
+  useAoiStore.getState().setShape(aoi)
   useDataSetsStore.getState().enableDataSet(dataSet);
-  useDateStore.getState().reset();
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
+
+  if (aoi) {
+    useAoiStore.getState().setShape(createShape(aoi, aoi.type))
+  } else {
+    useAoiStore.getState().setShape(undefined)
+  }
+
+  if (dateRange) {
+    useDateStore.getState().updateDate(dateRange);
+  } else {
+    useDateStore.getState().reset();
+  }
 };

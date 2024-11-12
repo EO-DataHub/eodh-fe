@@ -109,15 +109,15 @@ export const AllNodes = ({ enabled, aoi, dataSet, dateFrom, dateTo, function: se
   return (
     <div>
       <div>
-        <Node type='area'>
+        <Node type='area' active={true} clickable={true} selected={true} hasNextNode={true}>
           {enabled && <NodeInput iconName='Polygon' value={currentAoi} onClearButtonClick={() => setCurrentAoi('')} />}
         </Node>
-        <Node type='dataSet'>
+        <Node type='dataSet' active={true} clickable={true} selected={false} hasNextNode={true}>
           {enabled && (
             <NodeInput value={currentDataSet} iconName='Satellite' onClearButtonClick={() => setCurrentDataSet('')} />
           )}
         </Node>
-        <Node type='dateRange'>
+        <Node type='dateRange' active={true} clickable={true} selected={false} hasNextNode={true}>
           {enabled && (
             <>
               <NodeInput value={currentDateFrom} className='mb-1' onClearButtonClick={() => setCurrentDateFrom('')} />
@@ -125,7 +125,7 @@ export const AllNodes = ({ enabled, aoi, dataSet, dateFrom, dateTo, function: se
             </>
           )}
         </Node>
-        <Node type='function'>{enabled && <NodeSelect value={selectedFunction} options={options} />}</Node>
+        <Node type='function' active={true} clickable={true} selected={false} hasNextNode={false}>{enabled && <NodeSelect value={selectedFunction} options={options} />}</Node>
       </div>
     </div>
   );

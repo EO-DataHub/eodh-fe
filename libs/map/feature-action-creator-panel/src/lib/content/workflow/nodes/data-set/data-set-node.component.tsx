@@ -1,6 +1,6 @@
 import { TDataSetsNode, useActionCreator } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ActiveNode } from '../active-node.component';
@@ -43,10 +43,12 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { dataSet, error, updateDataSets } = useActiveDataSet();
+  const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
     if (canBeActivated) {
+      nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
     }
   }, [canBeActivated, node, setActiveNode]);
@@ -63,7 +65,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
 
   if (!node.tooltip) {
     return (
-      <div onClick={activateNode}>
+      <div ref={nodeRef} onClick={activateNode}>
         <Node node={node} error={error} onClearButtonClick={clear} />
       </div>
     );
@@ -77,7 +79,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
       onClick={goToNextOnboardingStep}
       className='top-0 left-[-110px]'
     >
-      <div id={node.id} onClick={activateNode}>
+      <div ref={nodeRef} id={node.id} onClick={activateNode}>
         <Node node={node} error={error} onClearButtonClick={clear} />
       </div>
     </OnboardingTooltip>

@@ -48,10 +48,10 @@ export type TIActionCreatorStoreState = Omit<
 >;
 
 export const defaultNodes: TNode[] = [
-  createNode(1, 'area', 1),
-  createNode(1, 'dataSet', 2),
-  createNode(1, 'dateRange', 3),
-  createNode(1, 'function', 4),
+  createNode(1, 'area', 1, true),
+  createNode(1, 'dataSet', 2, true),
+  createNode(1, 'dateRange', 3, true),
+  createNode(1, 'function', 4, true),
 ];
 
 export const defaultValues: TIActionCreatorStoreState = {

@@ -118,7 +118,7 @@ type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive' | 'addNode' | '
   canRemoveNode: (node: TNode) => boolean;
   getValidFunctions: (node: TNode, functions: TBaseFunction[] | undefined) => TBaseFunction[];
   canAddNextNode: (node: TNode, functions?: TBaseFunction[] | undefined) => boolean;
-  canBeActive: (node: TNode) => boolean;
+  editable: (node: TNode) => boolean;
 };
 
 export const useActionCreator = (): TActionCreatorProps => {
@@ -143,7 +143,7 @@ export const useActionCreator = (): TActionCreatorProps => {
       reset();
     },
     addNode: () => state.addNode(createNode(nanoid(), 'function', state.nodes.length + 1)),
-    loadPreset: ({ dataSet, functions }: TLoadPresetProps) => loadPreset({ dataSet, functions }),
+    loadPreset: ({ dataSet, functions, aoi, dateRange }: TLoadPresetProps) => loadPreset({ dataSet, functions, aoi, dateRange }),
     isLast: (node: TNode) => state.nodes.at(-1) === node,
     canRemoveNode: (node: TNode) => {
       const nodes = state.nodes.filter((item) => isFunctionNode(item));
@@ -164,7 +164,7 @@ export const useActionCreator = (): TActionCreatorProps => {
       const newNode = createNode(nanoid(), 'function', state.nodes.length + 1);
       return !!getValidFunctions([...state.nodes, newNode], newNode, functions).length;
     },
-    canBeActive: (node: TNode): boolean => {
+    editable: (node: TNode): boolean => {
       if (!isFunctionNode(node)) {
         return true;
       }

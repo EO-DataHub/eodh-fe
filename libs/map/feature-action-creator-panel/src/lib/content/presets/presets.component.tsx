@@ -38,7 +38,12 @@ export const Presets = () => {
 
   const handleLoadPreset = useCallback(
     (preset: TPreset) => {
-      loadPreset({ dataSet: preset.defaultValues.dataSet, functions: preset.defaultValues.functions });
+      loadPreset({
+        dataSet: preset.defaultValues.dataSet,
+        functions: preset.defaultValues.functions,
+        aoi: preset.defaultValues.aoi,
+        dateRange: preset.defaultValues.dateRange,
+      });
       changeView('search');
       setActiveTab('workflow');
       return;

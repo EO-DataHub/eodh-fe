@@ -53,7 +53,7 @@ export const getNodes = <T extends TNode>(nodes: TNode[], type: T['type']): T[] 
   return [];
 };
 
-export const createNode = (id: string | number, type: TNode['type'], order: number): TNode => {
+export const createNode = (id: string | number, type: TNode['type'], order: number, first = false): TNode => {
   switch (type) {
     case 'area': {
       return {
@@ -61,7 +61,7 @@ export const createNode = (id: string | number, type: TNode['type'], order: numb
         type: 'area',
         state: 'initial',
         value: undefined,
-        tooltip: true,
+        tooltip: first,
         order,
       };
     }
@@ -72,7 +72,7 @@ export const createNode = (id: string | number, type: TNode['type'], order: numb
         type: 'dataSet',
         state: 'initial',
         value: undefined,
-        tooltip: true,
+        tooltip: first,
         order,
       };
     }
@@ -93,7 +93,7 @@ export const createNode = (id: string | number, type: TNode['type'], order: numb
         type: 'function',
         state: 'initial',
         value: undefined,
-        tooltip: true,
+        tooltip: first,
         order,
       };
     }
