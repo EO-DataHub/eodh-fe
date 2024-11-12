@@ -87,9 +87,9 @@ export type TCatalogueSearchParams = {
 export type TWorkflowSearchParams = {
   dataSets?: never;
   aoi?: never;
-  date: {
-    from: NonNullable<TDateString>;
-    to: NonNullable<TDateString>;
+  date?: {
+    from?: NonNullable<TDateString>;
+    to?: NonNullable<TDateString>;
   };
   jobId: string;
   userWorkspace: string;

@@ -1,21 +1,37 @@
-// import { useResults } from '@ukri/map/data-access-map';
+import { useCollectionInfo } from '@ukri/map/data-access-map';
+import { useResults } from '@ukri/map/data-access-map';
 import { TimeSlider } from '@ukri/shared/ui/time-slider';
 import { createDateString } from '@ukri/shared/utils/date';
+import { useCallback } from 'react';
 
 type TActionCreatorPanelProps = {
   className?: string;
 };
 
 export const TimelineAnalyticsDashboard = ({ className = '' }: TActionCreatorPanelProps) => {
-  // const { searchParams } = useResults();
-  // console.log('searchParams', searchParams);
+  const { searchParams, updateSearchParams } = useResults();
+  const { data } = useCollectionInfo({
+    args: { jobId: searchParams?.jobId, userWorkspace: searchParams?.userWorkspace },
+  });
+
+  const updateSearchResultsParams = useCallback(
+    (dateFrom: Date, dateTo: Date) => {
+      updateSearchParams({
+        date: { from: createDateString(dateFrom) ?? undefined, to: createDateString(dateTo) ?? undefined },
+        jobId: searchParams?.jobId || '',
+        userWorkspace: searchParams?.userWorkspace || '',
+      });
+      return;
+    },
+    [searchParams, updateSearchParams]
+  );
+
   return (
     <TimeSlider
-      // min={createDateString(data?.collectionInterval?.[0] ?? undefined)}
-      // max={createDateString(data?.collectionInterval?.[1] ?? undefined)}
-      min={createDateString('2022-01-01')}
-      max={createDateString('2022-12-31')}
+      min={createDateString(data?.collectionInterval?.from ?? undefined)}
+      max={createDateString(data?.collectionInterval?.to ?? undefined)}
       className={className}
+      onUpdate={updateSearchResultsParams}
     />
   );
 };

@@ -24,6 +24,12 @@ export const dateToNumber = (date: TDateTimeString | TDateString): number | null
   return d.getFullYear() + d.getMonth() / 12;
 };
 
+export const numberToDate = (num: number, monthEnd?: boolean): Date => {
+  const year = Math.floor(num);
+  const month = Math.round((num - year) * 12);
+  return monthEnd ? new Date(year, month + 1, 0, 23, 59, 59, 999) : new Date(year, month);
+};
+
 export const getEndYear = (date: TDateString): number | null => {
   const adjustedDate = createDate(date);
   if (adjustedDate && (adjustedDate.getMonth() !== 0 || adjustedDate.getDate() !== 1)) {

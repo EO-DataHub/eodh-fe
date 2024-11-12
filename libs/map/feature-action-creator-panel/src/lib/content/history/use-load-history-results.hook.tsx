@@ -1,5 +1,4 @@
 import { useAoi, useMode, useResults } from '@ukri/map/data-access-map';
-// import { useCollectionInfo } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TIdentityClaims, useAuth } from '@ukri/shared/utils/authorization';
 import { useCallback } from 'react';
@@ -7,19 +6,16 @@ import { useCallback } from 'react';
 export const useLoadHistoryResults = () => {
   const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
   const { searchParams, updateSearchParams } = useResults();
-  // const { data: collectionInfo } = useCollectionInfo({ params: searchParams });
   const { data, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const { changeView } = useMode();
 
   const showResults = useCallback(
-    (jobId: string) => {
+    async (jobId: string) => {
       const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
 
       if (userWorkspace) {
-        // if (collectionInfo?.collectionInterval) {
         updateSearchParams({ jobId, userWorkspace });
-        // }
         changeView('results');
       }
     },
