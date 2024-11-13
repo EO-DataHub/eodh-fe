@@ -1,7 +1,7 @@
 import { ProjectionLike } from 'ol/proj';
 import { fromEPSGCode, isRegistered } from 'ol/proj/proj4';
 
-import { IAsset, ISourceInfo } from './custom-stac.model';
+import { IAsset, ISourceInfo } from './stac.model';
 
 export async function getProjection(
   reference: IAsset,
@@ -49,19 +49,4 @@ export function getGeoTiffSourceInfoFromAsset(asset: IAsset, bands: number[]): I
   }
 
   return sourceInfo;
-}
-
-export function hexToRgb(hex: string): [string, number, number, number] | undefined {
-  let c: number;
-
-  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-    let tmp: string[] = hex.substring(1).split('');
-
-    if (tmp.length === 3) {
-      tmp = [tmp[0], tmp[0], tmp[1], tmp[1], tmp[2], tmp[2]];
-    }
-    c = parseInt(tmp.join(''), 16);
-
-    return ['color', (c >> 16) & 255, (c >> 8) & 255, c & 255];
-  }
 }

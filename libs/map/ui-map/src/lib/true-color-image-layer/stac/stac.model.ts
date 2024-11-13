@@ -23,16 +23,6 @@ export interface IOptions {
   projection?: ProjectionLike;
 }
 
-export interface IClassificationItem {
-  value: number;
-  'color-hint': string;
-}
-
-export interface IColorMapItem {
-  value: number;
-  color: [string, number, number, number] | undefined;
-}
-
 export interface ISTACWithColorMap {
   displayOverview_: boolean;
   buildTileUrlTemplate_: boolean;
@@ -44,6 +34,5 @@ export interface ISTACWithColorMap {
   addLayer_: (layer: WebGLTileLayer, asset: IAsset) => void;
   handleError_: (error: unknown) => void;
   hasColorMap: (asset: IAsset) => boolean | undefined;
-  getClassificationClasses: (asset: IAsset) => IClassificationItem[] | undefined;
   getColorMapStyles: (asset: IAsset) => Record<string, unknown> | undefined;
 }

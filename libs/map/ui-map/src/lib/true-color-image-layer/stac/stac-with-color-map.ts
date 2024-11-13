@@ -3,8 +3,10 @@ import { GeoTIFF } from 'ol/source';
 import STAC from 'ol-stac';
 import SourceType from 'ol-stac/source/type';
 
-import { IAsset, IClassificationItem, IColorMapItem, IOptions, ISTACWithColorMap } from './custom-stac.model';
-import { getGeoTiffSourceInfoFromAsset, getProjection, hexToRgb } from './utils';
+import { getClassificationStyles, hasClassificationOptions } from './classification.color-map';
+import { getColorMapStyles, hasColorMapOptions } from './color-map.color-map';
+import { IAsset, IOptions, ISTACWithColorMap } from './stac.model';
+import { getGeoTiffSourceInfoFromAsset, getProjection } from './utils';
 
 // TODO - this is a temporary fix to allow the use of the STACWithColorMap class, as addGeoTiff_ is a private methid that cant be overriden
 // @ts-expect-error - needed for build
@@ -70,12 +72,7 @@ export class STACWithColorMap extends STAC {
   }
 
   protected hasColorMap = (asset: IAsset): boolean | undefined => {
-    const classification = this.getClassificationClasses(asset);
-    return classification && Array.isArray(classification);
-  };
-
-  protected getClassificationClasses = (asset: IAsset): IClassificationItem[] | undefined => {
-    return asset.getMetadata('classification:classes') as IClassificationItem[] | undefined;
+    return hasClassificationOptions(asset) || hasColorMapOptions(asset);
   };
 
   protected getColorMapStyles = (asset: IAsset): Record<string, unknown> | undefined => {
@@ -83,27 +80,14 @@ export class STACWithColorMap extends STAC {
       return undefined;
     }
 
-    return this.getClassificationColorMapStyles(asset);
-  };
-
-  protected getClassificationColorMapStyles = (asset: IAsset): Record<string, unknown> | undefined => {
-    const classification = this.getClassificationClasses(asset);
-    if (!classification || !Array.isArray(classification)) {
-      return undefined;
+    if (hasClassificationOptions(asset)) {
+      return getClassificationStyles(asset);
     }
 
-    const colorMap: IColorMapItem[] = classification.map((item: IClassificationItem) => ({
-      value: item.value,
-      color: hexToRgb(`#${item['color-hint']}`),
-    }));
+    if (hasColorMapOptions(asset)) {
+      return getColorMapStyles(asset);
+    }
 
-    return {
-      color: [
-        'interpolate',
-        ['linear'],
-        ['band', 1],
-        ...colorMap.map((item: IColorMapItem) => [item.value, item.color ? item.color : ['color', 0, 0, 0]]).flat(),
-      ],
-    };
+    return undefined;
   };
 }
