@@ -48,8 +48,8 @@ const colorMapSchema = z.object({
     z.literal('velocity-green'),
     z.literal('cubehelix'),
   ]),
-  v_min: z.number(),
-  v_max: z.number(),
+  min: z.number(),
+  max: z.number(),
   steps: z.number(),
   reverse: z.boolean().optional().default(false),
 });
@@ -106,8 +106,8 @@ export const getColorMapStyles = (asset: IAsset): Record<string, unknown> | unde
       ['band', 1],
       ...getColorStops(
         colorMapOptions.name,
-        colorMapOptions.v_min,
-        colorMapOptions.v_max,
+        colorMapOptions.min,
+        colorMapOptions.max,
         colorMapOptions.steps,
         colorMapOptions.reverse
       ),
