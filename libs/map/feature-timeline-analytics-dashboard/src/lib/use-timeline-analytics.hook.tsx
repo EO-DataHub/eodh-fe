@@ -1,7 +1,7 @@
 import { useCollectionInfo, useDate, useMode, useResults } from '@ukri/map/data-access-map';
 import { createDateString } from '@ukri/shared/utils/date';
 import debounce from 'lodash/debounce';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
 export const useTimelineAnalytics = () => {
   const { mode } = useMode();
