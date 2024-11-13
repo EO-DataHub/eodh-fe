@@ -11,7 +11,7 @@ export const useLoadHistoryResults = () => {
   const { changeView } = useMode();
 
   const showResults = useCallback(
-    async (jobId: string) => {
+    (jobId: string) => {
       const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
 
       if (userWorkspace) {

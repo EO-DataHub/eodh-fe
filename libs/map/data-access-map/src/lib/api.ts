@@ -10,11 +10,17 @@ type TApi = 'EODH_PRO_API_URL' | 'EODH_STAC_API_URL';
 
 type TPath = `${TApi}/${string}`;
 
-type TQueryKey = Record<'PRESETS' | 'FUNCTIONS' | 'WORKFLOW' | 'COLLECTION_INFO', TPath>;
+type TCollectionInfoParams = { userWorkspace?: string; jobId?: string };
+type TCollectionInfoType = Record<'COLLECTION_INFO', (params: TCollectionInfoParams) => string>;
+
+type TQueryKey = Record<'PRESETS' | 'FUNCTIONS' | 'WORKFLOW', TPath> & TCollectionInfoType;
 
 export const paths: TQueryKey = {
   PRESETS: `${eodhProApiUrl}${functions}`,
   FUNCTIONS: `${eodhProApiUrl}${functions}`,
   WORKFLOW: `${eodhProApiUrl}${history}`,
-  COLLECTION_INFO: `${eodhStacApiUrl}${collectionInfo}`,
+  COLLECTION_INFO: ({ userWorkspace, jobId }: TCollectionInfoParams) =>
+    `${eodhStacApiUrl}${collectionInfo
+      .replace('{user_workspace}', userWorkspace ?? '')
+      .replace(/{job_id}/g, jobId ?? '')}`,
 };
