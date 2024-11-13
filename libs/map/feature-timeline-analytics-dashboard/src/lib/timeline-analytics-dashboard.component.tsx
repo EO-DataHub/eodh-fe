@@ -1,17 +1,23 @@
 import { useCollectionInfo } from '@ukri/map/data-access-map';
-import { useResults } from '@ukri/map/data-access-map';
+import { useDate, useMode, useResults } from '@ukri/map/data-access-map';
 import { TimeSlider } from '@ukri/shared/ui/time-slider';
 import { createDateString } from '@ukri/shared/utils/date';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 type TActionCreatorPanelProps = {
   className?: string;
 };
 
 export const TimelineAnalyticsDashboard = ({ className = '' }: TActionCreatorPanelProps) => {
+  const { mode } = useMode();
   const { searchParams, updateSearchParams } = useResults();
+  const { date } = useDate();
+
   const { data } = useCollectionInfo({
-    args: { jobId: searchParams?.jobId, userWorkspace: searchParams?.userWorkspace },
+    args:
+      mode === 'action-creator'
+        ? { jobId: searchParams?.jobId, userWorkspace: searchParams?.userWorkspace }
+        : undefined,
   });
 
   const updateSearchResultsParams = useCallback(
@@ -21,17 +27,22 @@ export const TimelineAnalyticsDashboard = ({ className = '' }: TActionCreatorPan
         jobId: searchParams?.jobId || '',
         userWorkspace: searchParams?.userWorkspace || '',
       });
-      return;
     },
     [searchParams, updateSearchParams]
   );
 
-  return (
-    <TimeSlider
-      min={createDateString(data?.collectionInterval?.from ?? undefined)}
-      max={createDateString(data?.collectionInterval?.to ?? undefined)}
-      className={className}
-      onUpdate={updateSearchResultsParams}
-    />
-  );
+  const { minDate, maxDate } = useMemo(() => {
+    if (mode === 'search') {
+      return {
+        minDate: createDateString(date.from),
+        maxDate: createDateString(date.to),
+      };
+    }
+    return {
+      minDate: createDateString(data?.collectionInterval?.from ?? undefined),
+      maxDate: createDateString(data?.collectionInterval?.to ?? undefined),
+    };
+  }, [mode, date, data]);
+
+  return <TimeSlider min={minDate} max={maxDate} className={className} onUpdate={updateSearchResultsParams} />;
 };
