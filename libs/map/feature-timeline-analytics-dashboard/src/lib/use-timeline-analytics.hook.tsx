@@ -1,11 +1,11 @@
 import { useCollectionInfo, useDate, useMode, useResults } from '@ukri/map/data-access-map';
-import { createDateString } from '@ukri/shared/utils/date';
+import { createDateString, type TDateString } from '@ukri/shared/utils/date';
 import debounce from 'lodash/debounce';
 import { useMemo } from 'react';
 
 export const useTimelineAnalytics = () => {
   const { mode } = useMode();
-  const { searchParams, updateSearchParams } = useResults();
+  const { isWorkflow, isCatalogue, searchParams, updateSearchParams } = useResults();
   const { date } = useDate();
 
   const { data } = useCollectionInfo({
@@ -14,24 +14,43 @@ export const useTimelineAnalytics = () => {
   });
 
   const updateSearchResultsParams = useMemo(() => {
-    const callback: (dateFrom: Date, dateTo: Date) => void = (dateFrom, dateTo) => {
-      updateSearchParams({
-        date: { from: createDateString(dateFrom) ?? undefined, to: createDateString(dateTo) ?? undefined },
-        jobId: searchParams?.jobId || '',
-        userWorkspace: searchParams?.userWorkspace || '',
-        dataSets: searchParams?.dataSets ?? undefined,
-        aoi: searchParams?.aoi ?? undefined,
-      });
+    const callback: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void = (
+      dateFrom,
+      dateTo
+    ) => {
+      if (!searchParams) {
+        return;
+      }
+
+      if (isCatalogue(searchParams)) {
+        updateSearchParams({
+          date: {
+            from: dateFrom,
+            to: dateTo,
+          },
+          dataSets: searchParams.dataSets ?? undefined,
+          aoi: searchParams.aoi ?? undefined,
+        });
+      } else if (isWorkflow(searchParams)) {
+        updateSearchParams({
+          date: {
+            from: dateFrom,
+            to: dateTo,
+          },
+          jobId: searchParams.jobId || '',
+          userWorkspace: searchParams.userWorkspace || '',
+        });
+      }
     };
 
     return debounce(callback, 300);
-  }, [searchParams, updateSearchParams]);
+  }, [isCatalogue, isWorkflow, searchParams, updateSearchParams]);
 
   const { minDate, maxDate } = useMemo(() => {
     if (mode === 'search') {
       return {
-        minDate: createDateString(date.from),
-        maxDate: createDateString(date.to),
+        minDate: createDateString(date.from || undefined),
+        maxDate: createDateString(date.to || undefined),
       };
     }
     return {

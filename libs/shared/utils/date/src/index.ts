@@ -4,7 +4,7 @@ export {
   formatDate,
   createDate,
   dateToNumber,
-  numberToDate,
+  numberToDateString,
   getBeginingOfYear,
   getEndYear,
   type TDateTimeString,
