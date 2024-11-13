@@ -24,19 +24,27 @@ export const dateToNumber = (date: TDateTimeString | TDateString): number | null
   return d.getFullYear() + d.getMonth() / 12;
 };
 
-export const numberToDate = (num: number, monthEnd?: boolean): Date => {
+export const numberToDateString = (num: number, monthEnd?: boolean): TDateString => {
   const year = Math.floor(num);
   const month = Math.round((num - year) * 12);
-  return monthEnd ? new Date(year, month + 1, 0, 23, 59, 59, 999) : new Date(year, month);
+  const date = monthEnd ? new Date(year, month + 1, 0, 23, 59, 59, 999) : new Date(year, month);
+
+  return formatDate(createDateString(date));
 };
 
 export const getEndYear = (date: TDateString): number | null => {
   const adjustedDate = createDate(date);
-  if (adjustedDate && (adjustedDate.getMonth() !== 0 || adjustedDate.getDate() !== 1)) {
+  if (!adjustedDate) {
+    return null;
+  }
+
+  if (adjustedDate.getMonth() !== 0 || adjustedDate.getDate() !== 1) {
     adjustedDate.setFullYear(adjustedDate.getFullYear() + 1);
   }
-  adjustedDate?.setMonth(0, 1);
-  const result = dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+
+  adjustedDate.setMonth(0, 1);
+  const result = dateToNumber(formatDate(createDateString(adjustedDate)));
+
   if (result === null) {
     // eslint-disable-next-line no-console
     console.error('Invalid date');
@@ -48,8 +56,13 @@ export const getEndYear = (date: TDateString): number | null => {
 
 export const getBeginingOfYear = (date: TDateString): number | null => {
   const adjustedDate = createDate(date);
-  adjustedDate?.setMonth(0, 1);
-  const result = dateToNumber(adjustedDate?.toISOString().split('T')[0] as TDateString);
+  if (!adjustedDate) {
+    return null;
+  }
+
+  adjustedDate.setMonth(0, 1);
+  const result = dateToNumber(formatDate(createDateString(adjustedDate)));
+
   if (result === null) {
     // eslint-disable-next-line no-console
     console.error('Invalid date');
@@ -75,6 +88,10 @@ export const getBeginingOfYear = (date: TDateString): number => {
 };
 
 export const createDate = (date?: TDateTimeString | TDateString) => {
+  if (!date) {
+    return null;
+  }
+
   return new Date(date);
 };
 

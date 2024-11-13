@@ -16,6 +16,12 @@ export { useGetHistory } from './lib/query/history.query';
 export type { IHistoryParams } from './lib/query/history.query';
 export type { THistory, THistoryItem } from './lib/query/history.model';
 export { useResults } from './lib/store/results/results.store';
+export type {
+  TSearchParams,
+  TSearchType,
+  TCatalogueSearchParams,
+  TWorkflowSearchParams,
+} from './lib/store/results/results.model';
 export { useActionCreator } from './lib/store/action-creator/action-creator.store';
 export type {
   TNode,
@@ -29,7 +35,6 @@ export { useFunctions } from './lib/query/function.query';
 export { useCreateWorkflow } from './lib/mutation/workflow.mutation';
 export type { TFunction } from './lib/query/function.model';
 export type { TPreset } from './lib/query/presets.model';
-export { fetchImage } from './lib/query/protected-image.query';
-export { useGetWorkflowResult } from './lib/query/workflow-result.query';
-export { useGetCollectionInfo } from './lib/query/collection-info.query';
 export { useCollectionInfo } from './lib/query/collection-info.query';
+export { fetchImage } from './lib/query/protected-image.query';
+export type { TMode } from './lib/store/mode.model';

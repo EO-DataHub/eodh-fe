@@ -131,10 +131,19 @@ export const getResultsStoreState = (): Omit<TResultsStoreState, 'searchParams'>
   };
 };
 
-export const useResults = (): Omit<TResultsStore, 'coordinates' | 'setShape' | 'restore'> => {
+type TUseResultsParams = Omit<TResultsStore, 'coordinates' | 'setShape' | 'restore'> & {
+  isWorkflow: (params: Omit<TSearchParams, 'aoi'>) => params is TWorkflowSearchParams;
+  isCatalogue: (
+    params: Omit<TSearchParams, 'aoi'> & { aoi?: TCatalogueSearchParams['aoi'] }
+  ) => params is TCatalogueSearchParams;
+};
+
+export const useResults = (): TUseResultsParams => {
   return useResultsStore((state) => ({
     searchType: state.searchType,
     searchParams: state.searchParams,
     updateSearchParams: state.updateSearchParams,
+    isWorkflow: isWorkflow,
+    isCatalogue: isCatalogue,
   }));
 };

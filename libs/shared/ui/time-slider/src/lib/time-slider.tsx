@@ -3,7 +3,7 @@ import {
   dateToNumber,
   getBeginingOfYear,
   getEndYear,
-  numberToDate,
+  numberToDateString,
   type TDateString,
   type TDateTimeString,
 } from '@ukri/shared/utils/date';
@@ -33,7 +33,7 @@ interface ITimeSliderProps {
   min: TDate;
   max: TDate;
   className?: string;
-  onUpdate: (dateFrom: Date, dateTo: Date) => void;
+  onUpdate: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void;
 }
 
 export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, onUpdate, className }) => {
@@ -51,7 +51,12 @@ export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, onUpdate, cla
   }, []);
 
   useEffect(() => {
-    onUpdate(numberToDate(value[0]), numberToDate(value[1], true));
+    const dateFrom = numberToDateString(value[0]);
+    const dateTo = numberToDateString(value[1], true);
+
+    if (dateFrom && dateTo) {
+      onUpdate(dateFrom, dateTo);
+    }
   }, [value, onUpdate]);
 
   const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);

@@ -49,8 +49,8 @@ export type TCatalogSearchParams = {
     copernicus: TCopernicusSearchParams;
   };
   date: {
-    from?: NonNullable<TDateString>;
-    to?: NonNullable<TDateString>;
+    from: NonNullable<TDateString>;
+    to: NonNullable<TDateString>;
   };
   aoi: Geometry;
 };
@@ -60,9 +60,9 @@ export type TWorkflowSearchParams = {
   aoi?: never;
   userWorkspace: string;
   jobId: string;
-  date: {
-    from?: NonNullable<TDateString>;
-    to?: NonNullable<TDateString>;
+  date?: {
+    from: NonNullable<TDateString>;
+    to: NonNullable<TDateString>;
   };
 };
 
