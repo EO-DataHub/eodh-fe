@@ -11,9 +11,7 @@ interface IGetCollectionInfoProps {
 }
 
 const getCollectionInfo = async ({ jobId, userWorkspace }: IGetCollectionInfoProps): Promise<TCollectionInfo> => {
-  const url = paths.COLLECTION_INFO.replace('{user_workspace}', userWorkspace ?? '').replace(/{job_id}/g, jobId ?? '');
-
-  const response = await getHttpClient().get(url);
+  const response = await getHttpClient().get(paths.COLLECTION_INFO({ userWorkspace, jobId }));
 
   return collectionInfoSchema.parseAsync(response);
 };
@@ -27,6 +25,6 @@ export const useCollectionInfo = ({ args, enabled = true }: TCollectionInfoParam
   return useQuery<TExtractFnReturnType<typeof getCollectionInfo>>({
     queryKey: queryKey.COLLECTION_INFO({ args: args, enabled: enabled }),
     enabled: enabled,
-    queryFn: () => (args ? getCollectionInfo(args) : Promise.reject(new Error('params is undefined'))),
+    queryFn: () => getCollectionInfo(args ?? {}),
   });
 };
