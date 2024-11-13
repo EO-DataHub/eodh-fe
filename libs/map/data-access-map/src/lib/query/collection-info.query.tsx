@@ -20,12 +20,13 @@ const getCollectionInfo = async ({ jobId, userWorkspace }: IGetCollectionInfoPro
 
 export type TCollectionInfoParams = {
   args?: IGetCollectionInfoProps;
+  enabled: boolean;
 };
 
-export const useCollectionInfo = ({ args }: TCollectionInfoParams) => {
+export const useCollectionInfo = ({ args, enabled = true }: TCollectionInfoParams) => {
   return useQuery<TExtractFnReturnType<typeof getCollectionInfo>>({
-    queryKey: queryKey.COLLECTION_INFO({ args: args }),
-    enabled: true,
+    queryKey: queryKey.COLLECTION_INFO({ args: args, enabled: enabled }),
+    enabled: enabled,
     queryFn: () => (args ? getCollectionInfo(args) : Promise.reject(new Error('params is undefined'))),
   });
 };
