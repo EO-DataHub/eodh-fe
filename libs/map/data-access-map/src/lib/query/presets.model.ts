@@ -1,4 +1,4 @@
-import { formatDate, TDateString } from '@ukri/shared/utils/date';
+import { formatDate, TDateTimeString } from '@ukri/shared/utils/date';
 import z from 'zod';
 
 const coordinateSchema = z.tuple([z.number(), z.number()]);
@@ -33,12 +33,10 @@ const presetSchema = z
         inputs: z.object({
           aoi: polygonSchema.optional(),
           date_start: z
-            .custom<NonNullable<TDateString>>((value) => !z.string().datetime().safeParse(value).error)
-            .transform((value) => formatDate(value))
+            .custom<NonNullable<TDateTimeString>>((value) => !z.string().datetime().safeParse(value).error)
             .optional(),
           date_end: z
-            .custom<NonNullable<TDateString>>((value) => !z.string().datetime().safeParse(value).error)
-            .transform((value) => formatDate(value))
+            .custom<NonNullable<TDateTimeString>>((value) => !z.string().datetime().safeParse(value).error)
             .optional(),
           identifier: z.string(),
           stac_collection: z.string(),
@@ -52,8 +50,8 @@ const presetSchema = z
     const dateRange =
       dateFrom && dateTo
         ? {
-            from: dateFrom,
-            to: dateTo,
+            from: formatDate(dateFrom),
+            to: formatDate(dateTo),
           }
         : undefined;
 
