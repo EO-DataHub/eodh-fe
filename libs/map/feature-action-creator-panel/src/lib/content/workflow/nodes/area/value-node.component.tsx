@@ -62,14 +62,16 @@ type TValueNodeProps = {
 
 export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
   const { t } = useTranslation();
-  const { canActivateNode } = useActionCreator();
+  const { canActivateNode, isLast } = useActionCreator();
 
   return (
     <Node
       type={node.type}
+      active={true}
       text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, 'miles')}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
+      hasNextNode={!isLast(node)}
     >
       <NodeInput
         iconName={getIconFromShape(node.value)}

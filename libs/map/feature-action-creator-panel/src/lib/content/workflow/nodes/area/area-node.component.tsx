@@ -1,6 +1,6 @@
 import { getCoordinates, TAreaNode, useActionCreator, useAoi } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ActiveNode } from '../active-node.component';
@@ -41,10 +41,12 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { shape, setShape } = useAoi();
+  const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
     if (canBeActivated) {
+      nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
     }
   }, [canBeActivated, node, setActiveNode]);
@@ -61,7 +63,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
 
   if (!node.tooltip) {
     return (
-      <div onClick={activateNode}>
+      <div ref={nodeRef} onClick={activateNode}>
         <Node node={node} onClearButtonClick={clear} />
       </div>
     );
@@ -75,7 +77,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
       onClick={goToNextOnboardingStep}
       className='top-0 left-[-110px]'
     >
-      <div onClick={activateNode}>
+      <div id={node.id} ref={nodeRef} onClick={activateNode}>
         <Node node={node} onClearButtonClick={clear} />
       </div>
     </OnboardingTooltip>

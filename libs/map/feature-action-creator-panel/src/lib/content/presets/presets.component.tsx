@@ -1,4 +1,4 @@
-import { TPreset, useActionCreator, useGetPresets } from '@ukri/map/data-access-map';
+import { TPreset, useActionCreator, useGetPresets, useMode } from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
 import { PropsWithChildren, useCallback, useContext } from 'react';
 
@@ -34,14 +34,21 @@ export const Presets = () => {
   const { setActiveTab } = useContext(ActionCreator);
   const { data, error, isLoading, refetch } = useGetPresets();
   const { loadPreset } = useActionCreator();
+  const { changeView } = useMode();
 
   const handleLoadPreset = useCallback(
     (preset: TPreset) => {
-      loadPreset({ dataSet: preset.defaultValues.dataSet, functionName: preset.defaultValues.function });
+      loadPreset({
+        dataSet: preset.defaultValues.dataSet,
+        functions: preset.defaultValues.functions,
+        aoi: preset.defaultValues.aoi,
+        dateRange: preset.defaultValues.dateRange,
+      });
+      changeView('search');
       setActiveTab('workflow');
       return;
     },
-    [loadPreset, setActiveTab]
+    [changeView, loadPreset, setActiveTab]
   );
 
   if (isLoading) {

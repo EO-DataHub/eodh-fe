@@ -1,4 +1,6 @@
 import { AxiosError } from 'axios';
+import isArray from 'lodash/isArray';
+import isString from 'lodash/isString';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 
@@ -91,7 +93,7 @@ const useErrorMessage = () => {
     }
 
     if (error instanceof AxiosError) {
-      return t('GLOBAL.ERRORS.SERVER_ERROR.MESSAGE');
+      return t('GLOBAL.ERRORS.API_ERROR.COMMON');
     }
 
     switch (error.type) {
@@ -135,7 +137,11 @@ export const useWorkflowMessage = () => {
 
   return {
     showErrorMessage: (error: AxiosError<IErrorResponse>) => {
-      if (!error.response?.data.detail.length) {
+      if (
+        isString(error.response?.data) ||
+        !isArray(error.response?.data?.detail) ||
+        !error.response?.data?.detail?.length
+      ) {
         const message = translateMessage(error);
         enqueueSnackbar(message, { variant: 'error', persist: true });
         return;

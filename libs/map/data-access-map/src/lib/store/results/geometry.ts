@@ -33,6 +33,7 @@ export const createGeometry = (coordinate: TCoordinate | undefined): Geometry | 
   }
 
   switch (coordinate.type) {
+    case 'rectangle':
     case 'polygon': {
       return new Polygon(coordinate.coordinates);
     }

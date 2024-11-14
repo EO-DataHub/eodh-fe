@@ -1,17 +1,8 @@
 import { Icon } from '@ukri/shared/design-system';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type TNodeType = 'area' | 'dataSet' | 'dateRange' | 'function';
-
-interface INodeProps {
-  type: TNodeType;
-  text?: string;
-  error?: string;
-  clickable?: boolean;
-  selected?: boolean;
-  className?: string;
-}
 
 type TTypeOfNode = {
   [key in TNodeType]: {
@@ -55,10 +46,11 @@ const styles = {
   container: 'w-[152px]',
   clickable: 'cursor-pointer',
   header: {
-    base: 'h-[20px] text-actionCreator-contrastText text-medium-semibold flex justify-center rounded-t border text-shadow-text-small',
+    base: 'h-[20px] relative text-actionCreator-contrastText text-medium-semibold flex justify-center rounded-t border text-shadow-text-small',
     active: (nodeType: TTypeOfNode[TNodeType]) => `${nodeType.backgroundColor} ${nodeType.borderColor}`,
     inactive: 'bg-neutral-light border-neutral-light',
     selected: (nodeType: TTypeOfNode[TNodeType]) => `shadow-action-creator-node ${nodeType.shadow}`,
+    removeButton: 'text-actionCreator-contrastText absolute right-0.5 top-0.5 cursor-pointer',
   },
   headerText: 'self-center',
   body: {
@@ -72,7 +64,27 @@ const styles = {
   childrenWrapper: 'm-t-2 mb-1 w-[134px]',
   text: 'text-action-creator-body text-neutral-light text-center',
   arrow: 'flex justify-center items-center mt-[-3px] mb-0.5',
+  add: {
+    container: 'flex justify-center items-center mt-2',
+    button:
+      'border rounded-md  text-bright-dark border-bright-dark cursor-pointer disabled:text-bright-light disabled:border-bright-light disabled:cursor-not-allowed',
+  },
 };
+
+interface INodeProps {
+  type: TNodeType;
+  hasNextNode: boolean;
+  active: boolean;
+  text?: string;
+  error?: string;
+  clickable?: boolean;
+  selected?: boolean;
+  className?: string;
+  canAddNode?: boolean;
+  canRemoveNode?: boolean;
+  onAddNode?: () => void;
+  onRemoveNode?: () => void;
+}
 
 export const Node = ({
   type = 'area',
@@ -81,19 +93,22 @@ export const Node = ({
   children,
   clickable,
   selected,
+  active,
+  canAddNode = false,
+  canRemoveNode = false,
+  hasNextNode = false,
   className = '',
+  onAddNode,
+  onRemoveNode,
 }: PropsWithChildren<INodeProps>) => {
-  const [active, setActive] = useState(false);
   const { t } = useTranslation();
   const nodeType = typeOfNode[type];
 
-  useEffect(() => {
-    if (text || children) {
-      setActive(true);
-    } else {
-      setActive(false);
+  const handleAddNode = useCallback(() => {
+    if (onAddNode) {
+      onAddNode();
     }
-  }, [text, children]);
+  }, [onAddNode]);
 
   return (
     <div className={`${styles.container} ${clickable ? styles.clickable : ''} ${className}`}>
@@ -104,6 +119,11 @@ export const Node = ({
             ${active && selected ? styles.header.selected(nodeType) : ''}`}
       >
         <div className={styles.headerText}>{t(nodeType.title)}</div>
+        {canRemoveNode && (
+          <button className={styles.header.removeButton} onClick={onRemoveNode}>
+            <Icon name='Close' width={16} height={16} />
+          </button>
+        )}
       </div>
       <div
         className={`${styles.body.base} ${active && selected ? styles.body.active(nodeType) : styles.body.inactive}`}
@@ -116,9 +136,16 @@ export const Node = ({
         {children && <div className={styles.childrenWrapper}>{children}</div>}
         {text && <p className={styles.text} dangerouslySetInnerHTML={{ __html: text }}></p>}
       </div>
-      {type !== 'function' && (
+      {hasNextNode && (
         <div className={styles.arrow}>
           <Icon name='ActionCreatorArrow' />
+        </div>
+      )}
+      {!hasNextNode && (
+        <div className={styles.add.container}>
+          <button className={styles.add.button} disabled={!canAddNode} onClick={handleAddNode}>
+            <Icon name='Add' />
+          </button>
         </div>
       )}
     </div>

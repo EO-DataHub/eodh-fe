@@ -18,6 +18,7 @@ interface ISelectProps {
   options: IOption[];
   onChange: (value?: string | null) => void;
   placeholder?: ParseKeys;
+  disabled?: boolean;
   error?: string;
   className?: string;
   value?: string;
@@ -31,6 +32,7 @@ export const Select = ({
   error,
   className,
   value,
+  disabled,
 }: ISelectProps) => {
   const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState<IOption | undefined>();
@@ -45,29 +47,35 @@ export const Select = ({
 
   const handleChange = useCallback(
     (selectedOptionValue: IOption) => {
-      setSelectedOption(selectedOptionValue);
-      onChange(selectedOptionValue.value);
-      setIsOpen(true);
+      if (!disabled) {
+        setSelectedOption(selectedOptionValue);
+        onChange(selectedOptionValue.value);
+        setIsOpen(true);
+      }
     },
-    [onChange]
+    [disabled, onChange]
   );
 
   const handleToggle = useCallback(() => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
-  }, []);
+    if (!disabled) {
+      setIsOpen((prevIsOpen) => !prevIsOpen);
+    }
+  }, [disabled]);
 
   return (
     <div className={clsx(selectStyles.container, className)} ref={ref}>
       {error && <span className={selectStyles.errorMessage}>{error}</span>}
-      <div className={selectStyles.selectWrapper(error)} onClick={handleToggle}>
+      <div className={selectStyles.selectWrapper(error, disabled)} onClick={handleToggle}>
         {!isOpen && (
-          <div className={selectStyles.listItem}>
+          <div className={selectStyles.listItem(disabled)}>
             <span className={clsx(selectStyles.buttonText, selectStyles.listItemText)}>
               {selectedOption ? selectedOption.label : t(placeholder)}
             </span>
-            <span className={selectStyles.iconContainer}>
-              <Icon name='ArrowDown' className={selectStyles.icon(isOpen)} />
-            </span>
+            {!disabled && (
+              <span className={selectStyles.iconContainer}>
+                <Icon name='ArrowDown' className={selectStyles.icon(isOpen)} />
+              </span>
+            )}
           </div>
         )}
 
@@ -75,7 +83,7 @@ export const Select = ({
           <ul className={selectStyles.list} role='listbox' aria-labelledby='listbox-label' aria-expanded={isOpen}>
             <li
               key='placeholder'
-              className={selectStyles.listItem}
+              className={selectStyles.listItem(disabled)}
               id={`listbox-option-placeholder`}
               role='option'
               aria-selected={selectedOption?.value === null}
@@ -93,7 +101,7 @@ export const Select = ({
             {options.map((option, index) => (
               <li
                 key={option.value}
-                className={selectStyles.listItem}
+                className={selectStyles.listItem(disabled)}
                 id={`listbox-option-${index}`}
                 role='option'
                 aria-selected={selectedOption?.value === option.value}

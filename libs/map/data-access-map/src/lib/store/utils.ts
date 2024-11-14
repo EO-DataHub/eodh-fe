@@ -1,6 +1,12 @@
+import { TDateTimeString } from '@ukri/shared/utils/date';
+import { nanoid } from 'nanoid';
+
 import { defaultNodes, TNode } from './action-creator/action-creator.model';
 import { useActionCreatorStore } from './action-creator/action-creator.store';
+import { createNode, isFunctionNode } from './action-creator/node.utils';
+import { TCoordinate } from './aoi/aoi.model';
 import { useAoiStore } from './aoi/aoi.store';
+import { createShape } from './aoi/geometry';
 import { TDataSetValue } from './data-sets/data-sets.model';
 import { useDataSetsStore } from './data-sets/data-sets.store';
 import { useDateStore } from './date/date.store';
@@ -51,29 +57,60 @@ export const reset = () => {
 
 export type TLoadPresetProps = {
   dataSet: TDataSetValue | string | undefined;
-  functionName: string;
+  functions: {
+    identifier: string;
+    order: number;
+  }[];
+  aoi?: TCoordinate;
+  dateRange?: {
+    from: TDateTimeString;
+    to: TDateTimeString;
+  };
 };
 
-export const loadPreset = ({ dataSet, functionName }: TLoadPresetProps) => {
-  const nodes: TNode[] = defaultNodes.map((node) => {
-    switch (node.type) {
-      case 'area':
-      case 'dateRange': {
-        return { ...node, state: 'initial' };
-      }
+export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetProps) => {
+  const nodes = defaultNodes
+    .filter((node) => !isFunctionNode(node))
+    .map((node) => {
+      switch (node.type) {
+        case 'area': {
+          return { ...node, state: aoi ? 'not-active' : 'initial' };
+        }
 
-      case 'dataSet': {
-        return { ...node, state: 'not-active' };
-      }
+        case 'dateRange': {
+          return { ...node, state: dateRange ? 'not-active' : 'initial' };
+        }
 
-      case 'function': {
-        return { ...node, state: 'not-active', value: functionName };
-      }
-    }
-  });
+        case 'dataSet': {
+          return { ...node, state: 'not-active' };
+        }
 
-  useAoiStore.getState().setShape(undefined);
+        default: {
+          return undefined;
+        }
+      }
+    })
+    .filter((item) => !!item);
+  const functionNodes = functions.map(({ identifier, order }) => ({
+    ...createNode(nanoid(), 'function', nodes.length + order),
+    state: 'not-active',
+    value: identifier,
+  }));
+  const shape = createShape(aoi, aoi?.type);
+
   useDataSetsStore.getState().enableDataSet(dataSet);
-  useDateStore.getState().reset();
-  useActionCreatorStore.getState().setNodes(nodes);
+  useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
+
+  if (shape) {
+    shape.shape = shape?.shape?.clone().transform('EPSG:4326', 'EPSG:3857');
+    useAoiStore.getState().setShape(shape, true);
+  } else {
+    useAoiStore.getState().setShape(undefined);
+  }
+
+  if (dateRange) {
+    useDateStore.getState().updateDate(dateRange);
+  } else {
+    useDateStore.getState().reset();
+  }
 };

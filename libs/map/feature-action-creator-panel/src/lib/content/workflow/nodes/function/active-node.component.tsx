@@ -10,10 +10,18 @@ type TValueNodeProps = {
 };
 
 export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {
-  const { canActivateNode } = useActionCreator();
+  const { canActivateNode, isLast, canRemoveNode, removeNode } = useActionCreator();
 
   return (
-    <Node type={node.type} clickable={canActivateNode(node)} selected={node.state === 'active'}>
+    <Node
+      active={true}
+      type={node.type}
+      clickable={canActivateNode(node)}
+      selected={node.state === 'active'}
+      hasNextNode={!isLast(node)}
+      canRemoveNode={canRemoveNode(node)}
+      onRemoveNode={() => removeNode(node)}
+    >
       <NodeSelect value={undefined} options={options} onChange={onChange} />
     </Node>
   );

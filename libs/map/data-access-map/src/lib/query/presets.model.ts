@@ -1,67 +1,79 @@
+import { formatDate, TDateTimeString } from '@ukri/shared/utils/date';
 import z from 'zod';
 
-const booleanSchema = z.object({
-  type: z.literal('boolean'),
-  required: z.boolean(),
-  default: z.boolean(),
-});
+const coordinateSchema = z.tuple([z.number(), z.number()]);
 
-const stringSchema = z.object({
-  type: z.literal('string'),
-  required: z.boolean(),
-  default: z.string().nullish(),
-  options: z.array(z.string()),
+const polygonSchema = z.object({
+  type: z.literal('Polygon').transform(() => 'polygon' as const),
+  coordinates: z.union([z.array(z.array(z.array(z.number()))), z.array(z.array(coordinateSchema))]),
 });
-
-const numberSchema = z.object({
-  type: z.literal('number'),
-  required: z.boolean(),
-  default: z.number(),
-});
-
-const inputSchema = z.union([booleanSchema, stringSchema, numberSchema]);
 
 const presetSchema = z
   .object({
+    identifier: z.union([z.literal('land-cover-change-detection'), z.string()]),
     name: z.string(),
-    preset: z.boolean(),
-    identifier: z.union([
-      z.literal('raster-calculate'),
-      z.literal('lulc-change'),
-      z.literal('water-quality'),
-      z.literal('clip'),
-      z.string(),
-    ]),
     description: z.string().optional(),
     thumbnail_b64: z.string().nullish(),
-    inputs: z.object({
-      stac_collection: z
-        .object({
-          type: z.literal('string'),
-          required: z.boolean(),
-          default: z.string(),
-          options: z.array(z.string()),
-        })
-        .optional(),
-      calibrate: inputSchema.optional(),
-      index: inputSchema.optional(),
-      limit: inputSchema.optional(),
+    workflow: z.object({
+      clip: z.object({
+        identifier: z.literal('clip'),
+        order: z.number(),
+        inputs: z.object({
+          aoi: z
+            .object({
+              type: z.literal('Polygon'),
+            })
+            .optional(),
+          collection: z.string().optional(),
+        }),
+      }),
+      'land-cover-change-detection': z.object({
+        identifier: z.literal('land-cover-change-detection'),
+        order: z.number(),
+        inputs: z.object({
+          aoi: polygonSchema.optional(),
+          date_start: z
+            .custom<NonNullable<TDateTimeString>>((value) => !z.string().datetime().safeParse(value).error)
+            .optional(),
+          date_end: z
+            .custom<NonNullable<TDateTimeString>>((value) => !z.string().datetime().safeParse(value).error)
+            .optional(),
+          identifier: z.string(),
+          stac_collection: z.string(),
+        }),
+      }),
     }),
   })
-  .transform((data) => ({
-    preset: data.preset,
-    identifier: data.identifier,
-    name: data.name,
-    description: data.description,
-    imageUrl: data.thumbnail_b64 ? `data:image/jpeg;base64,${data.thumbnail_b64}` : undefined,
-    defaultValues: {
-      dataSet: data.inputs.stac_collection?.default,
-      function: data.identifier,
-    },
-  }));
+  .transform((data) => {
+    const dateFrom = data.workflow['land-cover-change-detection'].inputs.date_start;
+    const dateTo = data.workflow['land-cover-change-detection'].inputs.date_end;
+    const dateRange =
+      dateFrom && dateTo
+        ? {
+            from: formatDate(dateFrom),
+            to: formatDate(dateTo),
+          }
+        : undefined;
+
+    return {
+      identifier: data.identifier,
+      name: data.name,
+      description: data.description,
+      imageUrl: data.thumbnail_b64 ? `data:image/jpeg;base64,${data.thumbnail_b64}` : undefined,
+      defaultValues: {
+        aoi: data.workflow['land-cover-change-detection'].inputs.aoi,
+        dateRange,
+        dataSet: data.workflow['land-cover-change-detection'].inputs.stac_collection,
+        functions: Object.entries(data.workflow).map(([, item]) => ({
+          identifier: item.identifier,
+          order: item.order,
+        })),
+      },
+    };
+  });
 
 export const presetsSchema = z.object({
-  functions: z.array(presetSchema),
+  presets: z.array(presetSchema),
   total: z.number(),
 });
 
