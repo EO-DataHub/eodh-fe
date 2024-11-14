@@ -17,7 +17,7 @@ export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelPro
       selectedMin={selectedMinDate}
       selectedMax={selectedMaxDate}
       className={className}
-      onUpdate={updateSearchResultsParams}
+      onUpdate={() => {}}
     />
   );
 };
