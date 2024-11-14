@@ -57,29 +57,30 @@ const disabledSchema = z.object({
   disabled: z.boolean().default(true),
   workflow: z.object({}).optional(),
 });
+
 type TWorkflowType = {
-  'land-cover-change-detection'?: {
+  'land-cover-change-detection': {
     identifier: string;
     order: number;
     inputs: {
       identifier: string;
       stac_collection: string;
-      aoi?: {
+      aoi: {
         type: 'polygon';
         coordinates: number[][][];
       };
-      date_start?: string;
-      date_end?: string;
+      date_start: string;
+      date_end: string;
     };
   };
-  clip?: {
+  clip: {
     identifier: string;
     order: number;
     inputs: {
-      aoi?: {
+      aoi: {
         type: 'polygon';
       };
-      collection?: string;
+      collection: string;
     };
   };
 };
