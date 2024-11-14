@@ -12,7 +12,6 @@ const isCoordinates = (shape: TShape | TCoordinate): shape is TCoordinate => {
 };
 
 export const getCoordinates = (shape?: TShape | TCoordinate): TCoordinate | undefined => {
-  console.log('getCoordinates', shape);
   if (!shape) {
     return undefined;
   }
