@@ -130,7 +130,7 @@ export const Node = ({
       >
         {error && (
           <div className={styles.error}>
-            <span className={styles.errorText}>{error}</span>
+            <span className={styles.errorText} dangerouslySetInnerHTML={{ __html: error }}></span>
           </div>
         )}
         {children && <div className={styles.childrenWrapper}>{children}</div>}

@@ -21,14 +21,8 @@ const getIconFromShape = (value: TAreaNode['value']): 'Polygon' | 'Circle' | 'Sq
   }
 };
 
-const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km' | 'miles') {
-  const shape = createGeometry(value);
-  if (!shape) {
-    return '';
-  }
-
+export const convertUnits = (area: number, unit: 'km' | 'miles') => {
   let output;
-  let area = getArea(shape.getExtent());
 
   switch (unit) {
     case 'miles': {
@@ -52,15 +46,28 @@ const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km'
     }
   }
 
+  return output;
+};
+
+const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km' | 'miles') {
+  const shape = createGeometry(value);
+  if (!shape) {
+    return '';
+  }
+  const area = getArea(shape.getExtent());
+
+  const output = convertUnits(area, unit);
+
   return `${text.trim()} ${output}`;
 };
 
 type TValueNodeProps = {
   node: TAreaNode;
+  error?: string;
   onClearButtonClick: () => void;
 };
 
-export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
+export const ValueNode = ({ node, onClearButtonClick, error }: TValueNodeProps) => {
   const { t } = useTranslation();
   const { canActivateNode, isLast } = useActionCreator();
 
@@ -68,10 +75,11 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
     <Node
       type={node.type}
       active={true}
-      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, 'miles')}
+      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, 'km')}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
+      error={error}
     >
       <NodeInput
         iconName={getIconFromShape(node.value)}

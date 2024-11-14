@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { ActiveNode } from '../active-node.component';
 import { EmptyNode } from '../empty-node.component';
-import { ValueNode } from './value-node.component';
+import { convertUnits, ValueNode } from './value-node.component';
 
 type TNodeProps = {
   node: TAreaNode;
@@ -14,6 +14,10 @@ type TNodeProps = {
 
 const Node = ({ node, onClearButtonClick }: TNodeProps) => {
   const { t } = useTranslation();
+  const aoiLimit = useMemo(
+    () => `${t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE')} ${convertUnits(1000000000, 'km')}`,
+    [t]
+  );
 
   return useMemo(() => {
     switch (node.state) {
@@ -24,13 +28,19 @@ const Node = ({ node, onClearButtonClick }: TNodeProps) => {
       case 'active':
       case 'not-active': {
         if (!node.value) {
-          return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.INSTRUCTIONS')} />;
+          return (
+            <ActiveNode
+              node={node}
+              text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.INSTRUCTIONS')}
+              error={aoiLimit}
+            />
+          );
         }
 
-        return <ValueNode node={node} onClearButtonClick={onClearButtonClick} />;
+        return <ValueNode node={node} onClearButtonClick={onClearButtonClick} error={aoiLimit} />;
       }
     }
-  }, [node, onClearButtonClick, t]);
+  }, [node, onClearButtonClick, t, aoiLimit]);
 };
 
 type TAreaNodeNodeProps = { node: TAreaNode };
