@@ -15,7 +15,7 @@ type TNodeProps = {
 const Node = ({ node, onClearButtonClick }: TNodeProps) => {
   const { t } = useTranslation();
   const aoiLimit = useMemo(
-    () => `${t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE')} ${convertUnits(1000000000, 'km')}`,
+    () => t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE', { maxSize: convertUnits(1000000000, 'km') }),
     [t]
   );
 

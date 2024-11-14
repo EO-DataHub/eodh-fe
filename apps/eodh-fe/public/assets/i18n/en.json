@@ -166,7 +166,7 @@
             "DEFAULT_VALUE": "Drawing 1",
             "INSTRUCTIONS": "Use the drawing tools to define an area of interest",
             "DESCRIPTION": "Total area:",
-            "ALLOWED_SIZE": "Max size:"
+            "ALLOWED_SIZE": "Max size: {{maxSize}}"
           },
           "DATA_SET": {
             "TITLE": "Data Set",

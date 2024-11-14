@@ -55,7 +55,7 @@ const disabledSchema = z.object({
   description: z.string().optional(),
   thumbnail_b64: z.string().nullish(),
   disabled: z.boolean().default(true),
-  workflow: z.object({}).optional(),
+  workflow: z.never().optional(),
 });
 
 type TWorkflowType = {
@@ -78,7 +78,7 @@ type TWorkflowType = {
     order: number;
     inputs: {
       aoi: {
-        type: 'polygon';
+        type: 'Polygon';
       };
       collection: string;
     };
