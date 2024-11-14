@@ -24,6 +24,7 @@
       "@ukri/map/ui-map": ["libs/map/ui-map/src/index.ts"],
       "@ukri/map/ui-results-view": ["libs/map/ui-results-view/src/index.ts"],
       "@ukri/map/ui-search-view": ["libs/map/ui-search-view/src/index.ts"],
+      "@ukri/shared/utils/settings": ["libs/shared/utils/settings/src/index.ts"],
       "@ukri/shared/design-system": ["libs/shared/design-system/src/index.ts"],
       "@ukri/shared/theme": ["libs/shared/theme/src/index.ts"],
       "@ukri/shared/ui/ac-workflow-onboarding": ["libs/shared/ui/ac-workflow-onboarding/src/index.ts"],

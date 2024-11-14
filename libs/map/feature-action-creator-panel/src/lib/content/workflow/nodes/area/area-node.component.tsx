@@ -1,5 +1,6 @@
 import { getCoordinates, TAreaNode, useActionCreator, useAoi } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
+import { useSettings } from '@ukri/shared/utils/settings';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -14,9 +15,13 @@ type TNodeProps = {
 
 const Node = ({ node, onClearButtonClick }: TNodeProps) => {
   const { t } = useTranslation();
-  const aoiLimit = useMemo(
-    () => t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE', { maxSize: convertUnits(1000000000, 'km') }),
-    [t]
+  const { aoiLimit, measurmentUnit } = useSettings();
+  const aoiLimitInfo = useMemo(
+    () =>
+      t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE', {
+        maxSize: convertUnits(aoiLimit, measurmentUnit),
+      }),
+    [t, aoiLimit, measurmentUnit]
   );
 
   return useMemo(() => {
@@ -32,15 +37,15 @@ const Node = ({ node, onClearButtonClick }: TNodeProps) => {
             <ActiveNode
               node={node}
               text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.INSTRUCTIONS')}
-              error={aoiLimit}
+              error={aoiLimitInfo}
             />
           );
         }
 
-        return <ValueNode node={node} onClearButtonClick={onClearButtonClick} error={aoiLimit} />;
+        return <ValueNode node={node} onClearButtonClick={onClearButtonClick} error={aoiLimitInfo} />;
       }
     }
-  }, [node, onClearButtonClick, t, aoiLimit]);
+  }, [node, onClearButtonClick, t, aoiLimitInfo]);
 };
 
 type TAreaNodeNodeProps = { node: TAreaNode };
