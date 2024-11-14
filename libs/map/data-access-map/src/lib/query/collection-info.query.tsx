@@ -11,6 +11,7 @@ interface IGetCollectionInfoProps {
 }
 
 const getCollectionInfo = async ({ jobId, userWorkspace }: IGetCollectionInfoProps): Promise<TCollectionInfo> => {
+  console.log('getCollectionInfo', jobId, userWorkspace);
   const response = await getHttpClient().get(paths.COLLECTION_INFO({ userWorkspace, jobId }));
 
   return collectionInfoSchema.parseAsync(response);

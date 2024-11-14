@@ -7,6 +7,8 @@ export const createDateTimeFilterParams = (params: TSearchParams): TFilterParam 
     return null;
   }
 
+  // console.log('createDateTimeFilterParams', params.date.from, createIsoStringDate(params.date.from), params.date.to, createIsoStringDate(params.date.to));
+
   return {
     op: 'between',
     args: [
