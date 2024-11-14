@@ -84,9 +84,7 @@ export const Workflow = () => {
         <WorkflowProcessingModal status={status} />
       </Content>
       <Footer>
-        <div className='flex justify-between gap-4 w-full'>
-          <span>Export</span>
-          <span>Import</span>
+        <div className='flex justify-end gap-4 w-full'>
           <Button
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
             disabled={!isValid || isPending || isSuccess}
