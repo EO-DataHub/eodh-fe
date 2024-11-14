@@ -39,7 +39,14 @@ export interface IResultItemProps {
   className?: string;
 }
 
-export const Preset = ({ imageUrl, title, description, disabled, onLoadPresetClick, className }: IResultItemProps) => {
+export const Preset = ({
+  imageUrl,
+  title,
+  description,
+  disabled = false,
+  onLoadPresetClick,
+  className,
+}: IResultItemProps) => {
   return (
     <div className={clsx(presetStyles.presetContainer, className)}>
       <Image imageUrl={imageUrl} />
