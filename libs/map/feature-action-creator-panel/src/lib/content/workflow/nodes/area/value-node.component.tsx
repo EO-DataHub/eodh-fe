@@ -1,4 +1,5 @@
 import { createGeometry, TAreaNode, useActionCreator } from '@ukri/map/data-access-map';
+import { useSettings } from '@ukri/shared/utils/settings';
 import { getArea } from 'ol/extent';
 import { useTranslation } from 'react-i18next';
 
@@ -70,12 +71,13 @@ type TValueNodeProps = {
 export const ValueNode = ({ node, onClearButtonClick, error }: TValueNodeProps) => {
   const { t } = useTranslation();
   const { canActivateNode, isLast } = useActionCreator();
+  const { measurmentUnit } = useSettings();
 
   return (
     <Node
       type={node.type}
       active={true}
-      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, 'km')}
+      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, measurmentUnit)}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
