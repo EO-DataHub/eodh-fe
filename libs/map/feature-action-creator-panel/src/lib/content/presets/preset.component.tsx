@@ -34,11 +34,12 @@ export interface IResultItemProps {
   imageUrl: string | undefined;
   title: string;
   description?: string;
+  disabled?: boolean;
   onLoadPresetClick: () => void;
   className?: string;
 }
 
-export const Preset = ({ imageUrl, title, description, onLoadPresetClick, className }: IResultItemProps) => {
+export const Preset = ({ imageUrl, title, description, disabled, onLoadPresetClick, className }: IResultItemProps) => {
   return (
     <div className={clsx(presetStyles.presetContainer, className)}>
       <Image imageUrl={imageUrl} />
@@ -48,7 +49,12 @@ export const Preset = ({ imageUrl, title, description, onLoadPresetClick, classN
           {description && <Text content={description} fontSize='medium' fontWeight='regular' />}
         </div>
         <div className={presetStyles.buttonContainer}>
-          <Button text={'MAP.ACTION_CREATOR_PANEL.PRESETS.BUTTON'} size='medium' onClick={onLoadPresetClick} />
+          <Button
+            text={'MAP.ACTION_CREATOR_PANEL.PRESETS.BUTTON'}
+            size='medium'
+            onClick={onLoadPresetClick}
+            disabled={disabled}
+          />
         </div>
       </div>
     </div>

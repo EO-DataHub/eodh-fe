@@ -78,6 +78,7 @@ export const Presets = () => {
             imageUrl={preset.imageUrl}
             title={preset.name}
             description={preset.description}
+            disabled={preset.disabled}
             onLoadPresetClick={() => handleLoadPreset(preset)}
             className='mb-4'
           />
