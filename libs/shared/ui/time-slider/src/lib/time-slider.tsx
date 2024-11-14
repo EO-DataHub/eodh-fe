@@ -36,7 +36,7 @@ interface ITimeSliderProps {
   onUpdate: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void;
 }
 
-export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, onUpdate, className }) => {
+export const TimeSlider = ({ min, max, onUpdate, className }: ITimeSliderProps) => {
   const minNum = getBeginingOfYear(min) ?? undefined;
   const maxNum = getEndYear(max) ?? undefined;
   const [value, setValue] = useState<number[]>([0, 0]);
