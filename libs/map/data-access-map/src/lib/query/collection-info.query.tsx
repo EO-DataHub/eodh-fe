@@ -6,8 +6,8 @@ import { collectionInfoSchema, TCollectionInfo } from './collection-info.model';
 import { queryKey } from './query-key.const';
 
 interface IGetCollectionInfoProps {
-  jobId?: string;
-  userWorkspace?: string;
+  jobId: string;
+  userWorkspace: string;
 }
 
 const getCollectionInfo = async ({ jobId, userWorkspace }: IGetCollectionInfoProps): Promise<TCollectionInfo> => {
@@ -17,14 +17,14 @@ const getCollectionInfo = async ({ jobId, userWorkspace }: IGetCollectionInfoPro
 };
 
 export type TCollectionInfoParams = {
-  args?: IGetCollectionInfoProps;
+  params: IGetCollectionInfoProps;
   enabled: boolean;
 };
 
-export const useCollectionInfo = ({ args, enabled = true }: TCollectionInfoParams) => {
+export const useCollectionInfo = ({ params, enabled = true }: TCollectionInfoParams) => {
   return useQuery<TExtractFnReturnType<typeof getCollectionInfo>>({
-    queryKey: queryKey.COLLECTION_INFO({ args: args, enabled: enabled }),
+    queryKey: queryKey.COLLECTION_INFO({ params: params, enabled: enabled }),
     enabled: enabled,
-    queryFn: () => getCollectionInfo(args ?? {}),
+    queryFn: () => getCollectionInfo(params),
   });
 };

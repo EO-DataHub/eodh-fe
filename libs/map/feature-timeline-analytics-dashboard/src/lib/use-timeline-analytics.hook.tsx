@@ -10,7 +10,7 @@ export const useTimelineAnalytics = () => {
 
   const { data } = useCollectionInfo({
     enabled: mode === 'action-creator',
-    args: { jobId: searchParams?.jobId, userWorkspace: searchParams?.userWorkspace },
+    params: { jobId: searchParams?.jobId ?? '', userWorkspace: searchParams?.userWorkspace ?? '' },
   });
 
   const updateSearchResultsParams = useMemo(() => {
