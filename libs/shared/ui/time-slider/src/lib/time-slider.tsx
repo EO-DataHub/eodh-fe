@@ -32,18 +32,23 @@ type TDate = TDateString | TDateTimeString;
 interface ITimeSliderProps {
   min: TDate;
   max: TDate;
+  selectedMin?: TDate;
+  selectedMax?: TDate;
   className?: string;
   onUpdate: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void;
 }
 
-export const TimeSlider = ({ min, max, onUpdate, className }: ITimeSliderProps) => {
+export const TimeSlider = ({
+  min,
+  max,
+  selectedMin = min,
+  selectedMax = min,
+  onUpdate,
+  className,
+}: ITimeSliderProps) => {
   const minNum = getBeginingOfYear(min) ?? undefined;
   const maxNum = getEndYear(max) ?? undefined;
-  const [value, setValue] = useState<number[]>([0, 0]);
-
-  useEffect(() => {
-    setValue([dateToNumber(min) ?? 0, dateToNumber(max) ?? 0]);
-  }, [min, max]);
+  const [value, setValue] = useState<number[]>([dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]);
 
   const updateSliderValue = useCallback((_: Event, newValue: number | number[]) => {
     const updatedValue = Array.isArray(newValue) ? newValue : [newValue];

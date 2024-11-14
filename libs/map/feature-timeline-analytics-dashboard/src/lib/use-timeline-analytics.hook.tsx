@@ -1,23 +1,13 @@
-import { useCollectionInfo, useDate, useMode, useResults } from '@ukri/map/data-access-map';
+import { useResults } from '@ukri/map/data-access-map';
 import { createDateString, type TDateString } from '@ukri/shared/utils/date';
 import debounce from 'lodash/debounce';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 export const useTimelineAnalytics = () => {
-  const { mode } = useMode();
   const { isWorkflow, isCatalogue, searchParams, updateSearchParams } = useResults();
-  const { date } = useDate();
 
-  const { data } = useCollectionInfo({
-    enabled: mode === 'action-creator',
-    params: { jobId: searchParams?.jobId ?? '', userWorkspace: searchParams?.userWorkspace ?? '' },
-  });
-
-  const updateSearchResultsParams = useMemo(() => {
-    const callback: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void = (
-      dateFrom,
-      dateTo
-    ) => {
+  const callback: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void = useCallback(
+    (dateFrom, dateTo) => {
       if (!searchParams) {
         return;
       }
@@ -30,6 +20,7 @@ export const useTimelineAnalytics = () => {
           },
           dataSets: searchParams.dataSets ?? undefined,
           aoi: searchParams.aoi ?? undefined,
+          timeSliderBoundaries: searchParams.timeSliderBoundaries,
         });
       } else if (isWorkflow(searchParams)) {
         updateSearchParams({
@@ -39,29 +30,31 @@ export const useTimelineAnalytics = () => {
           },
           jobId: searchParams.jobId || '',
           userWorkspace: searchParams.userWorkspace || '',
+          timeSliderBoundaries: searchParams.timeSliderBoundaries,
         });
       }
-    };
+    },
+    [isCatalogue, isWorkflow, searchParams, updateSearchParams]
+  );
 
+  const updateSearchResultsParams = useMemo(() => {
     return debounce(callback, 300);
-  }, [isCatalogue, isWorkflow, searchParams, updateSearchParams]);
+  }, [callback]);
 
-  const { minDate, maxDate } = useMemo(() => {
-    if (mode === 'search') {
-      return {
-        minDate: createDateString(date.from || undefined),
-        maxDate: createDateString(date.to || undefined),
-      };
-    }
+  const { sliderMinDate, sliderMaxDate, selectedMinDate, selectedMaxDate } = useMemo(() => {
     return {
-      minDate: createDateString(data?.collectionInterval?.from ?? undefined),
-      maxDate: createDateString(data?.collectionInterval?.to ?? undefined),
+      sliderMinDate: createDateString(searchParams?.timeSliderBoundaries?.from ?? undefined),
+      sliderMaxDate: createDateString(searchParams?.timeSliderBoundaries?.to ?? undefined),
+      selectedMinDate: createDateString(searchParams?.date?.from ?? undefined),
+      selectedMaxDate: createDateString(searchParams?.date?.to ?? undefined),
     };
-  }, [mode, date, data]);
+  }, [searchParams]);
 
   return {
-    minDate,
-    maxDate,
+    sliderMinDate,
+    sliderMaxDate,
+    selectedMinDate,
+    selectedMaxDate,
     updateSearchResultsParams,
   };
 };

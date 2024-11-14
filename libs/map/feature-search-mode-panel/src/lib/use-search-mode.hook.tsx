@@ -74,7 +74,7 @@ export const useSearchMode = () => {
 
   const search = useCallback(
     (formData: TUpdateForm) => {
-      updateSearchParams(formData);
+      updateSearchParams({ ...formData, timeSliderBoundaries: formData.date });
       changeView('results');
     },
     [changeView, updateSearchParams]
