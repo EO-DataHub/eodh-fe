@@ -1,6 +1,7 @@
 import type {} from '@redux-devtools/extension';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
+import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -94,6 +95,7 @@ export const useResultsStore = create<TResultsStore>()(
 
         const newSearchParams = {
           ...searchParams,
+          id: searchParams?.id || nanoid(),
           aoi: createGeometry(coordinates),
         };
 

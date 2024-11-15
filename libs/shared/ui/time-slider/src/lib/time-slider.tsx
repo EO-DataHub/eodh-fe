@@ -7,7 +7,7 @@ import {
   type TDateString,
   type TDateTimeString,
 } from '@ukri/shared/utils/date';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { CustomLabel, CustomMark, ValueLabelComponent } from './custom-components';
 import { sliderStyles } from './time-slider.styles';
@@ -30,7 +30,6 @@ const getMarks = (minNum: number, maxNum: number) => {
 type TDate = TDateString | TDateTimeString;
 
 interface ITimeSliderProps {
-  mode: 'search' | 'action-creator'; // todo Slider shouldn't know about mode. Done for now because lack of time to do this properly but it should be fixed in the future
   min: TDate;
   max: TDate;
   selectedMin?: TDate;
@@ -40,7 +39,6 @@ interface ITimeSliderProps {
 }
 
 export const TimeSlider = ({
-  mode,
   min,
   max,
   selectedMin = min,
@@ -48,8 +46,6 @@ export const TimeSlider = ({
   onUpdate,
   className,
 }: ITimeSliderProps) => {
-  const [value, setValue] = useState<number[]>([dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]);
-  const [currentMode, setCurrentMode] = useState<'search' | 'action-creator'>(mode);
   const minNum = getBeginingOfYear(min) ?? undefined;
   const maxNum = getEndYear(max) ?? undefined;
 
@@ -62,37 +58,9 @@ export const TimeSlider = ({
       if (dateFrom && dateTo) {
         onUpdate(dateFrom, dateTo);
       }
-
-      setValue(updatedValue);
     },
     [onUpdate]
   );
-
-  useEffect(() => {
-    const dateFrom = value[0];
-    const dateTo = value[1];
-    const newDateFrom = dateToNumber(min) ?? 0;
-    const newDateTo = dateToNumber(max) ?? 0;
-
-    if (newDateFrom !== dateFrom && newDateTo !== dateTo) {
-      setValue([newDateFrom, newDateTo]);
-    }
-  }, [min, max, value]);
-
-  useEffect(() => {
-    if (mode !== currentMode) {
-      const dateFrom = value[0];
-      const dateTo = value[1];
-      const newDateFrom = dateToNumber(selectedMin) ?? 0;
-      const newDateTo = dateToNumber(selectedMax) ?? 0;
-
-      if (newDateFrom !== dateFrom && newDateTo !== dateTo) {
-        setValue([newDateFrom, newDateTo]);
-      }
-
-      setCurrentMode(mode);
-    }
-  }, [selectedMin, selectedMax, mode, currentMode, value]);
 
   const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);
 
@@ -100,8 +68,7 @@ export const TimeSlider = ({
     <div className={`${sliderStyles.container} ${className}`}>
       <div className={sliderStyles.innerContainer}>
         <Slider
-          defaultValue={[dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]}
-          value={value}
+          value={[dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]}
           onChange={updateSliderValue}
           valueLabelDisplay='auto'
           min={minNum}
