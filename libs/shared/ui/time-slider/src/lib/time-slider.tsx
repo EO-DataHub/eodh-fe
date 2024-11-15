@@ -30,6 +30,7 @@ const getMarks = (minNum: number, maxNum: number) => {
 type TDate = TDateString | TDateTimeString;
 
 interface ITimeSliderProps {
+  mode: 'search' | 'action-creator'; // todo Slider shouldn't know about mode. Done for now because lack of time to do this properly but it should be fixed in the future
   min: TDate;
   max: TDate;
   selectedMin?: TDate;
@@ -39,6 +40,7 @@ interface ITimeSliderProps {
 }
 
 export const TimeSlider = ({
+  mode,
   min,
   max,
   selectedMin = min,
@@ -47,6 +49,7 @@ export const TimeSlider = ({
   className,
 }: ITimeSliderProps) => {
   const [value, setValue] = useState<number[]>([dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]);
+  const [currentMode, setCurrentMode] = useState<'search' | 'action-creator'>(mode);
   const minNum = getBeginingOfYear(min) ?? undefined;
   const maxNum = getEndYear(max) ?? undefined;
 
@@ -75,6 +78,21 @@ export const TimeSlider = ({
       setValue([newDateFrom, newDateTo]);
     }
   }, [min, max, value]);
+
+  useEffect(() => {
+    if (mode !== currentMode) {
+      const dateFrom = value[0];
+      const dateTo = value[1];
+      const newDateFrom = dateToNumber(selectedMin) ?? 0;
+      const newDateTo = dateToNumber(selectedMax) ?? 0;
+
+      if (newDateFrom !== dateFrom && newDateTo !== dateTo) {
+        setValue([newDateFrom, newDateTo]);
+      }
+
+      setCurrentMode(mode);
+    }
+  }, [selectedMin, selectedMax, mode, currentMode, value]);
 
   const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);
 
