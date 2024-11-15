@@ -46,23 +46,35 @@ export const TimeSlider = ({
   onUpdate,
   className,
 }: ITimeSliderProps) => {
+  const [value, setValue] = useState<number[]>([dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]);
   const minNum = getBeginingOfYear(min) ?? undefined;
   const maxNum = getEndYear(max) ?? undefined;
-  const [value, setValue] = useState<number[]>([dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]);
 
-  const updateSliderValue = useCallback((_: Event, newValue: number | number[]) => {
-    const updatedValue = Array.isArray(newValue) ? newValue : [newValue];
-    setValue(updatedValue);
-  }, []);
+  const updateSliderValue = useCallback(
+    (_: Event, newValue: number | number[]) => {
+      const updatedValue = Array.isArray(newValue) ? newValue : [newValue];
+      const dateFrom = numberToDateString(updatedValue[0]);
+      const dateTo = numberToDateString(updatedValue[1], true);
+
+      if (dateFrom && dateTo) {
+        onUpdate(dateFrom, dateTo);
+      }
+
+      setValue(updatedValue);
+    },
+    [onUpdate]
+  );
 
   useEffect(() => {
-    const dateFrom = numberToDateString(value[0]);
-    const dateTo = numberToDateString(value[1], true);
+    const dateFrom = value[0];
+    const dateTo = value[1];
+    const newDateFrom = dateToNumber(min) ?? 0;
+    const newDateTo = dateToNumber(max) ?? 0;
 
-    if (dateFrom && dateTo) {
-      onUpdate(dateFrom, dateTo);
+    if (newDateFrom !== dateFrom && newDateTo !== dateTo) {
+      setValue([newDateFrom, newDateTo]);
     }
-  }, [value, onUpdate]);
+  }, [min, max, value]);
 
   const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);
 
@@ -70,6 +82,7 @@ export const TimeSlider = ({
     <div className={`${sliderStyles.container} ${className}`}>
       <div className={sliderStyles.innerContainer}>
         <Slider
+          defaultValue={[dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]}
           value={value}
           onChange={updateSliderValue}
           valueLabelDisplay='auto'

@@ -1,7 +1,11 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import z from 'zod';
 
-const intervalSchema = z.array(z.array(z.string()).length(2)).length(1);
+const intervalSchema = z
+  .array(
+    z.array(z.custom<NonNullable<TDateString>>((value) => !z.string().datetime().safeParse(value).error)).length(2)
+  )
+  .length(1);
 
 const extentSchema = z.object({
   spatial: z.object({
@@ -12,7 +16,14 @@ const extentSchema = z.object({
   }),
 });
 
-export const collectionInfoSchema = z
+export const collectionInfoCacheSchema = z.object({
+  collectionInterval: z.object({
+    from: z.custom<NonNullable<TDateString>>((value) => !z.string().datetime().safeParse(value).error),
+    to: z.custom<NonNullable<TDateString>>((value) => !z.string().datetime().safeParse(value).error),
+  }),
+});
+
+export const collectionInfoResponseSchema = z
   .object({
     id: z.string(),
     extent: extentSchema,
@@ -20,10 +31,10 @@ export const collectionInfoSchema = z
   .transform((data) => {
     return {
       collectionInterval: {
-        from: data.extent.temporal.interval[0][0] as NonNullable<TDateString>,
-        to: data.extent.temporal.interval[0][1] as NonNullable<TDateString>,
+        from: data.extent.temporal.interval[0][0],
+        to: data.extent.temporal.interval[0][1],
       },
     };
   });
 
-export type TCollectionInfo = z.infer<typeof collectionInfoSchema>;
+export type TCollectionInfo = z.infer<typeof collectionInfoResponseSchema>;

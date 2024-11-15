@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { getHttpClient, queryClient } from '@ukri/shared/utils/react-query';
 
 import { paths } from '../api';
-import { collectionInfoSchema, TCollectionInfo } from './collection-info.model';
+import { collectionInfoCacheSchema, collectionInfoResponseSchema, TCollectionInfo } from './collection-info.model';
 import { queryKey } from './query-key.const';
 
 interface IGetCollectionInfoProps {
@@ -11,21 +11,24 @@ interface IGetCollectionInfoProps {
 }
 
 const getCollectionInfo = async ({ jobId, userWorkspace }: IGetCollectionInfoProps): Promise<TCollectionInfo> => {
-  console.log('getCollectionInfo', jobId, userWorkspace);
+  const cachedResult = queryClient
+    .getQueryCache()
+    .find({ queryKey: queryKey.COLLECTION_INFO({ jobId, userWorkspace }) });
+  const data = collectionInfoCacheSchema.safeParse(cachedResult?.state.data);
+
+  if (data.success) {
+    return Promise.resolve(data.data);
+  }
+
   const response = await getHttpClient().get(paths.COLLECTION_INFO({ userWorkspace, jobId }));
-
-  return collectionInfoSchema.parseAsync(response);
+  return collectionInfoResponseSchema.parse(response);
 };
 
-export type TCollectionInfoParams = {
-  params: IGetCollectionInfoProps;
-  enabled: boolean;
-};
-
-export const useCollectionInfo = ({ params, enabled = true }: TCollectionInfoParams) => {
-  return useQuery<TExtractFnReturnType<typeof getCollectionInfo>>({
-    queryKey: queryKey.COLLECTION_INFO({ params: params, enabled: enabled }),
-    enabled: enabled,
-    queryFn: () => getCollectionInfo(params),
+export const useCollectionInfo = () => {
+  return useMutation({
+    mutationFn: getCollectionInfo,
+    onSuccess: (data, params) => {
+      queryClient.setQueryData(queryKey.COLLECTION_INFO(params), data);
+    },
   });
 };

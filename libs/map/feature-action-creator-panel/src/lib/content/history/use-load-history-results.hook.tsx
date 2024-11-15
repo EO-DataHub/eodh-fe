@@ -1,47 +1,55 @@
-import { useAoi, useMode, useResults } from '@ukri/map/data-access-map';
-import { useCollectionInfo } from '@ukri/map/data-access-map';
+import { useAoi, useCollectionInfo, useMode, useResults } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TIdentityClaims, useAuth } from '@ukri/shared/utils/authorization';
 import { createDateString, formatDate, type TDateString } from '@ukri/shared/utils/date';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 
 export const useLoadHistoryResults = () => {
   const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
   const { searchParams, updateSearchParams } = useResults();
   const { data: catalogData, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
-  const { changeView, mode } = useMode();
-  const enabled = useMemo(() => {
-    console.log('enabled', mode === 'action-creator' && !!searchParams?.jobId && !!searchParams?.userWorkspace, mode, searchParams);
-    return mode === 'action-creator' && !!searchParams?.jobId && !!searchParams?.userWorkspace;
-  }, [mode, searchParams]);
+  const { changeView } = useMode();
 
-  const { data: collectionData } = useCollectionInfo({
-    enabled,
-    params: { jobId: searchParams?.jobId ?? '', userWorkspace: searchParams?.userWorkspace ?? '' },
-  });
+  const { mutateAsync } = useCollectionInfo();
 
   const showResults = useCallback(
-    (jobId: string) => {
+    async (jobId: string) => {
       const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
-      if (userWorkspace) {
-        const timeSliderBoundaries = {
-          from: formatDate(createDateString(collectionData?.collectionInterval.from)) as NonNullable<TDateString>,
-          to: formatDate(createDateString(collectionData?.collectionInterval.to)) as NonNullable<TDateString>,
-        };
 
-        console.log('userWorkspace', userWorkspace, timeSliderBoundaries);
+      if (!userWorkspace) {
+        return;
+      }
+
+      try {
+        const collectionInfo = await mutateAsync({ jobId, userWorkspace });
+
+        const dateFrom = formatDate(
+          createDateString(collectionInfo?.collectionInterval.from)
+        ) as NonNullable<TDateString>;
+        const dateTo = formatDate(createDateString(collectionInfo?.collectionInterval.to)) as NonNullable<TDateString>;
 
         updateSearchParams({
           jobId,
           userWorkspace,
-          timeSliderBoundaries,
-          date: timeSliderBoundaries,
+          timeSliderBoundaries: {
+            from: dateFrom,
+            to: dateTo,
+          },
+          date: {
+            from: dateFrom,
+            to: dateTo,
+          },
         });
-        changeView('results');
+      } catch (error: unknown) {
+        updateSearchParams({
+          jobId,
+          userWorkspace,
+        });
       }
+      changeView('results');
     },
-    [authClient, changeView, updateSearchParams, collectionData]
+    [authClient, mutateAsync, updateSearchParams, changeView]
   );
 
   const hideResults = useCallback(() => {
@@ -56,6 +64,5 @@ export const useLoadHistoryResults = () => {
     showResults,
     hideResults,
     selectedResult: searchParams?.jobId || null,
-    collectionData,
   };
 };

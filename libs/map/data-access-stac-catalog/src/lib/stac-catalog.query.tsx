@@ -16,7 +16,6 @@ const getSearchResults = async (params: TQueryParams): Promise<TCollection> => {
 };
 
 const getWorkflowResults = async (jobId: string, userWorkspace: string, params: TQueryParams): Promise<TCollection> => {
-  console.log('getWorkflowResults', jobId, userWorkspace);
   const response = await getHttpClient().post(paths.WORKFLOW_RESULT({ jobId, userWorkspace }), params);
 
   return collectionSchema.parse(response);
@@ -35,7 +34,6 @@ type TCatalogSearchProps = {
 };
 
 export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
-  // console.log('useCatalogSearch', params);
   const queryBuilderParams: TQueryBuilderParams = useMemo(
     () => ({
       queryParams: params,
