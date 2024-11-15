@@ -111,7 +111,8 @@
         }
       },
       "PRESETS": {
-        "BUTTON": "Load preset"
+        "BUTTON": "Load preset",
+        "COMING_SOON": "Coming soon!"
       },
       "HISTORY": {
         "VIEW_RESULTS": "View results",
@@ -166,7 +167,7 @@
             "DEFAULT_VALUE": "Drawing 1",
             "INSTRUCTIONS": "Use the drawing tools to define an area of interest. Please note we cannot return results for areas greater than {{maxSize}}",
             "DESCRIPTION": "Total area:",
-            "ALLOWED_SIZE": "Max size: {{maxSize}}"
+            "ALLOWED_SIZE": "Please select an area less than {{maxSize}}"
           },
           "DATA_SET": {
             "TITLE": "Data Set",

@@ -1,8 +1,22 @@
 import { Button, Icon, Text } from '@ukri/shared/design-system';
 import clsx from 'clsx';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { presetStyles } from './preset.styles';
+
+const ComingSoonNote = () => {
+  const { t } = useTranslation();
+
+  return (
+    <Text
+      content={t('MAP.ACTION_CREATOR_PANEL.PRESETS.COMING_SOON')}
+      fontSize='large'
+      fontWeight='semibold'
+      className='inline uppercase text-primary-main'
+    />
+  );
+};
 
 interface IImageProps {
   imageUrl: string | undefined;
@@ -47,12 +61,23 @@ export const Preset = ({
   onLoadPresetClick,
   className,
 }: IResultItemProps) => {
+  const presetTitle = useMemo(() => {
+    if (disabled) {
+      return (
+        <span>
+          <ComingSoonNote /> {title}
+        </span>
+      );
+    }
+    return title;
+  }, [title, disabled]);
+
   return (
     <div className={clsx(presetStyles.presetContainer, className)}>
       <Image imageUrl={imageUrl} />
       <div className={presetStyles.contentContainer}>
         <div className='flex-grow'>
-          <Text content={title} fontSize='large' fontWeight='regular' className={presetStyles.title} />
+          <Text content={presetTitle} fontSize='large' fontWeight='regular' className={presetStyles.title} />
           {description && <Text content={description} fontSize='medium' fontWeight='regular' />}
         </div>
         <div className={presetStyles.buttonContainer}>

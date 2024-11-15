@@ -59,8 +59,7 @@ const styles = {
       `shadow-action-creator-node border-2 p-[7px] pt-2 ${nodeType.shadow} ${nodeType.borderColor}`,
     inactive: 'border-bright-dark border p-2',
   },
-  error: 'text-center text-small-semibold text-error mb-0.5',
-  errorText: 'ml-2',
+  error: 'text-center text-small-semibold text-error mb-0.5 px-2',
   childrenWrapper: 'm-t-2 mb-1 w-[134px]',
   text: 'text-action-creator-body text-neutral-light text-center',
   arrow: 'flex justify-center items-center mt-[-3px] mb-0.5',
@@ -130,7 +129,7 @@ export const Node = ({
       >
         {error && (
           <div className={styles.error}>
-            <span className={styles.errorText} dangerouslySetInnerHTML={{ __html: error }}></span>
+            <span dangerouslySetInnerHTML={{ __html: error }}></span>
           </div>
         )}
         {children && <div className={styles.childrenWrapper}>{children}</div>}
