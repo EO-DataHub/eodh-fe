@@ -27,7 +27,7 @@ export const dateToNumber = (date: TDateTimeString | TDateString): number | null
 export const numberToDateString = (num: number, monthEnd?: boolean): TDateString => {
   const year = Math.floor(num);
   const month = Math.round((num - year) * 12);
-  const date = monthEnd ? new Date(year, month + 1, 0, 23, 59, 59, 999) : new Date(year, month);
+  const date = monthEnd ? new Date(Date.UTC(year, month + 1, 0, 23, 59, 59, 999)) : new Date(Date.UTC(year, month));
 
   return formatDate(createDateString(date));
 };
