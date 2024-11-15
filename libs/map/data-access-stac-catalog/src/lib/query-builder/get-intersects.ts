@@ -12,19 +12,7 @@ export const getIntersects = (aoi: Geometry | undefined): TGeometry | undefined 
     return undefined;
   }
 
-  if (isCircle(aoi)) {
-    console.log('circle', {
-      type: 'Polygon',
-      coordinates: fromCircle(aoi).getCoordinates(),
-    });
-  } else if (isPolygon(aoi)) {
-    console.log('polygon', {
-      type: 'Polygon',
-      coordinates: aoi.getCoordinates(),
-    });
-  }
-
-  const aoiEpsg4326 = aoi.clone().transform('EPSG:3857', 'urem');
+  const aoiEpsg4326 = aoi.clone().transform('EPSG:3857', 'EPSG:4326');
 
   if (isCircle(aoiEpsg4326)) {
     return {

@@ -8,7 +8,6 @@ export const useTimelineAnalytics = () => {
 
   const callback = useCallback(
     (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => {
-      console.log('callback', searchParams);
       if (!searchParams) {
         return;
       }
@@ -38,9 +37,9 @@ export const useTimelineAnalytics = () => {
     [isCatalogue, isWorkflow, searchParams, updateSearchParams]
   );
 
-  // const updateSearchResultsParams = useMemo(() => {
-  //   return debounce(callback, 300);
-  // }, [callback]);
+  const updateSearchResultsParams = useMemo(() => {
+    return debounce(callback, 300);
+  }, [callback]);
 
   const { sliderMinDate, sliderMaxDate, selectedMinDate, selectedMaxDate } = useMemo(() => {
     return {
@@ -56,6 +55,6 @@ export const useTimelineAnalytics = () => {
     sliderMaxDate,
     selectedMinDate,
     selectedMaxDate,
-    updateSearchResultsParams: () => {},
+    updateSearchResultsParams,
   };
 };

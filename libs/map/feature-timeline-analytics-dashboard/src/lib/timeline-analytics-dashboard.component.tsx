@@ -10,6 +10,10 @@ export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelPro
   const { sliderMinDate, sliderMaxDate, selectedMinDate, selectedMaxDate, updateSearchResultsParams } =
     useTimelineAnalytics();
 
+  if (!sliderMinDate || !sliderMaxDate) {
+    return null;
+  }
+
   return (
     <TimeSlider
       min={sliderMinDate}
@@ -17,7 +21,7 @@ export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelPro
       selectedMin={selectedMinDate}
       selectedMax={selectedMaxDate}
       className={className}
-      onUpdate={() => {}}
+      onUpdate={updateSearchResultsParams}
     />
   );
 };
