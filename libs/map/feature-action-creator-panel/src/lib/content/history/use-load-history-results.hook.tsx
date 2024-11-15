@@ -30,6 +30,7 @@ export const useLoadHistoryResults = () => {
         const dateTo = formatDate(createDateString(collectionInfo?.collectionInterval.to)) as NonNullable<TDateString>;
 
         updateSearchParams({
+          id: jobId,
           jobId,
           userWorkspace,
           timeSliderBoundaries: {
@@ -43,6 +44,7 @@ export const useLoadHistoryResults = () => {
         });
       } catch (error: unknown) {
         updateSearchParams({
+          id: jobId,
           jobId,
           userWorkspace,
         });

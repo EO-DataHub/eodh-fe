@@ -74,6 +74,7 @@ export type TCoordinate =
     };
 
 export type TCatalogueSearchParams = {
+  id: string;
   dataSets: TDataSets;
   date: {
     from: NonNullable<TDateString>;
@@ -89,6 +90,7 @@ export type TCatalogueSearchParams = {
 };
 
 export type TWorkflowSearchParams = {
+  id: string;
   dataSets?: never;
   aoi?: never;
   date?: {
