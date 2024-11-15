@@ -16,13 +16,6 @@ type TNodeProps = {
 const Node = ({ node, onClearButtonClick }: TNodeProps) => {
   const { t } = useTranslation();
   const { aoiLimit, measurmentUnit } = useSettings();
-  const aoiLimitInfo = useMemo(
-    () =>
-      t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE', {
-        maxSize: convertUnits(aoiLimit, measurmentUnit),
-      }),
-    [t, aoiLimit, measurmentUnit]
-  );
 
   return useMemo(() => {
     switch (node.state) {
@@ -36,16 +29,17 @@ const Node = ({ node, onClearButtonClick }: TNodeProps) => {
           return (
             <ActiveNode
               node={node}
-              text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.INSTRUCTIONS')}
-              error={aoiLimitInfo}
+              text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.INSTRUCTIONS', {
+                maxSize: convertUnits(aoiLimit, measurmentUnit),
+              })}
             />
           );
         }
 
-        return <ValueNode node={node} onClearButtonClick={onClearButtonClick} error={aoiLimitInfo} />;
+        return <ValueNode node={node} onClearButtonClick={onClearButtonClick} />;
       }
     }
-  }, [node, onClearButtonClick, t, aoiLimitInfo]);
+  }, [node, onClearButtonClick, t, aoiLimit, measurmentUnit]);
 };
 
 type TAreaNodeNodeProps = { node: TAreaNode };

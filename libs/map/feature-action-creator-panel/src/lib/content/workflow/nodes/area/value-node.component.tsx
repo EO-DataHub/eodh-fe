@@ -1,6 +1,7 @@
 import { createGeometry, TAreaNode, useActionCreator } from '@ukri/map/data-access-map';
 import { useSettings } from '@ukri/shared/utils/settings';
-import { getArea } from 'ol/extent';
+import { getArea as getOlArea } from 'ol/extent';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Node } from '../node.component';
@@ -50,13 +51,17 @@ export const convertUnits = (area: number, unit: 'km' | 'miles') => {
   return output;
 };
 
-const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km' | 'miles') {
+const getArea = (value: TAreaNode['value']): number => {
   const shape = createGeometry(value);
   if (!shape) {
-    return '';
+    return 0;
   }
-  const area = getArea(shape.getExtent());
+  const extent = shape.getExtent();
+  return extent ? getOlArea(extent as [number, number, number, number]) : 0;
+};
 
+const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km' | 'miles') {
+  const area = getArea(value);
   const output = convertUnits(area, unit);
 
   return `${text.trim()} ${output}`;
@@ -64,14 +69,30 @@ const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km'
 
 type TValueNodeProps = {
   node: TAreaNode;
-  error?: string;
   onClearButtonClick: () => void;
 };
 
-export const ValueNode = ({ node, onClearButtonClick, error }: TValueNodeProps) => {
+export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
   const { t } = useTranslation();
   const { canActivateNode, isLast } = useActionCreator();
-  const { measurmentUnit } = useSettings();
+  const { measurmentUnit, aoiLimit } = useSettings();
+  const aoiLimitInfo = useMemo(
+    () =>
+      t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE', {
+        maxSize: convertUnits(aoiLimit, measurmentUnit),
+      }),
+    [t, aoiLimit, measurmentUnit]
+  );
+
+  const getErrorMessage = useCallback(() => {
+    if (!node.value) {
+      return;
+    }
+
+    if (getArea(node.value) > aoiLimit) {
+      return aoiLimitInfo;
+    }
+  }, [aoiLimit, aoiLimitInfo, node.value]);
 
   return (
     <Node
@@ -81,7 +102,7 @@ export const ValueNode = ({ node, onClearButtonClick, error }: TValueNodeProps) 
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
-      error={error}
+      error={getErrorMessage()}
     >
       <NodeInput
         iconName={getIconFromShape(node.value)}

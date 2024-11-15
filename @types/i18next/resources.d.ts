@@ -149,7 +149,7 @@ interface Resources {
             AREA: {
               TITLE: 'Area';
               DEFAULT_VALUE: 'Drawing 1';
-              INSTRUCTIONS: 'Use the drawing tools to define an area of interest';
+              INSTRUCTIONS: 'Use the drawing tools to define an area of interest. Please note we cannot return results for areas greater than 1,000m2';
               DESCRIPTION: 'Total area:';
             };
             DATA_SET: {
