@@ -121,6 +121,20 @@ interface Resources {
             CTA: 'Refresh workflow history list';
           };
         };
+        TABS_FLOW_MODAL: {
+          DO_NOT_SHOW_AGAIN: 'Don’t show again';
+          CTA_NO: 'No, cancel';
+          WORKFLOW: {
+            HEADER: 'You are about to navigate away from your loaded Workflow results';
+            CONTENT: 'Creating and running a new Workflow will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?';
+            CTA_BUTTON: 'Yes, create new Workflow';
+          };
+          PRESET: {
+            HEADER: 'You are about to navigate away from your loaded Workflow results';
+            CONTENT: 'Loading a preset will replace any data you’re currently viewing. You can still access this data from the Presets tab at the top of the Action Creator. Are you sure you want to do this?';
+            CTA_BUTTON: 'Yes, load Preset';
+          };
+        };
         WORKFLOW: {
           ERROR: {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square miles.';

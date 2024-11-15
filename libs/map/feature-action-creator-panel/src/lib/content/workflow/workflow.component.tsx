@@ -12,6 +12,7 @@ import { Button } from '@ukri/shared/design-system';
 import { useCallback } from 'react';
 
 import { Container, Content, Footer } from '../container.component';
+import { TabsFlowModal } from '../tabs-flow-modal/tabs-flow-modal.component';
 import { AreaNode } from './nodes/area/area-node.component';
 import { DataSetNode } from './nodes/data-set/data-set-node.component';
 import { NodeDateRange } from './nodes/date-range/date-range-node.component';
@@ -82,6 +83,11 @@ export const Workflow = () => {
           </div>
         </section>
         <WorkflowProcessingModal status={status} />
+        <TabsFlowModal
+          header='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.WORKFLOW.HEADER'
+          content='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.WORKFLOW.CONTENT'
+          ctaText='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.WORKFLOW.CTA_BUTTON'
+        />
       </Content>
       <Footer>
         <div className='flex justify-between gap-4 w-full'>
