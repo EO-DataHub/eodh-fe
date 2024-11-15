@@ -1,3 +1,4 @@
+import { useMode } from '@ukri/map/data-access-map';
 import { TimeSlider } from '@ukri/shared/ui/time-slider';
 
 import { useTimelineAnalytics } from './use-timeline-analytics.hook';
@@ -9,6 +10,7 @@ type TActionCreatorPanelProps = {
 export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelProps) => {
   const { sliderMinDate, sliderMaxDate, selectedMinDate, selectedMaxDate, updateSearchResultsParams } =
     useTimelineAnalytics();
+  const { mode } = useMode();
 
   if (!sliderMinDate || !sliderMaxDate) {
     return null;
@@ -16,6 +18,7 @@ export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelPro
 
   return (
     <TimeSlider
+      mode={mode}
       min={sliderMinDate}
       max={sliderMaxDate}
       selectedMin={selectedMinDate}
