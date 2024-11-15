@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 
-import { IDynamicBaseItem } from '../tree-dynamic.model';
-import { IBaseItem, ITreeRoot, TItemType } from './tree-builder.model';
+import { IDynamicBaseItem, TControl } from '../tree-dynamic.model';
+import { IBaseItem, ITreeRoot, TControlValue, TItemType } from './tree-builder.model';
 
 export abstract class BasicTreeItem<
   M extends IDynamicBaseItem,
@@ -27,5 +27,7 @@ export abstract class BasicTreeItem<
     this.parent = parent;
   }
 
-  public abstract toObject: () => IBaseItem<M, P, T>;
+  public abstract toObject: () => Omit<IBaseItem<M, P, T>, 'parent' | 'getValues' | 'toObject'>;
+
+  public abstract getValues: () => TControlValue[];
 }

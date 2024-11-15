@@ -1,10 +1,9 @@
+import { TIterableTreeSliderValues } from '@ukri/map/data-access-map';
 import { Slider, TreeItem } from '@ukri/shared/design-system';
 import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { ITreeSlider } from '../tree-builder/tree-builder.model';
-
-type TSettingsSection = { item: ITreeSlider };
+type TSettingsSection = { item: TIterableTreeSliderValues };
 
 export const SliderItem = ({ item }: TSettingsSection) => {
   const { register } = useFormContext();

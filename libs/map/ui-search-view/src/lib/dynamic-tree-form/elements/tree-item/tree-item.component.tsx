@@ -1,15 +1,16 @@
+import { TIterableTreeItemValues } from '@ukri/map/data-access-map';
 import { TreeItem as UiTreeItem } from '@ukri/shared/design-system';
 import { PropsWithChildren, useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import { SettingsTree } from '../../../tree/components/settings-tree.component';
-import { ITreeItem } from '../../tree-builder/tree-builder.model';
+import { Error } from '../error.component';
 import { Title } from '../title.component';
 import { useControl } from './use-control.hook';
 import { useSlots } from './use-slots.hook';
 
 type TTreeItemProps = {
-  item: ITreeItem;
+  item: TIterableTreeItemValues;
 };
 
 export const TreeItem = ({ item, children }: PropsWithChildren<TTreeItemProps>) => {
@@ -27,14 +28,17 @@ export const TreeItem = ({ item, children }: PropsWithChildren<TTreeItemProps>) 
   }, [enabled, showSettings, showSettingsControlName, setValue]);
 
   return (
-    <UiTreeItem
-      className='text-text-primary'
-      title={<Title title={item.model.translationKey} fontWeight='regular' disabled={disabled} />}
-      slots={slots}
-      expandable={false}
-      disabled={disabled}
-    >
-      {showSettings && <SettingsTree>{children}</SettingsTree>}
-    </UiTreeItem>
+    <>
+      <Error name={valueControlName} />
+      <UiTreeItem
+        className='text-text-primary'
+        title={<Title title={item.model.translationKey} fontWeight='regular' disabled={disabled} />}
+        slots={slots}
+        expandable={false}
+        disabled={disabled}
+      >
+        {showSettings && <SettingsTree>{children}</SettingsTree>}
+      </UiTreeItem>
+    </>
   );
 };

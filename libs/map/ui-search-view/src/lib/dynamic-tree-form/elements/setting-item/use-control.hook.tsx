@@ -1,9 +1,8 @@
+import { TIterableTreeSettingsItemValues } from '@ukri/map/data-access-map';
 import { useMemo } from 'react';
 import { get, useFormContext } from 'react-hook-form';
 
-import { TreeSettingsItem } from '../../tree-builder/tree.settings-item';
-
-export const useControl = (item: TreeSettingsItem) => {
+export const useControl = (item: TIterableTreeSettingsItemValues) => {
   const {
     formState: { errors },
   } = useFormContext();

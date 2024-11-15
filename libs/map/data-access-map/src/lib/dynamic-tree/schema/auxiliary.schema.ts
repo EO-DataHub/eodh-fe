@@ -5,12 +5,12 @@ export const auxiliarySchema: IDynamicTreeCategory = {
   type: 'category',
   controls: {
     expand: {
-      name: 'public.auxiliary.expand',
+      name: 'public.auxiliary.expanded',
       type: 'expand',
       value: true,
     },
     value: {
-      name: 'public.auxiliary.enable',
+      name: 'public.auxiliary.enabled',
       type: 'checkbox',
       value: false,
     },
@@ -21,7 +21,7 @@ export const auxiliarySchema: IDynamicTreeCategory = {
       type: 'item',
       controls: {
         value: {
-          name: 'public.auxiliary.esacciGloballc.enable',
+          name: 'public.auxiliary.esacciGloballc.enabled',
           type: 'checkbox',
         },
       },
@@ -31,7 +31,7 @@ export const auxiliarySchema: IDynamicTreeCategory = {
       type: 'item',
       controls: {
         value: {
-          name: 'public.auxiliary.clmsCorinelc.enable',
+          name: 'public.auxiliary.clmsCorinelc.enabled',
           type: 'checkbox',
         },
       },
@@ -41,7 +41,7 @@ export const auxiliarySchema: IDynamicTreeCategory = {
       type: 'item',
       controls: {
         value: {
-          name: 'public.auxiliary.clmsWaterBodies.enable',
+          name: 'public.auxiliary.clmsWaterBodies.enabled',
           type: 'checkbox',
         },
       },

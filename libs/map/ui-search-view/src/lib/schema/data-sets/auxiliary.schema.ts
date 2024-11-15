@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
 export const auxiliaryInitialSchema = z.object({
+  enabled: z.boolean(),
+  expanded: z.boolean(),
   esacciGloballc: z
     .object({
       enabled: z.boolean(),

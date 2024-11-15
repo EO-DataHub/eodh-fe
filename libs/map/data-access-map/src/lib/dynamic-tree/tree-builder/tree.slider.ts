@@ -5,7 +5,8 @@ import {
   IDynamicTreeSettingItem,
 } from '../tree-dynamic.model';
 import { BasicTreeItem } from './basic-tree.item';
-import { ITreeSlider, ITreeSliderIterable, TOmitRecursively } from './tree-builder.model';
+import { ITreeSlider, ITreeSliderIterable } from './tree-builder.model';
+import { getControlsValues } from './utils';
 
 export class TreeSlider
   extends BasicTreeItem<IDynamicSlider, IDynamicTreeItem | IDynamicTreeSettingItem | IDynamicTreeSettingGroup>
@@ -21,11 +22,12 @@ export class TreeSlider
     super(id, props, parent);
   }
 
-  public toObject = (): ITreeSlider => ({
+  public getValues = () => getControlsValues([this.model]);
+
+  public toObject = () => ({
     id: this.id,
     type: this.type,
     model: this.model,
-    parent: this.parent,
   });
 }
 
@@ -36,10 +38,10 @@ export class TreeSliderIterable extends TreeSlider implements ITreeSliderIterabl
     return new TreeSliderIterable(undefined, props, parent);
   };
 
-  public toObject = (): TOmitRecursively<ITreeSliderIterable, 'toObject'> => ({
+  public toObject = () => ({
     id: this.id,
     type: this.type,
     model: this.model,
-    parent: this.parent,
+    parentId: this.parent.id,
   });
 }

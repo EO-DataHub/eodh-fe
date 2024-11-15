@@ -1,8 +1,7 @@
+import { TIterableTreeItemValues } from '@ukri/map/data-access-map';
 import { useMemo } from 'react';
 
-import { ITreeItem } from '../../tree-builder/tree-builder.model';
-
-export const useControl = (item: ITreeItem) => {
+export const useControl = (item: TIterableTreeItemValues) => {
   const settingControlName = useMemo(
     () => item.model.controls.settings?.name || '',
     [item.model.controls.settings?.name]

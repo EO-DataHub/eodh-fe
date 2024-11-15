@@ -7,9 +7,10 @@ import {
   ITreeRoot,
   ITreeSettingsGroupIterable,
   ITreeSettingsItemIterable,
-  ITreeSliderIterable,
+  ITreeSliderIterable, TControlValue,
   TOmitRecursively,
 } from './tree-builder.model';
+import { getControlsValues } from './utils';
 
 export class TreeItem
   extends BasicTreeItem<IDynamicTreeItem, IDynamicTreeItem | IDynamicTreeCategory, ITreeRoot>
@@ -25,12 +26,13 @@ export class TreeItem
     super(id, props, parent);
   }
 
-  public toObject = (): ITreeItem => ({
+  public toObject = () => ({
     id: this.id,
     type: this.type,
     model: this.model,
-    parent: this.parent,
   });
+
+  public getValues = () => getControlsValues(Object.values(this.model.controls));
 }
 
 export class TreeItemIterable extends TreeItem implements ITreeItemIterable {
@@ -47,12 +49,17 @@ export class TreeItemIterable extends TreeItem implements ITreeItemIterable {
     this.children = createItemChildren(props.children, this);
   }
 
-  public toObject = (): TOmitRecursively<ITreeItemIterable, 'toObject'> =>
+  public toObject = () =>
     ({
       id: this.id,
       type: this.type,
       model: this.model,
-      parent: this.parent,
+      parentId: this.parent.id,
       children: this.children.map((item) => item.toObject()),
-    } as TOmitRecursively<ITreeItemIterable, 'toObject'>);
+    } as TOmitRecursively<ITreeItemIterable & { parentId: string }, 'parent' | 'getValues' | 'toObject'>);
+
+  public getValues = (): TControlValue[] => [
+    ...getControlsValues(Object.values(this.model.controls)),
+    ...this.children.map((item) => item.getValues()).flat(),
+  ];
 }

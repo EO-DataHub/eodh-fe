@@ -6,8 +6,20 @@ import { ResultsView } from './results-view.component';
 import { useSearchMode } from './use-search-mode.hook';
 
 export const SearchModePanel = () => {
-  const { schema, data, state, status, values, updateState, view, changeToSearchView, search, searchType } =
-    useSearchMode();
+  const {
+    schema,
+    data,
+    state,
+    status,
+    values,
+    treeModel,
+    updateState,
+    view,
+    changeToSearchView,
+    search,
+    searchType,
+    updateDataSets,
+  } = useSearchMode();
 
   switch (view) {
     case 'results': {
@@ -16,7 +28,15 @@ export const SearchModePanel = () => {
       }
 
       return (
-        <SearchView state={state} defaultValues={values} schema={schema} onChange={updateState} onSubmit={search}>
+        <SearchView
+          state={state}
+          defaultValues={values}
+          treeModel={treeModel}
+          schema={schema}
+          onChange={updateState}
+          onChange2={updateDataSets}
+          onSubmit={search}
+        >
           <Header>
             <Text
               content='MAP.SEARCH_MODE_PANEL.HEADER.BROWSE_DATA_SETS'
@@ -33,7 +53,15 @@ export const SearchModePanel = () => {
     default:
     case 'search': {
       return (
-        <SearchView state={state} defaultValues={values} schema={schema} onChange={updateState} onSubmit={search}>
+        <SearchView
+          state={state}
+          defaultValues={values}
+          treeModel={treeModel}
+          schema={schema}
+          onChange={updateState}
+          onChange2={updateDataSets}
+          onSubmit={search}
+        >
           <Header>
             <Text
               content='MAP.SEARCH_MODE_PANEL.HEADER.BROWSE_DATA_SETS'

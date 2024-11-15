@@ -5,8 +5,9 @@ import {
   ITreeSettingsGroup,
   ITreeSettingsGroupIterable,
   ITreeSettingsItemIterable,
-  TOmitRecursively,
+  TControlValue,
 } from './tree-builder.model';
+import { getControlsValues } from './utils';
 
 export class TreeSettingsGroup
   extends BasicTreeItem<IDynamicTreeSettingGroup, IDynamicTreeItem | IDynamicTreeSettingItem | IDynamicTreeSettingGroup>
@@ -22,11 +23,12 @@ export class TreeSettingsGroup
     super(id, props, parent);
   }
 
-  public toObject = (): ITreeSettingsGroup => ({
+  public getValues = (): TControlValue[] => [];
+
+  public toObject = () => ({
     id: this.id,
     type: this.type,
     model: this.model,
-    parent: this.parent,
   });
 }
 
@@ -42,11 +44,13 @@ export class TreeSettingsGroupIterable extends TreeSettingsGroup implements ITre
     this.children = createItemChildren(props.children, this);
   }
 
-  public toObject = (): TOmitRecursively<ITreeSettingsGroupIterable, 'toObject'> => ({
+  public toObject = () => ({
     id: this.id,
     type: this.type,
     model: this.model,
-    parent: this.parent,
+    parentId: this.parent.id,
     children: this.children.map((item) => item.toObject()),
   });
+
+  public getValues = (): TControlValue[] => this.children.map((item) => item.getValues()).flat();
 }

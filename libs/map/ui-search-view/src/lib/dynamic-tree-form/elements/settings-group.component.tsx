@@ -1,12 +1,12 @@
+import { TIterableTreeSettingsGroupValues } from '@ukri/map/data-access-map';
 import { TreeItem } from '@ukri/shared/design-system';
 import { ReactNode, useMemo } from 'react';
 
-import { ITreeSettingsGroup } from '../tree-builder/tree-builder.model';
 import { getTreeIndent, IndentProvider, TIndent, useIndent, useNextIndent } from './indent.provider';
 import { Title } from './title.component';
 
 type TSettingsSection = {
-  item: ITreeSettingsGroup;
+  item: TIterableTreeSettingsGroupValues;
   disabled?: boolean;
   indent?: TIndent;
   children: (disabled?: boolean) => ReactNode;

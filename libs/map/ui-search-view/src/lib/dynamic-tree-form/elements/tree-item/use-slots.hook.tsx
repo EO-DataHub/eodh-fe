@@ -1,8 +1,8 @@
+import { TIterableTreeItemValues } from '@ukri/map/data-access-map';
 import { Checkbox as BaseCheckbox, Icon, TSlots } from '@ukri/shared/design-system';
 import { useCallback, useMemo } from 'react';
 import { get, useFormContext, useWatch } from 'react-hook-form';
 
-import { ITreeItem } from '../../tree-builder/tree-builder.model';
 import { useControl } from './use-control.hook';
 
 type TSettingsIconProps = { value: boolean; disabled: boolean };
@@ -46,7 +46,7 @@ const SettingsButton = ({ value, disabled, onClick }: TSettingsButtonProps) => {
   );
 };
 
-export const useSlots = (item: ITreeItem, renderSettingsButton: boolean): TSlots => {
+export const useSlots = (item: TIterableTreeItemValues, renderSettingsButton: boolean): TSlots => {
   const { setValue } = useFormContext();
   const { settingControlName, showSettingsControlName, valueControlName, disabled } = useControl(item);
   const showSettings = useWatch({ name: showSettingsControlName });

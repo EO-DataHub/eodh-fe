@@ -4,8 +4,9 @@ import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { dataSets, TDataSetsDefaultValues } from './data-sets.default-values';
+import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
 import {
+  defaultDataSetValues,
   defaultState,
   TDataSetsState,
   TDataSetsStore,
@@ -17,18 +18,21 @@ import {
 const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TDataSetsStore): Partial<TDataSetsStore> => {
   switch (dataSet) {
     case 'sentinel-1': {
-      if (!state.dataSets.copernicus.sentinel1) {
+      if (!state.dataSets.public.copernicus.sentinel1) {
         return state;
       }
 
       return {
         dataSets: {
-          ...dataSets,
-          copernicus: {
-            ...dataSets.copernicus,
-            sentinel1: {
-              ...state.dataSets.copernicus.sentinel1,
-              enabled: true,
+          ...defaultDataSetValues,
+          public: {
+            ...defaultDataSetValues.public,
+            copernicus: {
+              ...defaultDataSetValues.public.copernicus,
+              sentinel1: {
+                ...state.dataSets.public.copernicus.sentinel1,
+                enabled: true,
+              },
             },
           },
         },
@@ -36,25 +40,28 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
     }
 
     case 'sentinel-2-l1c': {
-      if (!state.dataSets.copernicus.sentinel2) {
+      if (!state.dataSets.public.copernicus.sentinel2) {
         return state;
       }
 
-      const sentinel2 = dataSets.copernicus.sentinel2
-        ? dataSets.copernicus.sentinel2
-        : state.dataSets.copernicus.sentinel2;
+      const sentinel2 = defaultDataSetValues.public.copernicus.sentinel2
+        ? defaultDataSetValues.public.copernicus.sentinel2
+        : state.dataSets.public.copernicus.sentinel2;
 
       return {
         dataSets: {
-          ...dataSets,
-          copernicus: {
-            ...dataSets.copernicus,
-            sentinel2: {
-              ...sentinel2,
-              enabled: true,
-              expanded: true,
-              l1c: true,
-              l2a: false,
+          ...defaultDataSetValues,
+          public: {
+            ...defaultDataSetValues.public,
+            copernicus: {
+              ...defaultDataSetValues.public.copernicus,
+              sentinel2: {
+                ...sentinel2,
+                enabled: true,
+                expanded: true,
+                l1c: true,
+                l2a: false,
+              },
             },
           },
         },
@@ -62,25 +69,28 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
     }
 
     case 'sentinel-2-l2a': {
-      if (!state.dataSets.copernicus.sentinel2) {
+      if (!state.dataSets.public.copernicus.sentinel2) {
         return state;
       }
 
-      const sentinel2 = dataSets.copernicus.sentinel2
-        ? dataSets.copernicus.sentinel2
-        : state.dataSets.copernicus.sentinel2;
+      const sentinel2 = defaultDataSetValues.public.copernicus.sentinel2
+        ? defaultDataSetValues.public.copernicus.sentinel2
+        : state.dataSets.public.copernicus.sentinel2;
 
       return {
         dataSets: {
-          ...dataSets,
-          copernicus: {
-            ...dataSets.copernicus,
-            sentinel2: {
-              ...sentinel2,
-              enabled: true,
-              expanded: true,
-              l1c: false,
-              l2a: true,
+          ...defaultDataSetValues,
+          public: {
+            ...defaultDataSetValues.public,
+            copernicus: {
+              ...defaultDataSetValues.public.copernicus,
+              sentinel2: {
+                ...sentinel2,
+                enabled: true,
+                expanded: true,
+                l1c: false,
+                l2a: true,
+              },
             },
           },
         },
@@ -88,22 +98,25 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
     }
 
     case 'sentinel-3': {
-      if (!state.dataSets.copernicus.sentinel3) {
+      if (!state.dataSets.public.copernicus.sentinel3) {
         return state;
       }
 
-      const sentinel3 = dataSets.copernicus.sentinel3
-        ? dataSets.copernicus.sentinel3
-        : state.dataSets.copernicus.sentinel3;
+      const sentinel3 = defaultDataSetValues.public.copernicus.sentinel3
+        ? defaultDataSetValues.public.copernicus.sentinel3
+        : state.dataSets.public.copernicus.sentinel3;
 
       return {
         dataSets: {
-          ...dataSets,
-          copernicus: {
-            ...dataSets.copernicus,
-            sentinel3: {
-              ...sentinel3,
-              enabled: true,
+          ...defaultDataSetValues,
+          public: {
+            ...defaultDataSetValues.public,
+            copernicus: {
+              ...defaultDataSetValues.public.copernicus,
+              sentinel3: {
+                ...sentinel3,
+                enabled: true,
+              },
             },
           },
         },
@@ -111,22 +124,25 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
     }
 
     case 'sentinel-5p': {
-      if (!state.dataSets.copernicus.sentinel5P) {
+      if (!state.dataSets.public.copernicus.sentinel5P) {
         return state;
       }
 
-      const sentinel5P = dataSets.copernicus.sentinel5P
-        ? dataSets.copernicus.sentinel5P
-        : state.dataSets.copernicus.sentinel5P;
+      const sentinel5P = defaultDataSetValues.public.copernicus.sentinel5P
+        ? defaultDataSetValues.public.copernicus.sentinel5P
+        : state.dataSets.public.copernicus.sentinel5P;
 
       return {
         dataSets: {
-          ...dataSets,
-          copernicus: {
-            ...dataSets.copernicus,
-            sentinel5P: {
-              ...sentinel5P,
-              enabled: true,
+          ...defaultDataSetValues,
+          public: {
+            ...defaultDataSetValues.public,
+            copernicus: {
+              ...defaultDataSetValues.public.copernicus,
+              sentinel5P: {
+                ...sentinel5P,
+                enabled: true,
+              },
             },
           },
         },
@@ -134,22 +150,25 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
     }
 
     case 'esacci-globallc': {
-      if (!state.dataSets.auxiliary?.esacciGloballc) {
+      if (!state.dataSets.public.auxiliary?.esacciGloballc) {
         return state;
       }
 
-      const esacciGloballc = dataSets.auxiliary?.esacciGloballc
-        ? dataSets.auxiliary?.esacciGloballc
-        : state.dataSets.auxiliary?.esacciGloballc;
+      const esacciGloballc = defaultDataSetValues.public.auxiliary?.esacciGloballc
+        ? defaultDataSetValues.public.auxiliary?.esacciGloballc
+        : state.dataSets.public.auxiliary?.esacciGloballc;
 
       return {
         dataSets: {
-          ...dataSets,
-          auxiliary: {
-            ...dataSets.auxiliary,
-            esacciGloballc: {
-              ...esacciGloballc,
-              enabled: true,
+          ...defaultDataSetValues,
+          public: {
+            ...defaultDataSetValues.public,
+            auxiliary: {
+              ...defaultDataSetValues.public.auxiliary,
+              esacciGloballc: {
+                ...esacciGloballc,
+                enabled: true,
+              },
             },
           },
         },
@@ -157,22 +176,25 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
     }
 
     case 'clms-corinelc': {
-      if (!state.dataSets.auxiliary?.clmsCorinelc) {
+      if (!state.dataSets.public.auxiliary?.clmsCorinelc) {
         return state;
       }
 
-      const clmsCorinelc = dataSets.auxiliary?.clmsCorinelc
-        ? dataSets.auxiliary?.clmsCorinelc
-        : state.dataSets.auxiliary?.clmsCorinelc;
+      const clmsCorinelc = defaultDataSetValues.public.auxiliary?.clmsCorinelc
+        ? defaultDataSetValues.public.auxiliary?.clmsCorinelc
+        : state.dataSets.public.auxiliary?.clmsCorinelc;
 
       return {
         dataSets: {
-          ...dataSets,
-          auxiliary: {
-            ...dataSets.auxiliary,
-            clmsCorinelc: {
-              ...clmsCorinelc,
-              enabled: true,
+          ...defaultDataSetValues,
+          public: {
+            ...defaultDataSetValues.public,
+            auxiliary: {
+              ...defaultDataSetValues.public.auxiliary,
+              clmsCorinelc: {
+                ...clmsCorinelc,
+                enabled: true,
+              },
             },
           },
         },
@@ -180,22 +202,25 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
     }
 
     case 'clms-water-bodies': {
-      if (!state.dataSets.auxiliary?.clmsWaterBodies) {
+      if (!state.dataSets.public.auxiliary?.clmsWaterBodies) {
         return state;
       }
 
-      const clmsWaterBodies = dataSets.auxiliary?.clmsWaterBodies
-        ? dataSets.auxiliary?.clmsWaterBodies
-        : state.dataSets.auxiliary?.clmsWaterBodies;
+      const clmsWaterBodies = defaultDataSetValues.public.auxiliary?.clmsWaterBodies
+        ? defaultDataSetValues.public.auxiliary?.clmsWaterBodies
+        : state.dataSets.public.auxiliary?.clmsWaterBodies;
 
       return {
         dataSets: {
-          ...dataSets,
-          auxiliary: {
-            ...dataSets.auxiliary,
-            clmsWaterBodies: {
-              ...clmsWaterBodies,
-              enabled: true,
+          ...defaultDataSetValues,
+          public: {
+            ...defaultDataSetValues.public,
+            auxiliary: {
+              ...defaultDataSetValues.public.auxiliary,
+              clmsWaterBodies: {
+                ...clmsWaterBodies,
+                enabled: true,
+              },
             },
           },
         },
@@ -209,8 +234,9 @@ const enableDataSet = (dataSet: TDataSetValue | string | undefined, state: TData
 export const useDataSetsStore = create<TDataSetsStore>()(
   devtools((set) => ({
     ...defaultState,
-    updateDataSets: (dataSets: Omit<TDataSetsDefaultValues, 'status'> | undefined) =>
+    updateDataSets: (dataSets: TDataSetsValues | undefined) =>
       set((state) => {
+        console.log('updateDataSets', isEqual(dataSets, state.dataSets), dataSets, state.dataSets);
         return isEqual(dataSets, state.dataSets)
           ? state
           : { dataSets: dataSets ? { ...cloneDeep(dataSets), status: 'updated' } : defaultState.dataSets };

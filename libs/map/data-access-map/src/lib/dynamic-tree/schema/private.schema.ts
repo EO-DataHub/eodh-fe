@@ -9,7 +9,7 @@ export const privateSchema: IDynamicTreeCategory = {
   },
   controls: {
     expand: {
-      name: 'private.expand',
+      name: 'private.expanded',
       type: 'expand',
       value: true,
     },
@@ -25,7 +25,7 @@ export const privateSchema: IDynamicTreeCategory = {
           value: true,
         },
         value: {
-          name: 'private.planet.enable',
+          name: 'private.planet.enabled',
           type: 'checkbox',
           value: false,
         },

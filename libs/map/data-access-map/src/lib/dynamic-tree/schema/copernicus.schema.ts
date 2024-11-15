@@ -5,12 +5,12 @@ export const copernicusSchema: IDynamicTreeCategory = {
   type: 'category',
   controls: {
     expand: {
-      name: 'public.copernicus.expand',
+      name: 'public.copernicus.expanded',
       type: 'expand',
       value: true,
     },
     value: {
-      name: 'public.copernicus.enable',
+      name: 'public.copernicus.enabled',
       type: 'checkbox',
       value: false,
     },
@@ -21,11 +21,11 @@ export const copernicusSchema: IDynamicTreeCategory = {
       type: 'item',
       controls: {
         settings: {
-          name: 'public.copernicus.sentinel1.expand',
+          name: 'public.copernicus.sentinel1.expanded',
           type: 'button',
         },
         value: {
-          name: 'public.copernicus.sentinel1.enable',
+          name: 'public.copernicus.sentinel1.enabled',
           type: 'checkbox',
         },
       },
@@ -92,10 +92,10 @@ export const copernicusSchema: IDynamicTreeCategory = {
                   children: [
                     {
                       type: 'settingItem',
-                      translationKey: 'VV',
+                      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV',
                       controls: {
                         value: {
-                          name: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV',
+                          name: 'public.copernicus.sentinel1.acquisitionMode.vv',
                           type: 'checkbox',
                           value: true,
                         },
@@ -103,10 +103,10 @@ export const copernicusSchema: IDynamicTreeCategory = {
                     },
                     {
                       type: 'settingItem',
-                      translationKey: 'VV+VH',
+                      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV_VH',
                       controls: {
                         value: {
-                          name: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV_VH',
+                          name: 'public.copernicus.sentinel1.acquisitionMode.vv_vh',
                           type: 'checkbox',
                           value: true,
                         },
@@ -153,11 +153,11 @@ export const copernicusSchema: IDynamicTreeCategory = {
       type: 'item',
       controls: {
         settings: {
-          name: 'public.copernicus.sentinel2.expand',
+          name: 'public.copernicus.sentinel2.expanded',
           type: 'button',
         },
         value: {
-          name: 'public.copernicus.sentinel2.enable',
+          name: 'public.copernicus.sentinel2.enabled',
           type: 'checkbox',
         },
       },
@@ -197,11 +197,11 @@ export const copernicusSchema: IDynamicTreeCategory = {
       type: 'item',
       controls: {
         settings: {
-          name: 'public.copernicus.sentinel3.expand',
+          name: 'public.copernicus.sentinel3.expanded',
           type: 'button',
         },
         value: {
-          name: 'public.copernicus.sentinel3.enable',
+          name: 'public.copernicus.sentinel3.enabled',
           type: 'checkbox',
         },
       },
@@ -244,11 +244,11 @@ export const copernicusSchema: IDynamicTreeCategory = {
       type: 'item',
       controls: {
         settings: {
-          name: 'public.copernicus.sentinel5P.expand',
+          name: 'public.copernicus.sentinel5P.expanded',
           type: 'button',
         },
         value: {
-          name: 'public.copernicus.sentinel5P.enable',
+          name: 'public.copernicus.sentinel5P.enabled',
           type: 'checkbox',
         },
       },

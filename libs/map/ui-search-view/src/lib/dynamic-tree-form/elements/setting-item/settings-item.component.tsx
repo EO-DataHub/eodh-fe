@@ -1,8 +1,8 @@
+import { TIterableTreeSettingsItemValues } from '@ukri/map/data-access-map';
 import { TreeItem } from '@ukri/shared/design-system';
 import { ReactNode } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { TreeSettingsItem } from '../../tree-builder/tree.settings-item';
 import { Error } from '../error.component';
 import { getTreeIndent, IndentProvider, TIndent, useIndent, useNextIndent } from '../indent.provider';
 import { Title } from '../title.component';
@@ -10,7 +10,7 @@ import { useControl } from './use-control.hook';
 import { useSlots } from './use-slots.hook';
 
 type TSettingsItemProps = {
-  item: TreeSettingsItem;
+  item: TIterableTreeSettingsItemValues;
   indent?: TIndent;
   disabled?: boolean;
   children: (disabled?: boolean) => ReactNode;

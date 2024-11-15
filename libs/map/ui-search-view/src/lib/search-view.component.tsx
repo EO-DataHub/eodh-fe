@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAoi } from '@ukri/map/data-access-map';
+import { TDynamicTreeModel, useAoi } from '@ukri/map/data-access-map';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useState } from 'react';
@@ -9,7 +9,6 @@ import { AreaOfInterest } from './aoi.component';
 import { useSyncChecklistState } from './checklist/use-checklist.hook';
 import { DateRangePicker } from './date-range-picker/date-range-picker.component';
 import { DynamicTreeForm } from './dynamic-tree-form/tree.component';
-import { dynamicTreeForm } from './dynamic-tree-form/tree.dynamic';
 import { getSchema, TInitialForm, TSchema, TUpdateForm } from './schema/form.schema';
 import { SearchViewProvider, TSearchViewState } from './search-view.context';
 import { SubmitButton } from './submit-button.component';
@@ -23,8 +22,10 @@ type TSearchPanelProps = {
   state: TSearchViewState | undefined;
   schema: TSchema;
   defaultValues?: TInitialForm;
+  treeModel: TDynamicTreeModel;
   onSubmit: (data: TUpdateForm) => unknown | Promise<unknown>;
   onChange?: (data: TInitialForm) => unknown | Promise<unknown>;
+  onChange2?: (data: Omit<TInitialForm['dataSets'], 'status'>) => unknown | Promise<unknown>;
 };
 
 export const SearchView = ({
@@ -32,7 +33,9 @@ export const SearchView = ({
   schema,
   onSubmit,
   onChange,
+  onChange2,
   defaultValues,
+  treeModel,
   children,
 }: PropsWithChildren<TSearchPanelProps>) => {
   const [initialValues] = useState(defaultValues);
@@ -43,7 +46,7 @@ export const SearchView = ({
   });
   const { shape } = useAoi();
 
-  useFormUpdate(form, schema, onChange);
+  // useFormUpdate(form, schema, onChange);
   useSyncChecklistState(form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
 
   useEffect(() => {
@@ -71,7 +74,13 @@ export const SearchView = ({
           {/*  <DynamicTree tree={dynamicTree} />*/}
           {/*</div>*/}
           <div className='flex-1 overflow-y-auto pb-4'>
-            <DynamicTreeForm tree={dynamicTreeForm} />
+            <DynamicTreeForm
+              state={state}
+              tree={treeModel}
+              schema={schema}
+              defaultValues={defaultValues?.dataSets}
+              onChange={onChange2}
+            />
           </div>
           <div className='flex-1 overflow-y-auto pb-4'>
             <Tree schema={schema} />

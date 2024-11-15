@@ -1,4 +1,5 @@
-import { TTreeElementIterable } from '../tree-builder/tree-builder.model';
+import { TTreeElementIterable } from '@ukri/map/data-access-map';
+
 import { SettingsItem } from './setting-item/settings-item.component';
 import { SettingsGroup } from './settings-group.component';
 import { SliderItem } from './slider-item.component';
@@ -14,7 +15,7 @@ export const TreeElement = ({ item, disabled }: TTreeElementProps) => {
   switch (item.type) {
     case 'category': {
       return (
-        <TreeCategory item={item}>
+        <TreeCategory item={item.toObject()}>
           {item.children?.map((item) => (
             <TreeElement key={item.id} item={item} />
           ))}
@@ -24,7 +25,7 @@ export const TreeElement = ({ item, disabled }: TTreeElementProps) => {
 
     case 'item': {
       return (
-        <TreeItem item={item}>
+        <TreeItem item={item.toObject()}>
           {item.children?.map((item) => (
             <TreeElement key={item.id} item={item} />
           ))}
@@ -34,7 +35,7 @@ export const TreeElement = ({ item, disabled }: TTreeElementProps) => {
 
     case 'settingGroup': {
       return (
-        <SettingsGroup item={item} disabled={disabled}>
+        <SettingsGroup item={item.toObject()} disabled={disabled}>
           {(disabled) => item.children?.map((item) => <TreeElement key={item.id} item={item} disabled={disabled} />)}
         </SettingsGroup>
       );
@@ -42,14 +43,14 @@ export const TreeElement = ({ item, disabled }: TTreeElementProps) => {
 
     case 'settingItem': {
       return (
-        <SettingsItem item={item} disabled={disabled}>
+        <SettingsItem item={item.toObject()} disabled={disabled}>
           {(disabled) => item.children?.map((item) => <TreeElement key={item.id} item={item} disabled={disabled} />)}
         </SettingsItem>
       );
     }
 
     case 'slider': {
-      return <SliderItem item={item} />;
+      return <SliderItem item={item.toObject()} />;
     }
 
     default: {

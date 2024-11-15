@@ -1,13 +1,13 @@
+import { TIterableTreeCategoryValues } from '@ukri/map/data-access-map';
 import { TreeItem as UiTreeItem } from '@ukri/shared/design-system';
 import { PropsWithChildren } from 'react';
 import { useWatch } from 'react-hook-form';
 
-import { ITreeCategory } from '../../tree-builder/tree-builder.model';
 import { useControl } from './use-control.hook';
 import { useSlots } from './use-slots.hook';
 
 type TTreeCategoryProps = {
-  item: ITreeCategory;
+  item: TIterableTreeCategoryValues;
 };
 
 export const TreeCategory = ({ item, children }: PropsWithChildren<TTreeCategoryProps>) => {

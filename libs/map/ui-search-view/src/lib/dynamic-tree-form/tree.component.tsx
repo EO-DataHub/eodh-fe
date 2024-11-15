@@ -1,69 +1,58 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { TDynamicTreeModel, TreeBuilder } from '@ukri/map/data-access-map';
 import { Tree as TreeWrapper } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import set from 'lodash/set';
-import { useMemo } from 'react';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
+import { useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { getSchema2, TInitialForm, TSchema } from '../schema/form.schema';
+import { TSearchViewState } from '../search-view.context';
 import { TreeElement } from './elements/tree-element.component';
-import { TreeBuilder } from './tree-builder/tree.builder';
-import { TDynamicTreeElement, TDynamicTreeModel } from './tree-dynamic.model';
-
-const getControls = (tree: TDynamicTreeElement[]): { name: string; value?: boolean | number }[] => {
-  let results: { name: string; value?: boolean | number }[] = [];
-
-  for (let i = 0; i < tree.length; i++) {
-    const item = tree[i];
-
-    if (item.type === 'slider') {
-      results = [...results, { value: item.value, name: item.name }];
-    }
-
-    if (item.type !== 'settingGroup' && item.controls && Object.keys(item.controls).length) {
-      results = [...results, ...Object.values(item.controls)];
-    }
-
-    if (item.children) {
-      results = [...results, ...getControls(item.children)];
-    }
-  }
-
-  return results;
-};
-
-const getControlsAsObject = (tree: TDynamicTreeElement[]) => {
-  const controls = getControls(tree);
-  const result = {};
-
-  controls.forEach((control) => {
-    set(result, control.name, control.value);
-  });
-
-  return result;
-};
+import { useFormUpdate } from './use-form-update.component';
 
 type TTreeProps = {
+  state: TSearchViewState | undefined;
   tree: TDynamicTreeModel;
+  schema: TSchema;
+  defaultValues?: TInitialForm['dataSets'];
+  onChange?: (data: TInitialForm['dataSets']) => unknown | Promise<unknown>;
 };
 
-export const DynamicTreeForm = ({ tree }: TTreeProps) => {
+export const DynamicTreeForm = ({ state = 'edit', tree, schema, defaultValues, onChange }: TTreeProps) => {
+  const [initialValues] = useState(defaultValues);
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
 
   const treeBuilder = useMemo(() => new TreeBuilder(tree), [tree]);
-  // const treeBuilderObject = useMemo(() => new TreeBuilder(tree).toObject(), [tree]);
 
-  // const controls = getControlsAsObject(tree);
-  // console.log('controls', controls, treeBuilder, treeBuilderObject);
-
-  const form2 = useForm({
-    defaultValues: getControlsAsObject(tree),
-    // resolver: zodResolver(getSchema(schema).update),
+  const form = useForm({
+    defaultValues: initialValues,
+    resolver: zodResolver(getSchema2(schema).update),
     reValidateMode: 'onChange',
   });
 
+  useEffect(() => {
+    const values = { ...form.getValues(), ...form.watch() };
+
+    if (defaultValues && !isEqual(values, defaultValues)) {
+      const data = cloneDeep(defaultValues);
+      form.reset(data, { keepDefaultValues: true });
+
+      if (state === 'edit') {
+        form.trigger();
+      } else {
+        form.clearErrors();
+      }
+    }
+  }, [form, defaultValues, state]);
+
+  useFormUpdate(form, schema, onChange);
+
   return (
-    <FormProvider {...form2}>
+    <FormProvider {...form}>
       <TreeWrapper>
         <OnboardingTooltip
           tipLocation='left'

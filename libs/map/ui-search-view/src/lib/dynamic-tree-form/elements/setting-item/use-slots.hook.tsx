@@ -1,11 +1,11 @@
+import { TIterableTreeSettingsItemValues } from '@ukri/map/data-access-map';
 import { Checkbox, TSlots } from '@ukri/shared/design-system';
 import { useCallback, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { TreeSettingsItem } from '../../tree-builder/tree.settings-item';
 import { useControl } from './use-control.hook';
 
-export const useSlots = (item: TreeSettingsItem, forceDisabled?: boolean) => {
+export const useSlots = (item: TIterableTreeSettingsItemValues, forceDisabled?: boolean) => {
   const { register, trigger } = useFormContext();
   const { valueControlName, state, disabled } = useControl(item);
 

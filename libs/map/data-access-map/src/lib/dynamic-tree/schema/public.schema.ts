@@ -11,7 +11,7 @@ export const publicSchema: IDynamicTreeCategory = {
   },
   controls: {
     expand: {
-      name: 'public.expand',
+      name: 'public.expanded',
       type: 'expand',
       value: true,
     },

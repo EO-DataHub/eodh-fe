@@ -14,13 +14,22 @@ const rapidEyeSchema = z.object({
 
 export const planetSchema = z.object({
   enabled: z.boolean(),
-  planetScope: planetScopeSchema.extend({
-    expanded: z.boolean(),
-  }),
-  skySat: skySatSchema.extend({
-    expanded: z.boolean(),
-  }),
-  rapidEye: rapidEyeSchema.extend({
-    expanded: z.boolean(),
-  }),
+  planetScope: planetScopeSchema
+    .extend({
+      expanded: z.boolean(),
+      enabled: z.boolean().optional(),
+    })
+    .optional(),
+  skySat: skySatSchema
+    .extend({
+      expanded: z.boolean(),
+      enabled: z.boolean().optional(),
+    })
+    .optional(),
+  rapidEye: rapidEyeSchema
+    .extend({
+      expanded: z.boolean(),
+      enabled: z.boolean().optional(),
+    })
+    .optional(),
 });

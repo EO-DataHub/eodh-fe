@@ -1,21 +1,20 @@
+import { TIterableTreeCategoryValues } from '@ukri/map/data-access-map';
 import isArray from 'lodash/isArray';
 import { useEffect, useMemo } from 'react';
 import { useController, useFormContext, useWatch } from 'react-hook-form';
 
-import { ITreeCategory } from '../../tree-builder/tree-builder.model';
-
-const useChildControlNames = (item: ITreeCategory) => {
+const useChildControlNames = (item: TIterableTreeCategoryValues): string[] => {
   return useMemo(() => {
     return (item.model.children || [])
       .filter((item) => !item.options?.disabled)
       .map((item) => item.controls.value)
       .flat()
-      .map((control) => control?.name)
+      .map((control) => control?.name as string | undefined)
       .filter((item): item is string => !!item);
   }, [item.model.children]);
 };
 
-export const useControl = (item: ITreeCategory) => {
+export const useControl = (item: TIterableTreeCategoryValues) => {
   const { setValue } = useFormContext();
   const disabled = useMemo(() => item.model.options?.disabled, [item.model.options?.disabled]);
   const expandedControlName = useMemo(() => item.model.controls.expand.name, [item.model.controls.expand.name]);

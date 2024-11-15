@@ -9,24 +9,29 @@ const notDisplayedErrorMessage = '';
 
 export const copernicusInitialSchema = z.object({
   enabled: z.boolean(),
+  expanded: z.boolean(),
   sentinel1: sentinel1Schema
     .extend({
-      expanded: z.boolean(),
+      expanded: z.boolean().optional(),
+      enabled: z.boolean().optional(),
     })
     .optional(),
   sentinel2: sentinel2Schema
     .extend({
-      expanded: z.boolean(),
+      expanded: z.boolean().optional(),
+      enabled: z.boolean().optional(),
     })
     .optional(),
   sentinel3: sentinel3Schema
     .extend({
-      expanded: z.boolean(),
+      expanded: z.boolean().optional(),
+      enabled: z.boolean().optional(),
     })
     .optional(),
   sentinel5P: sentinel5pSchema
     .extend({
-      expanded: z.boolean(),
+      expanded: z.boolean().optional(),
+      enabled: z.boolean().optional(),
     })
     .optional(),
 });
