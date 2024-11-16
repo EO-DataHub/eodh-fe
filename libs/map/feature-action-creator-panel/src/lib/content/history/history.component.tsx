@@ -1,5 +1,4 @@
 import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
-import { useCallback, useState } from 'react';
 
 import { Container, Content, Footer } from '../container.component';
 import { HistoryTile } from './history-tile/history-tile.component';
