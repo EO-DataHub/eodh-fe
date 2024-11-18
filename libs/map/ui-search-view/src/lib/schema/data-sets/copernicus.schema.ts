@@ -7,31 +7,59 @@ import { sentinel5pRefine, sentinel5pSchema } from './sentinel-5p.schema';
 
 const notDisplayedErrorMessage = '';
 
-export const copernicusInitialSchema = z.object({
+export const copernicusInitialSearchSchema = z.object({
   enabled: z.boolean(),
   expanded: z.boolean(),
   sentinel1: sentinel1Schema
     .extend({
-      expanded: z.boolean().optional(),
-      enabled: z.boolean().optional(),
+      expanded: z.boolean(),
+      enabled: z.boolean(),
     })
     .optional(),
   sentinel2: sentinel2Schema
     .extend({
-      expanded: z.boolean().optional(),
-      enabled: z.boolean().optional(),
+      expanded: z.boolean(),
+      enabled: z.boolean(),
     })
     .optional(),
   sentinel3: sentinel3Schema
     .extend({
-      expanded: z.boolean().optional(),
-      enabled: z.boolean().optional(),
+      expanded: z.boolean(),
+      enabled: z.boolean(),
     })
     .optional(),
   sentinel5P: sentinel5pSchema
     .extend({
-      expanded: z.boolean().optional(),
-      enabled: z.boolean().optional(),
+      expanded: z.boolean(),
+      enabled: z.boolean(),
+    })
+    .optional(),
+});
+
+export const copernicusInitialUpdateSchema = z.object({
+  expanded: z.boolean(),
+  sentinel1: sentinel1Schema
+    .extend({
+      expanded: z.boolean(),
+      enabled: z.boolean(),
+    })
+    .optional(),
+  sentinel2: sentinel2Schema
+    .extend({
+      expanded: z.boolean(),
+      enabled: z.boolean(),
+    })
+    .optional(),
+  sentinel3: sentinel3Schema
+    .extend({
+      expanded: z.boolean(),
+      enabled: z.boolean(),
+    })
+    .optional(),
+  sentinel5P: sentinel5pSchema
+    .extend({
+      expanded: z.boolean(),
+      enabled: z.boolean(),
     })
     .optional(),
 });
@@ -44,6 +72,7 @@ export const copernicusUpdateGenericSchema = z.object({
 });
 
 export const copernicusUpdateSchema = copernicusUpdateGenericSchema.superRefine((schema, ctx) => {
+  // console.log('copernicusUpdateSchema', schema, ctx);
   if (
     !schema.sentinel1.enabled &&
     !schema.sentinel2.enabled &&

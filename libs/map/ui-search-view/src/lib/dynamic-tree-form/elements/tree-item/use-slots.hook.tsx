@@ -1,8 +1,9 @@
 import { TIterableTreeItemValues } from '@ukri/map/data-access-map';
-import { Checkbox as BaseCheckbox, Icon, TSlots } from '@ukri/shared/design-system';
+import { Icon, TSlots } from '@ukri/shared/design-system';
 import { useCallback, useMemo } from 'react';
-import { get, useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 
+import { Checkbox } from '../checkbox.component';
 import { useControl } from './use-control.hook';
 
 type TSettingsIconProps = { value: boolean; disabled: boolean };
@@ -19,23 +20,6 @@ const SettingsIcon = ({ value, disabled }: TSettingsIconProps) => {
   return <Icon name='Settings' className='text-neutral-light hover:text-primary' />;
 };
 
-type TCheckboxProps = { name: string; disabled?: boolean };
-
-const Checkbox = ({ name, disabled }: TCheckboxProps) => {
-  const {
-    register,
-    formState: { errors },
-    trigger,
-  } = useFormContext();
-  const state = get(errors, name) ? 'error' : undefined;
-
-  const triggerValidation = useCallback(() => {
-    trigger();
-  }, [trigger]);
-
-  return <BaseCheckbox {...register(name, { onChange: triggerValidation })} state={state} disabled={disabled} />;
-};
-
 type TSettingsButtonProps = { value: boolean; disabled?: boolean; onClick: () => void };
 
 const SettingsButton = ({ value, disabled, onClick }: TSettingsButtonProps) => {
@@ -46,9 +30,13 @@ const SettingsButton = ({ value, disabled, onClick }: TSettingsButtonProps) => {
   );
 };
 
-export const useSlots = (item: TIterableTreeItemValues, renderSettingsButton: boolean): TSlots => {
-  const { setValue } = useFormContext();
-  const { settingControlName, showSettingsControlName, valueControlName, disabled } = useControl(item);
+export const useSlots = (
+  item: TIterableTreeItemValues,
+  renderSettingsButton: boolean,
+  forceDisabled: boolean
+): TSlots => {
+  const { setValue, trigger } = useFormContext();
+  const { settingControlName, showSettingsControlName, valueControlName, disabled } = useControl(item, forceDisabled);
   const showSettings = useWatch({ name: showSettingsControlName });
   const enabled = useWatch({ name: valueControlName });
 
@@ -56,8 +44,9 @@ export const useSlots = (item: TIterableTreeItemValues, renderSettingsButton: bo
     (name: string) => {
       const options = { shouldDirty: true, shouldValidate: true, shouldTouch: true };
       setValue(name, !showSettings, options);
+      trigger();
     },
-    [showSettings, setValue]
+    [showSettings, setValue, trigger]
   );
 
   return useMemo(() => {
@@ -70,7 +59,7 @@ export const useSlots = (item: TIterableTreeItemValues, renderSettingsButton: bo
         },
         {
           position: 'title:after',
-          element: <Checkbox name={item.model.controls.value.name} disabled={disabled} />,
+          element: <Checkbox name={valueControlName} disabled={disabled} />,
           key: 'checkbox',
         },
       ];
@@ -95,9 +84,9 @@ export const useSlots = (item: TIterableTreeItemValues, renderSettingsButton: bo
       },
       {
         position: 'title:after',
-        element: <Checkbox name={item.model.controls.value.name} disabled={disabled} />,
+        element: <Checkbox name={valueControlName} disabled={disabled} />,
         key: 'checkbox',
       },
     ];
-  }, [disabled, enabled, item.model.controls.value.name, renderSettingsButton, settingControlName, toggleSettings]);
+  }, [disabled, enabled, valueControlName, renderSettingsButton, settingControlName, toggleSettings]);
 };

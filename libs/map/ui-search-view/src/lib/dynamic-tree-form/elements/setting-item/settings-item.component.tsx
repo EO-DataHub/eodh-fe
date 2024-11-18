@@ -18,13 +18,13 @@ type TSettingsItemProps = {
 
 export const SettingsItem = ({
   item,
-  disabled: forceDisabled,
+  disabled: forceDisabled = false,
   indent: currentIndent,
   children,
 }: TSettingsItemProps) => {
   const indent = useIndent(currentIndent);
   const nextIndent = useNextIndent(currentIndent);
-  const { valueControlName, disabled } = useControl(item);
+  const { valueControlName, disabled } = useControl(item, forceDisabled);
   const enabled = useWatch({ name: valueControlName });
   const slots = useSlots(item, forceDisabled);
 
@@ -32,12 +32,12 @@ export const SettingsItem = ({
     <>
       <Error name={valueControlName} indent={indent} />
       <TreeItem
-        title={<Title title={item.model.translationKey} fontWeight='regular' disabled={disabled || forceDisabled} />}
+        title={<Title title={item.model.translationKey} fontWeight='regular' disabled={disabled} />}
         slots={slots}
-        disabled={disabled || forceDisabled}
+        disabled={disabled}
         indent={getTreeIndent(indent)}
       />
-      <IndentProvider indent={nextIndent}>{children(!enabled || disabled || forceDisabled)}</IndentProvider>
+      <IndentProvider indent={nextIndent}>{children(!enabled || disabled)}</IndentProvider>
     </>
   );
 };

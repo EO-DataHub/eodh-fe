@@ -84,18 +84,20 @@ const restoreResultsStoreState = (mode: TMode) => {
 
 const restoreDataSetsStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<TDataSetsStore>(storeKeys.DATA_SETS(mode));
-  const newStoreState = mode === 'action-creator' ? 'readonly' : 'edit';
+  // const newStoreState = mode === 'action-creator' ? 'readonly' : 'edit';
+
+  console.log('currentState', currentState);
 
   if (!currentState) {
     useDataSetsStore.getState().updateDataSets(undefined);
     useDataSetsStore.getState().changeSchema(mode);
-    useDataSetsStore.getState().changeState(newStoreState);
+    // useDataSetsStore.getState().changeState(newStoreState);
     return;
   }
 
   useDataSetsStore.setState(currentState);
-  useDataSetsStore.getState().changeSchema(mode);
-  useDataSetsStore.getState().changeState(newStoreState);
+  // useDataSetsStore.getState().changeSchema(mode);
+  // useDataSetsStore.getState().changeState(newStoreState);
 };
 
 const restoreDateStoreState = (mode: TMode) => {

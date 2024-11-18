@@ -6,8 +6,11 @@ import {
   ITreeSettingsGroupIterable,
   ITreeSettingsItemIterable,
   TControlValue,
+  TOption,
+  TValidationModel,
+  TValidationOptions,
 } from './tree-builder.model';
-import { getControlsValues } from './utils';
+import { getOptions, mergeOptions } from './utils';
 
 export class TreeSettingsGroup
   extends BasicTreeItem<IDynamicTreeSettingGroup, IDynamicTreeItem | IDynamicTreeSettingItem | IDynamicTreeSettingGroup>
@@ -25,11 +28,16 @@ export class TreeSettingsGroup
 
   public getValues = (): TControlValue[] => [];
 
-  public toObject = () => ({
+  public toObject = (options?: TOption) => ({
     id: this.id,
     type: this.type,
-    model: this.model,
+    model: {
+      ...this.model,
+      options: getOptions(this.model.options, options),
+    },
   });
+
+  public getValidationModel = (): TValidationModel[] => [];
 }
 
 export class TreeSettingsGroupIterable extends TreeSettingsGroup implements ITreeSettingsGroupIterable {
@@ -44,13 +52,25 @@ export class TreeSettingsGroupIterable extends TreeSettingsGroup implements ITre
     this.children = createItemChildren(props.children, this);
   }
 
-  public toObject = () => ({
+  public toObject = (options?: TOption) => ({
     id: this.id,
     type: this.type,
-    model: this.model,
+    model: {
+      ...this.model,
+      options: getOptions(this.model.options, options),
+    },
     parentId: this.parent.id,
-    children: this.children.map((item) => item.toObject()),
+    children: this.children.map((item) => item.toObject(getOptions(this.model.options, options))),
   });
 
-  public getValues = (): TControlValue[] => this.children.map((item) => item.getValues()).flat();
+  public getValues = (withChildren = true): TControlValue[] => {
+    if (!withChildren) {
+      return [];
+    }
+
+    return this.children.map((item) => item.getValues(withChildren)).flat();
+  };
+
+  public getValidationModel = (options?: TValidationOptions) =>
+    this.children.map((item) => item.getValidationModel(mergeOptions(options, this.model.options))).flat();
 }

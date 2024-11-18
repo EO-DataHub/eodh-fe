@@ -17,6 +17,7 @@ export const activatePanel = (node?: TNode) => {
       useAoiStore.getState().changeState('edit');
       useDataSetsStore.getState().changeState('readonly');
       useDateStore.getState().changeState('readonly');
+      useDateStore.getState().changeState('readonly');
       return;
     }
 
@@ -98,7 +99,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   }));
   const shape = createShape(aoi, aoi?.type);
 
-  useDataSetsStore.getState().enableDataSet(dataSet);
+  useDataSetsStore.getState().setDataSet(dataSet);
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
 
   if (shape) {

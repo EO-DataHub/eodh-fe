@@ -2,7 +2,8 @@ import { z } from 'zod';
 
 import { auxiliaryInitialSchema, auxiliaryUpdateGenericSchema } from './data-sets/auxiliary.schema';
 import {
-  copernicusInitialSchema,
+  copernicusInitialSearchSchema,
+  copernicusInitialUpdateSchema,
   copernicusUpdateGenericSchema,
   copernicusUpdateSchema,
 } from './data-sets/copernicus.schema';
@@ -13,23 +14,23 @@ const notDisplayedErrorMessage = '';
 export const dataSetsSearchInitialSchema = z.object({
   status: z.union([z.literal('initial'), z.literal('updated')]),
   public: z.object({
-    expanded: z.boolean().optional(),
-    copernicus: copernicusInitialSchema,
+    expanded: z.boolean(),
+    copernicus: copernicusInitialSearchSchema,
   }),
   private: z.object({
-    expanded: z.boolean().optional(),
-    planet: planetSchema.optional(),
+    expanded: z.boolean(),
+    planet: planetSchema,
   }),
 });
 
 export const dataSetsSearchUpdateSchema = z.object({
   public: z.object({
-    expanded: z.boolean().optional(),
+    expanded: z.boolean(),
     copernicus: copernicusUpdateSchema,
   }),
   private: z.object({
-    expanded: z.boolean().optional(),
-    planet: planetSchema.optional(),
+    expanded: z.boolean(),
+    planet: planetSchema,
   }),
 });
 
@@ -37,12 +38,12 @@ export const dataSetsActionCreatorInitialSchema = z.object({
   status: z.union([z.literal('initial'), z.literal('updated')]),
   public: z.object({
     expanded: z.boolean(),
-    copernicus: copernicusInitialSchema,
+    copernicus: copernicusInitialUpdateSchema,
     auxiliary: auxiliaryInitialSchema,
   }),
   private: z.object({
     expanded: z.boolean(),
-    planet: planetSchema.optional(),
+    planet: planetSchema,
   }),
 });
 
@@ -102,12 +103,12 @@ export const dataSetsActionCreatorUpdateSchema = z.object({
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: notDisplayedErrorMessage,
-          path: ['auxiliary.esacciGloballc.enabled'],
+          path: ['auxiliary.clmsWaterBodies.enabled'],
         });
       }
     }),
   private: z.object({
     expanded: z.boolean(),
-    planet: planetSchema.optional(),
+    planet: planetSchema,
   }),
 });

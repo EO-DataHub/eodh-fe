@@ -7,10 +7,14 @@ import {
   ITreeRoot,
   ITreeSettingsGroupIterable,
   ITreeSettingsItemIterable,
-  ITreeSliderIterable, TControlValue,
+  ITreeSliderIterable,
+  TBaseItemExtensionProperties,
+  TControlValue,
   TOmitRecursively,
+  TOption,
+  TValidationOptions,
 } from './tree-builder.model';
-import { getControlsValues } from './utils';
+import { getControlsValidationModel, getControlsValues, getOptions, mergeOptions } from './utils';
 
 export class TreeItem
   extends BasicTreeItem<IDynamicTreeItem, IDynamicTreeItem | IDynamicTreeCategory, ITreeRoot>
@@ -26,13 +30,19 @@ export class TreeItem
     super(id, props, parent);
   }
 
-  public toObject = () => ({
+  public toObject = (options?: TOption) => ({
     id: this.id,
     type: this.type,
-    model: this.model,
+    model: {
+      ...this.model,
+      options: getOptions(this.model.options, options),
+    } as IDynamicTreeItem,
   });
 
   public getValues = () => getControlsValues(Object.values(this.model.controls));
+
+  public getValidationModel = (options?: TValidationOptions) =>
+    getControlsValidationModel(Object.values(this.model.controls), mergeOptions(options, this.model.options));
 }
 
 export class TreeItemIterable extends TreeItem implements ITreeItemIterable {
@@ -49,17 +59,35 @@ export class TreeItemIterable extends TreeItem implements ITreeItemIterable {
     this.children = createItemChildren(props.children, this);
   }
 
-  public toObject = () =>
+  public toObject = (options?: TOption) =>
     ({
       id: this.id,
       type: this.type,
-      model: this.model,
+      model: {
+        ...this.model,
+        options: getOptions(this.model.options, options),
+      },
       parentId: this.parent.id,
-      children: this.children.map((item) => item.toObject()),
-    } as TOmitRecursively<ITreeItemIterable & { parentId: string }, 'parent' | 'getValues' | 'toObject'>);
+      children: this.children.map((item) => item.toObject(getOptions(this.model.options, options))),
+    } as TOmitRecursively<ITreeItemIterable & { parentId: string }, TBaseItemExtensionProperties>);
 
-  public getValues = (): TControlValue[] => [
-    ...getControlsValues(Object.values(this.model.controls)),
-    ...this.children.map((item) => item.getValues()).flat(),
+  public getValues = (withChildren = true): TControlValue[] => {
+    if (!withChildren) {
+      return getControlsValues(Object.values(this.model.controls));
+    }
+
+    return [
+      ...getControlsValues(Object.values(this.model.controls)),
+      ...this.children.map((item) => item.getValues(withChildren)).flat(),
+    ];
+  };
+
+  public getValidationModel = (options?: TValidationOptions) => [
+    ...getControlsValidationModel(
+      Object.values(this.model.controls),
+      mergeOptions(options, this.model.options)
+      // this.children.map((item) => item.getValues()).flat()
+    ),
+    ...this.children.map((item) => item.getValidationModel(mergeOptions(options, this.model.options))).flat(),
   ];
 }

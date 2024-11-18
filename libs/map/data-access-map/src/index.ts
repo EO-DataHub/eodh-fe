@@ -31,6 +31,7 @@ export type {
   TFunctionNode,
   TDataSetValue,
 } from './lib/store/action-creator/action-creator.model';
+export type { TBaseFunction } from './lib/store/action-creator/node.utils';
 export { useFunctions } from './lib/query/function.query';
 export { useCreateWorkflow } from './lib/mutation/workflow.mutation';
 export type { TFunction } from './lib/query/function.model';

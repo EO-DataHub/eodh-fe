@@ -1,15 +1,13 @@
-import { TFunctionNode, useActionCreator } from '@ukri/map/data-access-map';
+import { TBaseFunction, TFunctionNode, useActionCreator } from '@ukri/map/data-access-map';
 
 import { Node } from '../node.component';
 import { NodeSelect, TOption } from '../node-select.component';
 
-export type TBasicFunction = { standalone: boolean; identifier: string; name: string };
-
 type TValueNodeProps = {
   node: TFunctionNode;
   options: TOption[];
-  functions: TBasicFunction[] | undefined;
-  onChange?: (value: string | null | undefined) => void;
+  functions: TBaseFunction[] | undefined;
+  onChange?: (value: string | null | undefined, dataSets: string[] | undefined) => void;
 };
 
 export const ValueNode = ({ node, options, functions, onChange }: TValueNodeProps) => {

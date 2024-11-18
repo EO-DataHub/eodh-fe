@@ -1,6 +1,6 @@
 import { TIterableTreeCategoryValues } from '@ukri/map/data-access-map';
 import { TreeItem as UiTreeItem } from '@ukri/shared/design-system';
-import { PropsWithChildren } from 'react';
+import { ReactNode } from 'react';
 import { useWatch } from 'react-hook-form';
 
 import { useControl } from './use-control.hook';
@@ -8,12 +8,14 @@ import { useSlots } from './use-slots.hook';
 
 type TTreeCategoryProps = {
   item: TIterableTreeCategoryValues;
+  disabled?: boolean;
+  children: (disabled?: boolean) => ReactNode;
 };
 
-export const TreeCategory = ({ item, children }: PropsWithChildren<TTreeCategoryProps>) => {
-  const { expandedControlName, disabled } = useControl(item);
+export const TreeCategory = ({ item, children, disabled: forceDisabled = false }: TTreeCategoryProps) => {
+  const { expandedControlName, disabled } = useControl(item, forceDisabled);
   const expanded = useWatch({ name: expandedControlName });
-  const slots = useSlots(item);
+  const slots = useSlots(item, forceDisabled);
 
   return (
     <UiTreeItem
@@ -24,7 +26,7 @@ export const TreeCategory = ({ item, children }: PropsWithChildren<TTreeCategory
       disabled={disabled}
       expandable={item.model.options?.expendable}
     >
-      {children}
+      {children(disabled)}
     </UiTreeItem>
   );
 };

@@ -6,20 +6,8 @@ import { ResultsView } from './results-view.component';
 import { useSearchMode } from './use-search-mode.hook';
 
 export const SearchModePanel = () => {
-  const {
-    schema,
-    data,
-    state,
-    status,
-    values,
-    treeModel,
-    updateState,
-    view,
-    changeToSearchView,
-    search,
-    searchType,
-    updateDataSets,
-  } = useSearchMode();
+  const { schema, data, state, status, values, treeModel, updateState, view, changeToSearchView, search, searchType } =
+    useSearchMode();
 
   switch (view) {
     case 'results': {
@@ -34,7 +22,6 @@ export const SearchModePanel = () => {
           treeModel={treeModel}
           schema={schema}
           onChange={updateState}
-          onChange2={updateDataSets}
           onSubmit={search}
         >
           <Header>
@@ -59,7 +46,6 @@ export const SearchModePanel = () => {
           treeModel={treeModel}
           schema={schema}
           onChange={updateState}
-          onChange2={updateDataSets}
           onSubmit={search}
         >
           <Header>

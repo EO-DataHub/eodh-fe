@@ -9,11 +9,6 @@ export const auxiliarySchema: IDynamicTreeCategory = {
       type: 'expand',
       value: true,
     },
-    value: {
-      name: 'public.auxiliary.enabled',
-      type: 'checkbox',
-      value: false,
-    },
   },
   children: [
     {

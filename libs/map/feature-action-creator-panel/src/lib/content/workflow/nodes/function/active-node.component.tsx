@@ -6,7 +6,7 @@ import { NodeSelect, TOption } from '../node-select.component';
 type TValueNodeProps = {
   node: TFunctionNode;
   options: TOption[];
-  onChange?: (value: string | undefined | null) => void;
+  onChange?: (value: string | null | undefined, dataSets: string[] | undefined) => void;
 };
 
 export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {

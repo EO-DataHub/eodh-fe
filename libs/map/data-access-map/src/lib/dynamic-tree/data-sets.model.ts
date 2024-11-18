@@ -72,15 +72,15 @@ export type TDataSetsValues = {
       enabled: boolean;
       planetScope: {
         enabled: boolean;
-        expanded: boolean;
+        expanded?: boolean;
       };
       skySat: {
         enabled: boolean;
-        expanded: boolean;
+        expanded?: boolean;
       };
       rapidEye: {
         enabled: boolean;
-        expanded: boolean;
+        expanded?: boolean;
       };
     };
   };

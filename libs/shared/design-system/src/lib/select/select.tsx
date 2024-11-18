@@ -12,6 +12,7 @@ type TOptionValue = string | undefined;
 interface IOption {
   value: TOptionValue;
   label: string;
+  disabled?: boolean;
 }
 
 interface ISelectProps {
@@ -47,7 +48,7 @@ export const Select = ({
 
   const handleChange = useCallback(
     (selectedOptionValue: IOption) => {
-      if (!disabled) {
+      if (!disabled && !selectedOptionValue.disabled) {
         setSelectedOption(selectedOptionValue);
         onChange(selectedOptionValue.value);
         setIsOpen(true);
@@ -101,7 +102,7 @@ export const Select = ({
             {options.map((option, index) => (
               <li
                 key={option.value}
-                className={selectStyles.listItem(disabled)}
+                className={selectStyles.listItem(disabled || option.disabled)}
                 id={`listbox-option-${index}`}
                 role='option'
                 aria-selected={selectedOption?.value === option.value}

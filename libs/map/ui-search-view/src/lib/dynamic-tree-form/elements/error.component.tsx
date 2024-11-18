@@ -4,6 +4,7 @@ import isString from 'lodash/isString';
 import { useFormState } from 'react-hook-form';
 
 import { getTreeIndent, TIndent } from './indent.provider';
+import { getControlName } from './utils';
 
 type TErrorProps = {
   name: string;
@@ -11,7 +12,7 @@ type TErrorProps = {
 };
 
 export const Error = ({ name, indent }: TErrorProps) => {
-  const { errors } = useFormState({ name });
+  const { errors } = useFormState({ name: name });
   const error = get(errors, name);
 
   if (!error || !error.message || !isString(error.message)) {

@@ -12,7 +12,12 @@ type TSettingsSection = {
   children: (disabled?: boolean) => ReactNode;
 };
 
-export const SettingsGroup = ({ item, disabled: forceDisabled, indent: currentIndent, children }: TSettingsSection) => {
+export const SettingsGroup = ({
+  item,
+  disabled: forceDisabled = false,
+  indent: currentIndent,
+  children,
+}: TSettingsSection) => {
   const indent = useIndent(currentIndent);
   const nextIndent = useNextIndent(currentIndent);
   const disabled = useMemo(

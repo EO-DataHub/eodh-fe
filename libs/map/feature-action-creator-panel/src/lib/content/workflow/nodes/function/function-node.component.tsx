@@ -1,13 +1,22 @@
-import { TFunction, TFunctionNode, TNode, useActionCreator, useFunctions } from '@ukri/map/data-access-map';
+import {
+  TBaseFunction,
+  TFunction,
+  TFunctionNode,
+  TNode,
+  useActionCreator,
+  useDataSets,
+  useFunctions,
+} from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useActiveDataSet } from '../data-set/use-active-dataset.hook';
 import { EmptyNode } from '../empty-node.component';
 import { TOption } from '../node-select.component';
 import { ActiveNode } from './active-node.component';
 import { LoadingNode } from './loading-node.component';
-import { TBasicFunction, ValueNode } from './value-node.component';
+import { ValueNode } from './value-node.component';
 
 type TFunctionIdentifier = 'raster-calculate' | 'lulc-change' | 'water-quality' | 'clip' | string;
 const BASE_KEY = 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE';
@@ -22,14 +31,27 @@ const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier, name
   return functionTranslationMap[functionIdentifier] || name;
 };
 
-const useOptions = () => {
+const isFunctionOptionDisabled = (dataSet: string | null, functionDataSet: string[] | undefined) => {
+  if (!dataSet || !functionDataSet) {
+    return false;
+  }
+
+  return functionDataSet.every((option) => option !== dataSet);
+};
+
+const useOptions = (dataSet: string | null) => {
   const { t } = useTranslation();
   const { getValidFunctions } = useActionCreator();
 
-  return (node: TNode, data: TBasicFunction[] | undefined): TOption[] =>
+  return (node: TNode, data: TBaseFunction[] | undefined): TOption[] =>
     getValidFunctions(node, data).map((item) => ({
       value: item.identifier,
       label: t(getFunctionTranslationKey(item.identifier, item.name) || ''),
+      dataSets: item.inputs.stacCollection?.options.map((option) => option.value),
+      disabled: isFunctionOptionDisabled(
+        dataSet,
+        item.inputs.stacCollection?.options.map((option) => option.value)
+      ),
     }));
 };
 
@@ -37,11 +59,12 @@ type TNodeProps = {
   node: TFunctionNode;
   data: TFunction[] | undefined;
   isLoading: boolean;
-  onChange: (value: string | undefined | null) => void;
+  onChange?: (value: string | null | undefined, dataSets: string[] | undefined) => void;
 };
 
 const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
-  const getOptions = useOptions();
+  const { dataSet } = useActiveDataSet();
+  const getOptions = useOptions(dataSet);
 
   return useMemo(() => {
     const options = getOptions(node, data);
@@ -74,6 +97,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
+  const { enable } = useDataSets();
   const { data, isLoading } = useFunctions();
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
@@ -86,12 +110,13 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   }, [canBeActivated, node, setActiveNode]);
 
   const updateFunction = useCallback(
-    (value: string | undefined | null) => {
+    (value: string | undefined | null, dataSets: string[] | undefined) => {
       if (node.state === 'active') {
         setValue(node, value);
+        enable(dataSets);
       }
     },
-    [node, setValue]
+    [node, setValue, enable]
   );
 
   if (!node.tooltip) {

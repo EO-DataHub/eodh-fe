@@ -4,10 +4,12 @@ import { createItemChildren } from './create-children';
 import {
   ITreeSettingsGroupIterable,
   ITreeSettingsItem,
-  ITreeSettingsItemIterable, TControlValue,
-  TOmitRecursively,
+  ITreeSettingsItemIterable,
+  TControlValue,
+  TOption,
+  TValidationOptions,
 } from './tree-builder.model';
-import { getControlsValues } from './utils';
+import { getControlsValidationModel, getControlsValues, getOptions, mergeOptions } from './utils';
 
 export class TreeSettingsItem
   extends BasicTreeItem<IDynamicTreeSettingItem, IDynamicTreeItem | IDynamicTreeSettingItem | IDynamicTreeSettingGroup>
@@ -25,11 +27,17 @@ export class TreeSettingsItem
 
   public getValues = () => getControlsValues(Object.values(this.model.controls));
 
-  public toObject = () => ({
+  public toObject = (options?: TOption) => ({
     id: this.id,
     type: this.type,
-    model: this.model,
+    model: {
+      ...this.model,
+      options: getOptions(this.model.options, options),
+    },
   });
+
+  public getValidationModel = (options?: TValidationOptions) =>
+    getControlsValidationModel(Object.values(this.model.controls), mergeOptions(options, this.model.options));
 }
 
 export class TreeSettingsItemIterable extends TreeSettingsItem implements ITreeSettingsItemIterable {
@@ -44,16 +52,30 @@ export class TreeSettingsItemIterable extends TreeSettingsItem implements ITreeS
     this.children = createItemChildren(props.children, this);
   }
 
-  public toObject = () => ({
+  public toObject = (options?: TOption) => ({
     id: this.id,
     type: this.type,
-    model: this.model,
+    model: {
+      ...this.model,
+      options: getOptions(this.model.options, options),
+    },
     parentId: this.parent.id,
-    children: this.children.map((item) => item.toObject()),
+    children: this.children.map((item) => item.toObject(getOptions(this.model.options, options))),
   });
 
-  public getValues = (): TControlValue[] => [
-    ...getControlsValues(Object.values(this.model.controls)),
-    ...this.children.map((item) => item.getValues()).flat(),
+  public getValues = (withChildren = true): TControlValue[] => {
+    if (!withChildren) {
+      return getControlsValues(Object.values(this.model.controls));
+    }
+
+    return [
+      ...getControlsValues(Object.values(this.model.controls)),
+      ...this.children.map((item) => item.getValues(withChildren)).flat(),
+    ];
+  };
+
+  public getValidationModel = (options?: TValidationOptions) => [
+    ...getControlsValidationModel(Object.values(this.model.controls), mergeOptions(options, this.model.options)),
+    ...this.children.map((item) => item.getValidationModel(mergeOptions(options, this.model.options))).flat(),
   ];
 }

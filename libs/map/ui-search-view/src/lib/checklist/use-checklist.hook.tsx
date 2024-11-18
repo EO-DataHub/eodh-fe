@@ -27,23 +27,23 @@ const useAoiValidation = (
 const useIsCopernicusDataUntouched = (touchedFields: TFormStateTouchedFields, dirtyFields: TFormStateDirtyFields) => {
   return useMemo(
     () =>
-      !touchedFields.dataSets?.copernicus?.sentinel1?.enabled &&
-      !touchedFields.dataSets?.copernicus?.sentinel2?.enabled &&
-      !touchedFields.dataSets?.copernicus?.sentinel3?.enabled &&
-      !touchedFields.dataSets?.copernicus?.sentinel5P?.enabled &&
-      !dirtyFields.dataSets?.copernicus?.sentinel1?.enabled &&
-      !dirtyFields.dataSets?.copernicus?.sentinel2?.enabled &&
-      !dirtyFields.dataSets?.copernicus?.sentinel3?.enabled &&
-      !dirtyFields.dataSets?.copernicus?.sentinel5P?.enabled,
+      !touchedFields.dataSets?.public?.copernicus?.sentinel1?.enabled &&
+      !touchedFields.dataSets?.public?.copernicus?.sentinel2?.enabled &&
+      !touchedFields.dataSets?.public?.copernicus?.sentinel3?.enabled &&
+      !touchedFields.dataSets?.public?.copernicus?.sentinel5P?.enabled &&
+      !dirtyFields.dataSets?.public?.copernicus?.sentinel1?.enabled &&
+      !dirtyFields.dataSets?.public?.copernicus?.sentinel2?.enabled &&
+      !dirtyFields.dataSets?.public?.copernicus?.sentinel3?.enabled &&
+      !dirtyFields.dataSets?.public?.copernicus?.sentinel5P?.enabled,
     [
-      dirtyFields.dataSets?.copernicus?.sentinel1?.enabled,
-      dirtyFields.dataSets?.copernicus?.sentinel2?.enabled,
-      dirtyFields.dataSets?.copernicus?.sentinel3?.enabled,
-      dirtyFields.dataSets?.copernicus?.sentinel5P?.enabled,
-      touchedFields.dataSets?.copernicus?.sentinel1?.enabled,
-      touchedFields.dataSets?.copernicus?.sentinel2?.enabled,
-      touchedFields.dataSets?.copernicus?.sentinel3?.enabled,
-      touchedFields.dataSets?.copernicus?.sentinel5P?.enabled,
+      dirtyFields.dataSets?.public?.copernicus?.sentinel1?.enabled,
+      dirtyFields.dataSets?.public?.copernicus?.sentinel2?.enabled,
+      dirtyFields.dataSets?.public?.copernicus?.sentinel3?.enabled,
+      dirtyFields.dataSets?.public?.copernicus?.sentinel5P?.enabled,
+      touchedFields.dataSets?.public?.copernicus?.sentinel1?.enabled,
+      touchedFields.dataSets?.public?.copernicus?.sentinel2?.enabled,
+      touchedFields.dataSets?.public?.copernicus?.sentinel3?.enabled,
+      touchedFields.dataSets?.public?.copernicus?.sentinel5P?.enabled,
     ]
   );
 };
@@ -51,15 +51,15 @@ const useIsCopernicusDataUntouched = (touchedFields: TFormStateTouchedFields, di
 const useIsCopernicusDataValid = (errors: TFormStateErrors) => {
   return useMemo(
     () =>
-      !errors.dataSets?.copernicus?.sentinel1 &&
-      !errors.dataSets?.copernicus?.sentinel2 &&
-      !errors.dataSets?.copernicus?.sentinel3 &&
-      !errors.dataSets?.copernicus?.sentinel5P,
+      !errors.dataSets?.public?.copernicus?.sentinel1 &&
+      !errors.dataSets?.public?.copernicus?.sentinel2 &&
+      !errors.dataSets?.public?.copernicus?.sentinel3 &&
+      !errors.dataSets?.public?.copernicus?.sentinel5P,
     [
-      errors.dataSets?.copernicus?.sentinel1,
-      errors.dataSets?.copernicus?.sentinel2,
-      errors.dataSets?.copernicus?.sentinel3,
-      errors.dataSets?.copernicus?.sentinel5P,
+      errors.dataSets?.public?.copernicus?.sentinel1,
+      errors.dataSets?.public?.copernicus?.sentinel2,
+      errors.dataSets?.public?.copernicus?.sentinel3,
+      errors.dataSets?.public?.copernicus?.sentinel5P,
     ]
   );
 };

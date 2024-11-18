@@ -3,7 +3,7 @@ import { z } from 'zod';
 const notDisplayedErrorMessage = '';
 
 export const sentinel5pSchema = z.object({
-  enabled: z.boolean().optional(),
+  enabled: z.boolean(),
   aer_ai: z.boolean(),
   ch4: z.boolean(),
   cloud: z.boolean(),

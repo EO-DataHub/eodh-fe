@@ -15,8 +15,8 @@ export const selectStyles = {
   icon: (isOpen: boolean) => `text-neutral-light transform transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`,
 
   listItem: (disabled?: boolean) =>
-    `relative flex items-center py-0.5 select-none relative px-2 pr-6 text-neutral-dark ${
-      !disabled ? 'hover:bg-background-main cursor-pointer' : 'cursor-default'
+    `relative flex items-center py-0.5 select-none relative px-2 pr-6 ${
+      !disabled ? 'text-neutral-dark hover:bg-background-main cursor-pointer' : 'text-text-disabled cursor-not-allowed'
     }`,
   listItemText: 'block font-normal py-1 rounded inline-block break-words',
   checkedValue: 'absolute right-0.5 flex items-end text-neutral-light',

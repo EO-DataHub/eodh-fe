@@ -1,3 +1,5 @@
+import { ZodType } from 'zod';
+
 import {
   IDynamicBaseItem,
   IDynamicSlider,
@@ -5,6 +7,7 @@ import {
   IDynamicTreeItem,
   IDynamicTreeSettingGroup,
   IDynamicTreeSettingItem,
+  IOption,
   TControl,
 } from '../tree-dynamic.model';
 
@@ -20,7 +23,16 @@ export type TOmitRecursively<T, K extends PropertyKey> = Omit<{ [P in keyof T]: 
 
 export type TItemType = 'category' | 'item' | 'settingItem' | 'settingGroup' | 'slider';
 
-export type TControlValue = { name: TControl['name']; value: TControl['value'] };
+export type TControlValue = { name: TControl['name']; value: TControl['value']; type: TControl['type'] };
+
+export type TBaseItemExtensionProperties = 'parent' | 'getValues' | 'getValidationModel' | 'toObject';
+
+export type TValidationOptions = {
+  disabled?: boolean;
+  optional?: boolean;
+};
+
+export type TOption = IOption & { withChildren?: boolean };
 
 export interface IBaseItem<
   M extends IDynamicBaseItem = IDynamicBaseItem,
@@ -31,8 +43,9 @@ export interface IBaseItem<
   model: M;
   type: TItemType;
   parent: T extends null ? IBaseItem<P> : IBaseItem<P> | T;
-  toObject: () => Omit<IBaseItem<M, P, T>, 'parent' | 'getValues' | 'toObject'>;
-  getValues: () => TControlValue[];
+  toObject: (options?: TOption) => Omit<IBaseItem<M, P, T>, TBaseItemExtensionProperties>;
+  getValues: (withChildren?: boolean) => TControlValue[];
+  getValidationModel: (options?: TValidationOptions) => TValidationModel[];
 }
 
 export interface ITreeSettingsItem
@@ -43,10 +56,9 @@ export interface ITreeSettingsItem
 
 export interface ITreeSettingsItemIterable extends ITreeSettingsItem {
   children: (ITreeSettingsItemIterable | ITreeSettingsGroupIterable)[];
-  toObject: () => TOmitRecursively<
-    ITreeSettingsItemIterable & { parentId: string },
-    'parent' | 'getValues' | 'toObject'
-  >;
+  toObject: (
+    options?: TOption
+  ) => TOmitRecursively<ITreeSettingsItemIterable & { parentId: string }, TBaseItemExtensionProperties>;
 }
 
 export interface ITreeSettingsGroup
@@ -57,10 +69,9 @@ export interface ITreeSettingsGroup
 
 export interface ITreeSettingsGroupIterable extends ITreeSettingsGroup {
   children: (ITreeSettingsItemIterable | ITreeSettingsGroupIterable)[];
-  toObject: () => TOmitRecursively<
-    ITreeSettingsGroupIterable & { parentId: string },
-    'parent' | 'getValues' | 'toObject'
-  >;
+  toObject: (
+    options?: TOption
+  ) => TOmitRecursively<ITreeSettingsGroupIterable & { parentId: string }, TBaseItemExtensionProperties>;
 }
 
 export interface ITreeSlider
@@ -71,7 +82,9 @@ export interface ITreeSlider
 
 export interface ITreeSliderIterable extends ITreeSlider {
   children?: never;
-  toObject: () => TOmitRecursively<ITreeSliderIterable & { parentId: string }, 'parent' | 'getValues' | 'toObject'>;
+  toObject: (
+    options?: TOption
+  ) => TOmitRecursively<ITreeSliderIterable & { parentId: string }, TBaseItemExtensionProperties>;
 }
 
 export interface ITreeItem extends IBaseItem<IDynamicTreeItem, IDynamicTreeItem | IDynamicTreeCategory, ITreeRoot> {
@@ -81,7 +94,9 @@ export interface ITreeItem extends IBaseItem<IDynamicTreeItem, IDynamicTreeItem 
 
 export interface ITreeItemIterable extends ITreeItem {
   children: ITreeItemIterable[] | (ITreeSettingsItemIterable | ITreeSettingsGroupIterable | ITreeSliderIterable)[];
-  toObject: () => TOmitRecursively<ITreeItemIterable & { parentId: string }, 'parent' | 'getValues' | 'toObject'>;
+  toObject: (
+    options?: TOption
+  ) => TOmitRecursively<ITreeItemIterable & { parentId: string }, TBaseItemExtensionProperties>;
 }
 
 export interface ITreeCategory
@@ -92,7 +107,9 @@ export interface ITreeCategory
 
 export interface ITreeCategoryIterable extends ITreeCategory {
   children: ITreeItemIterable[] | ITreeCategoryIterable[];
-  toObject: () => TOmitRecursively<ITreeCategoryIterable & { parentId: string }, 'parent' | 'getValues' | 'toObject'>;
+  toObject: (
+    options?: TOption
+  ) => TOmitRecursively<ITreeCategoryIterable & { parentId: string }, TBaseItemExtensionProperties>;
 }
 
 export interface ITreeRoot {
@@ -100,9 +117,11 @@ export interface ITreeRoot {
   type: 'root';
   model?: never;
   parent?: never;
-  toObject: () => (
-    | TOmitRecursively<ITreeCategoryIterable & { parentId: string }, 'parent' | 'getValues' | 'toObject'>
-    | TOmitRecursively<ITreeItemIterable & { parentId: string }, 'parent' | 'getValues' | 'toObject'>
+  toObject: (
+    options?: TOption
+  ) => (
+    | TOmitRecursively<ITreeCategoryIterable & { parentId: string }, TBaseItemExtensionProperties>
+    | TOmitRecursively<ITreeItemIterable & { parentId: string }, TBaseItemExtensionProperties>
   )[];
 }
 
@@ -117,42 +136,36 @@ export type TTreeElementIterable =
 
 export type TIterableTreeCategoryValues = TOmitRecursively<
   ITreeCategoryIterable & { parentId: string },
-  'parent' | 'getValues' | 'toObject'
+  TBaseItemExtensionProperties
 >;
 export type TIterableTreeItemValues = TOmitRecursively<
   ITreeItemIterable & { parentId: string },
-  'parent' | 'getValues' | 'toObject'
+  TBaseItemExtensionProperties
 >;
 export type TIterableTreeSettingsItemValues = TOmitRecursively<
   ITreeSettingsItemIterable & { parentId: string },
-  'parent' | 'getValues' | 'toObject'
+  TBaseItemExtensionProperties
 >;
 export type TIterableTreeSettingsGroupValues = TOmitRecursively<
   ITreeSettingsGroupIterable & { parentId: string },
-  'parent' | 'getValues' | 'toObject'
+  TBaseItemExtensionProperties
 >;
 export type TIterableTreeSliderValues = TOmitRecursively<
   ITreeSliderIterable & { parentId: string },
-  'parent' | 'getValues' | 'toObject'
+  TBaseItemExtensionProperties
 >;
 
-export type TTreeCategoryValues = TOmitRecursively<
-  ITreeCategory & { parentId: string },
-  'parent' | 'getValues' | 'toObject'
->;
-export type TTreeItemValues = TOmitRecursively<ITreeItem & { parentId: string }, 'parent' | 'getValues' | 'toObject'>;
+export type TTreeCategoryValues = TOmitRecursively<ITreeCategory & { parentId: string }, TBaseItemExtensionProperties>;
+export type TTreeItemValues = TOmitRecursively<ITreeItem & { parentId: string }, TBaseItemExtensionProperties>;
 export type TTreeSettingsItemValues = TOmitRecursively<
   ITreeSettingsItem & { parentId: string },
-  'parent' | 'getValues' | 'toObject'
+  TBaseItemExtensionProperties
 >;
 export type TTreeSettingsGroupValues = TOmitRecursively<
   ITreeSettingsGroup & { parentId: string },
-  'parent' | 'getValues' | 'toObject'
+  TBaseItemExtensionProperties
 >;
-export type TTreeSliderValues = TOmitRecursively<
-  ITreeSlider & { parentId: string },
-  'parent' | 'getValues' | 'toObject'
->;
+export type TTreeSliderValues = TOmitRecursively<ITreeSlider & { parentId: string }, TBaseItemExtensionProperties>;
 
 export type TTreeValues =
   | TTreeCategoryValues
@@ -167,3 +180,8 @@ export type TIterableTreeValues =
   | TIterableTreeSettingsItemValues
   | TIterableTreeSettingsGroupValues
   | TIterableTreeSliderValues;
+
+// type TValidation = { type: 'boolean' | 'number' };
+
+// export type TValidationModel = { name: TControl['name']; validation: { self: TValidation } };
+export type TValidationModel = { name: TControl['name']; validation: ZodType; validateFields: TControl['name'][] };

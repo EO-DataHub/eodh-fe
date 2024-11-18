@@ -3,22 +3,33 @@ import isArray from 'lodash/isArray';
 import { useEffect, useMemo } from 'react';
 import { useController, useFormContext, useWatch } from 'react-hook-form';
 
+import { getControlName } from '../utils';
+
 const useChildControlNames = (item: TIterableTreeCategoryValues): string[] => {
   return useMemo(() => {
     return (item.model.children || [])
       .filter((item) => !item.options?.disabled)
       .map((item) => item.controls.value)
       .flat()
-      .map((control) => control?.name as string | undefined)
-      .filter((item): item is string => !!item);
+      .map((control) => getControlName(control?.name))
+      .filter((item) => item.length);
   }, [item.model.children]);
 };
 
-export const useControl = (item: TIterableTreeCategoryValues) => {
+export const useControl = (item: TIterableTreeCategoryValues, forceDisabled: boolean) => {
   const { setValue } = useFormContext();
-  const disabled = useMemo(() => item.model.options?.disabled, [item.model.options?.disabled]);
-  const expandedControlName = useMemo(() => item.model.controls.expand.name, [item.model.controls.expand.name]);
-  const valueControlName = useMemo(() => item.model.controls.value?.name || '', [item.model.controls.value?.name]);
+  const disabled = useMemo(
+    () => item.model.options?.disabled || forceDisabled,
+    [item.model.options?.disabled, forceDisabled]
+  );
+  const expandedControlName = useMemo(
+    () => getControlName(item.model.controls.expand.name),
+    [item.model.controls.expand.name]
+  );
+  const valueControlName = useMemo(
+    () => getControlName(item.model.controls.value?.name),
+    [item.model.controls.value?.name]
+  );
   const childControlNames = useChildControlNames(item);
   const { field } = useController({ name: valueControlName });
   const childrenSelected: boolean[] = useWatch({ name: childControlNames });

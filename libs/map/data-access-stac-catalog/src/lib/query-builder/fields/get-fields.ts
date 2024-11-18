@@ -4,11 +4,13 @@ import { TCopernicusParams, TFields, TSearchParams } from '../query.model';
 import { getFieldsForCopernicus } from './copernicus/copernicus.field';
 
 export const getFields = (params: TSearchParams): TFields => {
-  if (!params.dataSets?.copernicus) {
+  if (!params.dataSets?.public.copernicus) {
     return {};
   }
 
-  const copernicusFields = (Object.entries(params.dataSets.copernicus) as Entries<typeof params.dataSets.copernicus>)
+  const copernicusFields = (
+    Object.entries(params.dataSets.public.copernicus) as Entries<typeof params.dataSets.public.copernicus>
+  )
     .map(
       ([key, { enabled, ...rest }]) =>
         ({

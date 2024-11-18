@@ -1,6 +1,6 @@
 import { TIterableTreeItemValues } from '@ukri/map/data-access-map';
 import { TreeItem as UiTreeItem } from '@ukri/shared/design-system';
-import { PropsWithChildren, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import { SettingsTree } from '../../../tree/components/settings-tree.component';
@@ -11,14 +11,16 @@ import { useSlots } from './use-slots.hook';
 
 type TTreeItemProps = {
   item: TIterableTreeItemValues;
+  disabled?: boolean;
+  children: (disabled?: boolean) => ReactNode;
 };
 
-export const TreeItem = ({ item, children }: PropsWithChildren<TTreeItemProps>) => {
+export const TreeItem = ({ item, children, disabled: forceDisabled = false }: TTreeItemProps) => {
   const { setValue } = useFormContext();
-  const { showSettingsControlName, valueControlName, disabled } = useControl(item);
+  const { showSettingsControlName, valueControlName, disabled } = useControl(item, forceDisabled);
   const showSettings = useWatch({ name: showSettingsControlName });
   const enabled = useWatch({ name: valueControlName });
-  const slots = useSlots(item, !!children);
+  const slots = useSlots(item, !!children, forceDisabled);
 
   useEffect(() => {
     const options = { shouldDirty: true, shouldValidate: true, shouldTouch: true };
@@ -37,7 +39,7 @@ export const TreeItem = ({ item, children }: PropsWithChildren<TTreeItemProps>) 
         expandable={false}
         disabled={disabled}
       >
-        {showSettings && <SettingsTree>{children}</SettingsTree>}
+        {showSettings && <SettingsTree>{children(disabled)}</SettingsTree>}
       </UiTreeItem>
     </>
   );

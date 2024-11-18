@@ -1,6 +1,4 @@
 import { TEvaluateKey } from './common';
-import { IDynamicTreeCategory } from '../tree-dynamic.model';
-import { FieldPath } from 'react-hook-form';
 
 export type TOmitNever<T> = Omit<
   T,
@@ -13,8 +11,8 @@ type TRecursiveObject<T extends object | object[], K extends string> = T extends
   ? O extends object[]
     ? TEvaluateKey<O, K>
     : O extends object
-      ? TRecursivePick<O, K>
-      : never
+    ? TRecursivePick<O, K>
+    : never
   : never;
 
 // type TRecursiveArray<T extends object | object[], K extends keyof T = keyof T> = T extends object[]
@@ -27,9 +25,6 @@ export type TRecursivePick<T extends object | object[], K extends string> = TOmi
   ? { [P in keyof O]: O[P] }
   : never;
 
-type TResult = TRecursivePick<IDynamicTreeCategory, 'controls'>;
-
-type TResult2 = FieldPath<IDynamicTreeCategory>;
-
 export type TDeepRequired<T> = {
   [K in keyof T]: Required<TDeepRequired<T[K]>>;
+};
