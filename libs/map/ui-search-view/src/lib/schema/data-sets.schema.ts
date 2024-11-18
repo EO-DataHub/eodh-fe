@@ -55,18 +55,20 @@ export const dataSetsActionCreatorUpdateSchema = z.object({
       auxiliary: auxiliaryUpdateGenericSchema,
     })
     .superRefine((schema, ctx) => {
-      if (
-        !schema.copernicus.sentinel1.enabled &&
-        !schema.copernicus.sentinel2.enabled &&
-        !schema.copernicus.sentinel3.enabled &&
-        !schema.copernicus.sentinel5P.enabled &&
-        !schema.auxiliary.clmsCorinelc.enabled &&
-        !schema.auxiliary.clmsWaterBodies.enabled &&
-        !schema.auxiliary.esacciGloballc.enabled
-      ) {
+      const enabledItems = [
+        schema.copernicus.sentinel1.enabled,
+        schema.copernicus.sentinel2.enabled,
+        schema.copernicus.sentinel3.enabled,
+        schema.copernicus.sentinel5P.enabled,
+        schema.auxiliary.clmsCorinelc.enabled,
+        schema.auxiliary.clmsWaterBodies.enabled,
+        schema.auxiliary.esacciGloballc.enabled,
+      ].filter((item) => !!item);
+
+      if (enabledItems.length > 1) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+          message: 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED',
           path: ['copernicus.sentinel1.enabled'],
         });
 
