@@ -4,7 +4,7 @@ export type TDataSetsValues = {
   public: {
     expanded: boolean;
     copernicus: {
-      enabled: boolean;
+      enabled?: boolean;
       expanded: boolean;
       sentinel1?: {
         enabled: boolean;
@@ -50,19 +50,19 @@ export type TDataSetsValues = {
       };
     };
     auxiliary?: {
-      expanded: boolean;
-      enabled: boolean;
+      expanded?: boolean;
+      enabled?: boolean;
       esacciGloballc?: {
-        enabled: boolean;
-        expanded: boolean;
+        enabled?: boolean;
+        expanded?: boolean;
       };
       clmsCorinelc?: {
-        enabled: boolean;
-        expanded: boolean;
+        enabled?: boolean;
+        expanded?: boolean;
       };
       clmsWaterBodies?: {
-        enabled: boolean;
-        expanded: boolean;
+        enabled?: boolean;
+        expanded?: boolean;
       };
     };
   };

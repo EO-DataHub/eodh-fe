@@ -1,11 +1,15 @@
 import { TTreeElementIterable } from '@ukri/map/data-access-map';
 
-import { IOption } from '../tree-dynamic.model';
 import { SettingsItem } from './setting-item/settings-item.component';
 import { SettingsGroup } from './settings-group.component';
 import { SliderItem } from './slider-item.component';
 import { TreeCategory } from './tree-category/tree-category.component';
 import { TreeItem } from './tree-item/tree-item.component';
+
+export interface IOption {
+  disabled?: boolean;
+  expendable?: boolean;
+}
 
 type TTreeElementProps = {
   item: TTreeElementIterable;

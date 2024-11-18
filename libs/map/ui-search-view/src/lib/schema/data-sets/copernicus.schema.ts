@@ -8,7 +8,7 @@ import { sentinel5pRefine, sentinel5pSchema } from './sentinel-5p.schema';
 const notDisplayedErrorMessage = '';
 
 export const copernicusInitialSearchSchema = z.object({
-  enabled: z.boolean(),
+  enabled: z.boolean().optional(),
   expanded: z.boolean(),
   sentinel1: sentinel1Schema
     .extend({
