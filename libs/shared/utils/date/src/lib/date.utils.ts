@@ -13,7 +13,7 @@ export type TDateString = TDateInternal | null;
 
 type TDateFormat = 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YY';
 
-export const dateToNumber = (date: TDateTimeString | TDateString): number | null => {
+export const dateToNumber = (date: TDateTimeString | TDateString, type: 'firstDay' | 'lastDay'): number | null => {
   const d = createDate(date);
   if (d === null) {
     // eslint-disable-next-line no-console
@@ -21,7 +21,11 @@ export const dateToNumber = (date: TDateTimeString | TDateString): number | null
     return null;
   }
 
-  return d.getFullYear() + d.getMonth() / 12;
+  const dateWithFirstDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
+  const dateWithLastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+  const newDate = type === 'firstDay' ? dateWithFirstDayOfMonth : dateWithLastDayOfMonth;
+
+  return newDate.getFullYear() + newDate.getMonth() / 12;
 };
 
 export const numberToDateString = (num: number, monthEnd?: boolean): TDateString => {
@@ -43,7 +47,7 @@ export const getEndYear = (date: TDateString): number | null => {
   }
 
   adjustedDate.setMonth(0, 1);
-  const result = dateToNumber(formatDate(createDateString(adjustedDate)));
+  const result = dateToNumber(formatDate(createDateString(adjustedDate)), 'lastDay');
 
   if (result === null) {
     // eslint-disable-next-line no-console
@@ -61,7 +65,7 @@ export const getBeginingOfYear = (date: TDateString): number | null => {
   }
 
   adjustedDate.setMonth(0, 1);
-  const result = dateToNumber(formatDate(createDateString(adjustedDate)));
+  const result = dateToNumber(formatDate(createDateString(adjustedDate)), 'firstDay');
 
   if (result === null) {
     // eslint-disable-next-line no-console

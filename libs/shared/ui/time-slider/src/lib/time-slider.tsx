@@ -35,6 +35,7 @@ interface ITimeSliderProps {
   selectedMin?: TDate;
   selectedMax?: TDate;
   className?: string;
+  disabled?: boolean;
   onUpdate: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void;
 }
 
@@ -42,9 +43,10 @@ export const TimeSlider = ({
   min,
   max,
   selectedMin = min,
-  selectedMax = min,
+  selectedMax = max,
   onUpdate,
   className,
+  disabled,
 }: ITimeSliderProps) => {
   const minNum = getBeginingOfYear(min) ?? undefined;
   const maxNum = getEndYear(max) ?? undefined;
@@ -68,7 +70,7 @@ export const TimeSlider = ({
     <div className={`${sliderStyles.container} ${className}`}>
       <div className={sliderStyles.innerContainer}>
         <Slider
-          value={[dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]}
+          value={[dateToNumber(selectedMin, 'firstDay') ?? 0, dateToNumber(selectedMax, 'lastDay') ?? 0]}
           onChange={updateSliderValue}
           valueLabelDisplay='auto'
           min={minNum}
@@ -81,6 +83,7 @@ export const TimeSlider = ({
             markLabel: CustomLabel,
           }}
           className={sliderStyles.slider}
+          disabled={disabled}
         />
       </div>
     </div>

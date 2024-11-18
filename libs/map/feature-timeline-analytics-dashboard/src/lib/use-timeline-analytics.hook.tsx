@@ -1,5 +1,6 @@
 import { useResults } from '@ukri/map/data-access-map';
-import { createDateString, type TDateString } from '@ukri/shared/utils/date';
+import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
+import { createDateString, dateToNumber, type TDateString } from '@ukri/shared/utils/date';
 import debounce from 'lodash/debounce';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -52,6 +53,7 @@ const useDateRange = () => {
 
 export const useTimelineAnalytics = () => {
   const { isWorkflow, isCatalogue, searchParams, updateSearchParams } = useResults();
+  const { status } = useCatalogSearch({ params: searchParams });
   const {
     minDate,
     maxDate,
@@ -60,9 +62,21 @@ export const useTimelineAnalytics = () => {
     updateSelectedDate: updateCurrentSelectedDate,
   } = useDateRange();
 
-  const callback = useCallback(
+  const updateSearchResultsParams = useCallback(
     (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => {
       if (!searchParams) {
+        return;
+      }
+      const newDateFromAsNumber = dateToNumber(dateFrom, 'firstDay');
+      const newDateToAsNumber = dateToNumber(dateTo, 'lastDay');
+      const currentDateFromAsNumber = searchParams.date?.from ? dateToNumber(searchParams.date.from, 'firstDay') : 0;
+      const currentDateToAsNumber = searchParams.date?.to ? dateToNumber(searchParams.date.to, 'lastDay') : 0;
+      const newDateFrom =
+        newDateFromAsNumber === currentDateFromAsNumber && searchParams.date?.from ? searchParams.date.from : dateFrom;
+      const newDateTo =
+        newDateToAsNumber === currentDateToAsNumber && searchParams.date?.to ? searchParams.date.to : dateFrom;
+
+      if (newDateFromAsNumber === currentDateFromAsNumber && newDateToAsNumber === currentDateToAsNumber) {
         return;
       }
 
@@ -70,8 +84,8 @@ export const useTimelineAnalytics = () => {
         updateSearchParams({
           id: searchParams.id,
           date: {
-            from: dateFrom,
-            to: dateTo,
+            from: newDateFrom,
+            to: newDateTo,
           },
           dataSets: searchParams.dataSets ?? undefined,
           aoi: searchParams.aoi ?? undefined,
@@ -81,8 +95,8 @@ export const useTimelineAnalytics = () => {
         updateSearchParams({
           id: searchParams.id,
           date: {
-            from: dateFrom,
-            to: dateTo,
+            from: newDateFrom,
+            to: newDateTo,
           },
           jobId: searchParams.jobId || '',
           userWorkspace: searchParams.userWorkspace || '',
@@ -93,16 +107,16 @@ export const useTimelineAnalytics = () => {
     [isCatalogue, isWorkflow, searchParams, updateSearchParams]
   );
 
-  const updateSearchResultsParams = useMemo(() => {
-    return debounce(callback, 300);
-  }, [callback]);
+  const updateSearchResultsParamsWithDebounce = useMemo(() => {
+    return debounce(updateSearchResultsParams, 300);
+  }, [updateSearchResultsParams]);
 
   const updateSelectedDate = useCallback(
     (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => {
       updateCurrentSelectedDate(dateFrom, dateTo);
-      updateSearchResultsParams(dateFrom, dateTo);
+      updateSearchResultsParamsWithDebounce(dateFrom, dateTo);
     },
-    [updateSearchResultsParams, updateCurrentSelectedDate]
+    [updateSearchResultsParamsWithDebounce, updateCurrentSelectedDate]
   );
 
   return {
@@ -111,5 +125,6 @@ export const useTimelineAnalytics = () => {
     selectedMinDate,
     selectedMaxDate,
     updateSelectedDate,
+    status,
   };
 };

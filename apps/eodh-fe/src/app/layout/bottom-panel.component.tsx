@@ -13,10 +13,8 @@ export const BottomPanel = ({ className }: IBottomPanel) => {
   }
 
   return (
-    <div
+    <TimelineAnalyticsDashboard
       className={`w-full h-[76px] bg-background-main border-b-[1px] border-bright-dark flex items-center text-text bottom-0 ${className}`}
-    >
-      <TimelineAnalyticsDashboard className='grow' />
-    </div>
+    />
   );
 };
