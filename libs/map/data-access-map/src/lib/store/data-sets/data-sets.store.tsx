@@ -5,8 +5,8 @@ import merge from 'lodash/merge';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
-import { TreeBuilder } from '../../dynamic-tree/tree-builder/tree.builder';
+import { TDataSetsValues } from '../../form-builder/tree/data-sets.model';
+import { TreeBuilder } from '../../form-builder/tree/tree-builder/tree.builder';
 import {
   defaultState,
   getDefaultDataSetValues,

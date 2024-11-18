@@ -1,7 +1,7 @@
-import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
-import { actionCreatorSchema, searchSchema } from '../../dynamic-tree/schema/data-sets.schema';
-import { TreeBuilder } from '../../dynamic-tree/tree-builder/tree.builder';
-import { TDynamicTreeModel } from '../../dynamic-tree/tree-dynamic.model';
+import { TDataSetsValues } from '../../form-builder/tree/data-sets.model';
+import { actionCreatorSchema, searchSchema } from '../../form-builder/tree/schema/data-sets.schema';
+import { TreeBuilder } from '../../form-builder/tree/tree-builder/tree.builder';
+import { TDynamicTreeModel } from '../../form-builder/tree/tree-dynamic.model';
 
 export type TDataSetsState = 'readonly' | 'edit';
 

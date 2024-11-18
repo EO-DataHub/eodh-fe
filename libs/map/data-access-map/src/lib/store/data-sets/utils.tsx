@@ -3,9 +3,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import merge from 'lodash/merge';
 import set from 'lodash/set';
 
-import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
-import { actionCreatorSchema, searchSchema } from '../../dynamic-tree/schema/data-sets.schema';
-import { TDynamicTreeModel } from '../../dynamic-tree/tree-dynamic.model';
+import { TDataSetsValues } from '../../form-builder/tree/data-sets.model';
+import { actionCreatorSchema, searchSchema } from '../../form-builder/tree/schema/data-sets.schema';
+import { TDynamicTreeModel } from '../../form-builder/tree/tree-dynamic.model';
 import { getDefaultDataSetValues, TDataSetsStore, TDataSetValue, TSchema } from './data-sets.model';
 
 // todo move this mapping into TreeBuilder object. We shouldn't relay on array indexes - control names should be used instead

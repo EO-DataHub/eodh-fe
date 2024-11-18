@@ -39,8 +39,8 @@ export type { TPreset } from './lib/query/presets.model';
 export { useCollectionInfo } from './lib/query/collection-info.query';
 export { fetchImage } from './lib/query/protected-image.query';
 export type { TMode } from './lib/store/mode.model';
-export { TreeBuilder } from './lib/dynamic-tree/tree-builder/tree.builder';
-export type { TDynamicTreeModel, TDynamicTreeElement } from './lib/dynamic-tree/tree-dynamic.model';
+export { TreeBuilder } from './lib/form-builder/tree/tree-builder/tree.builder';
+export type { TDynamicTreeModel, TDynamicTreeElement } from './lib/form-builder/tree/tree-dynamic.model';
 export type {
   ITreeSettingsItem,
   ITreeSettingsGroup,
@@ -60,4 +60,4 @@ export type {
   TIterableTreeSettingsItemValues,
   TIterableTreeSettingsGroupValues,
   TIterableTreeSliderValues,
-} from './lib/dynamic-tree/tree-builder/tree-builder.model';
+} from './lib/form-builder/tree/tree-builder/tree-builder.model';
