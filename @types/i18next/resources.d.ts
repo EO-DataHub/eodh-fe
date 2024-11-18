@@ -227,6 +227,7 @@ interface Resources {
       SEARCH_VIEW: {
         VALIDATION: {
           ONE_OF_FIELDS_REQUIRED: 'You must select at least one of the following options';
+          ONLY_ONE_FIELD_IS_REQUIRED: 'You must select only one of the following options';
           DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO: 'Invalid date. Date from should be earlier';
           DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
         };
