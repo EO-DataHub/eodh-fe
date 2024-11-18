@@ -8,7 +8,6 @@ import {
   TControlValue,
   TItemType,
   TOption,
-  TValidationModel,
 } from './tree-builder.model';
 
 export abstract class BasicTreeItem<
@@ -38,6 +37,4 @@ export abstract class BasicTreeItem<
   public abstract toObject: (options?: TOption) => Omit<IBaseItem<M, P, T>, TBaseItemExtensionProperties>;
 
   public abstract getValues: (withChildren?: boolean) => TControlValue[];
-
-  public abstract getValidationModel: () => TValidationModel[];
 }

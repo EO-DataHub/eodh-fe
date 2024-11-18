@@ -5,8 +5,8 @@ import {
   IDynamicTreeSettingItem,
 } from '../tree-dynamic.model';
 import { BasicTreeItem } from './basic-tree.item';
-import { ITreeSlider, ITreeSliderIterable, TOption, TValidationOptions } from './tree-builder.model';
-import { getControlsValidationModel, getControlsValues, getOptions, mergeOptions } from './utils';
+import { ITreeSlider, ITreeSliderIterable, TOption } from './tree-builder.model';
+import { getControlsValues, getOptions } from './utils';
 
 export class TreeSlider
   extends BasicTreeItem<IDynamicSlider, IDynamicTreeItem | IDynamicTreeSettingItem | IDynamicTreeSettingGroup>
@@ -32,9 +32,6 @@ export class TreeSlider
       options: getOptions(this.model.options, options),
     },
   });
-
-  public getValidationModel = (options?: TValidationOptions) =>
-    getControlsValidationModel([this.model], mergeOptions(options, this.model.options));
 }
 
 export class TreeSliderIterable extends TreeSlider implements ITreeSliderIterable {

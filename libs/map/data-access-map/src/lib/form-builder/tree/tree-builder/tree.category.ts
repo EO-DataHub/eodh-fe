@@ -10,9 +10,8 @@ import {
   TControlValue,
   TOmitRecursively,
   TOption,
-  TValidationOptions,
 } from './tree-builder.model';
-import { getControlsValidationModel, getControlsValues, getOptions, mergeOptions } from './utils';
+import { getControlsValues, getOptions } from './utils';
 
 export class TreeCategory
   extends BasicTreeItem<IDynamicTreeCategory, IDynamicTreeItem | IDynamicTreeCategory, ITreeRoot>
@@ -38,9 +37,6 @@ export class TreeCategory
   });
 
   public getValues = () => getControlsValues(Object.values(this.model.controls));
-
-  public getValidationModel = (options?: TValidationOptions) =>
-    getControlsValidationModel(Object.values(this.model.controls), mergeOptions(options, this.model.options));
 }
 
 export class TreeCategoryIterable extends TreeCategory implements ITreeCategoryIterable {

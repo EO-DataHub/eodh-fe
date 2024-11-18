@@ -7,10 +7,8 @@ import {
   ITreeSettingsItemIterable,
   TControlValue,
   TOption,
-  TValidationModel,
-  TValidationOptions,
 } from './tree-builder.model';
-import { getOptions, mergeOptions } from './utils';
+import { getOptions } from './utils';
 
 export class TreeSettingsGroup
   extends BasicTreeItem<IDynamicTreeSettingGroup, IDynamicTreeItem | IDynamicTreeSettingItem | IDynamicTreeSettingGroup>
@@ -36,8 +34,6 @@ export class TreeSettingsGroup
       options: getOptions(this.model.options, options),
     },
   });
-
-  public getValidationModel = (): TValidationModel[] => [];
 }
 
 export class TreeSettingsGroupIterable extends TreeSettingsGroup implements ITreeSettingsGroupIterable {
@@ -70,7 +66,4 @@ export class TreeSettingsGroupIterable extends TreeSettingsGroup implements ITre
 
     return this.children.map((item) => item.getValues(withChildren)).flat();
   };
-
-  public getValidationModel = (options?: TValidationOptions) =>
-    this.children.map((item) => item.getValidationModel(mergeOptions(options, this.model.options))).flat();
 }

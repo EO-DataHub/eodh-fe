@@ -1,5 +1,3 @@
-import { ZodType } from 'zod';
-
 import {
   IDynamicBaseItem,
   IDynamicSlider,
@@ -25,12 +23,7 @@ export type TItemType = 'category' | 'item' | 'settingItem' | 'settingGroup' | '
 
 export type TControlValue = { name: TControl['name']; value: TControl['value']; type: TControl['type'] };
 
-export type TBaseItemExtensionProperties = 'parent' | 'getValues' | 'getValidationModel' | 'toObject';
-
-export type TValidationOptions = {
-  disabled?: boolean;
-  optional?: boolean;
-};
+export type TBaseItemExtensionProperties = 'parent' | 'getValues' | 'toObject';
 
 export type TOption = IOption & { withChildren?: boolean };
 
@@ -45,7 +38,6 @@ export interface IBaseItem<
   parent: T extends null ? IBaseItem<P> : IBaseItem<P> | T;
   toObject: (options?: TOption) => Omit<IBaseItem<M, P, T>, TBaseItemExtensionProperties>;
   getValues: (withChildren?: boolean) => TControlValue[];
-  getValidationModel: (options?: TValidationOptions) => TValidationModel[];
 }
 
 export interface ITreeSettingsItem
@@ -180,5 +172,3 @@ export type TIterableTreeValues =
   | TIterableTreeSettingsItemValues
   | TIterableTreeSettingsGroupValues
   | TIterableTreeSliderValues;
-
-export type TValidationModel = { name: TControl['name']; validation: ZodType; validateFields: TControl['name'][] };
