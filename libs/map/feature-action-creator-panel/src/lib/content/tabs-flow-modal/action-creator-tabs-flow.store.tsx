@@ -15,7 +15,7 @@ const useModalStore = create<IModalStore>()(
     persist(
       (set) => ({
         permanentHidden: false,
-        open: true,
+        open: false,
         hidePermanently: () =>
           set((state) => ({
             open: state.open,
