@@ -53,6 +53,7 @@ export const activatePanel = (node?: TNode) => {
 export const reset = () => {
   useAoiStore.getState().setShape(undefined);
   useDataSetsStore.getState().updateDataSets(undefined);
+  useDataSetsStore.getState().enable();
   useDateStore.getState().reset();
 };
 
