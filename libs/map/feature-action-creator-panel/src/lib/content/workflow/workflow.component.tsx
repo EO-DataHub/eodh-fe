@@ -52,7 +52,7 @@ export const Workflow = () => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
     const dataSetNode = getNodesByType<TDataSetsNode>('dataSet').pop();
     const dateRangeNode = getNodesByType<TDateRangeNode>('dateRange').pop();
-    const functionNodes = getNodesByType<TFunctionNode>('function');
+    const functionNodes = getNodesByType<TFunctionNode>('function').filter((node) => !!node.value?.identifier);
 
     if (
       !aoiNode?.value ||
