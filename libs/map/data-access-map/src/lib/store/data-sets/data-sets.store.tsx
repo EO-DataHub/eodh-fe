@@ -2,12 +2,10 @@ import type {} from '@redux-devtools/extension';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
-import setValue from 'lodash/set';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
-import { actionCreatorSchema, searchSchema } from '../../dynamic-tree/schema/data-sets.schema';
 import { TreeBuilder } from '../../dynamic-tree/tree-builder/tree.builder';
 import {
   defaultState,
@@ -17,7 +15,7 @@ import {
   TDataSetsStoreState,
   TSchema,
 } from './data-sets.model';
-import { dataSetsDisabledMap, getValuesForDataSet } from './utils';
+import { getTreeModel, getValuesForDataSet } from './utils';
 
 export const useDataSetsStore = create<TDataSetsStore>()(
   devtools((set) => ({
@@ -34,8 +32,9 @@ export const useDataSetsStore = create<TDataSetsStore>()(
       ),
     changeSchema: (schema: TSchema) =>
       set(() => {
+        const treeModel = getTreeModel(schema, undefined);
+
         if (schema === 'search') {
-          const treeModel = cloneDeep(searchSchema);
           return {
             schema,
             dataSets: {
@@ -44,10 +43,9 @@ export const useDataSetsStore = create<TDataSetsStore>()(
             },
             treeModel,
             state: 'edit',
+            supportedDataSets: undefined,
           };
         }
-
-        const treeModel = cloneDeep(actionCreatorSchema);
 
         return {
           schema,
@@ -61,35 +59,15 @@ export const useDataSetsStore = create<TDataSetsStore>()(
       }),
     changeState: (state: TDataSetsState) => set(() => ({ state })),
     setDataSet: (dataSet) => set((state) => getValuesForDataSet(dataSet, state)),
+    setSupportedDataSets: (dataSets) =>
+      set((state) => ({
+        supportedDataSets: dataSets,
+        treeModel: getTreeModel(state.schema, state.treeModel, dataSets),
+      })),
     enable: (dataSet) =>
-      set((state) => {
-        const treeModel = merge(cloneDeep(state.treeModel), [
-          { options: { disabled: false } },
-          { options: { disabled: true } },
-        ]);
-
-        if (!dataSet) {
-          return { treeModel: state.schema === 'search' ? cloneDeep(searchSchema) : cloneDeep(actionCreatorSchema) };
-        }
-
-        Object.entries(dataSetsDisabledMap)
-          .filter(([key]) => !dataSet.find((item) => item === key))
-          .forEach(([, paths]) => {
-            paths.forEach((path) => {
-              setValue(treeModel, path, true);
-            });
-          });
-
-        Object.entries(dataSetsDisabledMap)
-          .filter(([key]) => dataSet.find((item) => item === key))
-          .forEach(([, paths]) => {
-            paths.forEach((path) => {
-              setValue(treeModel, path, false);
-            });
-          });
-
-        return { treeModel };
-      }),
+      set((state) => ({
+        treeModel: getTreeModel(state.schema, state.treeModel, dataSet ? dataSet : state.supportedDataSets),
+      })),
     disable: () =>
       set((state) => ({
         treeModel: merge(cloneDeep(state.treeModel), [

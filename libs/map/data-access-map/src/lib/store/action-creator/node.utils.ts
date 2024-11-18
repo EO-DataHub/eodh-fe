@@ -12,6 +12,10 @@ export const nodeHasValue = (node?: TNode) => {
     return node.value?.from && node.value?.to;
   }
 
+  if (node.type === 'function') {
+    return !!node.value?.identifier;
+  }
+
   return !!node.value;
 };
 
@@ -125,7 +129,7 @@ export const getValidFunctions = (
   node: TNode,
   functions: TBaseFunction[] | undefined
 ): TBaseFunction[] => {
-  const nodes = allNodes.filter((item) => item.type === 'function');
+  const nodes = allNodes.filter((item): item is TFunctionNode => isFunctionNode(item));
   const firstFunctionOrderNumber = Math.min(...nodes.map((item) => item.order));
 
   if (!isFunctionNode(node) || !functions) {
@@ -138,7 +142,9 @@ export const getValidFunctions = (
 
   return functions
     .filter((item) => !item.standalone)
-    .filter((item) => !nodes.filter((item) => item.id !== node.id).find((node) => node.value === item.identifier));
+    .filter(
+      (item) => !nodes.filter((item) => item.id !== node.id).find((node) => node.value?.identifier === item.identifier)
+    );
 };
 
 export const isLastFunctionNodeWithNoValue = (node: TNode, nodes: TNode[]) => {

@@ -6,10 +6,11 @@ import {
   TNode,
   useActionCreator,
   useCreateWorkflow,
+  useDataSets,
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { Container, Content, Footer } from '../container.component';
 import { useTabsFlowModalState } from '../tabs-flow-modal/action-creator-tabs-flow.store';
@@ -43,7 +44,8 @@ const renderNode = (node: TNode) => {
 export const Workflow = () => {
   const { nodes, isValid, getNodesByType } = useActionCreator();
   const { status, isPending, isSuccess, mutate } = useCreateWorkflow();
-  const { data } = useFunctions();
+  const { data, isSuccess: isFunctionsLoaded } = useFunctions();
+  const { setSupportedDataSets } = useDataSets();
   const { isOpen } = useTabsFlowModalState();
 
   const createWorkflow = useCallback(() => {
@@ -73,6 +75,16 @@ export const Workflow = () => {
       functions: data,
     });
   }, [data, getNodesByType, mutate]);
+
+  useEffect(() => {
+    if (isFunctionsLoaded) {
+      const options = data
+        .map((item) => item.inputs.stacCollection?.options.map((option) => option.value))
+        .flat()
+        .filter((item): item is string => !!item);
+      setSupportedDataSets(options);
+    }
+  }, [data, isFunctionsLoaded, setSupportedDataSets]);
 
   return (
     <Container>

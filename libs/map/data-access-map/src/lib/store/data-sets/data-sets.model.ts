@@ -20,19 +20,21 @@ export type TDataSetValue =
 export type TDataSetsStore<T = TDataSetsValues> = {
   schema: TSchema;
   dataSets: T & { status: 'initial' | 'updated' };
+  supportedDataSets: string[] | undefined;
   treeModel: TDynamicTreeModel;
   state: TDataSetsState;
   updateDataSets: (state: T | undefined) => void;
   changeSchema: (schema: TSchema) => void;
   changeState: (state: TDataSetsState) => void;
   setDataSet: (dataSet: TDataSetValue | string | undefined) => void;
+  setSupportedDataSets: (dataSets: string[] | undefined) => void;
   enable: (dataSet?: (TDataSetValue | string)[] | undefined) => void;
   disable: () => void;
 };
 
 export type TDataSetsStoreState = Omit<
   TDataSetsStore,
-  'updateDataSets' | 'changeSchema' | 'setDataSet' | 'enable' | 'disable'
+  'updateDataSets' | 'changeSchema' | 'setDataSet' | 'enable' | 'disable' | 'setSupportedDataSets'
 >;
 
 export const getDefaultDataSetValues = (schema: TSchema): TDataSetsValues & { status: 'initial' | 'updated' } => {
@@ -55,7 +57,7 @@ export const getDefaultDataSetValues = (schema: TSchema): TDataSetsValues & { st
 
 export const defaultState: Omit<
   TDataSetsStore,
-  'updateDataSets' | 'changeSchema' | 'changeState' | 'setDataSet' | 'enable' | 'disable'
+  'updateDataSets' | 'changeSchema' | 'changeState' | 'setDataSet' | 'enable' | 'disable' | 'setSupportedDataSets'
 > = {
   state: 'edit',
   schema: 'search',
@@ -63,5 +65,6 @@ export const defaultState: Omit<
     status: 'initial',
     ...new TreeBuilder(searchSchema).getValues(),
   },
+  supportedDataSets: undefined,
   treeModel: searchSchema,
 };

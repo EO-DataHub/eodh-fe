@@ -1,14 +1,28 @@
 import type {} from '@redux-devtools/extension';
+import cloneDeep from 'lodash/cloneDeep';
+import merge from 'lodash/merge';
 import set from 'lodash/set';
 
 import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
-import { getDefaultDataSetValues, TDataSetsStore, TDataSetValue } from './data-sets.model';
+import { actionCreatorSchema, searchSchema } from '../../dynamic-tree/schema/data-sets.schema';
+import { TDynamicTreeModel } from '../../dynamic-tree/tree-dynamic.model';
+import { getDefaultDataSetValues, TDataSetsStore, TDataSetValue, TSchema } from './data-sets.model';
 
 // todo move this mapping into TreeBuilder object. We shouldn't relay on array indexes - control names should be used instead
 export const dataSetsDisabledMap: { [key in TDataSetValue]: string[] } = {
   'sentinel-1': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.0.options.disabled'],
-  'sentinel-2-l1c': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.1.options.disabled'],
-  'sentinel-2-l2a': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.1.options.disabled'],
+  'sentinel-2-l1c': [
+    '0.options.disabled',
+    '0.children.0.options.disabled',
+    '0.children.0.children.1.options.disabled',
+    '0.children.0.children.1.children.0.options.disabled',
+  ],
+  'sentinel-2-l2a': [
+    '0.options.disabled',
+    '0.children.0.options.disabled',
+    '0.children.0.children.1.options.disabled',
+    '0.children.0.children.1.children.1.options.disabled',
+  ],
   'sentinel-3': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.2.options.disabled'],
   'sentinel-5p': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.3.options.disabled'],
   'esacci-globallc': [
@@ -106,4 +120,40 @@ export const getValuesForDataSet = (
   }
 
   return { dataSets: newValues };
+};
+
+export const getTreeModel = (
+  schema: TSchema,
+  treeModel: TDynamicTreeModel | undefined,
+  dataSet?: string[]
+): TDynamicTreeModel => {
+  let newTreeModel = schema === 'search' ? cloneDeep(searchSchema) : cloneDeep(actionCreatorSchema);
+
+  if (!dataSet) {
+    return newTreeModel;
+  }
+
+  dataSet = [...new Set(dataSet)];
+  newTreeModel = merge(cloneDeep(treeModel ? treeModel : newTreeModel), [
+    { options: { disabled: false } },
+    { options: { disabled: true } },
+  ]);
+
+  Object.entries(dataSetsDisabledMap)
+    .filter(([key]) => !dataSet.find((item) => item === key))
+    .forEach(([, paths]) => {
+      paths.forEach((path) => {
+        set(newTreeModel, path, true);
+      });
+    });
+
+  Object.entries(dataSetsDisabledMap)
+    .filter(([key]) => dataSet.find((item) => item === key))
+    .forEach(([, paths]) => {
+      paths.forEach((path) => {
+        set(newTreeModel, path, false);
+      });
+    });
+
+  return newTreeModel;
 };
