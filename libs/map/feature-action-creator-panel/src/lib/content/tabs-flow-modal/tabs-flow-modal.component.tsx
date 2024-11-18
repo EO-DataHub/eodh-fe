@@ -1,9 +1,11 @@
+import { useMode, useResults } from '@ukri/map/data-access-map';
 import { Button, Checkbox, Icon, Text } from '@ukri/shared/design-system';
 import { useCallback, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { ActionCreator } from '../../action-creator-panel.context';
-import { useCloseModal, useDoNotShowAgain, useModalState } from './action-creator-tabs-flow.store';
+// import { useLoadHistoryResults } from '../history/use-load-history-results.hook';
+import { useCloseTabsFlowModal, useDoNotShowAgain, useModalState } from './action-creator-tabs-flow.store';
 import { styles } from './tabs-flow-modal.styles';
 
 interface ITabsFlowModalProps {
@@ -23,13 +25,20 @@ const defaultValues: TChecklistForm = {
 export const TabsFlowModal = ({ header, content, ctaText }: ITabsFlowModalProps) => {
   const { register, handleSubmit } = useForm<TChecklistForm>({ defaultValues });
   const { isOpen } = useModalState();
-  const hideModal = useCloseModal();
+  const { updateSearchParams } = useResults();
+  const { changeView } = useMode();
+  const hideModal = useCloseTabsFlowModal();
   const hideModalPermanently = useDoNotShowAgain();
   const { setActiveTab } = useContext(ActionCreator);
+  // const { hideResults } = useLoadHistoryResults();
 
   const handleYesCtaClick = useCallback(() => {
+    updateSearchParams(undefined);
+    // changeState('readonly');
+    changeView('search');
+    // hideResults();
     hideModal();
-  }, [hideModal]);
+  }, [hideModal, updateSearchParams, changeView]);
 
   const handleNoCtaClick = useCallback(() => {
     setActiveTab('history');

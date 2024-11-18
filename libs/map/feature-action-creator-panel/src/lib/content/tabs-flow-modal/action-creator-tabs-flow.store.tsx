@@ -59,6 +59,10 @@ export const useDoNotShowAgain = () => {
   return useModalStore((state) => state.hidePermanently);
 };
 
-export const useCloseModal = () => {
+export const useCloseTabsFlowModal = () => {
   return useModalStore((state) => state.close);
+};
+
+export const useOpenTabsFlowModal = () => {
+  return useModalStore((state) => (state.permanentHidden ? state.close : state.show));
 };
