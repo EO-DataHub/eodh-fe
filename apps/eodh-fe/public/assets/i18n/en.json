@@ -120,8 +120,8 @@
         },
         "PRESETS": {
           "HEADER": "You are about to navigate away from your loaded Workflow results.",
-          "CONTENT": "Loading a preset will replace any data you’re currently viewing. You can still access this data from the Presets tab at the top of the Action Creator. Are you sure you want to do this?",
-          "CTA_BUTTON": "Yes, load Preset"
+          "CONTENT": "Loading a preset will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?",
+          "CTA_BUTTON": "Yes, view Presets"
         }
       },
       "PRESETS": {
