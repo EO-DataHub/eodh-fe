@@ -26,8 +26,6 @@ export const useFormUpdate = (
         const schema = getSchema(schemaA).initial;
         const parsedValues = schema.safeParse(values);
 
-        console.log('parsedValues', values, parsedValues);
-
         if (parsedValues.success) {
           onChange(values);
         }

@@ -4,7 +4,6 @@ import isString from 'lodash/isString';
 import { useFormState } from 'react-hook-form';
 
 import { getTreeIndent, TIndent } from './indent.provider';
-import { getControlName } from './utils';
 
 type TErrorProps = {
   name: string;

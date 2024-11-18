@@ -4,7 +4,6 @@ import {
   TFunctionNode,
   TNode,
   useActionCreator,
-  useDataSets,
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
@@ -13,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useActiveDataSet } from '../data-set/use-active-dataset.hook';
 import { EmptyNode } from '../empty-node.component';
-import { TOption } from '../node-select.component';
+import { TOption, TValue } from '../node-select.component';
 import { ActiveNode } from './active-node.component';
 import { LoadingNode } from './loading-node.component';
 import { ValueNode } from './value-node.component';
@@ -45,9 +44,11 @@ const useOptions = (dataSet: string | null) => {
 
   return (node: TNode, data: TBaseFunction[] | undefined): TOption[] =>
     getValidFunctions(node, data).map((item) => ({
-      value: item.identifier,
+      value: {
+        value: item.identifier,
+        supportedDataSets: item.inputs.stacCollection?.options.map((option) => option.value) || [],
+      },
       label: t(getFunctionTranslationKey(item.identifier, item.name) || ''),
-      dataSets: item.inputs.stacCollection?.options.map((option) => option.value),
       disabled: isFunctionOptionDisabled(
         dataSet,
         item.inputs.stacCollection?.options.map((option) => option.value)
@@ -59,7 +60,7 @@ type TNodeProps = {
   node: TFunctionNode;
   data: TFunction[] | undefined;
   isLoading: boolean;
-  onChange?: (value: string | null | undefined, dataSets: string[] | undefined) => void;
+  onChange?: (value: TValue | null | undefined) => void;
 };
 
 const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
@@ -97,7 +98,6 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
-  const { enable } = useDataSets();
   const { data, isLoading } = useFunctions();
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
@@ -110,13 +110,15 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   }, [canBeActivated, node, setActiveNode]);
 
   const updateFunction = useCallback(
-    (value: string | undefined | null, dataSets: string[] | undefined) => {
+    (value: TValue | undefined | null) => {
       if (node.state === 'active') {
-        setValue(node, value);
-        enable(dataSets);
+        const newValue = value?.value
+          ? { identifier: value.value, supportedDataSets: value.supportedDataSets }
+          : undefined;
+        setValue(node, newValue);
       }
     },
-    [node, setValue, enable]
+    [node, setValue]
   );
 
   if (!node.tooltip) {

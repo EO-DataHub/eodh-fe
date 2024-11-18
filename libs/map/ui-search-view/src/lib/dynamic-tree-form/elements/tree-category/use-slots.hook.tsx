@@ -8,7 +8,7 @@ import { Checkbox } from '../checkbox.component';
 import { useControl } from './use-control.hook';
 
 export const useSlots = (item: TIterableTreeCategoryValues, forceDisabled: boolean): TSlots | undefined => {
-  const { register, setValue, trigger } = useFormContext();
+  const { setValue, trigger } = useFormContext();
   const { childControlNames, valueControlName, disabled } = useControl(item, forceDisabled);
   const { field } = useController({ name: valueControlName });
   const childrenSelected: boolean[] = useWatch({ name: childControlNames });
@@ -53,5 +53,5 @@ export const useSlots = (item: TIterableTreeCategoryValues, forceDisabled: boole
         key: 'checkbox',
       },
     ];
-  }, [valueControlName, disabled, register, selectedIcon, toggle]);
+  }, [valueControlName, disabled, selectedIcon, toggle]);
 };

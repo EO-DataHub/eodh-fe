@@ -10,7 +10,7 @@ import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
 import { actionCreatorSchema, searchSchema } from '../../dynamic-tree/schema/data-sets.schema';
 import { TreeBuilder } from '../../dynamic-tree/tree-builder/tree.builder';
 import { defaultState, TDataSetsState, TDataSetsStore, TDataSetsStoreState, TSchema } from './data-sets.model';
-import { dataSetsDisabledMap, setDataSet } from './utils';
+import { dataSetsDisabledMap, getValuesForDataSet } from './utils';
 
 export const useDataSetsStore = create<TDataSetsStore>()(
   devtools((set) => ({
@@ -49,15 +49,13 @@ export const useDataSetsStore = create<TDataSetsStore>()(
         };
       }),
     changeState: (state: TDataSetsState) => set(() => ({ state })),
-    setDataSet: (dataSet) => set((state) => setDataSet(dataSet, state)),
+    setDataSet: (dataSet) => set((state) => getValuesForDataSet(dataSet, state)),
     enable: (dataSet) =>
       set((state) => {
         const treeModel = merge(cloneDeep(state.treeModel), [
           { options: { disabled: false } },
           { options: { disabled: true } },
         ]);
-
-        console.log('dataSet---enable', dataSet);
 
         if (!dataSet) {
           return { treeModel: state.schema === 'search' ? cloneDeep(searchSchema) : cloneDeep(actionCreatorSchema) };

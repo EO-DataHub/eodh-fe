@@ -53,10 +53,15 @@ export const getNodes = <T extends TNode>(nodes: TNode[], type: T['type']): T[] 
   return [];
 };
 
-export const createNode = (id: string | number, type: TNode['type'], order: number, first = false): TNode => {
+export const createNode = <Node extends TNode, Type extends TNode['type'] = Node['type']>(
+  id: string | number,
+  type: Type,
+  order: number,
+  first = false
+): Node => {
   switch (type) {
     case 'area': {
-      return {
+      const node: TAreaNode = {
         id: `area-${id}`,
         type: 'area',
         state: 'initial',
@@ -64,10 +69,12 @@ export const createNode = (id: string | number, type: TNode['type'], order: numb
         tooltip: first,
         order,
       };
+
+      return node as Node;
     }
 
     case 'dataSet': {
-      return {
+      const node: TDataSetsNode = {
         id: `dataSet-${id}`,
         type: 'dataSet',
         state: 'initial',
@@ -75,20 +82,24 @@ export const createNode = (id: string | number, type: TNode['type'], order: numb
         tooltip: first,
         order,
       };
+
+      return node as Node;
     }
 
     case 'dateRange': {
-      return {
+      const node: TDateRangeNode = {
         id: `date-${id}`,
         type: 'dateRange',
         state: 'initial',
         value: undefined,
         order,
       };
+
+      return node as Node;
     }
 
     case 'function': {
-      return {
+      const node: TFunctionNode = {
         id: `function-${id}`,
         type: 'function',
         state: 'initial',
@@ -96,6 +107,13 @@ export const createNode = (id: string | number, type: TNode['type'], order: numb
         tooltip: first,
         order,
       };
+
+      return node as Node;
+    }
+
+    default: {
+      // todo in newer version of TypeScript it should be supported types narrowing on conditions (if-else/switch-case)
+      return undefined as unknown as Node;
     }
   }
 };

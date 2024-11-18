@@ -4,7 +4,7 @@ import { auxiliaryInitialSchema, auxiliaryUpdateGenericSchema } from './data-set
 import {
   copernicusInitialSearchSchema,
   copernicusInitialUpdateSchema,
-  copernicusUpdateGenericSchema,
+  copernicusUpdateActionCreatorSchema,
   copernicusUpdateSchema,
 } from './data-sets/copernicus.schema';
 import { planetSchema } from './data-sets/planet.schema';
@@ -51,7 +51,7 @@ export const dataSetsActionCreatorUpdateSchema = z.object({
   public: z
     .object({
       expanded: z.boolean(),
-      copernicus: copernicusUpdateGenericSchema,
+      copernicus: copernicusUpdateActionCreatorSchema,
       auxiliary: auxiliaryUpdateGenericSchema,
     })
     .superRefine((schema, ctx) => {

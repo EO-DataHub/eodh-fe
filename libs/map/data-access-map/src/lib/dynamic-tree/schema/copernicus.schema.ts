@@ -1,5 +1,11 @@
 import { IDynamicTreeCategory } from '../tree-dynamic.model';
-import { sentinel1Schema, sentinel2Schema, sentinel3Schema, sentinel5pSchema } from './sentinel.schema';
+import {
+  sentinel1Schema,
+  sentinel2ActionCreatorSchema,
+  sentinel2SearchSchema,
+  sentinel3Schema,
+  sentinel5pSchema,
+} from './sentinel.schema';
 
 export const copernicusSearchSchema: IDynamicTreeCategory = {
   translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.NAME',
@@ -16,7 +22,7 @@ export const copernicusSearchSchema: IDynamicTreeCategory = {
       value: false,
     },
   },
-  children: [sentinel1Schema, sentinel2Schema, sentinel3Schema, sentinel5pSchema],
+  children: [sentinel1Schema, sentinel2SearchSchema, sentinel3Schema, sentinel5pSchema],
 };
 
 export const copernicusActionCreatorSchema: IDynamicTreeCategory = {
@@ -29,5 +35,5 @@ export const copernicusActionCreatorSchema: IDynamicTreeCategory = {
       value: true,
     },
   },
-  children: [sentinel1Schema, sentinel2Schema, sentinel3Schema, sentinel5pSchema],
+  children: [sentinel1Schema, sentinel2ActionCreatorSchema, sentinel3Schema, sentinel5pSchema],
 };

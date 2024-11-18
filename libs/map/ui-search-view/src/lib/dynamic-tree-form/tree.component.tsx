@@ -3,25 +3,21 @@ import { Tree as TreeWrapper } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useMemo } from 'react';
 
+import { useSearchView } from '../search-view.context';
 import { TreeElement } from './elements/tree-element.component';
 
 type TTreeProps = {
   tree: TDynamicTreeModel;
-  disabled?: boolean;
 };
 
-export const DynamicTreeForm = ({ tree, disabled }: TTreeProps) => {
+export const DynamicTreeForm = ({ tree }: TTreeProps) => {
+  const { isDisabled } = useSearchView();
+  const disabled = isDisabled(false, 'data-sets');
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
 
-  const treeBuilder = useMemo(() => {
-    const treeModel = new TreeBuilder(tree);
-    console.log('treeModel', treeModel.toObject());
-    // const parse = treeModel.validate().safeParse(treeModel.getValues());
-    // console.log('treeModel', treeModel.getValidationModel().safeParse(treeModel.getValues()), parse);
-    return treeModel;
-  }, [tree]);
+  const treeBuilder = useMemo(() => new TreeBuilder(tree), [tree]);
 
   return (
     <TreeWrapper>

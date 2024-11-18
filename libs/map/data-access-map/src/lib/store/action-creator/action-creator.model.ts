@@ -27,7 +27,10 @@ export type TAreaNode = TBaseNode & { type: 'area'; value: TCoordinate | undefin
 
 export type TDateRangeNode = Omit<TBaseNode, 'tooltip'> & { type: 'dateRange'; value: TDateValues['date'] | undefined };
 
-export type TFunctionNode = TBaseNode & { type: 'function'; value: string | undefined };
+export type TFunctionNode = TBaseNode & {
+  type: 'function';
+  value: { identifier: string; supportedDataSets: string[] } | undefined;
+};
 
 export type TNode = TAreaNode | TDataSetsNode | TDateRangeNode | TFunctionNode;
 

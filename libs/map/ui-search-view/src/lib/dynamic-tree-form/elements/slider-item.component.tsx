@@ -3,6 +3,8 @@ import { Slider, TreeItem } from '@ukri/shared/design-system';
 import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { getControlName } from './utils';
+
 type TSettingsSection = { item: TIterableTreeSliderValues; disabled?: boolean };
 
 export const SliderItem = ({ item, disabled: forceDisabled = false }: TSettingsSection) => {
@@ -14,7 +16,7 @@ export const SliderItem = ({ item, disabled: forceDisabled = false }: TSettingsS
 
   return (
     <TreeItem title={item.model.translationKey} expandable={false} disabled={disabled} level={1}>
-      <Slider {...register(item.model.name, { valueAsNumber: true })} disabled={disabled} />
+      <Slider {...register(getControlName(item.model.name), { valueAsNumber: true })} disabled={disabled} />
     </TreeItem>
   );
 };

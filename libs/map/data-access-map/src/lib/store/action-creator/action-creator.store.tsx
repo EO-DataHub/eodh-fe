@@ -4,11 +4,12 @@ import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { activatePanel, loadPreset, reset, TLoadPresetProps } from '../utils';
+import { activatePanel, enableDataSet, loadPreset, reset, TLoadPresetProps } from '../utils';
 import {
   defaultNodes,
   defaultValues,
   IActionCreatorStore,
+  TFunctionNode,
   TIActionCreatorStoreState,
   TNode,
 } from './action-creator.model';
@@ -62,8 +63,15 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
         const nodes = state.nodes.map(updateNode).sort((node1, node2) => node1.order - node2.order);
 
         if (isFunctionNode(node)) {
+          const nodesToUpdate = nodes.filter((item) => item.order <= node.order);
+          const dataSets = nodesToUpdate
+            .filter((node): node is TFunctionNode => isFunctionNode(node))
+            .map((node) => node.value?.supportedDataSets || [])
+            .flat();
+          enableDataSet(dataSets);
+
           return {
-            nodes: nodes.filter((item) => item.order <= node.order),
+            nodes: nodesToUpdate,
           };
         }
 

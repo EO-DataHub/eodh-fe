@@ -133,7 +133,7 @@ export const sentinel1Schema: IDynamicTreeItem = {
   ],
 };
 
-export const sentinel2Schema: IDynamicTreeItem = {
+export const sentinel2SearchSchema: IDynamicTreeItem = {
   translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.NAME',
   type: 'item',
   controls: {
@@ -155,6 +155,52 @@ export const sentinel2Schema: IDynamicTreeItem = {
           name: 'public.copernicus.sentinel2.l1c',
           type: 'checkbox',
           value: true,
+        },
+      },
+    },
+    {
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.L2A',
+      type: 'settingItem',
+      controls: {
+        value: {
+          name: 'public.copernicus.sentinel2.l2a',
+          type: 'checkbox',
+          value: true,
+        },
+      },
+    },
+    {
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
+      type: 'slider',
+      name: 'public.copernicus.sentinel2.cloudCoverage',
+      value: 100,
+    },
+  ],
+};
+
+export const sentinel2ActionCreatorSchema: IDynamicTreeItem = {
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.NAME',
+  type: 'item',
+  controls: {
+    settings: {
+      name: 'public.copernicus.sentinel2.expanded',
+      type: 'button',
+      value: true,
+    },
+    value: {
+      name: 'public.copernicus.sentinel2.enabled',
+      type: 'checkbox',
+    },
+  },
+  children: [
+    {
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.L1C',
+      type: 'settingItem',
+      controls: {
+        value: {
+          name: 'public.copernicus.sentinel2.l1c',
+          type: 'checkbox',
+          value: false,
         },
       },
     },

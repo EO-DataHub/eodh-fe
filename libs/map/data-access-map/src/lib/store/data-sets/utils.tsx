@@ -2,20 +2,12 @@ import type {} from '@redux-devtools/extension';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
 
-import { TDataSetsValuesPath } from '../../dynamic-tree/data-sets.model';
-import { defaultDataSetValues, TDataSetsStore, TDataSetValue } from './data-sets.model';
+import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
+import { actionCreatorSchema } from '../../dynamic-tree/schema/data-sets.schema';
+import { TreeBuilder } from '../../dynamic-tree/tree-builder/tree.builder';
+import { TDataSetsStore, TDataSetValue } from './data-sets.model';
 
-const dataSetsMap: { [key in TDataSetValue]: TDataSetsValuesPath } = {
-  'sentinel-1': 'public.copernicus.sentinel1.enabled',
-  'sentinel-2-l1c': 'public.copernicus.sentinel2.l1c',
-  'sentinel-2-l2a': 'public.copernicus.sentinel2.l2a',
-  'sentinel-3': 'public.copernicus.sentinel3.enabled',
-  'sentinel-5p': 'public.copernicus.sentinel5P.enabled',
-  'esacci-globallc': 'public.auxiliary.esacciGloballc.enabled',
-  'clms-corinelc': 'public.auxiliary.clmsCorinelc.enabled',
-  'clms-water-bodies': 'public.auxiliary.clmsWaterBodies.enabled',
-};
-
+// todo move this mapping into TreeBuilder object. We shouldn't relay on array indexes - control names should be used instead
 export const dataSetsDisabledMap: { [key in TDataSetValue]: string[] } = {
   'sentinel-1': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.0.options.disabled'],
   'sentinel-2-l1c': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.1.options.disabled'],
@@ -35,11 +27,14 @@ export const dataSetsDisabledMap: { [key in TDataSetValue]: string[] } = {
   ],
 };
 
-const getValuesForDataSet = (
+export const getValuesForDataSet = (
   dataSet: TDataSetValue | string | undefined,
   state: TDataSetsStore
 ): Partial<TDataSetsStore> => {
-  const newValues = cloneDeep(defaultDataSetValues);
+  const newValues: TDataSetsValues & { status: 'initial' | 'updated' } = {
+    status: 'initial',
+    ...cloneDeep(new TreeBuilder(actionCreatorSchema).getValues()),
+  };
 
   switch (dataSet) {
     case 'sentinel-1': {
@@ -90,7 +85,7 @@ const getValuesForDataSet = (
         return state;
       }
 
-      set(newValues, 'public.auxiliary.esacciGloballc', true);
+      set(newValues, 'public.auxiliary.esacciGloballc.enabled', true);
 
       break;
     }
@@ -100,7 +95,7 @@ const getValuesForDataSet = (
         return state;
       }
 
-      set(newValues, 'public.auxiliary.clmsCorinelc', true);
+      set(newValues, 'public.auxiliary.clmsCorinelc.enabled', true);
 
       break;
     }
@@ -110,230 +105,11 @@ const getValuesForDataSet = (
         return state;
       }
 
-      set(newValues, 'public.auxiliary.clmsWaterBodies', true);
+      set(newValues, 'public.auxiliary.clmsWaterBodies.enabled', true);
 
       break;
     }
   }
 
   return { dataSets: newValues };
-};
-
-export const setDataSet = (
-  dataSet: TDataSetValue | string | undefined,
-  state: TDataSetsStore
-): Partial<TDataSetsStore> => {
-  switch (dataSet) {
-    case 'sentinel-1': {
-      if (!state.dataSets.public.copernicus.sentinel1) {
-        return state;
-      }
-
-      return {
-        dataSets: {
-          ...defaultDataSetValues,
-          public: {
-            ...defaultDataSetValues.public,
-            copernicus: {
-              ...defaultDataSetValues.public.copernicus,
-              sentinel1: {
-                ...state.dataSets.public.copernicus.sentinel1,
-                enabled: true,
-              },
-            },
-          },
-        },
-      };
-    }
-
-    case 'sentinel-2-l1c': {
-      if (!state.dataSets.public.copernicus.sentinel2) {
-        return state;
-      }
-
-      const sentinel2 = defaultDataSetValues.public.copernicus.sentinel2
-        ? defaultDataSetValues.public.copernicus.sentinel2
-        : state.dataSets.public.copernicus.sentinel2;
-
-      return {
-        dataSets: {
-          ...defaultDataSetValues,
-          public: {
-            ...defaultDataSetValues.public,
-            copernicus: {
-              ...defaultDataSetValues.public.copernicus,
-              sentinel2: {
-                ...sentinel2,
-                enabled: true,
-                expanded: true,
-                l1c: true,
-                l2a: false,
-              },
-            },
-          },
-        },
-      };
-    }
-
-    case 'sentinel-2-l2a': {
-      if (!state.dataSets.public.copernicus.sentinel2) {
-        return state;
-      }
-
-      const sentinel2 = defaultDataSetValues.public.copernicus.sentinel2
-        ? defaultDataSetValues.public.copernicus.sentinel2
-        : state.dataSets.public.copernicus.sentinel2;
-
-      return {
-        dataSets: {
-          ...defaultDataSetValues,
-          public: {
-            ...defaultDataSetValues.public,
-            copernicus: {
-              ...defaultDataSetValues.public.copernicus,
-              sentinel2: {
-                ...sentinel2,
-                enabled: true,
-                expanded: true,
-                l1c: false,
-                l2a: true,
-              },
-            },
-          },
-        },
-      };
-    }
-
-    case 'sentinel-3': {
-      if (!state.dataSets.public.copernicus.sentinel3) {
-        return state;
-      }
-
-      const sentinel3 = defaultDataSetValues.public.copernicus.sentinel3
-        ? defaultDataSetValues.public.copernicus.sentinel3
-        : state.dataSets.public.copernicus.sentinel3;
-
-      return {
-        dataSets: {
-          ...defaultDataSetValues,
-          public: {
-            ...defaultDataSetValues.public,
-            copernicus: {
-              ...defaultDataSetValues.public.copernicus,
-              sentinel3: {
-                ...sentinel3,
-                enabled: true,
-              },
-            },
-          },
-        },
-      };
-    }
-
-    case 'sentinel-5p': {
-      if (!state.dataSets.public.copernicus.sentinel5P) {
-        return state;
-      }
-
-      const sentinel5P = defaultDataSetValues.public.copernicus.sentinel5P
-        ? defaultDataSetValues.public.copernicus.sentinel5P
-        : state.dataSets.public.copernicus.sentinel5P;
-
-      return {
-        dataSets: {
-          ...defaultDataSetValues,
-          public: {
-            ...defaultDataSetValues.public,
-            copernicus: {
-              ...defaultDataSetValues.public.copernicus,
-              sentinel5P: {
-                ...sentinel5P,
-                enabled: true,
-              },
-            },
-          },
-        },
-      };
-    }
-
-    case 'esacci-globallc': {
-      if (!state.dataSets.public.auxiliary?.esacciGloballc) {
-        return state;
-      }
-
-      const esacciGloballc = defaultDataSetValues.public.auxiliary?.esacciGloballc
-        ? defaultDataSetValues.public.auxiliary?.esacciGloballc
-        : state.dataSets.public.auxiliary?.esacciGloballc;
-
-      return {
-        dataSets: {
-          ...defaultDataSetValues,
-          public: {
-            ...defaultDataSetValues.public,
-            auxiliary: {
-              ...defaultDataSetValues.public.auxiliary,
-              esacciGloballc: {
-                ...esacciGloballc,
-                enabled: true,
-              },
-            },
-          },
-        },
-      };
-    }
-
-    case 'clms-corinelc': {
-      if (!state.dataSets.public.auxiliary?.clmsCorinelc) {
-        return state;
-      }
-
-      const clmsCorinelc = defaultDataSetValues.public.auxiliary?.clmsCorinelc
-        ? defaultDataSetValues.public.auxiliary?.clmsCorinelc
-        : state.dataSets.public.auxiliary?.clmsCorinelc;
-
-      return {
-        dataSets: {
-          ...defaultDataSetValues,
-          public: {
-            ...defaultDataSetValues.public,
-            auxiliary: {
-              ...defaultDataSetValues.public.auxiliary,
-              clmsCorinelc: {
-                ...clmsCorinelc,
-                enabled: true,
-              },
-            },
-          },
-        },
-      };
-    }
-
-    case 'clms-water-bodies': {
-      if (!state.dataSets.public.auxiliary?.clmsWaterBodies) {
-        return state;
-      }
-
-      const clmsWaterBodies = defaultDataSetValues.public.auxiliary?.clmsWaterBodies
-        ? defaultDataSetValues.public.auxiliary?.clmsWaterBodies
-        : state.dataSets.public.auxiliary?.clmsWaterBodies;
-
-      return {
-        dataSets: {
-          ...defaultDataSetValues,
-          public: {
-            ...defaultDataSetValues.public,
-            auxiliary: {
-              ...defaultDataSetValues.public.auxiliary,
-              clmsWaterBodies: {
-                ...clmsWaterBodies,
-                enabled: true,
-              },
-            },
-          },
-        },
-      };
-    }
-  }
-
-  return state;
 };
