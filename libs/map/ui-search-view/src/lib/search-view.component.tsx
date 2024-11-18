@@ -36,18 +36,16 @@ export const SearchView = ({
   children,
 }: PropsWithChildren<TSearchPanelProps>) => {
   const [currentTreeModel, setCurrentTreeModel] = useState(treeModel);
-
   const [initialValues] = useState(defaultValues);
   const form = useForm<TInitialForm, unknown, TUpdateForm>({
     defaultValues: initialValues,
     resolver: zodResolver(getSchema(schema).update),
-    // resolver: zodResolver(treeBuilder.getValidationModel()),
     reValidateMode: 'onChange',
   });
   const { shape } = useAoi();
 
   useFormUpdate(form, schema, onChange);
-  // useSyncChecklistState(form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
+  useSyncChecklistState(form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
 
   useEffect(() => {
     const { aoi, ...rest } = { ...form.getValues(), ...form.watch() };

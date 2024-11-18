@@ -3,8 +3,8 @@ import { TreeItem as UiTreeItem } from '@ukri/shared/design-system';
 import { ReactNode, useEffect } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
-import { SettingsTree } from '../../../tree/components/settings-tree.component';
 import { Error } from '../error.component';
+import { SettingsTree } from '../settings-tree.component';
 import { Title } from '../title.component';
 import { useControl } from './use-control.hook';
 import { useSlots } from './use-slots.hook';
