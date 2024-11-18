@@ -9,6 +9,7 @@ import {
 } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search-view';
+import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useMemo } from 'react';
 
 export const useSearchMode = () => {
@@ -74,7 +75,7 @@ export const useSearchMode = () => {
 
   const search = useCallback(
     (formData: TUpdateForm) => {
-      updateSearchParams(formData);
+      updateSearchParams({ ...formData, id: nanoid(), timeSliderBoundaries: formData.date });
       changeView('results');
     },
     [changeView, updateSearchParams]

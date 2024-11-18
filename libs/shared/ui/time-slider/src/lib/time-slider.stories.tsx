@@ -13,7 +13,16 @@ export default {
 } as Meta;
 
 const Template: Story = (args) => (
-  <TimeSlider min={'2000-11-01' as TDateString} max={'2018-10-01' as TDateString} className='mt-10' {...args} />
+  <TimeSlider
+    min={'2000-11-01' as TDateString}
+    max={'2018-10-01' as TDateString}
+    className='mt-10'
+    onUpdate={(dateFrom, dateTo) => {
+      // eslint-disable-next-line no-console
+      console.log(dateFrom, dateTo);
+    }}
+    {...args}
+  />
 );
 
 export const Default = Template.bind({});

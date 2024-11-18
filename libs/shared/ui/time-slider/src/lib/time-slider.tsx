@@ -3,10 +3,11 @@ import {
   dateToNumber,
   getBeginingOfYear,
   getEndYear,
+  numberToDateString,
   type TDateString,
   type TDateTimeString,
 } from '@ukri/shared/utils/date';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { CustomLabel, CustomMark, ValueLabelComponent } from './custom-components';
 import { sliderStyles } from './time-slider.styles';
@@ -26,21 +27,40 @@ const getMarks = (minNum: number, maxNum: number) => {
   return result;
 };
 
+type TDate = TDateString | TDateTimeString;
+
 interface ITimeSliderProps {
-  min: TDateString | TDateTimeString;
-  max: TDateString | TDateTimeString;
-  initialValues?: [TDateString, TDateString];
+  min: TDate;
+  max: TDate;
+  selectedMin?: TDate;
+  selectedMax?: TDate;
   className?: string;
+  onUpdate: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void;
 }
 
-export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, initialValues = [min, max], className }) => {
+export const TimeSlider = ({
+  min,
+  max,
+  selectedMin = min,
+  selectedMax = min,
+  onUpdate,
+  className,
+}: ITimeSliderProps) => {
   const minNum = getBeginingOfYear(min) ?? undefined;
   const maxNum = getEndYear(max) ?? undefined;
-  const [value, setValue] = useState<number[]>(initialValues.map(dateToNumber) as [number, number]);
 
-  const updateSliderValue = useCallback((_: Event, newValue: number | number[]) => {
-    setValue(Array.isArray(newValue) ? newValue : [newValue]);
-  }, []);
+  const updateSliderValue = useCallback(
+    (_: Event, newValue: number | number[]) => {
+      const updatedValue = Array.isArray(newValue) ? newValue : [newValue];
+      const dateFrom = numberToDateString(updatedValue[0]);
+      const dateTo = numberToDateString(updatedValue[1], true);
+
+      if (dateFrom && dateTo) {
+        onUpdate(dateFrom, dateTo);
+      }
+    },
+    [onUpdate]
+  );
 
   const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);
 
@@ -48,7 +68,7 @@ export const TimeSlider: React.FC<ITimeSliderProps> = ({ min, max, initialValues
     <div className={`${sliderStyles.container} ${className}`}>
       <div className={sliderStyles.innerContainer}>
         <Slider
-          value={value}
+          value={[dateToNumber(selectedMin) ?? 0, dateToNumber(selectedMax) ?? 0]}
           onChange={updateSliderValue}
           valueLabelDisplay='auto'
           min={minNum}

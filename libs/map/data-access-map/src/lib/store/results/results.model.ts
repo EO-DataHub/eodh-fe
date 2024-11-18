@@ -74,6 +74,7 @@ export type TCoordinate =
     };
 
 export type TCatalogueSearchParams = {
+  id: string;
   dataSets: TDataSets;
   date: {
     from: NonNullable<TDateString>;
@@ -82,9 +83,14 @@ export type TCatalogueSearchParams = {
   aoi: Geometry;
   jobId?: never;
   userWorkspace?: never;
+  timeSliderBoundaries: {
+    from: NonNullable<TDateString>;
+    to: NonNullable<TDateString>;
+  };
 };
 
 export type TWorkflowSearchParams = {
+  id: string;
   dataSets?: never;
   aoi?: never;
   date?: {
@@ -93,12 +99,18 @@ export type TWorkflowSearchParams = {
   };
   jobId: string;
   userWorkspace: string;
+  timeSliderBoundaries?: {
+    from: NonNullable<TDateString>;
+    to: NonNullable<TDateString>;
+  };
 };
 
 export type TSearchParams = TCatalogueSearchParams | TWorkflowSearchParams;
 
+export type TSearchType = 'catalogue' | 'workflow';
+
 export type TResultsStore<T = TSearchParams> = {
-  searchType: 'catalogue' | 'workflow' | undefined;
+  searchType: TSearchType | undefined;
   searchParams: T | undefined;
   coordinates: TCoordinate | undefined;
   updateSearchParams: (state: T | undefined) => void;
