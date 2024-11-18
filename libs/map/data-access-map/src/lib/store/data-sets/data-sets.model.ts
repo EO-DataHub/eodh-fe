@@ -21,7 +21,10 @@ export type TDataSetsStore<T = TDataSetsValues> = {
   schema: TSchema;
   dataSets: T & { status: 'initial' | 'updated' };
   supportedDataSets: string[] | undefined;
-  treeModel: TDynamicTreeModel;
+  treeModel: {
+    model: TDynamicTreeModel;
+    filteredDataSets: string[] | undefined;
+  };
   state: TDataSetsState;
   updateDataSets: (state: T | undefined) => void;
   changeSchema: (schema: TSchema) => void;
@@ -66,5 +69,8 @@ export const defaultState: Omit<
     ...new TreeBuilder(searchSchema).getValues(),
   },
   supportedDataSets: undefined,
-  treeModel: searchSchema,
+  treeModel: {
+    model: searchSchema,
+    filteredDataSets: undefined,
+  },
 };

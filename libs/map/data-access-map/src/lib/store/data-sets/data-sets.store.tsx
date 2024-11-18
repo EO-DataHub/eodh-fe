@@ -41,7 +41,10 @@ export const useDataSetsStore = create<TDataSetsStore>()(
               status: 'initial',
               ...new TreeBuilder(treeModel).getValues(),
             },
-            treeModel,
+            treeModel: {
+              model: treeModel,
+              filteredDataSets: undefined,
+            },
             state: 'edit',
             supportedDataSets: undefined,
           };
@@ -53,20 +56,37 @@ export const useDataSetsStore = create<TDataSetsStore>()(
             status: 'initial',
             ...new TreeBuilder(treeModel).getValues(),
           },
-          treeModel,
+          treeModel: {
+            model: treeModel,
+            filteredDataSets: undefined,
+          },
           state: 'readonly',
         };
       }),
     changeState: (state: TDataSetsState) => set(() => ({ state })),
     setDataSet: (dataSet) => set((state) => getValuesForDataSet(dataSet, state)),
     setSupportedDataSets: (dataSets) =>
-      set((state) => ({
-        supportedDataSets: dataSets,
-        treeModel: getTreeModel(state.schema, state.treeModel, dataSets),
-      })),
+      set((state) => {
+        if (state.treeModel.filteredDataSets?.length) {
+          return {
+            supportedDataSets: dataSets,
+          };
+        }
+
+        return {
+          supportedDataSets: dataSets,
+          treeModel: {
+            model: getTreeModel(state.schema, state.treeModel.model, dataSets),
+            filteredDataSets: dataSets,
+          },
+        };
+      }),
     enable: (dataSet) =>
       set((state) => ({
-        treeModel: getTreeModel(state.schema, state.treeModel, dataSet ? dataSet : state.supportedDataSets),
+        treeModel: {
+          model: getTreeModel(state.schema, state.treeModel.model, dataSet ? dataSet : state.supportedDataSets),
+          filteredDataSets: dataSet ? dataSet : state.supportedDataSets,
+        },
       })),
     disable: () =>
       set((state) => ({
