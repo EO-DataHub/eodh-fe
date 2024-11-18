@@ -12,6 +12,8 @@ import { Button } from '@ukri/shared/design-system';
 import { useCallback } from 'react';
 
 import { Container, Content, Footer } from '../container.component';
+import { useTabsFlowModalState } from '../tabs-flow-modal/action-creator-tabs-flow.store';
+import { TabsFlowModal } from '../tabs-flow-modal/tabs-flow-modal.component';
 import { AreaNode } from './nodes/area/area-node.component';
 import { DataSetNode } from './nodes/data-set/data-set-node.component';
 import { NodeDateRange } from './nodes/date-range/date-range-node.component';
@@ -42,6 +44,7 @@ export const Workflow = () => {
   const { nodes, isValid, getNodesByType } = useActionCreator();
   const { status, isPending, isSuccess, mutate } = useCreateWorkflow();
   const { data } = useFunctions();
+  const { isOpen } = useTabsFlowModalState();
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
@@ -82,6 +85,13 @@ export const Workflow = () => {
           </div>
         </section>
         <WorkflowProcessingModal status={status} />
+        {isOpen && (
+          <TabsFlowModal
+            header='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.WORKFLOW.HEADER'
+            content='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.WORKFLOW.CONTENT'
+            ctaText='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.WORKFLOW.CTA_BUTTON'
+          />
+        )}
       </Content>
       <Footer>
         <div className='flex justify-end gap-4 w-full'>

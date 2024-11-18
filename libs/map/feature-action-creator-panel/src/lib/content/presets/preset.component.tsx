@@ -9,12 +9,9 @@ const ComingSoonNote = () => {
   const { t } = useTranslation();
 
   return (
-    <Text
-      content={t('MAP.ACTION_CREATOR_PANEL.PRESETS.COMING_SOON')}
-      fontSize='large'
-      fontWeight='semibold'
-      className='inline uppercase text-primary-main'
-    />
+    <span className='inline uppercase text-primary-main `text-large-semibold`'>
+      {t('MAP.ACTION_CREATOR_PANEL.PRESETS.COMING_SOON')}
+    </span>
   );
 };
 

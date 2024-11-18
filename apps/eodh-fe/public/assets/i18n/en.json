@@ -110,6 +110,20 @@
           "BUTTON_NO": "No, let me explore on my own"
         }
       },
+      "TABS_FLOW_MODAL": {
+        "DONT_SHOW_IT_AGAIN": "Don’t show again",
+        "CTA_NO": "No, cancel",
+        "WORKFLOW": {
+          "HEADER": "You are about to navigate away from your loaded Workflow results.",
+          "CONTENT": "Creating and running a new Workflow will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?",
+          "CTA_BUTTON": "Yes, create new Workflow"
+        },
+        "PRESETS": {
+          "HEADER": "You are about to navigate away from your loaded Workflow results.",
+          "CONTENT": "Loading a preset will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?",
+          "CTA_BUTTON": "Yes, view Presets"
+        }
+      },
       "PRESETS": {
         "BUTTON": "Load preset",
         "COMING_SOON": "Coming soon!"

@@ -4,6 +4,7 @@ import { PropsWithChildren, useCallback, useContext } from 'react';
 
 import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
+import { TabsFlowModal } from '../tabs-flow-modal/tabs-flow-modal.component';
 import { Preset } from './preset.component';
 
 interface IErrorMessageProps {
@@ -24,7 +25,14 @@ const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
 const PresetsContainer = ({ children }: PropsWithChildren) => {
   return (
     <Container>
-      <Content>{children}</Content>
+      <Content>
+        {children}
+        <TabsFlowModal
+          header='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.PRESETS.HEADER'
+          content='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.PRESETS.CONTENT'
+          ctaText='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.PRESETS.CTA_BUTTON'
+        />
+      </Content>
       <Footer></Footer>
     </Container>
   );
