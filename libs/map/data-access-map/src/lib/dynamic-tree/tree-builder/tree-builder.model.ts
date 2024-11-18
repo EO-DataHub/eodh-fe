@@ -181,7 +181,4 @@ export type TIterableTreeValues =
   | TIterableTreeSettingsGroupValues
   | TIterableTreeSliderValues;
 
-// type TValidation = { type: 'boolean' | 'number' };
-
-// export type TValidationModel = { name: TControl['name']; validation: { self: TValidation } };
 export type TValidationModel = { name: TControl['name']; validation: ZodType; validateFields: TControl['name'][] };

@@ -29,7 +29,7 @@ const mapControlToValidationModel = (
   options?: TValidationOptions,
   requiredControls: (TControlValue | undefined)[] = []
 ): TValidationModel => {
-  const notDisplayedErrorMessage = '';
+  // const notDisplayedErrorMessage = '';
   const paths = requiredControls.filter((item): item is TControlValue => !!item).map((item) => item.name);
   let validation: ZodType = isBooleanControl(control) ? z.boolean() : z.number();
   validation = options?.optional ? validation.optional() : validation;
@@ -86,9 +86,9 @@ export const getControlsValidationModel = (
   options?: TValidationOptions,
   requiredControls: (TControlValue | undefined)[] = []
 ): TValidationModel[] => {
-  // if (options?.disabled) {
-  //   return [];
-  // }
+  if (options?.disabled) {
+    return [];
+  }
 
   return controls
     .filter((control): control is TControl => !!control)

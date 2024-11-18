@@ -77,16 +77,4 @@ export class TreeCategoryIterable extends TreeCategory implements ITreeCategoryI
       ...this.children.map((item) => item.getValues(withChildren)).flat(),
     ];
   };
-
-  public getValidationModel = (options?: TValidationOptions) => [
-    ...getControlsValidationModel(
-      Object.values(this.model.controls),
-      mergeOptions(options, this.model.options),
-      this.children
-        .map((item) => item.getValues(false))
-        .flat()
-        .filter((item) => item.type === 'checkbox' || item.type === 'radio')
-    ),
-    ...this.children.map((item) => item.getValidationModel(mergeOptions(options, this.model.options))).flat(),
-  ];
 }

@@ -85,8 +85,8 @@ export class TreeItemIterable extends TreeItem implements ITreeItemIterable {
   public getValidationModel = (options?: TValidationOptions) => [
     ...getControlsValidationModel(
       Object.values(this.model.controls),
-      mergeOptions(options, this.model.options)
-      // this.children.map((item) => item.getValues()).flat()
+      mergeOptions(options, this.model.options),
+      this.children.map((item) => item.getValues()).flat()
     ),
     ...this.children.map((item) => item.getValidationModel(mergeOptions(options, this.model.options))).flat(),
   ];
