@@ -5,7 +5,7 @@ import { devtools, persist } from 'zustand/middleware';
 interface IModalStore {
   permanentHidden: boolean;
   open: boolean;
-  hidePermanently: () => void;
+  hidePermanently: (permanentHidden?: boolean) => void;
   show: () => void;
   close: () => void;
 }
@@ -16,20 +16,21 @@ const useModalStore = create<IModalStore>()(
       (set) => ({
         permanentHidden: false,
         open: false,
-        hidePermanently: () =>
+        hidePermanently: (permanentHidden?: boolean) =>
           set((state) => ({
-            open: state.open,
-            permanentHidden: true,
+            ...state,
+            open: true,
+            permanentHidden: permanentHidden !== undefined ? permanentHidden : state.permanentHidden,
           })),
         show: () =>
-          set(() => ({
-            open: true,
-            permanentHidden: false,
+          set((state) => ({
+            ...state,
+            open: state.permanentHidden ? false : true,
           })),
         close: () =>
-          set(() => ({
+          set((state) => ({
+            ...state,
             open: false,
-            permanentHidden: false,
           })),
       }),
       {
@@ -49,9 +50,10 @@ const isOpen = (state: IModalStore) => {
   return state.open;
 };
 
-export const useModalState = () => {
+export const useTabsFlowModalState = () => {
   return useModalStore((state) => ({
     isOpen: isOpen(state),
+    permanentHidden: state.permanentHidden,
   }));
 };
 

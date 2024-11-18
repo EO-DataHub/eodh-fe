@@ -1,11 +1,10 @@
 import { useMode, useResults } from '@ukri/map/data-access-map';
 import { Button, Checkbox, Icon, Text } from '@ukri/shared/design-system';
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { ActionCreator } from '../../action-creator-panel.context';
-// import { useLoadHistoryResults } from '../history/use-load-history-results.hook';
-import { useCloseTabsFlowModal, useDoNotShowAgain, useModalState } from './action-creator-tabs-flow.store';
+import { useCloseTabsFlowModal, useDoNotShowAgain, useTabsFlowModalState } from './action-creator-tabs-flow.store';
 import { styles } from './tabs-flow-modal.styles';
 
 interface ITabsFlowModalProps {
@@ -23,31 +22,32 @@ const defaultValues: TChecklistForm = {
 };
 
 export const TabsFlowModal = ({ header, content, ctaText }: ITabsFlowModalProps) => {
-  const { register, handleSubmit } = useForm<TChecklistForm>({ defaultValues });
-  const { isOpen } = useModalState();
+  const { register, watch } = useForm<TChecklistForm>({ defaultValues });
+  const { isOpen } = useTabsFlowModalState();
   const { updateSearchParams } = useResults();
   const { changeView } = useMode();
   const hideModal = useCloseTabsFlowModal();
   const hideModalPermanently = useDoNotShowAgain();
   const { setActiveTab } = useContext(ActionCreator);
-  // const { hideResults } = useLoadHistoryResults();
+
+  const permanentHidden = watch('permanentHidden');
 
   const handleYesCtaClick = useCallback(() => {
+    if (permanentHidden) {
+      hideModalPermanently(permanentHidden);
+    }
     updateSearchParams(undefined);
-    // changeState('readonly');
     changeView('search');
-    // hideResults();
     hideModal();
-  }, [hideModal, updateSearchParams, changeView]);
+  }, [hideModal, updateSearchParams, changeView, permanentHidden, hideModalPermanently]);
 
   const handleNoCtaClick = useCallback(() => {
+    if (permanentHidden) {
+      hideModalPermanently(permanentHidden);
+    }
     setActiveTab('history');
     hideModal();
-  }, [hideModal, setActiveTab]);
-
-  const permanentlyHideModal = useCallback(() => {
-    hideModalPermanently();
-  }, [hideModalPermanently]);
+  }, [hideModal, setActiveTab, permanentHidden, hideModalPermanently]);
 
   if (!isOpen) {
     return;
@@ -60,16 +60,14 @@ export const TabsFlowModal = ({ header, content, ctaText }: ITabsFlowModalProps)
           <div className={styles.infoIconContainer}>
             <Icon name='Info' className={styles.infoIcon} width={28} height={28} />
           </div>
-          <form onSubmit={handleSubmit(permanentlyHideModal)}>
-            <div className={styles.body}>
-              <Text content={header} type='h3' fontSize='large' fontWeight='semibold' className='text-text' />
-              <Text content={content} type='p' fontSize='medium' fontWeight='regular' className='text-text' />{' '}
-              <Checkbox
-                label='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.DONT_SHOW_IT_AGAIN'
-                {...register('permanentHidden')}
-              />
-            </div>
-          </form>
+          <div className={styles.body}>
+            <Text content={header} type='h3' fontSize='large' fontWeight='semibold' className='text-text' />
+            <Text content={content} type='p' fontSize='medium' fontWeight='regular' className='text-text' />{' '}
+            <Checkbox
+              label='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.DONT_SHOW_IT_AGAIN'
+              {...register('permanentHidden')}
+            />
+          </div>
         </div>
         <div className={styles.buttonsContainer}>
           <Button

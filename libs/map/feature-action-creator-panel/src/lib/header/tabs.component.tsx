@@ -1,11 +1,15 @@
 import { useActionCreator } from '@ukri/map/data-access-map';
-import { useMode } from '@ukri/map/data-access-map';
+import { useMode, useResults } from '@ukri/map/data-access-map';
 import { Text } from '@ukri/shared/design-system';
 import { ParseKeys } from 'i18next';
 import { useCallback, useContext } from 'react';
 
 import { ActionCreator, TTab } from '../action-creator-panel.context';
-import { useOpenTabsFlowModal } from '../content/tabs-flow-modal/action-creator-tabs-flow.store';
+import {
+  useCloseTabsFlowModal,
+  useOpenTabsFlowModal,
+  useTabsFlowModalState,
+} from '../content/tabs-flow-modal/action-creator-tabs-flow.store';
 
 type TTabProps = {
   name: ParseKeys;
@@ -15,14 +19,23 @@ type TTabProps = {
 const Tab = ({ name, tab }: TTabProps) => {
   const { activeTab, setActiveTab } = useContext(ActionCreator);
   const { enable, disable } = useActionCreator();
-  const openTabsFlowModal = useOpenTabsFlowModal();
-  const { view } = useMode();
+  const { view, changeView } = useMode();
+  const hideModal = useCloseTabsFlowModal();
+  const { permanentHidden } = useTabsFlowModalState();
+  const setTabsFlowModalOpen = useOpenTabsFlowModal();
+  const { updateSearchParams } = useResults();
   const buttonClassName =
     activeTab === tab ? 'border-primary text-primary border-b-2 px-1 pt-2 pb-[6px] z-20' : 'px-1 py-2 text-text';
 
   const changeTab = useCallback(() => {
     if (view === 'results') {
-      openTabsFlowModal();
+      if (permanentHidden) {
+        hideModal();
+        updateSearchParams(undefined);
+        changeView('search');
+      } else {
+        setTabsFlowModalOpen();
+      }
     }
     setActiveTab(tab);
     if (tab === 'workflow') {
@@ -30,7 +43,18 @@ const Tab = ({ name, tab }: TTabProps) => {
     } else {
       disable();
     }
-  }, [tab, setActiveTab, enable, disable, view, openTabsFlowModal]);
+  }, [
+    tab,
+    setActiveTab,
+    enable,
+    disable,
+    view,
+    permanentHidden,
+    updateSearchParams,
+    changeView,
+    hideModal,
+    setTabsFlowModalOpen,
+  ]);
 
   return (
     <button type='button' className={buttonClassName} onClick={changeTab}>

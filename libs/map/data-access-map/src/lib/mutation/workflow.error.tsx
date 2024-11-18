@@ -99,7 +99,7 @@ const useErrorMessage = () => {
     switch (error.type) {
       case 'area_of_interest_too_big_error': {
         return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.AOI_TOO_BIG', {
-          maxSize: error.ctx.max_size_imperial.toFixed(2),
+          maxSize: error.ctx.max_size_metric.toFixed(2),
         });
       }
 
