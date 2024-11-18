@@ -1,11 +1,8 @@
 import type {} from '@redux-devtools/extension';
-import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
 
 import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
-import { actionCreatorSchema } from '../../dynamic-tree/schema/data-sets.schema';
-import { TreeBuilder } from '../../dynamic-tree/tree-builder/tree.builder';
-import { TDataSetsStore, TDataSetValue } from './data-sets.model';
+import { getDefaultDataSetValues, TDataSetsStore, TDataSetValue } from './data-sets.model';
 
 // todo move this mapping into TreeBuilder object. We shouldn't relay on array indexes - control names should be used instead
 export const dataSetsDisabledMap: { [key in TDataSetValue]: string[] } = {
@@ -31,10 +28,7 @@ export const getValuesForDataSet = (
   dataSet: TDataSetValue | string | undefined,
   state: TDataSetsStore
 ): Partial<TDataSetsStore> => {
-  const newValues: TDataSetsValues & { status: 'initial' | 'updated' } = {
-    status: 'initial',
-    ...cloneDeep(new TreeBuilder(actionCreatorSchema).getValues()),
-  };
+  const newValues: TDataSetsValues & { status: 'initial' | 'updated' } = getDefaultDataSetValues(state.schema);
 
   switch (dataSet) {
     case 'sentinel-1': {

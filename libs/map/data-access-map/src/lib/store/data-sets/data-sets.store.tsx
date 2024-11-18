@@ -9,7 +9,14 @@ import { devtools } from 'zustand/middleware';
 import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
 import { actionCreatorSchema, searchSchema } from '../../dynamic-tree/schema/data-sets.schema';
 import { TreeBuilder } from '../../dynamic-tree/tree-builder/tree.builder';
-import { defaultState, TDataSetsState, TDataSetsStore, TDataSetsStoreState, TSchema } from './data-sets.model';
+import {
+  defaultState,
+  getDefaultDataSetValues,
+  TDataSetsState,
+  TDataSetsStore,
+  TDataSetsStoreState,
+  TSchema,
+} from './data-sets.model';
 import { dataSetsDisabledMap, getValuesForDataSet } from './utils';
 
 export const useDataSetsStore = create<TDataSetsStore>()(
@@ -19,7 +26,11 @@ export const useDataSetsStore = create<TDataSetsStore>()(
       set((state) =>
         isEqual(dataSets, state.dataSets)
           ? state
-          : { dataSets: dataSets ? { ...cloneDeep(dataSets), status: 'updated' } : defaultState.dataSets }
+          : {
+              dataSets: dataSets
+                ? { ...cloneDeep(dataSets), status: 'updated' }
+                : getDefaultDataSetValues(state.schema),
+            }
       ),
     changeSchema: (schema: TSchema) =>
       set(() => {

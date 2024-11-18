@@ -1,5 +1,5 @@
 import { TDataSetsValues } from '../../dynamic-tree/data-sets.model';
-import { searchSchema } from '../../dynamic-tree/schema/data-sets.schema';
+import { actionCreatorSchema, searchSchema } from '../../dynamic-tree/schema/data-sets.schema';
 import { TreeBuilder } from '../../dynamic-tree/tree-builder/tree.builder';
 import { TDynamicTreeModel } from '../../dynamic-tree/tree-dynamic.model';
 
@@ -35,9 +35,22 @@ export type TDataSetsStoreState = Omit<
   'updateDataSets' | 'changeSchema' | 'setDataSet' | 'enable' | 'disable'
 >;
 
-export const defaultDataSetValues: TDataSetsValues & { status: 'initial' | 'updated' } = {
-  status: 'initial',
-  ...new TreeBuilder(searchSchema).getValues(),
+export const getDefaultDataSetValues = (schema: TSchema): TDataSetsValues & { status: 'initial' | 'updated' } => {
+  switch (schema) {
+    case 'search': {
+      return {
+        status: 'initial',
+        ...new TreeBuilder(searchSchema).getValues(),
+      };
+    }
+
+    case 'action-creator': {
+      return {
+        status: 'initial',
+        ...new TreeBuilder(actionCreatorSchema).getValues(),
+      };
+    }
+  }
 };
 
 export const defaultState: Omit<
