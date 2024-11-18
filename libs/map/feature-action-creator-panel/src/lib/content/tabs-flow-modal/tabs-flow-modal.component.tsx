@@ -1,6 +1,6 @@
 import { useMode, useResults } from '@ukri/map/data-access-map';
 import { Button, Checkbox, Icon, Text } from '@ukri/shared/design-system';
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { ActionCreator } from '../../action-creator-panel.context';
