@@ -1,6 +1,7 @@
 import type {} from '@redux-devtools/extension';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
+import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -94,6 +95,7 @@ export const useResultsStore = create<TResultsStore>()(
 
         const newSearchParams = {
           ...searchParams,
+          id: searchParams?.id || nanoid(),
           aoi: createGeometry(coordinates),
         };
 
@@ -131,10 +133,19 @@ export const getResultsStoreState = (): Omit<TResultsStoreState, 'searchParams'>
   };
 };
 
-export const useResults = (): Omit<TResultsStore, 'coordinates' | 'setShape' | 'restore'> => {
+type TUseResultsParams = Omit<TResultsStore, 'coordinates' | 'setShape' | 'restore'> & {
+  isWorkflow: (params: Omit<TSearchParams, 'aoi'>) => params is TWorkflowSearchParams;
+  isCatalogue: (
+    params: Omit<TSearchParams, 'aoi'> & { aoi?: TCatalogueSearchParams['aoi'] }
+  ) => params is TCatalogueSearchParams;
+};
+
+export const useResults = (): TUseResultsParams => {
   return useResultsStore((state) => ({
     searchType: state.searchType,
     searchParams: state.searchParams,
     updateSearchParams: state.updateSearchParams,
+    isWorkflow: isWorkflow,
+    isCatalogue: isCatalogue,
   }));
 };

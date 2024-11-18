@@ -38,8 +38,6 @@ export interface IHistoryTileProps {
   status?: 'READY' | 'PROCESSING' | 'FAILED';
   selected: boolean;
   className?: string;
-  onViewResult: (submissionId: string) => void;
-  onHideResult: () => void;
 }
 
 export const HistoryTile = ({
