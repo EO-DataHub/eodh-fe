@@ -1,11 +1,12 @@
 import { getCoordinates, TAreaNode, useActionCreator, useAoi } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
+import { useSettings } from '@ukri/shared/utils/settings';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ActiveNode } from '../active-node.component';
 import { EmptyNode } from '../empty-node.component';
-import { ValueNode } from './value-node.component';
+import { convertUnits, ValueNode } from './value-node.component';
 
 type TNodeProps = {
   node: TAreaNode;
@@ -14,6 +15,7 @@ type TNodeProps = {
 
 const Node = ({ node, onClearButtonClick }: TNodeProps) => {
   const { t } = useTranslation();
+  const { aoiLimit, measurmentUnit } = useSettings();
 
   return useMemo(() => {
     switch (node.state) {
@@ -24,13 +26,20 @@ const Node = ({ node, onClearButtonClick }: TNodeProps) => {
       case 'active':
       case 'not-active': {
         if (!node.value) {
-          return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.INSTRUCTIONS')} />;
+          return (
+            <ActiveNode
+              node={node}
+              text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.INSTRUCTIONS', {
+                maxSize: convertUnits(aoiLimit, measurmentUnit),
+              })}
+            />
+          );
         }
 
         return <ValueNode node={node} onClearButtonClick={onClearButtonClick} />;
       }
     }
-  }, [node, onClearButtonClick, t]);
+  }, [node, onClearButtonClick, t, aoiLimit, measurmentUnit]);
 };
 
 type TAreaNodeNodeProps = { node: TAreaNode };

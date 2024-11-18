@@ -1,5 +1,7 @@
 import { createGeometry, TAreaNode, useActionCreator } from '@ukri/map/data-access-map';
-import { getArea } from 'ol/extent';
+import { useSettings } from '@ukri/shared/utils/settings';
+import { getArea as getOlArea } from 'ol/extent';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Node } from '../node.component';
@@ -21,14 +23,8 @@ const getIconFromShape = (value: TAreaNode['value']): 'Polygon' | 'Circle' | 'Sq
   }
 };
 
-const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km' | 'miles') {
-  const shape = createGeometry(value);
-  if (!shape) {
-    return '';
-  }
-
+export const convertUnits = (area: number, unit: 'km' | 'miles') => {
   let output;
-  let area = getArea(shape.getExtent());
 
   switch (unit) {
     case 'miles': {
@@ -52,6 +48,22 @@ const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km'
     }
   }
 
+  return output;
+};
+
+const getArea = (value: TAreaNode['value']): number => {
+  const shape = createGeometry(value);
+  if (!shape) {
+    return 0;
+  }
+  const extent = shape.getExtent();
+  return extent ? getOlArea(extent as [number, number, number, number]) : 0;
+};
+
+const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km' | 'miles') {
+  const area = getArea(value);
+  const output = convertUnits(area, unit);
+
   return `${text.trim()} ${output}`;
 };
 
@@ -63,15 +75,36 @@ type TValueNodeProps = {
 export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
   const { t } = useTranslation();
   const { canActivateNode, isLast } = useActionCreator();
+  const { measurmentUnit, aoiLimit } = useSettings();
+  const aoiLimitInfo = useMemo(
+    () =>
+      t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE', {
+        maxSize: convertUnits(aoiLimit, measurmentUnit),
+      }),
+    [t, aoiLimit, measurmentUnit]
+  );
+
+  const getErrorMessage = useMemo(() => {
+    if (!node.value) {
+      return;
+    }
+
+    if (getArea(node.value) > aoiLimit) {
+      return aoiLimitInfo;
+    }
+
+    return undefined;
+  }, [aoiLimit, aoiLimitInfo, node.value]);
 
   return (
     <Node
       type={node.type}
       active={true}
-      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, 'miles')}
+      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, measurmentUnit)}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
+      error={getErrorMessage}
     >
       <NodeInput
         iconName={getIconFromShape(node.value)}

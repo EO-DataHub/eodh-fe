@@ -5,9 +5,10 @@ import { Node } from './node.component';
 type TActiveNodeProps = {
   node: TNode;
   text: string;
+  error?: string;
 };
 
-export const ActiveNode = ({ text, node }: TActiveNodeProps) => {
+export const ActiveNode = ({ text, node, error }: TActiveNodeProps) => {
   const { canActivateNode, isLast } = useActionCreator();
 
   return (
@@ -18,6 +19,7 @@ export const ActiveNode = ({ text, node }: TActiveNodeProps) => {
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
+      error={error}
     />
   );
 };
