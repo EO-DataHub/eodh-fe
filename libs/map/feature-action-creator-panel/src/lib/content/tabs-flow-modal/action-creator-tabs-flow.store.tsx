@@ -43,7 +43,6 @@ const useModalStore = create<IModalStore>()(
 
 const isOpen = (state: IModalStore) => {
   if (state.permanentHidden) {
-    // TODO add conditions to check if the modal should be shown (if results are loaded)
     return false;
   }
 
