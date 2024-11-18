@@ -64,11 +64,15 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
 
         if (isFunctionNode(node)) {
           const nodesToUpdate = nodes.filter((item) => item.order <= node.order);
+          const hasFunctionNodesWithValue = nodesToUpdate
+            .filter((node): node is TFunctionNode => isFunctionNode(node))
+            .some((node) => node.value?.identifier);
           const dataSets = nodesToUpdate
             .filter((node): node is TFunctionNode => isFunctionNode(node))
             .map((node) => node.value?.supportedDataSets || [])
             .flat();
-          enableDataSet(dataSets);
+
+          enableDataSet(hasFunctionNodesWithValue ? dataSets : undefined);
 
           return {
             nodes: nodesToUpdate,
