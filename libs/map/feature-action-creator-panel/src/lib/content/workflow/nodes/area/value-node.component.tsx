@@ -1,7 +1,7 @@
 import { createGeometry, TAreaNode, useActionCreator } from '@ukri/map/data-access-map';
 import { useSettings } from '@ukri/shared/utils/settings';
 import { getArea as getOlArea } from 'ol/extent';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Node } from '../node.component';
@@ -84,7 +84,7 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
     [t, aoiLimit, measurmentUnit]
   );
 
-  const getErrorMessage = useCallback(() => {
+  const getErrorMessage = useMemo(() => {
     if (!node.value) {
       return;
     }
@@ -92,6 +92,8 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
     if (getArea(node.value) > aoiLimit) {
       return aoiLimitInfo;
     }
+
+    return undefined;
   }, [aoiLimit, aoiLimitInfo, node.value]);
 
   return (
@@ -102,7 +104,7 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
-      error={getErrorMessage()}
+      error={getErrorMessage}
     >
       <NodeInput
         iconName={getIconFromShape(node.value)}

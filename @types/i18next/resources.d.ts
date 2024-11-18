@@ -21,6 +21,22 @@ interface Resources {
         LOADER: {
           RESULTS_VIEW_LOADER: 'Please wait, searching Data Sets';
         };
+        TIME_SLIDER: {
+          MONTHS: {
+            JAN: 'Jan';
+            FEB: 'Feb';
+            MAR: 'Mar';
+            APR: 'Apr';
+            MAY: 'May';
+            JUN: 'Jun';
+            JUL: 'Jul';
+            AUG: 'Aug';
+            SEP: 'Sep';
+            OCT: 'Oct';
+            NOV: 'Nov';
+            DEC: 'Dec';
+          };
+        };
       };
       LOGIN: {
         LOGIN_BUTTON: 'Log in';
@@ -97,6 +113,7 @@ interface Resources {
         };
         PRESETS: {
           BUTTON: 'Load preset';
+          COMING_SOON: 'Coming soon!';
         };
         HISTORY: {
           VIEW_RESULTS: 'View results';
@@ -123,7 +140,7 @@ interface Resources {
         };
         WORKFLOW: {
           ERROR: {
-            AOI_TOO_BIG: 'Area exceeds {{maxSize}} square miles.';
+            AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
             AOI_MISSING: 'Area of Interest is missing.';
             INVALID_DATE_RANGE: 'End date cannot be before start date.';
             COLLECTION_NOT_SUPPORTED: 'Collection {{collection}} cannot be used with {{function}} function! Valid options are: {{options}}.';
@@ -149,8 +166,9 @@ interface Resources {
             AREA: {
               TITLE: 'Area';
               DEFAULT_VALUE: 'Drawing 1';
-              INSTRUCTIONS: 'Use the drawing tools to define an area of interest. Please note we cannot return results for areas greater than 1,000m2';
+              INSTRUCTIONS: 'Use the drawing tools to define an area of interest. Please note we cannot return results for areas greater than {{maxSize}}';
               DESCRIPTION: 'Total area:';
+              ALLOWED_SIZE: 'Please select an area less than {{maxSize}}';
             };
             DATA_SET: {
               TITLE: 'Data Set';
@@ -179,6 +197,11 @@ interface Resources {
               };
             };
           };
+        };
+      };
+      ACTION_CREATOR_MODE_RESULTS: {
+        HEADER: {
+          AC_WORKFLOW_RESULTS: 'Action Creator workflow results';
         };
       };
       SEARCH_MODE_PANEL: {

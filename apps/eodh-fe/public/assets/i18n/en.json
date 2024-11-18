@@ -139,7 +139,7 @@
       },
       "WORKFLOW": {
         "ERROR": {
-          "AOI_TOO_BIG": "Area exceeds {{maxSize}} square miles.",
+          "AOI_TOO_BIG": "Area exceeds {{maxSize}} square kilometers.",
           "AOI_MISSING": "Area of Interest is missing.",
           "INVALID_DATE_RANGE": "End date cannot be before start date.",
           "COLLECTION_NOT_SUPPORTED": "Collection {{collection}} cannot be used with {{function}} function! Valid options are: {{options}}."
