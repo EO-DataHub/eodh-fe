@@ -112,20 +112,22 @@ interface Resources {
           };
         };
         TABS_FLOW_MODAL: {
-          HEADER: 'You are about to navigate away from your loaded Workflow results.';
           DONT_SHOW_IT_AGAIN: 'Don’t show again';
-          NO_BUTTON: 'No, cancel';
+          CTA_NO: 'No, cancel';
           WORKFLOW: {
+            HEADER: 'You are about to navigate away from your loaded Workflow results.';
             CONTENT: 'Creating and running a new Workflow will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?';
             CTA_BUTTON: 'Yes, create new Workflow';
           };
           PRESETS: {
-            CONTENT: 'Loading a preset will replace any data you’re currently viewing. You can still access this data from the Presets tab at the top of the Action Creator. Are you sure you want to do this?';
-            CTA_BUTTON: 'Yes, load  Preset';
+            HEADER: 'You are about to navigate away from your loaded Workflow results.';
+            CONTENT: 'Loading a preset will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?';
+            CTA_BUTTON: 'Yes, view Presets';
           };
         };
         PRESETS: {
           BUTTON: 'Load preset';
+          COMING_SOON: 'Coming soon!';
         };
         HISTORY: {
           VIEW_RESULTS: 'View results';
@@ -152,7 +154,7 @@ interface Resources {
         };
         WORKFLOW: {
           ERROR: {
-            AOI_TOO_BIG: 'Area exceeds {{maxSize}} square miles.';
+            AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
             AOI_MISSING: 'Area of Interest is missing.';
             INVALID_DATE_RANGE: 'End date cannot be before start date.';
             COLLECTION_NOT_SUPPORTED: 'Collection {{collection}} cannot be used with {{function}} function! Valid options are: {{options}}.';
@@ -178,8 +180,9 @@ interface Resources {
             AREA: {
               TITLE: 'Area';
               DEFAULT_VALUE: 'Drawing 1';
-              INSTRUCTIONS: 'Use the drawing tools to define an area of interest';
+              INSTRUCTIONS: 'Use the drawing tools to define an area of interest. Please note we cannot return results for areas greater than {{maxSize}}';
               DESCRIPTION: 'Total area:';
+              ALLOWED_SIZE: 'Please select an area less than {{maxSize}}';
             };
             DATA_SET: {
               TITLE: 'Data Set';
