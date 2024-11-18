@@ -36,7 +36,10 @@ const Tab = ({ name, tab }: TTabProps) => {
       } else {
         setTabsFlowModalOpen();
       }
+    } else {
+      hideModal();
     }
+
     setActiveTab(tab);
     if (tab === 'workflow') {
       enable();
