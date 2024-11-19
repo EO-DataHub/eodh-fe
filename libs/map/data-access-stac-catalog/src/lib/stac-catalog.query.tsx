@@ -52,5 +52,6 @@ export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
     enabled: query.enabled,
     queryKey: queryKey.CATALOG_SEARCH(query.params),
     queryFn: () => getResults(query.params, params),
+    staleTime: 200,
   });
 };

@@ -7,20 +7,23 @@ type TActionCreatorPanelProps = {
 };
 
 export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelProps) => {
-  const { minDate, maxDate, selectedMinDate, selectedMaxDate, updateSelectedDate } = useTimelineAnalytics();
+  const { status, minDate, maxDate, selectedMinDate, selectedMaxDate, updateSelectedDate } = useTimelineAnalytics();
 
   if (!minDate || !maxDate) {
     return null;
   }
 
   return (
-    <TimeSlider
-      min={minDate}
-      max={maxDate}
-      selectedMin={selectedMinDate}
-      selectedMax={selectedMaxDate}
-      className={className}
-      onUpdate={updateSelectedDate}
-    />
+    <div className={className}>
+      <TimeSlider
+        min={minDate}
+        max={maxDate}
+        selectedMin={selectedMinDate}
+        selectedMax={selectedMaxDate}
+        className='grow'
+        onUpdate={updateSelectedDate}
+        disabled={status === 'pending'}
+      />
+    </div>
   );
 };
