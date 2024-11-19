@@ -74,7 +74,7 @@ export const useTimelineAnalytics = () => {
       const newDateFrom =
         newDateFromAsNumber === currentDateFromAsNumber && searchParams.date?.from ? searchParams.date.from : dateFrom;
       const newDateTo =
-        newDateToAsNumber === currentDateToAsNumber && searchParams.date?.to ? searchParams.date.to : dateFrom;
+        newDateToAsNumber === currentDateToAsNumber && searchParams.date?.to ? searchParams.date.to : dateTo;
 
       if (newDateFromAsNumber === currentDateFromAsNumber && newDateToAsNumber === currentDateToAsNumber) {
         return;
