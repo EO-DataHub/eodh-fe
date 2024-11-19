@@ -2,8 +2,11 @@ import type {} from '@redux-devtools/extension';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
+type TMode = 'search' | 'action-creator';
+
 interface IChecklistStore {
   permanentHidden: boolean;
+  mode: TMode;
   open: boolean;
   toggle: (permanentHidden?: boolean) => void;
   show: () => void;
@@ -13,12 +16,14 @@ interface IChecklistStore {
   setDataSets: (valid: boolean) => void;
   isDateRangeValid: boolean;
   setDateRange: (valid: boolean) => void;
+  setMode: (mode: TMode) => void;
 }
 
 const useChecklistStore = create<IChecklistStore>()(
   devtools(
     persist(
       (set) => ({
+        mode: 'search',
         permanentHidden: false,
         open: true,
         isAoiValid: false,
@@ -37,6 +42,7 @@ const useChecklistStore = create<IChecklistStore>()(
         setAoi: (valid: boolean) => set(() => ({ isAoiValid: valid })),
         setDataSets: (valid: boolean) => set(() => ({ isDataSetsValid: valid })),
         setDateRange: (valid: boolean) => set(() => ({ isDateRangeValid: valid })),
+        setMode: (mode: TMode) => set(() => ({ mode })),
       }),
       {
         name: 'map-search-view-show-checklist',
@@ -47,7 +53,7 @@ const useChecklistStore = create<IChecklistStore>()(
 );
 
 const isOpen = (state: IChecklistStore) => {
-  if (state.permanentHidden) {
+  if (state.permanentHidden || state.mode !== 'search') {
     return false;
   }
 
@@ -56,6 +62,7 @@ const isOpen = (state: IChecklistStore) => {
 
 export const useChecklistState = () => {
   return useChecklistStore((state) => ({
+    mode: state.mode,
     open: isOpen(state),
     isAoiValid: state.isAoiValid,
     isDataSetsValid: state.isDataSetsValid,
@@ -63,12 +70,12 @@ export const useChecklistState = () => {
   }));
 };
 
-export const useToggleChecklistVisibility = () => {
-  return useChecklistStore((state) => state.toggle);
-};
-
-export const useShowChecklist = () => {
-  return useChecklistStore((state) => state.show);
+export const useChecklist = () => {
+  return useChecklistStore((state) => ({
+    toggle: state.toggle,
+    show: state.show,
+    setMode: state.setMode,
+  }));
 };
 
 export const useSetValidation = () => {
