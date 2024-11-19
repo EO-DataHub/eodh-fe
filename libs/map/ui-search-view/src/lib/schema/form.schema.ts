@@ -53,24 +53,6 @@ export const getSchema = (schema: TSchema) => {
   }
 };
 
-export const getSchema2 = (schema: TSchema) => {
-  switch (schema) {
-    case 'action-creator': {
-      return {
-        initial: dataSetsActionCreatorInitialSchema,
-        update: dataSetsActionCreatorUpdateSchema,
-      };
-    }
-
-    case 'search': {
-      return {
-        initial: dataSetsSearchInitialSchema,
-        update: dataSetsSearchUpdateSchema,
-      };
-    }
-  }
-};
-
 export type TInitialForm = z.infer<typeof initialSearchSchema> | z.infer<typeof initialActionCreatorSchema>;
 
 export type TUpdateForm = z.infer<typeof updateSearchSchema> | z.infer<typeof updateActionCreatorSchema>;

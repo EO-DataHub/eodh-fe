@@ -17,7 +17,6 @@ export const activatePanel = (node?: TNode) => {
       useAoiStore.getState().changeState('edit');
       useDataSetsStore.getState().changeState('readonly');
       useDateStore.getState().changeState('readonly');
-      useDateStore.getState().changeState('readonly');
       return;
     }
 
