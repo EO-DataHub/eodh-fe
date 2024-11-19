@@ -1,7 +1,7 @@
 import { TDateTimeString } from '@ukri/shared/utils/date';
 import { nanoid } from 'nanoid';
 
-import { defaultNodes, TNode } from './action-creator/action-creator.model';
+import { defaultNodes, TFunctionNode, TNode } from './action-creator/action-creator.model';
 import { useActionCreatorStore } from './action-creator/action-creator.store';
 import { createNode, isFunctionNode } from './action-creator/node.utils';
 import { TCoordinate } from './aoi/aoi.model';
@@ -52,6 +52,7 @@ export const activatePanel = (node?: TNode) => {
 export const reset = () => {
   useAoiStore.getState().setShape(undefined);
   useDataSetsStore.getState().updateDataSets(undefined);
+  useDataSetsStore.getState().enable();
   useDateStore.getState().reset();
 };
 
@@ -60,6 +61,14 @@ export type TLoadPresetProps = {
   functions: {
     identifier: string;
     order: number;
+    inputs: {
+      stacCollection?: {
+        options: {
+          label: string;
+          value: string;
+        }[];
+      };
+    };
   }[];
   aoi?: TCoordinate;
   dateRange?: {
@@ -91,14 +100,19 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
       }
     })
     .filter((item) => !!item);
-  const functionNodes = functions.map(({ identifier, order }) => ({
+  const functionNodes: TFunctionNode[] = functions.map(({ identifier, order, inputs }) => ({
     ...createNode(nanoid(), 'function', nodes.length + order),
     state: 'not-active',
-    value: identifier,
+    value: {
+      identifier,
+      supportedDataSets: inputs.stacCollection?.options.map((item) => item.value) || [],
+    },
   }));
   const shape = createShape(aoi, aoi?.type);
+  const availableDatasets = functionNodes.map((node) => node.value?.supportedDataSets || []).flat();
 
-  useDataSetsStore.getState().enableDataSet(dataSet);
+  useDataSetsStore.getState().setDataSet(dataSet);
+  useDataSetsStore.getState().enable(availableDatasets);
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
 
   if (shape) {
@@ -113,4 +127,8 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   } else {
     useDateStore.getState().reset();
   }
+};
+
+export const enableDataSet = (dataSet?: (TDataSetValue | string)[] | undefined) => {
+  useDataSetsStore.getState().enable(dataSet);
 };

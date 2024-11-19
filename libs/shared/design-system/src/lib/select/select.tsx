@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { ParseKeys } from 'i18next';
+import isString from 'lodash/isString';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,25 +8,31 @@ import { useOutsideClick } from '../hooks/use-outside-click';
 import { Icon } from '../icon/icon';
 import { selectStyles } from './select.styles';
 
-type TOptionValue = string | undefined;
+type TOptionValueObject = {
+  value: string;
+  [key: string]: unknown;
+};
 
-interface IOption {
-  value: TOptionValue;
+type TOptionValue = string;
+
+interface IOption<T extends TOptionValue | TOptionValueObject> {
+  value: T | undefined;
   label: string;
+  disabled?: boolean;
 }
 
-interface ISelectProps {
-  options: IOption[];
-  onChange: (value?: string | null) => void;
+interface ISelectProps<T extends TOptionValue | TOptionValueObject> {
+  options: IOption<T>[];
+  onChange: (value?: T) => void;
   placeholder?: ParseKeys;
   disabled?: boolean;
   error?: string;
   className?: string;
-  value?: string;
+  value?: T;
 }
 
 // TODO change it to not connected component once we will work on function handling ticket (UKRIW-94)
-export const Select = ({
+export const Select = <Value extends TOptionValue | TOptionValueObject>({
   options,
   onChange,
   placeholder = 'GLOBAL.DESIGN_SYSTEM.SELECT.PLACEHOLDER',
@@ -33,21 +40,28 @@ export const Select = ({
   className,
   value,
   disabled,
-}: ISelectProps) => {
+}: ISelectProps<Value>) => {
   const { t } = useTranslation();
-  const [selectedOption, setSelectedOption] = useState<IOption | undefined>();
+  const [selectedOption, setSelectedOption] = useState<IOption<Value> | undefined>();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useOutsideClick(ref, () => setIsOpen(false));
 
   useEffect(() => {
-    setSelectedOption(options.find((option) => option.value === value));
+    setSelectedOption(
+      options.find((option) => {
+        const optionValue = isString(option.value) ? option.value : option.value?.value;
+        const currentValue = isString(value) ? value : value?.value;
+
+        return optionValue === currentValue;
+      })
+    );
   }, [value, options]);
 
   const handleChange = useCallback(
-    (selectedOptionValue: IOption) => {
-      if (!disabled) {
+    (selectedOptionValue: IOption<Value>) => {
+      if (!disabled && !selectedOptionValue.disabled) {
         setSelectedOption(selectedOptionValue);
         onChange(selectedOptionValue.value);
         setIsOpen(true);
@@ -100,8 +114,8 @@ export const Select = ({
             </li>
             {options.map((option, index) => (
               <li
-                key={option.value}
-                className={selectStyles.listItem(disabled)}
+                key={isString(option.value) ? option.value : option.value?.value}
+                className={selectStyles.listItem(disabled || option.disabled)}
                 id={`listbox-option-${index}`}
                 role='option'
                 aria-selected={selectedOption?.value === option.value}

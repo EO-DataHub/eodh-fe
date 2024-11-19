@@ -12,6 +12,10 @@ export const nodeHasValue = (node?: TNode) => {
     return node.value?.from && node.value?.to;
   }
 
+  if (node.type === 'function') {
+    return !!node.value?.identifier;
+  }
+
   return !!node.value;
 };
 
@@ -53,10 +57,15 @@ export const getNodes = <T extends TNode>(nodes: TNode[], type: T['type']): T[] 
   return [];
 };
 
-export const createNode = (id: string | number, type: TNode['type'], order: number, first = false): TNode => {
+export const createNode = <Node extends TNode, Type extends TNode['type'] = Node['type']>(
+  id: string | number,
+  type: Type,
+  order: number,
+  first = false
+): Node => {
   switch (type) {
     case 'area': {
-      return {
+      const node: TAreaNode = {
         id: `area-${id}`,
         type: 'area',
         state: 'initial',
@@ -64,10 +73,12 @@ export const createNode = (id: string | number, type: TNode['type'], order: numb
         tooltip: first,
         order,
       };
+
+      return node as Node;
     }
 
     case 'dataSet': {
-      return {
+      const node: TDataSetsNode = {
         id: `dataSet-${id}`,
         type: 'dataSet',
         state: 'initial',
@@ -75,20 +86,24 @@ export const createNode = (id: string | number, type: TNode['type'], order: numb
         tooltip: first,
         order,
       };
+
+      return node as Node;
     }
 
     case 'dateRange': {
-      return {
+      const node: TDateRangeNode = {
         id: `date-${id}`,
         type: 'dateRange',
         state: 'initial',
         value: undefined,
         order,
       };
+
+      return node as Node;
     }
 
     case 'function': {
-      return {
+      const node: TFunctionNode = {
         id: `function-${id}`,
         type: 'function',
         state: 'initial',
@@ -96,18 +111,25 @@ export const createNode = (id: string | number, type: TNode['type'], order: numb
         tooltip: first,
         order,
       };
+
+      return node as Node;
+    }
+
+    default: {
+      // todo in newer version of TypeScript it should be supported types narrowing on conditions (if-else/switch-case)
+      return undefined as unknown as Node;
     }
   }
 };
 
-export type TBaseFunction = Pick<TFunction, 'name' | 'identifier' | 'standalone'>;
+export type TBaseFunction = Pick<TFunction, 'name' | 'identifier' | 'standalone' | 'inputs'>;
 
 export const getValidFunctions = (
   allNodes: TNode[],
   node: TNode,
   functions: TBaseFunction[] | undefined
 ): TBaseFunction[] => {
-  const nodes = allNodes.filter((item) => item.type === 'function');
+  const nodes = allNodes.filter((item): item is TFunctionNode => isFunctionNode(item));
   const firstFunctionOrderNumber = Math.min(...nodes.map((item) => item.order));
 
   if (!isFunctionNode(node) || !functions) {
@@ -120,7 +142,9 @@ export const getValidFunctions = (
 
   return functions
     .filter((item) => !item.standalone)
-    .filter((item) => !nodes.filter((item) => item.id !== node.id).find((node) => node.value === item.identifier));
+    .filter(
+      (item) => !nodes.filter((item) => item.id !== node.id).find((node) => node.value?.identifier === item.identifier)
+    );
 };
 
 export const isLastFunctionNodeWithNoValue = (node: TNode, nodes: TNode[]) => {

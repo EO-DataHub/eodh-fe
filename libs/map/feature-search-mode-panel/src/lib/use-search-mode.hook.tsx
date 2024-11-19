@@ -14,7 +14,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 
 export const useSearchMode = () => {
   const { searchType, searchParams, updateSearchParams } = useResults();
-  const { state: dataSetsState, schema, dataSets, updateDataSets } = useDataSets();
+  const { state: dataSetsState, schema, treeModel, dataSets, updateDataSets } = useDataSets();
   const { state: dateRangeState, date, updateDate } = useDate();
   const { view: currentView, changeView: setCurrentView } = useMode();
   const { data, status } = useCatalogSearch({ params: searchParams });
@@ -101,10 +101,25 @@ export const useSearchMode = () => {
       changeToSearchView,
       schema,
       values,
+      treeModel,
       search,
       searchType,
       updateState,
+      updateDataSets,
     }),
-    [data, state, status, currentView, changeToSearchView, schema, values, search, searchType, updateState]
+    [
+      data,
+      state,
+      status,
+      currentView,
+      changeToSearchView,
+      schema,
+      values,
+      treeModel,
+      search,
+      searchType,
+      updateState,
+      updateDataSets,
+    ]
   );
 };

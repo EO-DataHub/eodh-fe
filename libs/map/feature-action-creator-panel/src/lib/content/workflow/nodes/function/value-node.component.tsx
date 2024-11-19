@@ -1,19 +1,25 @@
-import { TFunctionNode, useActionCreator } from '@ukri/map/data-access-map';
+import { TBaseFunction, TFunctionNode, useActionCreator } from '@ukri/map/data-access-map';
+import { useMemo } from 'react';
 
 import { Node } from '../node.component';
-import { NodeSelect, TOption } from '../node-select.component';
-
-export type TBasicFunction = { standalone: boolean; identifier: string; name: string };
+import { NodeSelect, TOption, TValue } from '../node-select.component';
 
 type TValueNodeProps = {
   node: TFunctionNode;
   options: TOption[];
-  functions: TBasicFunction[] | undefined;
-  onChange?: (value: string | null | undefined) => void;
+  functions: TBaseFunction[] | undefined;
+  onChange?: (value: TValue | undefined | null) => void;
 };
 
 export const ValueNode = ({ node, options, functions, onChange }: TValueNodeProps) => {
   const { canActivateNode, isLast, addNode, removeNode, canRemoveNode, canAddNextNode, editable } = useActionCreator();
+  const nodeValue = useMemo(() => {
+    if (!node.value) {
+      return undefined;
+    }
+
+    return { value: node.value.identifier, supportedDataSets: node.value.supportedDataSets };
+  }, [node]);
 
   return (
     <Node
@@ -27,7 +33,7 @@ export const ValueNode = ({ node, options, functions, onChange }: TValueNodeProp
       onAddNode={addNode}
       onRemoveNode={() => removeNode(node)}
     >
-      <NodeSelect value={node.value} options={options || []} disabled={!editable(node)} onChange={onChange} />
+      <NodeSelect value={nodeValue} options={options || []} disabled={!editable(node)} onChange={onChange} />
     </Node>
   );
 };

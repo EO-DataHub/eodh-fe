@@ -66,10 +66,10 @@ export const createWorkflowParams = ({ nodes, functions }: TCreateWorkflowParams
   const workflowFunctions = functionNodes.map((node, index) => ({
     inputs: getFunctionInputs(
       { ...nodes, function: node },
-      functions.find((fn) => fn.identifier === node.value)
+      functions.find((fn) => fn.identifier === node.value?.identifier)
     ),
     order: index,
-    identifier: node.value || '',
+    identifier: node.value?.identifier || '',
   }));
 
   return {

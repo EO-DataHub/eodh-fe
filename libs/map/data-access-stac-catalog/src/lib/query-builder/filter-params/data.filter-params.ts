@@ -20,7 +20,9 @@ export const createDataFilterParams = (params: TSearchParams): TFilterParam | nu
   if (isWorkflow(params)) {
     filterParams = [...filterParams, ...createWorkflowFilterParams(params.jobId)];
   } else if (isCatalogue(params)) {
-    const catalogueParams = (Object.entries(params.dataSets.copernicus) as Entries<typeof params.dataSets.copernicus>)
+    const catalogueParams = (
+      Object.entries(params.dataSets.public.copernicus) as Entries<typeof params.dataSets.public.copernicus>
+    )
       .map(
         ([key, { enabled, ...rest }]) =>
           ({

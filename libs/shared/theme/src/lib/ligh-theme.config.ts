@@ -35,7 +35,7 @@ const colors = {
   warning: {
     DEFAULT: '#FFD15B',
     warning: '#FFD15B',
-    contrastText: '#606060',
+    contrastText: '#874C07',
   },
   success: {
     DEFAULT: '#52BF49',

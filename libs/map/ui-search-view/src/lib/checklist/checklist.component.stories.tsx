@@ -3,11 +3,11 @@ import { Button } from '@ukri/shared/design-system';
 import { useEffect } from 'react';
 
 import { Checklist } from './checklist.component';
-import { useChecklistState, useSetValidation, useShowChecklist } from './checklist.store';
+import { useChecklist, useChecklistState, useSetValidation } from './checklist.store';
 
 const ToggleChecklistButton = () => {
   const { open } = useChecklistState();
-  const showChecklist = useShowChecklist();
+  const { show: showChecklist } = useChecklist();
 
   return (
     <div className='ml-4'>

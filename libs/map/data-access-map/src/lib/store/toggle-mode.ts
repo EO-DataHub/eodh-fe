@@ -84,18 +84,14 @@ const restoreResultsStoreState = (mode: TMode) => {
 
 const restoreDataSetsStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<TDataSetsStore>(storeKeys.DATA_SETS(mode));
-  const newStoreState = mode === 'action-creator' ? 'readonly' : 'edit';
 
   if (!currentState) {
     useDataSetsStore.getState().updateDataSets(undefined);
     useDataSetsStore.getState().changeSchema(mode);
-    useDataSetsStore.getState().changeState(newStoreState);
     return;
   }
 
   useDataSetsStore.setState(currentState);
-  useDataSetsStore.getState().changeSchema(mode);
-  useDataSetsStore.getState().changeState(newStoreState);
 };
 
 const restoreDateStoreState = (mode: TMode) => {

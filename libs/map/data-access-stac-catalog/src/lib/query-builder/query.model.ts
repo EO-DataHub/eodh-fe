@@ -46,7 +46,9 @@ export type TCatalogSearchParams = {
   userWorkspace?: never;
   jobId?: never;
   dataSets: {
-    copernicus: TCopernicusSearchParams;
+    public: {
+      copernicus: TCopernicusSearchParams;
+    };
   };
   date: {
     from: NonNullable<TDateString>;

@@ -1,21 +1,27 @@
 import { Select } from '@ukri/shared/design-system';
 import { useCallback } from 'react';
 
-export type TOption = {
+export type TValue = {
   value: string;
+  supportedDataSets: string[];
+};
+
+export type TOption = {
+  value: TValue;
   label: string;
+  disabled?: boolean;
 };
 
 interface INodeSelectProps {
-  value: string | undefined;
+  value: TValue | undefined;
   disabled?: boolean;
   options: TOption[];
-  onChange?: (value: string | null | undefined) => void;
+  onChange?: (value: TValue | undefined | null) => void;
 }
 
 export const NodeSelect = ({ value, options, disabled, onChange }: INodeSelectProps) => {
   const handleChange = useCallback(
-    (value?: string | null | undefined) => {
+    (value?: TValue | undefined | null) => {
       if (onChange) {
         onChange(value);
       }

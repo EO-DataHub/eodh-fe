@@ -1,6 +1,6 @@
 import { Button, Icon } from '@ukri/shared/design-system';
 
-import { useChecklistState, useShowChecklist } from './checklist/checklist.store';
+import { useChecklist, useChecklistState } from './checklist/checklist.store';
 import { TSearchViewState } from './search-view.context';
 
 type TSubmitButtonProps = {
@@ -10,7 +10,7 @@ type TSubmitButtonProps = {
 
 export const SubmitButton = ({ state, disabled }: TSubmitButtonProps) => {
   const { open: checklistVisible } = useChecklistState();
-  const showChecklist = useShowChecklist();
+  const { show: showChecklist } = useChecklist();
 
   if (state !== 'edit') {
     return;
