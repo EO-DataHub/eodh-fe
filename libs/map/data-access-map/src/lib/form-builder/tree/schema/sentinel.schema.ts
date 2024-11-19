@@ -192,7 +192,6 @@ export const sentinel2ActionCreatorSchema: IDynamicTreeItem = {
     settings: {
       name: 'public.copernicus.sentinel2.expanded',
       type: 'button',
-      value: true,
     },
     value: {
       name: 'public.copernicus.sentinel2.enabled',
