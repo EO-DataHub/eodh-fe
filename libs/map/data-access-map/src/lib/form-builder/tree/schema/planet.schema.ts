@@ -1,7 +1,7 @@
 import { IDynamicTreeCategory, IDynamicTreeItem } from '../tree-dynamic.model';
 
 const planetScopeSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.PLANET.PLANET_SCOPE.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.PLANET_SCOPE.NAME',
   type: 'item',
   controls: {
     value: {
@@ -15,7 +15,7 @@ const planetScopeSchema: IDynamicTreeItem = {
 };
 
 const skySatSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.PLANET.SKY_SAT.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.SKY_SAT.NAME',
   type: 'item',
   controls: {
     value: {
@@ -29,7 +29,7 @@ const skySatSchema: IDynamicTreeItem = {
 };
 
 const rapidEyeSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.PLANET.RAPID_EYE.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.RAPID_EYE.NAME',
   type: 'item',
   controls: {
     value: {
@@ -43,7 +43,7 @@ const rapidEyeSchema: IDynamicTreeItem = {
 };
 
 export const planetSearchSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.PLANET.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.NAME',
   type: 'category',
   controls: {
     expand: {
@@ -64,7 +64,7 @@ export const planetSearchSchema: IDynamicTreeCategory = {
 };
 
 export const planetActionCreatorSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.PLANET.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.NAME',
   type: 'category',
   controls: {
     expand: {

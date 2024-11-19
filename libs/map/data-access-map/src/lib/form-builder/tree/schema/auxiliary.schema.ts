@@ -1,7 +1,7 @@
 import { IDynamicTreeCategory } from '../tree-dynamic.model';
 
 export const auxiliarySchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.AUXILIARY.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.AUXILIARY.NAME',
   type: 'category',
   controls: {
     expand: {
@@ -12,7 +12,7 @@ export const auxiliarySchema: IDynamicTreeCategory = {
   },
   children: [
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.AUXILIARY.GLOBAL_LAND_COVER',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.AUXILIARY.GLOBAL_LAND_COVER',
       type: 'item',
       controls: {
         value: {
@@ -22,7 +22,7 @@ export const auxiliarySchema: IDynamicTreeCategory = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.AUXILIARY.CORINE_LAND_COVER',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.AUXILIARY.CORINE_LAND_COVER',
       type: 'item',
       controls: {
         value: {
@@ -32,7 +32,7 @@ export const auxiliarySchema: IDynamicTreeCategory = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.AUXILIARY.WATER_BODIES',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.AUXILIARY.WATER_BODIES',
       type: 'item',
       controls: {
         value: {

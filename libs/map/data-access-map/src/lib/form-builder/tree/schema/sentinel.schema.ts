@@ -2,12 +2,12 @@ import { IDynamicTreeItem } from '../tree-dynamic.model';
 
 const sentinel1Options: IDynamicTreeItem['children'] = [
   {
-    translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.ACQUISITION_MODE',
+    translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.ACQUISITION_MODE',
     type: 'settingGroup',
     children: [
       {
         type: 'settingItem',
-        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.EW',
+        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.EW',
         controls: {
           value: {
             name: 'public.copernicus.sentinel1.acquisitionMode.ew',
@@ -18,11 +18,12 @@ const sentinel1Options: IDynamicTreeItem['children'] = [
         children: [
           {
             type: 'settingGroup',
-            translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION',
+            translationKey:
+              'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION',
             children: [
               {
                 type: 'settingItem',
-                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.HH',
+                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.HH',
                 controls: {
                   value: {
                     name: 'public.copernicus.sentinel1.acquisitionMode.hh',
@@ -33,7 +34,8 @@ const sentinel1Options: IDynamicTreeItem['children'] = [
               },
               {
                 type: 'settingItem',
-                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.HH_HV',
+                translationKey:
+                  'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.HH_HV',
                 controls: {
                   value: {
                     name: 'public.copernicus.sentinel1.acquisitionMode.hh_hv',
@@ -48,7 +50,7 @@ const sentinel1Options: IDynamicTreeItem['children'] = [
       },
       {
         type: 'settingItem',
-        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.IW',
+        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.IW',
         controls: {
           value: {
             name: 'public.copernicus.sentinel1.acquisitionMode.iw',
@@ -59,11 +61,12 @@ const sentinel1Options: IDynamicTreeItem['children'] = [
         children: [
           {
             type: 'settingGroup',
-            translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION',
+            translationKey:
+              'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.POLARIZATION',
             children: [
               {
                 type: 'settingItem',
-                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV',
+                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.VV',
                 controls: {
                   value: {
                     name: 'public.copernicus.sentinel1.acquisitionMode.vv',
@@ -74,7 +77,8 @@ const sentinel1Options: IDynamicTreeItem['children'] = [
               },
               {
                 type: 'settingItem',
-                translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.VV_VH',
+                translationKey:
+                  'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.VV_VH',
                 controls: {
                   value: {
                     name: 'public.copernicus.sentinel1.acquisitionMode.vv_vh',
@@ -90,12 +94,12 @@ const sentinel1Options: IDynamicTreeItem['children'] = [
     ],
   },
   {
-    translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.ORBIT_DIRECTION',
+    translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.ORBIT_DIRECTION',
     type: 'settingGroup',
     children: [
       {
         type: 'settingItem',
-        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.ASCENDING',
+        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.ASCENDING',
         controls: {
           value: {
             name: 'public.copernicus.sentinel1.orbitDirection.ascending',
@@ -106,7 +110,7 @@ const sentinel1Options: IDynamicTreeItem['children'] = [
       },
       {
         type: 'settingItem',
-        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.SETTINGS.DESCENDING',
+        translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.SETTINGS.DESCENDING',
         controls: {
           value: {
             name: 'public.copernicus.sentinel1.orbitDirection.descending',
@@ -120,7 +124,7 @@ const sentinel1Options: IDynamicTreeItem['children'] = [
 ];
 
 export const sentinel1Schema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_1.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_1.NAME',
   type: 'item',
   controls: {
     settings: {
@@ -136,7 +140,7 @@ export const sentinel1Schema: IDynamicTreeItem = {
 };
 
 export const sentinel2SearchSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.NAME',
   type: 'item',
   controls: {
     settings: {
@@ -150,7 +154,7 @@ export const sentinel2SearchSchema: IDynamicTreeItem = {
   },
   children: [
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.L1C',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L1C',
       type: 'settingItem',
       controls: {
         value: {
@@ -161,7 +165,7 @@ export const sentinel2SearchSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.L2A',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L2A',
       type: 'settingItem',
       controls: {
         value: {
@@ -172,7 +176,8 @@ export const sentinel2SearchSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
+      translationKey:
+        'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
       type: 'slider',
       name: 'public.copernicus.sentinel2.cloudCoverage',
       value: 100,
@@ -181,7 +186,7 @@ export const sentinel2SearchSchema: IDynamicTreeItem = {
 };
 
 export const sentinel2ActionCreatorSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.NAME',
   type: 'item',
   controls: {
     settings: {
@@ -196,7 +201,7 @@ export const sentinel2ActionCreatorSchema: IDynamicTreeItem = {
   },
   children: [
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.L1C',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L1C',
       type: 'settingItem',
       controls: {
         value: {
@@ -207,7 +212,7 @@ export const sentinel2ActionCreatorSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.L2A',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L2A',
       type: 'settingItem',
       controls: {
         value: {
@@ -218,7 +223,8 @@ export const sentinel2ActionCreatorSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
+      translationKey:
+        'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
       type: 'slider',
       name: 'public.copernicus.sentinel2.cloudCoverage',
       value: 100,
@@ -227,7 +233,7 @@ export const sentinel2ActionCreatorSchema: IDynamicTreeItem = {
 };
 
 export const sentinel3Schema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_3.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_3.NAME',
   type: 'item',
   controls: {
     settings: {
@@ -244,7 +250,7 @@ export const sentinel3Schema: IDynamicTreeItem = {
   },
   children: [
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_3.SETTINGS.SLSTR',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_3.SETTINGS.SLSTR',
       type: 'settingItem',
       controls: {
         value: {
@@ -255,13 +261,14 @@ export const sentinel3Schema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
+      translationKey:
+        'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
       type: 'slider',
       name: 'public.copernicus.sentinel3.cloudCoverage',
       value: 100,
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_3.SETTINGS.OLCI',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_3.SETTINGS.OLCI',
       type: 'settingItem',
       controls: {
         value: {
@@ -275,7 +282,7 @@ export const sentinel3Schema: IDynamicTreeItem = {
 };
 
 export const sentinel5pSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_5P.NAME',
   type: 'item',
   controls: {
     settings: {
@@ -292,7 +299,7 @@ export const sentinel5pSchema: IDynamicTreeItem = {
   },
   children: [
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.SETTINGS.AER_AI',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_5P.SETTINGS.AER_AI',
       type: 'settingItem',
       controls: {
         value: {
@@ -303,7 +310,7 @@ export const sentinel5pSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.SETTINGS.CH4',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_5P.SETTINGS.CH4',
       type: 'settingItem',
       controls: {
         value: {
@@ -314,7 +321,7 @@ export const sentinel5pSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.SETTINGS.CLOUD',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_5P.SETTINGS.CLOUD',
       type: 'settingItem',
       controls: {
         value: {
@@ -325,7 +332,7 @@ export const sentinel5pSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.SETTINGS.CO',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_5P.SETTINGS.CO',
       type: 'settingItem',
       controls: {
         value: {
@@ -336,7 +343,7 @@ export const sentinel5pSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.SETTINGS.HCHO',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_5P.SETTINGS.HCHO',
       type: 'settingItem',
       controls: {
         value: {
@@ -347,7 +354,7 @@ export const sentinel5pSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.SETTINGS.NO2',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_5P.SETTINGS.NO2',
       type: 'settingItem',
       controls: {
         value: {
@@ -358,7 +365,7 @@ export const sentinel5pSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.SETTINGS.O3',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_5P.SETTINGS.O3',
       type: 'settingItem',
       controls: {
         value: {
@@ -369,7 +376,7 @@ export const sentinel5pSchema: IDynamicTreeItem = {
       },
     },
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.SENTINEL_5P.SETTINGS.SO2',
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_5P.SETTINGS.SO2',
       type: 'settingItem',
       controls: {
         value: {

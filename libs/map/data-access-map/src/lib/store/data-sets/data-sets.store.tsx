@@ -39,10 +39,12 @@ export const useDataSetsStore = create<TDataSetsStore>()(
             schema,
             dataSets: {
               status: 'initial',
+              showNotificationMessage: false,
               ...new TreeBuilder(treeModel).getValues(),
             },
             treeModel: {
               model: treeModel,
+              showNotificationMessage: false,
               filteredDataSets: undefined,
             },
             state: 'edit',
@@ -58,6 +60,7 @@ export const useDataSetsStore = create<TDataSetsStore>()(
           },
           treeModel: {
             model: treeModel,
+            showNotificationMessage: false,
             filteredDataSets: undefined,
           },
           state: 'readonly',
@@ -77,6 +80,7 @@ export const useDataSetsStore = create<TDataSetsStore>()(
           supportedDataSets: dataSets,
           treeModel: {
             model: getTreeModel(state.schema, state.treeModel.model, dataSets),
+            showNotificationMessage: false,
             filteredDataSets: dataSets,
           },
         };
@@ -86,6 +90,7 @@ export const useDataSetsStore = create<TDataSetsStore>()(
         treeModel: {
           model: getTreeModel(state.schema, state.treeModel.model, dataSet ? dataSet : state.supportedDataSets),
           filteredDataSets: dataSet ? dataSet : state.supportedDataSets,
+          showNotificationMessage: !!dataSet,
         },
       })),
     disable: () =>

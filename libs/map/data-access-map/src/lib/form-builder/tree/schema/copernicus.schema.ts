@@ -8,7 +8,7 @@ import {
 } from './sentinel.schema';
 
 export const copernicusSearchSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.NAME',
   type: 'category',
   controls: {
     expand: {
@@ -26,7 +26,7 @@ export const copernicusSearchSchema: IDynamicTreeCategory = {
 };
 
 export const copernicusActionCreatorSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.COPERNICUS.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.NAME',
   type: 'category',
   controls: {
     expand: {

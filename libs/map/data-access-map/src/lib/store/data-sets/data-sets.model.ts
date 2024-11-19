@@ -22,6 +22,7 @@ export type TDataSetsStore<T = TDataSetsValues> = {
   dataSets: T & { status: 'initial' | 'updated' };
   supportedDataSets: string[] | undefined;
   treeModel: {
+    showNotificationMessage: boolean;
     model: TDynamicTreeModel;
     filteredDataSets: string[] | undefined;
   };
@@ -70,6 +71,7 @@ export const defaultState: Omit<
   },
   supportedDataSets: undefined,
   treeModel: {
+    showNotificationMessage: false,
     model: searchSchema,
     filteredDataSets: undefined,
   },

@@ -2,6 +2,7 @@ import { SearchView } from '@ukri/map/ui-search-view';
 import { Text } from '@ukri/shared/design-system';
 
 import { Header } from './header.component';
+import { Notification } from './notification.component';
 import { ResultsView } from './results-view.component';
 import { useSearchMode } from './use-search-mode.hook';
 
@@ -19,7 +20,7 @@ export const SearchModePanel = () => {
         <SearchView
           state={state}
           defaultValues={values}
-          treeModel={treeModel}
+          treeModel={treeModel.model}
           schema={schema}
           onChange={updateState}
           onSubmit={search}
@@ -30,8 +31,9 @@ export const SearchModePanel = () => {
               type='h3'
               fontSize='large'
               fontWeight='bold'
-              className='text-neutral-dark'
+              className='text-neutral-dark p-4 border-b-[1px]'
             />
+            <Notification treeModel={treeModel} state={state} />
           </Header>
         </SearchView>
       );
@@ -43,7 +45,7 @@ export const SearchModePanel = () => {
         <SearchView
           state={state}
           defaultValues={values}
-          treeModel={treeModel}
+          treeModel={treeModel.model}
           schema={schema}
           onChange={updateState}
           onSubmit={search}
@@ -54,8 +56,9 @@ export const SearchModePanel = () => {
               type='h3'
               fontSize='large'
               fontWeight='bold'
-              className='text-neutral-dark'
+              className='text-neutral-dark p-4 border-b-[1px]'
             />
+            <Notification treeModel={treeModel} state={state} />
           </Header>
         </SearchView>
       );

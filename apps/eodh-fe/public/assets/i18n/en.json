@@ -231,74 +231,82 @@
         "DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO": "Invalid date. Date to should be later"
       },
       "DATA_SETS": {
-        "PRIVATE": "Private",
-        "PUBLIC": "Public",
-        "PLANET": {
-          "NAME": "Planet",
-          "PLANET_SCOPE": {
-            "NAME": "Planet Scope"
-          },
-          "SKY_SAT": {
-            "NAME": "SkySat"
-          },
-          "RAPID_EYE": {
-            "NAME": "RapidEye"
+        "INFO_BOX": {
+          "SOME_OPTIONS_ARE_INCOMPATIBLE": "Some menu options may be incompatible with your selections in the Action Creator",
+          "BUTTON": {
+            "DISMISS": "Dismiss"
           }
         },
-        "AIR_BUS": {
-          "NAME": "AirBus"
-        },
-        "AUXILIARY": {
-          "NAME": "Auxiliary",
-          "GLOBAL_LAND_COVER": "Global Land Cover",
-          "CORINE_LAND_COVER": "CORINE Land Cover",
-          "WATER_BODIES": "Water Bodies"
-        },
-        "COPERNICUS": {
-          "NAME": "Copernicus",
-          "SENTINEL_1": {
-            "NAME": "Sentinel-1",
-            "SETTINGS": {
-              "ACQUISITION_MODE": "Acquisition mode:",
-              "EW": "EW - Extra-Wide Swath 40m x 40m",
-              "POLARIZATION": "Polarization",
-              "HH": "HH",
-              "HH_HV": "HH+HV",
-              "IW": "IW - Interferometric Wide Swath 10m x 10m",
-              "VV": "VV",
-              "VV_VH": "VV+VH",
-              "ORBIT_DIRECTION": "Orbit direction:",
-              "ASCENDING": "Ascending",
-              "DESCENDING": "Descending"
+        "DATA_SETS_CONFIGURATION": {
+          "PRIVATE": "Private",
+          "PUBLIC": "Public",
+          "PLANET": {
+            "NAME": "Planet",
+            "PLANET_SCOPE": {
+              "NAME": "Planet Scope"
+            },
+            "SKY_SAT": {
+              "NAME": "SkySat"
+            },
+            "RAPID_EYE": {
+              "NAME": "RapidEye"
             }
           },
-          "SENTINEL_2": {
-            "NAME": "Sentinel-2",
-            "SETTINGS": {
-              "L1C": "L1C",
-              "L2A": "L2A (atmospherically corrected)",
-              "MAX_CLOUD_COVERAGE": "Max cloud coverage:"
-            }
+          "AIR_BUS": {
+            "NAME": "AirBus"
           },
-          "SENTINEL_3": {
-            "NAME": "Sentinel-3",
-            "SETTINGS": {
-              "SLSTR": "SLSTR",
-              "MAX_CLOUD_COVERAGE": "Max cloud coverage:",
-              "OLCI": "OLCI"
-            }
+          "AUXILIARY": {
+            "NAME": "Auxiliary",
+            "GLOBAL_LAND_COVER": "Global Land Cover",
+            "CORINE_LAND_COVER": "CORINE Land Cover",
+            "WATER_BODIES": "Water Bodies"
           },
-          "SENTINEL_5P": {
-            "NAME": "Sentinel-5P",
-            "SETTINGS": {
-              "AER_AI": "AER AI (Aerosol Index)",
-              "CH4": "CH4 (Methane)",
-              "CLOUD": "Cloud",
-              "CO": "CO (Carbon monoxide)",
-              "HCHO": "HCHO (Formaldehyde)",
-              "NO2": "NO2 (Nitrogen dioxide)",
-              "O3": "O3 (Ozone)",
-              "SO2": "SO2 (Sulfur dioxide)"
+          "COPERNICUS": {
+            "NAME": "Copernicus",
+            "SENTINEL_1": {
+              "NAME": "Sentinel-1",
+              "SETTINGS": {
+                "ACQUISITION_MODE": "Acquisition mode:",
+                "EW": "EW - Extra-Wide Swath 40m x 40m",
+                "POLARIZATION": "Polarization",
+                "HH": "HH",
+                "HH_HV": "HH+HV",
+                "IW": "IW - Interferometric Wide Swath 10m x 10m",
+                "VV": "VV",
+                "VV_VH": "VV+VH",
+                "ORBIT_DIRECTION": "Orbit direction:",
+                "ASCENDING": "Ascending",
+                "DESCENDING": "Descending"
+              }
+            },
+            "SENTINEL_2": {
+              "NAME": "Sentinel-2",
+              "SETTINGS": {
+                "L1C": "L1C",
+                "L2A": "L2A (atmospherically corrected)",
+                "MAX_CLOUD_COVERAGE": "Max cloud coverage:"
+              }
+            },
+            "SENTINEL_3": {
+              "NAME": "Sentinel-3",
+              "SETTINGS": {
+                "SLSTR": "SLSTR",
+                "MAX_CLOUD_COVERAGE": "Max cloud coverage:",
+                "OLCI": "OLCI"
+              }
+            },
+            "SENTINEL_5P": {
+              "NAME": "Sentinel-5P",
+              "SETTINGS": {
+                "AER_AI": "AER AI (Aerosol Index)",
+                "CH4": "CH4 (Methane)",
+                "CLOUD": "Cloud",
+                "CO": "CO (Carbon monoxide)",
+                "HCHO": "HCHO (Formaldehyde)",
+                "NO2": "NO2 (Nitrogen dioxide)",
+                "O3": "O3 (Ozone)",
+                "SO2": "SO2 (Sulfur dioxide)"
+              }
             }
           }
         }

@@ -1,7 +1,7 @@
 import { IDynamicTreeCategory } from '../tree-dynamic.model';
 
 export const aibusSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.AIR_BUS.NAME',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.AIR_BUS.NAME',
   type: 'category',
   controls: {
     expand: {

@@ -3,7 +3,7 @@ import { auxiliarySchema } from './auxiliary.schema';
 import { copernicusActionCreatorSchema, copernicusSearchSchema } from './copernicus.schema';
 
 export const publicSearchSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.PUBLIC',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PUBLIC',
   type: 'category',
   options: {
     expendable: true,
@@ -20,7 +20,7 @@ export const publicSearchSchema: IDynamicTreeCategory = {
 };
 
 export const publicActionCreatorSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.PUBLIC',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PUBLIC',
   type: 'category',
   options: {
     expendable: true,
