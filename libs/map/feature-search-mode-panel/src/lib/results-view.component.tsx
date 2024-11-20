@@ -22,7 +22,7 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
               type='h3'
               fontSize='large'
               fontWeight='bold'
-              className='text-neutral-dark p-4'
+              className='text-neutral-dark p-4 '
             />
           </Header>
           <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
@@ -36,7 +36,11 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
       return (
         <div className='flex flex-col flex-1 h-full'>
           <Header>
-            <button type='button' onClick={onBack} className='flex items-center *:hover:text-primary'>
+            <button
+              type='button'
+              onClick={onBack}
+              className='flex items-center *:hover:text-primary p-4 border-b-[1px]'
+            >
               <Icon name='ArrowLeft' className='text-neutral-light' />
               <Text
                 content='MAP.SEARCH_MODE_PANEL.HEADER.BACK_TO_DATA_SETS'
