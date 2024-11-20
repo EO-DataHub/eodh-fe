@@ -22,10 +22,10 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
               type='h3'
               fontSize='large'
               fontWeight='bold'
-              className='text-neutral-dark'
+              className='text-neutral-dark p-4'
             />
           </Header>
-          <div className='flex-1 overflow-y-auto pb-4'>
+          <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
             <UIResultsView status={status} data={data} onBack={onBack} />
           </div>
         </div>
@@ -43,11 +43,11 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
                 type='h3'
                 fontSize='large'
                 fontWeight='bold'
-                className='text-neutral-dark'
+                className='text-neutral-dark p-4'
               />
             </button>
           </Header>
-          <div className='flex-1 overflow-y-auto pb-4'>
+          <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
             <UIResultsView status={status} data={data} onBack={onBack} />
           </div>
         </div>
