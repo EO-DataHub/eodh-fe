@@ -22,7 +22,7 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
               type='h3'
               fontSize='large'
               fontWeight='bold'
-              className='text-neutral-dark p-4 '
+              className='text-neutral-dark p-4'
             />
           </Header>
           <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
@@ -47,7 +47,7 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
                 type='h3'
                 fontSize='large'
                 fontWeight='bold'
-                className='text-neutral-dark p-4'
+                className='text-neutral-dark'
               />
             </button>
           </Header>
