@@ -2,6 +2,7 @@
 // TODO modal by default should call onNext step. And if we need do manual call, then we pass callback and eg we change mode(eg property mode='manual' and onNextStep, ie we do 2 types, in one 2 types should exist, and in other not )
 import { createContext, FC, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { boolean } from 'zod';
 
 interface IOnboardingContextType {
   currentStep: TStepName;
@@ -9,13 +10,12 @@ interface IOnboardingContextType {
   completeOnboarding: () => void;
   goToNextOnboardingStep: () => void;
   onboardingSteps: TOnboardingSteps;
-  updateShouldDisplayOnboardingModal: (collapsed?: boolean, enabled?: boolean) => boolean;
+  updateShouldDisplayOnboardingModal: (acMode: boolean, workflowTab: boolean, permanentHidden: boolean) => boolean;
   displayOnboardingModal: boolean;
   setDisplayOnboardingModal: (value: boolean) => void;
 }
 
 export type TStepName =
-  | 'NOT_STARTED'
   | 'AREA_NODE'
   | 'DRAWING_TOOLS'
   | 'DATA_SET_NODE'
@@ -39,18 +39,13 @@ const translationsPath = 'MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS';
 const OnboardingContext = createContext<IOnboardingContextType | undefined>(undefined);
 
 export const OnboardingProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentStep, setCurrentStep] = useState<TStepName>('NOT_STARTED');
+  const [currentStep, setCurrentStep] = useState<TStepName>('AREA_NODE');
   const [displayOnboardingModal, setDisplayOnboardingModal] = useState(false);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
   const { t } = useTranslation();
 
   const onboardingSteps: TOnboardingSteps = useMemo(
     () => ({
-      NOT_STARTED: {
-        step_name: 'NOT_STARTED',
-        next_step: 'AREA_NODE',
-        tooltip_text: '',
-      },
       AREA_NODE: {
         step_name: 'AREA_NODE',
         next_step: 'DRAWING_TOOLS',
@@ -86,8 +81,8 @@ export const OnboardingProvider: FC<{ children: ReactNode }> = ({ children }) =>
   );
 
   const updateShouldDisplayOnboardingModal = useCallback(
-    (collapsed?: boolean, enabled?: boolean) => {
-      return !isOnboardingComplete && currentStep === 'NOT_STARTED' && !collapsed && !enabled;
+    (acMode = false, workflowTab = false, permanentHidden = false) => {
+      return !isOnboardingComplete && currentStep === 'AREA_NODE' && acMode && workflowTab && !permanentHidden;
     },
     [currentStep, isOnboardingComplete]
   );

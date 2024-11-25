@@ -35,8 +35,6 @@ export const OnboardingTooltip = ({
     }
   }, [isOpen, onClick]);
 
-  return children;
-
   return (
     <div className='relative'>
       <div data-tooltip-id={stepName} onClick={handleClose}>

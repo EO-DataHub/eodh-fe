@@ -11,7 +11,7 @@ const useOnboardingStore = create<IAcOnboardingStore>()(
   devtools(
     persist(
       (set) => ({
-        permanentHidden: true,
+        permanentHidden: false,
         toggle: (permanentHidden?: boolean) =>
           set((state) => ({
             permanentHidden: permanentHidden !== undefined ? permanentHidden : state.permanentHidden,
