@@ -6,7 +6,7 @@ import {
   useActionCreator,
   useFunctions,
 } from '@ukri/map/data-access-map';
-import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
+import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -95,7 +95,7 @@ interface IFunctionNodeProps {
 
 export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   const {
-    context: { goToNextOnboardingStep, onboardingSteps },
+    context: { goToNextOnboardingStep, onboardingSteps, currentStep },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { data, isLoading } = useFunctions();
@@ -106,8 +106,18 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     if (canBeActivated) {
       nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
+      if (currentStep === onboardingSteps.DATE_RANGE_PICKER.step_name) {
+        goToNextOnboardingStep();
+      }
     }
-  }, [canBeActivated, node, setActiveNode]);
+  }, [
+    canBeActivated,
+    node,
+    setActiveNode,
+    currentStep,
+    goToNextOnboardingStep,
+    onboardingSteps.DATE_RANGE_PICKER.step_name,
+  ]);
 
   const updateFunction = useCallback(
     (value: TValue | undefined | null) => {
@@ -121,25 +131,9 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     [node, setValue]
   );
 
-  if (!node.tooltip) {
-    return (
-      <div ref={nodeRef} onClick={activateNode}>
-        <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
-      </div>
-    );
-  }
-
   return (
-    <OnboardingTooltip
-      tipLocation='right'
-      stepName={onboardingSteps.FUNCTION_DROPDOWN.step_name}
-      content={onboardingSteps.FUNCTION_DROPDOWN.tooltip_text}
-      onClick={goToNextOnboardingStep}
-      className='top-0 left-[-110px]'
-    >
-      <div id={node.id} ref={nodeRef} onClick={activateNode}>
-        <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
-      </div>
-    </OnboardingTooltip>
+    <div ref={nodeRef} onClick={activateNode}>
+      <Node node={node} data={data} isLoading={isLoading} onChange={updateFunction} />
+    </div>
   );
 };

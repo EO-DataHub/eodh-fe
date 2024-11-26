@@ -11,7 +11,7 @@ type TReactNode =
 interface ITextProps {
   content: ParseKeys | TReactNode;
   translate?: boolean;
-  type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
+  type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' | 'div';
   fontSize?: 'large' | 'medium' | 'small';
   fontWeight?: 'bold' | 'semibold' | 'regular';
   className?: string;

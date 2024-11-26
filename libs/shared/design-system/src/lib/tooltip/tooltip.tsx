@@ -9,12 +9,19 @@ type TTipLocation = 'top' | 'bottom' | 'left' | 'right';
 
 interface ITooltipProps {
   tipLocation: TTipLocation;
-  content: string;
+  content: string | JSX.Element;
   className?: string;
   isOpen?: boolean;
+  tooltipPosition?: React.CSSProperties;
 }
 
-export const Tooltip = ({ tipLocation, content, isOpen, className }: PropsWithChildren<ITooltipProps>) => {
+export const Tooltip = ({
+  tipLocation,
+  content,
+  isOpen,
+  className,
+  tooltipPosition,
+}: PropsWithChildren<ITooltipProps>) => {
   const [isTooltipOpen, setIsOpen] = useState(isOpen);
 
   useEffect(() => {
@@ -29,8 +36,8 @@ export const Tooltip = ({ tipLocation, content, isOpen, className }: PropsWithCh
 
   return (
     isTooltipOpen && (
-      <div className={clsx(tooltip.getTooltipStyles(tipLocation), className)}>
-        <Text content={content} type='p' fontSize='medium' fontWeight='semibold' />
+      <div className={clsx(tooltip.getTooltipStyles(tipLocation), className)} style={tooltipPosition || undefined}>
+        <Text content={content} type='div' fontSize='medium' fontWeight='semibold' />
         <button className='ml-2' onClick={handleClose}>
           <Icon name='Close' />
         </button>

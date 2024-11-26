@@ -1,4 +1,5 @@
 import { TDateRangeNode, useActionCreator, useDate } from '@ukri/map/data-access-map';
+import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -44,13 +45,26 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   const { date, updateDate } = useDate();
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
+  const {
+    context: { goToNextOnboardingStep, onboardingSteps, currentStep },
+  } = useOnboarding();
 
   const activateNode = useCallback(() => {
     if (canBeActivated) {
       nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
+      if (currentStep === onboardingSteps.DATA_SET_PANEL.step_name) {
+        goToNextOnboardingStep();
+      }
     }
-  }, [canBeActivated, node, setActiveNode]);
+  }, [
+    canBeActivated,
+    node,
+    setActiveNode,
+    currentStep,
+    goToNextOnboardingStep,
+    onboardingSteps.DATA_SET_PANEL.step_name,
+  ]);
 
   const clearDateFrom = useCallback(() => {
     updateDate({ from: null, to: date?.to });

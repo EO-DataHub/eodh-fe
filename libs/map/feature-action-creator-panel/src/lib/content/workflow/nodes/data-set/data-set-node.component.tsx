@@ -44,6 +44,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { dataSet, error, updateDataSets } = useActiveDataSet();
   const nodeRef = useRef<HTMLDivElement>(null);
+  const nodePosition = nodeRef.current && nodeRef.current.getBoundingClientRect();
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   const activateNode = useCallback(() => {
@@ -75,9 +76,9 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
     <OnboardingTooltip
       tipLocation='right'
       stepName={onboardingSteps.DATA_SET_NODE.step_name}
-      content={onboardingSteps.DATA_SET_NODE.tooltip_text}
+      content={onboardingSteps.DATA_SET_NODE.tooltip_content}
       onClick={goToNextOnboardingStep}
-      className='top-0 left-[-110px]'
+      position={nodePosition}
     >
       <div ref={nodeRef} id={node.id} onClick={activateNode}>
         <Node node={node} error={error} onClearButtonClick={clear} />

@@ -1,7 +1,7 @@
 import { TDynamicTreeModel, TreeBuilder } from '@ukri/map/data-access-map';
 import { Tree as TreeWrapper } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 
 import { useSearchView } from '../search-view.context';
 import { TreeElement } from './elements/tree-element.component';
@@ -14,8 +14,10 @@ export const DynamicTreeForm = ({ tree }: TTreeProps) => {
   const { isDisabled } = useSearchView();
   const disabled = isDisabled(false, 'data-sets');
   const {
-    context: { goToNextOnboardingStep, onboardingSteps },
+    context: { onboardingSteps },
   } = useOnboarding();
+  const treeRef = useRef<HTMLDivElement>(null);
+  const treePosition = treeRef.current && treeRef.current.getBoundingClientRect();
 
   const treeBuilder = useMemo(() => new TreeBuilder(tree), [tree]);
 
@@ -24,13 +26,14 @@ export const DynamicTreeForm = ({ tree }: TTreeProps) => {
       <OnboardingTooltip
         tipLocation='left'
         stepName={onboardingSteps.DATA_SET_PANEL.step_name}
-        content={onboardingSteps.DATA_SET_PANEL.tooltip_text}
-        onClick={goToNextOnboardingStep}
-        className='top-[20%] left-[470px] !fixed'
+        content={onboardingSteps.DATA_SET_PANEL.tooltip_content}
+        position={treePosition}
       >
-        {treeBuilder.items.map((item) => (
-          <TreeElement key={item.id} item={item} disabled={disabled} />
-        ))}
+        <div ref={treeRef}>
+          {treeBuilder.items.map((item) => (
+            <TreeElement key={item.id} item={item} disabled={disabled} />
+          ))}
+        </div>
       </OnboardingTooltip>
     </TreeWrapper>
   );
