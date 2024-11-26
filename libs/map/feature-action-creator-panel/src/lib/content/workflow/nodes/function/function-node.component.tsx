@@ -7,7 +7,7 @@ import {
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useActiveDataSet } from '../data-set/use-active-dataset.hook';
@@ -106,18 +106,21 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     if (canBeActivated) {
       nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
+    }
+  }, [canBeActivated, node, setActiveNode]);
+
+  useEffect(() => {
+    const scrollWithTimeout = () => {
+      nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    if (node.state === 'active') {
+      scrollWithTimeout();
       if (currentStep === onboardingSteps.DATE_RANGE_PICKER.step_name) {
         goToNextOnboardingStep();
       }
     }
-  }, [
-    canBeActivated,
-    node,
-    setActiveNode,
-    currentStep,
-    goToNextOnboardingStep,
-    onboardingSteps.DATE_RANGE_PICKER.step_name,
-  ]);
+  }, [node, currentStep, goToNextOnboardingStep, onboardingSteps]);
 
   const updateFunction = useCallback(
     (value: TValue | undefined | null) => {

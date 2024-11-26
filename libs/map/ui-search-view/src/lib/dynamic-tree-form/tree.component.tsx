@@ -17,7 +17,6 @@ export const DynamicTreeForm = ({ tree }: TTreeProps) => {
     context: { onboardingSteps },
   } = useOnboarding();
   const treeRef = useRef<HTMLDivElement>(null);
-  const treePosition = treeRef.current && treeRef.current.getBoundingClientRect();
 
   const treeBuilder = useMemo(() => new TreeBuilder(tree), [tree]);
 
@@ -27,7 +26,7 @@ export const DynamicTreeForm = ({ tree }: TTreeProps) => {
         tipLocation='left'
         stepName={onboardingSteps.DATA_SET_PANEL.step_name}
         content={onboardingSteps.DATA_SET_PANEL.tooltip_content}
-        position={treePosition}
+        reference={treeRef}
       >
         <div ref={treeRef}>
           {treeBuilder.items.map((item) => (

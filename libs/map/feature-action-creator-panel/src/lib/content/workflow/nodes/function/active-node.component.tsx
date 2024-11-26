@@ -1,6 +1,7 @@
 import { TFunctionNode, useActionCreator } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useState } from 'react';
 
 import { Node } from '../node.component';
 import { NodeSelect, TOption, TValue } from '../node-select.component';
@@ -17,7 +18,6 @@ export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {
     context: { onboardingSteps },
   } = useOnboarding();
   const nodeRef = useRef<HTMLDivElement>(null);
-  const nodePosition = nodeRef.current && nodeRef.current.getBoundingClientRect();
 
   if (!node.tooltip) {
     return (
@@ -36,25 +36,25 @@ export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {
   }
 
   return (
-    <Node
-      active={true}
-      type={node.type}
-      clickable={canActivateNode(node)}
-      selected={node.state === 'active'}
-      hasNextNode={!isLast(node)}
-      canRemoveNode={canRemoveNode(node)}
-      onRemoveNode={() => removeNode(node)}
+    <OnboardingTooltip
+      tipLocation='right'
+      stepName={onboardingSteps.FUNCTION_DROPDOWN.step_name}
+      content={onboardingSteps.FUNCTION_DROPDOWN.tooltip_content}
+      reference={nodeRef}
     >
-      <OnboardingTooltip
-        tipLocation='right'
-        stepName={onboardingSteps.FUNCTION_DROPDOWN.step_name}
-        content={onboardingSteps.FUNCTION_DROPDOWN.tooltip_content}
-        position={nodePosition}
+      <Node
+        active={true}
+        type={node.type}
+        clickable={canActivateNode(node)}
+        selected={node.state === 'active'}
+        hasNextNode={!isLast(node)}
+        canRemoveNode={canRemoveNode(node)}
+        onRemoveNode={() => removeNode(node)}
       >
         <div id={node.id} ref={nodeRef}>
           <NodeSelect value={undefined} options={options} onChange={onChange} />
         </div>
-      </OnboardingTooltip>
-    </Node>
+      </Node>
+    </OnboardingTooltip>
   );
 };

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useOnboarding } from '../ac-workflow-onboarding.context';
-import { useAcOnboardingState, useToggleOnboardingVisibility } from '../ac-workflow-onboarding.store';
+import { useAcOnboardingState, useTogglePermanentlyOnboarding } from '../ac-workflow-onboarding.store';
 
 type TOnboardingForm = {
   permanentHidden: boolean;
@@ -24,7 +24,7 @@ export const OnboardingModal = () => {
     context: { completeOnboarding, goToNextOnboardingStep },
   } = useOnboarding();
   const { permanentHidden } = useAcOnboardingState();
-  const toggleVisibility = useToggleOnboardingVisibility();
+  const toggleVisibility = useTogglePermanentlyOnboarding();
   const permanentHiddenOnboarding = watch('permanentHidden');
 
   const handleNoClick = useCallback(() => {

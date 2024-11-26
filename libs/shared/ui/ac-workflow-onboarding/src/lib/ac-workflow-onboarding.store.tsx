@@ -4,7 +4,7 @@ import { devtools, persist } from 'zustand/middleware';
 
 interface IAcOnboardingStore {
   permanentHidden: boolean;
-  toggle: (permanentHidden?: boolean) => void;
+  toggle: (permanentHidden: boolean) => void;
 }
 
 const useOnboardingStore = create<IAcOnboardingStore>()(
@@ -35,6 +35,6 @@ export const useAcOnboardingState = () => {
   }));
 };
 
-export const useToggleOnboardingVisibility = () => {
+export const useTogglePermanentlyOnboarding = () => {
   return useOnboardingStore((state) => state.toggle);
 };

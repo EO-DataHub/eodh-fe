@@ -53,8 +53,6 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
-  const nodePosition = nodeRef.current && nodeRef.current.getBoundingClientRect();
-
   useEffect(() => {
     if (currentStep === onboardingSteps.DRAWING_TOOLS.step_name && node.value) {
       goToNextOnboardingStep();
@@ -92,7 +90,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
       stepName={onboardingSteps.AREA_NODE.step_name}
       content={onboardingSteps.AREA_NODE.tooltip_content}
       onClick={goToNextOnboardingStep}
-      position={nodePosition}
+      reference={nodeRef}
     >
       <div id={node.id} ref={nodeRef} onClick={activateNode}>
         <Node node={node} onClearButtonClick={clear} />

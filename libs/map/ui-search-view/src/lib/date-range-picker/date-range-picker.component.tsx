@@ -27,7 +27,6 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
     context: { onboardingSteps },
   } = useOnboarding();
   const datePickerRef = useRef<HTMLDivElement>(null);
-  const datePickerPosition = datePickerRef.current && datePickerRef.current.getBoundingClientRect();
   const { isDisabled } = useSearchView();
   const [isOpen, setIsOpen] = useState(true);
   const dateFrom = getValues('date.from');
@@ -61,7 +60,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
       tipLocation='left'
       stepName={onboardingSteps.DATE_RANGE_PICKER.step_name}
       content={onboardingSteps.DATE_RANGE_PICKER.tooltip_content}
-      position={datePickerPosition}
+      reference={datePickerRef}
     >
       <div className={styles.container} ref={datePickerRef}>
         <div className={styles.header} onClick={toggleOpen}>

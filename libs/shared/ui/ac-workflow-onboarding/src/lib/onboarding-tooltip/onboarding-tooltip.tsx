@@ -1,5 +1,5 @@
 import { Tooltip } from '@ukri/shared/design-system';
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { PropsWithChildren, RefObject, useCallback, useEffect, useState } from 'react';
 
 import { TStepName, useOnboarding } from '../ac-workflow-onboarding.context';
 
@@ -8,20 +8,22 @@ const tooltipTipSize = 8;
 
 type TTipLocation = 'top' | 'bottom' | 'left' | 'right';
 
+type TPosition = {
+  height: number;
+  width: number;
+  x: number;
+  y: number;
+  bottom: number;
+  left: number;
+  right: number;
+  top: number;
+};
+
 interface IOnboardingTooltipProps {
   content: string | JSX.Element;
   stepName: TStepName;
   tipLocation: TTipLocation;
-  position?: {
-    bottom: number;
-    height: number;
-    left: number;
-    right: number;
-    top: number;
-    width: number;
-    x: number;
-    y: number;
-  } | null;
+  reference?: RefObject<HTMLDivElement>;
   className?: string;
   onClick?: () => void;
 }
@@ -29,13 +31,14 @@ interface IOnboardingTooltipProps {
 export const OnboardingTooltip = ({
   tipLocation,
   content,
-  position,
   stepName,
   children,
   onClick,
   className,
+  reference,
 }: PropsWithChildren<IOnboardingTooltipProps>) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [positionOfHookElememnt, setPositionOfHookElememnt] = useState<TPosition>();
   const [positionOfTheTooltip, setPositionOfTheTooltip] = useState<{
     top?: string;
     bottom?: string;
@@ -56,24 +59,53 @@ export const OnboardingTooltip = ({
   }, [onClick, isOpen]);
 
   useEffect(() => {
-    if (currentStep !== stepName || !position) {
+    setTimeout(() => {
+      if (!reference?.current) {
+        return;
+      }
+      const nodePosition = reference.current.getBoundingClientRect();
+      setPositionOfHookElememnt(nodePosition);
+    }, 400);
+  }, [reference, currentStep]);
+
+  useEffect(() => {
+    if (currentStep !== stepName || !reference) {
       return;
+    }
+    const tooltipHook = positionOfHookElememnt;
+    if (!tooltipHook) {
+      return;
+    }
+    let additionalOffset = 0;
+    if (currentStep === 'FUNCTION_DROPDOWN') {
+      additionalOffset = 13;
+    } else if (currentStep === 'DATA_SET_PANEL') {
+      additionalOffset = -60;
     }
     switch (tipLocation) {
       case 'top':
-        setPositionOfTheTooltip({ top: `${position.y + position.height + tooltipTipSize}px`, left: `${position.x}px` });
+        setPositionOfTheTooltip({
+          top: `${tooltipHook.y + tooltipHook.height + tooltipTipSize}px`,
+          left: `${tooltipHook.x}px`,
+        });
         return;
       case 'bottom':
-        setPositionOfTheTooltip({ top: `${position.y - position.height}px`, left: `${position.x}px` });
+        setPositionOfTheTooltip({ top: `${tooltipHook.y - tooltipHook.height}px`, left: `${tooltipHook.x} px` });
         return;
       case 'left':
-        setPositionOfTheTooltip({ top: `${position.y}px`, left: `${position.x + position.width + tooltipTipSize}px` });
+        setPositionOfTheTooltip({
+          top: `${tooltipHook.y - additionalOffset}px`,
+          left: `${tooltipHook.x + tooltipHook.width + tooltipTipSize}px`,
+        });
         return;
       case 'right':
-        setPositionOfTheTooltip({ top: `${position.y}px`, left: `${position.x - widthOfTooltip - tooltipTipSize}px` });
+        setPositionOfTheTooltip({
+          top: `${tooltipHook.y - additionalOffset}px`,
+          left: `${tooltipHook.x - widthOfTooltip - tooltipTipSize}px`,
+        });
         return;
     }
-  }, [tipLocation, position, currentStep, stepName]);
+  }, [tipLocation, currentStep, stepName, reference, positionOfHookElememnt]);
 
   return (
     <div className='relative'>

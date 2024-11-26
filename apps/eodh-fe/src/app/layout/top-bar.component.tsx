@@ -13,12 +13,10 @@ import { Login } from './authorization/login.component';
 import { Logo } from './logo.component';
 
 export const TopBar = () => {
+  const buttonsRef = useRef<HTMLDivElement>(null);
   const {
     context: { onboardingSteps },
   } = useOnboarding();
-
-  const buttonsRef = useRef<HTMLDivElement>(null);
-  const buttonsPosition = buttonsRef.current && buttonsRef.current.getBoundingClientRect();
 
   return (
     <div className='w-full bg-background border-b-[1px] border-bright-dark flex items-center text-text'>
@@ -34,7 +32,7 @@ export const TopBar = () => {
           stepName={onboardingSteps.DRAWING_TOOLS.step_name}
           content={onboardingSteps.DRAWING_TOOLS.tooltip_content}
           className='bottom-[-50px]'
-          position={buttonsPosition}
+          reference={buttonsRef}
         >
           <div ref={buttonsRef}>
             <DrawRectangleButton />

@@ -5,7 +5,7 @@ import { createContext, PropsWithChildren, useCallback, useContext, useEffect, u
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { useAcOnboardingState, useToggleOnboardingVisibility } from './ac-workflow-onboarding.store';
+import { useAcOnboardingState, useTogglePermanentlyOnboarding } from './ac-workflow-onboarding.store';
 
 interface IOnboardingContextType {
   currentStep: TStepName;
@@ -53,15 +53,20 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
   const [currentStep, setCurrentStep] = useState<TStepName>('AREA_NODE');
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
   const [onboardingVisible, setOnboardingVisible] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
   const { t } = useTranslation();
   const { register, handleSubmit, watch } = useForm<TOnboardingForm>({ defaultValues });
   const { permanentHidden } = useAcOnboardingState();
-  const toggleVisibility = useToggleOnboardingVisibility();
+  const toggleVisibility = useTogglePermanentlyOnboarding();
   const permanentHiddenOnboarding = watch('permanentHidden');
 
   const handleChecked = useCallback(() => {
+    setDontShowAgain((value) => !value);
+  }, []);
+
+  const handleHidePermanently = useCallback(() => {
     toggleVisibility(permanentHiddenOnboarding);
-  }, [permanentHiddenOnboarding, toggleVisibility]);
+  }, [toggleVisibility, permanentHiddenOnboarding]);
 
   useEffect(() => {
     if (permanentHidden) {
@@ -91,7 +96,7 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
             <Checkbox
               label={t(`${translationsPath}.DONT_SHOW_IT_AGAIN`)}
               {...register('permanentHidden')}
-              onChange={handleSubmit(handleChecked)}
+              onChange={handleChecked}
             />
           </div>
         ),
@@ -122,17 +127,14 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
         tooltip_content: t(`${translationsPath}.FUNCTION_DROPDOWN`),
       },
     }),
-    [t, register, handleSubmit, handleChecked]
+    [t, register, handleChecked]
   );
 
-  // const updateShouldDisplayOnboardingModal = useCallback(
-  //   (acMode = false, workflowTab = false, permanentHidden = false) => {
-  //     return !isOnboardingComplete && currentStep === 'AREA_NODE' && acMode && workflowTab && !permanentHidden;
-  //   },
-  //   [currentStep, isOnboardingComplete]
-  // );
-
   const goToNextOnboardingStep = () => {
+    if (dontShowAgain) {
+      handleSubmit(handleHidePermanently);
+      completeOnboarding();
+    }
     if (currentStep === 'FINISH') {
       completeOnboarding();
     } else {
