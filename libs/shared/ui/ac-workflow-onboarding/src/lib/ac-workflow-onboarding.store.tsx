@@ -4,7 +4,7 @@ import { devtools, persist } from 'zustand/middleware';
 
 interface IAcOnboardingStore {
   permanentHidden: boolean;
-  toggle: (permanentHidden: boolean) => void;
+  hide: (permanentHidden: boolean) => void;
 }
 
 const useOnboardingStore = create<IAcOnboardingStore>()(
@@ -12,9 +12,9 @@ const useOnboardingStore = create<IAcOnboardingStore>()(
     persist(
       (set) => ({
         permanentHidden: false,
-        toggle: (permanentHidden?: boolean) =>
-          set((state) => ({
-            permanentHidden: permanentHidden !== undefined ? permanentHidden : state.permanentHidden,
+        hide: () =>
+          set(() => ({
+            permanentHidden: true,
           })),
         show: () =>
           set(() => ({
@@ -36,5 +36,5 @@ export const useAcOnboardingState = () => {
 };
 
 export const useTogglePermanentlyOnboarding = () => {
-  return useOnboardingStore((state) => state.toggle);
+  return useOnboardingStore((state) => state.hide);
 };

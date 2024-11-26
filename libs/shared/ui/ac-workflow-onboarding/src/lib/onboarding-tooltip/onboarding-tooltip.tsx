@@ -71,7 +71,7 @@ export const OnboardingTooltip = ({
       }
       const nodePosition = reference.current.getBoundingClientRect();
       setPositionOfHookElememnt(nodePosition);
-    }, 400);
+    }, 200);
   }, [reference, currentStep]);
 
   useEffect(() => {

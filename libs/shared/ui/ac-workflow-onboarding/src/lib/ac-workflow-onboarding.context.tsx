@@ -2,7 +2,6 @@
 // TODO modal by default should call onNext step. And if we need do manual call, then we pass callback and eg we change mode(eg property mode='manual' and onNextStep, ie we do 2 types, in one 2 types should exist, and in other not )
 import { Checkbox } from '@ukri/shared/design-system';
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { useAcOnboardingState, useTogglePermanentlyOnboarding } from './ac-workflow-onboarding.store';
@@ -37,17 +36,9 @@ type TOnboardingSteps = {
   [K in Exclude<TStepName, 'FINISH'>]: IOnboardingStep;
 };
 
-type TOnboardingForm = {
-  permanentHidden: boolean;
-};
-
 const translationsPath = 'MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS';
 
 const OnboardingContext = createContext<IOnboardingContextType | undefined>(undefined);
-
-const defaultValues: TOnboardingForm = {
-  permanentHidden: false,
-};
 
 export const OnboardingProvider = ({ children }: PropsWithChildren) => {
   const [currentStep, setCurrentStep] = useState<TStepName>('AREA_NODE');
@@ -55,18 +46,16 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
   const [onboardingVisible, setOnboardingVisible] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
   const { t } = useTranslation();
-  const { register, handleSubmit, watch } = useForm<TOnboardingForm>({ defaultValues });
   const { permanentHidden } = useAcOnboardingState();
   const toggleVisibility = useTogglePermanentlyOnboarding();
-  const permanentHiddenOnboarding = watch('permanentHidden');
 
   const handleChecked = useCallback(() => {
     setDontShowAgain((value) => !value);
   }, []);
 
   const handleHidePermanently = useCallback(() => {
-    toggleVisibility(permanentHiddenOnboarding);
-  }, [toggleVisibility, permanentHiddenOnboarding]);
+    toggleVisibility(dontShowAgain);
+  }, [toggleVisibility, dontShowAgain]);
 
   useEffect(() => {
     if (permanentHidden) {
@@ -95,7 +84,8 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
             <p>{t(`${translationsPath}.AREA_NODE`)}</p>
             <Checkbox
               label={t(`${translationsPath}.DONT_SHOW_IT_AGAIN`)}
-              {...register('permanentHidden')}
+              // {...register('permanentHidden')}
+              name='permanentHiddenACOnboarding'
               onChange={handleChecked}
             />
           </div>
@@ -127,12 +117,15 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
         tooltip_content: t(`${translationsPath}.FUNCTION_DROPDOWN`),
       },
     }),
-    [t, register, handleChecked]
+    [t, handleChecked]
   );
 
   const goToNextOnboardingStep = (tooltipStep: TStepName) => {
+    if (isOnboardingComplete || permanentHidden) {
+      return;
+    }
     if (dontShowAgain) {
-      handleSubmit(handleHidePermanently);
+      handleHidePermanently();
       completeOnboarding();
     }
     if (currentStep === 'FINISH') {
