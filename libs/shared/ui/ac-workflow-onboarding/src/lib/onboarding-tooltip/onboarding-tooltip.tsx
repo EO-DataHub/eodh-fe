@@ -45,18 +45,24 @@ export const OnboardingTooltip = ({
     left?: string;
     right?: string;
   }>();
+  const [tooltipVisible, setTooltipVisible] = useState(false);
   const {
     context: { isOnboardingComplete, currentStep, onboardingVisible },
   } = useOnboarding();
 
+  useEffect(() => {
+    const visible = currentStep === stepName && !!positionOfTheTooltip && onboardingVisible;
+    setTooltipVisible(!!visible);
+  }, [currentStep, stepName, positionOfTheTooltip, onboardingVisible]);
+
   const handleClose = useCallback(() => {
-    if (isOpen) {
+    if (tooltipVisible && isOpen) {
       setIsOpen(false);
       if (onClick) {
         onClick();
       }
     }
-  }, [onClick, isOpen]);
+  }, [onClick, isOpen, tooltipVisible]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -112,7 +118,7 @@ export const OnboardingTooltip = ({
       <div data-tooltip-id={stepName} onClick={handleClose}>
         {children}
       </div>
-      {currentStep === stepName && positionOfTheTooltip && onboardingVisible && (
+      {tooltipVisible && (
         <Tooltip
           className={className}
           isOpen={!isOnboardingComplete && isOpen}

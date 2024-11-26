@@ -1,7 +1,6 @@
 import { TFunctionNode, useActionCreator } from '@ukri/map/data-access-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useEffect, useRef } from 'react';
-import { useState } from 'react';
+import { useRef } from 'react';
 
 import { Node } from '../node.component';
 import { NodeSelect, TOption, TValue } from '../node-select.component';

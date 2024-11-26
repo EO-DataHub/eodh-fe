@@ -117,7 +117,7 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     if (node.state === 'active') {
       scrollWithTimeout();
       if (currentStep === onboardingSteps.DATE_RANGE_PICKER.step_name) {
-        goToNextOnboardingStep();
+        goToNextOnboardingStep(onboardingSteps.DATE_RANGE_PICKER.step_name);
       }
     }
   }, [node, currentStep, goToNextOnboardingStep, onboardingSteps]);

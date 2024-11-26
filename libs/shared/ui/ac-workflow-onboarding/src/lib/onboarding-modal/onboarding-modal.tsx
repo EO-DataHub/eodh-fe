@@ -21,7 +21,7 @@ export const OnboardingModal = () => {
   const { register, handleSubmit, reset, watch } = useForm<TOnboardingForm>({ defaultValues });
   const { t } = useTranslation();
   const {
-    context: { completeOnboarding, goToNextOnboardingStep },
+    context: { completeOnboarding },
   } = useOnboarding();
   const { permanentHidden } = useAcOnboardingState();
   const toggleVisibility = useTogglePermanentlyOnboarding();
@@ -34,10 +34,9 @@ export const OnboardingModal = () => {
   }, [completeOnboarding, permanentHiddenOnboarding, toggleVisibility]);
 
   const handleYesClick = useCallback(() => {
-    goToNextOnboardingStep();
     setIsOpen(false);
     toggleVisibility(permanentHiddenOnboarding);
-  }, [goToNextOnboardingStep, permanentHiddenOnboarding, toggleVisibility]);
+  }, [permanentHiddenOnboarding, toggleVisibility]);
 
   useEffect(() => {
     reset();

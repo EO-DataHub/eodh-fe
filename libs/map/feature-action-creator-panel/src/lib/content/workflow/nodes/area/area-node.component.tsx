@@ -55,9 +55,13 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
 
   useEffect(() => {
     if (currentStep === onboardingSteps.DRAWING_TOOLS.step_name && node.value) {
-      goToNextOnboardingStep();
+      goToNextOnboardingStep(onboardingSteps.DRAWING_TOOLS.step_name);
     }
   }, [node.value, node.tooltip, currentStep, onboardingSteps.DRAWING_TOOLS.step_name, goToNextOnboardingStep]);
+
+  const handleGoToNextOnboardingStep = useCallback(() => {
+    goToNextOnboardingStep(onboardingSteps.AREA_NODE.step_name);
+  }, [goToNextOnboardingStep, onboardingSteps.AREA_NODE.step_name]);
 
   const activateNode = useCallback(() => {
     if (canBeActivated) {
@@ -89,7 +93,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
       tipLocation='right'
       stepName={onboardingSteps.AREA_NODE.step_name}
       content={onboardingSteps.AREA_NODE.tooltip_content}
-      onClick={goToNextOnboardingStep}
+      onClick={handleGoToNextOnboardingStep}
       reference={nodeRef}
     >
       <div id={node.id} ref={nodeRef} onClick={activateNode}>

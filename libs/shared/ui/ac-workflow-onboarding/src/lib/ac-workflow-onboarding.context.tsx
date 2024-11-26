@@ -11,7 +11,7 @@ interface IOnboardingContextType {
   currentStep: TStepName;
   isOnboardingComplete: boolean;
   completeOnboarding: () => void;
-  goToNextOnboardingStep: () => void;
+  goToNextOnboardingStep: (tooltipStep: TStepName) => void;
   onboardingSteps: TOnboardingSteps;
   onboardingVisible: boolean;
   showOnboardingTooltip: () => void;
@@ -130,7 +130,7 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
     [t, register, handleChecked]
   );
 
-  const goToNextOnboardingStep = () => {
+  const goToNextOnboardingStep = (tooltipStep: TStepName) => {
     if (dontShowAgain) {
       handleSubmit(handleHidePermanently);
       completeOnboarding();
@@ -138,7 +138,9 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
     if (currentStep === 'FINISH') {
       completeOnboarding();
     } else {
-      setCurrentStep(onboardingSteps[currentStep].next_step as TStepName);
+      if (tooltipStep === currentStep) {
+        setCurrentStep(onboardingSteps[currentStep].next_step as TStepName);
+      }
     }
   };
 

@@ -46,25 +46,16 @@ export const NodeDateRange = ({ node }: IDateRangeNodeProps) => {
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
   const {
-    context: { goToNextOnboardingStep, onboardingSteps, currentStep },
+    context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
 
   const activateNode = useCallback(() => {
     if (canBeActivated) {
       nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
-      if (currentStep === onboardingSteps.DATA_SET_PANEL.step_name) {
-        goToNextOnboardingStep();
-      }
+      goToNextOnboardingStep(onboardingSteps.DATA_SET_PANEL.step_name);
     }
-  }, [
-    canBeActivated,
-    node,
-    setActiveNode,
-    currentStep,
-    goToNextOnboardingStep,
-    onboardingSteps.DATA_SET_PANEL.step_name,
-  ]);
+  }, [canBeActivated, node, setActiveNode, goToNextOnboardingStep, onboardingSteps.DATA_SET_PANEL.step_name]);
 
   const clearDateFrom = useCallback(() => {
     updateDate({ from: null, to: date?.to });
