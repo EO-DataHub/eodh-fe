@@ -54,7 +54,7 @@ export const OnboardingTooltip = ({
 
   useEffect(() => {
     const visible = currentStep === stepName && !!positionOfTheTooltip && onboardingVisible;
-    setTooltipVisible(!!visible);
+    setTooltipVisible(visible);
   }, [currentStep, stepName, positionOfTheTooltip, onboardingVisible]);
 
   const handleClose = useCallback(() => {
@@ -77,41 +77,47 @@ export const OnboardingTooltip = ({
   }, [elementRef, currentStep]);
 
   useEffect(() => {
+    let additionalOffset = 0;
+
     if (currentStep !== stepName || !elementRef) {
       return;
     }
-    const tooltipHook = positionOfHookElememnt;
-    if (!tooltipHook) {
+
+    if (!positionOfHookElememnt) {
       return;
     }
-    let additionalOffset = 0;
+
     if (currentStep === 'FUNCTION_DROPDOWN') {
       additionalOffset = 13;
     } else if (currentStep === 'DATA_SET_PANEL') {
       additionalOffset = -60;
     }
+
     switch (tipLocation) {
       case 'top':
         setPositionOfTheTooltip({
-          top: `${tooltipHook.y + tooltipHook.height + tooltipTipSize}px`,
-          left: `${tooltipHook.x}px`,
+          top: `${positionOfHookElememnt.y + positionOfHookElememnt.height + tooltipTipSize}px`,
+          left: `${positionOfHookElememnt.x}px`,
         });
-        return;
+        break;
       case 'bottom':
-        setPositionOfTheTooltip({ top: `${tooltipHook.y - tooltipHook.height}px`, left: `${tooltipHook.x} px` });
-        return;
+        setPositionOfTheTooltip({
+          top: `${positionOfHookElememnt.y - positionOfHookElememnt.height}px`,
+          left: `${positionOfHookElememnt.x} px`,
+        });
+        break;
       case 'left':
         setPositionOfTheTooltip({
-          top: `${tooltipHook.y - additionalOffset}px`,
-          left: `${tooltipHook.x + tooltipHook.width + tooltipTipSize}px`,
+          top: `${positionOfHookElememnt.y - additionalOffset}px`,
+          left: `${positionOfHookElememnt.x + positionOfHookElememnt.width + tooltipTipSize}px`,
         });
-        return;
+        break;
       case 'right':
         setPositionOfTheTooltip({
-          top: `${tooltipHook.y - additionalOffset}px`,
-          left: `${tooltipHook.x - widthOfTooltip - tooltipTipSize}px`,
+          top: `${positionOfHookElememnt.y - additionalOffset}px`,
+          left: `${positionOfHookElememnt.x - widthOfTooltip - tooltipTipSize}px`,
         });
-        return;
+        break;
     }
   }, [tipLocation, currentStep, stepName, elementRef, positionOfHookElememnt]);
 

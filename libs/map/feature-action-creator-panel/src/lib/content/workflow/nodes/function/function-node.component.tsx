@@ -7,7 +7,7 @@ import {
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useActiveDataSet } from '../data-set/use-active-dataset.hook';

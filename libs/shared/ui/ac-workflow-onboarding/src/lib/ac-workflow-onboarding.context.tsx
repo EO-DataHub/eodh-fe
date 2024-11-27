@@ -85,7 +85,7 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
         additional_content: (
           <Checkbox
             label={t(`${translationsPath}.DONT_SHOW_IT_AGAIN`)}
-            labelClassName='text-bright-main'
+            labelClassName='!text-bright-main'
             name='permanentHiddenACOnboarding'
             onChange={handleChecked}
           />
