@@ -1,6 +1,6 @@
 import { useActionCreator, useMode, useResults, useWorkflow, useWorkflowStatus } from '@ukri/map/data-access-map';
 import { useAuth } from '@ukri/shared/utils/authorization';
-import { createContext, PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   useCloseTabsFlowModal,
@@ -45,7 +45,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const [activeTab, setActiveTab] = useState(actionCreatorDefaultState.activeTab);
   const { mode, toggleMode } = useMode();
   const { authenticated } = useAuth();
-  const { hasWorkflowsToProcess } = useWorkflow();
+  const { status: workflowStatus, hasWorkflowsToProcess } = useWorkflow();
   const { enable, disable } = useActionCreator();
   const { view, changeView } = useMode();
   const hideModal = useCloseTabsFlowModal();
@@ -53,7 +53,12 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const setTabsFlowModalOpen = useOpenTabsFlowModal();
   const { updateSearchParams } = useResults();
   const { markAsRead } = useWorkflow();
-  useWorkflowStatus({ enabled: authenticated && hasWorkflowsToProcess });
+  const shouldEnableWorkflow = useMemo(
+    () => authenticated && (hasWorkflowsToProcess || workflowStatus === 'initial'),
+    [authenticated, hasWorkflowsToProcess, workflowStatus]
+  );
+
+  useWorkflowStatus({ enabled: shouldEnableWorkflow });
 
   const switchView = useCallback(() => {
     if (view !== 'results') {
@@ -81,15 +86,19 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   }, [disable, enable, activeTab]);
 
   const changeTab = useCallback(
-    (tab: TTab) => {
+    (newTab: TTab) => {
+      if (activeTab === newTab) {
+        return;
+      }
+
       switchView();
       toggleActionCreatorState();
 
-      if (activeTab !== tab) {
+      if (newTab === 'history' || activeTab === 'history') {
         markAsRead();
       }
 
-      setActiveTab(tab);
+      setActiveTab(newTab);
     },
     [activeTab, markAsRead, setActiveTab, switchView, toggleActionCreatorState]
   );

@@ -4,6 +4,7 @@ export interface IWorkflow {
 }
 
 export interface IWorkflowStore {
+  status: 'initial' | 'in-progress' | 'ready';
   workflows: {
     [key: string]: IWorkflow;
   };
@@ -21,7 +22,7 @@ export type TWorkflowStoreState = Omit<
   'addWorkflow' | 'updateWorkflowStatus' | 'updateWorkflows' | 'markAsRead'
 >;
 
-export const getDefaultValues: () => TWorkflowStoreState = () => ({
+export const getDefaultValues: () => Omit<TWorkflowStoreState, 'status'> = () => ({
   workflows: {},
   hasSuccessWorkflows: false,
   hasProcessedWorkflows: false,

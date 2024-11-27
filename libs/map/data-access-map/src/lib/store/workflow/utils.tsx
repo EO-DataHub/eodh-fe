@@ -8,11 +8,20 @@ const filterWorkflowByStatuses = (workflow: IWorkflow, statuses: IWorkflow['stat
 const getWorkflowsStatuses = (workflows: IWorkflow[], statuses: IWorkflow['status'][]) =>
   workflows.some((workflow) => filterWorkflowByStatuses(workflow, statuses));
 
-const getWorkflowStatus = (workflows: IWorkflow[]): Omit<TWorkflowStoreState, 'workflows'> => ({
-  hasSuccessWorkflows: getWorkflowsStatuses(workflows, ['READY']),
-  hasProcessedWorkflows: getWorkflowsStatuses(workflows, ['READY', 'FAILED']),
-  hasWorkflowsToProcess: getWorkflowsStatuses(workflows, ['PROCESSING']),
-});
+const getWorkflowStatus = (workflows: IWorkflow[]): Omit<TWorkflowStoreState, 'workflows'> => {
+  const hasSuccessWorkflows = getWorkflowsStatuses(workflows, ['READY']);
+  const hasProcessedWorkflows = getWorkflowsStatuses(workflows, ['READY', 'FAILED']);
+  const hasWorkflowsToProcess = getWorkflowsStatuses(workflows, ['PROCESSING']);
+  const isReadyStatus = workflows.every((workflow) => filterWorkflowByStatuses(workflow, ['READY', 'FAILED']));
+  const status: IWorkflowStore['status'] = isReadyStatus ? 'ready' : 'in-progress';
+
+  return {
+    hasSuccessWorkflows,
+    hasProcessedWorkflows,
+    hasWorkflowsToProcess,
+    status,
+  };
+};
 
 export const markAsRead = (workflowId: string | undefined, state: TWorkflowStoreState): Partial<IWorkflowStore> => {
   const currentWorkflows = Object.values(state.workflows);
@@ -69,7 +78,10 @@ export const updateWorkflows = (
   state: TWorkflowStoreState
 ): Partial<IWorkflowStore> => {
   if (!workflowsToUpdate.length) {
-    return state;
+    return {
+      ...state,
+      status: state.status === 'initial' ? 'in-progress' : state.status,
+    };
   }
 
   const currentWorkflows = Object.values(state.workflows);

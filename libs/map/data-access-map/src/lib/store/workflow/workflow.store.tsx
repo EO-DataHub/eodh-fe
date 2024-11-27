@@ -7,6 +7,7 @@ import { getDefaultValues, IWorkflow, IWorkflowStore } from './workflow.model';
 
 export const useWorkflowStore = create<IWorkflowStore>()(
   devtools((set) => ({
+    status: 'initial',
     ...getDefaultValues(),
     addWorkflow: (workflow: IWorkflow) => set((state) => addWorkflow(workflow, state)),
     updateWorkflowStatus: (id: IWorkflow['id'], status: IWorkflow['status']) =>
