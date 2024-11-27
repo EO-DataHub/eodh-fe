@@ -123,6 +123,7 @@ type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive' | 'addNode' | '
   enable: () => void;
   disable: () => void;
   isValid: boolean;
+  isWorkflowStarted: boolean;
   getNodesByType: <T extends TNode>(type: T['type']) => T[];
   reset: () => void;
   loadPreset: (preset: TLoadPresetProps) => void;
@@ -149,6 +150,7 @@ export const useActionCreator = (): TActionCreatorProps => {
       state.setActive(node);
     },
     canActivateNode: (node: TNode) => canActivate(state.nodes, node),
+    isWorkflowStarted: state.nodes.some((node) => node.state !== 'initial'),
     isValid: state.nodes.filter((node) => !isLastFunctionNodeWithNoValue(node, state.nodes)).every(nodeHasValue),
     getNodesByType: <T extends TNode>(type: T['type']) => getNodes<T>(state.nodes, type),
     reset: () => {

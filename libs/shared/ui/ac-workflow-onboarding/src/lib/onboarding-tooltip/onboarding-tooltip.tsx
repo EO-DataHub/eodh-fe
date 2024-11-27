@@ -24,7 +24,7 @@ interface IOnboardingTooltipProps {
   additionalContent?: string | JSX.Element;
   stepName: TStepName;
   tipLocation: TTipLocation;
-  elementRef?: RefObject<HTMLDivElement>;
+  elementRef?: RefObject<HTMLDivElement | HTMLButtonElement>;
   className?: string;
   onClick?: () => void;
 }
@@ -55,7 +55,7 @@ export const OnboardingTooltip = ({
   useEffect(() => {
     const visible = currentStep === stepName && !!positionOfTheTooltip && onboardingVisible;
     setTooltipVisible(visible);
-  }, [currentStep, stepName, positionOfTheTooltip, onboardingVisible]);
+  }, [currentStep, stepName, positionOfTheTooltip, onboardingVisible, positionOfHookElememnt]);
 
   const handleClose = useCallback(() => {
     if (tooltipVisible && isOpen) {
@@ -87,10 +87,23 @@ export const OnboardingTooltip = ({
       return;
     }
 
-    if (currentStep === 'FUNCTION_DROPDOWN') {
-      additionalOffset = 13;
-    } else if (currentStep === 'DATA_SET_PANEL') {
-      additionalOffset = -60;
+    switch (currentStep) {
+      case 'FUNCTION_DROPDOWN': {
+        additionalOffset = 13;
+
+        break;
+      }
+      case 'DATA_SET_PANEL': {
+        additionalOffset = -60;
+
+        break;
+      }
+      case 'ADD_FUNCTION_NODE': {
+        additionalOffset = 25;
+
+        break;
+      }
+      // No default
     }
 
     switch (tipLocation) {

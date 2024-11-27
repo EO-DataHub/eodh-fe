@@ -38,7 +38,7 @@ export const Tooltip = ({
   return (
     isTooltipOpen && (
       <div className={clsx(tooltip.getTooltipStyles(tipLocation), className)} style={tooltipPosition || undefined}>
-        <div>
+        <div id='aaaaa'>
           <Text content={content} type='p' fontSize='medium' fontWeight='semibold' />
           <div className='mt-1'>{children}</div>
         </div>

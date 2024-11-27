@@ -48,17 +48,17 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   const {
     context: { goToNextOnboardingStep, onboardingSteps, currentStep, showOnboardingTooltip, hideOnboardingTooltip },
   } = useOnboarding();
-  const { setActiveNode, setValue, canActivateNode } = useActionCreator();
+  const { setActiveNode, setValue, canActivateNode, isWorkflowStarted } = useActionCreator();
   const { shape, setShape } = useAoi();
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   useEffect(() => {
     if (currentStep === onboardingSteps.AREA_NODE.step_name) {
-      if (node.state === 'initial') {
-        showOnboardingTooltip();
-      } else {
+      if (isWorkflowStarted) {
         hideOnboardingTooltip();
+      } else {
+        showOnboardingTooltip();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,7 +68,7 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
     if (node.value) {
       goToNextOnboardingStep(onboardingSteps.DRAWING_TOOLS.step_name);
     }
-  }, [node.value, node.tooltip, currentStep, onboardingSteps.DRAWING_TOOLS.step_name, goToNextOnboardingStep]);
+  }, [node.value, onboardingSteps.DRAWING_TOOLS.step_name, goToNextOnboardingStep]);
 
   const handleGoToNextOnboardingStep = useCallback(() => {
     goToNextOnboardingStep(onboardingSteps.AREA_NODE.step_name);

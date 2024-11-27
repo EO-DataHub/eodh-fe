@@ -25,6 +25,7 @@ export type TStepName =
   | 'DATA_SET_PANEL'
   | 'DATE_RANGE_PICKER'
   | 'FUNCTION_DROPDOWN'
+  | 'ADD_FUNCTION_NODE'
   | 'FINISH';
 
 interface IOnboardingStep {
@@ -113,8 +114,13 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
       },
       FUNCTION_DROPDOWN: {
         step_name: 'FUNCTION_DROPDOWN',
-        next_step: 'FINISH',
+        next_step: 'ADD_FUNCTION_NODE',
         tooltip_content: t(`${translationsPath}.FUNCTION_DROPDOWN`),
+      },
+      ADD_FUNCTION_NODE: {
+        step_name: 'ADD_FUNCTION_NODE',
+        next_step: 'FINISH',
+        tooltip_content: t(`${translationsPath}.ADD_FUNCTION_NODE`),
       },
     }),
     [t, handleChecked]
