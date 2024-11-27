@@ -1,4 +1,11 @@
-import { TPreset, useActionCreator, useFunctions, useGetPresets, useMode } from '@ukri/map/data-access-map';
+import {
+  TPreset,
+  useActionCreator,
+  useCreateWorkflowStatus,
+  useFunctions,
+  useGetPresets,
+  useMode,
+} from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
 import { PropsWithChildren, useCallback, useContext } from 'react';
 
@@ -44,6 +51,7 @@ export const Presets = () => {
   const { data: functionData } = useFunctions();
   const { loadPreset } = useActionCreator();
   const { changeView } = useMode();
+  const status = useCreateWorkflowStatus();
 
   const handleLoadPreset = useCallback(
     (preset: TPreset) => {
@@ -92,7 +100,7 @@ export const Presets = () => {
             imageUrl={preset.imageUrl}
             title={preset.name}
             description={preset.description}
-            disabled={preset.disabled}
+            disabled={preset.disabled || status === 'pending'}
             onLoadPresetClick={() => handleLoadPreset(preset)}
             className='mb-4'
           />

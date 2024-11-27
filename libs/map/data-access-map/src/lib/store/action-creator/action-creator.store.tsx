@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import { clearWorkflowCache } from '../../mutation/workflow.mutation';
 import { activatePanel, enableDataSet, loadPreset, reset, TLoadPresetProps } from '../utils';
 import {
   defaultNodes,
@@ -153,6 +154,7 @@ export const useActionCreator = (): TActionCreatorProps => {
     reset: () => {
       state.setNodes();
       reset();
+      clearWorkflowCache();
     },
     addNode: () => state.addNode(createNode(nanoid(), 'function', state.nodes.length + 1)),
     loadPreset: ({ dataSet, functions, aoi, dateRange }: TLoadPresetProps) =>

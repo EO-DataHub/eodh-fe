@@ -1,4 +1,4 @@
-import { useAoi, useCollectionInfo, useMode, useResults } from '@ukri/map/data-access-map';
+import { useAoi, useCollectionInfo, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TIdentityClaims, useAuth } from '@ukri/shared/utils/authorization';
 import { createDateString, formatDate, type TDateString } from '@ukri/shared/utils/date';
@@ -10,12 +10,15 @@ export const useLoadHistoryResults = () => {
   const { data: catalogData, status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const { changeView } = useMode();
+  const { markAsRead } = useWorkflow();
 
   const { mutateAsync } = useCollectionInfo();
 
   const showResults = useCallback(
     async (jobId: string) => {
       const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
+
+      markAsRead(jobId);
 
       if (!userWorkspace) {
         return;
@@ -51,7 +54,7 @@ export const useLoadHistoryResults = () => {
       }
       changeView('results');
     },
-    [authClient, mutateAsync, updateSearchParams, changeView]
+    [authClient, changeView, markAsRead, mutateAsync, updateSearchParams]
   );
 
   const hideResults = useCallback(() => {
