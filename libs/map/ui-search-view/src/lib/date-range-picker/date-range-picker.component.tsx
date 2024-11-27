@@ -60,7 +60,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
       tipLocation='left'
       stepName={onboardingSteps.DATE_RANGE_PICKER.step_name}
       content={onboardingSteps.DATE_RANGE_PICKER.tooltip_content}
-      reference={datePickerRef}
+      elementRef={datePickerRef}
     >
       <div className={styles.container} ref={datePickerRef}>
         <div className={styles.header} onClick={toggleOpen}>

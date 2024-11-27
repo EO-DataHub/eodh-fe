@@ -95,7 +95,7 @@ interface IFunctionNodeProps {
 
 export const NodeFunction = ({ node }: IFunctionNodeProps) => {
   const {
-    context: { goToNextOnboardingStep, onboardingSteps, currentStep },
+    context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { data, isLoading } = useFunctions();
@@ -106,21 +106,9 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     if (canBeActivated) {
       nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
+      goToNextOnboardingStep(onboardingSteps.DATE_RANGE_PICKER.step_name);
     }
-  }, [canBeActivated, node, setActiveNode]);
-
-  useEffect(() => {
-    const scrollWithTimeout = () => {
-      nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    };
-
-    if (node.state === 'active') {
-      scrollWithTimeout();
-      if (currentStep === onboardingSteps.DATE_RANGE_PICKER.step_name) {
-        goToNextOnboardingStep(onboardingSteps.DATE_RANGE_PICKER.step_name);
-      }
-    }
-  }, [node, currentStep, goToNextOnboardingStep, onboardingSteps]);
+  }, [canBeActivated, node, setActiveNode, goToNextOnboardingStep, onboardingSteps.DATE_RANGE_PICKER.step_name]);
 
   const updateFunction = useCallback(
     (value: TValue | undefined | null) => {

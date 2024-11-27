@@ -35,25 +35,25 @@ export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {
   }
 
   return (
-    <OnboardingTooltip
-      tipLocation='right'
-      stepName={onboardingSteps.FUNCTION_DROPDOWN.step_name}
-      content={onboardingSteps.FUNCTION_DROPDOWN.tooltip_content}
-      reference={nodeRef}
+    <Node
+      active={true}
+      type={node.type}
+      clickable={canActivateNode(node)}
+      selected={node.state === 'active'}
+      hasNextNode={!isLast(node)}
+      canRemoveNode={canRemoveNode(node)}
+      onRemoveNode={() => removeNode(node)}
     >
-      <Node
-        active={true}
-        type={node.type}
-        clickable={canActivateNode(node)}
-        selected={node.state === 'active'}
-        hasNextNode={!isLast(node)}
-        canRemoveNode={canRemoveNode(node)}
-        onRemoveNode={() => removeNode(node)}
+      <OnboardingTooltip
+        tipLocation='right'
+        stepName={onboardingSteps.FUNCTION_DROPDOWN.step_name}
+        content={onboardingSteps.FUNCTION_DROPDOWN.tooltip_content}
+        elementRef={nodeRef}
       >
         <div id={node.id} ref={nodeRef}>
           <NodeSelect value={undefined} options={options} onChange={onChange} />
-        </div>
-      </Node>
-    </OnboardingTooltip>
+        </div>{' '}
+      </OnboardingTooltip>
+    </Node>
   );
 };

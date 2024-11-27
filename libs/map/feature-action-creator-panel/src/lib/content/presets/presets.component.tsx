@@ -7,6 +7,7 @@ import {
   useMode,
 } from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
+import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { PropsWithChildren, useCallback, useContext } from 'react';
 
 import { ActionCreator } from '../../action-creator-panel.context';
@@ -52,9 +53,13 @@ export const Presets = () => {
   const { loadPreset } = useActionCreator();
   const { changeView } = useMode();
   const status = useCreateWorkflowStatus();
+  const {
+    context: { resetOnboarding },
+  } = useOnboarding();
 
   const handleLoadPreset = useCallback(
     (preset: TPreset) => {
+      resetOnboarding();
       loadPreset({
         dataSet: preset.defaultValues.dataSet,
         functions: preset.defaultValues.functions.map((item) => ({
@@ -70,7 +75,7 @@ export const Presets = () => {
       setActiveTab('workflow');
       return;
     },
-    [functionData, changeView, loadPreset, setActiveTab]
+    [functionData, changeView, loadPreset, setActiveTab, resetOnboarding]
   );
 
   if (isLoading) {

@@ -39,26 +39,20 @@ type TDataSetNodeProps = { node: TDataSetsNode };
 
 export const DataSetNode = ({ node }: TDataSetNodeProps) => {
   const {
-    context: { goToNextOnboardingStep, onboardingSteps, currentStep },
+    context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { dataSet, error, updateDataSets } = useActiveDataSet();
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
-  const handleGoToNextOnboardingStep = useCallback(() => {
-    if (currentStep === onboardingSteps.DATA_SET_NODE.step_name) {
-      goToNextOnboardingStep(onboardingSteps.DATA_SET_NODE.step_name);
-    }
-  }, [goToNextOnboardingStep, currentStep, onboardingSteps.DATA_SET_NODE.step_name]);
-
   const activateNode = useCallback(() => {
     if (canBeActivated) {
       nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
-      handleGoToNextOnboardingStep();
+      goToNextOnboardingStep(onboardingSteps.DATA_SET_NODE.step_name);
     }
-  }, [canBeActivated, node, setActiveNode, handleGoToNextOnboardingStep]);
+  }, [canBeActivated, node, setActiveNode, goToNextOnboardingStep, onboardingSteps.DATA_SET_NODE.step_name]);
 
   const clear = useCallback(() => {
     updateDataSets(undefined);
@@ -83,7 +77,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
       tipLocation='right'
       stepName={onboardingSteps.DATA_SET_NODE.step_name}
       content={onboardingSteps.DATA_SET_NODE.tooltip_content}
-      reference={nodeRef}
+      elementRef={nodeRef}
     >
       <div ref={nodeRef} id={node.id} onClick={activateNode}>
         <Node node={node} error={error} onClearButtonClick={clear} />

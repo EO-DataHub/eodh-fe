@@ -21,9 +21,10 @@ type TPosition = {
 
 interface IOnboardingTooltipProps {
   content: string | JSX.Element;
+  additionalContent?: string | JSX.Element;
   stepName: TStepName;
   tipLocation: TTipLocation;
-  reference?: RefObject<HTMLDivElement>;
+  elementRef?: RefObject<HTMLDivElement>;
   className?: string;
   onClick?: () => void;
 }
@@ -31,11 +32,12 @@ interface IOnboardingTooltipProps {
 export const OnboardingTooltip = ({
   tipLocation,
   content,
+  additionalContent,
   stepName,
   children,
   onClick,
   className,
-  reference,
+  elementRef,
 }: PropsWithChildren<IOnboardingTooltipProps>) => {
   const [isOpen, setIsOpen] = useState(true);
   const [positionOfHookElememnt, setPositionOfHookElememnt] = useState<TPosition>();
@@ -66,16 +68,16 @@ export const OnboardingTooltip = ({
 
   useEffect(() => {
     setTimeout(() => {
-      if (!reference?.current) {
+      if (!elementRef?.current) {
         return;
       }
-      const nodePosition = reference.current.getBoundingClientRect();
+      const nodePosition = elementRef.current.getBoundingClientRect();
       setPositionOfHookElememnt(nodePosition);
-    }, 200);
-  }, [reference, currentStep]);
+    }, 400);
+  }, [elementRef, currentStep]);
 
   useEffect(() => {
-    if (currentStep !== stepName || !reference) {
+    if (currentStep !== stepName || !elementRef) {
       return;
     }
     const tooltipHook = positionOfHookElememnt;
@@ -111,7 +113,7 @@ export const OnboardingTooltip = ({
         });
         return;
     }
-  }, [tipLocation, currentStep, stepName, reference, positionOfHookElememnt]);
+  }, [tipLocation, currentStep, stepName, elementRef, positionOfHookElememnt]);
 
   return (
     <div className='relative'>
@@ -125,7 +127,9 @@ export const OnboardingTooltip = ({
           tipLocation={tipLocation}
           content={content}
           tooltipPosition={positionOfTheTooltip}
-        />
+        >
+          {additionalContent}
+        </Tooltip>
       )}
     </div>
   );

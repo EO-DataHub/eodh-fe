@@ -32,7 +32,7 @@ export const TopBar = () => {
           stepName={onboardingSteps.DRAWING_TOOLS.step_name}
           content={onboardingSteps.DRAWING_TOOLS.tooltip_content}
           className='bottom-[-50px]'
-          reference={buttonsRef}
+          elementRef={buttonsRef}
         >
           <div ref={buttonsRef}>
             <DrawRectangleButton />

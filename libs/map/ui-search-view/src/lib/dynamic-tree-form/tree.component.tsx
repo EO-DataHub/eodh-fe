@@ -26,7 +26,7 @@ export const DynamicTreeForm = ({ tree }: TTreeProps) => {
         tipLocation='left'
         stepName={onboardingSteps.DATA_SET_PANEL.step_name}
         content={onboardingSteps.DATA_SET_PANEL.tooltip_content}
-        reference={treeRef}
+        elementRef={treeRef}
       >
         <div ref={treeRef}>
           {treeBuilder.items.map((item) => (

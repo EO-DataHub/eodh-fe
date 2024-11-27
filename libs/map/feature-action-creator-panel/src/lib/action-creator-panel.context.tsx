@@ -61,6 +61,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const {
     context: { showOnboardingTooltip, hideOnboardingTooltip },
   } = useOnboarding();
+  const { isOpen: isTabsFlowModalOpen } = useTabsFlowModalState();
 
   useWorkflowStatus({ enabled: shouldEnableWorkflow });
 
@@ -120,12 +121,12 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   }, [mode]);
 
   useEffect(() => {
-    if (mode === 'action-creator' && activeTab === tabs.WORKFLOW) {
+    if (mode === 'action-creator' && activeTab === tabs.WORKFLOW && !isTabsFlowModalOpen) {
       showOnboardingTooltip();
     } else {
       hideOnboardingTooltip();
     }
-  }, [activeTab, mode, showOnboardingTooltip, hideOnboardingTooltip]);
+  }, [activeTab, mode, showOnboardingTooltip, hideOnboardingTooltip, isTabsFlowModalOpen]);
 
   return (
     <ActionCreator.Provider

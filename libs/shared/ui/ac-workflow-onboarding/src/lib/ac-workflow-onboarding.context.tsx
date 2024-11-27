@@ -15,6 +15,7 @@ interface IOnboardingContextType {
   onboardingVisible: boolean;
   showOnboardingTooltip: () => void;
   hideOnboardingTooltip: () => void;
+  resetOnboarding: () => void;
 }
 
 export type TStepName =
@@ -29,7 +30,8 @@ export type TStepName =
 interface IOnboardingStep {
   step_name: TStepName;
   next_step: TStepName;
-  tooltip_content: string | JSX.Element;
+  tooltip_content: string;
+  additional_content?: string | JSX.Element;
 }
 
 type TOnboardingSteps = {
@@ -79,16 +81,14 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
       AREA_NODE: {
         step_name: 'AREA_NODE',
         next_step: 'DRAWING_TOOLS',
-        tooltip_content: (
-          <div>
-            <p>{t(`${translationsPath}.AREA_NODE`)}</p>
-            <Checkbox
-              label={t(`${translationsPath}.DONT_SHOW_IT_AGAIN`)}
-              // {...register('permanentHidden')}
-              name='permanentHiddenACOnboarding'
-              onChange={handleChecked}
-            />
-          </div>
+        tooltip_content: t(`${translationsPath}.AREA_NODE`),
+        additional_content: (
+          <Checkbox
+            label={t(`${translationsPath}.DONT_SHOW_IT_AGAIN`)}
+            labelClassName='text-bright-main'
+            name='permanentHiddenACOnboarding'
+            onChange={handleChecked}
+          />
         ),
       },
       DRAWING_TOOLS: {
@@ -120,7 +120,7 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
     [t, handleChecked]
   );
 
-  const goToNextOnboardingStep = (tooltipStep: TStepName) => {
+  const goToNextOnboardingStep = (currentTooltipStep: TStepName) => {
     if (isOnboardingComplete || permanentHidden) {
       return;
     }
@@ -131,7 +131,7 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
     if (currentStep === 'FINISH') {
       completeOnboarding();
     } else {
-      if (tooltipStep === currentStep) {
+      if (currentTooltipStep === currentStep) {
         setCurrentStep(onboardingSteps[currentStep].next_step as TStepName);
       }
     }
@@ -139,6 +139,12 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
 
   const completeOnboarding = () => {
     setIsOnboardingComplete(true);
+  };
+
+  const resetOnboarding = () => {
+    if (!isOnboardingComplete && !permanentHidden) {
+      setCurrentStep(onboardingSteps.AREA_NODE.step_name);
+    }
   };
 
   return (
@@ -152,6 +158,7 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
         onboardingVisible,
         showOnboardingTooltip,
         hideOnboardingTooltip,
+        resetOnboarding,
       }}
     >
       {children}

@@ -46,7 +46,7 @@ type TAreaNodeNodeProps = { node: TAreaNode };
 
 export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   const {
-    context: { goToNextOnboardingStep, onboardingSteps, currentStep },
+    context: { goToNextOnboardingStep, onboardingSteps, currentStep, showOnboardingTooltip, hideOnboardingTooltip },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
   const { shape, setShape } = useAoi();
@@ -54,7 +54,18 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
   useEffect(() => {
-    if (currentStep === onboardingSteps.DRAWING_TOOLS.step_name && node.value) {
+    if (currentStep === onboardingSteps.AREA_NODE.step_name) {
+      if (node.state === 'initial') {
+        showOnboardingTooltip();
+      } else {
+        hideOnboardingTooltip();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (node.value) {
       goToNextOnboardingStep(onboardingSteps.DRAWING_TOOLS.step_name);
     }
   }, [node.value, node.tooltip, currentStep, onboardingSteps.DRAWING_TOOLS.step_name, goToNextOnboardingStep]);
@@ -93,8 +104,9 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
       tipLocation='right'
       stepName={onboardingSteps.AREA_NODE.step_name}
       content={onboardingSteps.AREA_NODE.tooltip_content}
+      additionalContent={onboardingSteps.AREA_NODE.additional_content}
       onClick={handleGoToNextOnboardingStep}
-      reference={nodeRef}
+      elementRef={nodeRef}
     >
       <div id={node.id} ref={nodeRef} onClick={activateNode}>
         <Node node={node} onClearButtonClick={clear} />

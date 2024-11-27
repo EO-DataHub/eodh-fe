@@ -21,6 +21,7 @@ export const Tooltip = ({
   isOpen,
   className,
   tooltipPosition,
+  children,
 }: PropsWithChildren<ITooltipProps>) => {
   const [isTooltipOpen, setIsOpen] = useState(isOpen);
 
@@ -37,7 +38,10 @@ export const Tooltip = ({
   return (
     isTooltipOpen && (
       <div className={clsx(tooltip.getTooltipStyles(tipLocation), className)} style={tooltipPosition || undefined}>
-        <Text content={content} type='div' fontSize='medium' fontWeight='semibold' />
+        <div>
+          <Text content={content} type='p' fontSize='medium' fontWeight='semibold' />
+          <div className='mt-1'>{children}</div>
+        </div>
         <button className='ml-2' onClick={handleClose}>
           <Icon name='Close' />
         </button>
