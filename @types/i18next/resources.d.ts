@@ -98,11 +98,13 @@ interface Resources {
         ONBOARDING: {
           STEPS: {
             AREA_NODE: 'Click here to begin using the Action Creator.';
+            DONT_SHOW_IT_AGAIN: 'Don’t show again';
             DRAWING_TOOLS: 'Select a drawing tool.';
             DATA_SET_NODE: 'Now click to select the next node and choose a Data Set.';
             DATA_SET_PANEL: 'Select a Data Set from the list. Configure settings using the cog icon.';
             DATE_RANGE_PICKER: 'Select a start and end date range. You can narrow your selection after the Action Creator has run.';
             FUNCTION_DROPDOWN: 'Click here to select a Function.';
+            ADD_FUNCTION_NODE: 'You can add multiple Function nodes using the “+” button.';
           };
         };
         TABS_FLOW_MODAL: {
