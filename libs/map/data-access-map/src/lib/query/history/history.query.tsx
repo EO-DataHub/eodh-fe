@@ -4,6 +4,7 @@ import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-qu
 import { paths } from '../../api';
 import { queryKey } from '../query-key.const';
 import { historySchema, THistory } from './history.model';
+import { getLastWorkflows } from './temp';
 
 export interface IHistoryParams {
   orderBy?: string;
@@ -18,13 +19,18 @@ const getHistoryResults = async ({
   pageParam = 1,
   perPage = 25,
 }: IHistoryParams): Promise<THistory> => {
-  const response = await getHttpClient().get(paths.WORKFLOW, {
-    params: {
-      order_by: orderBy,
-      order_direction: orderDirection,
-      page: pageParam.toString(),
-      per_page: perPage.toString(),
-    },
+  // const response = await getHttpClient().get(paths.WORKFLOW, {
+  //   params: {
+  //     order_by: orderBy,
+  //     order_direction: orderDirection,
+  //     page: pageParam.toString(),
+  //     per_page: perPage.toString(),
+  //   },
+  // });
+  const response = await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getLastWorkflows());
+    }, 2000);
   });
 
   return historySchema.parse(response);

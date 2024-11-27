@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 
 import { paths } from '../api';
+import { getNewWorkflow, updateLastWorkflows } from '../query/history/temp';
 import { queryKey } from '../query/query-key.const';
 import { useWorkflowStore } from '../store/workflow/workflow.store';
 import { mutationKey } from './mutation-key.const';
@@ -12,7 +13,16 @@ import { TWorkflowCreated, workflowCreatedSchema } from './workflow.model';
 import { createWorkflowParams, TCreateWorkflowParams } from './workflow.utils';
 
 const createWorkflow = async (params: TCreateWorkflowParams): Promise<TWorkflowCreated> => {
-  const response = await getHttpClient().post(paths.WORKFLOW, createWorkflowParams(params));
+  // const response = await getHttpClient().post(paths.WORKFLOW, createWorkflowParams(params));
+  const response = await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getNewWorkflow());
+
+      setTimeout(() => {
+        updateLastWorkflows();
+      }, 10000);
+    }, 1000);
+  });
   const workflow = workflowCreatedSchema.parse(response);
 
   useWorkflowStore.getState().addWorkflow({ id: workflow.workflowId, status: 'PROCESSING' });

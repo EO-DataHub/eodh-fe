@@ -4,6 +4,7 @@ import { getHttpClient, TExtractFnReturnType, TQueryConfig } from '@ukri/shared/
 import { paths } from '../../api';
 import { queryKey } from '../query-key.const';
 import { historyAllItemsSchema } from './history.model';
+import { getAllWorkflows } from './temp';
 import { updateWorkflowHistory } from './update-workflow-history';
 
 interface IHistoryParams {
@@ -12,12 +13,18 @@ interface IHistoryParams {
 }
 
 const getAllHistoryResults = async ({ orderBy = 'submitted_at', orderDirection = 'desc' }: IHistoryParams = {}) => {
-  const response = await getHttpClient().get(paths.WORKFLOW, {
-    params: {
-      order_by: orderBy,
-      order_direction: orderDirection,
-    },
+  // const response = await getHttpClient().get(paths.WORKFLOW, {
+  //   params: {
+  //     order_by: orderBy,
+  //     order_direction: orderDirection,
+  //   },
+  // });
+  const response = await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getAllWorkflows());
+    }, 1000);
   });
+
   const result = historyAllItemsSchema.parse(response);
   await updateWorkflowHistory(result.results);
 

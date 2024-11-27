@@ -12,32 +12,30 @@ interface IWorkflow {
 }
 
 const optimisticUpdateWorkflowHistory = (newWorkflows: IWorkflow[]) => {
-  let optimisticUpdatedItems = 0;
+  const optimisticUpdatedIds: string[] = [];
 
-  queryClient.setQueryData<InfiniteData<THistory[]>>(queryKey.WORKFLOW_HISTORY(getHistoryDefaultParams), (data) => {
+  queryClient.setQueryData<InfiniteData<THistory>>(queryKey.WORKFLOW_HISTORY(getHistoryDefaultParams), (data) => {
     if (!data) {
       return;
     }
 
-    const pages = data?.pages.map((page) =>
-      page.map((item) => ({
-        ...item,
-        results: item.results.map((result) => {
-          const newWorkflow = newWorkflows.find((workflow) => workflow.id === result.submissionId);
+    const pages = data?.pages.map((item) => ({
+      ...item,
+      results: item.results.map((result) => {
+        const newWorkflow = newWorkflows.find((workflow) => workflow.id === result.submissionId);
 
-          if (!newWorkflow) {
-            return result;
-          }
+        if (!newWorkflow) {
+          return result;
+        }
 
-          optimisticUpdatedItems++;
+        optimisticUpdatedIds.push(newWorkflow.id);
 
-          return {
-            ...result,
-            status: newWorkflow.status,
-          };
-        }),
-      }))
-    );
+        return {
+          ...result,
+          status: newWorkflow.status,
+        };
+      }),
+    }));
 
     return {
       ...data,
@@ -45,7 +43,7 @@ const optimisticUpdateWorkflowHistory = (newWorkflows: IWorkflow[]) => {
     };
   });
 
-  return optimisticUpdatedItems > 0;
+  return optimisticUpdatedIds;
 };
 
 export const updateWorkflowHistoryCache = async (newWorkflows: IWorkflow[], currentWorkflows: IWorkflow[]) => {
@@ -54,7 +52,17 @@ export const updateWorkflowHistoryCache = async (newWorkflows: IWorkflow[], curr
     (workflow) =>
       !!newWorkflows.find((newWorkflow) => newWorkflow.id === workflow.id && newWorkflow.status !== workflow.status)
   );
-  const workflowHistoryUpdated = optimisticUpdateWorkflowHistory(newWorkflows);
+  let workflowHistoryUpdated = false;
+
+  try {
+    const workflowHistoryUpdatedIds = optimisticUpdateWorkflowHistory(newWorkflows);
+    workflowHistoryUpdated = workflowHistoryUpdatedIds.some((id) =>
+      currentWorkflows.some((workflow) => workflow.id === id)
+    );
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('[WORKFLOW HISTORY] Invalid cache');
+  }
 
   if (workflowStatusChanged && !workflowHistoryUpdated) {
     await queryClient.refetchQueries({ queryKey: queryKey.WORKFLOW_HISTORY(), type: 'all' });
