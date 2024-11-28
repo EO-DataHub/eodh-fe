@@ -22,12 +22,31 @@ const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
   </div>
 );
 
+interface ILoadMoreButtonProps {
+  isFetching: boolean;
+  onClick: () => void;
+}
+
+const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
+  if (isFetching) {
+    return (
+      <Button disabled={true} text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE' appearance='outlined' size='large'>
+        <LoadingSpinner size='xs' className='ml-2' />
+      </Button>
+    );
+  }
+
+  return (
+    <Button text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE' appearance='outlined' size='large' onClick={onClick} />
+  );
+};
+
 export const History = () => {
-  const { results, changeOrder, loadMore, error, isPending, isFetching, refetch, orderBy, hasMoreResults } =
+  const { results, changeOrder, loadMore, error, isLoading, isFetching, refetch, orderBy, hasNextPage } =
     useHistoryData();
   const { selectedResult, showResults, hideResults, status } = useLoadHistoryResults();
 
-  if ((isPending || isFetching) && results.length === 0) {
+  if (isLoading) {
     return (
       <Container>
         <Content>
@@ -79,15 +98,9 @@ export const History = () => {
             </HistoryTile>
           ))}
 
-          {hasMoreResults && (
+          {hasNextPage && (
             <div className='flex justify-center mt-5'>
-              <Button
-                onClick={loadMore}
-                disabled={isFetching}
-                text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
-                appearance='outlined'
-                size='large'
-              />
+              <LoadMoreButton isFetching={isFetching} onClick={loadMore} />
             </div>
           )}
         </section>

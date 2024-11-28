@@ -2,6 +2,8 @@ const QUERY_KEY = {
   PRESETS: 'presets',
   FUNCTIONS: 'functions',
   COLLECTION_INFO: 'collection-info',
+  WORKFLOW_HISTORY: 'workflow-history',
+  WORKFLOW_STATUS: 'workflow-status',
 };
 
 export const queryKey = {
@@ -12,4 +14,7 @@ export const queryKey = {
     userWorkspace,
     jobId,
   ],
+  WORKFLOW_HISTORY: ({ orderDirection }: { orderDirection?: 'asc' | 'desc' } = {}) =>
+    [QUERY_KEY.WORKFLOW_HISTORY, orderDirection].filter((item) => !!item),
+  WORKFLOW_STATUS: () => [QUERY_KEY.WORKFLOW_STATUS],
 };
