@@ -6,6 +6,26 @@ import { TStepName, useOnboarding } from '../ac-workflow-onboarding.context';
 const widthOfTooltip = 208;
 const tooltipTipSize = 8;
 
+const getAdditionalOffset = (step: TStepName) => {
+  switch (step) {
+    case 'FUNCTION_DROPDOWN': {
+      return 13;
+    }
+
+    case 'DATA_SET_PANEL': {
+      return -60;
+    }
+
+    case 'ADD_FUNCTION_NODE': {
+      return 25;
+    }
+
+    default: {
+      return 0;
+    }
+  }
+};
+
 type TTipLocation = 'top' | 'bottom' | 'left' | 'right';
 
 type TPosition = {
@@ -60,6 +80,7 @@ export const OnboardingTooltip = ({
   const handleClose = useCallback(() => {
     if (tooltipVisible && isOpen) {
       setIsOpen(false);
+
       if (onClick) {
         onClick();
       }
@@ -77,7 +98,7 @@ export const OnboardingTooltip = ({
   }, [elementRef, currentStep]);
 
   useEffect(() => {
-    let additionalOffset = 0;
+    const additionalOffset = getAdditionalOffset(currentStep);
 
     if (currentStep !== stepName || !elementRef) {
       return;
@@ -85,25 +106,6 @@ export const OnboardingTooltip = ({
 
     if (!positionOfHookElememnt) {
       return;
-    }
-
-    switch (currentStep) {
-      case 'FUNCTION_DROPDOWN': {
-        additionalOffset = 13;
-
-        break;
-      }
-      case 'DATA_SET_PANEL': {
-        additionalOffset = -60;
-
-        break;
-      }
-      case 'ADD_FUNCTION_NODE': {
-        additionalOffset = 25;
-
-        break;
-      }
-      // No default
     }
 
     switch (tipLocation) {

@@ -45,7 +45,7 @@ export const Checkbox = forwardRef(
       state,
       disabled,
       className = '',
-      labelClassName,
+      labelClassName = '',
       icon = 'Check',
     }: ICheckboxProps,
     ref: ForwardedRef<HTMLInputElement>

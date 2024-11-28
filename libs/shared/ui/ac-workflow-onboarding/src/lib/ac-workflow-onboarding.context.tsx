@@ -43,8 +43,15 @@ const translationsPath = 'MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS';
 
 const OnboardingContext = createContext<IOnboardingContextType | undefined>(undefined);
 
-export const OnboardingProvider = ({ children }: PropsWithChildren) => {
-  const [currentStep, setCurrentStep] = useState<TStepName>('AREA_NODE');
+interface IOnboardingProviderProps {
+  firstStep?: TStepName;
+}
+
+export const OnboardingProvider = ({
+  children,
+  firstStep = 'AREA_NODE',
+}: PropsWithChildren<IOnboardingProviderProps>) => {
+  const [currentStep, setCurrentStep] = useState<TStepName>(firstStep);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
   const [onboardingVisible, setOnboardingVisible] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
@@ -126,32 +133,46 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
     [t, handleChecked]
   );
 
-  const goToNextOnboardingStep = (currentTooltipStep: TStepName) => {
-    if (isOnboardingComplete || permanentHidden) {
-      return;
-    }
-    if (dontShowAgain) {
-      handleHidePermanently();
-      completeOnboarding();
-    }
-    if (currentStep === 'FINISH') {
-      completeOnboarding();
-    } else {
-      if (currentTooltipStep === currentStep) {
-        setCurrentStep(onboardingSteps[currentStep].next_step as TStepName);
-      }
-    }
-  };
-
-  const completeOnboarding = () => {
+  const completeOnboarding = useCallback(() => {
     setIsOnboardingComplete(true);
-  };
+  }, []);
 
-  const resetOnboarding = () => {
+  const goToNextOnboardingStep = useCallback(
+    (currentTooltipStep: TStepName) => {
+      if (isOnboardingComplete || permanentHidden) {
+        return;
+      }
+
+      if (dontShowAgain) {
+        handleHidePermanently();
+        completeOnboarding();
+      }
+
+      if (currentStep === 'FINISH') {
+        completeOnboarding();
+        return;
+      }
+
+      if (currentTooltipStep === currentStep) {
+        setCurrentStep(onboardingSteps[currentStep].next_step);
+      }
+    },
+    [
+      completeOnboarding,
+      currentStep,
+      dontShowAgain,
+      handleHidePermanently,
+      isOnboardingComplete,
+      onboardingSteps,
+      permanentHidden,
+    ]
+  );
+
+  const resetOnboarding = useCallback(() => {
     if (!isOnboardingComplete && !permanentHidden) {
       setCurrentStep(onboardingSteps.AREA_NODE.step_name);
     }
-  };
+  }, [isOnboardingComplete, onboardingSteps.AREA_NODE.step_name, permanentHidden]);
 
   return (
     <OnboardingContext.Provider

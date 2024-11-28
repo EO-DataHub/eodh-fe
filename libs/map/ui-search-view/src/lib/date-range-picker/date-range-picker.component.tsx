@@ -71,7 +71,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
             fontWeight='bold'
             className={styles.textTitle}
           />
-          <Icon name='ArrowDown' width={24} height={24} className={`${styles.icon} ${isOpen ? '' : 'rotate-180'}`} />
+          <Icon name='ArrowDown' width={24} height={24} className={styles.icon(isOpen)} />
         </div>
         {isOpen && (
           <div className={styles.content}>

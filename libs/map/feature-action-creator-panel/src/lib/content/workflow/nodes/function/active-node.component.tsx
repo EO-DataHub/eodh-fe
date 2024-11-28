@@ -52,7 +52,7 @@ export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {
       >
         <div id={node.id} ref={nodeRef}>
           <NodeSelect value={undefined} options={options} onChange={onChange} />
-        </div>{' '}
+        </div>
       </OnboardingTooltip>
     </Node>
   );
