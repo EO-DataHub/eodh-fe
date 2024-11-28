@@ -1,5 +1,6 @@
 import { Icon } from '@ukri/shared/design-system';
-import { PropsWithChildren, useCallback } from 'react';
+import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
+import { PropsWithChildren, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type TNodeType = 'area' | 'dataSet' | 'dateRange' | 'function';
@@ -102,12 +103,17 @@ export const Node = ({
 }: PropsWithChildren<INodeProps>) => {
   const { t } = useTranslation();
   const nodeType = typeOfNode[type];
+  const {
+    context: { onboardingSteps, goToNextOnboardingStep },
+  } = useOnboarding();
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleAddNode = useCallback(() => {
     if (onAddNode) {
       onAddNode();
+      goToNextOnboardingStep(onboardingSteps.ADD_FUNCTION_NODE.step_name);
     }
-  }, [onAddNode]);
+  }, [onAddNode, goToNextOnboardingStep, onboardingSteps.ADD_FUNCTION_NODE.step_name]);
 
   return (
     <div className={`${styles.container} ${clickable ? styles.clickable : ''} ${className}`}>
@@ -142,9 +148,16 @@ export const Node = ({
       )}
       {!hasNextNode && (
         <div className={styles.add.container}>
-          <button className={styles.add.button} disabled={!canAddNode} onClick={handleAddNode}>
-            <Icon name='Add' />
-          </button>
+          <OnboardingTooltip
+            tipLocation='right'
+            stepName={onboardingSteps.ADD_FUNCTION_NODE.step_name}
+            content={onboardingSteps.ADD_FUNCTION_NODE.tooltip_content}
+            elementRef={buttonRef}
+          >
+            <button className={styles.add.button} disabled={!canAddNode} onClick={handleAddNode} ref={buttonRef}>
+              <Icon name='Add' />
+            </button>
+          </OnboardingTooltip>
         </div>
       )}
     </div>

@@ -1,4 +1,5 @@
 import { useActionCreator, useMode, useResults, useWorkflow, useWorkflowStatus } from '@ukri/map/data-access-map';
+import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useAuth } from '@ukri/shared/utils/authorization';
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -57,6 +58,10 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     () => authenticated && (hasWorkflowsToProcess || workflowStatus === 'initial'),
     [authenticated, hasWorkflowsToProcess, workflowStatus]
   );
+  const {
+    context: { showOnboardingTooltip, hideOnboardingTooltip },
+  } = useOnboarding();
+  const { isOpen: isTabsFlowModalOpen } = useTabsFlowModalState();
 
   useWorkflowStatus({ enabled: shouldEnableWorkflow });
 
@@ -114,6 +119,14 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     setCollapsed(mode === 'action-creator');
   }, [mode]);
+
+  useEffect(() => {
+    if (mode === 'action-creator' && activeTab === tabs.WORKFLOW && !isTabsFlowModalOpen) {
+      showOnboardingTooltip();
+    } else {
+      hideOnboardingTooltip();
+    }
+  }, [activeTab, mode, showOnboardingTooltip, hideOnboardingTooltip, isTabsFlowModalOpen]);
 
   return (
     <ActionCreator.Provider

@@ -50,8 +50,9 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
     if (canBeActivated) {
       nodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setActiveNode(node);
+      goToNextOnboardingStep(onboardingSteps.DATA_SET_NODE.step_name);
     }
-  }, [canBeActivated, node, setActiveNode]);
+  }, [canBeActivated, node, setActiveNode, goToNextOnboardingStep, onboardingSteps.DATA_SET_NODE.step_name]);
 
   const clear = useCallback(() => {
     updateDataSets(undefined);
@@ -75,9 +76,8 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
     <OnboardingTooltip
       tipLocation='right'
       stepName={onboardingSteps.DATA_SET_NODE.step_name}
-      content={onboardingSteps.DATA_SET_NODE.tooltip_text}
-      onClick={goToNextOnboardingStep}
-      className='top-0 left-[-110px]'
+      content={onboardingSteps.DATA_SET_NODE.tooltip_content}
+      elementRef={nodeRef}
     >
       <div ref={nodeRef} id={node.id} onClick={activateNode}>
         <Node node={node} error={error} onClearButtonClick={clear} />

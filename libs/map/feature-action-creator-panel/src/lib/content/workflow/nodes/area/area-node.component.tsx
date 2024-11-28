@@ -46,12 +46,33 @@ type TAreaNodeNodeProps = { node: TAreaNode };
 
 export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
   const {
-    context: { goToNextOnboardingStep, onboardingSteps },
+    context: { goToNextOnboardingStep, onboardingSteps, currentStep, showOnboardingTooltip, hideOnboardingTooltip },
   } = useOnboarding();
-  const { setActiveNode, setValue, canActivateNode } = useActionCreator();
+  const { setActiveNode, setValue, canActivateNode, isWorkflowStarted } = useActionCreator();
   const { shape, setShape } = useAoi();
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
+
+  useEffect(() => {
+    if (currentStep === onboardingSteps.AREA_NODE.step_name) {
+      if (isWorkflowStarted) {
+        hideOnboardingTooltip();
+      } else {
+        showOnboardingTooltip();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (node.value) {
+      goToNextOnboardingStep(onboardingSteps.DRAWING_TOOLS.step_name);
+    }
+  }, [node.value, onboardingSteps.DRAWING_TOOLS.step_name, goToNextOnboardingStep]);
+
+  const handleGoToNextOnboardingStep = useCallback(() => {
+    goToNextOnboardingStep(onboardingSteps.AREA_NODE.step_name);
+  }, [goToNextOnboardingStep, onboardingSteps.AREA_NODE.step_name]);
 
   const activateNode = useCallback(() => {
     if (canBeActivated) {
@@ -82,9 +103,10 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
     <OnboardingTooltip
       tipLocation='right'
       stepName={onboardingSteps.AREA_NODE.step_name}
-      content={onboardingSteps.AREA_NODE.tooltip_text}
-      onClick={goToNextOnboardingStep}
-      className='top-0 left-[-110px]'
+      content={onboardingSteps.AREA_NODE.tooltip_content}
+      additionalContent={onboardingSteps.AREA_NODE.additional_content}
+      onClick={handleGoToNextOnboardingStep}
+      elementRef={nodeRef}
     >
       <div id={node.id} ref={nodeRef} onClick={activateNode}>
         <Node node={node} onClearButtonClick={clear} />

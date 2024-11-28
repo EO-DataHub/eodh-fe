@@ -1,5 +1,4 @@
 import { Icon, Toggle } from '@ukri/shared/design-system';
-import { OnboardingModal, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useAuth } from '@ukri/shared/utils/authorization';
 import { useCallback, useContext } from 'react';
 
@@ -20,19 +19,13 @@ const ToggleContentButton = () => {
 export const Header = () => {
   const { collapsed, enabled, toggle: toggleMode } = useContext(ActionCreator);
   const { authenticated } = useAuth();
-  const {
-    context: { displayOnboardingModal },
-    displayOnboadingModal,
-  } = useOnboarding();
 
   const handleToggleAc = useCallback(() => {
-    displayOnboadingModal();
     toggleMode();
-  }, [toggleMode, displayOnboadingModal]);
+  }, [toggleMode]);
 
   return (
     <>
-      {displayOnboardingModal && <OnboardingModal />}
       <header>
         <section className='flex justify-between p-4'>
           <Toggle
