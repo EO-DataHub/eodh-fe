@@ -11,6 +11,9 @@ export interface IResultsListProps {
 export const ResultsList = ({ features }: IResultsListProps) => {
   const { feature: selectedFeature, setFeature } = useTrueColorImage();
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const download = useCallback(() => {}, []);
+
   const handleSelectedItemToggle = useCallback(
     (feature: TFeature) => {
       if (selectedFeature?.id !== feature.id) {
@@ -31,11 +34,12 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
           imageUrl={feature.assets.thumbnail.href || ''}
+          item={feature}
           cloudCoverage={feature.properties['eo:cloud_cover']}
           gridCode={feature.properties['grid:code']}
           selected={selectedFeature?.id === feature.id}
           onToggleSelectedItem={() => handleSelectedItemToggle(feature)}
-          item={feature}
+          onDownload={download}
         />
       ))}
     </div>

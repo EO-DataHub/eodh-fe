@@ -15,7 +15,10 @@
         "BUTTON_SHOW": "View",
         "BUTTON_HIDE": "Hide",
         "ADD_TO_COMPARE": "Add to compare",
-        "REMOVE_COMPARE": "Remove compare"
+        "REMOVE_COMPARE": "Remove compare",
+        "BUTTON": {
+          "DOWNLOAD": "Download"
+        }
       },
       "LOADER": {
         "RESULTS_VIEW_LOADER": "Please wait, searching Data Sets"
