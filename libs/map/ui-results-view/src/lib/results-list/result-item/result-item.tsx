@@ -19,9 +19,6 @@ const ResultItemInfo = ({ value, iconName }: IResultItemInfoProps) => {
   );
 };
 
-// TODO: to be removed in the future, once we will work on comparison functionality
-const hideCompareButton = 'opacity-0 pointer-events-none';
-
 interface IImageProps {
   imageUrl: string;
   onToggle?: () => void;
@@ -134,7 +131,7 @@ export const ResultItem = ({
 
   return (
     <div
-      className={`flex bg-bright-light p-4 rounded-md max-w-96 border-[3px] ${
+      className={`flex bg-bright-light p-[13px] rounded-md max-w-96 border-[3px] ${
         selected ? ' border-primary' : 'border-transparent'
       } ${className}`}
     >
@@ -157,7 +154,7 @@ export const ResultItem = ({
             }
             size='medium'
             onClick={handleCompareClick}
-            className={`${hideCompareButton} ${isAddedForComparison ? '!text-error' : ''}`}
+            className={`pl-0 ${isAddedForComparison ? '!text-error' : ''}`}
           />
           <Button
             text={
