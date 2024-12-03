@@ -1,3 +1,4 @@
+import { ComparisonTool } from '@ukri/map/feature-comparison-tool';
 import {
   AoiLayer,
   ClearButton,
@@ -43,6 +44,7 @@ export const TopBar = () => {
         <ClearButton />
         <ToggleLayerButton />
       </AoiLayer>
+      <ComparisonTool className='mx-5' />
       <Login className='ml-auto' />
     </div>
   );

@@ -1,3 +1,4 @@
+import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
 import { DateInput, Icon, Text } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import get from 'lodash/get';
@@ -34,6 +35,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
   const dateFromError = get(errors, 'date.from');
   const dateToError = get(errors, 'date.to');
   const disabled = isDisabled(false, 'date-range');
+  const { comparisonMode } = useComparisonToolState();
 
   const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);
@@ -91,7 +93,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                   onChange: triggerDateFromValidation,
                 })}
                 error={dateFromError?.message}
-                disabled={disabled}
+                disabled={comparisonMode || disabled}
               />
             </div>
             <div className={styles.row}>
@@ -110,7 +112,7 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
                   onChange: triggerDateToValidation,
                 })}
                 error={dateToError?.message}
-                disabled={disabled}
+                disabled={comparisonMode || disabled}
               />
             </div>
           </div>

@@ -1,5 +1,10 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { fetchImage } from '@ukri/map/data-access-map';
+import {
+  useAddComparisonItem,
+  useComparisonToolState,
+  useRemoveComparisonItem,
+} from '@ukri/map/feature-comparison-tool';
 import { Button, Icon, Text, TIconNames } from '@ukri/shared/design-system';
 import { formatDate, formatHourInUtc, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
@@ -91,11 +96,11 @@ export interface IResultItemProps {
   onToggleSelectedItem?: () => void;
   selected?: boolean;
   className?: string;
-  id: string | number;
+  id: string;
   // TODO rethink logic and type definition for comparison functionality
-  addedForComparison?: boolean;
-  onAddToCompare?: () => void;
-  onRemoveFromCompare?: () => void;
+  // addedForComparison?: boolean;
+  // onAddToCompare?: () => void;
+  // onRemoveFromCompare?: () => void;
 }
 
 export const ResultItem = ({
@@ -107,23 +112,29 @@ export const ResultItem = ({
   selected,
   onToggleSelectedItem,
   className,
-  addedForComparison,
-  onAddToCompare,
-  onRemoveFromCompare,
-}: IResultItemProps) => {
-  const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
+  id,
+}: // addedForComparison,
+// onAddToCompare,
+// onRemoveFromCompare,
+IResultItemProps) => {
+  const { comparisonItems } = useComparisonToolState();
+  const addToComparison = useAddComparisonItem();
+  const removeFromComparison = useRemoveComparisonItem();
+  // const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
 
+  const isAddedForComparison = useMemo(() => {
+    return comparisonItems.items.some((item) => item.id === id);
+  }, [comparisonItems.items, id]);
+
   const handleCompareClick = useCallback(() => {
-    if (!isAddedForComparison && onAddToCompare) {
-      setIsAddedForComparison(true);
-      onAddToCompare();
-    } else if (isAddedForComparison && onRemoveFromCompare) {
-      setIsAddedForComparison(false);
-      onRemoveFromCompare();
+    if (isAddedForComparison) {
+      removeFromComparison(id);
+    } else {
+      addToComparison({ id });
     }
-  }, [onAddToCompare, isAddedForComparison, onRemoveFromCompare]);
+  }, [addToComparison, id, isAddedForComparison, removeFromComparison]);
 
   const cloudCoverageValue = useMemo(() => {
     return isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage;
@@ -155,6 +166,7 @@ export const ResultItem = ({
             size='medium'
             onClick={handleCompareClick}
             className={`pl-0 ${isAddedForComparison ? '!text-error' : ''}`}
+            disabled={comparisonItems.items.length >= 2 && !isAddedForComparison}
           />
           <Button
             text={

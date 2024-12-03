@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TDynamicTreeModel, TreeBuilder, useAoi } from '@ukri/map/data-access-map';
+import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useState } from 'react';
@@ -45,6 +46,7 @@ export const SearchView = ({
   });
   const { shape } = useAoi();
   const { setMode } = useChecklist();
+  const { comparisonMode } = useComparisonToolState();
 
   useFormUpdate(form, schema, onChange);
   useSyncChecklistState(schema, state, form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
@@ -84,7 +86,7 @@ export const SearchView = ({
           </div>
           <div className='mt-auto shadow-date-range-picker p-4'>
             <DateRangePicker dateMin={minDate} dateMax={today} />
-            <SubmitButton state={state} disabled={!form.formState.isValid} />
+            <SubmitButton state={state} disabled={comparisonMode || !form.formState.isValid} />
           </div>
         </form>
       </FormProvider>

@@ -213,6 +213,15 @@
         "AC_WORKFLOW_RESULTS": "Action Creator workflow results"
       }
     },
+    "COMPARISON_TOOL": {
+      "COMPARING": "Comparing:",
+      "WITH": "with",
+      "INPUT_PLACEHIOLDER": "Awaiting product",
+      "CTA_BUTTON": {
+        "COMPARE": "Compare",
+        "END_COMPARE": "End compare"
+      }
+    },
     "SEARCH_MODE_PANEL": {
       "HEADER": {
         "BROWSE_DATA_SETS": "Browsing data sets",

@@ -1,3 +1,4 @@
+import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
 import { TimeSlider } from '@ukri/shared/ui/time-slider';
 
 import { useTimelineAnalytics } from './use-timeline-analytics.hook';
@@ -8,6 +9,7 @@ type TActionCreatorPanelProps = {
 
 export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelProps) => {
   const { status, minDate, maxDate, selectedMinDate, selectedMaxDate, updateSelectedDate } = useTimelineAnalytics();
+  const { comparisonMode } = useComparisonToolState();
 
   if (!minDate || !maxDate) {
     return null;
@@ -22,7 +24,7 @@ export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelPro
         selectedMax={selectedMaxDate}
         className='grow'
         onUpdate={updateSelectedDate}
-        disabled={status === 'pending'}
+        disabled={comparisonMode || status === 'pending'}
       />
     </div>
   );

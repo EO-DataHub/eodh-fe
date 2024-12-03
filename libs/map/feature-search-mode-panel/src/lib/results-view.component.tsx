@@ -1,4 +1,5 @@
 import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
 import { ResultsView as UIResultsView } from '@ukri/map/ui-results-view';
 import { Icon, Text } from '@ukri/shared/design-system';
 
@@ -12,6 +13,8 @@ type TResultsViewProps = {
 };
 
 export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewProps) => {
+  const { comparisonMode } = useComparisonToolState();
+
   switch (searchType) {
     case 'workflow': {
       return (
@@ -40,6 +43,7 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
               type='button'
               onClick={onBack}
               className='flex items-center *:hover:text-primary p-4 border-b-[1px]'
+              disabled={comparisonMode}
             >
               <Icon name='ArrowLeft' className='text-neutral-light' />
               <Text

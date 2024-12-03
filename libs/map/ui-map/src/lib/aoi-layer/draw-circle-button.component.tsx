@@ -1,4 +1,5 @@
 import { useAoi } from '@ukri/map/data-access-map';
+import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
 import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { useCallback, useContext, useMemo } from 'react';
@@ -11,6 +12,7 @@ export const DrawCircleButton = () => {
   const { state } = useAoi();
   const disabled = useMemo(() => state !== 'edit', [state]);
   const selected = useMemo(() => draw?.type === 'circle', [draw?.type]);
+  const { comparisonMode } = useComparisonToolState();
 
   const drawCircle = useCallback(() => {
     if (draw?.type === 'circle') {
@@ -28,7 +30,7 @@ export const DrawCircleButton = () => {
   }, [draw, setDraw]);
 
   return (
-    <DrawButton selected={selected} disabled={disabled} onClick={drawCircle}>
+    <DrawButton selected={selected} disabled={comparisonMode || disabled} onClick={drawCircle}>
       <Icon name='Circle' width={24} height={24} />
     </DrawButton>
   );
