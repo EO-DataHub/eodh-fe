@@ -73,7 +73,7 @@
         "CTA": "Refresh workflow preset list"
       },
       "WORKFLOW_IMPORT": {
-        "WRONG_FILE": "Wrong file format. Only .json files with valid schemas can be imported."
+        "WRONG_FILE": "Wrong file format. Only JSON files with valid schemas can be imported."
       }
     },
     "NAVIGATION": {
