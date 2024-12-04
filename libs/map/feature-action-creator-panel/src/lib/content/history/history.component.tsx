@@ -1,6 +1,7 @@
 import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
 
 import { Container, Content, Footer } from '../container.component';
+import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
 import { HistoryTile } from './history-tile/history-tile.component';
 import { SortFilter } from './sort-filter/sort-filter.component';
 import { ToggleWorkflowButton } from './toggle-workflow-button.component';
@@ -104,6 +105,7 @@ export const History = () => {
             </div>
           )}
         </section>
+        <ComparisonModeModal />
       </Content>
       <Footer></Footer>
     </Container>

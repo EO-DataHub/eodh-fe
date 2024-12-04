@@ -93,10 +93,6 @@ export interface IResultItemProps {
   selected?: boolean;
   className?: string;
   id: string;
-  // TODO rethink logic and type definition for comparison functionality
-  // addedForComparison?: boolean;
-  // onAddToCompare?: () => void;
-  // onRemoveFromCompare?: () => void;
 }
 
 export const ResultItem = ({
@@ -109,14 +105,10 @@ export const ResultItem = ({
   onToggleSelectedItem,
   className,
   id,
-}: // addedForComparison,
-// onAddToCompare,
-// onRemoveFromCompare,
-IResultItemProps) => {
-  const { comparisonItems } = useComparisonToolState();
+}: IResultItemProps) => {
+  const { comparisonItems, comparisonMode } = useComparisonToolState();
   const addToComparison = useAddComparisonItem();
   const removeFromComparison = useRemoveComparisonItem();
-  // const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
 
@@ -170,6 +162,7 @@ IResultItemProps) => {
             }
             size='small'
             onClick={onToggleSelectedItem}
+            disabled={comparisonMode}
           />
         </div>
       </div>

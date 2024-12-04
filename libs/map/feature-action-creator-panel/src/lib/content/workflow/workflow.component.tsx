@@ -14,13 +14,14 @@ import { Button } from '@ukri/shared/design-system';
 import { useCallback, useEffect } from 'react';
 
 import { Container, Content, Footer } from '../container.component';
-import { useTabsFlowModalState } from '../tabs-flow-modal/action-creator-tabs-flow.store';
-import { TabsFlowModal } from '../tabs-flow-modal/tabs-flow-modal.component';
+import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
+import { useTabsFlowModalState } from '../modals/tabs-flow-modal/action-creator-tabs-flow.store';
+import { TabsFlowModal } from '../modals/tabs-flow-modal/tabs-flow-modal.component';
+import { WorkflowProcessingModal } from '../modals/workflow-processing-modal/workflow-processing-modal.component';
 import { AreaNode } from './nodes/area/area-node.component';
 import { DataSetNode } from './nodes/data-set/data-set-node.component';
 import { NodeDateRange } from './nodes/date-range/date-range-node.component';
 import { NodeFunction } from './nodes/function/function-node.component';
-import { WorkflowProcessingModal } from './workflow-processing-modal/workflow-processing-modal.component';
 
 const renderNode = (node: TNode) => {
   switch (node.type) {
@@ -101,11 +102,12 @@ export const Workflow = () => {
         <WorkflowProcessingModal status={status} />
         {isOpen && (
           <TabsFlowModal
-            header='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.WORKFLOW.HEADER'
-            content='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.WORKFLOW.CONTENT'
-            ctaText='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.WORKFLOW.CTA_BUTTON'
+            header='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.WORKFLOW.HEADER'
+            content='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.WORKFLOW.CONTENT'
+            ctaText='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.WORKFLOW.CTA_BUTTON'
           />
         )}
+        <ComparisonModeModal />
       </Content>
       <Footer>
         <div className='flex justify-end gap-4 w-full'>

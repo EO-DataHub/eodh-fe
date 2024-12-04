@@ -36,13 +36,6 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           gridCode={feature.properties['grid:code']}
           selected={selectedFeature?.id === feature.id}
           onToggleSelectedItem={() => handleSelectedItemToggle(feature)}
-          // TODO actual functions to be added in future
-          // onAddToCompare={() => {
-          //   return;
-          // }}
-          // onRemoveFromCompare={() => {
-          //   return;
-          // }}
         />
       ))}
     </div>

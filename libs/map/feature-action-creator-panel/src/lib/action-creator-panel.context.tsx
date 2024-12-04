@@ -7,7 +7,7 @@ import {
   useCloseTabsFlowModal,
   useOpenTabsFlowModal,
   useTabsFlowModalState,
-} from './content/tabs-flow-modal/action-creator-tabs-flow.store';
+} from './content/modals/tabs-flow-modal/action-creator-tabs-flow.store';
 
 const tabs = {
   WORKFLOW: 'workflow',
