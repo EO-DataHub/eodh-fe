@@ -75,8 +75,17 @@ const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
         return <EmptyNode node={node} />;
       }
 
-      case 'active':
       case 'not-active': {
+        if (isLoading) {
+          return <LoadingNode node={node} />;
+        } else if (!node.value) {
+          return <EmptyNode node={node} />;
+        }
+
+        return <ValueNode node={node} options={options} functions={data} onChange={onChange} />;
+      }
+
+      case 'active': {
         if (isLoading) {
           return <LoadingNode node={node} />;
         } else if (!node.value) {

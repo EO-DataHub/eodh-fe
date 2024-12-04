@@ -44,7 +44,7 @@ const renderNode = (node: TNode) => {
 };
 
 export const Workflow = () => {
-  const { nodes, isValid, getNodesByType } = useActionCreator();
+  const { nodes, isValid, canExportWorkflow, getNodesByType, importWorkflow, exportWorkflow } = useActionCreator();
   const { mutate } = useCreateWorkflow();
   const status = useCreateWorkflowStatus();
   const { data, isSuccess: isFunctionsLoaded } = useFunctions();
@@ -110,12 +110,28 @@ export const Workflow = () => {
         <ComparisonModeModal />
       </Content>
       <Footer>
-        <div className='flex justify-end gap-4 w-full'>
+        <div className='flex justify-between gap-4 w-full'>
           <Button
-            text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
-            disabled={!isValid || status === 'pending' || status === 'success'}
-            onClick={createWorkflow}
+            appearance='text'
+            text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.EXPORT'
+            size='medium'
+            disabled={!canExportWorkflow}
+            onClick={exportWorkflow}
           />
+          <Button
+            appearance='text'
+            text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
+            size='medium'
+            disabled={status === 'pending'}
+            onClick={importWorkflow}
+          />
+          <div className='flex justify-end gap-4 w-full'>
+            <Button
+              text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
+              disabled={!isValid || status === 'pending' || status === 'success'}
+              onClick={createWorkflow}
+            />
+          </div>
         </div>
       </Footer>
     </Container>

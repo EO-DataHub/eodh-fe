@@ -22,8 +22,17 @@ const Node = ({ node, onClearDateFromClick, onClearDateToClick }: TNodeProps) =>
         return <EmptyNode node={node} />;
       }
 
-      case 'active':
       case 'not-active': {
+        if (!node.value?.from && !node.value?.to) {
+          return <EmptyNode node={node} />;
+        }
+
+        return (
+          <ValueNode node={node} onClearDateFromClick={onClearDateFromClick} onClearDateToClick={onClearDateToClick} />
+        );
+      }
+
+      case 'active': {
         if (!node.value?.from && !node.value?.to) {
           return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATE_RANGE.INSTRUCTIONS')} />;
         }
