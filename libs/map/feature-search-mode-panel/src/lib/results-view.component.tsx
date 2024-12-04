@@ -1,4 +1,4 @@
-import { useComparisonToolState } from '@ukri/map/data-access-map';
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import { TCollection } from '@ukri/map/data-access-stac-catalog';
 import { ResultsView as UIResultsView } from '@ukri/map/ui-results-view';
 import { Icon, Text } from '@ukri/shared/design-system';
@@ -13,7 +13,7 @@ type TResultsViewProps = {
 };
 
 export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewProps) => {
-  const { comparisonMode } = useComparisonToolState();
+  const { comparisonMode } = useComparisonMode();
 
   switch (searchType) {
     case 'workflow': {

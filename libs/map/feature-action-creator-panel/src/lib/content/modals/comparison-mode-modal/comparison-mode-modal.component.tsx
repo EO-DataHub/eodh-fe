@@ -1,11 +1,10 @@
-import { useComparisonToolState, useToggleComparisonMode } from '@ukri/map/data-access-map';
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
 
 import { Modal } from '../modal/modal.component';
 
 export const ComparisonModeModal = () => {
-  const toggleComparisonMode = useToggleComparisonMode();
-  const { comparisonMode } = useComparisonToolState();
+  const { comparisonMode, toggleComparisonMode } = useComparisonMode();
 
   if (!comparisonMode) {
     return null;

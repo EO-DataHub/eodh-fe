@@ -1,6 +1,7 @@
-import { useComparisonToolState, useRemoveComparisonItem, useToggleComparisonMode } from '@ukri/map/data-access-map';
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import { Button, Icon, Text } from '@ukri/shared/design-system';
 import clsx from 'clsx';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { styles } from './comparison-tool.styles.js';
@@ -11,9 +12,9 @@ interface IComparisonToolProps {
 
 export const ComparisonTool = ({ className }: IComparisonToolProps) => {
   const { t } = useTranslation();
-  const { comparisonMode, comparisonItems } = useComparisonToolState();
-  const toggleComparisonMode = useToggleComparisonMode();
-  const removeComparisonItem = useRemoveComparisonItem();
+  const { comparisonMode, comparisonItems, toggleComparisonMode, removeComparisonItem } = useComparisonMode();
+
+  const isDisabled = useMemo(() => !(comparisonItems.firsItemId && comparisonItems.secondItemId), [comparisonItems]);
 
   return (
     <div className={clsx(styles.comparisonTool, className)}>
@@ -30,7 +31,7 @@ export const ComparisonTool = ({ className }: IComparisonToolProps) => {
           placeholder={t('MAP.COMPARISON_TOOL.INPUT_PLACEHIOLDER')}
           type='text'
           className={styles.searchInput.input}
-          value={comparisonItems.firsItemId ? comparisonItems.firsItemId : ''}
+          value={comparisonItems.firsItemId ?? ''}
         />
         {comparisonItems.firsItemId && (
           <button
@@ -71,7 +72,7 @@ export const ComparisonTool = ({ className }: IComparisonToolProps) => {
         appearance='outlined'
         size='large'
         onClick={toggleComparisonMode}
-        disabled={comparisonItems.firsItemId && comparisonItems.secondItemId ? false : true}
+        disabled={isDisabled}
       />
     </div>
   );

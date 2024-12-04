@@ -1,5 +1,5 @@
 import { useAoi } from '@ukri/map/data-access-map';
-import { useComparisonToolState } from '@ukri/map/data-access-map';
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import { ComparisonTool } from '@ukri/map/feature-comparison-tool';
 import {
   AoiLayer,
@@ -20,7 +20,7 @@ export const TopBar = () => {
   const {
     context: { onboardingSteps },
   } = useOnboarding();
-  const { comparisonMode } = useComparisonToolState();
+  const { comparisonMode } = useComparisonMode();
   const { state } = useAoi();
   const disabled = useMemo(() => state !== 'edit' || comparisonMode, [state, comparisonMode]);
 

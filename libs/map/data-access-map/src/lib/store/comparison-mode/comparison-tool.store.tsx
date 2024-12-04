@@ -52,6 +52,7 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
             },
           };
         }
+
         return {
           ...state,
         };
@@ -75,21 +76,20 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
   }))
 );
 
-export const useComparisonToolState = () => {
-  return useComparisonToolStore((state) => ({
+export const useComparisonMode = () => {
+  const comparisonState = useComparisonToolStore((state) => ({
     comparisonItems: state.comparisonItems,
     comparisonMode: state.comparisonMode,
   }));
-};
 
-export const useToggleComparisonMode = () => {
-  return useComparisonToolStore((state) => state.toggleComparisonMode);
-};
+  const toggleComparisonMode = useComparisonToolStore((state) => state.toggleComparisonMode);
+  const addComparisonItem = useComparisonToolStore((state) => state.addComparisonItem);
+  const removeComparisonItem = useComparisonToolStore((state) => state.removeComparisonItem);
 
-export const useAddComparisonItem = () => {
-  return useComparisonToolStore((state) => state.addComparisonItem);
-};
-
-export const useRemoveComparisonItem = () => {
-  return useComparisonToolStore((state) => state.removeComparisonItem);
+  return {
+    ...comparisonState,
+    toggleComparisonMode,
+    addComparisonItem,
+    removeComparisonItem,
+  };
 };

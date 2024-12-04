@@ -1,6 +1,6 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { fetchImage } from '@ukri/map/data-access-map';
-import { useAddComparisonItem, useComparisonToolState, useRemoveComparisonItem } from '@ukri/map/data-access-map';
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import { Button, Icon, Text, TIconNames } from '@ukri/shared/design-system';
 import { formatDate, formatHourInUtc, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
@@ -106,9 +106,7 @@ export const ResultItem = ({
   className,
   id,
 }: IResultItemProps) => {
-  const { comparisonItems, comparisonMode } = useComparisonToolState();
-  const addToComparison = useAddComparisonItem();
-  const removeFromComparison = useRemoveComparisonItem();
+  const { comparisonItems, comparisonMode, addComparisonItem, removeComparisonItem } = useComparisonMode();
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
 
@@ -118,11 +116,11 @@ export const ResultItem = ({
 
   const handleCompareClick = useCallback(() => {
     if (isAddedForComparison) {
-      removeFromComparison(id);
+      removeComparisonItem(id);
     } else {
-      addToComparison({ id });
+      addComparisonItem({ id });
     }
-  }, [addToComparison, id, isAddedForComparison, removeFromComparison]);
+  }, [addComparisonItem, id, isAddedForComparison, removeComparisonItem]);
 
   const cloudCoverageValue = useMemo(() => {
     return isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage;
