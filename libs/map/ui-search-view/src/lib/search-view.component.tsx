@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TDynamicTreeModel, TreeBuilder, useAoi } from '@ukri/map/data-access-map';
-import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
+import { useComparisonToolState } from '@ukri/map/data-access-map';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useState } from 'react';

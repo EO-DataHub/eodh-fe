@@ -1,5 +1,5 @@
+import { useComparisonToolState } from '@ukri/map/data-access-map';
 import { TCollection } from '@ukri/map/data-access-stac-catalog';
-import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
 import { ResultsView as UIResultsView } from '@ukri/map/ui-results-view';
 import { Icon, Text } from '@ukri/shared/design-system';
 

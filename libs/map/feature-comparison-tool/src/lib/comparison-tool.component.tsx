@@ -1,8 +1,8 @@
+import { useComparisonToolState, useRemoveComparisonItem, useToggleComparisonMode } from '@ukri/map/data-access-map';
 import { Button, Icon, Text } from '@ukri/shared/design-system';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-import { useComparisonToolState, useRemoveComparisonItem, useToggleComparisonMode } from './comparison-tool.store';
 import { styles } from './comparison-tool.styles.js';
 
 interface IComparisonToolProps {

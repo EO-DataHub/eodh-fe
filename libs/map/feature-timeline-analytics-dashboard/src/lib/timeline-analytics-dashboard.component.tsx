@@ -1,4 +1,4 @@
-import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
+import { useComparisonToolState } from '@ukri/map/data-access-map';
 import { TimeSlider } from '@ukri/shared/ui/time-slider';
 
 import { useTimelineAnalytics } from './use-timeline-analytics.hook';

@@ -1,4 +1,4 @@
-import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
+import { useComparisonToolState } from '@ukri/map/data-access-map';
 import { DateInput, Icon, Text } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import get from 'lodash/get';

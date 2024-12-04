@@ -1,3 +1,5 @@
+import { useAoi } from '@ukri/map/data-access-map';
+import { useComparisonToolState } from '@ukri/map/data-access-map';
 import { ComparisonTool } from '@ukri/map/feature-comparison-tool';
 import {
   AoiLayer,
@@ -8,7 +10,7 @@ import {
   ToggleLayerButton,
 } from '@ukri/map/ui-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 
 import { Login } from './authorization/login.component';
 import { Logo } from './logo.component';
@@ -18,6 +20,9 @@ export const TopBar = () => {
   const {
     context: { onboardingSteps },
   } = useOnboarding();
+  const { comparisonMode } = useComparisonToolState();
+  const { state } = useAoi();
+  const disabled = useMemo(() => state !== 'edit' || comparisonMode, [state, comparisonMode]);
 
   return (
     <div className='w-full bg-background border-b-[1px] border-bright-dark flex items-center text-text'>
@@ -36,9 +41,9 @@ export const TopBar = () => {
           elementRef={buttonsRef}
         >
           <div ref={buttonsRef}>
-            <DrawRectangleButton />
-            <DrawCircleButton />
-            <DrawPolygonButton />
+            <DrawRectangleButton disabled={disabled} />
+            <DrawCircleButton disabled={disabled} />
+            <DrawPolygonButton disabled={disabled} />
           </div>
         </OnboardingTooltip>
         <ClearButton />

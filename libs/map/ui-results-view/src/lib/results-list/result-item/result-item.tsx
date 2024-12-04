@@ -1,10 +1,6 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { fetchImage } from '@ukri/map/data-access-map';
-import {
-  useAddComparisonItem,
-  useComparisonToolState,
-  useRemoveComparisonItem,
-} from '@ukri/map/feature-comparison-tool';
+import { useAddComparisonItem, useComparisonToolState, useRemoveComparisonItem } from '@ukri/map/data-access-map';
 import { Button, Icon, Text, TIconNames } from '@ukri/shared/design-system';
 import { formatDate, formatHourInUtc, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';

@@ -1,5 +1,5 @@
 import { TDynamicTreeModel, TreeBuilder } from '@ukri/map/data-access-map';
-import { useComparisonToolState } from '@ukri/map/feature-comparison-tool';
+import { useComparisonToolState } from '@ukri/map/data-access-map';
 import { Tree as TreeWrapper } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useMemo, useRef } from 'react';

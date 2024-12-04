@@ -63,3 +63,9 @@ export type {
   TIterableTreeSettingsGroupValues,
   TIterableTreeSliderValues,
 } from './lib/form-builder/tree/tree-builder/tree-builder.model';
+export {
+  useComparisonToolState,
+  useToggleComparisonMode,
+  useAddComparisonItem,
+  useRemoveComparisonItem,
+} from './lib/store/comparison-mode/comparison-tool.store';
