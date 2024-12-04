@@ -111,7 +111,6 @@
           "HEADER": "You are currently in Compare mode",
           "CONTENT": "While comparing results, you cannot use the Action Creator. Please end Compare mode to continue using the Action Creator or using the left search menu.",
           "CTA_BUTTON": "End Compare"
-          
         },
         "TABS_FLOW_MODAL": {
           "DONT_SHOW_IT_AGAIN": "Don’t show again",
@@ -145,7 +144,7 @@
           }
         }
       },
-      
+
       "PRESETS": {
         "BUTTON": "Load preset",
         "COMING_SOON": "Coming soon!"
