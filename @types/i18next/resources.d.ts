@@ -74,7 +74,7 @@ interface Resources {
           CTA: 'Refresh workflow preset list';
         };
         WORKFLOW_IMPORT: {
-          WRONG_FILE: 'Wrong file format';
+          WRONG_FILE: 'Wrong file format. Only .json files with valid schemas can be imported.';
         };
       };
       NAVIGATION: {
