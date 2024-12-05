@@ -7,7 +7,7 @@ import { Modal } from '../modal/modal.component';
 
 export const WorkflowProcessingSuccessModal = () => {
   const { setActiveTab } = useContext(ActionCreator);
-  const { reset } = useActionCreator();
+  const { reset, exportWorkflow } = useActionCreator();
 
   const goToHistoryTab = useCallback(() => {
     reset();
@@ -36,7 +36,7 @@ export const WorkflowProcessingSuccessModal = () => {
             size='small'
             iconWidth={20}
             iconHeight={20}
-            disabled={true}
+            onClick={exportWorkflow}
           />
           <Button
             text='MAP.ACTION_CREATOR_PANEL.MODALS.WORKFLOW_PROCESSING_MODAL.SUCCESS.BUTTON.VIEW_HISTORY'
