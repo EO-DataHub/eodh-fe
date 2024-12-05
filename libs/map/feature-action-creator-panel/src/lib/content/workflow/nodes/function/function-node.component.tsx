@@ -1,5 +1,6 @@
 import {
   TBaseFunction,
+  TDataSetValue,
   TFunction,
   TFunctionNode,
   TNode,
@@ -30,7 +31,7 @@ const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier, name
   return functionTranslationMap[functionIdentifier] || name;
 };
 
-const isFunctionOptionDisabled = (dataSet: string | null, functionDataSet: string[] | undefined) => {
+const isFunctionOptionDisabled = (dataSet: TDataSetValue | undefined, functionDataSet: string[] | undefined) => {
   if (!dataSet || !functionDataSet) {
     return false;
   }
@@ -38,7 +39,7 @@ const isFunctionOptionDisabled = (dataSet: string | null, functionDataSet: strin
   return functionDataSet.every((option) => option !== dataSet);
 };
 
-const useOptions = (dataSet: string | null) => {
+const useOptions = (dataSet: TDataSetValue | undefined) => {
   const { t } = useTranslation();
   const { getValidFunctions } = useActionCreator();
 
