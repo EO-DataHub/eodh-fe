@@ -13,7 +13,7 @@ type TResultsViewProps = {
 };
 
 export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewProps) => {
-  const { comparisonMode } = useComparisonMode();
+  const { comparisonModeEnabled } = useComparisonMode();
 
   switch (searchType) {
     case 'workflow': {
@@ -43,7 +43,7 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
               type='button'
               onClick={onBack}
               className='flex items-center *:hover:text-primary p-4 border-b-[1px]'
-              disabled={comparisonMode}
+              disabled={comparisonModeEnabled}
             >
               <Icon name='ArrowLeft' className='text-neutral-light' />
               <Text

@@ -12,9 +12,9 @@ interface IComparisonToolProps {
 
 export const ComparisonTool = ({ className }: IComparisonToolProps) => {
   const { t } = useTranslation();
-  const { comparisonMode, comparisonItems, toggleComparisonMode, removeComparisonItem } = useComparisonMode();
+  const { comparisonModeEnabled, comparisonItems, toggleComparisonMode, removeComparisonItem } = useComparisonMode();
 
-  const isDisabled = useMemo(() => !(comparisonItems.firsItemId && comparisonItems.secondItemId), [comparisonItems]);
+  const disabled = useMemo(() => !(comparisonItems.firsItemId && comparisonItems.secondItemId), [comparisonItems]);
 
   return (
     <div className={clsx(styles.comparisonTool, className)}>
@@ -68,11 +68,15 @@ export const ComparisonTool = ({ className }: IComparisonToolProps) => {
       </div>
 
       <Button
-        text={comparisonMode ? 'MAP.COMPARISON_TOOL.CTA_BUTTON.END_COMPARE' : 'MAP.COMPARISON_TOOL.CTA_BUTTON.COMPARE'}
+        text={
+          comparisonModeEnabled
+            ? 'MAP.COMPARISON_TOOL.CTA_BUTTON.END_COMPARE'
+            : 'MAP.COMPARISON_TOOL.CTA_BUTTON.COMPARE'
+        }
         appearance='outlined'
         size='large'
         onClick={toggleComparisonMode}
-        disabled={isDisabled}
+        disabled={disabled}
       />
     </div>
   );

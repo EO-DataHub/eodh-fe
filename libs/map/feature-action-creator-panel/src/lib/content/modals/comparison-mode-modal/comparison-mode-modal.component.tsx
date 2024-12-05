@@ -4,9 +4,9 @@ import { Button } from '@ukri/shared/design-system';
 import { Modal } from '../modal/modal.component';
 
 export const ComparisonModeModal = () => {
-  const { comparisonMode, toggleComparisonMode } = useComparisonMode();
+  const { comparisonModeEnabled, toggleComparisonMode } = useComparisonMode();
 
-  if (!comparisonMode) {
+  if (!comparisonModeEnabled) {
     return null;
   }
 

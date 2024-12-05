@@ -20,9 +20,9 @@ export const TopBar = () => {
   const {
     context: { onboardingSteps },
   } = useOnboarding();
-  const { comparisonMode } = useComparisonMode();
+  const { comparisonModeEnabled } = useComparisonMode();
   const { state } = useAoi();
-  const disabled = useMemo(() => state !== 'edit' || comparisonMode, [state, comparisonMode]);
+  const disabled = useMemo(() => state !== 'edit' || comparisonModeEnabled, [state, comparisonModeEnabled]);
 
   return (
     <div className='w-full bg-background border-b-[1px] border-bright-dark flex items-center text-text'>

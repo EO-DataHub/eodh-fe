@@ -10,9 +10,9 @@ type TActionCreatorPanelProps = {
 
 export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelProps) => {
   const { status, minDate, maxDate, selectedMinDate, selectedMaxDate, updateSelectedDate } = useTimelineAnalytics();
-  const { comparisonMode } = useComparisonMode();
+  const { comparisonModeEnabled } = useComparisonMode();
 
-  const isDisabled = useMemo(() => comparisonMode || status === 'pending', [comparisonMode, status]);
+  const disabled = useMemo(() => comparisonModeEnabled || status === 'pending', [comparisonModeEnabled, status]);
 
   if (!minDate || !maxDate) {
     return null;
@@ -27,7 +27,7 @@ export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelPro
         selectedMax={selectedMaxDate}
         className='grow'
         onUpdate={updateSelectedDate}
-        disabled={isDisabled}
+        disabled={disabled}
       />
     </div>
   );

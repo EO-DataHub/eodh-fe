@@ -107,7 +107,7 @@ export const ResultItem = ({
   id,
 }: IResultItemProps) => {
   const {
-    comparisonMode,
+    comparisonModeEnabled,
     addComparisonItem,
     removeComparisonItem,
     itemAddedToComparisonMode,
@@ -165,7 +165,7 @@ export const ResultItem = ({
             }
             size='small'
             onClick={onToggleSelectedItem}
-            disabled={comparisonMode}
+            disabled={comparisonModeEnabled}
           />
         </div>
       </div>

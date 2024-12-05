@@ -17,12 +17,12 @@ export const DynamicTreeForm = ({ tree }: TTreeProps) => {
   const {
     context: { onboardingSteps },
   } = useOnboarding();
-  const { comparisonMode } = useComparisonMode();
+  const { comparisonModeEnabled } = useComparisonMode();
   const treeRef = useRef<HTMLDivElement>(null);
 
   const treeBuilder = useMemo(() => new TreeBuilder(tree), [tree]);
 
-  const disabled = useMemo(() => dataSetsDisabled || comparisonMode, [dataSetsDisabled, comparisonMode]);
+  const disabled = useMemo(() => dataSetsDisabled || comparisonModeEnabled, [dataSetsDisabled, comparisonModeEnabled]);
 
   return (
     <TreeWrapper>

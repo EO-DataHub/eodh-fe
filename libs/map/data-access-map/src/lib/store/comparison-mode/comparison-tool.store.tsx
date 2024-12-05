@@ -1,4 +1,5 @@
 import type {} from '@redux-devtools/extension';
+import { useCallback, useMemo } from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -12,8 +13,8 @@ interface IComparisonToolStore {
     secondItemId?: string;
     items: TComparisonItem[];
   };
-  comparisonMode: boolean;
-  toggleComparisonMode: (comparisonMode?: boolean) => void;
+  comparisonModeEnabled: boolean;
+  toggleComparisonMode: (comparisonModeEnabled?: boolean) => void;
   addComparisonItem: (item: TComparisonItem) => void;
   removeComparisonItem: (itemId?: string) => void;
 }
@@ -25,11 +26,11 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
       secondItemId: undefined,
       items: [],
     },
-    comparisonMode: false,
+    comparisonModeEnabled: false,
     toggleComparisonMode: () =>
       set((state) => ({
         ...state,
-        comparisonMode: !state.comparisonMode,
+        comparisonModeEnabled: !state.comparisonModeEnabled,
       })),
     addComparisonItem: (item: { id: string }) =>
       set((state) => {
@@ -61,7 +62,7 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
         const items = state.comparisonItems.items.filter((item) => item.id !== itemId);
         return {
           ...state,
-          comparisonMode: false,
+          comparisonModeEnabled: false,
           comparisonItems: {
             ...state.comparisonItems,
             firsItemId: state.comparisonItems.firsItemId === itemId ? undefined : state.comparisonItems.firsItemId,
@@ -76,28 +77,48 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
 );
 
 export const useComparisonMode = () => {
-  const comparisonState = useComparisonToolStore((state) => ({
-    comparisonItems: state.comparisonItems,
-    comparisonMode: state.comparisonMode,
-  }));
+  const { comparisonItems, comparisonModeEnabled, toggleComparisonMode, addComparisonItem, removeComparisonItem } =
+    useComparisonToolStore((state) => ({
+      comparisonItems: state.comparisonItems,
+      comparisonModeEnabled: state.comparisonModeEnabled,
+      toggleComparisonMode: state.toggleComparisonMode,
+      addComparisonItem: state.addComparisonItem,
+      removeComparisonItem: state.removeComparisonItem,
+    }));
 
-  const toggleComparisonMode = useComparisonToolStore((state) => state.toggleComparisonMode);
-  const addComparisonItem = useComparisonToolStore((state) => state.addComparisonItem);
-  const removeComparisonItem = useComparisonToolStore((state) => state.removeComparisonItem);
-  const itemAddedToComparisonMode = (itemId?: string) => {
-    return comparisonState.comparisonItems.items.some((item) => item.id === itemId);
-  };
-  const canAddAsNewItemToComparisonMode = (itemId?: string) => {
-    const isAddedForComparison = itemAddedToComparisonMode(itemId);
-    return comparisonState.comparisonItems.items.length >= 2 && !isAddedForComparison;
-  };
+  const itemAddedToComparisonMode = useCallback(
+    (itemId?: string) => {
+      return comparisonItems.items.some((item) => item.id === itemId);
+    },
+    [comparisonItems.items]
+  );
 
-  return {
-    ...comparisonState,
-    toggleComparisonMode,
-    addComparisonItem,
-    removeComparisonItem,
-    itemAddedToComparisonMode,
-    canAddAsNewItemToComparisonMode,
-  };
+  const canAddAsNewItemToComparisonMode = useCallback(
+    (itemId?: string) => {
+      const isAddedForComparison = itemAddedToComparisonMode(itemId);
+      return comparisonItems.items.length >= 2 && !isAddedForComparison;
+    },
+    [comparisonItems.items, itemAddedToComparisonMode]
+  );
+
+  return useMemo(
+    () => ({
+      comparisonItems,
+      comparisonModeEnabled,
+      toggleComparisonMode,
+      addComparisonItem,
+      removeComparisonItem,
+      itemAddedToComparisonMode,
+      canAddAsNewItemToComparisonMode,
+    }),
+    [
+      comparisonItems,
+      comparisonModeEnabled,
+      toggleComparisonMode,
+      addComparisonItem,
+      removeComparisonItem,
+      itemAddedToComparisonMode,
+      canAddAsNewItemToComparisonMode,
+    ]
+  );
 };

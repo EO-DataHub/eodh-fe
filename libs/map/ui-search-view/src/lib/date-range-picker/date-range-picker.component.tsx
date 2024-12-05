@@ -35,9 +35,12 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
   const dateFromError = get(errors, 'date.from');
   const dateToError = get(errors, 'date.to');
   const dateRangePickerDisabled = isDisabled(false, 'date-range');
-  const { comparisonMode } = useComparisonMode();
+  const { comparisonModeEnabled } = useComparisonMode();
 
-  const disabled = useMemo(() => dateRangePickerDisabled || comparisonMode, [dateRangePickerDisabled, comparisonMode]);
+  const disabled = useMemo(
+    () => dateRangePickerDisabled || comparisonModeEnabled,
+    [dateRangePickerDisabled, comparisonModeEnabled]
+  );
 
   const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);

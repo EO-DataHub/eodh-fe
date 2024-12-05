@@ -46,7 +46,7 @@ export const SearchView = ({
   });
   const { shape } = useAoi();
   const { setMode } = useChecklist();
-  const { comparisonMode } = useComparisonMode();
+  const { comparisonModeEnabled } = useComparisonMode();
 
   useFormUpdate(form, schema, onChange);
   useSyncChecklistState(schema, state, form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
@@ -75,7 +75,10 @@ export const SearchView = ({
     setMode(schema);
   }, [schema, setMode]);
 
-  const isDisabled = useMemo(() => comparisonMode || !form.formState.isValid, [comparisonMode, form.formState.isValid]);
+  const disabled = useMemo(
+    () => comparisonModeEnabled || !form.formState.isValid,
+    [comparisonModeEnabled, form.formState.isValid]
+  );
 
   return (
     <SearchViewProvider state={state}>
@@ -88,7 +91,7 @@ export const SearchView = ({
           </div>
           <div className='mt-auto shadow-date-range-picker p-4'>
             <DateRangePicker dateMin={minDate} dateMax={today} />
-            <SubmitButton state={state} disabled={isDisabled} />
+            <SubmitButton state={state} disabled={disabled} />
           </div>
         </form>
       </FormProvider>
