@@ -8,7 +8,7 @@ import { useAoiStore } from '../../aoi/aoi.store';
 import { createShape } from '../../aoi/geometry';
 import { useDataSetsStore } from '../../data-sets/data-sets.store';
 import { useDateStore } from '../../date/date.store';
-import { defaultNodes, TFunctionNode, TNode } from '../action-creator.model';
+import { defaultNodes, TBaseNodeState, TFunctionNode, TNode } from '../action-creator.model';
 import { useActionCreatorStore } from '../action-creator.store';
 import { createNode, isFunctionNode, nodeHasValue } from '../node.utils';
 import {
@@ -17,11 +17,12 @@ import {
   isDateRangeImportNode,
   isFunctionImportNode,
   nodeImportSchema,
+  TNodeImport,
   TWorkflowImport,
 } from './import-workflow.schema';
 
 const selectFile = async (): Promise<TWorkflowImport | null> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const input = document.createElement('input');
     input.type = 'file';
     input.multiple = false;
@@ -29,24 +30,28 @@ const selectFile = async (): Promise<TWorkflowImport | null> => {
 
     input.onchange = () => {
       if (!input.files) {
-        resolve(null);
+        reject();
         return;
       }
 
       const file = Array.from(input.files).pop();
       if (!file) {
-        resolve(null);
+        reject();
         return;
       }
 
       const reader = new FileReader();
       reader.readAsText(file, 'UTF-8');
       reader.onload = (readerEvent) => {
-        const content = readerEvent.target?.result;
+        try {
+          const content = readerEvent.target?.result;
 
-        if (isString(content)) {
-          const node: TWorkflowImport = JSON.parse(content);
-          resolve(node);
+          if (isString(content)) {
+            const node: TWorkflowImport = JSON.parse(content);
+            resolve(node);
+          }
+        } catch (e: unknown) {
+          reject(e);
         }
       };
     };
@@ -55,7 +60,7 @@ const selectFile = async (): Promise<TWorkflowImport | null> => {
   });
 };
 
-const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
+const getNodeState = (node: TNodeImport, importedNodes: TWorkflowImport['nodes']): TBaseNodeState | undefined => {
   const aoiImportedNode = importedNodes.filter(isAreaImportNode).pop();
   const dateRangeImportedNode = importedNodes.filter(isDateRangeImportNode).pop();
   const dataSetImportedNode = importedNodes.filter(isDataSetImportNode).pop();
@@ -64,28 +69,44 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
   const dateRangeImportedNodeHasValues = nodeHasValue(dateRangeImportedNode);
   const dataSetImportedNodeHasValues = nodeHasValue(dataSetImportedNode);
   const functionImportedNodesHasValues = functionImportedNodes.some(nodeHasValue);
+
+  switch (node.type) {
+    case 'area': {
+      return aoiImportedNodeHasValues ||
+        dataSetImportedNodeHasValues ||
+        dateRangeImportedNodeHasValues ||
+        functionImportedNodesHasValues
+        ? 'not-active'
+        : 'initial';
+    }
+    case 'dataSet': {
+      return dataSetImportedNodeHasValues || dateRangeImportedNodeHasValues || functionImportedNodesHasValues
+        ? 'not-active'
+        : 'initial';
+    }
+    case 'dateRange': {
+      return dateRangeImportedNodeHasValues || functionImportedNodesHasValues ? 'not-active' : 'initial';
+    }
+
+    default: {
+      return undefined;
+    }
+  }
+};
+
+const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
+  const aoiImportedNode = importedNodes.filter(isAreaImportNode).pop();
+  const dateRangeImportedNode = importedNodes.filter(isDateRangeImportNode).pop();
+  const dataSetImportedNode = importedNodes.filter(isDataSetImportNode).pop();
+  const functionImportedNodes = importedNodes.filter(isFunctionImportNode);
   const nodes = defaultNodes
     .filter((node) => !isFunctionNode(node))
     .map((node) => {
       switch (node.type) {
-        case 'area': {
-          const isActive =
-            aoiImportedNodeHasValues ||
-            dataSetImportedNodeHasValues ||
-            dateRangeImportedNodeHasValues ||
-            functionImportedNodesHasValues;
-          return { ...node, state: isActive ? 'not-active' : 'initial' };
-        }
-
-        case 'dataSet': {
-          const isActive =
-            dataSetImportedNodeHasValues || dateRangeImportedNodeHasValues || functionImportedNodesHasValues;
-          return { ...node, state: isActive ? 'not-active' : 'initial' };
-        }
-
+        case 'area':
+        case 'dataSet':
         case 'dateRange': {
-          const isActive = dateRangeImportedNodeHasValues || functionImportedNodesHasValues;
-          return { ...node, state: isActive ? 'not-active' : 'initial' };
+          return { ...node, state: getNodeState(node, importedNodes) };
         }
 
         default: {

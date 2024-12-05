@@ -1,35 +1,24 @@
-import { TCoordinate } from '../aoi/aoi.model';
-import { TDateValues } from '../date/date.model';
+import { TAreaValue, TDataSetValue, TDateRangeValue, TFunctionValue } from './action-creator.schema';
 import { createNode } from './node.utils';
 
 export type TAoiState = 'readonly' | 'edit';
 
-export type TDataSetValue =
-  | 'sentinel-1'
-  | 'sentinel-2-l1c'
-  | 'sentinel-2-l2a'
-  | 'sentinel-3'
-  | 'sentinel-5p'
-  | 'esacci-globallc'
-  | 'clms-corinelc'
-  | 'clms-water-bodies';
-
-type TBaseNodeState = 'initial' | 'active' | 'not-active';
+export type TBaseNodeState = 'initial' | 'active' | 'not-active';
 
 type TBaseNode = { id: string; tooltip: boolean; state: TBaseNodeState; order: number };
 
 export type TDataSetsNode = TBaseNode & {
   type: 'dataSet';
-  value: TDataSetValue | undefined | null;
+  value: TDataSetValue | undefined;
 };
 
-export type TAreaNode = TBaseNode & { type: 'area'; value: TCoordinate | undefined };
+export type TAreaNode = TBaseNode & { type: 'area'; value: TAreaValue | undefined };
 
-export type TDateRangeNode = Omit<TBaseNode, 'tooltip'> & { type: 'dateRange'; value: TDateValues['date'] | undefined };
+export type TDateRangeNode = Omit<TBaseNode, 'tooltip'> & { type: 'dateRange'; value: TDateRangeValue | undefined };
 
 export type TFunctionNode = TBaseNode & {
   type: 'function';
-  value: { identifier: string; supportedDataSets: string[] } | undefined;
+  value: TFunctionValue | undefined;
 };
 
 export type TNode = TAreaNode | TDataSetsNode | TDateRangeNode | TFunctionNode;

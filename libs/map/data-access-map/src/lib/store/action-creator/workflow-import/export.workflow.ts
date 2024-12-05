@@ -44,6 +44,8 @@ export const exportWorkflow = (nodes: TNode[]) => {
             value: node.value,
           };
         }
+
+        return undefined;
       })
       .filter((node): node is TNodeImport => !!node),
   };
