@@ -106,13 +106,18 @@ export const ResultItem = ({
   className,
   id,
 }: IResultItemProps) => {
-  const { comparisonItems, comparisonMode, addComparisonItem, removeComparisonItem } = useComparisonMode();
+  const {
+    comparisonMode,
+    addComparisonItem,
+    removeComparisonItem,
+    itemAddedToComparisonMode,
+    canAddAsNewItemToComparisonMode,
+  } = useComparisonMode();
+  const isAddedForComparison = itemAddedToComparisonMode(id);
+  const addToComparisonDisabled = canAddAsNewItemToComparisonMode(id);
+
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
-
-  const isAddedForComparison = useMemo(() => {
-    return comparisonItems.items.some((item) => item.id === id);
-  }, [comparisonItems.items, id]);
 
   const handleCompareClick = useCallback(() => {
     if (isAddedForComparison) {
@@ -120,7 +125,7 @@ export const ResultItem = ({
     } else {
       addComparisonItem({ id });
     }
-  }, [addComparisonItem, id, isAddedForComparison, removeComparisonItem]);
+  }, [addComparisonItem, id, removeComparisonItem, isAddedForComparison]);
 
   const cloudCoverageValue = useMemo(() => {
     return isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage;
@@ -152,7 +157,7 @@ export const ResultItem = ({
             size='medium'
             onClick={handleCompareClick}
             className={`pl-0 ${isAddedForComparison ? '!text-error' : ''}`}
-            disabled={comparisonItems.items.length >= 2 && !isAddedForComparison}
+            disabled={addToComparisonDisabled}
           />
           <Button
             text={

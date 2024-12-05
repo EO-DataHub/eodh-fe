@@ -36,7 +36,7 @@ export const ComparisonTool = ({ className }: IComparisonToolProps) => {
         {comparisonItems.firsItemId && (
           <button
             className={styles.searchInput.clearButton}
-            onClick={() => comparisonItems.firsItemId && removeComparisonItem(comparisonItems.firsItemId)}
+            onClick={() => removeComparisonItem(comparisonItems.firsItemId)}
           >
             <Icon name='Close' width={16} height={16} />
           </button>
@@ -60,7 +60,7 @@ export const ComparisonTool = ({ className }: IComparisonToolProps) => {
         {comparisonItems.secondItemId && (
           <button
             className={styles.searchInput.clearButton}
-            onClick={() => comparisonItems.secondItemId && removeComparisonItem(comparisonItems.secondItemId)}
+            onClick={() => removeComparisonItem(comparisonItems.secondItemId)}
           >
             <Icon name='Close' width={16} height={16} />
           </button>
