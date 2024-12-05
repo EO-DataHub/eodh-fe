@@ -122,7 +122,7 @@ export const Workflow = () => {
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
             size='medium'
-            disabled={status === 'pending'}
+            disabled={status === 'pending' || isOpen}
             onClick={importWorkflow}
           />
           <div className='flex justify-end gap-4 w-full'>
