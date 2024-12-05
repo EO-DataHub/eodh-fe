@@ -78,10 +78,7 @@ const featureSchema = z.object({
   bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
   stac_version: z.string(),
   stac_extensions: z.array(z.string()).optional(),
-  assets: z.object({
-    thumbnail: assetSchema,
-    visual: assetSchema.optional(),
-  }),
+  assets: z.record(z.union([z.literal('thumbnail'), z.literal('visual'), z.string()]), assetSchema.optional()),
   links: z.array(linkSchema),
   collection: z.string(),
 });

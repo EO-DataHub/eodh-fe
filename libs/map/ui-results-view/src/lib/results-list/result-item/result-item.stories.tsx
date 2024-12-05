@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react';
 
-import { ResultItem } from './result-item';
+import { ResultItem } from './result-item.component';
 
 const meta: Meta<typeof ResultItem> = {
   component: ResultItem,

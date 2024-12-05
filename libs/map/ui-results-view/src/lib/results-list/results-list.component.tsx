@@ -1,29 +1,22 @@
-import { useTrueColorImage } from '@ukri/map/data-access-map';
 import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
-import { useCallback } from 'react';
 
-import { ResultItem } from './result-item/result-item';
+import { ResultItem } from './result-item/result-item.component';
+import { useResult } from './use-result.hook';
 
 export interface IResultsListProps {
   features: TCollection['features'];
 }
 
 export const ResultsList = ({ features }: IResultsListProps) => {
-  const { feature: selectedFeature, setFeature } = useTrueColorImage();
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const download = useCallback(() => {}, []);
-
-  const handleSelectedItemToggle = useCallback(
-    (feature: TFeature) => {
-      if (selectedFeature?.id !== feature.id) {
-        setFeature(feature);
-      } else {
-        setFeature(undefined);
-      }
-    },
-    [selectedFeature, setFeature]
-  );
+  const {
+    isSelected,
+    toggleItem,
+    downloadItem,
+    canCompareItems,
+    isItemAddedToComparisonMode,
+    comparisonEnabled,
+    toggleCompareItem,
+  } = useResult();
 
   return (
     <div className='mx-4 mt-4'>
@@ -33,13 +26,17 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           className='mb-4'
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
-          imageUrl={feature.assets.thumbnail.href || ''}
+          imageUrl={feature.assets.thumbnail?.href || ''}
           item={feature}
           cloudCoverage={feature.properties['eo:cloud_cover']}
           gridCode={feature.properties['grid:code']}
-          selected={selectedFeature?.id === feature.id}
-          onToggleSelectedItem={() => handleSelectedItemToggle(feature)}
-          onDownload={download}
+          selected={isSelected(feature.id)}
+          comparisonEnabled={comparisonEnabled}
+          addedForComparison={isItemAddedToComparisonMode(feature.id)}
+          canCompare={canCompareItems(feature.id)}
+          onToggleSelectedItem={() => toggleItem(feature)}
+          onDownload={() => downloadItem(feature)}
+          onCompareItemToggle={() => toggleCompareItem(feature.id)}
         />
       ))}
     </div>
