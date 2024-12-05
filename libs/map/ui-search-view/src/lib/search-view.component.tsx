@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TDynamicTreeModel, TreeBuilder, useAoi } from '@ukri/map/data-access-map';
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { AreaOfInterest } from './aoi.component';
@@ -45,6 +46,7 @@ export const SearchView = ({
   });
   const { shape } = useAoi();
   const { setMode } = useChecklist();
+  const { comparisonModeEnabled } = useComparisonMode();
 
   useFormUpdate(form, schema, onChange);
   useSyncChecklistState(schema, state, form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
@@ -73,6 +75,11 @@ export const SearchView = ({
     setMode(schema);
   }, [schema, setMode]);
 
+  const disabled = useMemo(
+    () => comparisonModeEnabled || !form.formState.isValid,
+    [comparisonModeEnabled, form.formState.isValid]
+  );
+
   return (
     <SearchViewProvider state={state}>
       <FormProvider {...form}>
@@ -84,7 +91,7 @@ export const SearchView = ({
           </div>
           <div className='mt-auto shadow-date-range-picker p-4'>
             <DateRangePicker dateMin={minDate} dateMax={today} />
-            <SubmitButton state={state} disabled={!form.formState.isValid} />
+            <SubmitButton state={state} disabled={disabled} />
           </div>
         </form>
       </FormProvider>

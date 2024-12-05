@@ -1,3 +1,6 @@
+import { useAoi } from '@ukri/map/data-access-map';
+import { useComparisonMode } from '@ukri/map/data-access-map';
+import { ComparisonTool } from '@ukri/map/feature-comparison-tool';
 import {
   AoiLayer,
   ClearButton,
@@ -7,7 +10,7 @@ import {
   ToggleLayerButton,
 } from '@ukri/map/ui-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 
 import { Login } from './authorization/login.component';
 import { Logo } from './logo.component';
@@ -17,6 +20,9 @@ export const TopBar = () => {
   const {
     context: { onboardingSteps },
   } = useOnboarding();
+  const { comparisonModeEnabled } = useComparisonMode();
+  const { state } = useAoi();
+  const disabled = useMemo(() => state !== 'edit' || comparisonModeEnabled, [state, comparisonModeEnabled]);
 
   return (
     <div className='w-full bg-background border-b-[1px] border-bright-dark flex items-center text-text'>
@@ -35,14 +41,15 @@ export const TopBar = () => {
           elementRef={buttonsRef}
         >
           <div ref={buttonsRef}>
-            <DrawRectangleButton />
-            <DrawCircleButton />
-            <DrawPolygonButton />
+            <DrawRectangleButton disabled={disabled} />
+            <DrawCircleButton disabled={disabled} />
+            <DrawPolygonButton disabled={disabled} />
           </div>
         </OnboardingTooltip>
         <ClearButton />
         <ToggleLayerButton />
       </AoiLayer>
+      <ComparisonTool className='mx-5' />
       <Login className='ml-auto' />
     </div>
   );

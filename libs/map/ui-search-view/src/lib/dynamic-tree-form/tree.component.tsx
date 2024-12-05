@@ -1,4 +1,5 @@
 import { TDynamicTreeModel, TreeBuilder } from '@ukri/map/data-access-map';
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import { Tree as TreeWrapper } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useMemo, useRef } from 'react';
@@ -12,13 +13,16 @@ type TTreeProps = {
 
 export const DynamicTreeForm = ({ tree }: TTreeProps) => {
   const { isDisabled } = useSearchView();
-  const disabled = isDisabled(false, 'data-sets');
+  const dataSetsDisabled = isDisabled(false, 'data-sets');
   const {
     context: { onboardingSteps },
   } = useOnboarding();
+  const { comparisonModeEnabled } = useComparisonMode();
   const treeRef = useRef<HTMLDivElement>(null);
 
   const treeBuilder = useMemo(() => new TreeBuilder(tree), [tree]);
+
+  const disabled = useMemo(() => dataSetsDisabled || comparisonModeEnabled, [dataSetsDisabled, comparisonModeEnabled]);
 
   return (
     <TreeWrapper>

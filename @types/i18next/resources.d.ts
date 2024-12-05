@@ -107,18 +107,42 @@ interface Resources {
             ADD_FUNCTION_NODE: 'You can add multiple Function nodes using the “+” button.';
           };
         };
-        TABS_FLOW_MODAL: {
-          DONT_SHOW_IT_AGAIN: 'Don’t show again';
-          CTA_NO: 'No, cancel';
-          WORKFLOW: {
-            HEADER: 'You are about to navigate away from your loaded Workflow results.';
-            CONTENT: 'Creating and running a new Workflow will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?';
-            CTA_BUTTON: 'Yes, create new Workflow';
+        MODALS: {
+          COMPARISON_MODE_MODAL: {
+            HEADER: 'You are currently in Compare mode';
+            CONTENT: 'While comparing results, you cannot use the Action Creator. Please end Compare mode to continue using the Action Creator or using the left search menu.';
+            CTA_BUTTON: 'End Compare';
           };
-          PRESETS: {
-            HEADER: 'You are about to navigate away from your loaded Workflow results.';
-            CONTENT: 'Loading a preset will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?';
-            CTA_BUTTON: 'Yes, view Presets';
+          TABS_FLOW_MODAL: {
+            DONT_SHOW_IT_AGAIN: 'Don’t show again';
+            CTA_NO: 'No, cancel';
+            WORKFLOW: {
+              HEADER: 'You are about to navigate away from your loaded Workflow results.';
+              CONTENT: 'Creating and running a new Workflow will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?';
+              CTA_BUTTON: 'Yes, create new Workflow';
+            };
+            PRESETS: {
+              HEADER: 'You are about to navigate away from your loaded Workflow results.';
+              CONTENT: 'Loading a preset will replace any data you’re currently viewing. You can still access this data from the History tab at the top of the Action Creator. Are you sure you want to do this?';
+              CTA_BUTTON: 'Yes, view Presets';
+            };
+          };
+          WORKFLOW_PROCESSING_MODAL: {
+            SUCCESS: {
+              HEADER: 'The Action Creator is currently processing your workflow.';
+              CONTENT: {
+                INFORMATION: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window. We will notify you once your data is ready to view.';
+                BROWSE_DATA: 'In the meantime you can browse map data or start a new workflow.';
+              };
+              BUTTON: {
+                EXPORT_CONFIGURATION: 'Export configuration';
+                VIEW_HISTORY: 'View history';
+              };
+            };
+            IN_PROGRESS: {
+              HEADER: 'Processing Workflow, please wait...';
+              CONTENT: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window.';
+            };
           };
         };
         PRESETS: {
@@ -154,23 +178,6 @@ interface Resources {
             AOI_MISSING: 'Area of Interest is missing.';
             INVALID_DATE_RANGE: 'End date cannot be before start date.';
             COLLECTION_NOT_SUPPORTED: 'Collection {{collection}} cannot be used with {{function}} function! Valid options are: {{options}}.';
-          };
-          WORKFLOW_PROCESSING_MODAL: {
-            SUCCESS: {
-              HEADER: 'The Action Creator is currently processing your workflow.';
-              CONTENT: {
-                INFORMATION: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window. We will notify you once your data is ready to view.';
-                BROWSE_DATA: 'In the meantime you can browse map data or start a new workflow.';
-              };
-              BUTTON: {
-                EXPORT_CONFIGURATION: 'Export configuration';
-                VIEW_HISTORY: 'View history';
-              };
-            };
-            IN_PROGRESS: {
-              HEADER: 'Processing Workflow, please wait...';
-              CONTENT: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window.';
-            };
           };
           NODE: {
             AREA: {
@@ -212,6 +219,15 @@ interface Resources {
       ACTION_CREATOR_MODE_RESULTS: {
         HEADER: {
           AC_WORKFLOW_RESULTS: 'Action Creator workflow results';
+        };
+      };
+      COMPARISON_TOOL: {
+        COMPARING: 'Comparing:';
+        WITH: 'with';
+        INPUT_PLACEHIOLDER: 'Awaiting product';
+        CTA_BUTTON: {
+          COMPARE: 'Compare';
+          END_COMPARE: 'End compare';
         };
       };
       SEARCH_MODE_PANEL: {
