@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { styles } from './comparison-tool.styles.js';
+import { styles } from './comparison-tool.styles';
 
 interface IComparisonToolProps {
   className?: string;

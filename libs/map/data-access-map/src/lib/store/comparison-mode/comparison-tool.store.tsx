@@ -1,22 +1,32 @@
 import type {} from '@redux-devtools/extension';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useMemo } from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-type TComparisonItem = {
-  id: string;
+import { TMode } from '../mode.model';
+
+type TId = string;
+type TCollection = string;
+export type TUid = `${TCollection}_${TId}`;
+
+export type TComparisonItem = TFeature & {
+  uid: TUid;
+  mode: TMode;
+  stacUrl?: string;
 };
 
 interface IComparisonToolStore {
   comparisonItems: {
-    firsItemId?: string;
-    secondItemId?: string;
+    firsItemId?: TUid;
+    secondItemId?: TUid;
     items: TComparisonItem[];
   };
   comparisonModeEnabled: boolean;
   toggleComparisonMode: (comparisonModeEnabled?: boolean) => void;
-  addComparisonItem: (item: TComparisonItem) => void;
-  removeComparisonItem: (itemId?: string) => void;
+  addComparisonItem: (item: TFeature, mode: TMode) => void;
+  removeComparisonItem: (itemUid?: TUid) => void;
 }
 
 const useComparisonToolStore = create<IComparisonToolStore>()(
@@ -32,15 +42,22 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
         ...state,
         comparisonModeEnabled: !state.comparisonModeEnabled,
       })),
-    addComparisonItem: (item: { id: string }) =>
+    addComparisonItem: (item: TFeature, mode: TMode) =>
       set((state) => {
+        const uniqueId: TUid = `${item.collection}_${item.id}`;
+        const newItem = {
+          ...item,
+          uid: uniqueId,
+          mode: mode,
+          stacUrl: item?.links.find((link) => link.rel === 'self')?.href,
+        };
         if (state.comparisonItems.firsItemId === undefined) {
           return {
             ...state,
             comparisonItems: {
               ...state.comparisonItems,
-              firsItemId: item.id,
-              items: [...state.comparisonItems.items, item],
+              firsItemId: uniqueId,
+              items: [...state.comparisonItems.items, newItem],
             },
           };
         } else if (state.comparisonItems.secondItemId === undefined) {
@@ -48,8 +65,8 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
             ...state,
             comparisonItems: {
               ...state.comparisonItems,
-              secondItemId: item.id,
-              items: [...state.comparisonItems.items, item],
+              secondItemId: uniqueId,
+              items: [...state.comparisonItems.items, newItem],
             },
           };
         }
@@ -57,17 +74,17 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
           ...state,
         };
       }),
-    removeComparisonItem: (itemId?: string) => {
+    removeComparisonItem: (itemUid?: string) => {
       set((state) => {
-        const items = state.comparisonItems.items.filter((item) => item.id !== itemId);
+        const items = state.comparisonItems.items.filter((item) => item.uid !== itemUid);
         return {
           ...state,
           comparisonModeEnabled: false,
           comparisonItems: {
             ...state.comparisonItems,
-            firsItemId: state.comparisonItems.firsItemId === itemId ? undefined : state.comparisonItems.firsItemId,
+            firsItemId: state.comparisonItems.firsItemId === itemUid ? undefined : state.comparisonItems.firsItemId,
             secondItemId:
-              state.comparisonItems.secondItemId === itemId ? undefined : state.comparisonItems.secondItemId,
+              state.comparisonItems.secondItemId === itemUid ? undefined : state.comparisonItems.secondItemId,
             items,
           },
         };
@@ -87,15 +104,15 @@ export const useComparisonMode = () => {
     }));
 
   const itemAddedToComparisonMode = useCallback(
-    (itemId?: string) => {
-      return comparisonItems.items.some((item) => item.id === itemId);
+    (itemUid?: TUid) => {
+      return comparisonItems.items.some((item) => item.uid === itemUid);
     },
     [comparisonItems.items]
   );
 
   const canAddAsNewItemToComparisonMode = useCallback(
-    (itemId?: string) => {
-      const isAddedForComparison = itemAddedToComparisonMode(itemId);
+    (itemUid?: TUid) => {
+      const isAddedForComparison = itemAddedToComparisonMode(itemUid);
       return comparisonItems.items.length >= 2 && !isAddedForComparison;
     },
     [comparisonItems.items, itemAddedToComparisonMode]

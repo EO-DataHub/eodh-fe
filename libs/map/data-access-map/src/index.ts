@@ -64,3 +64,4 @@ export type {
   TIterableTreeSliderValues,
 } from './lib/form-builder/tree/tree-builder/tree-builder.model';
 export { useComparisonMode } from './lib/store/comparison-mode/comparison-tool.store';
+export type { TUid, TComparisonItem } from './lib/store/comparison-mode/comparison-tool.store';

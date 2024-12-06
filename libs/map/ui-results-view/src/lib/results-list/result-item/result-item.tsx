@@ -1,6 +1,7 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { fetchImage } from '@ukri/map/data-access-map';
-import { useComparisonMode } from '@ukri/map/data-access-map';
+import { TUid, useComparisonMode } from '@ukri/map/data-access-map';
+import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, Icon, Text, TIconNames } from '@ukri/shared/design-system';
 import { formatDate, formatHourInUtc, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
@@ -93,6 +94,7 @@ export interface IResultItemProps {
   selected?: boolean;
   className?: string;
   id: string;
+  item: TFeature;
 }
 
 export const ResultItem = ({
@@ -105,6 +107,7 @@ export const ResultItem = ({
   onToggleSelectedItem,
   className,
   id,
+  item,
 }: IResultItemProps) => {
   const {
     comparisonModeEnabled,
@@ -113,19 +116,21 @@ export const ResultItem = ({
     itemAddedToComparisonMode,
     canAddAsNewItemToComparisonMode,
   } = useComparisonMode();
-  const isAddedForComparison = itemAddedToComparisonMode(id);
-  const addToComparisonDisabled = canAddAsNewItemToComparisonMode(id);
+  const uniqueId = useMemo(() => `${collectionName}_${id}` as TUid, [id, collectionName]);
+  const isAddedForComparison = itemAddedToComparisonMode(uniqueId);
+  const addToComparisonDisabled = canAddAsNewItemToComparisonMode(uniqueId);
+  const { mode } = useMode();
 
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
 
   const handleCompareClick = useCallback(() => {
     if (isAddedForComparison) {
-      removeComparisonItem(id);
+      removeComparisonItem(uniqueId);
     } else {
-      addComparisonItem({ id });
+      addComparisonItem(item, mode);
     }
-  }, [addComparisonItem, id, removeComparisonItem, isAddedForComparison]);
+  }, [addComparisonItem, uniqueId, removeComparisonItem, isAddedForComparison, item, mode]);
 
   const cloudCoverageValue = useMemo(() => {
     return isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage;
