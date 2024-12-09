@@ -1,24 +1,41 @@
 import { useComparisonMode, useTrueColorImage } from '@ukri/map/data-access-map';
 import { TFeature } from '@ukri/map/data-access-stac-catalog';
+import { createDateString, formatDate } from '@ukri/shared/utils/date';
 import { saveAs } from 'file-saver';
 import { useCallback, useMemo } from 'react';
 
 const s3ProtocolPrefix = 's3:/';
 
-const downloadAssets = (assets: TFeature['assets'][string][]) => {
-  assets.forEach((asset) => {
+const getFileName = (fileName: string, ext: string | undefined, dateTime: string) => {
+  const formattedDate = formatDate(createDateString(dateTime));
+  ext = ext ? `.${ext}` : '';
+
+  return `${fileName}-${formattedDate}${ext}`;
+};
+
+const downloadAssets = (feature: TFeature) => {
+  Object.values(feature.assets).forEach((asset) => {
     if (!asset || asset.href.startsWith(s3ProtocolPrefix)) {
       return;
     }
 
-    saveAs(asset.href, asset.href.split('/').pop() || 'download');
+    const defaultFileName = 'download';
+    const fullFileName = asset.href.split('/').pop() || '';
+    const fileName = fullFileName.split('.').shift();
+    const ext = fullFileName.split('.').pop();
+
+    saveAs(asset.href, getFileName(fileName || defaultFileName, ext, feature.properties.datetime));
   });
 };
 
 const downloadMetadata = (feature: TFeature) => {
-  const fileName = Object.values(feature.assets).pop()?.href.split('/').pop()?.split('.').shift();
   const blob = new Blob([JSON.stringify(feature)], { type: 'text/plain;charset=utf-8' });
-  saveAs(blob, `${fileName || 'downloaded-file'}.json`);
+  const defaultFileName = 'downloaded-file';
+  const fullFileName = Object.values(feature.assets).pop()?.href.split('/').pop() || '';
+  const fileName = fullFileName.split('.').shift();
+  const ext = '.json';
+
+  saveAs(blob, getFileName(fileName || defaultFileName, ext, feature.properties.datetime));
 };
 
 export const useResult = () => {
@@ -37,7 +54,7 @@ export const useResult = () => {
 
   const download = useCallback((feature: TFeature) => {
     downloadMetadata(feature);
-    downloadAssets(Object.values(feature.assets));
+    downloadAssets(feature);
   }, []);
 
   const handleSelectedItemToggle = useCallback(
