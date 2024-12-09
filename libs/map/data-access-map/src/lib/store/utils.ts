@@ -57,20 +57,22 @@ export const reset = () => {
   useDateStore.getState().reset();
 };
 
+type TFunction = {
+  identifier: string;
+  order: number;
+  inputs: {
+    stacCollection?: {
+      options: {
+        label: string;
+        value: string;
+      }[];
+    };
+  };
+};
+
 export type TLoadPresetProps = {
   dataSet: TDataSetValue | string | undefined;
-  functions: {
-    identifier: string;
-    order: number;
-    inputs: {
-      stacCollection?: {
-        options: {
-          label: string;
-          value: string;
-        }[];
-      };
-    };
-  }[];
+  functions: TFunction[];
   aoi?: TCoordinate;
   dateRange?: {
     from: TDateTimeString;

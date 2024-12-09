@@ -73,9 +73,12 @@ interface Resources {
           MESSAGE: 'There was a problem retrieving workflow presets from the server. Please try again later.';
           CTA: 'Refresh workflow preset list';
         };
+        WORKFLOW_IMPORT: {
+          WRONG_FILE: 'Wrong file format. Only JSON files with valid schemas can be imported.';
+        };
       };
       NAVIGATION: {
-        RETURN_TO_SERCH: 'Return to the search menu';
+        RETURN_TO_SEARCH: 'Return to the search menu';
       };
     };
     MAP: {
@@ -91,6 +94,8 @@ interface Resources {
         };
         FOOTER: {
           BUTTON: {
+            IMPORT: 'Import';
+            EXPORT: 'Export';
             SAVE_WORKFLOW: 'Save Workflow';
             RUN_ACTION_CREATOR: 'Run Action Creator';
           };

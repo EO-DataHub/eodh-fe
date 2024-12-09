@@ -1,6 +1,12 @@
 import { TDataSetValue, useDataSets } from '@ukri/map/data-access-map';
 
-export const useActiveDataSet = () => {
+type TUseActiveDataSet = {
+  dataSet: TDataSetValue | undefined;
+  error: boolean;
+  updateDataSets: ReturnType<typeof useDataSets>['updateDataSets'];
+};
+
+export const useActiveDataSet = (): TUseActiveDataSet => {
   const { dataSets, updateDataSets } = useDataSets();
   const enabled: TDataSetValue[] = [];
 
@@ -41,7 +47,7 @@ export const useActiveDataSet = () => {
   }
 
   return {
-    dataSet: enabled.length !== 1 ? null : enabled[0],
+    dataSet: enabled.length !== 1 ? undefined : enabled[0],
     error: enabled.length > 1,
     updateDataSets,
   };
