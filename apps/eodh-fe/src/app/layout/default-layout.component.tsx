@@ -26,8 +26,8 @@ export const DefaultLayout = () => {
             <ComparisonModeLayer />
             <Map className='flex w-full h-full'>
               <Checklist />
-              <ActionCreatorPanel />
-              <ComparisonToolSlider />
+              <ActionCreatorPanel className='z-20' />
+              <ComparisonToolSlider className='z-10' />
             </Map>
             <BottomPanel />
           </div>

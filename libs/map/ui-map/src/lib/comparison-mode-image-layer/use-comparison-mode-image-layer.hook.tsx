@@ -20,6 +20,7 @@ export const useComparisonModeImageLayers = () => {
 
   useEffect(() => {
     if (!map || !comparisonItems.items.length || !comparisonModeEnabled) {
+      setStacLayers([null, null]);
       return;
     }
 
@@ -45,6 +46,7 @@ export const useComparisonModeImageLayers = () => {
     };
 
     const loadPublicStacItem = (item: TComparisonItem, index: number) => {
+      // console.log('loadPublicStacItem', item, index);
       if (!item.stacUrl) {
         return;
       }
@@ -56,6 +58,7 @@ export const useComparisonModeImageLayers = () => {
 
       newStacLayers[index]?.addEventListener('sourceready', () => handleSourceReady(index));
       map.addLayer(newStacLayers[index]);
+      setStacLayers(newStacLayers);
     };
 
     const fetchPrivateStacItem = async (item: TComparisonItem, index: number) => {
@@ -83,6 +86,7 @@ export const useComparisonModeImageLayers = () => {
       }, 1000);
 
       map.addLayer(newStacLayers[index]);
+      setStacLayers(newStacLayers);
     };
 
     comparisonItems.items.forEach((item, index) => {
@@ -97,8 +101,6 @@ export const useComparisonModeImageLayers = () => {
         fetchPrivateStacItem(item, index).catch(() => {}); // todo add displaying error
       }
     });
-
-    setStacLayers(newStacLayers);
 
     return () => {
       isSubscribed = false;
