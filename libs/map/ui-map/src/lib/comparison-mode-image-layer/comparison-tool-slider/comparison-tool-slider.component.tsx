@@ -34,12 +34,10 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
         const [minX, minY, maxX, maxY] = mapExtent;
 
         const splitX = minX + (maxX - minX) * sliderPosition;
-        console.log('splitX', splitX);
-        // console.log('stacLayers', stacLayers);
-        // console.log('stacLayers 0', stacLayers[0]?.setExtent([minX, minY, splitX, maxY]));
+        // console.log('splitX', splitX);
 
         stacLayers[0].setExtent([minX, minY, splitX, maxY]);
-        console.log('stacLayers[0] get ', stacLayers[0]?.getExtent());
+        // console.log('stacLayers[0] get ', stacLayers[0]?.getExtent());
         stacLayers[1].setExtent([splitX, minY, maxX, maxY]);
       }
     };
