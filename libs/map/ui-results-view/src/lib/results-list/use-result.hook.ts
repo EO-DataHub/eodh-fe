@@ -33,7 +33,7 @@ const downloadMetadata = (feature: TFeature) => {
   const defaultFileName = 'downloaded-file';
   const fullFileName = Object.values(feature.assets).pop()?.href.split('/').pop() || '';
   const fileName = fullFileName.split('.').shift();
-  const ext = '.json';
+  const ext = 'json';
 
   saveAs(blob, getFileName(fileName || defaultFileName, ext, feature.properties.datetime));
 };
