@@ -4,7 +4,7 @@ import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
 import proj4 from 'proj4';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
@@ -112,24 +112,5 @@ export const useComparisonModeImageLayers = () => {
     };
   }, [map, comparisonItems, authClient, comparisonModeEnabled]);
 
-  const updateZindex = useCallback(
-    (index: number, newZIndex: number) => {
-      if (stacLayers[index]) {
-        stacLayers[index]?.setZIndex(newZIndex);
-      }
-    },
-    [stacLayers]
-  );
-
-  const toggleVisibility = useCallback(
-    (index: number) => {
-      if (stacLayers[index]) {
-        const isVisible = stacLayers[index]?.getVisible();
-        stacLayers[index]?.setVisible(!isVisible);
-      }
-    },
-    [stacLayers]
-  );
-
-  return { updateZindex, toggleVisibility, stacLayers };
+  return { stacLayers };
 };

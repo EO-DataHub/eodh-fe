@@ -28,6 +28,7 @@ export const ComparisonToolSlider = () => {
         const [minX, minY, maxX, maxY] = mapExtent;
 
         const splitX = minX + (maxX - minX) * sliderPosition;
+        console.log('splitX', splitX);
 
         stacLayers[0]?.setExtent([minX, minY, splitX, maxY]);
         stacLayers[1]?.setExtent([splitX, minY, maxX, maxY]);
