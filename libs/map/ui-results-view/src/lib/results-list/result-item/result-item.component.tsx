@@ -61,12 +61,11 @@ export const ResultItem = ({
         </div>
       </div>
 
-      <div className='flex justify-end'>
+      <div className='flex justify-between'>
         <Button
           appearance='text'
           text='GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON.DOWNLOAD'
           size='medium'
-          className='mr-8'
           onClick={onDownload}
         />
         <Button
@@ -78,7 +77,7 @@ export const ResultItem = ({
           }
           size='medium'
           onClick={onCompareItemToggle}
-          className={`pl-0 ${addedForComparison ? '!text-error' : ''}`}
+          className={`${addedForComparison ? '!text-error' : ''}`}
           disabled={canCompare}
         />
         <Button
