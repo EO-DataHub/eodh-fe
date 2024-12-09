@@ -52,7 +52,7 @@ export const ResultItem = ({
     >
       <div className='w-full flex mb-2'>
         <Image imageUrl={imageUrl} onToggle={onToggleSelectedItem} />
-        <div className='flex flex-col ml-2.5 text-text justify-between'>
+        <div className='flex flex-col ml-2.5 text-text justify-start gap-1'>
           <ResultItemInfo value={collectionName} iconName='Satellite' />
           <ResultItemInfo value={date ?? ''} iconName='Calendar' />
           <ResultItemInfo value={time ?? ''} iconName='Schedule' />
