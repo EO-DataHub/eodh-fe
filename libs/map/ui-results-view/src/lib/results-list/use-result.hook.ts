@@ -1,28 +1,32 @@
 import { useComparisonMode, useTrueColorImage } from '@ukri/map/data-access-map';
 import { TFeature } from '@ukri/map/data-access-stac-catalog';
-import { createDateString, formatDate } from '@ukri/shared/utils/date';
+import { createDate, createDateString } from '@ukri/shared/utils/date';
 import { saveAs } from 'file-saver';
 import { useCallback, useMemo } from 'react';
 
 const s3ProtocolPrefix = 's3:/';
+const separator = '___';
 
 const getFileName = (fileName: string, ext: string | undefined, dateTime: string) => {
-  const formattedDate = formatDate(createDateString(dateTime));
+  const date = createDate(createDateString(dateTime));
   ext = ext ? `.${ext}` : '';
 
-  return `${fileName}-${formattedDate}${ext}`;
+  if (date) {
+    return `${fileName}${separator}${date.getTime()}${ext}`;
+  }
+
+  return `${fileName}${ext}`;
 };
 
 const downloadAssets = (feature: TFeature) => {
-  Object.values(feature.assets).forEach((asset) => {
+  Object.entries(feature.assets).forEach(([key, asset]) => {
     if (!asset || asset.href.startsWith(s3ProtocolPrefix)) {
       return;
     }
 
     const defaultFileName = 'download';
-    const fullFileName = asset.href.split('/').pop() || '';
-    const fileName = fullFileName.split('.').shift();
-    const ext = fullFileName.split('.').pop();
+    const fileName = `${feature.id}${separator}${key}`;
+    const ext = asset.href.split('/').pop()?.split('.').pop();
 
     saveAs(asset.href, getFileName(fileName || defaultFileName, ext, feature.properties.datetime));
   });
@@ -30,12 +34,10 @@ const downloadAssets = (feature: TFeature) => {
 
 const downloadMetadata = (feature: TFeature) => {
   const blob = new Blob([JSON.stringify(feature)], { type: 'text/plain;charset=utf-8' });
-  const defaultFileName = 'downloaded-file';
-  const fullFileName = Object.values(feature.assets).pop()?.href.split('/').pop() || '';
-  const fileName = fullFileName.split('.').shift();
+  const fileName = `${feature.id}${separator}metadata`;
   const ext = 'json';
 
-  saveAs(blob, getFileName(fileName || defaultFileName, ext, feature.properties.datetime));
+  saveAs(blob, getFileName(fileName, ext, feature.properties.datetime));
 };
 
 export const useResult = () => {
