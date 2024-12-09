@@ -1,3 +1,4 @@
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import { useContext, useEffect, useRef } from 'react';
 
 import { MapContext } from '../../map.component';
@@ -11,6 +12,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
   const sliderRef = useRef<HTMLDivElement>(null);
   const map = useContext(MapContext);
   const { stacLayers } = useComparisonModeImageLayers();
+  const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
 
   useEffect(() => {
     const slider = sliderRef.current;
@@ -37,7 +39,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
         // console.log('stacLayers 0', stacLayers[0]?.setExtent([minX, minY, splitX, maxY]));
 
         stacLayers[0].setExtent([minX, minY, splitX, maxY]);
-        console.log('stacLayers get 0', stacLayers[0]?.getExtent());
+        console.log('stacLayers[0] get ', stacLayers[0]?.getExtent());
         stacLayers[1].setExtent([splitX, minY, maxX, maxY]);
       }
     };
@@ -78,6 +80,10 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
       document.removeEventListener('mouseup', onMouseUp);
     };
   }, [stacLayers, map]);
+
+  if (!comparisonModeEnabled || comparisonItems.items.length < 2) {
+    return null;
+  }
 
   return (
     <div
