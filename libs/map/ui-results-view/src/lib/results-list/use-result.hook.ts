@@ -5,26 +5,6 @@ import { useCallback, useMemo } from 'react';
 
 const s3ProtocolPrefix = 's3:/';
 
-const downloadAsset = (assets: TFeature['assets'][string][]) => {
-  const files = [...assets];
-  const asset = files.pop();
-
-  if (!asset || asset.href.startsWith(s3ProtocolPrefix)) {
-    return;
-  }
-
-  const link = document.createElement('a');
-  link.href = asset.href;
-  link.download = asset.href.split('/').pop() || 'download';
-  link.click();
-
-  if (files.length) {
-    setTimeout(() => {
-      downloadAsset(files);
-    }, 1000);
-  }
-};
-
 const downloadAssets = (assets: TFeature['assets'][string][]) => {
   assets.forEach((asset) => {
     if (!asset || asset.href.startsWith(s3ProtocolPrefix)) {
@@ -33,6 +13,12 @@ const downloadAssets = (assets: TFeature['assets'][string][]) => {
 
     saveAs(asset.href, asset.href.split('/').pop() || 'download');
   });
+};
+
+const downloadMetadata = (feature: TFeature) => {
+  const fileName = Object.values(feature.assets).pop()?.href.split('/').pop()?.split('.').shift();
+  const blob = new Blob([JSON.stringify(feature)], { type: 'text/plain;charset=utf-8' });
+  saveAs(blob, `${fileName || 'downloaded-file'}.json`);
 };
 
 export const useResult = () => {
@@ -50,11 +36,8 @@ export const useResult = () => {
   );
 
   const download = useCallback((feature: TFeature) => {
-    const fileName = Object.values(feature.assets).pop()?.href.split('/').pop()?.split('.').shift();
-    const blob = new Blob([JSON.stringify(feature)], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, `${fileName || 'downloaded-file'}.json`);
+    downloadMetadata(feature);
     downloadAssets(Object.values(feature.assets));
-    // downloadAsset(Object.values(feature.assets));
   }, []);
 
   const handleSelectedItemToggle = useCallback(
