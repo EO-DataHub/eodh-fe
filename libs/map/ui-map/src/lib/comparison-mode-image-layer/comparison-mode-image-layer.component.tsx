@@ -1,9 +1,15 @@
 import { PropsWithChildren } from 'react';
 
-import { useComparisonModeImageLayers } from './use-comparison-mode-image-layer.hook';
+import { ComparisonToolSlider } from './comparison-tool-slider/comparison-tool-slider.component';
+import { ComparisonContext, useComparisonModeImageLayers } from './use-comparison-mode-image-layer.hook';
 
 export const ComparisonModeImageLayer = ({ children }: PropsWithChildren) => {
-  useComparisonModeImageLayers();
+  const { item1, item2 } = useComparisonModeImageLayers();
 
-  return <div className='map-container'>{children}</div>;
+  return (
+    <ComparisonContext.Provider value={{ item1, item2 }}>
+      <div className='map-container'>{children}</div>
+      <ComparisonToolSlider className='z-10' />
+    </ComparisonContext.Provider>
+  );
 };
