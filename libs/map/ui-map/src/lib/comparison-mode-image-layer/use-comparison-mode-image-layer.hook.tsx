@@ -4,7 +4,7 @@ import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
 import proj4 from 'proj4';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
@@ -16,11 +16,9 @@ export const useComparisonModeImageLayers = () => {
   const map = useContext(MapContext);
   const { authClient } = useAuth();
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
-  const [stacLayers, setStacLayers] = useState<(STAC | STACWithColorMap | null)[]>([null, null]);
 
   useEffect(() => {
     if (!map || !comparisonItems.items.length || !comparisonModeEnabled) {
-      setStacLayers([null, null]);
       return;
     }
 
@@ -46,7 +44,6 @@ export const useComparisonModeImageLayers = () => {
     };
 
     const loadPublicStacItem = (item: TComparisonItem, index: number) => {
-      // console.log('loadPublicStacItem', item, index);
       if (!item.stacUrl) {
         return;
       }
@@ -58,7 +55,6 @@ export const useComparisonModeImageLayers = () => {
 
       newStacLayers[index]?.addEventListener('sourceready', () => handleSourceReady(index));
       map.addLayer(newStacLayers[index]);
-      setStacLayers(newStacLayers);
     };
 
     const fetchPrivateStacItem = async (item: TComparisonItem, index: number) => {
@@ -80,13 +76,13 @@ export const useComparisonModeImageLayers = () => {
           return options;
         },
       });
+      newStacLayers[index]?.setProperties({ comparison_id: `comparison_item_${index}` });
       // todo remove after rewriting ol-stac library
       setTimeout(() => {
         handleSourceReady(index);
       }, 1000);
 
       map.addLayer(newStacLayers[index]);
-      setStacLayers(newStacLayers);
     };
 
     comparisonItems.items.forEach((item, index) => {
@@ -114,5 +110,5 @@ export const useComparisonModeImageLayers = () => {
     };
   }, [map, comparisonItems, authClient, comparisonModeEnabled]);
 
-  return { stacLayers };
+  return {};
 };

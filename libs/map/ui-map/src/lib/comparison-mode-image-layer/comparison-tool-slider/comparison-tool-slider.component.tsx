@@ -3,7 +3,6 @@ import { Icon } from '@ukri/shared/design-system';
 import { useContext, useEffect, useRef } from 'react';
 
 import { MapContext } from '../../map.component';
-import { useComparisonModeImageLayers } from '../use-comparison-mode-image-layer.hook';
 
 interface IComparisonToolSliderProps {
   className?: string;
@@ -12,12 +11,12 @@ interface IComparisonToolSliderProps {
 export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const map = useContext(MapContext);
-  const { stacLayers } = useComparisonModeImageLayers();
+
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
 
   useEffect(() => {
     const slider = sliderRef.current;
-    if (!slider || !stacLayers || stacLayers.length < 2) {
+    if (!slider) {
       return;
     }
 
@@ -25,8 +24,17 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
 
     const updateLayerExtents = () => {
       if (map && map.getView()) {
+        const comparisonItemFirstLayer = map
+          .getLayers()
+          .getArray()
+          .filter((layer) => layer.getProperties().comparison_id === 'comparison_item_0')[0];
+
+        const comparisonItemSecondLayer = map
+          .getLayers()
+          .getArray()
+          .filter((layer) => layer.getProperties().comparison_id === 'comparison_item_1')[0];
         const view = map.getView();
-        if (!view.getCenter() || !stacLayers[0] || !stacLayers[1]) {
+        if (!view.getCenter()) {
           return;
         }
 
@@ -37,9 +45,11 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
         const splitX = minX + (maxX - minX) * sliderPosition;
         // console.log('splitX', splitX);
 
-        stacLayers[0].setExtent([minX, minY, splitX, maxY]);
-        // console.log('stacLayers[0] get ', stacLayers[0]?.getExtent());
-        stacLayers[1].setExtent([splitX, minY, maxX, maxY]);
+        // console.log('comparisonItemFirstLayer minx etc', minX, minY, splitX, maxY);
+        comparisonItemFirstLayer.setExtent([minX, minY, splitX, maxY]);
+        // console.log('comparisonItemFirstLayer get ', comparisonItemFirstLayer.getExtent());
+        comparisonItemSecondLayer.setExtent([splitX, minY, maxX, maxY]);
+        // console.log('comparisonItemSecondLayer get ', comparisonItemSecondLayer.getExtent());
       }
     };
 
@@ -78,7 +88,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [stacLayers, map]);
+  }, [map]);
 
   if (!comparisonModeEnabled || comparisonItems.items.length < 2) {
     return null;
