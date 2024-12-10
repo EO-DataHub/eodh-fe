@@ -1,12 +1,5 @@
 import { ActionCreatorPanel } from '@ukri/map/feature-action-creator-panel';
-import {
-  ComparisonModeLayer,
-  ComparisonToolSlider,
-  FootprintLayer,
-  Map,
-  MapWrapper,
-  TrueColorImageLayer,
-} from '@ukri/map/ui-map';
+import { ComparisonModeLayer, FootprintLayer, Map, MapWrapper, TrueColorImageLayer } from '@ukri/map/ui-map';
 import { Checklist } from '@ukri/map/ui-search-view';
 
 import { BottomPanel } from './bottom-panel.component';

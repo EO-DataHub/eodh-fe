@@ -1,3 +1,4 @@
+import { Extent } from 'ol/extent';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
 import { GeoTIFF } from 'ol/source';
 import STAC from 'ol-stac';
@@ -7,7 +8,6 @@ import { getClassificationStyles, hasClassificationOptions } from './classificat
 import { getColorMapStyles, hasColorMapOptions } from './color-map.color-map';
 import { IAsset, IOptions, ISTACWithColorMap } from './stac.model';
 import { getGeoTiffSourceInfoFromAsset, getProjection } from './utils';
-import { Extent } from 'ol/extent';
 
 // TODO - this is a temporary fix to allow the use of the STACWithColorMap class, as addGeoTiff_ is a private methid that cant be overriden
 // @ts-expect-error - needed for build

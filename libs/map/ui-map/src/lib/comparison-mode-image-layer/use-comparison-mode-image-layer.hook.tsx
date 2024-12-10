@@ -142,13 +142,6 @@ export const useComparisonModeImageLayers = () => {
       if (layer2) {
         map.removeLayer(layer2);
       }
-      if (item1) {
-        map.removeLayer(item1);
-      }
-
-      if (item2) {
-        map.removeLayer(item2);
-      }
     };
   }, [map, comparisonItems, comparisonModeEnabled, createLayer]);
 
