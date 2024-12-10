@@ -1,4 +1,5 @@
 import { useComparisonMode } from '@ukri/map/data-access-map';
+import { Icon } from '@ukri/shared/design-system';
 import { useContext, useEffect, useRef } from 'react';
 
 import { MapContext } from '../../map.component';
@@ -86,8 +87,18 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
   return (
     <div
       ref={sliderRef}
-      className={`absolute top-0 bottom-0 left-1/2 w-1 bg-slate-600 cursor-ew-resize ${className}`}
+      className={`absolute top-0 bottom-0 left-1/2 w-1 bg-bright-main cursor-ew-resize shadow-comparison-swipr-tool ${className}`}
       style={{ left: '50%' }}
-    />
+    >
+      <span className='rounded border-[3px] border-bright-main w-6 h-9 bg-primary-main top-1/2 absolute left-[-10px]'>
+        <Icon
+          name='DragIndicator'
+          width={16}
+          height={16}
+          className='text-primary-light absolute top-[12px] left-[1px]'
+        />
+        <Icon name='DragIndicator' width={16} height={16} className='text-primary-light ' />
+      </span>
+    </div>
   );
 };

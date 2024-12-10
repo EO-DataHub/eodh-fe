@@ -32,3 +32,4 @@ export { default as SwapVert } from './swap-vert';
 export { default as Upload } from './upload';
 export { default as Report } from './report';
 export { default as Add } from './add';
+export { default as DragIndicator } from './drag-indicator';
