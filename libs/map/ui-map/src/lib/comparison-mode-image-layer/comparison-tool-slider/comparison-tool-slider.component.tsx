@@ -86,7 +86,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
   return (
     <div
       ref={sliderRef}
-      className={`absolute top-0 bottom-0 left-1/2 w-1 bg-slate-600 cursor-ew-resize z-50 ${className}`}
+      className={`absolute top-0 bottom-0 left-1/2 w-1 bg-slate-600 cursor-ew-resize ${className}`}
       style={{ left: '50%' }}
     />
   );

@@ -223,7 +223,7 @@ interface Resources {
       };
       COMPARISON_TOOL: {
         COMPARING: 'Comparing:';
-        WITH: 'with';
+        WITH: 'with:';
         INPUT_PLACEHIOLDER: 'Awaiting product';
         CTA_BUTTON: {
           COMPARE: 'Compare';
