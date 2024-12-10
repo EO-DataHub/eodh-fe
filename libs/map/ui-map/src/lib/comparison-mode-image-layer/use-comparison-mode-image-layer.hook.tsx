@@ -31,101 +31,6 @@ export const useComparisonModeImageLayers = () => {
   const [item1, setItem1] = useState<STAC | STACWithColorMap | undefined>(undefined);
   const [item2, setItem2] = useState<STAC | STACWithColorMap | undefined>(undefined);
 
-  // useEffect(() => {
-  //   if (!map || !comparisonItems.items.length || !comparisonModeEnabled) {
-  //     return;
-  //   }
-  //
-  //   let isSubscribed = true;
-  //   const newStacLayers: (STAC | STACWithColorMap | null)[] = [null, null];
-  //
-  //   const handleSourceReady = (index: number) => {
-  //     if (!newStacLayers[index]) {
-  //       return;
-  //     }
-  //
-  //     const view = map.getView();
-  //     const extent = newStacLayers[index]?.getExtent();
-  //
-  //     if (extent) {
-  //       view.fit(extent);
-  //       const zoom = view.getZoom();
-  //
-  //       if (zoom) {
-  //         view.setZoom(zoom - 1);
-  //       }
-  //     }
-  //   };
-  //
-  //   const loadPublicStacItem = (item: TComparisonItem, index: number) => {
-  //     if (!item.stacUrl) {
-  //       return;
-  //     }
-  //
-  //     const newLayer = new STACWithColorMap({
-  //       url: item.stacUrl,
-  //       zIndex: stacLayerZindex + index,
-  //     });
-  //
-  //     newLayer.addEventListener('sourceready', () => handleSourceReady(index));
-  //     map.addLayer(newLayer);
-  //     newStacLayers[index] = newLayer;
-  //   };
-  //
-  //   const fetchPrivateStacItem = async (item: TComparisonItem, index: number) => {
-  //     if (!isSubscribed || !item.stacUrl) {
-  //       return;
-  //     }
-  //     const data = await getHttpClient().get(item.stacUrl);
-  //
-  //     const newLayer = new STACWithColorMap({
-  //       data,
-  //       zIndex: stacLayerZindex + index,
-  //       getSourceOptions: (type, options) => {
-  //         const token = authClient.getToken().token;
-  //         (options as { sourceOptions?: object }).sourceOptions =
-  //           (options as { sourceOptions?: object }).sourceOptions || {};
-  //         (options as { sourceOptions: { headers: object } }).sourceOptions.headers = {
-  //           Authorization: `Bearer ${token}`,
-  //         };
-  //         return options;
-  //       },
-  //     });
-  //     newLayer.setProperties({ comparison_id: `comparison_item_${index}` });
-  //     // todo remove after rewriting ol-stac library
-  //     setTimeout(() => {
-  //       handleSourceReady(index);
-  //     }, 1000);
-  //
-  //     map.addLayer(newLayer);
-  //     newStacLayers[index] = newLayer;
-  //   };
-  //
-  //   comparisonItems.items.forEach((item, index) => {
-  //     if (index > 1) {
-  //       return;
-  //     } // Only handle the first two items
-  //
-  //     if (item.mode === 'search') {
-  //       loadPublicStacItem(item, index);
-  //     } else {
-  //       // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //       fetchPrivateStacItem(item, index).catch(() => {}); // todo add displaying error
-  //     }
-  //   });
-  //
-  //   return () => {
-  //     isSubscribed = false;
-  //
-  //     newStacLayers.forEach((layer, index) => {
-  //       if (layer) {
-  //         map.removeLayer(layer);
-  //         layer.removeEventListener('sourceready', () => handleSourceReady(index));
-  //       }
-  //     });
-  //   };
-  // }, [map, comparisonItems, authClient, comparisonModeEnabled]);
-
   const createLayer = useCallback(
     async (item: TComparisonItem, index: number): Promise<STACWithColorMap | undefined> => {
       if (!map || !comparisonItems.items.length || !comparisonModeEnabled) {
@@ -216,7 +121,7 @@ export const useComparisonModeImageLayers = () => {
 
     const setLayers = async () => {
       layer1 = await createLayer(firstItem, 1);
-      layer2 = await createLayer(secondItem, 1);
+      layer2 = await createLayer(secondItem, 2);
 
       if (layer1) {
         map.addLayer(layer1);
@@ -236,6 +141,13 @@ export const useComparisonModeImageLayers = () => {
       }
       if (layer2) {
         map.removeLayer(layer2);
+      }
+      if (item1) {
+        map.removeLayer(item1);
+      }
+
+      if (item2) {
+        map.removeLayer(item2);
       }
     };
   }, [map, comparisonItems, comparisonModeEnabled, createLayer]);

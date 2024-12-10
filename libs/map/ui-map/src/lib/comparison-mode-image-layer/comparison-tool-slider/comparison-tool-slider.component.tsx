@@ -14,44 +14,27 @@ interface IComparisonToolSliderProps {
 export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const map = useContext(MapContext);
-  const [sliderPosition, setSliderPosition] = useState(defaultSliderPosition);
-  const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
   const { item1, item2 } = useContext(ComparisonContext);
+  const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
 
   const updateSliderPosition = useCallback(
     (newSliderPosition: number) => {
-      if (!map || !map.getView() || !map.getView().getCenter()) {
+      if (!map || !map.getView() || !map.getView().getCenter() || !item1 || !item2) {
         return;
       }
-
-      console.log('abc', map.getTargetElement());
 
       const view = map.getView();
-
-      console.log('layers', item1, item2, map.getLayers().getArray());
-
-      if (!item1 || !item2) {
-        return;
-      }
-
       const mapSize = map.getSize();
       const mapExtent = view.calculateExtent(mapSize);
       const [minX, minY, maxX, maxY] = mapExtent;
 
       const splitX = minX + (maxX - minX) * newSliderPosition;
-      // console.log('splitX', splitX);
-
-      console.log('item1---1', [minX, minY, splitX, maxY], item1.getExtent());
       item1.setExtent([minX, minY, splitX, maxY]);
-      console.log('item1---2', item1.getExtent());
-      // item2.setExtent([splitX, minY, maxX, maxY]);
+      item2.setExtent([splitX, minY, maxX, maxY]);
+      map.render();
     },
     [item1, item2, map]
   );
-
-  useEffect(() => {
-    updateSliderPosition(sliderPosition);
-  }, [sliderPosition, updateSliderPosition]);
 
   useEffect(() => {
     updateSliderPosition(defaultSliderPosition);
@@ -72,9 +55,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
       newSliderPosition = Math.max(0, Math.min(1, newSliderPosition));
       slider.style.left = `${newSliderPosition * 100}%`;
 
-      // console.log('newSliderPosition', newSliderPosition);
-      setSliderPosition(newSliderPosition);
-      map.render();
+      updateSliderPosition(newSliderPosition);
     },
     [map]
   );
