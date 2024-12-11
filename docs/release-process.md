@@ -14,7 +14,7 @@
 
 # Branch naming convention
 
-There are few types of branches:
+There are five types of branches:
 
 - `main` - branch which is up to date with production environment. This branch is used as a reference for current production changes
 - `develop` - main development branch. New branches are created from here
