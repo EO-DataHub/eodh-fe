@@ -127,3 +127,14 @@ Steps:
 8. Merge back hotfix into `develop` branch:
    1. Create pull request from `main` to `develop`.
    2. Merge newly created pull request. `Squash and merge` strategy should be used. Commit message should include: new version number, ticket number (in square parentheses, eg: `[UKRIW-XXX]`) and description.
+
+# Rollback process
+
+Frontend application doesn't have state (e.g. database) so rollback is simple - it is enough to deploy previous version.
+
+Steps:
+
+1. Go to [GitHub Actions page](https://github.com/EO-DataHub/eodh-fe/actions).
+2. Find last working Workflow you want to deploy and open it (go to the details).
+3. Click `Re-run all jobs` button.
+4. Proceed as with normal deploy process: when build completes deploy to environments `dev` -> `QA` -> `staging` -> `prod`
