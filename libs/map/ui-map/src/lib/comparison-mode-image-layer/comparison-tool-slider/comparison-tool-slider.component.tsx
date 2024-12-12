@@ -57,7 +57,8 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
       if (!slider) {
         return;
       }
-      const rect = slider.parentElement?.getBoundingClientRect();
+      // const rect = slider.parentElement?.getBoundingClientRect(); // think what if Slider is move to different place/is wrapped in div etc
+      const rect = map.getTargetElement()?.getBoundingClientRect();
       if (!rect) {
         return;
       }
@@ -82,6 +83,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
     slider.addEventListener('mousedown', onMouseDown);
 
     updateLayerExtents();
+    map.render();
 
     return () => {
       slider.removeEventListener('mousedown', onMouseDown);

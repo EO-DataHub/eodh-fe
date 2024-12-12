@@ -11,6 +11,18 @@ import { getGeoTiffSourceInfoFromAsset, getProjection } from './utils';
 // TODO - this is a temporary fix to allow the use of the STACWithColorMap class, as addGeoTiff_ is a private methid that cant be overriden
 // @ts-expect-error - needed for build
 export class STACWithColorMap extends STAC {
+  protected customExtent: Extent | undefined = undefined;
+  public setExtent = (extent: Extent | undefined) => {
+    super.setExtent(extent);
+    this.customExtent = extent;
+  };
+  public getExtent = () => {
+    if (this.customExtent) {
+      return this.customExtent;
+    }
+    return super.getExtent();
+  };
+
   async addGeoTiff_(this: ISTACWithColorMap, asset: IAsset): Promise<WebGLTileLayer | undefined> {
     if (!this.displayOverview_) {
       return;
