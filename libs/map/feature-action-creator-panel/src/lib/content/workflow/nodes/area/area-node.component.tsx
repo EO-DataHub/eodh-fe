@@ -23,8 +23,15 @@ const Node = ({ node, onClearButtonClick }: TNodeProps) => {
         return <EmptyNode node={node} />;
       }
 
-      case 'active':
       case 'not-active': {
+        if (!node.value) {
+          return <EmptyNode node={node} />;
+        }
+
+        return <ValueNode node={node} onClearButtonClick={onClearButtonClick} />;
+      }
+
+      case 'active': {
         if (!node.value) {
           return (
             <ActiveNode

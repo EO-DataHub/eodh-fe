@@ -23,8 +23,15 @@ const Node = ({ node, error, onClearButtonClick }: TNodeProps) => {
         return <EmptyNode node={node} />;
       }
 
-      case 'active':
       case 'not-active': {
+        if (!node.value && !error) {
+          return <EmptyNode node={node} />;
+        }
+
+        return <ValueNode node={node} error={error} onClearButtonClick={onClearButtonClick} />;
+      }
+
+      case 'active': {
         if (!node.value && !error) {
           return <ActiveNode node={node} text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.INSTRUCTIONS')} />;
         }

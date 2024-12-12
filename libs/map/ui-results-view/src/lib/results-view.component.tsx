@@ -24,7 +24,7 @@ export const ResultsView = (props: TResultsViewProps) => {
             iconName='SatelliteAlt'
             title='GLOBAL.ERRORS.NO_RESULTS.TITLE'
             message='GLOBAL.ERRORS.NO_RESULTS.MESSAGE'
-            ctaText='GLOBAL.NAVIGATION.RETURN_TO_SERCH'
+            ctaText='GLOBAL.NAVIGATION.RETURN_TO_SEARCH'
             ctaOnClick={props.onBack}
           />
         );
@@ -38,7 +38,7 @@ export const ResultsView = (props: TResultsViewProps) => {
         <Error
           title='GLOBAL.ERRORS.SERVER_ERROR.TITLE'
           message='GLOBAL.ERRORS.SERVER_ERROR.MESSAGE'
-          ctaText='GLOBAL.NAVIGATION.RETURN_TO_SERCH'
+          ctaText='GLOBAL.NAVIGATION.RETURN_TO_SEARCH'
           ctaOnClick={props.onBack}
         />
       );

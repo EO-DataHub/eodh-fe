@@ -1,9 +1,10 @@
 import { TFunction } from '../../query/function.model';
 import { TAreaNode, TDataSetsNode, TDateRangeNode, TFunctionNode, TNode } from './action-creator.model';
+import { TNodeImport } from './workflow-import/import-workflow.schema';
 
 const getNextNodes = (nodes: TNode[], index: number): TNode[] => nodes.slice(index);
 
-export const nodeHasValue = (node?: TNode) => {
+export const nodeHasValue = (node?: TNode | TNodeImport) => {
   if (!node) {
     return false;
   }
