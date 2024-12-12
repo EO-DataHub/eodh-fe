@@ -1,8 +1,8 @@
 import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
 import { useAuth } from '@ukri/shared/utils/authorization';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
+import GroupLayer from 'ol/layer/Group';
 import { register } from 'ol/proj/proj4.js';
-import STAC from 'ol-stac';
 import proj4 from 'proj4';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
@@ -13,8 +13,8 @@ import { STACWithColorMap } from '../stac/stac-with-color-map';
 register(proj4);
 
 export type TComparisonLayer = {
-  item1: STAC | STACWithColorMap | undefined;
-  item2: STAC | STACWithColorMap | undefined;
+  item1: GroupLayer | undefined;
+  item2: GroupLayer | undefined;
 };
 
 const defaultValues: TComparisonLayer = {
@@ -28,8 +28,8 @@ export const useComparisonModeImageLayers = () => {
   const map = useContext(MapContext);
   const { authClient } = useAuth();
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
-  const [item1, setItem1] = useState<STAC | STACWithColorMap | undefined>(undefined);
-  const [item2, setItem2] = useState<STAC | STACWithColorMap | undefined>(undefined);
+  const [item1, setItem1] = useState<GroupLayer | undefined>(undefined);
+  const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
 
   const createLayer = useCallback(
     async (item: TComparisonItem, index: number): Promise<STACWithColorMap | undefined> => {
@@ -114,6 +114,8 @@ export const useComparisonModeImageLayers = () => {
     const secondItem = items.shift();
     let layer1: STACWithColorMap | undefined;
     let layer2: STACWithColorMap | undefined;
+    let groupLayer1: GroupLayer | undefined;
+    let groupLayer2: GroupLayer | undefined;
 
     if (!firstItem || !secondItem) {
       return;
@@ -124,23 +126,29 @@ export const useComparisonModeImageLayers = () => {
       layer2 = await createLayer(secondItem, 2);
 
       if (layer1) {
-        map.addLayer(layer1);
+        groupLayer1 = new GroupLayer({
+          layers: [layer1],
+        });
+        map.addLayer(groupLayer1);
       }
       if (layer2) {
-        map.addLayer(layer2);
+        groupLayer2 = new GroupLayer({
+          layers: [layer2],
+        });
+        map.addLayer(groupLayer2);
       }
-      setItem1(layer1);
-      setItem2(layer2);
+      setItem1(groupLayer1);
+      setItem2(groupLayer2);
     };
 
     setLayers().then();
 
     return () => {
-      if (layer1) {
-        map.removeLayer(layer1);
+      if (groupLayer1) {
+        map.removeLayer(groupLayer1);
       }
-      if (layer2) {
-        map.removeLayer(layer2);
+      if (groupLayer2) {
+        map.removeLayer(groupLayer2);
       }
     };
   }, [map, comparisonItems, comparisonModeEnabled, createLayer]);
