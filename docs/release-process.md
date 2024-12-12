@@ -80,7 +80,15 @@ Adjusted `GitFlow` is used - instead of testing from feature branches, we do tes
 7. Merge `release` branch into `main` branch. `Create a merge commit` strategy should be used. Merge message should include all ticket numbers related to this PR in square parentheses, eg: `[UKRIW-XXX] [UKRIW-YYY]`.
 8. Create new pull request `main` -> `develop`. It has to be done, otherwise there will be difference in commits between those two branches.
 9. Merge newly created pull request from previous step. `Squash and merge` strategy should be used. Merge message should include all ticket numbers related to this PR in square parentheses, eg: `[UKRIW-XXX] [UKRIW-YYY]`.
-10. Generate release notes (from branch `main`).
+10. Generate release notes:
+    1. Go to GitHub (releases page)[https://github.com/EO-DataHub/eodh-fe/releases].
+    2. Click `Draft a new release` button.
+    3. Choose `main` as target branch.
+    4. Choose newly created tag.
+    5. Click `Generate release notes` button.
+    6. Adjust release notes description (if needed).
+    7. Make sure that `Set as the latest release` checkbox is selected.
+    8. Click `Publish release` button.
 11. Update all jira tickets that went to this release:
     1. Update field `DEPLOYED TO`.
     2. Update field `Fix versions`.
@@ -115,7 +123,7 @@ Steps:
 4. Test bug.
 5. On the `hotfix` branch bump the version number in `package.json` file. Run `npm install` to bump version in `package-lock.json`.
 6. On the `hotfix` branch tag the version in git using `git tag` command, e.g. `git tag vX.X.X` where `X.X.X` is new version number.
-7. Merge bug into `main`. `Squash and merge` strategy should be used. Commit message should include: new version number, ticket number (in square parentheses, eg: `[UKRIW-XXX]`) and description.
+7. Merge `hotfix` branch into `main` branch. . `Squash and merge` strategy should be used. Commit message should include: new version number, ticket number (in square parentheses, eg: `[UKRIW-XXX]`) and description.
 8. Merge back hotfix into `develop` branch:
    1. Create pull request from `main` to `develop`.
    2. Merge newly created pull request. `Squash and merge` strategy should be used. Commit message should include: new version number, ticket number (in square parentheses, eg: `[UKRIW-XXX]`) and description.
