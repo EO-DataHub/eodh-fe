@@ -9,7 +9,7 @@
   - [Git hooks](#Git-hooks)
   - [Required steps on pipelines](#Required-steps-on-pipelines)
 - [Release process](#Release-process)
-  - [Release process steops](#Release-process-steps)
+- [Rollback process](#Rollback-process)
 - [Testing](#Testing)
   - [Unit & integration tests](#Unit--integration-tests)
   - [Storybook tests](#Storybook-tests)
@@ -60,7 +60,11 @@ GitHub's pipelines are used for ci/cd. Check `.github` directory for more detail
 
 # Release process
 
-Release process is described in [docs/release-process.md](./docs/release-process.md)
+Release process is described in [docs/release-and-rollback-process.md](./docs/release-and-rollback-process)
+
+# Rollback process
+
+Rollback process is described in [docs/release-and-rollback-process.md](./docs/release-and-rollback-process)
 
 # Testing
 
