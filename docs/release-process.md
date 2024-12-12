@@ -59,7 +59,7 @@ Most crutial features should be merged first. Otherwise there may be a need for 
 
 # Release process
 
-Adjusted `GitFlow` is used - instead of testing from feature branches, we do tests from `development` branch. Further reading: [Atlassian GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
+Adjusted `GitFlow` is used - instead of testing from feature branches, we do tests from `develop` branch. Further reading: [Atlassian GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
 
 ## Release process visualization
 
@@ -77,11 +77,14 @@ Adjusted `GitFlow` is used - instead of testing from feature branches, we do tes
 4. If any bugs are found, fix them on release branch as additional commits. Commit message should be the same as after merging branch.
 5. Bump version number in `package.json` file. Run `npm install` to bump version in `package-lock.json`.
 6. Tag version in git using `git tag` command, eg `git tag vX.X.X` where `X.X.X` is new version number.
-7. Merge `release` branch into `main` branch. `Create a merge commit` strategy should be used. Merge message should include ticket number in square parentheses, eg: `[UKRIW-XXX]`.
+7. Merge `release` branch into `main` branch. `Create a merge commit` strategy should be used. Merge message should include all ticket numbers related to this PR in square parentheses, eg: `[UKRIW-XXX] [UKRIW-YYY]`.
 8. Create new pull request `main` -> `develop`. It has to be done, otherwise there will be difference in commits between those two branches.
-9. Merge newly created pull request from previous step. `Squash and merge` strategy should be used. Merge message should include ticket number in square parentheses, eg: `[UKRIW-XXX]`.
+9. Merge newly created pull request from previous step. `Squash and merge` strategy should be used. Merge message should include all ticket numbers related to this PR in square parentheses, eg: `[UKRIW-XXX] [UKRIW-YYY]`.
 10. Generate release notes (from branch `main`).
-11. Update ticket. Update fields `DEPLOYED TO` and `Fix versions`. Change field status into `DONE`.
+11. Update all jira tickets that went to this release:
+    1. Update field `DEPLOYED TO`.
+    2. Update field `Fix versions`.
+    3. Change field status into `DONE`.
 
 ### Git hooks
 
@@ -103,6 +106,7 @@ Before sending any changes make sure you run those commands:
 ### Bug on production
 
 Sometimes there is a need to fix a bug which occur on production.
+
 Steps:
 
 1. Create new branch `hotfix` from `main` branch. Branch name should follow naming convention.
@@ -112,6 +116,6 @@ Steps:
 5. On the `hotfix` branch bump the version number in `package.json` file. Run `npm install` to bump version in `package-lock.json`.
 6. On the `hotfix` branch tag the version in git using `git tag` command, e.g. `git tag vX.X.X` where `X.X.X` is new version number.
 7. Merge bug into `main`. `Squash and merge` strategy should be used. Commit message should include: new version number, ticket number (in square parentheses, eg: `[UKRIW-XXX]`) and description.
-8. Merge back hotfix into `development` branch:
+8. Merge back hotfix into `develop` branch:
    1. Create pull request from `main` to `develop`.
    2. Merge newly created pull request. `Squash and merge` strategy should be used. Commit message should include: new version number, ticket number (in square parentheses, eg: `[UKRIW-XXX]`) and description.
