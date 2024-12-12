@@ -67,17 +67,21 @@ Adjusted `GitFlow` is used - instead of testing from feature branches, we do tes
 
 ## Release process steps
 
-1. Create new `release` branch `develop` branch. Choose commit which should be released. It doesn't have to be the latest one but it should be the latest which will include tested feature.
-2. Create pull request from newly created branch to `master` branch.
+1. Create new `release` branch from `develop` branch. Choose commit which should be released. It doesn't have to be the latest one - it should be the latest which will include tested feature.
+2. Create pull request from newly created `release` branch to `main` branch.
 3. Deploy newly created `release` into staging. QA team should proceed with regression.
-4. If any bugs are found fix them on release branch as additional commits. Commit message should be the same as after merging branch.
-5. Bump version number in `package.json` file. Run `npm install` to bump version in `package-lock.json`
-6. Tag version in git using `git tag` command, eg `git tag vX.X.X` where `X.X.X` is new version number
-7. Merge `release` branch into `master` branch. `Create a merge commit` strategy should be used. Merge message should include ticket number in square parentheses, eg: `[UKRIW-XXX]`.
-8. Create new pull request `master` -> `develop`. It has to be done, otherwise there will be difference in commits between those two branches.
+   1. Go to [GitHub Actions page](https://github.com/EO-DataHub/eodh-fe/actions).
+   2. Find Workflow you want to deploy.
+   3. In deploy section click deploy on QA.
+   4. In deploy section click deploy on Staging.
+4. If any bugs are found, fix them on release branch as additional commits. Commit message should be the same as after merging branch.
+5. Bump version number in `package.json` file. Run `npm install` to bump version in `package-lock.json`.
+6. Tag version in git using `git tag` command, eg `git tag vX.X.X` where `X.X.X` is new version number.
+7. Merge `release` branch into `main` branch. `Create a merge commit` strategy should be used. Merge message should include ticket number in square parentheses, eg: `[UKRIW-XXX]`.
+8. Create new pull request `main` -> `develop`. It has to be done, otherwise there will be difference in commits between those two branches.
 9. Merge newly created pull request from previous step. `Squash and merge` strategy should be used. Merge message should include ticket number in square parentheses, eg: `[UKRIW-XXX]`.
-10. Generate release notes (from branch `master`).
-11. Update ticket. Update fields `DEPLOYED TO` and `Fix versions`. Change field status into `DONE`
+10. Generate release notes (from branch `main`).
+11. Update ticket. Update fields `DEPLOYED TO` and `Fix versions`. Change field status into `DONE`.
 
 ### Git hooks
 
@@ -101,13 +105,13 @@ Before sending any changes make sure you run those commands:
 Sometimes there is a need to fix a bug which occur on production.
 Steps:
 
-1. Create new branch `hotfix` from `master` branch. Branch name should follow naming convention.
+1. Create new branch `hotfix` from `main` branch. Branch name should follow naming convention.
 2. Fix bug.
-3. Create pull request `hotfix` -> `master`.
+3. Create pull request `hotfix` -> `main`.
 4. Test bug.
-5. Bump version number in `package.json` file. Run `npm install` to bump version in `package-lock.json`
-6. Tag version in git using `git tag` command, eg `git tag vX.X.X` where `X.X.X` is new version number
-7. Merge bug into `master`. `Squash and merge` strategy should be used. Commit message should include: new version number, ticket number (in square parentheses, eg: `[UKRIW-XXX]`) and description
+5. On the `hotfix` branch bump the version number in `package.json` file. Run `npm install` to bump version in `package-lock.json`.
+6. On the `hotfix` branch tag the version in git using `git tag` command, e.g. `git tag vX.X.X` where `X.X.X` is new version number.
+7. Merge bug into `main`. `Squash and merge` strategy should be used. Commit message should include: new version number, ticket number (in square parentheses, eg: `[UKRIW-XXX]`) and description.
 8. Merge back hotfix into `development` branch:
-   1. Create pull request from `master` to `develop`
+   1. Create pull request from `main` to `develop`.
    2. Merge newly created pull request. `Squash and merge` strategy should be used. Commit message should include: new version number, ticket number (in square parentheses, eg: `[UKRIW-XXX]`) and description.
