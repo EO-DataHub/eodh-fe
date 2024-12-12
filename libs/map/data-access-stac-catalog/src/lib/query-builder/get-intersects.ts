@@ -12,17 +12,17 @@ export const getIntersects = (aoi: Geometry | undefined): TGeometry | undefined 
     return undefined;
   }
 
-  const aoiEpsg4326 = aoi.clone().transform('EPSG:3857', 'EPSG:4326');
-
-  if (isCircle(aoiEpsg4326)) {
+  if (isCircle(aoi)) {
+    const aoiCircleEpsg4326 = fromCircle(aoi.clone()).transform('EPSG:3857', 'EPSG:4326').getCoordinates();
     return {
       type: 'Polygon',
-      coordinates: fromCircle(aoiEpsg4326).getCoordinates(),
+      coordinates: aoiCircleEpsg4326,
     };
-  } else if (isPolygon(aoiEpsg4326)) {
+  } else if (isPolygon(aoi)) {
+    const aoiPolygonEpsg4326 = aoi.clone().transform('EPSG:3857', 'EPSG:4326').getCoordinates();
     return {
       type: 'Polygon',
-      coordinates: aoiEpsg4326.getCoordinates(),
+      coordinates: aoiPolygonEpsg4326,
     };
   }
 
