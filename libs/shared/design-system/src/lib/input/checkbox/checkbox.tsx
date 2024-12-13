@@ -21,7 +21,7 @@ const CheckboxIcon = ({ icon }: TCheckboxIconProps) => {
   return icon;
 };
 
-interface ICheckboxProps {
+export interface ICheckboxProps {
   id?: string;
   name: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;

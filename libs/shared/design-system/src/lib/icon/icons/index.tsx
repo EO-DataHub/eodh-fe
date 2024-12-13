@@ -1,3 +1,4 @@
+export { default as ActionCreatorArrow } from './action-creator-arrow';
 export { default as ArrowDown } from './arrow-down';
 export { default as ArrowLeft } from './arrow-left';
 export { default as ArrowDropRight } from './arrow-drop-right';
@@ -26,3 +27,8 @@ export { default as ExpandContent } from './content-expand';
 export { default as Visibility } from './visibility';
 export { default as VisibilityOff } from './visibility-off';
 export { default as Erase } from './ink-eraser';
+export { default as Info } from './info';
+export { default as SwapVert } from './swap-vert';
+export { default as Upload } from './upload';
+export { default as Report } from './report';
+export { default as Add } from './add';

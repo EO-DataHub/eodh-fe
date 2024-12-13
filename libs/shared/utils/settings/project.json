@@ -1,0 +1,19 @@
+{
+  "name": "settings",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/utils/settings/src",
+  "projectType": "library",
+  "tags": ["type:shared/utils", "scope:shared"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../../coverage/libs/shared/utils/settings"
+      }
+    }
+  }
+}

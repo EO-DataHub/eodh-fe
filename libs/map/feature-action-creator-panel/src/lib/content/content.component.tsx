@@ -2,12 +2,16 @@ import { useContext } from 'react';
 
 import { ActionCreator } from '../action-creator-panel.context';
 import { Help } from './help.component';
-import { History } from './history.component';
-import { Presets } from './presets.component';
-import { Workflow } from './workflow.component';
+import { History } from './history/history.component';
+import { Presets } from './presets/presets.component';
+import { Workflow } from './workflow/workflow.component';
 
-const ActiveContent = () => {
-  const { activeTab } = useContext(ActionCreator);
+export const Content = () => {
+  const { collapsed, activeTab } = useContext(ActionCreator);
+
+  if (!collapsed) {
+    return null;
+  }
 
   switch (activeTab) {
     case 'history': {
@@ -27,18 +31,4 @@ const ActiveContent = () => {
       return <Workflow />;
     }
   }
-};
-
-export const Content = () => {
-  const { collapsed } = useContext(ActionCreator);
-
-  if (!collapsed) {
-    return null;
-  }
-
-  return (
-    <main className='bg-bright-main p-4 h-[450px]'>
-      <ActiveContent />
-    </main>
-  );
 };

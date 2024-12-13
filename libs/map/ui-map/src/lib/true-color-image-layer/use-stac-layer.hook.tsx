@@ -1,4 +1,6 @@
-import { useTrueColorImageUrl } from '@ukri/map/data-access-map';
+import { useMode, useTrueColorImage } from '@ukri/map/data-access-map';
+import { useAuth } from '@ukri/shared/utils/authorization';
+import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
 import proj4 from 'proj4';
@@ -6,25 +8,30 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
+import { STACWithColorMap } from './stac/stac-with-color-map';
 
 register(proj4);
 
 export const useStacLayer = () => {
   const map = useContext(MapContext);
-  const url = useTrueColorImageUrl();
-  const [stacLayer, setStacLayer] = useState<STAC | null>(null);
+  const { authClient } = useAuth();
+  const { stacUrl } = useTrueColorImage();
+  const [stacLayer, setStacLayer] = useState<STAC | STACWithColorMap | null>(null);
+  const { mode } = useMode();
 
   useEffect(() => {
-    if (!map || !url) {
+    if (!map || !stacUrl) {
       return;
     }
 
-    const newStacLayer = new STAC({
-      url,
-      zIndex: stacLayerZindex,
-    });
+    let isSubscribed = true;
+    let newStacLayer: STAC | STACWithColorMap | null = null;
 
     const handleSourceReady = () => {
+      if (!newStacLayer) {
+        return;
+      }
+
       const view = map.getView();
       const extent = newStacLayer.getExtent();
 
@@ -38,17 +45,61 @@ export const useStacLayer = () => {
       }
     };
 
-    newStacLayer.addEventListener('sourceready', handleSourceReady);
+    const loadPublicStacItem = () => {
+      newStacLayer = new STACWithColorMap({
+        url: stacUrl,
+        zIndex: stacLayerZindex,
+      });
 
-    map.addLayer(newStacLayer);
+      newStacLayer.addEventListener('sourceready', handleSourceReady);
+      map.addLayer(newStacLayer);
+      setStacLayer(newStacLayer);
+    };
 
-    setStacLayer(newStacLayer);
+    const fetchPrivateStacItem = async () => {
+      if (!isSubscribed) {
+        return;
+      }
+      const data = await getHttpClient().get(stacUrl);
+
+      newStacLayer = new STACWithColorMap({
+        data,
+        zIndex: stacLayerZindex,
+        getSourceOptions: (type, options) => {
+          const token = authClient.getToken().token;
+          (options as { sourceOptions?: object }).sourceOptions =
+            (options as { sourceOptions?: object }).sourceOptions || {};
+          (options as { sourceOptions: { headers: object } }).sourceOptions.headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          return options;
+        },
+      });
+      // todo remove after rewriting ol-stac library
+      setTimeout(() => {
+        handleSourceReady();
+      }, 1000);
+
+      map.addLayer(newStacLayer);
+      setStacLayer(newStacLayer);
+    };
+
+    if (mode === 'search') {
+      loadPublicStacItem();
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      fetchPrivateStacItem().catch(() => {}); // todo add displaying error
+    }
 
     return () => {
-      map.removeLayer(newStacLayer);
-      newStacLayer.removeEventListener('sourceready', handleSourceReady);
+      isSubscribed = false;
+
+      if (newStacLayer) {
+        map.removeLayer(newStacLayer);
+        newStacLayer.removeEventListener('sourceready', handleSourceReady);
+      }
     };
-  }, [map, url]);
+  }, [map, stacUrl, authClient, mode]);
 
   const updateZindex = useCallback(
     (newZIndex: number) => {

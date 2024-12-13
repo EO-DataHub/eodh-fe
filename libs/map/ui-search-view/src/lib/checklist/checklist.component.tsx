@@ -3,7 +3,7 @@ import { ParseKeys } from 'i18next';
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useChecklistState, useToggleChecklistVisibility } from './checklist.store';
+import { useChecklist, useChecklistState } from './checklist.store';
 
 type TSection = {
   content: ParseKeys;
@@ -38,7 +38,7 @@ const defaultValues: TChecklistForm = {
 
 export const Checklist = () => {
   const { open, isAoiValid, isDataSetsValid, isDateRangeValid } = useChecklistState();
-  const toggleVisibility = useToggleChecklistVisibility();
+  const { toggle: toggleVisibility } = useChecklist();
   const { register, handleSubmit, reset } = useForm<TChecklistForm>({ defaultValues });
 
   const toggleChecklist = useCallback(

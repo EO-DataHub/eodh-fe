@@ -19,7 +19,7 @@ const colors = {
   text: {
     DEFAULT: '#606060',
     primary: '#606060',
-    secondary: '#A3A3A3',
+    light: '#A3A3A3',
     disabled: '#B4BBCA',
   },
   background: {
@@ -35,7 +35,7 @@ const colors = {
   warning: {
     DEFAULT: '#FFD15B',
     warning: '#FFD15B',
-    contrastText: '#606060',
+    contrastText: '#874C07',
   },
   success: {
     DEFAULT: '#52BF49',

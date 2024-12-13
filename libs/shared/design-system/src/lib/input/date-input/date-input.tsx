@@ -38,11 +38,12 @@ interface IDateInputProps {
   error?: string;
   minDate?: Date | string;
   maxDate?: Date | string;
+  disabled?: boolean;
 }
 
 export const DateInput = forwardRef(
   (
-    { name, className, minDate, maxDate, error, onChange, onBlur }: IDateInputProps,
+    { name, className, minDate, maxDate, error, disabled, onChange, onBlur }: IDateInputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const formattedMinDate = formatDateToString(minDate);
@@ -50,17 +51,20 @@ export const DateInput = forwardRef(
 
     return (
       <div>
-        {error && <Text content={error} fontSize='medium' fontWeight='regular' className={dateInputStyles.errorText} />}
+        {!disabled && error && (
+          <Text content={error} fontSize='medium' fontWeight='regular' className={dateInputStyles.errorText} />
+        )}
         <div className={clsx(dateInputStyles.container, className)}>
           <input
             ref={ref}
             type='date'
             name={name}
-            className={clsx('design-system__date-input', dateInputStyles.input(!!error))}
+            className={clsx('design-system__date-input', dateInputStyles.input(!disabled && !!error))}
             onChange={onChange}
             onBlur={onBlur}
             min={formattedMinDate}
             max={formattedMaxDate}
+            disabled={disabled}
           />
           <Icon name='Calendar' width={16} height={16} className={dateInputStyles.icon} />
         </div>

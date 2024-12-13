@@ -1,27 +1,25 @@
-import { useTrueColorImageUrlMutation } from '@ukri/map/data-access-map';
+import { useTrueColorImage } from '@ukri/map/data-access-map';
 import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
-import { ResultItem } from '@ukri/shared/design-system';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
+
+import { ResultItem } from './result-item/result-item';
 
 export interface IResultsListProps {
   features: TCollection['features'];
 }
 
 export const ResultsList = ({ features }: IResultsListProps) => {
-  const [selectedFeature, setSelectedFeature] = useState<TFeature | null>(null);
-  const setStacUrl = useTrueColorImageUrlMutation();
+  const { feature: selectedFeature, setFeature } = useTrueColorImage();
 
   const handleSelectedItemToggle = useCallback(
     (feature: TFeature) => {
       if (selectedFeature?.id !== feature.id) {
-        setSelectedFeature(feature);
-        setStacUrl(feature.links.find((link) => link.rel === 'self')?.href);
+        setFeature(feature);
       } else {
-        setSelectedFeature(null);
-        setStacUrl('');
+        setFeature(undefined);
       }
     },
-    [selectedFeature, setStacUrl]
+    [selectedFeature, setFeature]
   );
 
   return (

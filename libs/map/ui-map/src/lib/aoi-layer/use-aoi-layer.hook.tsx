@@ -1,10 +1,11 @@
-import { useAoiLayerVisible, useCurrentAoi, useCurrentAoiMutation } from '@ukri/map/data-access-map';
+import { useAoi } from '@ukri/map/data-access-map';
+import { Extent } from 'ol/extent';
 import Feature from 'ol/Feature';
 import { Draw } from 'ol/interaction.js';
 import { DrawEvent } from 'ol/interaction/Draw';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { aoiLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
@@ -14,12 +15,28 @@ export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
 export const useAoiLayer = () => {
   const map = useContext(MapContext);
-  const visible = useAoiLayerVisible();
+  const { visible, shape, fitToAoi, setShape } = useAoi();
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
-  const shape = useCurrentAoi();
-  const setShape = useCurrentAoiMutation();
+
+  const fitToLayer = useCallback(
+    (extent: Extent) => {
+      if (!layer || !fitToAoi || !extent) {
+        return;
+      }
+
+      const view = map.getView();
+      const zoom = view.getZoom();
+
+      view.fit(extent);
+
+      if (zoom) {
+        view.setZoom(zoom - 1);
+      }
+    },
+    [fitToAoi, layer, map]
+  );
 
   useEffect(() => {
     const newSource = new VectorSource({ wrapX: false });
@@ -38,18 +55,19 @@ export const useAoiLayer = () => {
   }, [map]);
 
   useEffect(() => {
-    if (!shape) {
+    if (!shape?.shape) {
       return;
     }
 
     const feature = new Feature();
-    feature.setGeometry(shape);
+    feature.setGeometry(shape.shape);
     source?.addFeature(feature);
+    fitToLayer(shape.shape.getExtent());
 
     return () => {
       source?.removeFeature(feature);
     };
-  }, [shape, source]);
+  }, [shape?.shape, source, fitToLayer]);
 
   useEffect(() => {
     if (!draw?.draw) {
@@ -59,7 +77,7 @@ export const useAoiLayer = () => {
     draw.draw.on('drawstart', () => setShape(undefined));
     draw.draw.on('drawend', (event: DrawEvent) => {
       map.removeInteraction(draw.draw);
-      setShape(event.feature.getGeometry());
+      setShape({ type: draw.type, shape: event.feature.getGeometry() });
       setDraw(undefined);
     });
     map.addInteraction(draw.draw);

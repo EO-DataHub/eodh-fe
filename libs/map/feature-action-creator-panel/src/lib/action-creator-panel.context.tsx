@@ -1,3 +1,4 @@
+import { useMode } from '@ukri/map/data-access-map';
 import { createContext, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 
 const tabs = {
@@ -35,25 +36,25 @@ const actionCreatorDefaultState: TActionCreatorState = {
 export const ActionCreator = createContext<TActionCreatorState>(actionCreatorDefaultState);
 
 export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
-  const [mode, setMode] = useState<TMode>('search');
+  const { mode, toggleMode } = useMode();
   const [collapsed, setCollapsed] = useState(actionCreatorDefaultState.collapsed);
   const [activeTab, setActiveTab] = useState(actionCreatorDefaultState.activeTab);
 
   const toggle = useCallback(() => {
-    setMode((mode) => (mode === 'search' ? 'actionCreator' : 'search'));
-  }, []);
+    toggleMode();
+  }, [toggleMode]);
 
   const collapse = useCallback(() => {
     setCollapsed((value) => !value);
   }, []);
 
   useEffect(() => {
-    setCollapsed(mode === 'actionCreator');
+    setCollapsed(mode === 'action-creator');
   }, [mode]);
 
   return (
     <ActionCreator.Provider
-      value={{ collapsed, collapse, toggle, activeTab, setActiveTab, enabled: mode === 'actionCreator' }}
+      value={{ collapsed, collapse, toggle, activeTab, setActiveTab, enabled: mode === 'action-creator' }}
     >
       {children}
     </ActionCreator.Provider>

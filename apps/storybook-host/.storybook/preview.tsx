@@ -1,6 +1,7 @@
 import './main.css';
 
 import { QueryClientProvider } from '@tanstack/react-query';
+import { SnackbarProvider } from '@ukri/shared/design-system';
 import { AuthInterceptor, AuthProvider, KeycloakAdapter } from '@ukri/shared/utils/authorization';
 import { initHttpClient, queryClient } from '@ukri/shared/utils/react-query';
 import { ComponentType, Suspense, useEffect } from 'react';
@@ -24,15 +25,17 @@ const WithI18next = (Story: ComponentType, context: { globals: IStorybookGlobalC
   }, [locale]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider adapter={keycloakAdapter}>
-        <Suspense fallback={<div>loading translations...</div>}>
-          <I18nextProvider i18n={i18n}>
-            <Story />
-          </I18nextProvider>
-        </Suspense>
-      </AuthProvider>
-    </QueryClientProvider>
+    <SnackbarProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider adapter={keycloakAdapter}>
+          <Suspense fallback={<div>loading translations...</div>}>
+            <I18nextProvider i18n={i18n}>
+              <Story />
+            </I18nextProvider>
+          </Suspense>
+        </AuthProvider>
+      </QueryClientProvider>
+    </SnackbarProvider>
   );
 };
 

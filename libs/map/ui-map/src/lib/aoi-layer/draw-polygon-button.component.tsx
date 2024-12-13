@@ -1,4 +1,4 @@
-import { useAoiMode } from '@ukri/map/data-access-map';
+import { useAoi } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { useCallback, useContext, useMemo } from 'react';
@@ -8,8 +8,8 @@ import { DrawButton } from './button.component';
 
 export const DrawPolygonButton = () => {
   const { draw, setDraw } = useContext(AoiLayerContext);
-  const mode = useAoiMode();
-  const disabled = useMemo(() => mode !== 'search', [mode]);
+  const { state } = useAoi();
+  const disabled = useMemo(() => state !== 'edit', [state]);
   const selected = useMemo(() => draw?.type === 'polygon', [draw?.type]);
 
   const drawPolygon = useCallback(() => {

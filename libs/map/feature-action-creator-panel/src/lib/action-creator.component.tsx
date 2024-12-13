@@ -1,6 +1,5 @@
 import { ActionCreatorProvider } from './action-creator-panel.context';
 import { Content } from './content/content.component';
-import { Footer } from './footer.component';
 import { Header } from './header/header.component';
 
 type TActionCreatorPanelProps = {
@@ -15,7 +14,6 @@ export const ActionCreator = ({ className = '' }: TActionCreatorPanelProps) => {
       >
         <Header />
         <Content />
-        <Footer />
       </section>
     </ActionCreatorProvider>
   );

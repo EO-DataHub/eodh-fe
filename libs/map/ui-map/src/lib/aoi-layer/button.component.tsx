@@ -19,7 +19,7 @@ export const DrawButton = ({ selected, disabled, onClick, children }: PropsWithC
 
   return (
     <button
-      className={clsx('p-6.5', baseClassName, className, disabledClassName)}
+      className={clsx('border-r-[1px] border-bright-dark p-6.5', baseClassName, className, disabledClassName)}
       disabled={disabled}
       onClick={onClick}
     >

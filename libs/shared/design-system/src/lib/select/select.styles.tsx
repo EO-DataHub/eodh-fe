@@ -1,19 +1,23 @@
 export const selectStyles = {
-  container: 'relative inline-block w-64',
-  button: (error?: string) =>
-    `w-full bg-bright border rounded pl-3 pr-10 py-[7px] text-left cursor-default focus:outline-none focus:ring-[3px] focus:ring-primary-light focus:border-primary-light text-large-regular ${
-      error ? 'border-error' : 'border-bright-dark'
-    }`,
+  container: 'relative w-64 text-action-creator-body',
+
+  selectWrapper: (error?: string, disabled?: boolean) =>
+    `absolute border w-full rounded [&:has(ul)]:z-10 ${!disabled ? 'bg-bright' : 'bg-bright-light cursor-default'} ${
+      error && !disabled ? 'border-error' : 'border-bright-dark'
+    } focus:border-primary-light focus:ring-primary-light focus:ring-[3px]`,
+
+  button: 'pl-2 pr-10 text-left cursor-default focus:outline-none',
+  list: 'z-20 max-h-60 overflow-auto focus:outline-none',
+
   errorMessage: 'text-error text-small-semibold m-b-[5px]',
-  buttonText: (isSelected: boolean) =>
-    `block truncate text-medium-regular ${!isSelected ? 'text-text' : 'text-neutral-light'}`,
-  iconContainer: 'absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none',
-  icon: (isOpen: boolean) => `h-5 w-5 text-text transform transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`,
-  list: 'absolute z-10 w-full bg-bright max-h-60 rounded ring-1 ring-bright-dark overflow-auto focus:outline-none text-large-regular mt-1',
-  listItem: (isSelected: boolean) =>
-    `cursor-default select-none relative py-2 pl-3 pr-9 ${
-      isSelected ? 'text-bright bg-primary-light' : 'text-primary-contrastColor'
+  buttonText: 'truncate max-w-[100px]',
+  iconContainer: 'absolute right-0.5 flex items-center pointer-events-none',
+  icon: (isOpen: boolean) => `text-neutral-light transform transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`,
+
+  listItem: (disabled?: boolean) =>
+    `relative flex items-center py-0.5 select-none relative px-2 pr-6 ${
+      !disabled ? 'text-neutral-dark hover:bg-background-main cursor-pointer' : 'text-text-disabled cursor-not-allowed'
     }`,
-  listItemText: (isSelected: boolean) => `block truncate ${isSelected ? 'font-semibold' : 'font-normal'}`,
-  clearButton: 'absolute inset-y-0 right-0 flex items-center pr-8',
+  listItemText: 'block font-normal py-1 rounded inline-block break-words',
+  checkedValue: 'absolute right-0.5 flex items-end text-neutral-light',
 };

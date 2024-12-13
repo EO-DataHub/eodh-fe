@@ -5,6 +5,29 @@ import { Select } from './select';
 const meta: Meta<typeof Select> = {
   component: Select,
   title: 'libs/shared/design-system/Select',
+  argTypes: {
+    options: {
+      control: {
+        type: 'object',
+      },
+    },
+    placeholder: {
+      control: {
+        type: 'text',
+      },
+    },
+    error: {
+      control: {
+        type: 'text',
+      },
+    },
+    value: {
+      control: {
+        type: 'select',
+      },
+      options: ['NDVI', 'False colour (urban)', 'Moisture index', 'SWIR', 'NDWI', 'NDSI'],
+    },
+  },
 };
 export default meta;
 
@@ -23,6 +46,7 @@ export const SampleSelect = {
     options,
     placeholder,
     error: '',
+    value: '',
   },
 };
 
