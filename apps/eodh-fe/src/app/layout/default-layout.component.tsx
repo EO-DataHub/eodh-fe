@@ -16,8 +16,8 @@ export const DefaultLayout = () => {
           <div className='flex w-full h-full flex-col'>
             <TrueColorImageLayer />
             <FootprintLayer />
-            <ComparisonModeLayer />
             <Map className='flex w-full h-full'>
+              <ComparisonModeLayer />
               <Checklist />
               <ActionCreatorPanel className='z-20' />
             </Map>
