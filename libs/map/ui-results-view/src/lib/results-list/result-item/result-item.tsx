@@ -1,7 +1,7 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { fetchImage } from '@ukri/map/data-access-map';
 import { Button, Icon, Text, TIconNames } from '@ukri/shared/design-system';
-import { formatDate, formatHour, type TDateTimeString } from '@ukri/shared/utils/date';
+import { formatDate, formatHourInUtc, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -78,7 +78,7 @@ const Image = ({ imageUrl, onToggle }: IImageProps) => {
     <img
       src={imageSrc}
       alt='ResultItem'
-      className='w-[132px] h-[132px] object-cover rounded-md cursor-pointer'
+      className='w-[132px] h-[132px] min-w-[132px] min-h-[132px] object-cover rounded-md cursor-pointer'
       onClick={onToggle}
       onError={showError}
     />
@@ -115,7 +115,7 @@ export const ResultItem = ({
   onRemoveFromCompare,
 }: IResultItemProps) => {
   const [isAddedForComparison, setIsAddedForComparison] = useState(addedForComparison);
-  const time = useMemo(() => formatHour(dateTime as TDateTimeString), [dateTime]);
+  const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
 
   const handleCompareClick = useCallback(() => {
