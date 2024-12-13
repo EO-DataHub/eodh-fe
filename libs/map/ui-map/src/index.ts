@@ -9,3 +9,4 @@ export { FootprintLayer } from './lib/footprints-layer/footprint.layer';
 export { TrueColorImageLayer } from './lib/true-color-image-layer/true-color-image-layer.component';
 export { ComparisonModeLayer } from './lib/comparison-mode-image-layer/comparison-mode-layer.component';
 export { ComparisonToolSlider } from './lib/comparison-mode-image-layer/comparison-tool-slider/comparison-tool-slider.component';
+export { ComparisonToolButton } from './lib/comparison-mode-image-layer/comparison-tool-button/comparison-tool-button.component';
