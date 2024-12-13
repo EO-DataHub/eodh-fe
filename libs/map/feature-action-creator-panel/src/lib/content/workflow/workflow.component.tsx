@@ -6,6 +6,7 @@ import {
   TNode,
   useActionCreator,
   useCreateWorkflow,
+  useCreateWorkflowStatus,
   useDataSets,
   useFunctions,
 } from '@ukri/map/data-access-map';
@@ -43,7 +44,8 @@ const renderNode = (node: TNode) => {
 
 export const Workflow = () => {
   const { nodes, isValid, getNodesByType } = useActionCreator();
-  const { status, isPending, isSuccess, mutate } = useCreateWorkflow();
+  const { mutate } = useCreateWorkflow();
+  const status = useCreateWorkflowStatus();
   const { data, isSuccess: isFunctionsLoaded } = useFunctions();
   const { setSupportedDataSets } = useDataSets();
   const { isOpen } = useTabsFlowModalState();
@@ -109,7 +111,7 @@ export const Workflow = () => {
         <div className='flex justify-end gap-4 w-full'>
           <Button
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
-            disabled={!isValid || isPending || isSuccess}
+            disabled={!isValid || status === 'pending' || status === 'success'}
             onClick={createWorkflow}
           />
         </div>

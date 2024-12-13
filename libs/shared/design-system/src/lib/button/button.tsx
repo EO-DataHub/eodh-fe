@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import isString from 'lodash/isString';
-import { ReactNode, useCallback, useMemo, useRef } from 'react';
+import { PropsWithChildren, ReactNode, useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Icon } from '../icon/icon';
@@ -38,7 +38,8 @@ export const Button = ({
   onClick,
   disabled = false,
   type = 'button',
-}: IButtonProps) => {
+  children,
+}: PropsWithChildren<IButtonProps>) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { isActive, setIsActive } = useSafariFix({ buttonRef });
   const baseStyles = getBaseStyles(disabled, appearance, isActive);
@@ -81,6 +82,7 @@ export const Button = ({
     <button ref={buttonRef} type={type} className={combinedStyles} onClick={handleClick} disabled={disabled}>
       {iconName && <Icon name={iconName} width={iconWidth ?? 24} height={iconHeight ?? 24} />}
       {content}
+      {children}
     </button>
   );
 };

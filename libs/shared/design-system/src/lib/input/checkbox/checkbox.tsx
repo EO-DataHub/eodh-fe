@@ -30,12 +30,24 @@ export interface ICheckboxProps {
   state?: 'error' | null;
   disabled?: boolean;
   className?: string;
+  labelClassName?: string;
   icon?: TIconNames | ReactNode;
 }
 
 export const Checkbox = forwardRef(
   (
-    { id, onChange, onBlur, label, name, state, disabled, className = '', icon = 'Check' }: ICheckboxProps,
+    {
+      id,
+      onChange,
+      onBlur,
+      label,
+      name,
+      state,
+      disabled,
+      className = '',
+      labelClassName = '',
+      icon = 'Check',
+    }: ICheckboxProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const spanClassName = getSpanClassName();
@@ -56,7 +68,13 @@ export const Checkbox = forwardRef(
           <CheckboxIcon icon={icon} />
         </span>
         {label && (
-          <Text content={label} type='p' fontSize='medium' fontWeight='regular' className={checkboxStyles.text} />
+          <Text
+            content={label}
+            type='p'
+            fontSize='medium'
+            fontWeight='regular'
+            className={`${checkboxStyles.text} ${labelClassName}`}
+          />
         )}
       </label>
     );

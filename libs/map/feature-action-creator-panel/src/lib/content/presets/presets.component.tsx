@@ -1,5 +1,13 @@
-import { TPreset, useActionCreator, useFunctions, useGetPresets, useMode } from '@ukri/map/data-access-map';
+import {
+  TPreset,
+  useActionCreator,
+  useCreateWorkflowStatus,
+  useFunctions,
+  useGetPresets,
+  useMode,
+} from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
+import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { PropsWithChildren, useCallback, useContext } from 'react';
 
 import { ActionCreator } from '../../action-creator-panel.context';
@@ -44,9 +52,14 @@ export const Presets = () => {
   const { data: functionData } = useFunctions();
   const { loadPreset } = useActionCreator();
   const { changeView } = useMode();
+  const status = useCreateWorkflowStatus();
+  const {
+    context: { resetOnboarding },
+  } = useOnboarding();
 
   const handleLoadPreset = useCallback(
     (preset: TPreset) => {
+      resetOnboarding();
       loadPreset({
         dataSet: preset.defaultValues.dataSet,
         functions: preset.defaultValues.functions.map((item) => ({
@@ -62,7 +75,7 @@ export const Presets = () => {
       setActiveTab('workflow');
       return;
     },
-    [functionData, changeView, loadPreset, setActiveTab]
+    [functionData, changeView, loadPreset, setActiveTab, resetOnboarding]
   );
 
   if (isLoading) {
@@ -92,7 +105,7 @@ export const Presets = () => {
             imageUrl={preset.imageUrl}
             title={preset.name}
             description={preset.description}
-            disabled={preset.disabled}
+            disabled={preset.disabled || status === 'pending'}
             onLoadPresetClick={() => handleLoadPreset(preset)}
             className='mb-4'
           />

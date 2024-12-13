@@ -51,7 +51,19 @@ export const historySchema = z
     orderDirection: data.order_direction,
   }));
 
+export const historyAllItemsSchema = z
+  .object({
+    results: z.array(submissionSchema),
+    total_items: z.number().int(),
+    ordered_by: z.string(),
+    order_direction: z.enum(['asc', 'desc']),
+  })
+  .transform((data) => ({
+    results: data.results,
+    totalItems: data.total_items,
+    orderedBy: data.ordered_by,
+    orderDirection: data.order_direction,
+  }));
+
 export type THistoryItem = z.infer<typeof submissionSchema>;
 export type THistory = z.infer<typeof historySchema>;
-
-export const TransformedStatusEnum = z.enum(['FAILED', 'PROCESSING', 'READY']);

@@ -1,6 +1,7 @@
 import { TDateTimeString } from '@ukri/shared/utils/date';
 import { nanoid } from 'nanoid';
 
+import { clearWorkflowCache } from '../mutation/workflow.mutation';
 import { defaultNodes, TFunctionNode, TNode } from './action-creator/action-creator.model';
 import { useActionCreatorStore } from './action-creator/action-creator.store';
 import { createNode, isFunctionNode } from './action-creator/node.utils';
@@ -111,6 +112,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   const shape = createShape(aoi, aoi?.type);
   const availableDatasets = functionNodes.map((node) => node.value?.supportedDataSets || []).flat();
 
+  clearWorkflowCache();
   useDataSetsStore.getState().setDataSet(dataSet);
   useDataSetsStore.getState().enable(availableDatasets);
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);

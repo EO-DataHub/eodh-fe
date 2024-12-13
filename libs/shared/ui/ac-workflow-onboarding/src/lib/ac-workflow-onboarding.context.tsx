@@ -1,33 +1,38 @@
 // TODO divide ac-workflow-onboarding into 2 libs: generic onboarding and AC onboarding
 // TODO modal by default should call onNext step. And if we need do manual call, then we pass callback and eg we change mode(eg property mode='manual' and onNextStep, ie we do 2 types, in one 2 types should exist, and in other not )
-import { createContext, FC, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
+import { Checkbox } from '@ukri/shared/design-system';
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { useAcOnboardingState, useTogglePermanentlyOnboarding } from './ac-workflow-onboarding.store';
 
 interface IOnboardingContextType {
   currentStep: TStepName;
   isOnboardingComplete: boolean;
   completeOnboarding: () => void;
-  goToNextOnboardingStep: () => void;
+  goToNextOnboardingStep: (tooltipStep: TStepName) => void;
   onboardingSteps: TOnboardingSteps;
-  updateShouldDisplayOnboardingModal: (collapsed?: boolean, enabled?: boolean) => boolean;
-  displayOnboardingModal: boolean;
-  setDisplayOnboardingModal: (value: boolean) => void;
+  onboardingVisible: boolean;
+  showOnboardingTooltip: () => void;
+  hideOnboardingTooltip: () => void;
+  resetOnboarding: () => void;
 }
 
 export type TStepName =
-  | 'NOT_STARTED'
   | 'AREA_NODE'
   | 'DRAWING_TOOLS'
   | 'DATA_SET_NODE'
   | 'DATA_SET_PANEL'
   | 'DATE_RANGE_PICKER'
   | 'FUNCTION_DROPDOWN'
+  | 'ADD_FUNCTION_NODE'
   | 'FINISH';
 
 interface IOnboardingStep {
   step_name: TStepName;
   next_step: TStepName;
-  tooltip_text: string;
+  tooltip_content: string;
+  additional_content?: string | JSX.Element;
 }
 
 type TOnboardingSteps = {
@@ -38,71 +43,136 @@ const translationsPath = 'MAP.ACTION_CREATOR_PANEL.ONBOARDING.STEPS';
 
 const OnboardingContext = createContext<IOnboardingContextType | undefined>(undefined);
 
-export const OnboardingProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentStep, setCurrentStep] = useState<TStepName>('NOT_STARTED');
-  const [displayOnboardingModal, setDisplayOnboardingModal] = useState(false);
+interface IOnboardingProviderProps {
+  firstStep?: TStepName;
+}
+
+export const OnboardingProvider = ({
+  children,
+  firstStep = 'AREA_NODE',
+}: PropsWithChildren<IOnboardingProviderProps>) => {
+  const [currentStep, setCurrentStep] = useState<TStepName>(firstStep);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
+  const [onboardingVisible, setOnboardingVisible] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
   const { t } = useTranslation();
+  const { permanentHidden } = useAcOnboardingState();
+  const toggleVisibility = useTogglePermanentlyOnboarding();
+
+  const handleChecked = useCallback(() => {
+    setDontShowAgain((value) => !value);
+  }, []);
+
+  const handleHidePermanently = useCallback(() => {
+    toggleVisibility(dontShowAgain);
+  }, [toggleVisibility, dontShowAgain]);
+
+  useEffect(() => {
+    if (permanentHidden) {
+      setIsOnboardingComplete(true);
+      setOnboardingVisible(false);
+    }
+  }, [permanentHidden]);
+
+  const showOnboardingTooltip = useCallback(() => {
+    if (!isOnboardingComplete && !permanentHidden) {
+      setOnboardingVisible(true);
+    }
+  }, [isOnboardingComplete, permanentHidden]);
+
+  const hideOnboardingTooltip = useCallback(() => {
+    setOnboardingVisible(false);
+  }, []);
 
   const onboardingSteps: TOnboardingSteps = useMemo(
     () => ({
-      NOT_STARTED: {
-        step_name: 'NOT_STARTED',
-        next_step: 'AREA_NODE',
-        tooltip_text: '',
-      },
       AREA_NODE: {
         step_name: 'AREA_NODE',
         next_step: 'DRAWING_TOOLS',
-        tooltip_text: t(`${translationsPath}.AREA_NODE`),
+        tooltip_content: t(`${translationsPath}.AREA_NODE`),
+        additional_content: (
+          <Checkbox
+            label={t(`${translationsPath}.DONT_SHOW_IT_AGAIN`)}
+            labelClassName='!text-bright-main'
+            name='permanentHiddenACOnboarding'
+            onChange={handleChecked}
+          />
+        ),
       },
       DRAWING_TOOLS: {
         step_name: 'DRAWING_TOOLS',
         next_step: 'DATA_SET_NODE',
-        tooltip_text: t(`${translationsPath}.DRAWING_TOOLS`),
+        tooltip_content: t(`${translationsPath}.DRAWING_TOOLS`),
       },
       DATA_SET_NODE: {
         step_name: 'DATA_SET_NODE',
         next_step: 'DATA_SET_PANEL',
-        tooltip_text: t(`${translationsPath}.DATA_SET_NODE`),
+        tooltip_content: t(`${translationsPath}.DATA_SET_NODE`),
       },
       DATA_SET_PANEL: {
         step_name: 'DATA_SET_PANEL',
         next_step: 'DATE_RANGE_PICKER',
-        tooltip_text: t(`${translationsPath}.DATA_SET_PANEL`),
+        tooltip_content: t(`${translationsPath}.DATA_SET_PANEL`),
       },
       DATE_RANGE_PICKER: {
         step_name: 'DATE_RANGE_PICKER',
         next_step: 'FUNCTION_DROPDOWN',
-        tooltip_text: t(`${translationsPath}.DATE_RANGE_PICKER`),
+        tooltip_content: t(`${translationsPath}.DATE_RANGE_PICKER`),
       },
       FUNCTION_DROPDOWN: {
         step_name: 'FUNCTION_DROPDOWN',
+        next_step: 'ADD_FUNCTION_NODE',
+        tooltip_content: t(`${translationsPath}.FUNCTION_DROPDOWN`),
+      },
+      ADD_FUNCTION_NODE: {
+        step_name: 'ADD_FUNCTION_NODE',
         next_step: 'FINISH',
-        tooltip_text: t(`${translationsPath}.FUNCTION_DROPDOWN`),
+        tooltip_content: t(`${translationsPath}.ADD_FUNCTION_NODE`),
       },
     }),
-    [t]
+    [t, handleChecked]
   );
 
-  const updateShouldDisplayOnboardingModal = useCallback(
-    (collapsed?: boolean, enabled?: boolean) => {
-      return !isOnboardingComplete && currentStep === 'NOT_STARTED' && !collapsed && !enabled;
-    },
-    [currentStep, isOnboardingComplete]
-  );
-
-  const goToNextOnboardingStep = () => {
-    if (currentStep === 'FINISH') {
-      completeOnboarding();
-    } else {
-      setCurrentStep(onboardingSteps[currentStep].next_step as TStepName);
-    }
-  };
-
-  const completeOnboarding = () => {
+  const completeOnboarding = useCallback(() => {
     setIsOnboardingComplete(true);
-  };
+  }, []);
+
+  const goToNextOnboardingStep = useCallback(
+    (currentTooltipStep: TStepName) => {
+      if (isOnboardingComplete || permanentHidden) {
+        return;
+      }
+
+      if (dontShowAgain) {
+        handleHidePermanently();
+        completeOnboarding();
+      }
+
+      if (currentStep === 'FINISH') {
+        completeOnboarding();
+        return;
+      }
+
+      if (currentTooltipStep === currentStep) {
+        setCurrentStep(onboardingSteps[currentStep].next_step);
+      }
+    },
+    [
+      completeOnboarding,
+      currentStep,
+      dontShowAgain,
+      handleHidePermanently,
+      isOnboardingComplete,
+      onboardingSteps,
+      permanentHidden,
+    ]
+  );
+
+  const resetOnboarding = useCallback(() => {
+    if (!isOnboardingComplete && !permanentHidden) {
+      setCurrentStep(onboardingSteps.AREA_NODE.step_name);
+    }
+  }, [isOnboardingComplete, onboardingSteps.AREA_NODE.step_name, permanentHidden]);
 
   return (
     <OnboardingContext.Provider
@@ -112,9 +182,10 @@ export const OnboardingProvider: FC<{ children: ReactNode }> = ({ children }) =>
         completeOnboarding,
         goToNextOnboardingStep,
         onboardingSteps,
-        updateShouldDisplayOnboardingModal,
-        displayOnboardingModal,
-        setDisplayOnboardingModal,
+        onboardingVisible,
+        showOnboardingTooltip,
+        hideOnboardingTooltip,
+        resetOnboarding,
       }}
     >
       {children}
@@ -122,16 +193,10 @@ export const OnboardingProvider: FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
-export const useOnboarding = (collapsed?: boolean, enabled?: boolean) => {
+export const useOnboarding = () => {
   const context = useContext(OnboardingContext);
   if (context === undefined) {
     throw new Error('useOnboarding must be used within an OnboardingProvider');
   }
-
-  const { updateShouldDisplayOnboardingModal, setDisplayOnboardingModal } = context;
-
-  const displayOnboadingModal = () => {
-    setDisplayOnboardingModal(updateShouldDisplayOnboardingModal(collapsed, enabled));
-  };
-  return { context, displayOnboadingModal };
+  return { context };
 };
