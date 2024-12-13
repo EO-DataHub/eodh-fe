@@ -9,6 +9,7 @@
   - [Release process steps](#Release-process-steps)
   - [Git hooks](#Git-hooks)
   - [Required steps on pipelines](#Required-steps-on-pipelines)
+- [Rollback process](#Rollback-process)
 - [Hotfixes](#Hotfixes)
   - [Bug on production](#Bug-on-production)
 
@@ -138,3 +139,12 @@ Steps:
 2. Find last working Workflow you want to deploy and open it (go to the details).
 3. Click `Re-run all jobs` button.
 4. Proceed as with normal deploy process: when build completes deploy to environments `dev` -> `QA` -> `staging` -> `prod`
+
+In some cases it may not be possible to re-run jobs on GitHub (they will be failing or button won't be visible). In such case:
+
+1. Create new `release` branch from last working commit.
+2. Deploy newly created `release` into staging.
+   1. Go to [GitHub Actions page](https://github.com/EO-DataHub/eodh-fe/actions).
+   2. Find Workflow you want to deploy.
+   3. In deploy section click deploy on QA.
+   4. In deploy section click deploy on Staging.
