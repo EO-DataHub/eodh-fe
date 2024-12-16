@@ -26,7 +26,8 @@ interface IComparisonToolStore {
   comparisonModeEnabled: boolean;
   toggleComparisonMode: (comparisonModeEnabled?: boolean) => void;
   addComparisonItem: (item: TFeature, mode: TMode) => void;
-  removeComparisonItem: (itemUid?: TUid) => void;
+  removeComparisonItem: (item: TFeature) => void;
+  createUniqueItemId: (item: TFeature) => TUid | null;
 }
 
 const useComparisonToolStore = create<IComparisonToolStore>()(
@@ -74,45 +75,55 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
           ...state,
         };
       }),
-    removeComparisonItem: (itemUid?: string) => {
+    removeComparisonItem: (item: TFeature) => {
       set((state) => {
-        const items = state.comparisonItems.items.filter((item) => item.uid !== itemUid);
+        const uniqueId = state.createUniqueItemId(item);
+        const items = state.comparisonItems.items.filter((item) => item.uid !== uniqueId);
         return {
           ...state,
           comparisonModeEnabled: false,
           comparisonItems: {
             ...state.comparisonItems,
-            firsItemId: state.comparisonItems.firsItemId === itemUid ? undefined : state.comparisonItems.firsItemId,
+            firsItemId: state.comparisonItems.firsItemId === uniqueId ? undefined : state.comparisonItems.firsItemId,
             secondItemId:
-              state.comparisonItems.secondItemId === itemUid ? undefined : state.comparisonItems.secondItemId,
+              state.comparisonItems.secondItemId === uniqueId ? undefined : state.comparisonItems.secondItemId,
             items,
           },
         };
       });
     },
+    createUniqueItemId: (item?: TFeature) => (item ? `${item.collection}_${item.id}` : null),
   }))
 );
 
 export const useComparisonMode = () => {
-  const { comparisonItems, comparisonModeEnabled, toggleComparisonMode, addComparisonItem, removeComparisonItem } =
-    useComparisonToolStore((state) => ({
-      comparisonItems: state.comparisonItems,
-      comparisonModeEnabled: state.comparisonModeEnabled,
-      toggleComparisonMode: state.toggleComparisonMode,
-      addComparisonItem: state.addComparisonItem,
-      removeComparisonItem: state.removeComparisonItem,
-    }));
+  const {
+    comparisonItems,
+    comparisonModeEnabled,
+    toggleComparisonMode,
+    addComparisonItem,
+    removeComparisonItem,
+    createUniqueItemId,
+  } = useComparisonToolStore((state) => ({
+    comparisonItems: state.comparisonItems,
+    comparisonModeEnabled: state.comparisonModeEnabled,
+    toggleComparisonMode: state.toggleComparisonMode,
+    addComparisonItem: state.addComparisonItem,
+    removeComparisonItem: state.removeComparisonItem,
+    createUniqueItemId: state.createUniqueItemId,
+  }));
 
   const itemAddedToComparisonMode = useCallback(
-    (itemUid?: TUid) => {
-      return comparisonItems.items.some((item) => item.uid === itemUid);
+    (item: TFeature) => {
+      const uniqueId = createUniqueItemId(item);
+      return comparisonItems.items.some((item) => item.uid === uniqueId);
     },
-    [comparisonItems.items]
+    [comparisonItems.items, createUniqueItemId]
   );
 
   const canAddAsNewItemToComparisonMode = useCallback(
-    (itemUid?: TUid) => {
-      const isAddedForComparison = itemAddedToComparisonMode(itemUid);
+    (item: TFeature) => {
+      const isAddedForComparison = itemAddedToComparisonMode(item);
       return comparisonItems.items.length >= 2 && !isAddedForComparison;
     },
     [comparisonItems.items, itemAddedToComparisonMode]
@@ -127,6 +138,7 @@ export const useComparisonMode = () => {
       removeComparisonItem,
       itemAddedToComparisonMode,
       canAddAsNewItemToComparisonMode,
+      createUniqueItemId,
     }),
     [
       comparisonItems,
@@ -136,6 +148,7 @@ export const useComparisonMode = () => {
       removeComparisonItem,
       itemAddedToComparisonMode,
       canAddAsNewItemToComparisonMode,
+      createUniqueItemId,
     ]
   );
 };

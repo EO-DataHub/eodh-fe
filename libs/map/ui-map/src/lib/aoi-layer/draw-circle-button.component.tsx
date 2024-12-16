@@ -2,7 +2,7 @@ import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { useCallback, useContext, useMemo } from 'react';
 
-import { SquareButton } from '../navigation-button/navigation-button.component';
+import { SquareButton } from '../square-button/square-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
 
 interface IDrawCircleButtonProps {

@@ -1,6 +1,4 @@
 import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
-import { useAuth } from '@ukri/shared/utils/authorization';
-import { getHttpClient } from '@ukri/shared/utils/react-query';
 import GroupLayer from 'ol/layer/Group';
 import { register } from 'ol/proj/proj4.js';
 import proj4 from 'proj4';
@@ -9,6 +7,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
 import { STACWithColorMap } from '../stac/stac-with-color-map';
+import { useStacLayerCreation } from './../use-stac-layer-creation/use-stac-layer-creation';
 
 register(proj4);
 
@@ -26,82 +25,24 @@ export const ComparisonContext = createContext<TComparisonLayer>(defaultValues);
 
 export const useComparisonModeImageLayers = () => {
   const map = useContext(MapContext);
-  const { authClient } = useAuth();
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
   const [item1, setItem1] = useState<GroupLayer | undefined>(undefined);
   const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
 
+  const { createPublicStacLayer, createPrivateStacLayer, addLayerToMap, removeLayerFromMap } = useStacLayerCreation();
+
   const createLayer = useCallback(
     async (item: TComparisonItem, index: number): Promise<STACWithColorMap | undefined> => {
-      if (!map || !comparisonItems.items.length || !comparisonModeEnabled) {
+      if (!comparisonItems.items.length || !comparisonModeEnabled || item.stacUrl === undefined) {
         return undefined;
       }
 
-      let newLayer: STACWithColorMap;
-
-      const handleSourceReady = () => {
-        const view = map.getView();
-        const extent = newLayer?.getExtent();
-
-        if (extent) {
-          view.fit(extent);
-          const zoom = view.getZoom();
-
-          if (zoom) {
-            view.setZoom(zoom - 1);
-          }
-        }
-      };
-
-      const loadPublicStacItem = async (item: TComparisonItem) => {
-        if (!item.stacUrl) {
-          return;
-        }
-
-        const newLayer = new STACWithColorMap({
-          url: item.stacUrl,
-          zIndex: stacLayerZindex + index,
-        });
-
-        newLayer.addEventListener('sourceready', handleSourceReady);
-        return newLayer;
-      };
-
-      const fetchPrivateStacItem = async (item: TComparisonItem) => {
-        if (!item.stacUrl) {
-          return;
-        }
-        const data = await getHttpClient().get(item.stacUrl);
-
-        newLayer = new STACWithColorMap({
-          data,
-          zIndex: stacLayerZindex + index,
-          getSourceOptions: (type, options) => {
-            const token = authClient.getToken().token;
-            (options as { sourceOptions?: object }).sourceOptions =
-              (options as { sourceOptions?: object }).sourceOptions || {};
-            (options as { sourceOptions: { headers: object } }).sourceOptions.headers = {
-              Authorization: `Bearer ${token}`,
-            };
-            return options;
-          },
-        });
-
-        // todo remove after rewriting ol-stac library
-        setTimeout(() => {
-          handleSourceReady();
-        }, 1000);
-
-        return newLayer;
-      };
-
       if (item.mode === 'search') {
-        return loadPublicStacItem(item);
+        return createPublicStacLayer(item.stacUrl, stacLayerZindex + index);
       }
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      return fetchPrivateStacItem(item).catch(() => undefined); // todo add displaying error
+      return createPrivateStacLayer(item.stacUrl, stacLayerZindex + index);
     },
-    [map, comparisonItems, authClient, comparisonModeEnabled]
+    [comparisonItems, comparisonModeEnabled, createPublicStacLayer, createPrivateStacLayer]
   );
 
   useEffect(() => {
@@ -112,10 +53,10 @@ export const useComparisonModeImageLayers = () => {
       setItem1(undefined);
       setItem2(undefined);
       if (groupLayer1) {
-        map.removeLayer(groupLayer1);
+        removeLayerFromMap(groupLayer1);
       }
       if (groupLayer2) {
-        map.removeLayer(groupLayer2);
+        removeLayerFromMap(groupLayer2);
       }
       return;
     }
@@ -138,13 +79,13 @@ export const useComparisonModeImageLayers = () => {
         groupLayer1 = new GroupLayer({
           layers: [layer1],
         });
-        map.addLayer(groupLayer1);
+        addLayerToMap(groupLayer1);
       }
       if (layer2) {
         groupLayer2 = new GroupLayer({
           layers: [layer2],
         });
-        map.addLayer(groupLayer2);
+        addLayerToMap(groupLayer2);
       }
       setItem1(groupLayer1);
       setItem2(groupLayer2);
@@ -154,13 +95,13 @@ export const useComparisonModeImageLayers = () => {
 
     return () => {
       if (groupLayer1) {
-        map.removeLayer(groupLayer1);
+        removeLayerFromMap(groupLayer1);
       }
       if (groupLayer2) {
-        map.removeLayer(groupLayer2);
+        removeLayerFromMap(groupLayer2);
       }
     };
-  }, [map, comparisonItems, comparisonModeEnabled, createLayer]);
+  }, [map, comparisonItems, comparisonModeEnabled, createLayer, removeLayerFromMap, addLayerToMap]);
 
   const memoizedValues = useMemo(() => {
     return {

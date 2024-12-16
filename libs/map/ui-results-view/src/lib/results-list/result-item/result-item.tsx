@@ -1,6 +1,6 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { fetchImage } from '@ukri/map/data-access-map';
-import { TUid, useComparisonMode } from '@ukri/map/data-access-map';
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, Icon, Text, TIconNames } from '@ukri/shared/design-system';
 import { formatDate, formatHourInUtc, type TDateTimeString } from '@ukri/shared/utils/date';
@@ -93,7 +93,6 @@ export interface IResultItemProps {
   onToggleSelectedItem?: () => void;
   selected?: boolean;
   className?: string;
-  id: string;
   item: TFeature;
 }
 
@@ -106,7 +105,6 @@ export const ResultItem = ({
   selected,
   onToggleSelectedItem,
   className,
-  id,
   item,
 }: IResultItemProps) => {
   const {
@@ -116,9 +114,8 @@ export const ResultItem = ({
     itemAddedToComparisonMode,
     canAddAsNewItemToComparisonMode,
   } = useComparisonMode();
-  const uniqueId = useMemo(() => `${collectionName}_${id}` as TUid, [id, collectionName]);
-  const isAddedForComparison = itemAddedToComparisonMode(uniqueId);
-  const addToComparisonDisabled = canAddAsNewItemToComparisonMode(uniqueId);
+  const isAddedForComparison = itemAddedToComparisonMode(item);
+  const addToComparisonDisabled = canAddAsNewItemToComparisonMode(item);
   const { mode } = useMode();
 
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
@@ -126,11 +123,11 @@ export const ResultItem = ({
 
   const handleCompareClick = useCallback(() => {
     if (isAddedForComparison) {
-      removeComparisonItem(uniqueId);
+      removeComparisonItem(item);
     } else {
       addComparisonItem(item, mode);
     }
-  }, [addComparisonItem, uniqueId, removeComparisonItem, isAddedForComparison, item, mode]);
+  }, [addComparisonItem, removeComparisonItem, isAddedForComparison, item, mode]);
 
   const cloudCoverageValue = useMemo(() => {
     return isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage;
