@@ -72,7 +72,7 @@ const collectionTranslationMap: Record<TCollectionName, string> = {
 const functionTranslationMap: Record<TFunctionIdentifier, string> = {
   'raster-calculate': `${BASE_KEY}.FUNCTION.OPTIONS.RASTER_CALCULATOR`,
   'lulc-change': `${BASE_KEY}.FUNCTION.OPTIONS.LAND_COVER_CHANGES`,
-  'water-quality': `${BASE_KEY}.WORKFLOW.NODE.FUNCTION.OPTIONS.WATER_QUALITY`,
+  'water-quality': `${BASE_KEY}.FUNCTION.OPTIONS.WATER_QUALITY`,
   clip: `${BASE_KEY}.FUNCTION.OPTIONS.CLIP`,
 };
 

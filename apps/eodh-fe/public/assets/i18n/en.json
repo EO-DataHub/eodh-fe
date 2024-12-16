@@ -214,7 +214,7 @@
             "OPTIONS": {
               "RASTER_CALCULATOR": "Raster Calculator",
               "LAND_COVER_CHANGES": "Land Cover Change Detection",
-              "WATER_QUALITY": "Water Quality",
+              "WATER_QUALITY": "Water Quality Analysis",
               "CLIP": "Clip"
             }
           }
