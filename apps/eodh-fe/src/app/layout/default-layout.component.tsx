@@ -14,9 +14,9 @@ export const DefaultLayout = () => {
         <div className='flex w-full h-full overflow-hidden'>
           <LeftMenu />
           <div className='flex w-full h-full flex-col'>
-            <TrueColorImageLayer />
-            <FootprintLayer />
             <Map className='flex w-full h-full'>
+              <TrueColorImageLayer />
+              <FootprintLayer />
               <ComparisonModeLayer />
               <Checklist />
               <ActionCreatorPanel className='z-20' />

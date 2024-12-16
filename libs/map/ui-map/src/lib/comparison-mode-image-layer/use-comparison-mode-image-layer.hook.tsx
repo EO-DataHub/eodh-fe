@@ -105,7 +105,18 @@ export const useComparisonModeImageLayers = () => {
   );
 
   useEffect(() => {
+    let groupLayer1: GroupLayer | undefined;
+    let groupLayer2: GroupLayer | undefined;
+
     if (!map || comparisonItems.items.length <= 1 || !comparisonModeEnabled) {
+      setItem1(undefined);
+      setItem2(undefined);
+      if (groupLayer1) {
+        map.removeLayer(groupLayer1);
+      }
+      if (groupLayer2) {
+        map.removeLayer(groupLayer2);
+      }
       return;
     }
 
@@ -114,8 +125,6 @@ export const useComparisonModeImageLayers = () => {
     const secondItem = items.shift();
     let layer1: STACWithColorMap | undefined;
     let layer2: STACWithColorMap | undefined;
-    let groupLayer1: GroupLayer | undefined;
-    let groupLayer2: GroupLayer | undefined;
 
     if (!firstItem || !secondItem) {
       return;
