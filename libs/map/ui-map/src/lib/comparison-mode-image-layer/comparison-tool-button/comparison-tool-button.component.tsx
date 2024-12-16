@@ -1,38 +1,40 @@
 import { Icon, Text } from '@ukri/shared/design-system';
 import { useMemo } from 'react';
 
-import { NavigationButton } from '../../navigation-button/navigation-button.component';
+import { SquareButton } from '../../navigation-button/navigation-button.component';
+
+const badgeClassName = (selected: boolean) => {
+  return `absolute top-[-12px] right-[-10px] block  w-4 h-4 rounded-lg ${
+    selected ? 'bg-bright-main text-primary-main' : 'bg-primary-main text-bright-main'
+  }`;
+};
 
 interface IComparisonToolButtonProps {
   onClick: () => void;
   selected: boolean;
-  itemsAdded?: number;
+  itemsCount?: number;
   disabled?: boolean;
 }
 
-export const ComparisonToolButton = ({ onClick, itemsAdded, disabled, selected }: IComparisonToolButtonProps) => {
-  const displayItemsCounter = useMemo(() => (itemsAdded && itemsAdded > 0 ? true : false), [itemsAdded]);
+export const ComparisonToolButton = ({ onClick, itemsCount, disabled, selected }: IComparisonToolButtonProps) => {
+  const displayItemsCounter = useMemo(() => (itemsCount && itemsCount > 0 ? true : false), [itemsCount]);
 
   return (
-    <NavigationButton selected={selected} disabled={disabled} onClick={onClick}>
+    <SquareButton selected={selected} disabled={disabled} onClick={onClick}>
       <div className='relative'>
         {displayItemsCounter && (
-          <span
-            className={`absolute top-[-12px] right-[-10px] block  w-4 h-4 rounded-lg ${
-              selected ? 'bg-bright-main text-primary-main' : 'bg-primary-main text-bright-main'
-            }`}
-          >
+          <span className={badgeClassName(selected)}>
             <Text
               type='span'
               fontSize='small'
               fontWeight='regular'
-              content={`${itemsAdded}`}
+              content={itemsCount}
               className='absolute top-[2px] left-[6px]'
             />
           </span>
         )}
         <Icon name='CompareArrows' width={24} height={24} />
       </div>
-    </NavigationButton>
+    </SquareButton>
   );
 };

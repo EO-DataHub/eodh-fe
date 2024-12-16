@@ -4,7 +4,7 @@ import { getHttpClient } from '@ukri/shared/utils/react-query';
 import GroupLayer from 'ol/layer/Group';
 import { register } from 'ol/proj/proj4.js';
 import proj4 from 'proj4';
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
@@ -162,8 +162,12 @@ export const useComparisonModeImageLayers = () => {
     };
   }, [map, comparisonItems, comparisonModeEnabled, createLayer]);
 
-  return {
-    item1,
-    item2,
-  };
+  const memoizedValues = useMemo(() => {
+    return {
+      item1,
+      item2,
+    };
+  }, [item1, item2]);
+
+  return memoizedValues;
 };

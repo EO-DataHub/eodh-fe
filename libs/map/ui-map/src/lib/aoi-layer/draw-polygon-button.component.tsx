@@ -2,7 +2,7 @@ import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { useCallback, useContext, useMemo } from 'react';
 
-import { NavigationButton } from '../navigation-button/navigation-button.component';
+import { SquareButton } from '../navigation-button/navigation-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
 
 interface IDrawPolygonButtonProps {
@@ -29,8 +29,8 @@ export const DrawPolygonButton = ({ disabled }: IDrawPolygonButtonProps) => {
   }, [draw, setDraw]);
 
   return (
-    <NavigationButton selected={selected} disabled={disabled} onClick={drawPolygon}>
+    <SquareButton selected={selected} disabled={disabled} onClick={drawPolygon}>
       <Icon name='Polygon' width={24} height={24} />
-    </NavigationButton>
+    </SquareButton>
   );
 };

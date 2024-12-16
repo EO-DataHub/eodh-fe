@@ -8,7 +8,7 @@ export const ComparisonModeLayer = ({ children }: PropsWithChildren) => {
 
   return (
     <ComparisonContext.Provider value={{ item1, item2 }}>
-      <div className='map-container'>{children}</div>
+      <div>{children}</div>
       <ComparisonToolSlider className='z-10' />
     </ComparisonContext.Provider>
   );
