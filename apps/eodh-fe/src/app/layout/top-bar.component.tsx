@@ -49,7 +49,7 @@ export const TopBar = () => {
         <ClearButton />
         <ToggleLayerButton />
       </AoiLayer>
-      <ComparisonTool className='mx-5' />
+      <ComparisonTool />
       <Login className='ml-auto' />
     </div>
   );

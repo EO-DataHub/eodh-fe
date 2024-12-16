@@ -1,4 +1,4 @@
-import { useMode, useTrueColorImage } from '@ukri/map/data-access-map';
+import { useComparisonMode, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
 import { useAuth } from '@ukri/shared/utils/authorization';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { register } from 'ol/proj/proj4.js';
@@ -16,11 +16,12 @@ export const useStacLayer = () => {
   const map = useContext(MapContext);
   const { authClient } = useAuth();
   const { stacUrl } = useTrueColorImage();
+  const { comparisonModeEnabled } = useComparisonMode();
   const [stacLayer, setStacLayer] = useState<STAC | STACWithColorMap | null>(null);
   const { mode } = useMode();
 
   useEffect(() => {
-    if (!map || !stacUrl) {
+    if (!map || !stacUrl || comparisonModeEnabled) {
       return;
     }
 
@@ -99,7 +100,7 @@ export const useStacLayer = () => {
         newStacLayer.removeEventListener('sourceready', handleSourceReady);
       }
     };
-  }, [map, stacUrl, authClient, mode]);
+  }, [map, stacUrl, authClient, mode, comparisonModeEnabled]);
 
   const updateZindex = useCallback(
     (newZIndex: number) => {

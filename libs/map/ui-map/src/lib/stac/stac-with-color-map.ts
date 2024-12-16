@@ -1,3 +1,4 @@
+import { Extent } from 'ol/extent';
 import WebGLTileLayer from 'ol/layer/WebGLTile';
 import { GeoTIFF } from 'ol/source';
 import STAC from 'ol-stac';
