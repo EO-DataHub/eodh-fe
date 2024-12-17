@@ -18,7 +18,7 @@ interface Resources {
           ADD_TO_COMPARE: 'Add to compare';
           REMOVE_COMPARE: 'Remove compare';
           BUTTON: {
-            DOWNLOAD: 'Download';
+            DOWNLOAD: 'Download files';
           };
         };
         LOADER: {
