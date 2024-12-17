@@ -5,6 +5,8 @@ import { useCallback, useMemo } from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import { TMode } from '../mode.model';
+
 const createUniqueItemId = (item: TFeature) => `${item.collection}_${item.id}` as TUid;
 
 type TId = string;
@@ -13,6 +15,7 @@ export type TUid = `${TCollection}_${TId}`;
 
 export type TComparisonItem = TFeature & {
   uid: TUid;
+  mode: TMode;
   stacUrl?: string;
 };
 
@@ -24,7 +27,7 @@ interface IComparisonToolStore {
   };
   comparisonModeEnabled: boolean;
   toggleComparisonMode: (comparisonModeEnabled?: boolean) => void;
-  addComparisonItem: (item: TFeature) => void;
+  addComparisonItem: (item: TFeature, mode: TMode) => void;
   removeComparisonItem: (item: TFeature) => void;
 }
 
@@ -41,12 +44,13 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
         ...state,
         comparisonModeEnabled: !state.comparisonModeEnabled,
       })),
-    addComparisonItem: (item: TFeature) =>
+    addComparisonItem: (item: TFeature, mode: TMode) =>
       set((state) => {
         const uniqueId = createUniqueItemId(item!);
         const newItem = {
           ...item,
           uid: uniqueId,
+          mode: mode,
           stacUrl: item?.links.find((link) => link.rel === 'self')?.href,
         };
         if (state.comparisonItems.firsItemId === undefined) {
@@ -119,13 +123,13 @@ export const useComparisonMode = () => {
   );
 
   const toggleCompareItem = useCallback(
-    (item: TFeature) => {
+    (item: TFeature, mode: TMode) => {
       if (itemAddedToComparisonMode(item)) {
         removeComparisonItem(item);
         return;
       }
 
-      addComparisonItem(item);
+      addComparisonItem(item, mode);
     },
     [addComparisonItem, removeComparisonItem, itemAddedToComparisonMode]
   );

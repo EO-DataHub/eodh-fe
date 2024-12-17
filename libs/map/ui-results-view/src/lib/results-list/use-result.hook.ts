@@ -1,4 +1,4 @@
-import { useComparisonMode, useTrueColorImage } from '@ukri/map/data-access-map';
+import { useComparisonMode, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
 import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { createDate, createDateString } from '@ukri/shared/utils/date';
 import { saveAs } from 'file-saver';
@@ -42,6 +42,7 @@ const downloadMetadata = (feature: TFeature) => {
 
 export const useResult = () => {
   const { feature: selectedFeature, setFeature } = useTrueColorImage();
+  const { mode } = useMode();
   const { comparisonModeEnabled, itemAddedToComparisonMode, canAddAsNewItemToComparisonMode, toggleCompareItem } =
     useComparisonMode();
 
@@ -63,17 +64,24 @@ export const useResult = () => {
   }, []);
 
   const handleSelectedItemToggle = useCallback(
-    (feature: TFeature) => {
-      const newFeature = selectedFeature?.id !== feature.id ? feature : undefined;
+    (item: TFeature) => {
+      const newFeature = selectedFeature?.id !== item.id ? item : undefined;
       setFeature(newFeature);
     },
     [selectedFeature, setFeature]
   );
 
+  const handleToggleCompareItem = useCallback(
+    (item: TFeature) => {
+      toggleCompareItem(item, mode);
+    },
+    [mode, toggleCompareItem]
+  );
+
   return useMemo(
     () => ({
       toggleItem: handleSelectedItemToggle,
-      toggleCompareItem,
+      toggleCompareItem: handleToggleCompareItem,
       downloadItem: download,
       isSelected,
       comparisonEnabled: comparisonModeEnabled,
@@ -87,7 +95,7 @@ export const useResult = () => {
       handleSelectedItemToggle,
       isAddedToComparison,
       isSelected,
-      toggleCompareItem,
+      handleToggleCompareItem,
     ]
   );
 };
