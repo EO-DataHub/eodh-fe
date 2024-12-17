@@ -4,7 +4,7 @@ import GroupLayer from 'ol/layer/Group';
 import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
 import proj4 from 'proj4';
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 
 import { MapContext } from '../map.component';
 import { STACWithColorMap } from '../stac/stac-with-color-map';
@@ -15,7 +15,7 @@ export const useStacLayerCreation = () => {
   const map = useContext(MapContext);
   const { authClient } = useAuth();
 
-  const handleSourceReady = useCallback(
+  const zoomToLayer = useCallback(
     (newStacLayer: STAC | STACWithColorMap) => {
       if (!map) {
         return;
@@ -36,20 +36,7 @@ export const useStacLayerCreation = () => {
     [map]
   );
 
-  const createPublicStacLayer = useCallback(
-    (url: string, zIndex: number) => {
-      const newStacLayer = new STACWithColorMap({
-        url,
-        zIndex,
-      });
-
-      newStacLayer.addEventListener('sourceready', () => handleSourceReady(newStacLayer));
-      return newStacLayer;
-    },
-    [handleSourceReady]
-  );
-
-  const createPrivateStacLayer = useCallback(
+  const createAuthorizedStacLayer = useCallback(
     async (url: string, zIndex: number) => {
       const data = await getHttpClient().get(url);
 
@@ -69,12 +56,25 @@ export const useStacLayerCreation = () => {
 
       // todo remove after rewriting ol-stac library
       setTimeout(() => {
-        handleSourceReady(newStacLayer);
+        zoomToLayer(newStacLayer);
       }, 1000);
 
       return newStacLayer;
     },
-    [authClient, handleSourceReady]
+    [authClient, zoomToLayer]
+  );
+
+  const createUnauthorizedStacLayer = useCallback(
+    (url: string, zIndex: number) => {
+      const newStacLayer = new STACWithColorMap({
+        url,
+        zIndex,
+      });
+
+      newStacLayer.addEventListener('sourceready', () => zoomToLayer(newStacLayer));
+      return newStacLayer;
+    },
+    [zoomToLayer]
   );
 
   const addLayerToMap = useCallback(
@@ -95,11 +95,18 @@ export const useStacLayerCreation = () => {
     [map]
   );
 
-  return {
-    createPublicStacLayer,
-    createPrivateStacLayer,
-    addLayerToMap,
-    removeLayerFromMap,
-    handleSourceReady,
-  };
+  const createStacLayer = useCallback(
+    async ({ url, zIndex, authorized }: { url: string; zIndex: number; authorized: boolean }) => {
+      const newStacLayer = authorized
+        ? await createAuthorizedStacLayer(url, zIndex)
+        : createUnauthorizedStacLayer(url, zIndex);
+      return newStacLayer;
+    },
+    [createAuthorizedStacLayer, createUnauthorizedStacLayer]
+  );
+
+  return useMemo(
+    () => ({ createStacLayer, removeLayerFromMap, addLayerToMap }),
+    [createStacLayer, removeLayerFromMap, addLayerToMap]
+  );
 };

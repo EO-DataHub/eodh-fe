@@ -1,15 +1,11 @@
 import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
 import GroupLayer from 'ol/layer/Group';
-import { register } from 'ol/proj/proj4.js';
-import proj4 from 'proj4';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
 import { STACWithColorMap } from '../stac/stac-with-color-map';
 import { useStacLayerCreation } from './../use-stac-layer-creation/use-stac-layer-creation';
-
-register(proj4);
 
 export type TComparisonLayer = {
   item1: GroupLayer | undefined;
@@ -29,7 +25,7 @@ export const useComparisonModeImageLayers = () => {
   const [item1, setItem1] = useState<GroupLayer | undefined>(undefined);
   const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
 
-  const { createPublicStacLayer, createPrivateStacLayer, addLayerToMap, removeLayerFromMap } = useStacLayerCreation();
+  const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
 
   const createLayer = useCallback(
     async (item: TComparisonItem, index: number): Promise<STACWithColorMap | undefined> => {
@@ -37,12 +33,10 @@ export const useComparisonModeImageLayers = () => {
         return undefined;
       }
 
-      if (item.mode === 'search') {
-        return createPublicStacLayer(item.stacUrl, stacLayerZindex + index);
-      }
-      return createPrivateStacLayer(item.stacUrl, stacLayerZindex + index);
+      const authorized = item.mode !== 'search';
+      return createStacLayer({ url: item.stacUrl, zIndex: stacLayerZindex + index, authorized });
     },
-    [comparisonItems, comparisonModeEnabled, createPublicStacLayer, createPrivateStacLayer]
+    [comparisonItems, comparisonModeEnabled, createStacLayer]
   );
 
   useEffect(() => {

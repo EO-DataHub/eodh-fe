@@ -1,22 +1,17 @@
 import { useComparisonMode, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
-import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
-import proj4 from 'proj4';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { stacLayerZindex } from '../consts';
 import { STACWithColorMap } from '../stac/stac-with-color-map';
 import { useStacLayerCreation } from '../use-stac-layer-creation/use-stac-layer-creation';
 
-register(proj4);
-
 export const useStacLayer = () => {
   const { stacUrl } = useTrueColorImage();
   const { comparisonModeEnabled } = useComparisonMode();
-  const [stacLayer, setStacLayer] = useState<STAC | STACWithColorMap | null>(null);
   const { mode } = useMode();
 
-  const { createPublicStacLayer, createPrivateStacLayer, addLayerToMap, removeLayerFromMap } = useStacLayerCreation();
+  const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
 
   useEffect(() => {
     if (!stacUrl || comparisonModeEnabled) {
@@ -26,15 +21,11 @@ export const useStacLayer = () => {
     let newStacLayer: STAC | STACWithColorMap | null = null;
 
     const loadLayer = async () => {
-      if (mode === 'search') {
-        newStacLayer = createPublicStacLayer(stacUrl, stacLayerZindex);
-      } else {
-        newStacLayer = await createPrivateStacLayer(stacUrl, stacLayerZindex);
-      }
+      const authorized = mode !== 'search';
+      newStacLayer = await createStacLayer({ url: stacUrl, zIndex: stacLayerZindex, authorized });
 
       if (newStacLayer) {
         addLayerToMap(newStacLayer);
-        setStacLayer(newStacLayer);
       }
     };
 
@@ -45,31 +36,5 @@ export const useStacLayer = () => {
         removeLayerFromMap(newStacLayer);
       }
     };
-  }, [
-    stacUrl,
-    mode,
-    comparisonModeEnabled,
-    createPublicStacLayer,
-    createPrivateStacLayer,
-    addLayerToMap,
-    removeLayerFromMap,
-  ]);
-
-  const updateZindex = useCallback(
-    (newZIndex: number) => {
-      if (stacLayer) {
-        stacLayer.setZIndex(newZIndex);
-      }
-    },
-    [stacLayer]
-  );
-
-  const toggleVisibility = useCallback(() => {
-    if (stacLayer) {
-      const isVisible = stacLayer?.getVisible();
-      stacLayer.setVisible(!isVisible);
-    }
-  }, [stacLayer]);
-
-  return { updateZindex, toggleVisibility };
+  }, [stacUrl, mode, comparisonModeEnabled, createStacLayer, removeLayerFromMap, addLayerToMap]);
 };
