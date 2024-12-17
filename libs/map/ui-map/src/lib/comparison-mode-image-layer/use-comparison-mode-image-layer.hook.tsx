@@ -97,12 +97,10 @@ export const useComparisonModeImageLayers = () => {
     };
   }, [map, comparisonItems, comparisonModeEnabled, createLayer, removeLayerFromMap, addLayerToMap]);
 
-  const memoizedValues = useMemo(() => {
+  return useMemo(() => {
     return {
       item1,
       item2,
     };
   }, [item1, item2]);
-
-  return memoizedValues;
 };

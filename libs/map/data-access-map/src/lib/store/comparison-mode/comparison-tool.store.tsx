@@ -7,7 +7,7 @@ import { devtools } from 'zustand/middleware';
 
 import { TMode } from '../mode.model';
 
-const createUniqueItemId = (item?: TFeature) => (item ? `${item.collection}_${item.id}` : null);
+const createUniqueItemId = (item: TFeature) => `${item.collection}_${item.id}` as TUid;
 
 type TId = string;
 type TCollection = string;
@@ -46,7 +46,7 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
       })),
     addComparisonItem: (item: TFeature, mode: TMode) =>
       set((state) => {
-        const uniqueId: TUid = `${item.collection}_${item.id}`;
+        const uniqueId = createUniqueItemId(item!);
         const newItem = {
           ...item,
           uid: uniqueId,
