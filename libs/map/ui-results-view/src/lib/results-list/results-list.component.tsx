@@ -31,11 +31,11 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
           imageUrl={feature.assets.thumbnail.href || ''}
-          id={feature.id}
           cloudCoverage={feature.properties['eo:cloud_cover']}
           gridCode={feature.properties['grid:code']}
           selected={selectedFeature?.id === feature.id}
           onToggleSelectedItem={() => handleSelectedItemToggle(feature)}
+          item={feature}
         />
       ))}
     </div>

@@ -19,6 +19,7 @@ export const shadow = {
   'date-range-picker': '0px -4px 10px 0px #0000001A',
   'action-creator': '0px 4px 10px 0px #00000010',
   'action-creator-node': '0px 0px 6px 0px transparent',
+  'comparison-swipr-tool': '0px 0px 4px 0px #00000040',
 };
 
 export const spacing = {

@@ -3,8 +3,8 @@ import { Draw } from 'ol/interaction.js';
 import { createBox } from 'ol/interaction/Draw.js';
 import { useCallback, useContext, useMemo } from 'react';
 
+import { SquareButton } from '../square-button/square-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
-import { DrawButton } from './button.component';
 
 interface IDrawRectangleButtonProps {
   disabled?: boolean;
@@ -31,8 +31,8 @@ export const DrawRectangleButton = ({ disabled }: IDrawRectangleButtonProps) => 
   }, [draw, setDraw]);
 
   return (
-    <DrawButton selected={selected} disabled={disabled} onClick={drawRectangle}>
+    <SquareButton selected={selected} disabled={disabled} onClick={drawRectangle}>
       <Icon name='Square' width={24} height={24} />
-    </DrawButton>
+    </SquareButton>
   );
 };
