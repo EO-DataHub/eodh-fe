@@ -131,10 +131,6 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   } else {
     useDateStore.getState().reset();
   }
-
-  useDataSetsStore.getState().changeState('readonly');
-  useAoiStore.getState().changeState('readonly');
-  useDateStore.getState().changeState('readonly');
 };
 
 export const enableDataSet = (dataSet?: (TDataSetValue | string)[] | undefined) => {
