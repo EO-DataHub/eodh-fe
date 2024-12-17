@@ -1,17 +1,12 @@
 import { useComparisonMode } from '@ukri/map/data-access-map';
 import { Button, Icon, Text } from '@ukri/shared/design-system';
 import clsx from 'clsx';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { styles } from './tooltip-component.styles';
 
-interface IComparisonInputProps {
-  itemId?: `${string}_${string}`;
-  onClear: (itemUid?: `${string}_${string}` | undefined) => void;
-}
-
-const ComparisonInput = ({ itemId, onClear }: IComparisonInputProps) => {
+const ComparisonInput = ({ itemId, onClear }: { itemId?: string; onClear: (itemUid?: string) => void }) => {
   const { t } = useTranslation();
   return (
     <div className={clsx(styles.searchInput.container)}>
@@ -37,12 +32,26 @@ export const TooltipComponent = () => {
 
   const disabled = useMemo(() => !(comparisonItems.firsItemId && comparisonItems.secondItemId), [comparisonItems]);
 
+  const removeItemFromComparison = useCallback(
+    (itemId?: string) => {
+      const itemToRemove = comparisonItems.items.filter((item) => item.uid === itemId)[0];
+      removeComparisonItem(itemToRemove);
+    },
+    [comparisonItems, removeComparisonItem]
+  );
+
   return (
     <div className={clsx(styles.comparisonTool)}>
       <Text type='span' fontSize='medium' fontWeight='regular' content='MAP.COMPARISON_TOOL.COMPARING' />
-      <ComparisonInput itemId={comparisonItems.firsItemId} onClear={removeComparisonItem} />
+      <ComparisonInput
+        itemId={comparisonItems.firsItemId}
+        onClear={() => removeItemFromComparison(comparisonItems.firsItemId)}
+      />
       <Text type='span' fontSize='medium' fontWeight='regular' content='MAP.COMPARISON_TOOL.WITH' />
-      <ComparisonInput itemId={comparisonItems.secondItemId} onClear={removeComparisonItem} />
+      <ComparisonInput
+        itemId={comparisonItems.secondItemId}
+        onClear={() => removeItemFromComparison(comparisonItems.secondItemId)}
+      />
       <Button
         text={
           comparisonModeEnabled
