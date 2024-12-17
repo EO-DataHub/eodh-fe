@@ -27,16 +27,15 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
           imageUrl={feature.assets.thumbnail?.href || ''}
-          item={feature}
           cloudCoverage={feature.properties['eo:cloud_cover']}
           gridCode={feature.properties['grid:code']}
           selected={isSelected(feature.id)}
           comparisonEnabled={comparisonEnabled}
-          addedForComparison={isItemAddedToComparisonMode(feature.id)}
-          canCompare={canCompareItems(feature.id)}
+          addedForComparison={isItemAddedToComparisonMode(feature)}
+          canCompare={canCompareItems(feature)}
           onToggleSelectedItem={() => toggleItem(feature)}
           onDownload={() => downloadItem(feature)}
-          onCompareItemToggle={() => toggleCompareItem(feature.id)}
+          onCompareItemToggle={() => toggleCompareItem(feature)}
         />
       ))}
     </div>

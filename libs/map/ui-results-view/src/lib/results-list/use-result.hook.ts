@@ -47,10 +47,13 @@ export const useResult = () => {
 
   const isSelected = useCallback((id: string) => selectedFeature?.id === id, [selectedFeature?.id]);
 
-  const isAddedToComparison = useCallback((id: string) => itemAddedToComparisonMode(id), [itemAddedToComparisonMode]);
+  const isAddedToComparison = useCallback(
+    (item: TFeature) => itemAddedToComparisonMode(item),
+    [itemAddedToComparisonMode]
+  );
 
   const canCompare = useCallback(
-    (id: string) => canAddAsNewItemToComparisonMode(id),
+    (item: TFeature) => canAddAsNewItemToComparisonMode(item),
     [canAddAsNewItemToComparisonMode]
   );
 
