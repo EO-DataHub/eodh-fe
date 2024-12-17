@@ -8,6 +8,27 @@ export type TLangCoverItem = {
   }[];
 };
 
+type TLandCoverItem = {
+  name: string;
+  colorHint: string;
+  area: number[];
+  percentage: number[];
+  timestamp: number[];
+};
+
+type TLandCoverAssetResponse = {
+  data: TLandCoverItem[];
+  chatType: 'bar';
+};
+
+type TLandCoverAssetsResponse = {
+  assets: {
+    data: TLandCoverItem[];
+    chatType: 'bar';
+    name: string;
+  }[];
+};
+
 export const data: TLangCoverItem[] = [
   {
     timestamp: '2014-01-01',
