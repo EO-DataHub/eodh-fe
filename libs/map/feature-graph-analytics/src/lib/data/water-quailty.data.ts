@@ -5,6 +5,19 @@ export type TWaterQualityItem = {
   median: number;
 };
 
+type TWaterQualityAssetResponse = {
+  data: TWaterQualityItem[];
+  chatType: 'rangeAreaWithLine';
+};
+
+type TWaterQualityAssetsResponse = {
+  assets: {
+    data: TWaterQualityItem[];
+    chatType: 'rangeAreaWithLine';
+    name: string;
+  }[];
+};
+
 export const data: TWaterQualityItem[] = [
   {
     timestamp: '2000-01-01',
