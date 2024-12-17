@@ -140,6 +140,10 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
   } else {
     useDateStore.getState().reset();
   }
+
+  useDataSetsStore.getState().changeState('readonly');
+  useAoiStore.getState().changeState('readonly');
+  useDateStore.getState().changeState('readonly');
 };
 
 export const importWorkflow = async () => {

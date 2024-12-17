@@ -104,7 +104,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
     })
     .filter((item) => !!item);
   const functionNodes: TFunctionNode[] = functions.map(({ identifier, order, inputs }) => ({
-    ...createNode(nanoid(), 'function', nodes.length + order),
+    ...createNode(nanoid(), 'function', nodes.length + order + 1),
     state: 'not-active',
     value: {
       identifier,
