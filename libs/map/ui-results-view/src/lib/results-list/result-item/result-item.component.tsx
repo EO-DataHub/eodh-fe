@@ -67,6 +67,7 @@ export const ResultItem = ({
           text='GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON.DOWNLOAD'
           size='medium'
           onClick={onDownload}
+          disabled={comparisonEnabled}
         />
         <Button
           appearance='text'
