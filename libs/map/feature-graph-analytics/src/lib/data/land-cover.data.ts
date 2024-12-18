@@ -16,11 +16,13 @@ type TLandCoverItem = {
   timestamp: number[];
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 type TLandCoverAssetResponse = {
   data: TLandCoverItem[];
   chatType: 'bar';
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 type TLandCoverAssetsResponse = {
   assets: {
     data: TLandCoverItem[];

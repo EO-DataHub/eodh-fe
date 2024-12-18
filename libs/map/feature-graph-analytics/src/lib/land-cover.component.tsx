@@ -34,9 +34,6 @@ const LandCoverBarChart = ({ index, height, onLegendClick }: TLandCoverBarChartP
           highlightDataSeries: true,
         },
       },
-      title: {
-        text: 'Land Cover Bar',
-      },
       xaxis: {
         type: 'datetime',
         categories: getData()
@@ -45,6 +42,14 @@ const LandCoverBarChart = ({ index, height, onLegendClick }: TLandCoverBarChartP
           .flat(),
       },
       colors: [getData()[index || 0].colorHint],
+      grid: {
+        padding: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+        },
+      },
     }),
     [index, onLegendClick]
   );
@@ -91,9 +96,6 @@ const LandCoverStackBarChart = ({ height, onLegendClick }: TLandCoverStackBarCha
           highlightDataSeries: true,
         },
       },
-      title: {
-        text: 'Land Cover StacBar 100',
-      },
       xaxis: {
         type: 'datetime',
         categories: getData()
@@ -102,6 +104,14 @@ const LandCoverStackBarChart = ({ height, onLegendClick }: TLandCoverStackBarCha
           .flat(),
       },
       colors: getData().map((item) => item.colorHint),
+      grid: {
+        padding: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+        },
+      },
     }),
     [onLegendClick]
   );
@@ -122,8 +132,8 @@ export const LandCover = () => {
   const [index, setIndex] = useState<number | undefined>(undefined);
 
   if (index !== undefined) {
-    return <LandCoverBarChart height={350} index={index} onLegendClick={setIndex} />;
+    return <LandCoverBarChart height={160} index={index} onLegendClick={setIndex} />;
   }
 
-  return <LandCoverStackBarChart height={350} onLegendClick={setIndex} />;
+  return <LandCoverStackBarChart height={160} onLegendClick={setIndex} />;
 };
