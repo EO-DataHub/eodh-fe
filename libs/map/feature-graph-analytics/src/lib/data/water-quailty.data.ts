@@ -5,11 +5,13 @@ export type TWaterQualityItem = {
   median: number;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 type TWaterQualityAssetResponse = {
   data: TWaterQualityItem[];
   chatType: 'rangeAreaWithLine';
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 type TWaterQualityAssetsResponse = {
   assets: {
     data: TWaterQualityItem[];
