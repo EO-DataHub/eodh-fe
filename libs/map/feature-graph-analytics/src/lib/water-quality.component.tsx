@@ -40,13 +40,8 @@ export const WaterQuality = () => {
       },
       legend: {
         position: 'top',
-        // show: true,
         customLegendItems: ['Team A'],
-        // inverseOrder: true,
       },
-      // title: {
-      //   text: 'Water Quality',
-      // },
       xaxis: {
         type: 'datetime',
       },
@@ -63,6 +58,14 @@ export const WaterQuality = () => {
             <div>min: ${dataPoint3}</div>
             <div>max: ${dataPoint2}</div>
             </div>`;
+        },
+      },
+      grid: {
+        padding: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
         },
       },
     }),
@@ -85,5 +88,5 @@ export const WaterQuality = () => {
     []
   );
 
-  return <Chart options={options} series={series} type='rangeArea' height={350} />;
+  return <Chart options={options} series={series} type='rangeArea' height={160} />;
 };
