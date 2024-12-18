@@ -11,7 +11,9 @@ export type TDateTimeString = TDateStringInternal | null;
 
 export type TDateString = TDateInternal | null;
 
-type TDateFormat = 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YY';
+export type TDateFormat = 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YY';
+
+export const defaultDateFormat = 'YYYY-MM-DD';
 
 export const dateToNumber = (date: TDateTimeString | TDateString, type: 'firstDay' | 'lastDay'): number | null => {
   const d = createDate(date);
@@ -92,7 +94,7 @@ export const createIsoStringDate = (date?: TDateTimeString) => {
   return new Date(date).toISOString();
 };
 
-export const formatDate = (date: TDateTimeString, format: TDateFormat = 'YYYY-MM-DD'): TDateString => {
+export const formatDate = (date: TDateTimeString, format: TDateFormat = defaultDateFormat): TDateString => {
   if (!date) {
     return null;
   }
