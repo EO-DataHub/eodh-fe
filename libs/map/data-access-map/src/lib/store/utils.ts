@@ -57,20 +57,22 @@ export const reset = () => {
   useDateStore.getState().reset();
 };
 
+type TFunction = {
+  identifier: string;
+  order: number;
+  inputs: {
+    stacCollection?: {
+      options: {
+        label: string;
+        value: string;
+      }[];
+    };
+  };
+};
+
 export type TLoadPresetProps = {
   dataSet: TDataSetValue | string | undefined;
-  functions: {
-    identifier: string;
-    order: number;
-    inputs: {
-      stacCollection?: {
-        options: {
-          label: string;
-          value: string;
-        }[];
-      };
-    };
-  }[];
+  functions: TFunction[];
   aoi?: TCoordinate;
   dateRange?: {
     from: TDateTimeString;
@@ -102,7 +104,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
     })
     .filter((item) => !!item);
   const functionNodes: TFunctionNode[] = functions.map(({ identifier, order, inputs }) => ({
-    ...createNode(nanoid(), 'function', nodes.length + order),
+    ...createNode(nanoid(), 'function', nodes.length + order + 1),
     state: 'not-active',
     value: {
       identifier,

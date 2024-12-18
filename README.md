@@ -9,7 +9,7 @@
   - [Git hooks](#Git-hooks)
   - [Required steps on pipelines](#Required-steps-on-pipelines)
 - [Release process](#Release-process)
-  - [Release process steops](#Release-process-steps)
+- [Rollback process](#Rollback-process)
 - [Testing](#Testing)
   - [Unit & integration tests](#Unit--integration-tests)
   - [Storybook tests](#Storybook-tests)
@@ -60,31 +60,11 @@ GitHub's pipelines are used for ci/cd. Check `.github` directory for more detail
 
 # Release process
 
-We use adjusted `GitFlow` - instead of testing from feature branches, we do tests from `development` branch.
+Release process is described in [docs/release-and-rollback-process.md](./docs/release-and-rollback-process)
 
-## Release process steps:
+# Rollback process
 
-1. Create `release` branch with release `version`, eg. `v.1.0.0`. `Release` branch should be created from `develop` branch.
-2. If any fixes needed merge them into `release` branch.
-3. Update `version` in package.json file.
-4. Tag `version` in `git`: `git tag v1.0.0`.
-5. Merge `release` branch into `master` branch.
-6. Merge `master` branch into `release` branch. This is a very important step! It has to be done otherwise history in `master` and `develop` branches will be different!
-
-### Git hooks
-
-`husky` is used for git hooks:
-
-- `pre-push` - test and linters are required to pass
-- `pre-commit` - conventional commit naming convention for commit message is required
-
-### Required steps on pipelines
-
-All linters and tests has to pass on pipelines.
-Before sending any changes make sure you run those commands:
-
-- `npm run test:unit` - check if all test pass
-- `npm run code:fix` - format code
+Rollback process is described in [docs/release-and-rollback-process.md](./docs/release-and-rollback-process)
 
 # Testing
 

@@ -1,15 +1,16 @@
-import { useAoi } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { useCallback, useContext, useMemo } from 'react';
 
+import { SquareButton } from '../square-button/square-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
-import { DrawButton } from './button.component';
 
-export const DrawCircleButton = () => {
+interface IDrawCircleButtonProps {
+  disabled?: boolean;
+}
+
+export const DrawCircleButton = ({ disabled }: IDrawCircleButtonProps) => {
   const { draw, setDraw } = useContext(AoiLayerContext);
-  const { state } = useAoi();
-  const disabled = useMemo(() => state !== 'edit', [state]);
   const selected = useMemo(() => draw?.type === 'circle', [draw?.type]);
 
   const drawCircle = useCallback(() => {
@@ -28,8 +29,8 @@ export const DrawCircleButton = () => {
   }, [draw, setDraw]);
 
   return (
-    <DrawButton selected={selected} disabled={disabled} onClick={drawCircle}>
+    <SquareButton selected={selected} disabled={disabled} onClick={drawCircle}>
       <Icon name='Circle' width={24} height={24} />
-    </DrawButton>
+    </SquareButton>
   );
 };

@@ -12,7 +12,8 @@ import { PropsWithChildren, useCallback, useContext } from 'react';
 
 import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
-import { TabsFlowModal } from '../tabs-flow-modal/tabs-flow-modal.component';
+import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
+import { TabsFlowModal } from '../modals/tabs-flow-modal/tabs-flow-modal.component';
 import { Preset } from './preset.component';
 
 interface IErrorMessageProps {
@@ -35,11 +36,13 @@ const PresetsContainer = ({ children }: PropsWithChildren) => {
     <Container>
       <Content>
         {children}
+
         <TabsFlowModal
-          header='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.PRESETS.HEADER'
-          content='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.PRESETS.CONTENT'
-          ctaText='MAP.ACTION_CREATOR_PANEL.TABS_FLOW_MODAL.PRESETS.CTA_BUTTON'
+          header='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.PRESETS.HEADER'
+          content='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.PRESETS.CONTENT'
+          ctaText='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.PRESETS.CTA_BUTTON'
         />
+        <ComparisonModeModal />
       </Content>
       <Footer></Footer>
     </Container>

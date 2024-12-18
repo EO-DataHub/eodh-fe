@@ -1,11 +1,17 @@
 import { createGeometry, TAreaNode, useActionCreator } from '@ukri/map/data-access-map';
 import { useSettings } from '@ukri/shared/utils/settings';
-import { getArea as getOlArea } from 'ol/extent';
+import { Circle, Geometry } from 'ol/geom';
+import { fromCircle } from 'ol/geom/Polygon';
+import { getArea as getAreaFromGeometry } from 'ol/sphere';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Node } from '../node.component';
 import { NodeInput } from '../node-input.component';
+
+const SQUARE_KM_TO_SQUARE_M = 0.386102;
+
+const isCircle = (shape: Geometry): shape is Circle => shape.getType() === 'Circle';
 
 const getIconFromShape = (value: TAreaNode['value']): 'Polygon' | 'Circle' | 'Square' | undefined => {
   switch (value?.type) {
@@ -28,7 +34,7 @@ export const convertUnits = (area: number, unit: 'km' | 'miles') => {
 
   switch (unit) {
     case 'miles': {
-      area = area * 0.621371;
+      area = area * SQUARE_KM_TO_SQUARE_M;
       const value = Math.round((area / 1000000) * 100) / 100;
 
       output = `${value} miles<sup>2</sup>`;
@@ -38,7 +44,6 @@ export const convertUnits = (area: number, unit: 'km' | 'miles') => {
     case 'km': {
       if (area > 10000) {
         const value = Math.round((area / 1000000) * 100) / 100;
-
         output = `${value} km<sup>2</sup>`;
       } else {
         const value = Math.round(area * 100) / 100;
@@ -56,8 +61,9 @@ const getArea = (value: TAreaNode['value']): number => {
   if (!shape) {
     return 0;
   }
-  const extent = shape.getExtent();
-  return extent ? getOlArea(extent as [number, number, number, number]) : 0;
+
+  const polygon = isCircle(shape) ? fromCircle(shape) : shape;
+  return getAreaFromGeometry(polygon) || 0;
 };
 
 const formatArea = function (text: string, value: TAreaNode['value'], unit: 'km' | 'miles') {

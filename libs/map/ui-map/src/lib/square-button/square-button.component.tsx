@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import { MouseEventHandler, PropsWithChildren } from 'react';
 
-interface IDrawButtonProps {
+interface ISquareButtonProps {
   selected: boolean;
   disabled?: boolean;
   onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-export const DrawButton = ({ selected, disabled, onClick, children }: PropsWithChildren<IDrawButtonProps>) => {
+export const SquareButton = ({ selected, disabled, onClick, children }: PropsWithChildren<ISquareButtonProps>) => {
   const baseClassName = !disabled ? 'hover:bg-primary-light hover:text-primary' : '';
   const className =
     selected && !disabled

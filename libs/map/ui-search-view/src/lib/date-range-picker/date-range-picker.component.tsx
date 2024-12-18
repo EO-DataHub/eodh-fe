@@ -1,7 +1,8 @@
+import { useComparisonMode } from '@ukri/map/data-access-map';
 import { DateInput, Icon, Text } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import get from 'lodash/get';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { TInitialForm, TUpdateForm } from '../schema/form.schema';
@@ -33,7 +34,13 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
   const dateTo = getValues('date.to');
   const dateFromError = get(errors, 'date.from');
   const dateToError = get(errors, 'date.to');
-  const disabled = isDisabled(false, 'date-range');
+  const dateRangePickerDisabled = isDisabled(false, 'date-range');
+  const { comparisonModeEnabled } = useComparisonMode();
+
+  const disabled = useMemo(
+    () => dateRangePickerDisabled || comparisonModeEnabled,
+    [dateRangePickerDisabled, comparisonModeEnabled]
+  );
 
   const toggleOpen = useCallback(() => {
     setIsOpen(!isOpen);

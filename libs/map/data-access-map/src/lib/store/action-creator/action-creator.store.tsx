@@ -24,6 +24,8 @@ import {
   nodeHasValue,
   TBaseFunction,
 } from './node.utils';
+import { exportWorkflow } from './workflow-import/export.workflow';
+import { importWorkflow } from './workflow-import/import.workflow';
 
 export const useActionCreatorStore = create<IActionCreatorStore>()(
   devtools((set) => ({
@@ -133,6 +135,9 @@ type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive' | 'addNode' | '
   getValidFunctions: (node: TNode, functions: TBaseFunction[] | undefined) => TBaseFunction[];
   canAddNextNode: (node: TNode, functions?: TBaseFunction[] | undefined) => boolean;
   editable: (node: TNode) => boolean;
+  canExportWorkflow: boolean;
+  importWorkflow: () => Promise<void>;
+  exportWorkflow: () => void;
 };
 
 export const useActionCreator = (): TActionCreatorProps => {
@@ -151,6 +156,7 @@ export const useActionCreator = (): TActionCreatorProps => {
     },
     canActivateNode: (node: TNode) => canActivate(state.nodes, node),
     isWorkflowStarted: state.nodes.some((node) => node.state !== 'initial'),
+    canExportWorkflow: state.nodes.some((node) => nodeHasValue(node) && node.state !== 'initial'),
     isValid: state.nodes.filter((node) => !isLastFunctionNodeWithNoValue(node, state.nodes)).every(nodeHasValue),
     getNodesByType: <T extends TNode>(type: T['type']) => getNodes<T>(state.nodes, type),
     reset: () => {
@@ -194,5 +200,7 @@ export const useActionCreator = (): TActionCreatorProps => {
 
       return state.nodes.at(-1)?.state === 'initial';
     },
+    importWorkflow: () => importWorkflow(),
+    exportWorkflow: () => exportWorkflow(state.nodes),
   }));
 };

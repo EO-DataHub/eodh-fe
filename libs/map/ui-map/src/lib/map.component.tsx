@@ -1,5 +1,6 @@
 import 'ol/ol.css';
 
+import { getSize } from 'ol/extent';
 import Interaction from 'ol/interaction/Interaction';
 import type BaseLayer from 'ol/layer/Base';
 import TileLayer from 'ol/layer/Tile';
@@ -18,6 +19,10 @@ interface IMap {
   removeInteraction(interaction: Interaction): Interaction | undefined;
   removeLayer(layer: BaseLayer): BaseLayer | undefined;
   getView(): OlView;
+  getSize(): number[] | undefined;
+  getLayers(): { getArray(): BaseLayer[] };
+  getTargetElement(): HTMLElement | null;
+  render(): void;
 }
 
 const defaultMap = {
@@ -30,6 +35,11 @@ const defaultMap = {
   removeInteraction: () => undefined,
   removeLayer: () => undefined,
   getView: () => new OlView(),
+  getSize: () => getSize([0, 0, 0, 0]),
+  getLayers: () => ({ getArray: () => [] }),
+  getTargetElement: () => null,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  render() {},
 };
 
 export const MapContext = createContext<IMap>(defaultMap);

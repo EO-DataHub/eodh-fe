@@ -1,5 +1,6 @@
 import {
   TBaseFunction,
+  TDataSetValue,
   TFunction,
   TFunctionNode,
   TNode,
@@ -22,7 +23,7 @@ const BASE_KEY = 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE';
 const functionTranslationMap: Record<TFunctionIdentifier, string> = {
   'raster-calculate': `${BASE_KEY}.FUNCTION.OPTIONS.RASTER_CALCULATOR`,
   'lulc-change': `${BASE_KEY}.FUNCTION.OPTIONS.LAND_COVER_CHANGES`,
-  'water-quality': `${BASE_KEY}.WORKFLOW.NODE.FUNCTION.OPTIONS.WATER_QUALITY`,
+  'water-quality': `${BASE_KEY}.FUNCTION.OPTIONS.WATER_QUALITY`,
   clip: `${BASE_KEY}.FUNCTION.OPTIONS.CLIP`,
 };
 
@@ -30,7 +31,7 @@ const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier, name
   return functionTranslationMap[functionIdentifier] || name;
 };
 
-const isFunctionOptionDisabled = (dataSet: string | null, functionDataSet: string[] | undefined) => {
+const isFunctionOptionDisabled = (dataSet: TDataSetValue | undefined, functionDataSet: string[] | undefined) => {
   if (!dataSet || !functionDataSet) {
     return false;
   }
@@ -38,7 +39,7 @@ const isFunctionOptionDisabled = (dataSet: string | null, functionDataSet: strin
   return functionDataSet.every((option) => option !== dataSet);
 };
 
-const useOptions = (dataSet: string | null) => {
+const useOptions = (dataSet: TDataSetValue | undefined) => {
   const { t } = useTranslation();
   const { getValidFunctions } = useActionCreator();
 
@@ -75,8 +76,17 @@ const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
         return <EmptyNode node={node} />;
       }
 
-      case 'active':
       case 'not-active': {
+        if (isLoading) {
+          return <LoadingNode node={node} />;
+        } else if (!node.value) {
+          return <EmptyNode node={node} />;
+        }
+
+        return <ValueNode node={node} options={options} functions={data} onChange={onChange} />;
+      }
+
+      case 'active': {
         if (isLoading) {
           return <LoadingNode node={node} />;
         } else if (!node.value) {

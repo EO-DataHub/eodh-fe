@@ -1,0 +1,19 @@
+{
+  "name": "feature-comparison-tool",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/map/feature-comparison-tool/src",
+  "projectType": "library",
+  "tags": ["type:feature", "scope:map"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../coverage/libs/map/feature-comparison-tool"
+      }
+    }
+  }
+}

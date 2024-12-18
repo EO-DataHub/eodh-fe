@@ -1,16 +1,17 @@
-import { useAoi } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction.js';
 import { createBox } from 'ol/interaction/Draw.js';
 import { useCallback, useContext, useMemo } from 'react';
 
+import { SquareButton } from '../square-button/square-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
-import { DrawButton } from './button.component';
 
-export const DrawRectangleButton = () => {
+interface IDrawRectangleButtonProps {
+  disabled?: boolean;
+}
+
+export const DrawRectangleButton = ({ disabled }: IDrawRectangleButtonProps) => {
   const { draw, setDraw } = useContext(AoiLayerContext);
-  const { state } = useAoi();
-  const disabled = useMemo(() => state !== 'edit', [state]);
   const selected = useMemo(() => draw?.type === 'rectangle', [draw?.type]);
 
   const drawRectangle = useCallback(() => {
@@ -30,8 +31,8 @@ export const DrawRectangleButton = () => {
   }, [draw, setDraw]);
 
   return (
-    <DrawButton selected={selected} disabled={disabled} onClick={drawRectangle}>
+    <SquareButton selected={selected} disabled={disabled} onClick={drawRectangle}>
       <Icon name='Square' width={24} height={24} />
-    </DrawButton>
+    </SquareButton>
   );
 };

@@ -30,8 +30,8 @@ export type {
   TDateRangeNode,
   TDataSetsNode,
   TFunctionNode,
-  TDataSetValue,
 } from './lib/store/action-creator/action-creator.model';
+export type { TDataSetValue } from './lib/store/action-creator/action-creator.schema';
 export type { TBaseFunction } from './lib/store/action-creator/node.utils';
 export { useFunctions } from './lib/query/function.query';
 export { useCreateWorkflow, useCreateWorkflowStatus } from './lib/mutation/workflow.mutation';
@@ -63,3 +63,5 @@ export type {
   TIterableTreeSettingsGroupValues,
   TIterableTreeSliderValues,
 } from './lib/form-builder/tree/tree-builder/tree-builder.model';
+export { useComparisonMode } from './lib/store/comparison-mode/comparison-tool.store';
+export type { TUid, TComparisonItem } from './lib/store/comparison-mode/comparison-tool.store';
