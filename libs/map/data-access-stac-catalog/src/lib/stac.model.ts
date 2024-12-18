@@ -1,3 +1,4 @@
+import { TDateString } from '@ukri/shared/utils/date';
 import z from 'zod';
 
 const coordinateSchema = z.tuple([z.number(), z.number()]);
@@ -20,7 +21,9 @@ const circleSchema = z.object({
 const geometrySchema = z.union([polygonSchema, multiPolygonSchema, circleSchema]);
 
 const propertySchema = z.object({
-  datetime: z.string(),
+  datetime: z.custom<NonNullable<TDateString>>(
+    (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+  ),
   'eo:cloud_cover': z.number().optional(),
   'grid:code': z.string().optional(),
   'sat:orbit_state': z.string().optional(),
@@ -63,11 +66,22 @@ const assetSchema = z.object({
   'raster:bands': z
     .array(
       z.object({
-        nodata: z.number(),
+        nodata: z.number().nullable(),
         data_type: z.string(),
       })
     )
     .optional(),
+});
+
+const waterQualitySchema = assetSchema.extend({
+  statistics: z.object({
+    maximum: z.number().nullable(),
+    mean: z.number().nullable(),
+    median: z.number().nullable(),
+    minimum: z.number().nullable(),
+    stddev: z.number().nullable(),
+    valid_percent: z.number().nullable(),
+  }),
 });
 
 const featureSchema = z.object({
@@ -81,6 +95,10 @@ const featureSchema = z.object({
   assets: z.object({
     thumbnail: assetSchema,
     visual: assetSchema.optional(),
+    cdom: waterQualitySchema.optional(),
+    cya_cells: waterQualitySchema.optional(),
+    doc: waterQualitySchema.optional(),
+    turb: waterQualitySchema.optional(),
   }),
   links: z.array(linkSchema),
   collection: z.string(),
@@ -98,6 +116,7 @@ export const collectionSchema = z.object({
   }),
 });
 
+export type TWaterQuality = z.infer<typeof waterQualitySchema>;
 export type TGeometry = z.infer<typeof geometrySchema>;
 export type TCollection = z.infer<typeof collectionSchema>;
 export type TFeature = TCollection['features'][number];
