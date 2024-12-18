@@ -21,6 +21,7 @@ jobs:
       canDeployOnQA: false
       canDeployOnStaging: false
       canDeployOnProduction: false
+    secrets: inherit
   buildStorybook:
     name: 'Build Storybook'
     uses: ./.github/workflows/storybook-build.yml
