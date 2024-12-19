@@ -101,7 +101,7 @@ export const Presets = () => {
 
   return (
     <PresetsContainer>
-      <section className='text-text-primary h-full overflow-scroll p-4 pb-0'>
+      <section className='text-text-primary h-full overflow-y-scroll p-4 overflow-x-visible pb-0'>
         {data?.map((preset) => (
           <Preset
             key={preset.identifier}

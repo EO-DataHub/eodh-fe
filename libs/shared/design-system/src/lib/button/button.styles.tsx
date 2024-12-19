@@ -11,7 +11,7 @@ export const getBaseStyles = (
     return `focus:outline-[1px] focus:outline-primary ${isActive && 'outline-[1px] outline-primary'}`;
   }
 
-  return `hover:outline hover:outline-[3px] hover:outline-primary-light duration-200 focus:outline focus:outline-[3px] focus:outline-primary-light ${
+  return `h-fit hover:outline hover:outline-[3px] hover:outline-primary-light duration-200 focus:outline focus:outline-[3px] focus:outline-primary-light ${
     isActive && 'outline outline-[3px] outline-primary-light'
   }`;
 };

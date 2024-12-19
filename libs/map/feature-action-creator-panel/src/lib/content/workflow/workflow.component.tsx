@@ -92,7 +92,7 @@ export const Workflow = () => {
   return (
     <Container>
       <Content>
-        <section className='h-full overflow-scroll'>
+        <section className='h-full overflow-y-scroll overflow-x-visible'>
           <div className='flex justify-center'>
             <section className='p-4 text-text-primary flex justify-center flex-col pb-28'>
               {nodes.sort((a, b) => a.order - b.order).map((node) => renderNode(node))}
