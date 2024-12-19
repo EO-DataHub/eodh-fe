@@ -74,7 +74,7 @@ export const History = () => {
   return (
     <Container>
       <Content>
-        <section className='text-text-primary h-full overflow-scroll p-4'>
+        <section className='text-text-primary h-full overflow-x-visible overflow-y-scroll p-4'>
           <div className='flex justify-end'>
             <SortFilter onSortChange={changeOrder} sortKey={orderBy} />
           </div>

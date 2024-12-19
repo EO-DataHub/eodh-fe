@@ -120,7 +120,7 @@ const restoreFootprintStoreState = (mode: TMode) => {
 
 const restoreTrueColorImageStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<TTrueImageStoreState>(storeKeys.TRUE_COLOR_IMAGE(mode));
-  if (!currentState) {
+  if (!currentState || !Object.keys(currentState).length) {
     useTrueColorImageStore.getState().setFeature(undefined);
     return;
   }

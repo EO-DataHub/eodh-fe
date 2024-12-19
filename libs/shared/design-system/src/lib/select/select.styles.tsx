@@ -7,7 +7,7 @@ export const selectStyles = {
     } focus:border-primary-light focus:ring-primary-light focus:ring-[3px]`,
 
   button: 'pl-2 pr-10 text-left cursor-default focus:outline-none',
-  list: 'z-20 max-h-60 overflow-auto focus:outline-none',
+  list: 'z-20 max-h-60 overflow-y-scroll focus:outline-none',
 
   errorMessage: 'text-error text-small-semibold m-b-[5px]',
   buttonText: 'truncate max-w-[100px]',

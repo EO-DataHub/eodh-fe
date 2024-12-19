@@ -148,7 +148,7 @@ export const ResultItem = ({
           {cloudCoverageValue && <ResultItemInfo value={cloudCoverageValue} iconName='Cloud' />}
           {gridCode && <ResultItemInfo value={gridCode} iconName='Map' />}
         </div>
-        <div className='flex justify-between mt-auto'>
+        <div className='flex justify-between items-end mt-auto'>
           <Button
             appearance='text'
             text={
