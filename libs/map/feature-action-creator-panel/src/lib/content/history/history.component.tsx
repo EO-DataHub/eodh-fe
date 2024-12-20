@@ -31,14 +31,26 @@ interface ILoadMoreButtonProps {
 const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
   if (isFetching) {
     return (
-      <Button disabled={true} text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE' appearance='outlined' size='large'>
+      <Button
+        disabled={true}
+        text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
+        appearance='outlined'
+        size='large'
+        className='px-3'
+      >
         <LoadingSpinner size='xs' className='ml-2' />
       </Button>
     );
   }
 
   return (
-    <Button text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE' appearance='outlined' size='large' onClick={onClick} />
+    <Button
+      text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
+      appearance='outlined'
+      size='large'
+      onClick={onClick}
+      className='px-3'
+    />
   );
 };
 

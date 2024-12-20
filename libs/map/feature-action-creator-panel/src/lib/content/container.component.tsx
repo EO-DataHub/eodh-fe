@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 
+import { UnactiveAcModeModal } from './modals/unactive-ac-mode-modal/unactive-ac-mode-modal.component';
 import { UnloggedUserModal } from './modals/unlogged-user-modal/unlogged-user-modal.component';
 
 export const Container = ({ children }: PropsWithChildren) => {
@@ -10,6 +11,7 @@ export const Content = ({ children }: PropsWithChildren) => {
   return (
     <main className='bg-bright-main h-[450px] relative'>
       {children}
+      <UnactiveAcModeModal />
       <UnloggedUserModal />
     </main>
   );

@@ -36,10 +36,10 @@ export const UnloggedUserModal = () => {
       header='MAP.ACTION_CREATOR_PANEL.MODALS.UNLOGGED_USER_MODAL.HEADER'
       content={contentText}
       remainingContent={
-        <ul>
+        <ul className='list-disc pl-5'>
           {arrayOfBenefits.map((item, index) => (
             <li key={index}>
-              <Text content={item} type='span' fontSize='medium' fontWeight='regular' className='text-text' />
+              <Text content={item} type='span' fontSize='medium' fontWeight='regular' className='text-text mt-[-2px]' />
             </li>
           ))}
         </ul>
@@ -47,8 +47,9 @@ export const UnloggedUserModal = () => {
       ctaButtons={
         <Button
           text='MAP.ACTION_CREATOR_PANEL.MODALS.UNLOGGED_USER_MODAL.CTA_BUTTON'
-          size='small'
+          size='medium'
           onClick={handleLogin}
+          className='px-4'
         />
       }
     />
