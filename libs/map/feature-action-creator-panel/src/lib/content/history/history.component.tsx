@@ -64,7 +64,7 @@ export const History = () => {
     return (
       <Container>
         <Content>
-          <ErrorMessage refetch={refetch} />;
+          <ErrorMessage refetch={refetch} />
         </Content>
         <Footer></Footer>
       </Container>

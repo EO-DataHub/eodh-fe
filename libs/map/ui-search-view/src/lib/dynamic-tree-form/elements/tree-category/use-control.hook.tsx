@@ -9,7 +9,7 @@ const useChildControlNames = (item: TIterableTreeCategoryValues): string[] => {
   return useMemo(() => {
     return (item.model.children || [])
       .filter((item) => !item.options?.disabled)
-      .map((item) => item.controls.value)
+      .map((item) => item.controls?.value)
       .flat()
       .map((control) => getControlName(control?.name))
       .filter((item) => item.length);
