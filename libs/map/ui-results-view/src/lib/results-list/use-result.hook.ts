@@ -1,44 +1,8 @@
 import { useComparisonMode, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
 import { TFeature } from '@ukri/map/data-access-stac-catalog';
-import { createDate, createDateString } from '@ukri/shared/utils/date';
-import { saveAs } from 'file-saver';
 import { useCallback, useMemo } from 'react';
 
-const s3ProtocolPrefix = 's3:/';
-const separator = '___';
-
-const getFileName = (fileName: string, ext: string | undefined, dateTime: string) => {
-  const date = createDate(createDateString(dateTime));
-  ext = ext ? `.${ext}` : '';
-
-  if (date) {
-    return `${fileName}${separator}${date.getTime()}${ext}`;
-  }
-
-  return `${fileName}${ext}`;
-};
-
-const downloadAssets = (feature: TFeature) => {
-  Object.entries(feature.assets).forEach(([key, asset]) => {
-    if (!asset || asset.href.startsWith(s3ProtocolPrefix)) {
-      return;
-    }
-
-    const defaultFileName = 'download';
-    const fileName = `${feature.id}${separator}${key}`;
-    const ext = asset.href.split('/').pop()?.split('.').pop();
-
-    saveAs(asset.href, getFileName(fileName || defaultFileName, ext, feature.properties.datetime));
-  });
-};
-
-const downloadMetadata = (feature: TFeature) => {
-  const blob = new Blob([JSON.stringify(feature)], { type: 'text/plain;charset=utf-8' });
-  const fileName = `${feature.id}${separator}metadata`;
-  const ext = 'json';
-
-  saveAs(blob, getFileName(fileName, ext, feature.properties.datetime));
-};
+import { downloadFiles } from './download-files.utils';
 
 export const useResult = () => {
   const { feature: selectedFeature, setFeature } = useTrueColorImage();
@@ -59,8 +23,7 @@ export const useResult = () => {
   );
 
   const download = useCallback((feature: TFeature) => {
-    downloadMetadata(feature);
-    downloadAssets(feature);
+    downloadFiles(feature);
   }, []);
 
   const handleSelectedItemToggle = useCallback(

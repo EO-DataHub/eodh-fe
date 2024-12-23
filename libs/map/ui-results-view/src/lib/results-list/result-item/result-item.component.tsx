@@ -1,42 +1,32 @@
-import { Button } from '@ukri/shared/design-system';
 import { formatDate, formatHourInUtc, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
-import { useMemo } from 'react';
+import { PropsWithChildren, useMemo } from 'react';
 
 import { Image } from './image.component';
 import { ResultItemInfo } from './result-info.component';
 
 export interface IResultItemProps {
   className?: string;
-  gridCode?: string;
-  selected?: boolean;
   imageUrl: string;
+  gridCode?: string;
+  cloudCoverage?: number;
   collectionName: string;
   dateTime: string;
-  cloudCoverage?: number;
-  addedForComparison: boolean;
-  canCompare: boolean;
-  comparisonEnabled: boolean;
-  onDownload: () => void;
-  onCompareItemToggle: () => void;
+  selected?: boolean;
   onToggleSelectedItem?: () => void;
 }
 
 export const ResultItem = ({
   className = '',
   imageUrl,
+  gridCode,
+  cloudCoverage,
+  selected,
   collectionName,
   dateTime,
-  cloudCoverage,
-  gridCode,
-  selected,
-  addedForComparison,
+  children,
   onToggleSelectedItem,
-  onDownload,
-  canCompare,
-  onCompareItemToggle,
-  comparisonEnabled,
-}: IResultItemProps) => {
+}: PropsWithChildren<IResultItemProps>) => {
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
   const cloudCoverageValue = useMemo(
@@ -61,35 +51,7 @@ export const ResultItem = ({
         </div>
       </div>
 
-      <div className='flex justify-between'>
-        <Button
-          appearance='text'
-          text='GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON.DOWNLOAD'
-          size='medium'
-          onClick={onDownload}
-          disabled={comparisonEnabled}
-        />
-        <Button
-          appearance='text'
-          text={
-            addedForComparison
-              ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.REMOVE_COMPARE'
-              : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.ADD_TO_COMPARE'
-          }
-          size='medium'
-          onClick={onCompareItemToggle}
-          className={`${addedForComparison ? '!text-error' : ''}`}
-          disabled={canCompare}
-        />
-        <Button
-          text={
-            selected ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE' : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW'
-          }
-          size='small'
-          onClick={onToggleSelectedItem}
-          disabled={comparisonEnabled}
-        />
-      </div>
+      {children}
     </div>
   );
 };

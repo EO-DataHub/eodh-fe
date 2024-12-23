@@ -59,6 +59,7 @@ const assetSchema = z.object({
   description: z.string().optional(),
   href: z.string(),
   type: z.string(),
+  size: z.number().optional(),
   roles: z.array(z.string()).optional(),
   'raster:bands': z
     .array(

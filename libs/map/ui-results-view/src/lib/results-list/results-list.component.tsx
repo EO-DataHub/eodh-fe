@@ -1,5 +1,7 @@
+import { useMode } from '@ukri/map/data-access-map';
 import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
 
+import { ActionButtons } from './result-item/action-buttons.component';
 import { ResultItem } from './result-item/result-item.component';
 import { useResult } from './use-result.hook';
 
@@ -17,6 +19,7 @@ export const ResultsList = ({ features }: IResultsListProps) => {
     comparisonEnabled,
     toggleCompareItem,
   } = useResult();
+  const { mode } = useMode();
 
   return (
     <div className='mx-4 mt-4'>
@@ -24,19 +27,25 @@ export const ResultsList = ({ features }: IResultsListProps) => {
         <ResultItem
           key={feature.id}
           className='mb-4'
+          imageUrl={feature.assets.thumbnail?.href || ''}
+          gridCode={feature.properties['grid:code']}
+          cloudCoverage={feature.properties['eo:cloud_cover']}
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
-          imageUrl={feature.assets.thumbnail?.href || ''}
-          cloudCoverage={feature.properties['eo:cloud_cover']}
-          gridCode={feature.properties['grid:code']}
           selected={isSelected(feature.id)}
-          comparisonEnabled={comparisonEnabled}
-          addedForComparison={isItemAddedToComparisonMode(feature)}
-          canCompare={canCompareItems(feature)}
           onToggleSelectedItem={() => toggleItem(feature)}
-          onDownload={() => downloadItem(feature)}
-          onCompareItemToggle={() => toggleCompareItem(feature)}
-        />
+        >
+          <ActionButtons
+            selected={isSelected(feature.id)}
+            comparisonEnabled={comparisonEnabled}
+            addedForComparison={isItemAddedToComparisonMode(feature)}
+            canDownload={mode === 'action-creator'}
+            canCompare={canCompareItems(feature)}
+            onDownload={() => downloadItem(feature)}
+            onCompareItemToggle={() => toggleCompareItem(feature)}
+            onToggleSelectedItem={() => toggleItem(feature)}
+          />
+        </ResultItem>
       ))}
     </div>
   );
