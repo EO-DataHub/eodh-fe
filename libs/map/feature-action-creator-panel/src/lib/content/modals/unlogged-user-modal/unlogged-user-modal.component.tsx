@@ -17,14 +17,16 @@ export const UnloggedUserModal = () => {
   }, [authClient]);
 
   const contentText = (
-    <Trans i18nKey='MAP.ACTION_CREATOR_PANEL.MODALS.UNLOGGED_USER_MODAL.CONTENT'>
-      There are many useful Earth observation features in EOPro, but the Action Creator unlocks additional search tools.
-      To unlock these you will first need to log in using a
-      <a href='https://github.com' target='_blank' className='text-primary-main underline' rel='noreferrer'>
-        GitHub account
-      </a>
-      . It’s free and gives you the following features:
-    </Trans>
+    <Trans
+      i18nKey='MAP.ACTION_CREATOR_PANEL.MODALS.UNLOGGED_USER_MODAL.CONTENT'
+      components={{
+        MyLink: (
+          <a href='https://github.com' target='_blank' className='text-primary-main underline' rel='noreferrer'>
+            GitHub account
+          </a>
+        ),
+      }}
+    />
   );
 
   if (authenticated) {
