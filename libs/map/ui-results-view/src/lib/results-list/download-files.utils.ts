@@ -1,32 +1,24 @@
 import { TFeature } from '@ukri/map/data-access-stac-catalog';
-import { createDate, createDateString } from '@ukri/shared/utils/date';
 import { saveAs } from 'file-saver';
 
 type TAsset = {
   name: string;
   featureId: TFeature['id'];
-  datetime: TFeature['properties']['datetime'];
 } & TFeature['assets'][string];
 
 const s3ProtocolPrefix = 's3:/';
 const separator = '___';
 
-const getFileName = (fileName: string, ext: string | undefined, dateTime: string) => {
-  const date = createDate(createDateString(dateTime));
+const getFileName = (collectionId: string, fileName: string, ext: string | undefined) => {
+  collectionId = collectionId ? `${collectionId}${separator}` : '';
   ext = ext ? `.${ext}` : '';
 
-  if (date) {
-    return `${fileName}${separator}${date.getTime()}${ext}`;
-  }
-
-  return `${fileName}${ext}`;
+  return `${collectionId}${fileName}${ext}`;
 };
 
 const getFileNameFromAsset = (asset: TAsset, defaultFileName = 'download') => {
-  let ext = asset.href.split('/').pop()?.split('.').pop();
-  ext = ext ? `.${ext}` : '';
-
-  return getFileName(asset.name || defaultFileName, ext, asset.datetime);
+  const ext = asset.href.split('/').pop()?.split('.').pop();
+  return getFileName(asset.featureId, asset.name || defaultFileName, ext);
 };
 
 const getAssets = (feature: TFeature): TAsset[] => {
@@ -36,7 +28,7 @@ const getAssets = (feature: TFeature): TAsset[] => {
     .filter(([, asset]) => !asset.href.startsWith(s3ProtocolPrefix))
     .filter(([, asset]) => !asset.href.endsWith('.xml'))
     .filter(([, asset]) => !asset.href.endsWith('.json'))
-    .map(([key, asset]) => ({ name: key, featureId: feature.id, datetime: feature.properties.datetime, ...asset }));
+    .map(([key, asset]) => ({ name: key, featureId: feature.id, ...asset }));
 };
 
 const calculateSize = (assets: TAsset[], unit: 'mb' | 'gb' = 'mb', unitType: 'decimal' | 'binary' = 'decimal') => {
@@ -101,10 +93,10 @@ const downloadAssets = (feature: TFeature) => {
 
 const downloadMetadata = (feature: TFeature) => {
   const blob = new Blob([JSON.stringify(feature)], { type: 'text/plain;charset=utf-8' });
-  const fileName = `${feature.id}${separator}metadata`;
+  const fileName = 'metadata';
   const ext = 'json';
 
-  saveAs(blob, getFileName(fileName, ext, feature.properties.datetime));
+  saveAs(blob, getFileName(feature.id, fileName, ext));
 };
 
 export const downloadFiles = (feature: TFeature) => {
