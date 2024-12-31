@@ -68,7 +68,7 @@ const removeTrailingSlashes = (url: string) => {
 };
 
 const getEodhProUrl = () => {
-  const apiVersion = '/v1.1';
+  const apiVersion = '/v1.1.1';
   const importedUrl = getValue<string>(
     import.meta.env.VITE_EODH_PRO_API_URL,
     config?.http.proxyConfig.EODH_PRO_API_URL,
