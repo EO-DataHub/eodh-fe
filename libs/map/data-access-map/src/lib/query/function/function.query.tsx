@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-query';
 
-import { paths } from '../api';
+import { paths } from '../../api';
+import { queryKey } from '../query-key.const';
 import { functionListSchema, TFunction } from './function.model';
-import { queryKey } from './query-key.const';
 
 const getFunctions = async (): Promise<TFunction[]> => {
   const response = await getHttpClient().get(paths.FUNCTIONS);

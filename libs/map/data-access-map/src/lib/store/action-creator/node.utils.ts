@@ -1,4 +1,4 @@
-import { TFunction } from '../../query/function.model';
+import { TFunction } from '../../query/function/function.model';
 import { TAreaNode, TDataSetsNode, TDateRangeNode, TFunctionNode, TNode } from './action-creator.model';
 import { TNodeImport } from './workflow-import/import-workflow.schema';
 
