@@ -15,17 +15,9 @@ const mapToChartSeries = (data: TChartItem[], index: number | undefined) => {
   return data
     .map((item, currentIndex) => [
       {
-        name: item.name + ' Value',
+        name: item.name,
         data: item.value.map((value) => parseFloat(parseFloat((value || 0).toString()).toFixed(2))),
         color: item.color,
-        group: 'value',
-        hidden: index !== undefined ? currentIndex !== index : false,
-      },
-      {
-        name: item.name + ' Percentage',
-        data: item.percentage.map((value) => parseFloat(parseFloat((value || 0).toString()).toFixed(2))),
-        color: item.color,
-        group: 'percentage',
         hidden: index !== undefined ? currentIndex !== index : false,
       },
     ])

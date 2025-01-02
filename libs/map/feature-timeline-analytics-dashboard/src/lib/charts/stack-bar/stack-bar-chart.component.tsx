@@ -18,7 +18,7 @@ export const StackBarChart = ({ series, categories, height, onLegendClick }: TSt
       ...defaultOptions,
       chart: {
         stacked: true,
-        // stackType: '100%',
+        stackType: '100%',
         events: {
           legendClick: (chart: unknown, seriesIndex?: number) => {
             onLegendClick(seriesIndex);
@@ -31,24 +31,8 @@ export const StackBarChart = ({ series, categories, height, onLegendClick }: TSt
       },
       yaxis: [
         {
-          title: {
-            text: 'Percentage',
-          },
-          opposite: true,
           labels: {
-            formatter: (value) => `${parseInt((value * 100).toString()).toString()}%`,
-          },
-          // forceNiceScale: false,
-          // min: 0,
-          // max: 100,
-          // tickAmount: 5,
-          // labels: {
-          //   formatter: (value) => value.toFixed(0) + '%',
-          // },
-        },
-        {
-          title: {
-            text: 'Value',
+            formatter: (value) => `${value}%`,
           },
         },
       ],
