@@ -21,7 +21,6 @@
       "@ukri/map/data-access-stac-catalog": ["libs/map/data-access-stac-catalog/src/index.ts"],
       "@ukri/map/feature-action-creator-panel": ["libs/map/feature-action-creator-panel/src/index.ts"],
       "@ukri/map/feature-comparison-tool": ["libs/map/feature-comparison-tool/src/index.ts"],
-      "@ukri/map/feature-graph-analytics": ["libs/map/feature-graph-analytics/src/index.ts"],
       "@ukri/map/feature-search-mode-panel": ["libs/map/feature-search-mode-panel/src/index.ts"],
       "@ukri/map/feature-timeline-analytics-dashboard": ["libs/map/feature-timeline-analytics-dashboard/src/index.ts"],
       "@ukri/map/ui-map": ["libs/map/ui-map/src/index.ts"],
