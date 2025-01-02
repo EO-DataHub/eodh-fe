@@ -13,7 +13,7 @@ export const defaultOptions: ApexOptions = {
   },
   legend: {
     show: true,
-    position: 'top',
+    position: 'right',
     onItemClick: {
       toggleDataSeries: true,
     },

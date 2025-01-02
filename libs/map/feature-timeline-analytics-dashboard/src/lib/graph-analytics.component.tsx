@@ -19,7 +19,7 @@ export const GraphAnalytics = () => {
     case 'stacked-bar': {
       return (
         <div className='w-full'>
-          <StackedBarChart height={400} data={data.assets.data.data} categories={data.assets.data.categories} />
+          <StackedBarChart height={chartHeight} data={data.assets.data.data} categories={data.assets.data.categories} />
         </div>
       );
     }
