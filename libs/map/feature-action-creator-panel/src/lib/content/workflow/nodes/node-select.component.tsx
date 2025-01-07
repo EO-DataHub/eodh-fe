@@ -30,6 +30,6 @@ export const NodeSelect = ({ value, options, disabled, onChange }: INodeSelectPr
   );
 
   return (
-    <Select className='w-full h-[26px]' options={options} value={value} disabled={disabled} onChange={handleChange} />
+    <Select size='sm' className='w-full' options={options} value={value} disabled={disabled} onChange={handleChange} />
   );
 };

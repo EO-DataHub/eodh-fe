@@ -1,7 +1,7 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import { useCallback, useMemo, useState } from 'react';
 
-import { Legend } from './legend.component';
+import { AssetSwitcher } from './asset-switcher.component';
 import { TSeriesItem } from './range-area-chart.model';
 import { RangeAreaWithLineOneSeriesChart } from './range-area-with-line-one-series-chart.component';
 
@@ -16,14 +16,17 @@ type TSeries = {
   title: string;
   data: TChartItem[];
   color: string;
+  unit: string;
 };
 
-const mapToChartSeries = (series: Record<string, TSeries>, index: number) => {
-  return Object.values(series).map(
-    (seriesItem, currentIndex: number): TSeriesItem => ({
+const mapToChartSeries = (series: Record<string, TSeries>, assetName?: string) => {
+  return Object.entries(series).map(
+    ([asset, seriesItem], index): TSeriesItem => ({
+      assetName: asset,
       title: seriesItem.title,
       color: seriesItem.color,
-      hidden: currentIndex !== index,
+      hidden: assetName !== undefined ? assetName !== asset : index > 0,
+      unit: seriesItem.unit,
       data: seriesItem.data.map((item) => ({
         min: parseFloat(parseFloat((item.min || 0).toString()).toFixed(2)),
         max: parseFloat(parseFloat((item.max || 0).toString()).toFixed(2)),
@@ -40,19 +43,21 @@ type TRangeAreaWithLineMultipleChartProps = {
 };
 
 export const RangeAreaWithLineMultipleSeriesChart = ({ series, height }: TRangeAreaWithLineMultipleChartProps) => {
-  const [currentSeriesIndex, setCurrentSeriesIndex] = useState<number>(0);
-  const chartSeries = useMemo(() => mapToChartSeries(series, currentSeriesIndex), [series, currentSeriesIndex]);
-
-  const changeSeries = useCallback(
-    (newIndex: number | undefined) => {
-      setCurrentSeriesIndex(newIndex === currentSeriesIndex ? 0 : newIndex || 0);
-    },
-    [currentSeriesIndex]
+  const [currentSeriesName, setCurrentSeriesName] = useState<string | undefined>(
+    () =>
+      mapToChartSeries(series)
+        .filter((item) => !item.hidden)
+        .pop()?.assetName
   );
+  const chartSeries = useMemo(() => mapToChartSeries(series, currentSeriesName), [series, currentSeriesName]);
+
+  const changeSeries = useCallback((assetName: string | undefined) => {
+    setCurrentSeriesName(assetName);
+  }, []);
 
   return (
     <div className='relative'>
-      <Legend series={chartSeries} index={currentSeriesIndex} onLegendItemClick={changeSeries} />
+      <AssetSwitcher series={chartSeries} value={currentSeriesName} onChange={changeSeries} />
       <RangeAreaWithLineOneSeriesChart series={chartSeries} height={height} />
     </div>
   );

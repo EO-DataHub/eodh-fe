@@ -8,8 +8,10 @@ export type TChartItem = {
 };
 
 export type TSeriesItem = {
+  assetName: string;
   title: string;
   data: TChartItem[];
   color: string;
+  unit: string;
   hidden: boolean;
 };
