@@ -4,6 +4,8 @@ import { useMemo } from 'react';
 import Chart from 'react-apexcharts';
 
 import { defaultOptions, TChartItem } from './bar-chart.model';
+import { Container } from './container.component';
+import { Legend } from './legend.component';
 
 type TStackBarChartProps = {
   height: number;
@@ -19,11 +21,6 @@ export const StackBarChart = ({ series, categories, height, onLegendClick }: TSt
       chart: {
         stacked: true,
         stackType: '100%',
-        events: {
-          legendClick: (chart: unknown, seriesIndex?: number) => {
-            onLegendClick(seriesIndex);
-          },
-        },
       },
       xaxis: {
         type: 'datetime',
@@ -38,8 +35,13 @@ export const StackBarChart = ({ series, categories, height, onLegendClick }: TSt
       ],
       colors: series.map((item) => item.color),
     }),
-    [series, categories, onLegendClick]
+    [series, categories]
   );
 
-  return <Chart options={stackBarChartOptions} series={series} type='bar' height={height} />;
+  return (
+    <Container>
+      <Chart options={stackBarChartOptions} series={series} type='bar' height={height} className='flex flex-grow' />
+      <Legend series={series} height={height} onLegendItemClick={onLegendClick} />
+    </Container>
+  );
 };

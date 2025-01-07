@@ -1,5 +1,17 @@
+import { TSize } from './select.model';
+
+const containerHeight: { [key in TSize]: string } = {
+  sm: 'h-[26px]',
+  md: 'h-8',
+};
+
+const fontSize: { [key in TSize]: string } = {
+  sm: 'text-action-creator-body',
+  md: 'text-medium-regular',
+};
+
 export const selectStyles = {
-  container: 'relative w-64 text-action-creator-body',
+  container: (size: TSize) => `relative w-64 ${fontSize[size]} ${containerHeight[size]}`,
 
   selectWrapper: (error?: string, disabled?: boolean) =>
     `absolute border w-full rounded [&:has(ul)]:z-10 ${!disabled ? 'bg-bright' : 'bg-bright-light cursor-default'} ${

@@ -12,14 +12,7 @@ export const defaultOptions: ApexOptions = {
     opacity: 1,
   },
   legend: {
-    show: true,
-    position: 'right',
-    onItemClick: {
-      toggleDataSeries: true,
-    },
-    onItemHover: {
-      highlightDataSeries: true,
-    },
+    show: false,
   },
   grid: {
     padding: {
@@ -31,7 +24,6 @@ export const defaultOptions: ApexOptions = {
   },
   plotOptions: {
     bar: {
-      // horizontal: true,
       dataLabels: {
         total: {
           enabled: false,

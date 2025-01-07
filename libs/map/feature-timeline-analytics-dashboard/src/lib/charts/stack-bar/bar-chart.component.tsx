@@ -4,26 +4,24 @@ import { useMemo } from 'react';
 import Chart from 'react-apexcharts';
 
 import { defaultOptions, TChartItem } from './bar-chart.model';
+import { Container } from './container.component';
+import { Legend } from './legend.component';
 
 type TBarChartProps = {
   height: number;
   series: TChartItem[];
   color: string;
+  unit: string;
   categories: TDateString[] | string[];
   onLegendClick: (index: number | undefined) => void;
 };
 
-export const BarChart = ({ color, height, onLegendClick, series, categories }: TBarChartProps) => {
+export const BarChart = ({ color, unit, series, categories, height, onLegendClick }: TBarChartProps) => {
   const options = useMemo(
     (): ApexOptions => ({
       ...defaultOptions,
       chart: {
         stacked: true,
-        events: {
-          legendClick: (chart: unknown, seriesIndex?: number) => {
-            onLegendClick(seriesIndex);
-          },
-        },
       },
       xaxis: {
         type: 'datetime',
@@ -32,25 +30,19 @@ export const BarChart = ({ color, height, onLegendClick, series, categories }: T
       yaxis: [
         {
           labels: {
-            formatter: (value) => value.toString(),
-          },
-        },
-        {
-          forceNiceScale: false,
-          min: 0,
-          max: 100,
-          tickAmount: 5,
-          opposite: true,
-          labels: {
-            formatter: (value) => value.toFixed(0) + '%',
+            formatter: (value) => `${value.toString()} ${unit}`,
           },
         },
       ],
-      // yaxis: chartSeries.map(item => item.n)
       colors: [color],
     }),
-    [categories, color, onLegendClick]
+    [categories, color, unit]
   );
 
-  return <Chart options={options} series={series} type='bar' height={height} />;
+  return (
+    <Container>
+      <Chart options={options} series={series} type='bar' height={height} className='flex flex-grow' />
+      <Legend series={series} height={height} onLegendItemClick={onLegendClick} />
+    </Container>
+  );
 };

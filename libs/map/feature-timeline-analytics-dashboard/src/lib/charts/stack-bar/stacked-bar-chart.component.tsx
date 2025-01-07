@@ -27,10 +27,11 @@ const mapToChartSeries = (data: TChartItem[], index: number | undefined) => {
 type TChartData = {
   data: TChartItem[];
   categories: TDateString[] | string[];
+  unit: string;
   height: number;
 };
 
-export const StackedBarChart = ({ data, categories, height }: TChartData) => {
+export const StackedBarChart = ({ data, categories, unit, height }: TChartData) => {
   const [currentSeriesIndex, setCurrentSeriesIndex] = useState<number | undefined>(undefined);
   const series = useMemo(() => mapToChartSeries(data, currentSeriesIndex), [data, currentSeriesIndex]);
 
@@ -47,6 +48,7 @@ export const StackedBarChart = ({ data, categories, height }: TChartData) => {
         series={series}
         categories={categories}
         color={series[currentSeriesIndex].color}
+        unit={unit}
         height={height}
         onLegendClick={changeSeries}
       />

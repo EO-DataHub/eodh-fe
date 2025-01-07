@@ -21,7 +21,7 @@ const stackBarAsset = z
   })
   .transform((data) => ({
     title: data.title,
-    units: data.units,
+    unit: data.units,
     chartType: 'stacked-bar' as const,
     categories: data.x_labels,
     data: data.data.map((item) => ({
@@ -49,7 +49,7 @@ const rangeAreaWithLineAsset = z
   })
   .transform((data) => ({
     title: data.title,
-    units: data.units,
+    unit: data.units,
     chartType: data.chart_type,
     color: data.color,
     data: data.data.map((item) => ({
