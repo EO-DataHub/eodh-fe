@@ -21,6 +21,7 @@ const colors = {
     primary: '#606060',
     light: '#A3A3A3',
     disabled: '#B4BBCA',
+    visited: '#8F44FF',
   },
   background: {
     DEFAULT: '#2E2D2D',

@@ -36,6 +36,7 @@ export const ActionButtons = ({
           appearance='text'
           text='GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON.DOWNLOAD'
           size='medium'
+          type='link'
           onClick={onDownload}
           disabled={comparisonEnabled}
         />
