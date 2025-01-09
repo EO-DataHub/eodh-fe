@@ -122,6 +122,18 @@ export const useComparisonMode = () => {
     [comparisonItems.items, itemAddedToComparisonMode]
   );
 
+  const toggleCompareItem = useCallback(
+    (item: TFeature, mode: TMode) => {
+      if (itemAddedToComparisonMode(item)) {
+        removeComparisonItem(item);
+        return;
+      }
+
+      addComparisonItem(item, mode);
+    },
+    [addComparisonItem, removeComparisonItem, itemAddedToComparisonMode]
+  );
+
   return useMemo(
     () => ({
       comparisonItems,
@@ -131,6 +143,7 @@ export const useComparisonMode = () => {
       removeComparisonItem,
       itemAddedToComparisonMode,
       canAddAsNewItemToComparisonMode,
+      toggleCompareItem,
     }),
     [
       comparisonItems,
@@ -140,6 +153,7 @@ export const useComparisonMode = () => {
       removeComparisonItem,
       itemAddedToComparisonMode,
       canAddAsNewItemToComparisonMode,
+      toggleCompareItem,
     ]
   );
 };
