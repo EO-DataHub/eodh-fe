@@ -13,9 +13,9 @@ interface ITooltipProps {
 
 export const Tooltip = ({ items, name }: ITooltipProps) => {
   return (
-    <div className='flex flex-row rounded'>
-      <div className='flex items-center justify-center bg-background-main p-3'>{name}</div>
-      <div className='flex flex-col mx-2 my-3'>
+    <div className='flex flex-col rounded'>
+      <div className='flex items-center justify-center bg-background-main p-2'>{name}</div>
+      <div className='flex flex-col mx-2 my-2'>
         {items.map((item) => (
           <div key={item.name} className='flex flex-row items-center justify-start gap-1'>
             <div className='flex rounded-full w-2 h-2' style={{ background: item.color }}></div>

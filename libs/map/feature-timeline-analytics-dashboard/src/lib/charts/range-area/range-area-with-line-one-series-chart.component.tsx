@@ -110,7 +110,7 @@ const getRangeAreaValues = (series: TSeriesItem) => ({
   hidden: series.hidden,
 });
 
-const getLineChartValues = (series: TSeriesItem) => ({
+const getLineChartValues = (series: TSeriesItem, index: number) => ({
   type: 'line',
   name: 'Median',
   data: series.data.map((item) => ({
@@ -163,52 +163,52 @@ export const RangeAreaWithLineOneSeriesChart = ({ id, series, height }: TRangeAr
       legend: {
         show: false,
       },
-      tooltip: {
-        custom: ({ series, seriesIndex, dataPointIndex, w }: IApexOptions) => {
-          const rawValue = series[seriesIndex][dataPointIndex];
-          const pointConfig = w.globals.initialSeries[seriesIndex];
-
-          console.log('series', series, seriesIndex, dataPointIndex, w);
-
-          // const parsedSeries = series?.reduce<IParsedSeriesData[]>((acc, item, index) => {
-          //   if (!item) {
-          //     return acc;
-          //   }
-          //
-          //   const value = item[dataPointIndex];
-          //   const pointConfig = w.globals.initialSeries[index];
-          //   const current = chartData.find((item) => item.name === pointConfig.name);
-          //
-          //   return current && (value || value === 0)
-          //     ? [
-          //         ...acc,
-          //         {
-          //           color: w.globals.colors[index],
-          //           name: current?.name || '',
-          //           displayedValue: getFormattedValue(String(value), current?.uom || null),
-          //         },
-          //       ]
-          //     : acc;
-          // }, []);
-
-          const items = [
-            {
-              color: pointConfig.color,
-              displayedValue: roundValue(rawValue).toString(),
-              name: 'Value',
-            },
-            // {
-            //   color: pointConfig.color,
-            //   displayedValue: `${roundValue(percentageValue)}%`,
-            //   name: 'Percentage',
-            // },
-          ];
-
-          // console.log('tooltip', series, seriesIndex, dataPointIndex, w, pointConfig, items);
-
-          return renderToString(renderTooltip({ items, name: pointConfig.name }));
-        },
-      },
+      // tooltip: {
+      //   custom: ({ series, seriesIndex, dataPointIndex, w }: IApexOptions) => {
+      //     const rawValue = series[seriesIndex][dataPointIndex];
+      //     const pointConfig = w.globals.initialSeries[seriesIndex];
+      //
+      //     console.log('series', series, seriesIndex, dataPointIndex, w);
+      //
+      //     // const parsedSeries = series?.reduce<IParsedSeriesData[]>((acc, item, index) => {
+      //     //   if (!item) {
+      //     //     return acc;
+      //     //   }
+      //     //
+      //     //   const value = item[dataPointIndex];
+      //     //   const pointConfig = w.globals.initialSeries[index];
+      //     //   const current = chartData.find((item) => item.name === pointConfig.name);
+      //     //
+      //     //   return current && (value || value === 0)
+      //     //     ? [
+      //     //         ...acc,
+      //     //         {
+      //     //           color: w.globals.colors[index],
+      //     //           name: current?.name || '',
+      //     //           displayedValue: getFormattedValue(String(value), current?.uom || null),
+      //     //         },
+      //     //       ]
+      //     //     : acc;
+      //     // }, []);
+      //
+      //     const items = [
+      //       {
+      //         color: pointConfig.color,
+      //         displayedValue: roundValue(rawValue).toString(),
+      //         name: 'Value',
+      //       },
+      //       // {
+      //       //   color: pointConfig.color,
+      //       //   displayedValue: `${roundValue(percentageValue)}%`,
+      //       //   name: 'Percentage',
+      //       // },
+      //     ];
+      //
+      //     // console.log('tooltip', series, seriesIndex, dataPointIndex, w, pointConfig, items);
+      //
+      //     return renderToString(renderTooltip({ items, name: pointConfig.name }));
+      //   },
+      // },
       // yaxis: [
       //   {
       //     labels: {
@@ -237,7 +237,7 @@ export const RangeAreaWithLineOneSeriesChart = ({ id, series, height }: TRangeAr
     [series]
   );
 
-  // console.log('chartSeries', chartSeries);
+  console.log('chartSeries', chartSeries, series);
 
   if (!series.length) {
     return;

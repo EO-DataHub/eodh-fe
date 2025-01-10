@@ -1,4 +1,5 @@
 import ApexCharts, { ApexOptions } from 'apexcharts';
+import cloneDeep from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -77,7 +78,7 @@ export default function Charts({ id, type = 'line', width = '100%', height = 'au
       series,
     };
 
-    return extend(options, newOptions);
+    return cloneDeep(extend(options, newOptions));
   }, [height, options, series, type, width]);
 
   const updateSeries = useCallback(
@@ -147,6 +148,7 @@ export default function Charts({ id, type = 'line', width = '100%', height = 'au
         chart.current.updateOptions(getConfig());
       } else if (!optionsChanged) {
         // options or size have not changed, just the series has changed
+        console.log('chart---updated----update-series', series);
         chart.current.updateSeries(series);
       } else {
         // both might be changed

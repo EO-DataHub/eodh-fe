@@ -14,7 +14,9 @@ const getChartDataForWorkflowResults = async (
   userWorkspace: string,
   params: TQueryParams
 ): Promise<TChartSchema> => {
-  const response = await getHttpClient().post(paths.WORKFLOW_RESULT_CHARTS({ jobId, userWorkspace }), params);
+  const response = await getHttpClient().post(paths.WORKFLOW_RESULT_CHARTS({ jobId, userWorkspace }), {
+    stac_query: params,
+  });
 
   return chartSchema.parse(response);
 };

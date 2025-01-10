@@ -1,6 +1,6 @@
 const functions = '/action-creator/functions';
 const presets = '/action-creator/presets';
-const history = '/action-creator/workflow-submissions';
+const history = '/action-creator/submissions';
 const collectionInfo =
   '/api/catalogue/stac/catalogs/user-datasets/{user_workspace}/processing-results/cat_{job_id}/collections/col_{job_id}';
 
