@@ -4,7 +4,7 @@ const statusEnum = z.enum(['submitted', 'running', 'cancel-request', 'successful
 
 const submissionSchema = z
   .object({
-    job_id: z.string().uuid(),
+    submission_id: z.string().uuid(),
     status: statusEnum.transform((status) => {
       if (['failed', 'cancel-request', 'cancelled'].includes(status)) {
         return 'FAILED';
@@ -14,15 +14,15 @@ const submissionSchema = z
         return 'READY';
       }
     }),
-    workflow_identifier: z.string(),
+    function_identifier: z.string(),
     submitted_at: z.string(),
     finished_at: z.union([z.string().datetime(), z.null(), z.undefined()]),
     successful: z.union([z.boolean(), z.null(), z.undefined()]),
   })
   .transform((data) => ({
-    submissionId: data.job_id,
+    submissionId: data.submission_id,
     status: data.status,
-    functionIdentifier: data.workflow_identifier,
+    functionIdentifier: data.function_identifier,
     submittedAt: data.submitted_at,
     finishedAt: data.finished_at,
     submittedAtDate: data.submitted_at,
