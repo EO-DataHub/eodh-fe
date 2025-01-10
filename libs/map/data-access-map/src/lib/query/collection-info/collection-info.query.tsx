@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { getHttpClient, queryClient } from '@ukri/shared/utils/react-query';
 
-import { paths } from '../api';
+import { paths } from '../../api';
+import { queryKey } from '../query-key.const';
 import { collectionInfoCacheSchema, collectionInfoResponseSchema, TCollectionInfo } from './collection-info.model';
-import { queryKey } from './query-key.const';
 
 interface IGetCollectionInfoProps {
   jobId: string;
