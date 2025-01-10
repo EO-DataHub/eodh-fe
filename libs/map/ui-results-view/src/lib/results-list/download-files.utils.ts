@@ -1,10 +1,10 @@
-import { TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TAsset, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { saveAs } from 'file-saver';
 
-type TAsset = {
+type TDownloadableAsset = {
   name: string;
   featureId: TFeature['id'];
-} & TFeature['assets'][string];
+} & TAsset;
 
 const s3ProtocolPrefix = 's3:/';
 const separator = '___';
@@ -16,14 +16,14 @@ const getFileName = (collectionId: string, fileName: string, ext: string | undef
   return `${collectionId}${fileName}${ext}`;
 };
 
-const getFileNameFromAsset = (asset: TAsset, defaultFileName = 'download') => {
+const getFileNameFromAsset = (asset: TDownloadableAsset, defaultFileName = 'download') => {
   const ext = asset.href.split('/').pop()?.split('.').pop();
   return getFileName(asset.featureId, asset.name || defaultFileName, ext);
 };
 
-const getAssets = (feature: TFeature): TAsset[] => {
+const getAssets = (feature: TFeature): TDownloadableAsset[] => {
   return Object.entries(feature.assets)
-    .filter((item): item is [string, NonNullable<TFeature['assets']['string']>] => !!item[1])
+    .filter((item): item is [string, NonNullable<TAsset>] => !!item[1])
     .filter(([, asset]) => asset.roles?.includes('data'))
     .filter(([, asset]) => !asset.href.startsWith(s3ProtocolPrefix))
     .filter(([, asset]) => !asset.href.endsWith('.xml'))
@@ -31,13 +31,17 @@ const getAssets = (feature: TFeature): TAsset[] => {
     .map(([key, asset]) => ({ name: key, featureId: feature.id, ...asset }));
 };
 
-const calculateSize = (assets: TAsset[], unit: 'mb' | 'gb' = 'mb', unitType: 'decimal' | 'binary' = 'decimal') => {
+const calculateSize = (
+  assets: TDownloadableAsset[],
+  unit: 'mb' | 'gb' = 'mb',
+  unitType: 'decimal' | 'binary' = 'decimal'
+) => {
   const size = {
     size: 0,
     valid: true,
   };
 
-  assets.forEach((asset: TAsset) => {
+  assets.forEach((asset: TDownloadableAsset) => {
     if (asset.size === undefined) {
       size.valid = false;
     }
@@ -65,7 +69,7 @@ const calculateSize = (assets: TAsset[], unit: 'mb' | 'gb' = 'mb', unitType: 'de
   }
 };
 
-const downloadAssetsInNewTab = (assets: TAsset[]) => {
+const downloadAssetsInNewTab = (assets: TDownloadableAsset[]) => {
   assets.forEach((asset) => {
     const a = document.createElement('a');
     a.download = getFileNameFromAsset(asset);
