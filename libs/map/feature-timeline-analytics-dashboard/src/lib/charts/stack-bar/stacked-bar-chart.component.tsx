@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { BarChart } from './bar-chart.component';
 import { StackBarChart } from './stack-bar-chart.component';
+import { roundValue } from './utils';
 
 type TChartItem = {
   name: string;
@@ -16,7 +17,7 @@ const mapToChartSeries = (data: TChartItem[], index: number | undefined) => {
     .map((item, currentIndex) => [
       {
         name: item.name,
-        data: item.value.map((value) => parseFloat(parseFloat((value || 0).toString()).toFixed(2))),
+        data: item.value.map((value) => roundValue(value)),
         color: item.color,
         hidden: index !== undefined ? currentIndex !== index : false,
       },

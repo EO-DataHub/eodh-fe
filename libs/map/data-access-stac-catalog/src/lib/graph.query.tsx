@@ -53,5 +53,6 @@ export const useGraphSearch = ({ params }: TGraphSearchProps) => {
     enabled: query.enabled,
     queryKey: queryKey.GRAPH_SEARCH(query.params),
     queryFn: () => getChartData(query.params, params),
+    staleTime: 200,
   });
 };
