@@ -35,9 +35,10 @@ export const GraphAnalytics = () => {
     }
 
     case 'range-area-with-line': {
+      // console.log('data', data);
       return (
         <div className='w-full'>
-          <RangeAreaWithLineMultipleSeriesChart series={data.assets} height={chartHeight} />
+          <RangeAreaWithLineMultipleSeriesChart id={data.jobId} series={data.assets} height={chartHeight} />
         </div>
       );
     }

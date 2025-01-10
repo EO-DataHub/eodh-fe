@@ -1,5 +1,5 @@
 import { TDateString } from '@ukri/shared/utils/date';
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 
 import { AssetSwitcher } from './asset-switcher.component';
 import { TSeriesItem } from './range-area-chart.model';
@@ -38,27 +38,32 @@ const mapToChartSeries = (series: Record<string, TSeries>, assetName?: string) =
 };
 
 type TRangeAreaWithLineMultipleChartProps = {
+  id: string;
   series: Record<string, TSeries>;
   height: number;
 };
 
-export const RangeAreaWithLineMultipleSeriesChart = ({ series, height }: TRangeAreaWithLineMultipleChartProps) => {
-  const [currentSeriesName, setCurrentSeriesName] = useState<string | undefined>(
-    () =>
-      mapToChartSeries(series)
-        .filter((item) => !item.hidden)
-        .pop()?.assetName
-  );
-  const chartSeries = useMemo(() => mapToChartSeries(series, currentSeriesName), [series, currentSeriesName]);
+export const RangeAreaWithLineMultipleSeriesChart = memo(
+  ({ id, series, height }: TRangeAreaWithLineMultipleChartProps) => {
+    const [currentSeriesName, setCurrentSeriesName] = useState<string | undefined>(
+      () =>
+        mapToChartSeries(series)
+          .filter((item) => !item.hidden)
+          .pop()?.assetName
+    );
+    const chartSeries = useMemo(() => mapToChartSeries(series, currentSeriesName), [series, currentSeriesName]);
 
-  const changeSeries = useCallback((assetName: string | undefined) => {
-    setCurrentSeriesName(assetName);
-  }, []);
+    const changeSeries = useCallback((assetName: string | undefined) => {
+      setCurrentSeriesName(assetName);
+    }, []);
 
-  return (
-    <div className='relative'>
-      <AssetSwitcher series={chartSeries} value={currentSeriesName} onChange={changeSeries} />
-      <RangeAreaWithLineOneSeriesChart series={chartSeries} height={height} />
-    </div>
-  );
-};
+    // console.log('RangeAreaWithLineMultipleSeriesChart', id, series, height);
+
+    return (
+      <div className='relative'>
+        <AssetSwitcher series={chartSeries} value={currentSeriesName} onChange={changeSeries} />
+        <RangeAreaWithLineOneSeriesChart id={id} series={chartSeries} height={height} />
+      </div>
+    );
+  }
+);
