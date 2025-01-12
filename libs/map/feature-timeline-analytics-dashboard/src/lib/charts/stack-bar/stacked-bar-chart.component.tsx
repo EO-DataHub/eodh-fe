@@ -60,5 +60,7 @@ export const StackedBarChart = ({ data, categories, unit, height }: TChartData) 
     );
   }
 
-  return <StackBarChart series={series} categories={categories} height={height} onLegendClick={changeSeries} />;
+  return (
+    <StackBarChart series={series} categories={categories} unit={unit} height={height} onLegendClick={changeSeries} />
+  );
 };
