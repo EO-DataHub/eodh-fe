@@ -1,13 +1,13 @@
-import { TDateString } from '@ukri/shared/utils/date';
+import { createDateString, formatDate, TDateString } from '@ukri/shared/utils/date';
 import { ApexOptions } from 'apexcharts';
 import { useMemo } from 'react';
 import Chart from 'react-apexcharts';
 import { renderToString } from 'react-dom/server';
 
-import { defaultOptions, TChartItem } from './bar-chart.model';
+import { renderTooltip } from '../tooltip.component';
+import { defaultOptions, IApexOptions, TChartItem } from './bar-chart.model';
 import { Container } from './container.component';
 import { Legend } from './legend.component';
-import { renderTooltip } from './tooltip.component';
 import { roundValue } from './utils';
 
 type TStackBarChartProps = {
@@ -16,28 +16,6 @@ type TStackBarChartProps = {
   categories: TDateString[] | string[];
   onLegendClick: (index: number | undefined) => void;
 };
-
-interface IApexGlobals {
-  globals: {
-    seriesX: TChartItem['data'][];
-    seriesPercent: TChartItem['data'][];
-    colors: string[];
-    initialSeries: {
-      name: string;
-      color: string;
-      type: string;
-      group: string;
-      data: { x: number; y: number | null }[];
-    }[];
-  };
-}
-
-interface IApexOptions {
-  series: TChartItem['data'][];
-  seriesIndex: number;
-  dataPointIndex: number;
-  w: IApexGlobals;
-}
 
 export const StackBarChart = ({ series, categories, height, onLegendClick }: TStackBarChartProps) => {
   const stackBarChartOptions = useMemo(
@@ -63,29 +41,34 @@ export const StackBarChart = ({ series, categories, height, onLegendClick }: TSt
         custom: ({ series, seriesIndex, dataPointIndex, w }: IApexOptions) => {
           const rawValue = series[seriesIndex][dataPointIndex];
           const percentageValue = w.globals.seriesPercent[seriesIndex][dataPointIndex];
+          const dateInMilliseconds = w.globals.seriesX[seriesIndex][dataPointIndex];
           const pointConfig = w.globals.initialSeries[seriesIndex];
 
           const items = [
             {
-              color: pointConfig.color,
-              displayedValue: roundValue(rawValue).toString(),
               name: 'Value',
+              displayedValue: roundValue(rawValue).toString(),
             },
             {
-              color: pointConfig.color,
-              displayedValue: `${roundValue(percentageValue)}%`,
               name: 'Percentage',
+              displayedValue: `${roundValue(percentageValue)}%`,
+            },
+            {
+              name: 'Date',
+              displayedValue: formatDate(createDateString(new Date(dateInMilliseconds))),
             },
           ];
 
-          // console.log('tooltip', series, seriesIndex, dataPointIndex, w, pointConfig, items);
-
-          return renderToString(renderTooltip({ items, name: pointConfig.name }));
+          return renderToString(renderTooltip({ items, name: pointConfig.name, color: pointConfig.color }));
         },
       },
     }),
     [series, categories]
   );
+
+  if (!series.length || series.every((item) => item.hidden)) {
+    return;
+  }
 
   return (
     <Container>

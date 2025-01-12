@@ -7,6 +7,28 @@ export type TChartItem = {
   hidden: boolean;
 };
 
+interface IApexGlobals {
+  globals: {
+    seriesX: TChartItem['data'][];
+    seriesPercent: TChartItem['data'][];
+    colors: string[];
+    initialSeries: {
+      name: string;
+      color: string;
+      type: string;
+      group: string;
+      data: { x: number; y: number | null }[];
+    }[];
+  };
+}
+
+export interface IApexOptions {
+  series: TChartItem['data'][];
+  seriesIndex: number;
+  dataPointIndex: number;
+  w: IApexGlobals;
+}
+
 export const defaultOptions: ApexOptions = {
   fill: {
     opacity: 1,

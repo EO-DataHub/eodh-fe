@@ -1,5 +1,5 @@
 import { TDateString } from '@ukri/shared/utils/date';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { BarChart } from './bar-chart.component';
 import { StackBarChart } from './stack-bar-chart.component';
@@ -42,6 +42,10 @@ export const StackedBarChart = ({ data, categories, unit, height }: TChartData) 
     },
     [currentSeriesIndex]
   );
+
+  useEffect(() => {
+    setCurrentSeriesIndex(undefined);
+  }, [data]);
 
   if (currentSeriesIndex !== undefined) {
     return (
