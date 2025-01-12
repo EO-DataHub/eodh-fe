@@ -10,6 +10,7 @@ export const createTooltip =
   ({ series: chartSeries, seriesIndex, dataPointIndex, w }: IApexOptions) => {
     const dateInMilliseconds = w.globals.seriesX[seriesIndex][dataPointIndex];
     const pointConfig = w.globals.initialSeries[seriesIndex];
+    const color = [...w.globals.colors].pop();
     const name = series.find((item) => item.assetName === selectedAssetName)?.title || '';
     const unit = series.find((item) => item.assetName === selectedAssetName)?.unit || '';
 
@@ -44,5 +45,5 @@ export const createTooltip =
       },
     ];
 
-    return renderToString(renderTooltip({ items, name, color: pointConfig.color }));
+    return renderToString(renderTooltip({ items, name, color: pointConfig.color || color || '' }));
   };
