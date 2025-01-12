@@ -49,23 +49,25 @@ type TRangeAreaWithLineMultipleChartProps = {
 
 export const RangeAreaWithLineMultipleSeriesChart = memo(({ series, height }: TRangeAreaWithLineMultipleChartProps) => {
   const [currentSeriesName, setCurrentSeriesName] = useState<string | undefined>(getSeriesName(series));
-  const chartSeries = useMemo(() => mapToChartSeries(series, currentSeriesName), [series, currentSeriesName]);
+  const allChartSeries = useMemo(() => mapToChartSeries(series, currentSeriesName), [series, currentSeriesName]);
+  const currentChartSeries = useMemo(() => allChartSeries.filter((item) => !item.hidden), [allChartSeries]);
 
   const changeSeries = useCallback((assetName: string | undefined) => {
     setCurrentSeriesName(assetName);
   }, []);
 
   useEffect(() => {
-    const newSeriesName = getSeriesName(series);
-    if (currentSeriesName !== newSeriesName) {
-      setCurrentSeriesName(getSeriesName(series));
-    }
-  }, [currentSeriesName, series]);
+    setCurrentSeriesName(getSeriesName(series));
+  }, [series]);
 
   return (
     <div className='relative'>
-      <AssetSwitcher series={chartSeries} value={currentSeriesName} onChange={changeSeries} />
-      <RangeAreaWithLineOneSeriesChart series={chartSeries} selectedAssetName={currentSeriesName} height={height} />
+      <AssetSwitcher series={allChartSeries} value={currentSeriesName} onChange={changeSeries} />
+      <RangeAreaWithLineOneSeriesChart
+        series={currentChartSeries}
+        selectedAssetName={currentSeriesName}
+        height={height}
+      />
     </div>
   );
 });
