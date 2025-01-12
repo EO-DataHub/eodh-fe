@@ -1,11 +1,14 @@
-import { TDateString } from '@ukri/shared/utils/date';
+import { createDateString, formatDate, TDateString } from '@ukri/shared/utils/date';
 import { ApexOptions } from 'apexcharts';
 import { useMemo } from 'react';
 import Chart from 'react-apexcharts';
+import { renderToString } from 'react-dom/server';
 
-import { defaultOptions, TChartItem } from './bar-chart.model';
+import { renderTooltip } from '../tooltip.component';
+import { defaultOptions, IApexOptions, TChartItem } from './bar-chart.model';
 import { Container } from './container.component';
 import { Legend } from './legend.component';
+import { roundValue } from './utils';
 
 type TBarChartProps = {
   height: number;
@@ -35,9 +38,33 @@ export const BarChart = ({ color, unit, series, categories, height, onLegendClic
         },
       ],
       colors: [color],
+      tooltip: {
+        custom: ({ series, seriesIndex, dataPointIndex, w }: IApexOptions) => {
+          const rawValue = series[seriesIndex][dataPointIndex];
+          const dateInMilliseconds = w.globals.seriesX[seriesIndex][dataPointIndex];
+          const pointConfig = w.globals.initialSeries[seriesIndex];
+
+          const items = [
+            {
+              name: 'Value',
+              displayedValue: roundValue(rawValue).toString(),
+            },
+            {
+              name: 'Date',
+              displayedValue: formatDate(createDateString(new Date(dateInMilliseconds))),
+            },
+          ];
+
+          return renderToString(renderTooltip({ items, name: pointConfig.name, color: pointConfig.color }));
+        },
+      },
     }),
     [categories, color, unit]
   );
+
+  if (!series.length || series.every((item) => item.hidden)) {
+    return;
+  }
 
   return (
     <Container>

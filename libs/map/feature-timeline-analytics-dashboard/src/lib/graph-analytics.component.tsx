@@ -1,7 +1,7 @@
 import { useMode, useResults } from '@ukri/map/data-access-map';
 import { useGraphSearch } from '@ukri/map/data-access-stac-catalog';
 
-import { ChartLoader } from './chart-loader.component';
+import { ChartLoader } from './charts/chart-loader.component';
 import { RangeAreaWithLineMultipleSeriesChart } from './charts/range-area/range-area-with-line-multiple-series-chart.component';
 import { StackedBarChart } from './charts/stack-bar/stacked-bar-chart.component';
 
@@ -35,10 +35,9 @@ export const GraphAnalytics = () => {
     }
 
     case 'range-area-with-line': {
-      console.log('data', data);
       return (
         <div className='w-full'>
-          <RangeAreaWithLineMultipleSeriesChart id={data.jobId} series={data.assets} height={chartHeight} />
+          <RangeAreaWithLineMultipleSeriesChart series={data.assets} height={chartHeight} />
         </div>
       );
     }

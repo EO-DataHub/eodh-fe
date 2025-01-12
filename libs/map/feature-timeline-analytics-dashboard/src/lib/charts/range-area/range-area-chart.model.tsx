@@ -15,3 +15,25 @@ export type TSeriesItem = {
   unit: string;
   hidden: boolean;
 };
+
+interface IApexGlobals {
+  globals: {
+    seriesX: number[][];
+    colors: string[];
+    initialSeries: {
+      name: string;
+      color: string;
+      type: string;
+      group: string;
+      hidden: boolean;
+      data: { x: number; y: number | null }[];
+    }[];
+  };
+}
+
+export interface IApexOptions {
+  series: number[][];
+  seriesIndex: number;
+  dataPointIndex: number;
+  w: IApexGlobals;
+}
