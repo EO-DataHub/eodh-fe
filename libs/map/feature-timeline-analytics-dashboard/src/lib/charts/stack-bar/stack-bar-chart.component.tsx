@@ -13,11 +13,12 @@ import { roundValue } from './utils';
 type TStackBarChartProps = {
   height: number;
   series: TChartItem[];
+  unit: string;
   categories: TDateString[] | string[];
   onLegendClick: (index: number | undefined) => void;
 };
 
-export const StackBarChart = ({ series, categories, height, onLegendClick }: TStackBarChartProps) => {
+export const StackBarChart = ({ series, categories, unit, height, onLegendClick }: TStackBarChartProps) => {
   const stackBarChartOptions = useMemo(
     (): ApexOptions => ({
       ...defaultOptions,
@@ -47,7 +48,7 @@ export const StackBarChart = ({ series, categories, height, onLegendClick }: TSt
           const items = [
             {
               name: 'Value',
-              displayedValue: roundValue(rawValue).toString(),
+              displayedValue: `${roundValue(rawValue).toString()} ${unit}`,
             },
             {
               name: 'Percentage',
@@ -63,7 +64,7 @@ export const StackBarChart = ({ series, categories, height, onLegendClick }: TSt
         },
       },
     }),
-    [series, categories]
+    [series, categories, unit]
   );
 
   if (!series.length || series.every((item) => item.hidden)) {

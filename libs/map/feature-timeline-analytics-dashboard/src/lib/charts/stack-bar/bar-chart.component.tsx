@@ -47,7 +47,7 @@ export const BarChart = ({ color, unit, series, categories, height, onLegendClic
           const items = [
             {
               name: 'Value',
-              displayedValue: roundValue(rawValue).toString(),
+              displayedValue: `${roundValue(rawValue).toString()} ${unit}`,
             },
             {
               name: 'Date',
