@@ -34,7 +34,8 @@ type TChartData = {
 
 export const StackedBarChart = ({ data, categories, unit, height }: TChartData) => {
   const [currentSeriesIndex, setCurrentSeriesIndex] = useState<number | undefined>(undefined);
-  const series = useMemo(() => mapToChartSeries(data, currentSeriesIndex), [data, currentSeriesIndex]);
+  const allSeries = useMemo(() => mapToChartSeries(data, currentSeriesIndex), [data, currentSeriesIndex]);
+  const barChartSeries = useMemo(() => allSeries.filter((item) => !item.hidden), [allSeries]);
 
   const changeSeries = useCallback(
     (newIndex: number | undefined) => {
@@ -50,9 +51,10 @@ export const StackedBarChart = ({ data, categories, unit, height }: TChartData) 
   if (currentSeriesIndex !== undefined) {
     return (
       <BarChart
-        series={series}
+        series={barChartSeries}
+        allSeriesItems={allSeries}
         categories={categories}
-        color={series[currentSeriesIndex].color}
+        color={allSeries[currentSeriesIndex].color}
         unit={unit}
         height={height}
         onLegendClick={changeSeries}
@@ -61,6 +63,12 @@ export const StackedBarChart = ({ data, categories, unit, height }: TChartData) 
   }
 
   return (
-    <StackBarChart series={series} categories={categories} unit={unit} height={height} onLegendClick={changeSeries} />
+    <StackBarChart
+      series={allSeries}
+      categories={categories}
+      unit={unit}
+      height={height}
+      onLegendClick={changeSeries}
+    />
   );
 };

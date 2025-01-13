@@ -1,5 +1,6 @@
 import { createDateString, formatDate, TDateString } from '@ukri/shared/utils/date';
 import { ApexOptions } from 'apexcharts';
+import cloneDeep from 'lodash/cloneDeep';
 import { useMemo } from 'react';
 import Chart from 'react-apexcharts';
 import { renderToString } from 'react-dom/server';
@@ -13,13 +14,22 @@ import { roundValue } from './utils';
 type TBarChartProps = {
   height: number;
   series: TChartItem[];
+  allSeriesItems: TChartItem[];
   color: string;
   unit: string;
   categories: TDateString[] | string[];
   onLegendClick: (index: number | undefined) => void;
 };
 
-export const BarChart = ({ color, unit, series, categories, height, onLegendClick }: TBarChartProps) => {
+export const BarChart = ({
+  color,
+  unit,
+  series,
+  allSeriesItems,
+  categories,
+  height,
+  onLegendClick,
+}: TBarChartProps) => {
   const options = useMemo(
     (): ApexOptions => ({
       ...defaultOptions,
@@ -61,6 +71,7 @@ export const BarChart = ({ color, unit, series, categories, height, onLegendClic
     }),
     [categories, color, unit]
   );
+  const chartSeries = useMemo(() => cloneDeep(series), [series]);
 
   if (!series.length || series.every((item) => item.hidden)) {
     return;
@@ -68,8 +79,8 @@ export const BarChart = ({ color, unit, series, categories, height, onLegendClic
 
   return (
     <Container>
-      <Chart options={options} series={series} type='bar' height={height} className='flex flex-grow' />
-      <Legend series={series} height={height} onLegendItemClick={onLegendClick} />
+      <Chart options={options} series={chartSeries} type='bar' height={height} className='flex flex-grow' />
+      <Legend series={allSeriesItems} height={height} onLegendItemClick={onLegendClick} />
     </Container>
   );
 };
