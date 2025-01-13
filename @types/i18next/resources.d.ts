@@ -142,7 +142,7 @@ interface Resources {
           };
           UNLOGGED_USER_MODAL: {
             HEADER: 'Please log in to use the Action Creator';
-            CONTENT: 'There are many useful Earth observation features in EOPro, but the Action Creator unlocks additional search tools. To unlock these you will first need to log in using a <1>GitHub account</1>. It’s free and gives you the following features:';
+            CONTENT: 'There are many useful Earth observation features in EOPro, but the Action Creator unlocks additional search tools. To unlock these you will first need to log in using a <MyLink>GitHub account</MyLink>. It’s free and gives you the following features:';
             BENEFITS: [
               'Customisable workflows',
               'Access to land cover change features',
@@ -361,6 +361,31 @@ interface Resources {
           DATA_SETS: 'Select one or more Data Sets.';
           DATE_RANGE: 'Update date range.';
           DONT_SHOW_IT_AGAIN: 'Don’t show again';
+        };
+      };
+      TIMELINE_ANALYTICS_DASHBOARD: {
+        CHARTS: {
+          RANGE_AREA: {
+            TOOLTIP: {
+              MEDIAN: 'Median';
+              MIN: 'Minimum';
+              MAX: 'Maximum';
+              DATE: 'Date';
+            };
+          };
+          STACK_BAR: {
+            TOOLTIP: {
+              VALUE: 'Value';
+              PERCENTAGE: 'Percentage';
+              DATE: 'Date';
+            };
+          };
+          BAR: {
+            TOOLTIP: {
+              VALUE: 'Value';
+              DATE: 'Date';
+            };
+          };
         };
       };
     };

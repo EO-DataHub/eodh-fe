@@ -1,4 +1,4 @@
-import { createDateString, formatDate, TDateString } from '@ukri/shared/utils/date';
+import { createDateString, formatDateTime, TDateString } from '@ukri/shared/utils/date';
 import { ApexOptions } from 'apexcharts';
 import cloneDeep from 'lodash/cloneDeep';
 import { useMemo } from 'react';
@@ -56,12 +56,12 @@ export const BarChart = ({
 
           const items = [
             {
-              name: 'Value',
+              translationKey: 'MAP.TIMELINE_ANALYTICS_DASHBOARD.CHARTS.STACK_BAR.TOOLTIP.VALUE',
               displayedValue: `${roundValue(rawValue).toString()} ${unit}`,
             },
             {
-              name: 'Date',
-              displayedValue: formatDate(createDateString(new Date(dateInMilliseconds))),
+              translationKey: 'MAP.TIMELINE_ANALYTICS_DASHBOARD.CHARTS.STACK_BAR.TOOLTIP.DATE',
+              displayedValue: formatDateTime(createDateString(new Date(dateInMilliseconds))),
             },
           ];
 

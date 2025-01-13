@@ -1,4 +1,4 @@
-import { createDateString, formatDate, TDateString } from '@ukri/shared/utils/date';
+import { createDateString, formatDateTime, TDateString } from '@ukri/shared/utils/date';
 import { ApexOptions } from 'apexcharts';
 import { useMemo } from 'react';
 import Chart from 'react-apexcharts';
@@ -47,16 +47,16 @@ export const StackBarChart = ({ series, categories, unit, height, onLegendClick 
 
           const items = [
             {
-              name: 'Value',
+              translationKey: 'MAP.TIMELINE_ANALYTICS_DASHBOARD.CHARTS.STACK_BAR.TOOLTIP.VALUE',
               displayedValue: `${roundValue(rawValue).toString()} ${unit}`,
             },
             {
-              name: 'Percentage',
+              translationKey: 'MAP.TIMELINE_ANALYTICS_DASHBOARD.CHARTS.STACK_BAR.TOOLTIP.PERCENTAGE',
               displayedValue: `${roundValue(percentageValue)}%`,
             },
             {
-              name: 'Date',
-              displayedValue: formatDate(createDateString(new Date(dateInMilliseconds))),
+              translationKey: 'MAP.TIMELINE_ANALYTICS_DASHBOARD.CHARTS.STACK_BAR.TOOLTIP.DATE',
+              displayedValue: formatDateTime(createDateString(new Date(dateInMilliseconds))),
             },
           ];
 

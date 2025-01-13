@@ -4,7 +4,7 @@ import { TDateString } from '@ukri/shared/utils/date';
 export interface IParsedSeriesData {
   color?: string;
   displayedValue: string | TDateString;
-  name: string;
+  translationKey: string;
 }
 
 interface ITooltipProps {
@@ -22,9 +22,9 @@ export const Tooltip = ({ items, name, color }: ITooltipProps) => {
       </div>
       <div className='flex flex-col mx-2 my-2'>
         {items.map((item) => (
-          <div key={item.name} className='flex flex-row items-center justify-start gap-1'>
+          <div key={item.translationKey} className='flex flex-row items-center justify-start gap-1'>
             {item.color && <div className='flex rounded-full w-2 h-2' style={{ background: item.color }}></div>}
-            <Text content={item.name} type='span' fontSize='medium' fontWeight='semibold' fontType='body' />
+            <Text content={item.translationKey} type='span' fontSize='medium' fontWeight='semibold' fontType='body' />
             <Text content={item.displayedValue} type='span' fontSize='medium' fontWeight='bold' fontType='body' />
           </div>
         ))}

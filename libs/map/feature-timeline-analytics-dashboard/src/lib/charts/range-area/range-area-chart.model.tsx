@@ -20,6 +20,10 @@ interface IApexGlobals {
   globals: {
     seriesX: number[][];
     colors: string[];
+    seriesRange: {
+      x: number;
+      y: { y1: number; y2: number; rangeName: string }[];
+    }[][];
     initialSeries: {
       name: string;
       color: string;
