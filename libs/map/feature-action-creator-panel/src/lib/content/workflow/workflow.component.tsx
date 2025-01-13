@@ -11,8 +11,9 @@ import {
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 
+import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
 import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
 import { useTabsFlowModalState } from '../modals/tabs-flow-modal/action-creator-tabs-flow.store';
@@ -44,6 +45,7 @@ const renderNode = (node: TNode) => {
 };
 
 export const Workflow = () => {
+  const { enabled } = useContext(ActionCreator);
   const { nodes, isValid, canExportWorkflow, getNodesByType, importWorkflow, exportWorkflow } = useActionCreator();
   const { mutate } = useCreateWorkflow();
   const status = useCreateWorkflowStatus();
@@ -80,14 +82,16 @@ export const Workflow = () => {
   }, [data, getNodesByType, mutate]);
 
   useEffect(() => {
-    if (isFunctionsLoaded) {
-      const options = data
-        .map((item) => item.inputs.stacCollection?.options.map((option) => option.value))
-        .flat()
-        .filter((item): item is string => !!item);
-      setSupportedDataSets(options);
+    if (!enabled || !isFunctionsLoaded) {
+      return;
     }
-  }, [data, isFunctionsLoaded, setSupportedDataSets]);
+
+    const options = data
+      .map((item) => item.inputs.stacCollection?.options.map((option) => option.value))
+      .flat()
+      .filter((item): item is string => !!item);
+    setSupportedDataSets(options);
+  }, [data, isFunctionsLoaded, enabled, setSupportedDataSets]);
 
   return (
     <Container>
@@ -115,20 +119,20 @@ export const Workflow = () => {
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.EXPORT'
             size='medium'
-            disabled={!canExportWorkflow}
+            disabled={!canExportWorkflow || !enabled}
             onClick={exportWorkflow}
           />
           <Button
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
             size='medium'
-            disabled={status === 'pending' || isOpen}
+            disabled={isOpen || !enabled || status === 'pending'}
             onClick={importWorkflow}
           />
           <div className='flex justify-end gap-4 w-full'>
             <Button
               text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
-              disabled={!isValid || status === 'pending' || status === 'success'}
+              disabled={!isValid || !enabled || status === 'pending' || status === 'success'}
               onClick={createWorkflow}
             />
           </div>
