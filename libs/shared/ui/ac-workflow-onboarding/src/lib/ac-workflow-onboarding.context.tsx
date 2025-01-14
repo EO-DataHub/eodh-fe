@@ -8,9 +8,9 @@ import { useAcOnboarding } from './ac-workflow-onboarding.store';
 
 interface IOnboardingContextType {
   currentStep: TStepName;
-  isOnboardingStarted: boolean;
   isOnboardingComplete: boolean;
-  startOnboarding: () => void;
+  enableOnboarding: () => void;
+  disableOnboarding: () => void;
   completeOnboarding: () => void;
   goToNextOnboardingStep: (tooltipStep: TStepName) => void;
   onboardingSteps: TOnboardingSteps;
@@ -59,12 +59,13 @@ export const OnboardingProvider = ({
   const {
     permanentHidden,
     visible: onboardingVisible,
-    started: isOnboardingStarted,
     finished: isOnboardingComplete,
     complete: completeOnboarding,
-    start: startOnboarding,
+    enable: enableOnboarding,
+    disable: disableOnboarding,
     show: showOnboarding,
     hide: hideOnboarding,
+    reset: resetOnboardingStatus,
   } = useAcOnboarding();
 
   const handleChecked = useCallback(() => {
@@ -175,16 +176,17 @@ export const OnboardingProvider = ({
   const resetOnboarding = useCallback(() => {
     if (!isOnboardingComplete && !permanentHidden) {
       setCurrentStep(onboardingSteps.AREA_NODE.step_name);
+      resetOnboardingStatus();
     }
-  }, [isOnboardingComplete, onboardingSteps.AREA_NODE.step_name, permanentHidden]);
+  }, [isOnboardingComplete, onboardingSteps.AREA_NODE.step_name, permanentHidden, resetOnboardingStatus]);
 
   return (
     <OnboardingContext.Provider
       value={{
         currentStep,
-        isOnboardingStarted,
         isOnboardingComplete,
-        startOnboarding,
+        enableOnboarding,
+        disableOnboarding,
         completeOnboarding,
         goToNextOnboardingStep,
         onboardingSteps,

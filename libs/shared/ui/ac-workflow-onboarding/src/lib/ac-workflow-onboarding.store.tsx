@@ -4,19 +4,23 @@ import { devtools, persist } from 'zustand/middleware';
 
 interface IAcOnboardingStore {
   visible: boolean;
-  status: 'not-started' | 'started' | 'finished';
+  enabled: boolean;
+  status: 'initial' | 'finished';
   permanentHidden: boolean;
   show: () => void;
   hide: (permanentHidden?: boolean) => void;
-  start: () => void;
+  enable: () => void;
+  disable: () => void;
   complete: () => void;
+  reset: () => void;
 }
 
 const useOnboardingStore = create<IAcOnboardingStore>()(
   devtools(
     persist(
       (set) => ({
-        status: 'not-started',
+        status: 'initial',
+        enabled: false,
         visible: false,
         permanentHidden: false,
         hide: (permanentHidden?: boolean) =>
@@ -29,14 +33,21 @@ const useOnboardingStore = create<IAcOnboardingStore>()(
             visible: true,
             permanentHidden: false,
           })),
-        start: () =>
+        enable: () =>
           set(() => ({
-            status: 'started',
-            visible: true,
+            enabled: true,
+          })),
+        disable: () =>
+          set(() => ({
+            enabled: false,
           })),
         complete: () =>
           set(() => ({
             status: 'finished',
+          })),
+        reset: () =>
+          set(() => ({
+            status: 'initial',
           })),
       }),
       {
@@ -50,12 +61,13 @@ const useOnboardingStore = create<IAcOnboardingStore>()(
 export const useAcOnboarding = () => {
   return useOnboardingStore((state) => ({
     permanentHidden: state.permanentHidden,
-    visible: state.visible && state.status === 'started',
-    started: state.status !== 'not-started',
+    visible: state.visible && state.enabled,
     finished: state.status === 'finished',
     hide: state.hide,
     show: state.show,
-    start: state.start,
+    enable: state.enable,
+    disable: state.disable,
     complete: state.complete,
+    reset: state.complete,
   }));
 };

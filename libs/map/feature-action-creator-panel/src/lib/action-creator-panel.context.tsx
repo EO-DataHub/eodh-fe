@@ -59,7 +59,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     [authenticated, hasWorkflowsToProcess, workflowStatus]
   );
   const {
-    context: { showOnboardingTooltip, hideOnboardingTooltip, isOnboardingStarted, startOnboarding },
+    context: { showOnboardingTooltip, hideOnboardingTooltip, enableOnboarding, disableOnboarding },
   } = useOnboarding();
   const { isOpen: isTabsFlowModalOpen } = useTabsFlowModalState();
 
@@ -122,12 +122,9 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     if (mode === 'action-creator' && activeTab === tabs.WORKFLOW && !isTabsFlowModalOpen) {
-      if (!isOnboardingStarted) {
-        startOnboarding();
-      }
-      showOnboardingTooltip();
+      enableOnboarding();
     } else {
-      hideOnboardingTooltip();
+      disableOnboarding();
     }
   }, [
     activeTab,
@@ -135,8 +132,8 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     showOnboardingTooltip,
     hideOnboardingTooltip,
     isTabsFlowModalOpen,
-    isOnboardingStarted,
-    startOnboarding,
+    enableOnboarding,
+    disableOnboarding,
   ]);
 
   return (
