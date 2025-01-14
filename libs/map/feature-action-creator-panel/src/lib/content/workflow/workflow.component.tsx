@@ -49,7 +49,7 @@ export const Workflow = () => {
   const { nodes, isValid, canExportWorkflow, getNodesByType, importWorkflow, exportWorkflow } = useActionCreator();
   const { mutate } = useCreateWorkflow();
   const status = useCreateWorkflowStatus();
-  const { data, isSuccess: isFunctionsLoaded } = useFunctions();
+  const { data, isSuccess: isFunctionsLoaded } = useFunctions({ enabled });
   const { setSupportedDataSets } = useDataSets();
   const { isOpen } = useTabsFlowModalState();
 

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getHttpClient, TExtractFnReturnType } from '@ukri/shared/utils/react-query';
+import { getHttpClient, TExtractFnReturnType, TQueryConfig } from '@ukri/shared/utils/react-query';
 
 import { paths } from '../../api';
 import { queryKey } from '../query-key.const';
@@ -11,11 +11,11 @@ const getFunctions = async (): Promise<TFunction[]> => {
   return functionListSchema.parse(response).functions;
 };
 
-export const useFunctions = () => {
+export const useFunctions = ({ enabled = true }: TQueryConfig<typeof getFunctions> = {}) => {
   return useQuery<TExtractFnReturnType<typeof getFunctions>>({
     queryKey: queryKey.FUNCTIONS(),
     queryFn: () => getFunctions(),
-    enabled: true,
+    enabled: enabled,
     staleTime: 60 * 1000,
   });
 };
