@@ -3,22 +3,51 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
 interface IAcOnboardingStore {
+  visible: boolean;
+  enabled: boolean;
+  status: 'initial' | 'finished';
   permanentHidden: boolean;
-  hide: (permanentHidden: boolean) => void;
+  show: () => void;
+  hide: (permanentHidden?: boolean) => void;
+  enable: () => void;
+  disable: () => void;
+  complete: () => void;
+  reset: () => void;
 }
 
 const useOnboardingStore = create<IAcOnboardingStore>()(
   devtools(
     persist(
       (set) => ({
+        status: 'initial',
+        enabled: false,
+        visible: false,
         permanentHidden: false,
-        hide: () =>
-          set(() => ({
-            permanentHidden: true,
+        hide: (permanentHidden?: boolean) =>
+          set((state) => ({
+            visible: false,
+            permanentHidden: permanentHidden !== undefined ? permanentHidden : state.permanentHidden,
           })),
         show: () =>
           set(() => ({
+            visible: true,
             permanentHidden: false,
+          })),
+        enable: () =>
+          set(() => ({
+            enabled: true,
+          })),
+        disable: () =>
+          set(() => ({
+            enabled: false,
+          })),
+        complete: () =>
+          set(() => ({
+            status: 'finished',
+          })),
+        reset: () =>
+          set(() => ({
+            status: 'initial',
           })),
       }),
       {
@@ -29,12 +58,16 @@ const useOnboardingStore = create<IAcOnboardingStore>()(
   )
 );
 
-export const useAcOnboardingState = () => {
+export const useAcOnboarding = () => {
   return useOnboardingStore((state) => ({
     permanentHidden: state.permanentHidden,
+    visible: state.visible && state.enabled,
+    finished: state.status === 'finished',
+    hide: state.hide,
+    show: state.show,
+    enable: state.enable,
+    disable: state.disable,
+    complete: state.complete,
+    reset: state.complete,
   }));
-};
-
-export const useTogglePermanentlyOnboarding = () => {
-  return useOnboardingStore((state) => state.hide);
 };

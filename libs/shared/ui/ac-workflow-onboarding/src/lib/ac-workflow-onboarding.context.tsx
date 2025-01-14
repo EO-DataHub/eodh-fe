@@ -4,11 +4,13 @@ import { Checkbox } from '@ukri/shared/design-system';
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useAcOnboardingState, useTogglePermanentlyOnboarding } from './ac-workflow-onboarding.store';
+import { useAcOnboarding } from './ac-workflow-onboarding.store';
 
 interface IOnboardingContextType {
   currentStep: TStepName;
   isOnboardingComplete: boolean;
+  enableOnboarding: () => void;
+  disableOnboarding: () => void;
   completeOnboarding: () => void;
   goToNextOnboardingStep: (tooltipStep: TStepName) => void;
   onboardingSteps: TOnboardingSteps;
@@ -52,37 +54,44 @@ export const OnboardingProvider = ({
   firstStep = 'AREA_NODE',
 }: PropsWithChildren<IOnboardingProviderProps>) => {
   const [currentStep, setCurrentStep] = useState<TStepName>(firstStep);
-  const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
-  const [onboardingVisible, setOnboardingVisible] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
   const { t } = useTranslation();
-  const { permanentHidden } = useAcOnboardingState();
-  const toggleVisibility = useTogglePermanentlyOnboarding();
+  const {
+    permanentHidden,
+    visible: onboardingVisible,
+    finished: isOnboardingComplete,
+    complete: completeOnboarding,
+    enable: enableOnboarding,
+    disable: disableOnboarding,
+    show: showOnboarding,
+    hide: hideOnboarding,
+    reset: resetOnboardingStatus,
+  } = useAcOnboarding();
 
   const handleChecked = useCallback(() => {
     setDontShowAgain((value) => !value);
   }, []);
 
   const handleHidePermanently = useCallback(() => {
-    toggleVisibility(dontShowAgain);
-  }, [toggleVisibility, dontShowAgain]);
+    hideOnboarding(dontShowAgain);
+  }, [hideOnboarding, dontShowAgain]);
 
   useEffect(() => {
     if (permanentHidden) {
-      setIsOnboardingComplete(true);
-      setOnboardingVisible(false);
+      completeOnboarding();
+      hideOnboarding(permanentHidden);
     }
-  }, [permanentHidden]);
+  }, [permanentHidden, completeOnboarding, hideOnboarding]);
 
   const showOnboardingTooltip = useCallback(() => {
     if (!isOnboardingComplete && !permanentHidden) {
-      setOnboardingVisible(true);
+      showOnboarding();
     }
-  }, [isOnboardingComplete, permanentHidden]);
+  }, [isOnboardingComplete, permanentHidden, showOnboarding]);
 
   const hideOnboardingTooltip = useCallback(() => {
-    setOnboardingVisible(false);
-  }, []);
+    hideOnboarding();
+  }, [hideOnboarding]);
 
   const onboardingSteps: TOnboardingSteps = useMemo(
     () => ({
@@ -133,10 +142,6 @@ export const OnboardingProvider = ({
     [t, handleChecked]
   );
 
-  const completeOnboarding = useCallback(() => {
-    setIsOnboardingComplete(true);
-  }, []);
-
   const goToNextOnboardingStep = useCallback(
     (currentTooltipStep: TStepName) => {
       if (isOnboardingComplete || permanentHidden) {
@@ -171,14 +176,17 @@ export const OnboardingProvider = ({
   const resetOnboarding = useCallback(() => {
     if (!isOnboardingComplete && !permanentHidden) {
       setCurrentStep(onboardingSteps.AREA_NODE.step_name);
+      resetOnboardingStatus();
     }
-  }, [isOnboardingComplete, onboardingSteps.AREA_NODE.step_name, permanentHidden]);
+  }, [isOnboardingComplete, onboardingSteps.AREA_NODE.step_name, permanentHidden, resetOnboardingStatus]);
 
   return (
     <OnboardingContext.Provider
       value={{
         currentStep,
         isOnboardingComplete,
+        enableOnboarding,
+        disableOnboarding,
         completeOnboarding,
         goToNextOnboardingStep,
         onboardingSteps,
