@@ -1,4 +1,4 @@
-import { useMode, useResults } from '@ukri/map/data-access-map';
+import { useComparisonMode, useMode, useResults } from '@ukri/map/data-access-map';
 import { useGraphSearch } from '@ukri/map/data-access-stac-catalog';
 
 import { ChartLoader } from './charts/chart-loader.component';
@@ -11,8 +11,9 @@ export const GraphAnalytics = () => {
   const { searchParams } = useResults();
   const { data, status } = useGraphSearch({ params: searchParams });
   const { mode } = useMode();
+  const { comparisonModeEnabled } = useComparisonMode();
 
-  if (mode !== 'action-creator') {
+  if (mode !== 'action-creator' || comparisonModeEnabled) {
     return null;
   }
 
