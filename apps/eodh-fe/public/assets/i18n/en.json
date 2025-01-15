@@ -365,6 +365,12 @@
     },
     "TIMELINE_ANALYTICS_DASHBOARD": {
       "CHARTS": {
+        "ERRORS": {
+          "NO_RESULTS": {
+            "TITLE": "No graph data available",
+            "MESSAGE": "Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets."
+          }
+        },
         "RANGE_AREA": {
           "TOOLTIP": {
             "MEDIAN": "Median",

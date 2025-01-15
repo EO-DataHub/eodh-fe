@@ -10,7 +10,7 @@ export default meta;
 
 export const SampleError = {
   args: {
-    iconName: null,
+    icon: null,
     title: 'Sorry, your search returned no results.',
     message:
       'Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets.',
