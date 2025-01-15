@@ -4,7 +4,7 @@ import { ResultItem } from './result-item.component';
 
 const meta: Meta<typeof ResultItem> = {
   component: ResultItem,
-  title: 'libs/shared/design-system/ResultItem',
+  title: 'libs/map/ui-results-view/ResultItem',
 };
 export default meta;
 

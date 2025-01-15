@@ -1,6 +1,6 @@
 import { Button } from '@ukri/shared/design-system';
 
-export interface IResultItemProps {
+export interface IMultipleItemsActionButtonsProps {
   selected?: boolean;
   addedForComparison: boolean;
   comparisonEnabled: boolean;
@@ -11,7 +11,7 @@ export interface IResultItemProps {
   onToggleSelectedItem?: () => void;
 }
 
-export const ActionButtons = ({
+export const MultipleItemsActionButtons = ({
   selected,
   addedForComparison,
   comparisonEnabled,
@@ -20,7 +20,7 @@ export const ActionButtons = ({
   onToggleSelectedItem,
   onDownload,
   onCompareItemToggle,
-}: IResultItemProps) => {
+}: IMultipleItemsActionButtonsProps) => {
   const compareButtonClassName = addedForComparison ? '!text-error' : '';
   const compareButtonTitle = addedForComparison
     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.REMOVE_COMPARE'
