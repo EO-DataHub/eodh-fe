@@ -14,6 +14,7 @@ interface ITextProps {
   type?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
   fontSize?: 'large' | 'medium' | 'small';
   fontWeight?: 'bold' | 'semibold' | 'regular';
+  fontType?: 'body';
   className?: string;
 }
 
@@ -24,8 +25,10 @@ export const Text = ({
   type = 'p',
   fontSize = 'small',
   fontWeight = 'regular',
+  fontType,
 }: ITextProps): JSX.Element => {
-  const baseStyles = `text-${fontSize}-${fontWeight}`;
+  const fontPrefix = fontType ? `${fontType}-` : '';
+  const baseStyles = `text-${fontPrefix}${fontSize}-${fontWeight}`;
   const combinedStyles = clsx(baseStyles, className);
   const { t } = useTranslation();
   const translatedContent = isString(content) && translate ? t(content) : content;

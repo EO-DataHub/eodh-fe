@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useOutsideClick } from '../hooks/use-outside-click';
 import { Icon } from '../icon/icon';
+import { TSize } from './select.model';
 import { selectStyles } from './select.styles';
 
 type TOptionValueObject = {
@@ -29,6 +30,7 @@ interface ISelectProps<T extends TOptionValue | TOptionValueObject> {
   error?: string;
   className?: string;
   value?: T;
+  size: TSize;
 }
 
 // TODO change it to not connected component once we will work on function handling ticket (UKRIW-94)
@@ -40,6 +42,7 @@ export const Select = <Value extends TOptionValue | TOptionValueObject>({
   className,
   value,
   disabled,
+  size,
 }: ISelectProps<Value>) => {
   const { t } = useTranslation();
   const [selectedOption, setSelectedOption] = useState<IOption<Value> | undefined>();
@@ -77,7 +80,7 @@ export const Select = <Value extends TOptionValue | TOptionValueObject>({
   }, [disabled]);
 
   return (
-    <div className={clsx(selectStyles.container, className)} ref={ref}>
+    <div className={clsx(selectStyles.container(size), className)} ref={ref}>
       {error && <span className={selectStyles.errorMessage}>{error}</span>}
       <div className={selectStyles.selectWrapper(error, disabled)} onClick={handleToggle}>
         {!isOpen && (
