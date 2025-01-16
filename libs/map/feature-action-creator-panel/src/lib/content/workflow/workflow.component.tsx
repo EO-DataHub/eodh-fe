@@ -11,7 +11,8 @@ import {
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
-import { useCallback, useContext, useEffect } from 'react';
+import { useSettings } from '@ukri/shared/utils/settings';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
@@ -20,6 +21,7 @@ import { useTabsFlowModalState } from '../modals/tabs-flow-modal/action-creator-
 import { TabsFlowModal } from '../modals/tabs-flow-modal/tabs-flow-modal.component';
 import { WorkflowProcessingModal } from '../modals/workflow-processing-modal/workflow-processing-modal.component';
 import { AreaNode } from './nodes/area/area-node.component';
+import { getArea } from './nodes/area/value-node.component';
 import { DataSetNode } from './nodes/data-set/data-set-node.component';
 import { NodeDateRange } from './nodes/date-range/date-range-node.component';
 import { NodeFunction } from './nodes/function/function-node.component';
@@ -52,6 +54,7 @@ export const Workflow = () => {
   const { data, isSuccess: isFunctionsLoaded } = useFunctions({ enabled });
   const { setSupportedDataSets } = useDataSets();
   const { isOpen } = useTabsFlowModalState();
+  const { aoiLimit } = useSettings();
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
@@ -93,6 +96,14 @@ export const Workflow = () => {
     setSupportedDataSets(options);
   }, [data, isFunctionsLoaded, enabled, setSupportedDataSets]);
 
+  const isAreaIncorrect = useMemo<boolean>(() => {
+    const area = nodes.find((node) => node.type === 'area') as TAreaNode | undefined;
+    if (area) {
+      return getArea(area.value) > aoiLimit;
+    }
+    return false;
+  }, [nodes, aoiLimit]);
+
   return (
     <Container>
       <Content>
@@ -132,7 +143,7 @@ export const Workflow = () => {
           <div className='flex justify-end gap-4 w-full'>
             <Button
               text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
-              disabled={!isValid || !enabled || status === 'pending' || status === 'success'}
+              disabled={isAreaIncorrect || !isValid || !enabled || status === 'pending' || status === 'success'}
               onClick={createWorkflow}
             />
           </div>

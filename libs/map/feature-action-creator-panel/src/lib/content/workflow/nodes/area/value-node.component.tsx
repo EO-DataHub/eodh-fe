@@ -56,7 +56,7 @@ export const convertUnits = (area: number, unit: 'km' | 'miles') => {
   return output;
 };
 
-const getArea = (value: TAreaNode['value']): number => {
+export const getArea = (value: TAreaNode['value']): number => {
   const shape = createGeometry(value);
   if (!shape) {
     return 0;
