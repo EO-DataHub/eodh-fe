@@ -1,5 +1,10 @@
 import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
+import { t } from 'i18next';
+import { enqueueSnackbar } from 'notistack';
+import { Coordinate } from 'ol/coordinate';
+import { boundingExtent, intersects } from 'ol/extent';
 import GroupLayer from 'ol/layer/Group';
+import { transform } from 'ol/proj';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { stacLayerZindex } from '../consts';
@@ -65,6 +70,19 @@ export const useComparisonModeImageLayers = () => {
       return;
     }
 
+    const firstExtentCoords = firstItem.geometry.coordinates[0].map((coord) =>
+      transform(coord as Coordinate, 'EPSG:4326', 'EPSG:3857')
+    );
+    const secondExtentCoords = secondItem.geometry.coordinates[0].map((coord) =>
+      transform(coord as Coordinate, 'EPSG:4326', 'EPSG:3857')
+    );
+
+    const firstExtent = boundingExtent(firstExtentCoords);
+    const secondExtent = boundingExtent(secondExtentCoords);
+
+    const isIntersection = intersects(firstExtent, secondExtent);
+    const combinedExtent = boundingExtent([...firstExtentCoords, ...secondExtentCoords]);
+
     const setLayers = async () => {
       layer1 = await createLayer(firstItem, 1);
       layer2 = await createLayer(secondItem, 2);
@@ -83,6 +101,17 @@ export const useComparisonModeImageLayers = () => {
       }
       setItem1(groupLayer1);
       setItem2(groupLayer2);
+
+      !isIntersection &&
+        enqueueSnackbar(t('MAP.COMPARISON_TOOL.NO_INTERSECTION'), { variant: 'warning', persist: false });
+
+      setTimeout(() => {
+        map.getView().fit(combinedExtent, {
+          size: map.getSize(),
+          padding: [15, 15, 15, 15],
+          maxZoom: 16,
+        });
+      }, 500);
     };
 
     setLayers().then();
