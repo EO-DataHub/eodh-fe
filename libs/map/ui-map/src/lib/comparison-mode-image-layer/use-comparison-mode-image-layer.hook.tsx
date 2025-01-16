@@ -111,7 +111,7 @@ export const useComparisonModeImageLayers = () => {
           padding: [15, 15, 15, 15],
           maxZoom: 16,
         });
-      }, 500);
+      }, 1500);
     };
 
     setLayers().then();
