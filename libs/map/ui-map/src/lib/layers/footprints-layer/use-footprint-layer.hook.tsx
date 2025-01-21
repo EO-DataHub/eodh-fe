@@ -9,8 +9,8 @@ import VectorSource from 'ol/source/Vector';
 import { Fill, Stroke, Style } from 'ol/style';
 import { useContext, useEffect, useState } from 'react';
 
-import { footprintsLayerZindex } from '../consts';
-import { MapContext } from '../map.component';
+import { footprintsLayerZindex } from '../../consts';
+import { MapContext } from '../../map.component';
 
 const defaultStyle = new Style({
   fill: new Fill({

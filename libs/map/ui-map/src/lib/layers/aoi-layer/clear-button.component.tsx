@@ -2,7 +2,7 @@ import { useAoi } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { useCallback, useMemo } from 'react';
 
-import { SquareButton } from '../square-button/square-button.component';
+import { SquareButton } from '../../components/square-button/square-button.component';
 
 export const ClearButton = () => {
   const { shape, visible, setShape, state } = useAoi();

@@ -7,8 +7,8 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
-import { aoiLayerZindex } from '../consts';
-import { MapContext } from '../map.component';
+import { aoiLayerZindex } from '../../consts';
+import { MapContext } from '../../map.component';
 import { TVectorLayer } from './aoi-layer.component';
 
 export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };

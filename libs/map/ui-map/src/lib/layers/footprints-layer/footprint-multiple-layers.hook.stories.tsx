@@ -4,12 +4,12 @@ import { TCollection } from '@ukri/map/data-access-stac-catalog';
 import { Button } from '@ukri/shared/design-system';
 import { useCallback, useEffect } from 'react';
 
-import { Map, MapWrapper } from '../map.component';
-import { sentinel1Item1CollectionMock } from '../mocks/sentinel-1-item1.collection.mock';
-import { sentinel1Item2CollectionMock } from '../mocks/sentinel-1-item2.collection.mock';
-import { sentinel2CollectionMock } from '../mocks/sentinel-2.collection.mock';
-import { sentinel3CollectionMock } from '../mocks/sentinel-3.collection.mock';
-import { sentinel5CollectionMock } from '../mocks/sentinel-5.collection.mock';
+import { Map, MapWrapper } from '../../map.component';
+import { sentinel1Item1CollectionMock } from '../../mocks/sentinel-1-item1.collection.mock';
+import { sentinel1Item2CollectionMock } from '../../mocks/sentinel-1-item2.collection.mock';
+import { sentinel2CollectionMock } from '../../mocks/sentinel-2.collection.mock';
+import { sentinel3CollectionMock } from '../../mocks/sentinel-3.collection.mock';
+import { sentinel5CollectionMock } from '../../mocks/sentinel-5.collection.mock';
 import { FootprintLayer } from './footprint.layer';
 
 const GeoJsonLayerComponent = ({ resultItem, collectionId }: { resultItem: TCollection; collectionId: string }) => {

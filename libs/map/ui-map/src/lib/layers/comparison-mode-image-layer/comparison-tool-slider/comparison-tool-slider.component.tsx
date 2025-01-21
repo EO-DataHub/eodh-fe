@@ -2,7 +2,7 @@ import { useComparisonMode } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { MouseEvent as ReactMouseEvent, useCallback, useContext, useEffect, useRef } from 'react';
 
-import { MapContext } from '../../map.component';
+import { MapContext } from '../../../map.component';
 import { ComparisonContext } from '../use-comparison-mode-image-layer.hook';
 
 const defaultSliderPosition = 0.5;

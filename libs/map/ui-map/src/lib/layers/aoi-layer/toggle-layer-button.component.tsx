@@ -1,7 +1,7 @@
 import { useLayers } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 
-import { SquareButton } from '../square-button/square-button.component';
+import { SquareButton } from '../../components/square-button/square-button.component';
 
 export const ToggleLayerButton = () => {
   const { visible, enabled, toggle } = useLayers();

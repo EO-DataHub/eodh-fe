@@ -1,7 +1,7 @@
 import { Icon, Text } from '@ukri/shared/design-system';
 import { useMemo } from 'react';
 
-import { SquareButton } from '../../square-button/square-button.component';
+import { SquareButton } from '../../../components/square-button/square-button.component';
 
 const badgeClassName = (selected: boolean) => {
   return `absolute top-[-12px] right-[-10px] block  w-4 h-4 rounded-lg ${

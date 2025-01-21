@@ -3,7 +3,7 @@ import { Draw } from 'ol/interaction.js';
 import { createBox } from 'ol/interaction/Draw.js';
 import { useCallback, useContext, useMemo } from 'react';
 
-import { SquareButton } from '../square-button/square-button.component';
+import { SquareButton } from '../../components/square-button/square-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
 
 interface IDrawRectangleButtonProps {

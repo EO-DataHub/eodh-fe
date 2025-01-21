@@ -7,7 +7,7 @@ import proj4 from 'proj4';
 import { useCallback, useContext, useMemo } from 'react';
 
 import { MapContext } from '../map.component';
-import { STACWithColorMap } from '../stac/stac-with-color-map';
+import { STACWithColorMap } from './stac-with-color-map';
 
 register(proj4);
 

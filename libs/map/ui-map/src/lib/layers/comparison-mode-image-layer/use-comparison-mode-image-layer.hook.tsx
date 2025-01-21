@@ -8,10 +8,10 @@ import { transform } from 'ol/proj';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { stacLayerZindex } from '../consts';
-import { MapContext } from '../map.component';
-import { STACWithColorMap } from '../stac/stac-with-color-map';
-import { useStacLayerCreation } from './../use-stac-layer-creation/use-stac-layer-creation';
+import { stacLayerZindex } from '../../consts';
+import { MapContext } from '../../map.component';
+import { STACWithColorMap } from '../../stac/stac-with-color-map';
+import { useStacLayerCreation } from './../../stac/use-stac-layer-creation';
 
 export type TComparisonLayer = {
   item1: GroupLayer | undefined;

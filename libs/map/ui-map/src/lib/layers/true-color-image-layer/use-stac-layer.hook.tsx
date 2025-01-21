@@ -2,9 +2,9 @@ import { useComparisonMode, useMode, useTrueColorImage } from '@ukri/map/data-ac
 import STAC from 'ol-stac';
 import { useEffect } from 'react';
 
-import { stacLayerZindex } from '../consts';
-import { STACWithColorMap } from '../stac/stac-with-color-map';
-import { useStacLayerCreation } from '../use-stac-layer-creation/use-stac-layer-creation';
+import { stacLayerZindex } from '../../consts';
+import { STACWithColorMap } from '../../stac/stac-with-color-map';
+import { useStacLayerCreation } from '../../stac/use-stac-layer-creation';
 
 export const useStacLayer = () => {
   const { stacUrl } = useTrueColorImage();

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 
-import { MapContext } from '../../map.component';
+import { MapContext } from '../../../map.component';
 import { AoiLayerContext } from '../aoi-layer.component';
 import { TEditMode } from './edit-mode.context';
 import { useSimpleEdit } from './use-simple-edit.hook';

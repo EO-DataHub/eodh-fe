@@ -2,7 +2,7 @@ import { useAoi } from '@ukri/map/data-access-map';
 import { Modify } from 'ol/interaction.js';
 import { useContext, useEffect } from 'react';
 
-import { MapContext } from '../../map.component';
+import { MapContext } from '../../../map.component';
 import { AoiLayerContext } from '../aoi-layer.component';
 
 export const useSimpleEdit = (enabled: boolean) => {

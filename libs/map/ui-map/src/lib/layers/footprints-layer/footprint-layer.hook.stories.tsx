@@ -3,8 +3,8 @@ import { useFootprintCollectionMutation, useToggleFootprintLayer } from '@ukri/m
 import { Button } from '@ukri/shared/design-system';
 import { useEffect } from 'react';
 
-import { Map, MapWrapper } from '../map.component';
-import { sentinel1Item1CollectionMock } from '../mocks/sentinel-1-item1.collection.mock';
+import { Map, MapWrapper } from '../../map.component';
+import { sentinel1Item1CollectionMock } from '../../mocks/sentinel-1-item1.collection.mock';
 import { FootprintLayer } from './footprint.layer';
 
 const GeoJsonLayerComponent = () => {
