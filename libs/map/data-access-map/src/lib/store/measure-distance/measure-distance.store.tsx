@@ -3,19 +3,17 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { createShape, getCoordinates } from '../../geometry/geometry';
-import { IAoiStore, TAoiState, TAoiStoreState } from './aoi.model';
+import { IMeasureDistanceStore, TMeasureDistanceStoreState } from './measure-distance.model';
 
-export const useAoiStore = create<IAoiStore>()(
+export const useMeasureDistanceStore = create<IMeasureDistanceStore>()(
   devtools((set) => ({
-    state: 'edit',
+    visible: false,
     shape: undefined,
     coordinates: undefined,
-    fitToAoi: false,
-    setShape: (shape, fitToAoi?: boolean) =>
+    setShape: (shape) =>
       set(() => ({
         shape: createShape(getCoordinates(shape), shape?.type),
         coordinates: getCoordinates(shape),
-        fitToAoi: fitToAoi !== undefined ? fitToAoi : undefined,
       })),
     updateShape: (shape) =>
       set((state) => {
@@ -31,31 +29,22 @@ export const useAoiStore = create<IAoiStore>()(
           coordinates: getCoordinates({ type: state.shape.type, shape }),
         };
       }),
-    visible: true,
     toggleVisibility: () => set((state) => ({ visible: !state.visible })),
-    show: () => set(() => ({ visible: true })),
-    hide: () => set(() => ({ visible: false })),
-    changeState: (state: TAoiState) => set(() => ({ state })),
   }))
 );
 
-export const getAoiStoreState = (): TAoiStoreState => {
-  const { show, hide, changeState, toggleVisibility, shape, ...rest } = useAoiStore.getState();
+export const getMeasureDistanceStoreState = (): TMeasureDistanceStoreState => {
+  const { toggleVisibility, shape, ...rest } = useMeasureDistanceStore.getState();
 
   return { ...rest };
 };
 
-export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
-  return useAoiStore((state) => ({
-    fitToAoi: state.fitToAoi,
-    state: state.state,
+export const useMeasureDistance = (): Omit<IMeasureDistanceStore, 'coordinates'> => {
+  return useMeasureDistanceStore((state) => ({
     shape: state.shape,
     setShape: state.setShape,
     updateShape: state.updateShape,
     visible: state.visible,
     toggleVisibility: state.toggleVisibility,
-    show: state.show,
-    hide: state.hide,
-    changeState: state.changeState,
   }));
 };

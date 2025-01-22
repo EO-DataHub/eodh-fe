@@ -10,3 +10,6 @@ export { TrueColorImageLayer } from './lib/layers/true-color-image-layer/true-co
 export { ComparisonModeLayer } from './lib/layers/comparison-mode-image-layer/comparison-mode-layer.component';
 export { ComparisonToolSlider } from './lib/layers/comparison-mode-image-layer/comparison-tool-slider/comparison-tool-slider.component';
 export { ComparisonToolButton } from './lib/layers/comparison-mode-image-layer/comparison-tool-button/comparison-tool-button.component';
+export { MeasureDistanceLayer } from './lib/layers/measure-distance-layer/measure-distance-layer.component';
+export { MeasureDistanceButton } from './lib/layers/measure-distance-layer/measure-distance-button.component';
+export { MeasureDistancePanel } from './lib/layers/measure-distance-layer/measure-distance-panel.component';

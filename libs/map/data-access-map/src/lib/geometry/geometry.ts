@@ -1,6 +1,6 @@
 import { Circle, Geometry, Polygon } from 'ol/geom';
 
-import { TCoordinate, TShape, TShapeType } from './aoi.model';
+import { TCoordinate, TShape, TShapeType } from './shape.model';
 
 const isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() === 'Circle';
 
