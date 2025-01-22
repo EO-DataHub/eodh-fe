@@ -4,7 +4,8 @@ import { getArea as getAreaFromGeometry } from 'ol/sphere';
 import { createGeometry } from './geometry';
 import { TCoordinate, TUnit, TUnitType } from './shape.model';
 
-const SQUARE_KM_TO_SQUARE_M = 0.386102;
+const SQUARE_KM_TO_SQUARE_MILE = 0.386102;
+const KM_TO_MILE = 0.621371192;
 
 export const getArea = (value: TCoordinate | undefined): number => {
   const shape = createGeometry(value);
@@ -39,6 +40,11 @@ export const getLineLength = (coordinates: TCoordinate | undefined) => {
       return featureLength;
     }
 
+    case 'line': {
+      const lineString = new LineString(coordinates.coordinates);
+      return lineString.getLength();
+    }
+
     default: {
       return 0;
     }
@@ -48,7 +54,7 @@ export const getLineLength = (coordinates: TCoordinate | undefined) => {
 export const convertUnits = (value: number, unit: TUnitType): TUnit => {
   switch (unit) {
     case 'miles2': {
-      value = value * SQUARE_KM_TO_SQUARE_M;
+      value = value * SQUARE_KM_TO_SQUARE_MILE;
       return {
         value: Math.round((value / 1000000) * 100) / 100,
         unit: {
@@ -59,7 +65,7 @@ export const convertUnits = (value: number, unit: TUnitType): TUnit => {
     }
 
     case 'miles': {
-      value = value * SQUARE_KM_TO_SQUARE_M;
+      value = value * KM_TO_MILE;
       return {
         value: Math.round((value / 1000) * 100) / 100,
         unit: {

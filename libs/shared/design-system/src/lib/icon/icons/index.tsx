@@ -12,6 +12,8 @@ export { default as Close } from './close';
 export { default as Cloud } from './cloud';
 export { default as Map } from './map';
 export { default as Polygon } from './polygon';
+export { default as LineString } from './line-string';
+export { default as Geometry } from './geometry';
 export { default as Remove } from './remove';
 export { default as Search } from './search';
 export { default as Square } from './square';

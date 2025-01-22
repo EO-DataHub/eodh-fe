@@ -1,7 +1,20 @@
-export type TUnitType = 'km' | 'km2' | 'miles' | 'miles2';
+export type TAreaUnit = 'km2' | 'miles2';
+export type TBaseUnit = 'km' | 'miles';
 
 export const useSettings = () => {
   const aoiLimit = 1000000000;
-  const measurementUnit: TUnitType = 'km2';
+  const measurementUnit: TBaseUnit = 'km';
   return { aoiLimit, measurementUnit };
+};
+
+export const convertBaseUnitToAreaUnit = (unit: 'km' | 'miles'): TAreaUnit => {
+  switch (unit) {
+    case 'km': {
+      return 'km2';
+    }
+
+    case 'miles': {
+      return 'miles2';
+    }
+  }
 };

@@ -10,10 +10,12 @@ export const toggleStyles = {
     disabled: 'bg-bright-light border-bright-mid',
     enabled:
       'bg-bright-mid border-bright-dark focus:peer:outline-none peer-focus:ring-2 focus:peer:ring-primary-light peer-checked:bg-bright-main peer-checked:border-primary',
+    switch: 'bg-bright-main border-primary focus:peer:outline-none peer-focus:ring-2 focus:peer:ring-primary-light',
   },
   circle: {
-    base: 'absolute top-1 left-1 rounded-full h-2.5 w-2.5 transition-all',
-    enabled: 'bg-neutral-light',
+    base: 'absolute top-1 left-1 rounded-full h-2.5 w-2.5 transition-all drop-shadow',
+    toggle: 'bg-neutral-light',
+    switch: 'bg-primary-main',
     disabled: 'bg-bright-mid',
     checked: 'bg-primary-main',
   },
@@ -25,7 +27,7 @@ export const toggleStyles = {
   },
 };
 
-export const getLabelTextClasses = (disabled?: boolean, checked?: boolean) => {
+export const getLabelTextClasses = (checked: boolean, disabled?: boolean) => {
   const classNames = [toggleStyles.labelText.base];
 
   if (disabled) {
@@ -43,13 +45,19 @@ export const getLabelClasses = (disabled?: boolean) => {
   return `${toggleStyles.label.base} ${disabled ? toggleStyles.label.disabled : toggleStyles.label.enabled}`;
 };
 
-export const getBackgroundClasses = (disabled?: boolean) => {
-  return `${toggleStyles.background.base} ${
-    disabled ? toggleStyles.background.disabled : toggleStyles.background.enabled
-  }`;
+export const getBackgroundClasses = (type: 'toggle' | 'switch', disabled?: boolean) => {
+  const classNames = [toggleStyles.background.base];
+
+  if (type === 'toggle') {
+    classNames.push(disabled ? toggleStyles.background.disabled : toggleStyles.background.enabled);
+  } else if (type === 'switch') {
+    classNames.push(toggleStyles.background.switch);
+  }
+
+  return classNames.join(' ');
 };
 
-export const getCircleClasses = (disabled?: boolean, checked?: boolean) => {
+export const getCircleClasses = (type: 'toggle' | 'switch', checked: boolean, disabled?: boolean) => {
   const classNames = [toggleStyles.circle.base];
 
   if (disabled) {
@@ -57,7 +65,7 @@ export const getCircleClasses = (disabled?: boolean, checked?: boolean) => {
   } else if (checked) {
     classNames.push(toggleStyles.circle.checked);
   } else {
-    classNames.push(toggleStyles.circle.enabled);
+    classNames.push(toggleStyles.circle[type]);
   }
 
   if (checked) {

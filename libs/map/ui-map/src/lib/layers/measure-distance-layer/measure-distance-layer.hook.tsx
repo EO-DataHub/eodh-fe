@@ -1,5 +1,5 @@
 import { useMeasureDistance } from '@ukri/map/data-access-map';
-import { MapBrowserEvent } from 'ol';
+import { TBaseUnit, useSettings } from '@ukri/shared/utils/settings';
 import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
 import { Draw, Modify } from 'ol/interaction.js';
@@ -10,16 +10,19 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { measureDistanceLayerZindex } from '../../consts';
 import { MapContext } from '../../map.component';
-import { KeyboardEventInteraction } from './interaction';
 import { measureDistanceDrawingFinishedStyles } from './measure-distance.styles';
 
 export type TVectorLayer = VectorLayer<Feature<Geometry>>;
 
-export type TDraw = { draw: Draw; type: 'polygon' };
+export type TDrawType = 'polygon' | 'line';
+export type TDraw = { draw: Draw; type: TDrawType };
 
 export const useMeasureDistanceLayer = () => {
   const map = useContext(MapContext);
   const { visible, shape, setShape } = useMeasureDistance();
+  const { measurementUnit } = useSettings();
+  const [drawType, setDrawType] = useState<TDrawType>('polygon');
+  const [unit, setUnit] = useState<TBaseUnit>(measurementUnit);
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
@@ -80,23 +83,11 @@ export const useMeasureDistanceLayer = () => {
       return;
     }
 
-    const callback = (event: MapBrowserEvent<KeyboardEvent>) => {
-      if (event.type === 'keydown') {
-        const keyEvent = event.originalEvent;
-        if (keyEvent.code?.toLowerCase() === 'escape') {
-          draw?.draw.abortDrawing();
-          keyEvent.preventDefault();
-        }
-      }
-
-      return true;
-    };
     const stopDrawing = (event: KeyboardEvent) => {
       if (event.type === 'keydown' && event.code?.toLowerCase() === 'escape') {
-        draw?.draw.abortDrawing();
+        draw?.draw.finishDrawing();
       }
     };
-    const keyboardEventInteraction = new KeyboardEventInteraction(callback);
 
     draw.draw.on('drawstart', () => {
       setShape(undefined);
@@ -107,11 +98,9 @@ export const useMeasureDistanceLayer = () => {
       document.removeEventListener('keydown', stopDrawing);
     });
     map.addInteraction(draw.draw);
-    // map.addInteraction(keyboardEventInteraction);
 
     return () => {
       map.removeInteraction(draw.draw);
-      // map.removeInteraction(keyboardEventInteraction);
       document.removeEventListener('keydown', stopDrawing);
     };
   }, [map, draw, setShape, setDraw]);
@@ -127,11 +116,15 @@ export const useMeasureDistanceLayer = () => {
   return useMemo(
     () => ({
       layer,
+      drawType,
+      setDrawType,
       draw,
       setDraw,
       source,
       modify,
+      unit,
+      setUnit,
     }),
-    [layer, draw, source, modify]
+    [layer, drawType, setDrawType, draw, setDraw, source, modify, unit, setUnit]
   );
 };

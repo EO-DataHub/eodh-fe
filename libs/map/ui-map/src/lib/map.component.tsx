@@ -91,7 +91,7 @@ export const Map = ({ className, children }: PropsWithChildren<{ className?: str
   return (
     <div className={`${className} relative`}>
       {children}
-      <div className={className} data-testid='olMap' tabIndex={0} ref={mapRef}></div>
+      <div className={className} data-testid='olMap' ref={mapRef}></div>
     </div>
   );
 };

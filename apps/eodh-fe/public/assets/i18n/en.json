@@ -394,6 +394,12 @@
           }
         }
       }
+    },
+    "MEASUREMENTS": {
+      "PANEL": {
+        "KM": "km",
+        "MILES": "m"
+      }
     }
   }
 }

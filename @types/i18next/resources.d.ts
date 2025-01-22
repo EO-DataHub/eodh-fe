@@ -392,6 +392,12 @@ interface Resources {
           };
         };
       };
+      MEASUREMENTS: {
+        PANEL: {
+          KM: 'km';
+          MILES: 'm';
+        };
+      };
     };
   };
 }

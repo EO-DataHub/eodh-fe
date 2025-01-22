@@ -1,10 +1,12 @@
-import { Circle, Geometry, Polygon } from 'ol/geom';
+import { Circle, Geometry, LineString, Polygon } from 'ol/geom';
 
 import { TCoordinate, TShape, TShapeType } from './shape.model';
 
 const isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() === 'Circle';
 
 const isPolygon = (geometry: Geometry): geometry is Polygon => geometry.getType() === 'Polygon';
+
+const isLineString = (geometry: Geometry): geometry is LineString => geometry.getType() === 'LineString';
 
 const isCoordinates = (shape: TShape | TCoordinate): shape is TCoordinate => {
   // eslint-disable-next-line no-prototype-builtins
@@ -60,6 +62,17 @@ export const getCoordinates = (shape?: TShape | TCoordinate): TCoordinate | unde
         coordinates: shape.shape.getCoordinates(),
       };
     }
+
+    case 'line': {
+      if (!isLineString(shape.shape)) {
+        return undefined;
+      }
+
+      return {
+        type: 'line',
+        coordinates: shape.shape.getCoordinates(),
+      };
+    }
   }
 
   return undefined;
@@ -78,6 +91,10 @@ export const createGeometry = (coordinate: TCoordinate | undefined): Geometry | 
 
     case 'circle': {
       return new Circle(coordinate.center, coordinate.radius);
+    }
+
+    case 'line': {
+      return new LineString(coordinate.coordinates);
     }
 
     default: {

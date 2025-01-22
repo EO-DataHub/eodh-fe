@@ -15,9 +15,13 @@ export type TCoordinate =
   | {
       type: 'polygon';
       coordinates: TCoordinates;
+    }
+  | {
+      type: 'line';
+      coordinates: number[][];
     };
 
-export type TShapeType = 'circle' | 'rectangle' | 'polygon';
+export type TShapeType = 'circle' | 'rectangle' | 'polygon' | 'line';
 
 export type TShape = { type: TShapeType; shape: Geometry | undefined } | undefined;
 

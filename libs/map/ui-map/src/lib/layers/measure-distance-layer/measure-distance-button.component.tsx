@@ -7,36 +7,47 @@ import { SquareButton } from '../../components/square-button/square-button.compo
 import { measureDistanceDrawingInProgressStyles } from './measure-distance.styles';
 import { MeasureDistanceLayerContext } from './measure-distance-layer.component';
 
+const createDraw = (drawType: 'polygon' | 'line') => {
+  return new Draw({
+    geometryName: drawType === 'polygon' ? 'Polygon' : 'LineString',
+    type: drawType === 'polygon' ? 'Polygon' : 'LineString',
+    style: measureDistanceDrawingInProgressStyles,
+  });
+};
+
 interface IStraightenButtonProps {
   disabled?: boolean;
 }
 
 export const MeasureDistanceButton = ({ disabled }: IStraightenButtonProps) => {
-  const { draw, setDraw } = useContext(MeasureDistanceLayerContext);
-  const { visible, toggleVisibility } = useMeasureDistance();
+  const { draw, setDraw, drawType } = useContext(MeasureDistanceLayerContext);
+  const { visible, toggleVisibility, setShape } = useMeasureDistance();
 
   const drawPolygon = useCallback(() => {
     toggleVisibility();
 
-    if (draw?.type === 'polygon') {
+    if (draw?.type === drawType) {
       setDraw(undefined);
       return;
     }
 
-    const polygon = new Draw({
-      geometryName: 'Polygon',
-      type: 'Polygon',
-      style: measureDistanceDrawingInProgressStyles,
-    });
-
-    setDraw({ draw: polygon, type: 'polygon' });
-  }, [draw?.type, setDraw, toggleVisibility]);
+    setDraw({ draw: createDraw(drawType), type: drawType });
+  }, [drawType, draw?.type, setDraw, toggleVisibility]);
 
   useEffect(() => {
     if (!visible) {
       setDraw(undefined);
     }
   }, [visible, setDraw]);
+
+  useEffect(() => {
+    if (draw?.type === drawType) {
+      return;
+    }
+
+    setDraw({ draw: createDraw(drawType), type: drawType });
+    setShape(undefined);
+  }, [draw?.type, drawType, setDraw, setShape]);
 
   return (
     <SquareButton selected={visible} disabled={disabled} onClick={drawPolygon}>

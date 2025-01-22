@@ -1,5 +1,5 @@
-import { convertUnits, getArea, TAreaNode, TUnitType, useActionCreator } from '@ukri/map/data-access-map';
-import { useSettings } from '@ukri/shared/utils/settings';
+import { convertUnits, getArea, TAreaNode, useActionCreator } from '@ukri/map/data-access-map';
+import { convertBaseUnitToAreaUnit, TBaseUnit, useSettings } from '@ukri/shared/utils/settings';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -22,8 +22,8 @@ const getIconFromShape = (value: TAreaNode['value']): 'Polygon' | 'Circle' | 'Sq
   }
 };
 
-export const formatUnit = (area: number, unit: TUnitType) => {
-  const value = convertUnits(area, unit);
+export const formatUnit = (area: number, unit: TBaseUnit) => {
+  const value = convertUnits(area, convertBaseUnitToAreaUnit(unit));
   switch (value.unit.type) {
     case 'km2':
     case 'miles2': {
@@ -37,7 +37,7 @@ export const formatUnit = (area: number, unit: TUnitType) => {
   }
 };
 
-const formatArea = function (text: string, value: TAreaNode['value'], unit: TUnitType) {
+const formatArea = function (text: string, value: TAreaNode['value'], unit: TBaseUnit) {
   const area = getArea(value);
   const output = formatUnit(area, unit);
 
