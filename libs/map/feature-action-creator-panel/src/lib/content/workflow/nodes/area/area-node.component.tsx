@@ -94,7 +94,10 @@ export const AreaNode = ({ node }: TAreaNodeNodeProps) => {
 
   useEffect(() => {
     if (node.state !== 'initial') {
-      setValue(node, getCoordinates(shape));
+      const coordinates = getCoordinates(shape);
+      if (!coordinates || coordinates?.type !== 'line') {
+        setValue(node, coordinates);
+      }
     }
   }, [node.state, shape, setValue, node]);
 
