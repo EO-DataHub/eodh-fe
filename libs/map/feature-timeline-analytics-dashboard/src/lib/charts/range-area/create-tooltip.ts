@@ -44,7 +44,7 @@ export const createTooltip =
       ...items,
       {
         translationKey: 'MAP.TIMELINE_ANALYTICS_DASHBOARD.CHARTS.RANGE_AREA.TOOLTIP.DATE',
-        displayedValue: formatDateTime(createDateString(new Date(dateInMilliseconds))),
+        displayedValue: formatDateTime(createDateString(new Date(dateInMilliseconds)), 'YYYY-MM-DD', 'HH:mm:ss.mmm'),
       },
     ];
 
