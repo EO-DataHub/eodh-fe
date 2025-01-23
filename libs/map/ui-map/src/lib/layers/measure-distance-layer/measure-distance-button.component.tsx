@@ -1,17 +1,19 @@
 import { useMeasureDistance } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
-import { Draw } from 'ol/interaction.js';
+import { Draw } from 'ol/interaction';
+import MapBrowserEventType from 'ol/MapBrowserEventType';
 import { useCallback, useContext, useEffect } from 'react';
 
 import { SquareButton } from '../../components/square-button/square-button.component';
-import { measureDistanceDrawingInProgressStyles } from './measure-distance.styles';
+import { createLineStyles, measureDistanceDrawingInProgressStyles } from './measure-distance.styles';
 import { MeasureDistanceLayerContext } from './measure-distance-layer.component';
 
 const createDraw = (drawType: 'polygon' | 'line') => {
   return new Draw({
     geometryName: drawType === 'polygon' ? 'Polygon' : 'LineString',
     type: drawType === 'polygon' ? 'Polygon' : 'LineString',
-    style: measureDistanceDrawingInProgressStyles,
+    style: drawType === 'polygon' ? measureDistanceDrawingInProgressStyles : createLineStyles,
+    finishCondition: (event) => event.originalEvent.type === MapBrowserEventType.DBLCLICK,
   });
 };
 

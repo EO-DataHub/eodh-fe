@@ -14,8 +14,8 @@ import { ModifyEvent } from 'ol/interaction/Modify';
 import { unByKey } from 'ol/Observable.js';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
-import { MapContext } from '../../map.component';
-import { MeasureDistanceLayerContext } from './measure-distance-layer.component';
+import { MapContext } from '../../../map.component';
+import { MeasureDistanceLayerContext } from '../measure-distance-layer.component';
 
 export type TUnit = {
   value: number;

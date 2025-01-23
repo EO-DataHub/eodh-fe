@@ -1,3 +1,5 @@
+import { FeatureLike } from 'ol/Feature';
+import { LineString } from 'ol/geom';
 import { Fill, Stroke, Style } from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
 
@@ -49,3 +51,28 @@ export const measureDistanceDrawingInProgressStyles = new Style({
     }),
   }),
 });
+
+export const createLineStyles = (feature: FeatureLike): Style[] | Style => {
+  const geometry = feature.getGeometry();
+
+  if (!geometry || geometry.getType() !== 'LineString') {
+    return measureDistanceDrawingInProgressStyles;
+  }
+
+  const coordinates = (geometry as LineString).getCoordinates();
+  if (!coordinates) {
+    return measureDistanceDrawingInProgressStyles;
+  }
+
+  const finishedStyles = measureDistanceDrawingInProgressStyles.clone();
+  finishedStyles.setGeometry(new LineString(coordinates.slice(-2)));
+
+  if (coordinates.length > 2) {
+    const inProgressStyles = measureDistanceDrawingFinishedStyles.clone();
+    inProgressStyles.setGeometry(new LineString(coordinates.slice(0, -1)));
+
+    return [finishedStyles, inProgressStyles];
+  }
+
+  return finishedStyles;
+};

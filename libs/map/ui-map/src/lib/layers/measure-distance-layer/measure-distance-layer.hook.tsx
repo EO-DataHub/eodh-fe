@@ -21,7 +21,7 @@ export const useMeasureDistanceLayer = () => {
   const map = useContext(MapContext);
   const { visible, shape, setShape } = useMeasureDistance();
   const { measurementUnit } = useSettings();
-  const [drawType, setDrawType] = useState<TDrawType>('polygon');
+  const [drawType, setDrawType] = useState<TDrawType>('line');
   const [unit, setUnit] = useState<TBaseUnit>(measurementUnit);
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
