@@ -13,7 +13,7 @@ export const SwitchUnitButton = ({ className = '' }: { className?: string }) => 
   return (
     <div className={`flex flex-row items-center ${className}`}>
       <Text
-        className={`pr-0.5 ${unit === 'km' ? 'text-primary' : 'text-neutral-light'}`}
+        className={`pr-1 ${unit === 'km' ? 'text-primary' : 'text-neutral-light'}`}
         content='GLOBAL.UNITS.KM'
         type='span'
         fontSize='medium'
@@ -21,7 +21,7 @@ export const SwitchUnitButton = ({ className = '' }: { className?: string }) => 
       />
       <Toggle id='measureDistance' checked={unit === 'miles'} onChange={changeUnit} type='switch' />
       <Text
-        className={`pl-0.5 ${unit === 'miles' ? 'text-primary' : 'text-neutral-light'}`}
+        className={`pl-1 ${unit === 'miles' ? 'text-primary' : 'text-neutral-light'}`}
         content='GLOBAL.UNITS.MILES'
         type='span'
         fontSize='medium'

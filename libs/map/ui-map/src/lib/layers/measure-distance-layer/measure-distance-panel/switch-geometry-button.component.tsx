@@ -13,14 +13,14 @@ export const SwitchGeometryButton = ({ className = '' }: { className?: string })
   return (
     <div className={`flex flex-row items-center justify-center ${className}`}>
       <Icon
-        className={`pr-0.5 ${drawType === 'line' ? 'text-primary' : 'text-neutral-light'}`}
+        className={`pr-1 ${drawType === 'line' ? 'text-primary' : 'text-neutral-light'}`}
         name='LineString'
         width={24}
         height={24}
       />
       <Toggle id='changeGeometry' checked={drawType === 'polygon'} onChange={changeGeometry} type='switch' />
       <Icon
-        className={`pl-0.5 ${drawType === 'polygon' ? 'text-primary' : 'text-neutral-light'}`}
+        className={`pl-1 ${drawType === 'polygon' ? 'text-primary' : 'text-neutral-light'}`}
         name='Geometry'
         width={24}
         height={24}
