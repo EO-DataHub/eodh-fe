@@ -22,7 +22,8 @@ const mapToChartSeries = (data: TChartItem[], index: number | undefined) => {
         hidden: index !== undefined ? currentIndex !== index : false,
       },
     ])
-    .flat();
+    .flat()
+    .filter((item) => item.data.every((dataItem) => dataItem > 0));
 };
 
 type TChartData = {
