@@ -123,7 +123,8 @@ export const useDistance = () => {
     () => ({
       area,
       distance,
+      drawType,
     }),
-    [area, distance]
+    [area, distance, drawType]
   );
 };
