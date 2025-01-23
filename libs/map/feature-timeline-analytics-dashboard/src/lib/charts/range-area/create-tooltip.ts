@@ -1,8 +1,8 @@
 import { createDateString, formatDateTime } from '@ukri/shared/utils/date';
 import { renderToString } from 'react-dom/server';
 
-import { roundValue } from '../stack-bar/utils';
 import { IParsedSeriesData, renderTooltip } from '../tooltip.component';
+import { roundValue } from '../utils';
 import { IApexOptions, TSeriesItem } from './range-area-chart.model';
 
 export const createTooltip =
