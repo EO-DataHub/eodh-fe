@@ -37,7 +37,7 @@ const Node = ({ node, onClearButtonClick }: TNodeProps) => {
             <ActiveNode
               node={node}
               text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.INSTRUCTIONS', {
-                maxSize: formatUnit(aoiLimit, measurementUnit),
+                maxSize: formatUnit(aoiLimit, measurementUnit, t),
               })}
             />
           );

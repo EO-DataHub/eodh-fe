@@ -1,5 +1,6 @@
 import { convertUnits, getArea, TAreaNode, useActionCreator } from '@ukri/map/data-access-map';
 import { convertBaseUnitToAreaUnit, TBaseUnit, useSettings } from '@ukri/shared/utils/settings';
+import { TFunction } from 'i18next';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -22,24 +23,24 @@ const getIconFromShape = (value: TAreaNode['value']): 'Polygon' | 'Circle' | 'Sq
   }
 };
 
-export const formatUnit = (area: number, unit: TBaseUnit) => {
+export const formatUnit = (area: number, unit: TBaseUnit, t: TFunction) => {
   const value = convertUnits(area, convertBaseUnitToAreaUnit(unit));
   switch (value.unit.type) {
     case 'km2':
     case 'miles2': {
-      return `${value.value} ${value.unit.displayedValue}<sup>2</sup>`;
+      return `${value.value} ${t(value.unit.displayedValueTranslation)}<sup>2</sup>`;
     }
 
     case 'km':
     case 'miles': {
-      return `${value.value} ${value.unit.displayedValue}`;
+      return `${value.value} ${t(value.unit.displayedValueTranslation)}`;
     }
   }
 };
 
-const formatArea = function (text: string, value: TAreaNode['value'], unit: TBaseUnit) {
+const formatArea = function (text: string, value: TAreaNode['value'], unit: TBaseUnit, t: TFunction) {
   const area = getArea(value);
-  const output = formatUnit(area, unit);
+  const output = formatUnit(area, unit, t);
 
   return `${text.trim()} ${output}`;
 };
@@ -56,7 +57,7 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
   const aoiLimitInfo = useMemo(
     () =>
       t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE', {
-        maxSize: formatUnit(aoiLimit, measurementUnit),
+        maxSize: formatUnit(aoiLimit, measurementUnit, t),
       }),
     [t, aoiLimit, measurementUnit]
   );
@@ -77,7 +78,7 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
     <Node
       type={node.type}
       active={true}
-      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, measurementUnit)}
+      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, measurementUnit, t)}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
