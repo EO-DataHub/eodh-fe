@@ -12,7 +12,7 @@ const defaultOptions: ApexOptions = {
       top: 0,
       right: 20,
       bottom: 0,
-      left: 0,
+      left: 5,
     },
   },
   xaxis: {
