@@ -30,7 +30,7 @@ type TCoordinates =
   | (number | number[] | number[][] | [number, number] | [number, number][])[];
 
 const isFlatArray = (coordinates: TCoordinates): coordinates is Coordinate[] =>
-  coordinates.every((value) => !isArray(value));
+  isArray(coordinates) && coordinates.flat().every((value) => !isArray(value));
 
 const flattenCoordinates = (coordinates: TCoordinates): Coordinate[] => {
   if (isFlatArray(coordinates)) {
