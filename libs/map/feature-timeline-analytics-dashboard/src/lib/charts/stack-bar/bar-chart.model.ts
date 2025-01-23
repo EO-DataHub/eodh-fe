@@ -41,7 +41,7 @@ export const defaultOptions: ApexOptions = {
       top: 0,
       right: 0,
       bottom: 0,
-      left: 0,
+      left: 5,
     },
   },
   plotOptions: {
