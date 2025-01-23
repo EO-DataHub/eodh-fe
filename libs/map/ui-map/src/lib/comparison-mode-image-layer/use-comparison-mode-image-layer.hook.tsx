@@ -1,5 +1,6 @@
 import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
 import { t } from 'i18next';
+import isArray from 'lodash/isArray';
 import { enqueueSnackbar } from 'notistack';
 import { Coordinate } from 'ol/coordinate';
 import { boundingExtent, intersects } from 'ol/extent';
@@ -23,6 +24,25 @@ const defaultValues: TComparisonLayer = {
 };
 
 export const ComparisonContext = createContext<TComparisonLayer>(defaultValues);
+
+type TCoordinates =
+  | TComparisonItem['geometry']['coordinates']
+  | (number | number[] | number[][] | [number, number] | [number, number][])[];
+
+const isFlatArray = (coordinates: TCoordinates): coordinates is Coordinate[] =>
+  coordinates.every((value) => !isArray(value));
+
+const flattenCoordinates = (coordinates: TCoordinates): Coordinate[] => {
+  if (isFlatArray(coordinates)) {
+    return coordinates;
+  }
+
+  return flattenCoordinates(coordinates.flat());
+};
+
+const convertCoordinates = (geometry: TComparisonItem['geometry']): Coordinate[] => {
+  return flattenCoordinates(geometry.coordinates).map((coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:3857'));
+};
 
 export const useComparisonModeImageLayers = () => {
   const map = useContext(MapContext);
@@ -70,12 +90,8 @@ export const useComparisonModeImageLayers = () => {
       return;
     }
 
-    const firstExtentCoords = firstItem.geometry.coordinates[0].map((coord) =>
-      transform(coord as Coordinate, 'EPSG:4326', 'EPSG:3857')
-    );
-    const secondExtentCoords = secondItem.geometry.coordinates[0].map((coord) =>
-      transform(coord as Coordinate, 'EPSG:4326', 'EPSG:3857')
-    );
+    const firstExtentCoords = convertCoordinates(firstItem.geometry);
+    const secondExtentCoords = convertCoordinates(secondItem.geometry);
 
     const firstExtent = boundingExtent(firstExtentCoords);
     const secondExtent = boundingExtent(secondExtentCoords);
