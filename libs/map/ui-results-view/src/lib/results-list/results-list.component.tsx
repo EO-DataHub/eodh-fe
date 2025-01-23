@@ -26,20 +26,19 @@ export const ResultsList = ({ features }: IResultsListProps) => {
 
   return (
     <div className='mx-4 mt-4'>
-      {features.map((feature: TFeature) => (
-        <ResultItem
-          key={feature.id}
-          className='mb-4'
-          imageUrl={feature.assets.thumbnail?.href || ''}
-          gridCode={feature.properties['grid:code']}
-          cloudCoverage={feature.properties['eo:cloud_cover']}
-          collectionName={feature.collection}
-          dateTime={feature.properties.datetime}
-          selected={isSelected(feature.id)}
-          onToggleSelectedItem={() => toggleItem(feature)}
-        >
-          {/* {console.log(feature.assets, Object.keys(feature.assets).length)} */}
-          {Object.keys(feature.assets).length > 1 ? (
+      {features.map((feature: TFeature) =>
+        Object.keys(feature.assets).length > 1 ? (
+          <ResultItem
+            key={feature.id}
+            className='mb-4'
+            imageUrl={feature.assets.thumbnail?.href || ''}
+            gridCode={feature.properties['grid:code']}
+            cloudCoverage={feature.properties['eo:cloud_cover']}
+            collectionName={feature.collection}
+            dateTime={feature.properties.datetime}
+            selected={isSelected(feature.id)}
+            onToggleSelectedItem={() => toggleItem(feature)}
+          >
             <MultipleItemsActionButtons
               selected={isSelected(feature.id)}
               comparisonEnabled={comparisonEnabled}
@@ -48,10 +47,22 @@ export const ResultsList = ({ features }: IResultsListProps) => {
               canCompare={canCompareItems(feature)}
               onDownload={() => downloadItem(feature)}
               onCompareItemToggle={() => toggleCompareItem(feature)}
-              onToggleSelectedItem={() => toggleItem(feature)}
+              onToggleSelectedItem={(key) => toggleItem(feature, key)}
               assets={feature.assets}
             />
-          ) : (
+          </ResultItem>
+        ) : (
+          <ResultItem
+            key={feature.id}
+            className='mb-4'
+            imageUrl={feature.assets.thumbnail?.href || ''}
+            gridCode={feature.properties['grid:code']}
+            cloudCoverage={feature.properties['eo:cloud_cover']}
+            collectionName={feature.collection}
+            dateTime={feature.properties.datetime}
+            selected={isSelected(feature.id)}
+            onToggleSelectedItem={() => toggleItem(feature)}
+          >
             <SingleItemActionButtons
               selected={isSelected(feature.id)}
               comparisonEnabled={comparisonEnabled}
@@ -62,9 +73,9 @@ export const ResultsList = ({ features }: IResultsListProps) => {
               onCompareItemToggle={() => toggleCompareItem(feature)}
               onToggleSelectedItem={() => toggleItem(feature)}
             />
-          )}
-        </ResultItem>
-      ))}
+          </ResultItem>
+        )
+      )}
     </div>
   );
 };

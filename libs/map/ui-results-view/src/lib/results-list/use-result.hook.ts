@@ -5,12 +5,12 @@ import { useCallback, useMemo } from 'react';
 import { downloadFiles } from './download-files.utils';
 
 export const useResult = () => {
-  const { feature: selectedFeature, setFeature } = useTrueColorImage();
+  const { feature: visibleFeature, selectedKey, setFeature } = useTrueColorImage();
   const { mode } = useMode();
   const { comparisonModeEnabled, itemAddedToComparisonMode, canAddAsNewItemToComparisonMode, toggleCompareItem } =
     useComparisonMode();
 
-  const isSelected = useCallback((id: string) => selectedFeature?.id === id, [selectedFeature?.id]);
+  const isSelected = useCallback((id: string) => visibleFeature?.id === id, [visibleFeature]);
 
   const isAddedToComparison = useCallback(
     (item: TFeature) => itemAddedToComparisonMode(item),
@@ -28,10 +28,14 @@ export const useResult = () => {
 
   const handleSelectedItemToggle = useCallback(
     (item: TFeature, key?: TAssetKey) => {
-      const newFeature = selectedFeature?.id !== item.id ? item : undefined;
-      setFeature(newFeature, key);
+      if (key) {
+        const newFeature = visibleFeature?.id !== item.id && selectedKey !== key ? item : undefined;
+        setFeature(newFeature, key);
+      }
+      const newFeature = visibleFeature?.id !== item.id ? item : undefined;
+      setFeature(newFeature);
     },
-    [selectedFeature, setFeature]
+    [setFeature, visibleFeature, selectedKey]
   );
 
   const handleToggleCompareItem = useCallback(

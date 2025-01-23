@@ -1,15 +1,16 @@
+import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
 import { Button, Text } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
 export interface IMultipleItemsActionButtonsProps {
-  selected?: boolean;
   addedForComparison: boolean;
   comparisonEnabled: boolean;
   canCompare: boolean;
   canDownload: boolean;
   onDownload: () => void;
   onCompareItemToggle: () => void;
-  onToggleSelectedItem?: () => void;
+  onToggleSelectedItem: (key: TAssetKey) => void;
+  selected?: boolean;
   assets: {
     [key: string]: {
       href: string;
@@ -23,7 +24,6 @@ export interface IMultipleItemsActionButtonsProps {
 }
 
 export const MultipleItemsActionButtons = ({
-  selected,
   addedForComparison,
   comparisonEnabled,
   canCompare,
@@ -32,8 +32,10 @@ export const MultipleItemsActionButtons = ({
   onDownload,
   onCompareItemToggle,
   assets,
+  selected = false,
 }: IMultipleItemsActionButtonsProps) => {
   const [isOpened, setIsOpened] = useState(false);
+  const [selectedIndices, setSelectedIndices] = useState<string[]>([]);
   const compareButtonClassName = addedForComparison ? '!text-error' : '';
   const foldingButtonTitle = isOpened
     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE_ASSETS'
@@ -41,15 +43,25 @@ export const MultipleItemsActionButtons = ({
   const compareButtonTitle = addedForComparison
     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.REMOVE_COMPARE'
     : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.ADD_TO_COMPARE';
-  const resultsButtonTitle = selected
-    ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE'
-    : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW';
 
   const { thumbnail, ...indices } = assets;
 
   const onToggleShowAssets = useCallback(() => {
     setIsOpened(!isOpened);
   }, [isOpened]);
+
+  const onToggleViewButton = useCallback(
+    (key: string) => {
+      if (selectedIndices.includes(key)) {
+        setSelectedIndices(selectedIndices.filter((item) => item !== key));
+        onToggleSelectedItem(key as TAssetKey);
+      } else {
+        setSelectedIndices([...selectedIndices, key]);
+        onToggleSelectedItem(key as TAssetKey);
+      }
+    },
+    [selectedIndices, onToggleSelectedItem]
+  );
 
   return (
     <div>
@@ -95,9 +107,13 @@ export const MultipleItemsActionButtons = ({
                 disabled={canCompare}
               />
               <Button
-                text={resultsButtonTitle}
+                text={
+                  selectedIndices.includes(key)
+                    ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE'
+                    : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW'
+                }
                 size='small'
-                onClick={onToggleSelectedItem}
+                onClick={() => onToggleViewButton(key)}
                 disabled={comparisonEnabled}
               />
             </div>
