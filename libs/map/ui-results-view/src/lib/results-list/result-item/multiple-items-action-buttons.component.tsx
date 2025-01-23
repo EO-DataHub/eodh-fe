@@ -1,4 +1,5 @@
 import { Button } from '@ukri/shared/design-system';
+import { useCallback, useState } from 'react';
 
 export interface IMultipleItemsActionButtonsProps {
   selected?: boolean;
@@ -21,13 +22,21 @@ export const MultipleItemsActionButtons = ({
   onDownload,
   onCompareItemToggle,
 }: IMultipleItemsActionButtonsProps) => {
+  const [isOpened, setIsOpened] = useState(false);
   const compareButtonClassName = addedForComparison ? '!text-error' : '';
+  const foldingButtonTitle = isOpened
+    ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE_ASSETS'
+    : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SOW_ASSETS';
   const compareButtonTitle = addedForComparison
     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.REMOVE_COMPARE'
     : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.ADD_TO_COMPARE';
   const resultsButtonTitle = selected
     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE'
     : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW';
+
+  const onToggleShowAssets = useCallback(() => {
+    setIsOpened(!isOpened);
+  }, [isOpened]);
 
   if (canDownload) {
     return (
@@ -42,13 +51,11 @@ export const MultipleItemsActionButtons = ({
         />
         <Button
           appearance='text'
-          text={compareButtonTitle}
+          text={foldingButtonTitle}
           size='medium'
-          onClick={onCompareItemToggle}
+          onClick={onToggleShowAssets}
           className={compareButtonClassName}
-          disabled={canCompare}
         />
-        <Button text={resultsButtonTitle} size='small' onClick={onToggleSelectedItem} disabled={comparisonEnabled} />
       </div>
     );
   }
@@ -57,13 +64,11 @@ export const MultipleItemsActionButtons = ({
     <div className='flex justify-end'>
       <Button
         appearance='text'
-        text={compareButtonTitle}
+        text={foldingButtonTitle}
         size='medium'
-        onClick={onCompareItemToggle}
-        className={`mr-4 ${compareButtonClassName}`}
-        disabled={canCompare}
+        onClick={onToggleShowAssets}
+        className={compareButtonClassName}
       />
-      <Button text={resultsButtonTitle} size='small' onClick={onToggleSelectedItem} disabled={comparisonEnabled} />
     </div>
   );
 };

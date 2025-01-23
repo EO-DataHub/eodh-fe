@@ -1,35 +1,7 @@
 import type { Meta } from '@storybook/react';
-import { TFeature } from '@ukri/map/data-access-stac-catalog';
 
-import { multipleResultsInItemMock, singleResultInItemMock } from './response-mocks';
+import { multipleResultsInItemMock, singleResultInItemMock } from './result-item/response-mocks';
 import { ResultsList } from './results-list.component';
-
-const imageUrlStoredInPublicAssetsInStorybookHost = '/assets/images/imageSample2.png';
-
-// todo: consider moving this mock to separate file
-const singleElementMock: Omit<TFeature, 'id'> = {
-  type: 'Feature',
-  properties: {
-    datetime: '2024-09-03T16:23:22.625Z',
-    'eo:cloud_cover': 39.5,
-    'grid:code': '33TTG',
-  },
-  assets: {
-    thumbnail: {
-      type: '',
-      roles: [],
-      href: imageUrlStoredInPublicAssetsInStorybookHost,
-    },
-  },
-  bbox: [0, 0, 0, 0],
-  geometry: {
-    type: 'Polygon',
-    coordinates: [],
-  },
-  links: [],
-  collection: 'Sentinel-1',
-  stac_version: '1.0.0',
-};
 
 const meta: Meta<typeof ResultsList> = {
   component: ResultsList,
@@ -37,24 +9,48 @@ const meta: Meta<typeof ResultsList> = {
 };
 export default meta;
 
-export const ResultsListSample = {
+export const SingleAssetResultsList = {
   args: {
     features: [
       {
         id: '1',
-        ...singleElementMock,
+        ...singleResultInItemMock,
       },
       {
         id: '2',
-        ...singleElementMock,
+        ...singleResultInItemMock,
       },
       {
         id: '3',
-        ...singleElementMock,
+        ...singleResultInItemMock,
       },
       {
         id: '4',
-        ...singleElementMock,
+        ...singleResultInItemMock,
+      },
+    ],
+  },
+};
+
+export const MultipleAssetsResultsList = {
+  args: {
+    type: 'multipleResults',
+    features: [
+      {
+        id: '1',
+        ...multipleResultsInItemMock,
+      },
+      {
+        id: '2',
+        ...multipleResultsInItemMock,
+      },
+      {
+        id: '3',
+        ...multipleResultsInItemMock,
+      },
+      {
+        id: '4',
+        ...multipleResultsInItemMock,
       },
     ],
   },
