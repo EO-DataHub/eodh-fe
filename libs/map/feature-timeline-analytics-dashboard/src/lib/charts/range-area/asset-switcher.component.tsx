@@ -23,7 +23,7 @@ export const AssetSwitcher = ({ series, value, onChange }: TLegendProps) => {
 
   return (
     <div className='relative z-10 flex justify-center w-full my-2'>
-      <Select size='md' options={options} value={value} onChange={onChange} />
+      <Select size='md' className='w-72' options={options} value={value} onChange={onChange} />
     </div>
   );
 };
