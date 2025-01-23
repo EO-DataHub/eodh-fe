@@ -59,7 +59,7 @@ export const convertUnits = (value: number, unit: TUnitType): TUnit => {
         value: Math.round((value / 1000000) * 100) / 100,
         unit: {
           type: unit,
-          displayedValue: 'miles',
+          displayedValueTranslation: 'GLOBAL.UNITS.MILES',
         },
       };
     }
@@ -70,7 +70,7 @@ export const convertUnits = (value: number, unit: TUnitType): TUnit => {
         value: Math.round((value / 1000) * 100) / 100,
         unit: {
           type: unit,
-          displayedValue: 'miles',
+          displayedValueTranslation: 'GLOBAL.UNITS.MILES',
         },
       };
     }
@@ -81,7 +81,7 @@ export const convertUnits = (value: number, unit: TUnitType): TUnit => {
           value: Math.round((value / 1000) * 100) / 100,
           unit: {
             type: unit,
-            displayedValue: 'km',
+            displayedValueTranslation: 'GLOBAL.UNITS.KM',
           },
         };
       }
@@ -90,7 +90,7 @@ export const convertUnits = (value: number, unit: TUnitType): TUnit => {
         value: Math.round(value * 100) / 100,
         unit: {
           type: unit,
-          displayedValue: 'km',
+          displayedValueTranslation: 'GLOBAL.UNITS.KM',
         },
       };
     }
@@ -101,7 +101,7 @@ export const convertUnits = (value: number, unit: TUnitType): TUnit => {
           value: Math.round((value / 1000000) * 100) / 100,
           unit: {
             type: unit,
-            displayedValue: 'km',
+            displayedValueTranslation: 'GLOBAL.UNITS.KM',
           },
         };
       }
@@ -110,7 +110,7 @@ export const convertUnits = (value: number, unit: TUnitType): TUnit => {
         value: Math.round(value * 100) / 100,
         unit: {
           type: unit,
-          displayedValue: 'km',
+          displayedValueTranslation: 'GLOBAL.UNITS.KM',
         },
       };
     }

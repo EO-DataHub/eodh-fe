@@ -1,6 +1,10 @@
 interface Resources {
   en: {
     GLOBAL: {
+      UNITS: {
+        KM: 'km';
+        MILES: 'm';
+      };
       DESIGN_SYSTEM: {
         SELECT: {
           PLACEHOLDER: 'Select a function...';
@@ -390,12 +394,6 @@ interface Resources {
               DATE: 'Date';
             };
           };
-        };
-      };
-      MEASUREMENTS: {
-        PANEL: {
-          KM: 'km';
-          MILES: 'm';
         };
       };
     };

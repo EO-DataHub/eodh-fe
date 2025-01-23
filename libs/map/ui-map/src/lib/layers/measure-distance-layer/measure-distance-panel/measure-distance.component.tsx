@@ -1,8 +1,11 @@
 import { Text } from '@ukri/shared/design-system';
+import { useTranslation } from 'react-i18next';
 
 import { TUnit, useDistance } from './use-distance.hook';
 
 const AreaDistance = ({ area, className = '' }: { area?: TUnit; className?: string }) => {
+  const { t } = useTranslation();
+
   if (!area) {
     return null;
   }
@@ -12,7 +15,8 @@ const AreaDistance = ({ area, className = '' }: { area?: TUnit; className?: stri
       <Text
         content={
           <span>
-            {area.value} {area.unit.displayedValue}
+            {area.value}
+            {t(area.unit.displayedValueTranslation)}
             <sup>2</sup>
           </span>
         }
@@ -25,6 +29,8 @@ const AreaDistance = ({ area, className = '' }: { area?: TUnit; className?: stri
 };
 
 const LineDistance = ({ distance, className = '' }: { distance?: TUnit; className?: string }) => {
+  const { t } = useTranslation();
+
   if (!distance) {
     return null;
   }
@@ -32,7 +38,7 @@ const LineDistance = ({ distance, className = '' }: { distance?: TUnit; classNam
   return (
     <div className={`flex items-center text-text ${className}`}>
       <Text
-        content={`${distance.value} ${distance.unit.displayedValue}`}
+        content={`${distance.value}${t(distance.unit.displayedValueTranslation)}`}
         type='p'
         fontSize='medium'
         fontWeight='regular'

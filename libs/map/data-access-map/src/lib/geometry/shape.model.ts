@@ -31,6 +31,6 @@ export type TUnit = {
   value: number;
   unit: {
     type: TUnitType;
-    displayedValue: string;
+    displayedValueTranslation: string;
   };
 };

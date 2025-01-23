@@ -21,7 +21,7 @@ export type TUnit = {
   value: number;
   unit: {
     type: 'km' | 'km2' | 'miles' | 'miles2';
-    displayedValue: string;
+    displayedValueTranslation: string;
   };
 };
 
