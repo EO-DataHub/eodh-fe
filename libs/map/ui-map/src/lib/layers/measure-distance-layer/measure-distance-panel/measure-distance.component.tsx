@@ -1,16 +1,20 @@
+import { convertUnits } from '@ukri/map/data-access-map';
 import { Text } from '@ukri/shared/design-system';
+import { convertBaseUnitToAreaUnit, TBaseUnit } from '@ukri/shared/utils/settings';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { TUnit, useDistance } from './use-distance.hook';
+import { MeasureDistanceLayerContext } from '../measure-distance-layer.component';
+import { useDistance } from './use-distance.hook';
 
-const getMinWidth = (area: TUnit | undefined, distance: TUnit | undefined) => {
-  if (!area && !distance) {
+const getMinWidth = (area: number | undefined, distance: number | undefined) => {
+  if (area === undefined && distance === undefined) {
     return '';
   }
 
-  const value = (area?.value || 0) + (distance?.value || 0);
+  const value = (distance || 0) + (distance || 0);
 
-  if (!area) {
+  if (area === undefined) {
     if (value > 10000) {
       return 'min-w-24';
     } else if (value > 10) {
@@ -39,10 +43,17 @@ const getMinWidth = (area: TUnit | undefined, distance: TUnit | undefined) => {
   return '';
 };
 
-const AreaDistance = ({ area, className = '' }: { area?: TUnit; className?: string }) => {
-  const { t } = useTranslation();
+type TAreaDistance = {
+  value?: number;
+  unit: TBaseUnit;
+  className?: string;
+};
 
-  if (!area) {
+const AreaDistance = ({ value, unit, className = '' }: TAreaDistance) => {
+  const { t } = useTranslation();
+  const area = convertUnits(value || 0, convertBaseUnitToAreaUnit(unit));
+
+  if (value === undefined || !area) {
     return null;
   }
 
@@ -64,10 +75,17 @@ const AreaDistance = ({ area, className = '' }: { area?: TUnit; className?: stri
   );
 };
 
-const LineDistance = ({ distance, className = '' }: { distance?: TUnit; className?: string }) => {
-  const { t } = useTranslation();
+type TLineDistanceProps = {
+  value?: number;
+  unit: TBaseUnit;
+  className?: string;
+};
 
-  if (!distance) {
+const LineDistance = ({ value, unit, className = '' }: TLineDistanceProps) => {
+  const { t } = useTranslation();
+  const distance = convertUnits(value || 0, unit);
+
+  if (value === undefined || !distance) {
     return null;
   }
 
@@ -84,12 +102,13 @@ const LineDistance = ({ distance, className = '' }: { distance?: TUnit; classNam
 };
 
 export const Distance = ({ className }: { className?: string }) => {
+  const { unit } = useContext(MeasureDistanceLayerContext);
   const { area, distance } = useDistance();
 
   return (
     <div className={`flex ${getMinWidth(area, distance)}`}>
-      <LineDistance distance={distance} className={className} />
-      <AreaDistance area={area} className={className} />
+      <LineDistance value={distance} unit={unit} className={className} />
+      <AreaDistance value={area} unit={unit} className={className} />
     </div>
   );
 };

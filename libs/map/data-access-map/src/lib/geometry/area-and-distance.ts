@@ -75,19 +75,9 @@ export const convertUnits = (value: number, unit: TUnitType): TUnit => {
       };
     }
 
-    case 'km': {
-      if (value > 100) {
-        return {
-          value: Math.round((value / 1000) * 100) / 100,
-          unit: {
-            type: unit,
-            displayedValueTranslation: 'GLOBAL.UNITS.KM',
-          },
-        };
-      }
-
+    case 'km2': {
       return {
-        value: Math.round(value * 100) / 100,
+        value: Math.round((value / 1000000) * 100) / 100,
         unit: {
           type: unit,
           displayedValueTranslation: 'GLOBAL.UNITS.KM',
@@ -95,19 +85,9 @@ export const convertUnits = (value: number, unit: TUnitType): TUnit => {
       };
     }
 
-    case 'km2': {
-      if (value > 10000) {
-        return {
-          value: Math.round((value / 1000000) * 100) / 100,
-          unit: {
-            type: unit,
-            displayedValueTranslation: 'GLOBAL.UNITS.KM',
-          },
-        };
-      }
-
+    case 'km': {
       return {
-        value: Math.round(value * 100) / 100,
+        value: Math.round((value / 1000) * 100) / 100,
         unit: {
           type: unit,
           displayedValueTranslation: 'GLOBAL.UNITS.KM',

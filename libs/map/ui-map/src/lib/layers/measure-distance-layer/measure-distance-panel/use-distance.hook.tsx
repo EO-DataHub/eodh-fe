@@ -1,12 +1,4 @@
-import {
-  convertUnits,
-  getArea,
-  getCoordinates,
-  getLineLength,
-  TShapeType,
-  useMeasureDistance,
-} from '@ukri/map/data-access-map';
-import { convertBaseUnitToAreaUnit, TBaseUnit } from '@ukri/shared/utils/settings';
+import { getArea, getCoordinates, getLineLength, TShapeType, useMeasureDistance } from '@ukri/map/data-access-map';
 import { EventsKey } from 'ol/events';
 import { Geometry } from 'ol/geom';
 import { DrawEvent } from 'ol/interaction/Draw';
@@ -17,38 +9,30 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { MapContext } from '../../../map.component';
 import { MeasureDistanceLayerContext } from '../measure-distance-layer.component';
 
-export type TUnit = {
-  value: number;
-  unit: {
-    type: 'km' | 'km2' | 'miles' | 'miles2';
-    displayedValueTranslation: string;
-  };
-};
-
 export const useDistance = () => {
-  const { unit, draw, modify, drawType } = useContext(MeasureDistanceLayerContext);
+  const { draw, modify, drawType } = useContext(MeasureDistanceLayerContext);
   const map = useContext(MapContext);
   const { shape } = useMeasureDistance();
-  const [area, setArea] = useState<TUnit | undefined>(drawType === 'polygon' ? convertUnits(0, unit) : undefined);
-  const [distance, setDistance] = useState<TUnit>(convertUnits(0, unit));
+  const [area, setArea] = useState<number | undefined>(drawType === 'polygon' ? 0 : undefined);
+  const [distance, setDistance] = useState<number>(0);
 
-  const updateMeasurements = useCallback((shape: Geometry, type: TShapeType, unit: TBaseUnit) => {
+  const updateMeasurements = useCallback((shape: Geometry, type: TShapeType) => {
     const coordinates = getCoordinates({ type, shape });
 
     if (!coordinates) {
-      setArea(type === 'polygon' ? convertUnits(0, unit) : undefined);
-      setDistance(convertUnits(0, unit));
+      setArea(type === 'polygon' ? 0 : undefined);
+      setDistance(0);
       return;
     }
 
-    setDistance(convertUnits(getLineLength(coordinates), unit));
+    setDistance(getLineLength(coordinates));
 
     if (type === 'line') {
       setArea(undefined);
       return;
     }
 
-    setArea(convertUnits(getArea(coordinates), convertBaseUnitToAreaUnit(unit)));
+    setArea(getArea(coordinates));
   }, []);
 
   useEffect(() => {
@@ -58,9 +42,8 @@ export const useDistance = () => {
 
     let changeListener: EventsKey | undefined;
     const drawStart = (event: DrawEvent) => {
-      changeListener = event.feature.getGeometry()?.on('change', function (evt) {
-        const geom = evt.target;
-        updateMeasurements(geom, draw.type, unit);
+      changeListener = event.feature.getGeometry()?.on('change', (evt) => {
+        updateMeasurements(evt.target, draw.type);
       });
     };
     const drawEnd = () => {
@@ -69,8 +52,8 @@ export const useDistance = () => {
       }
     };
     const drawAbort = () => {
-      setArea(draw.type === 'polygon' ? convertUnits(0, unit) : undefined);
-      setDistance(convertUnits(0, unit));
+      setArea(draw.type === 'polygon' ? 0 : undefined);
+      setDistance(0);
 
       if (changeListener) {
         unByKey(changeListener);
@@ -86,7 +69,7 @@ export const useDistance = () => {
       draw.draw.un('drawend', drawEnd);
       draw.draw.un('drawabort', drawAbort);
     };
-  }, [map, draw, unit, updateMeasurements]);
+  }, [map, draw, updateMeasurements]);
 
   useEffect(() => {
     if (!modify || !draw?.type) {
@@ -95,13 +78,13 @@ export const useDistance = () => {
 
     let changeListener: EventsKey | undefined;
     const modifyStartListener = (event: ModifyEvent) => {
-      changeListener = [...event.features.getArray()].pop()?.on('change', function (evt) {
+      changeListener = [...event.features.getArray()].pop()?.on('change', (evt) => {
         const geom = evt.target.getGeometry();
         if (!geom) {
           return;
         }
 
-        updateMeasurements(geom, draw.type, unit);
+        updateMeasurements(geom, draw.type);
       });
     };
     const modifyEndListener = () => {
@@ -117,24 +100,24 @@ export const useDistance = () => {
       modify.un('modifystart', modifyStartListener);
       modify.un('modifyend', modifyEndListener);
     };
-  }, [modify, unit, draw?.type, updateMeasurements]);
+  }, [modify, draw?.type, updateMeasurements]);
 
   useEffect(() => {
     if (!shape?.shape) {
       return;
     }
 
-    updateMeasurements(shape.shape, shape.type, unit);
-  }, [shape, unit, updateMeasurements]);
+    updateMeasurements(shape.shape, shape.type);
+  }, [shape, updateMeasurements]);
 
   useEffect(() => {
     if (!draw?.type) {
       return;
     }
 
-    setArea(draw.type === 'polygon' ? convertUnits(0, unit) : undefined);
-    setDistance(convertUnits(0, unit));
-  }, [draw?.type, unit]);
+    setArea(draw.type === 'polygon' ? 0 : undefined);
+    setDistance(0);
+  }, [draw?.type]);
 
   return useMemo(
     () => ({
