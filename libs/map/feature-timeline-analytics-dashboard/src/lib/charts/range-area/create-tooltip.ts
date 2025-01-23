@@ -1,8 +1,8 @@
 import { createDateString, formatDateTime } from '@ukri/shared/utils/date';
 import { renderToString } from 'react-dom/server';
 
-import { roundValue } from '../stack-bar/utils';
 import { IParsedSeriesData, renderTooltip } from '../tooltip.component';
+import { roundValue } from '../utils';
 import { IApexOptions, TSeriesItem } from './range-area-chart.model';
 
 export const createTooltip =
@@ -44,7 +44,7 @@ export const createTooltip =
       ...items,
       {
         translationKey: 'MAP.TIMELINE_ANALYTICS_DASHBOARD.CHARTS.RANGE_AREA.TOOLTIP.DATE',
-        displayedValue: formatDateTime(createDateString(new Date(dateInMilliseconds))),
+        displayedValue: formatDateTime(createDateString(new Date(dateInMilliseconds)), 'YYYY-MM-DD', 'HH:mm:ss.mmm'),
       },
     ];
 

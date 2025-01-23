@@ -1,9 +1,9 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { roundValue } from '../utils';
 import { BarChart } from './bar-chart.component';
 import { StackBarChart } from './stack-bar-chart.component';
-import { roundValue } from './utils';
 
 type TChartItem = {
   name: string;
@@ -14,6 +14,7 @@ type TChartItem = {
 
 const mapToChartSeries = (data: TChartItem[], index: number | undefined) => {
   return data
+    .filter((item) => item.value.every((dataItem) => dataItem > 0))
     .map((item, currentIndex) => [
       {
         name: item.name,

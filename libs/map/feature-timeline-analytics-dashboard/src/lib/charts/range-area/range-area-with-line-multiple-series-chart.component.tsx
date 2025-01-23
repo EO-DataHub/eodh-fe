@@ -1,6 +1,7 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { roundValue } from '../utils';
 import { AssetSwitcher } from './asset-switcher.component';
 import { TSeriesItem } from './range-area-chart.model';
 import { RangeAreaWithLineOneSeriesChart } from './range-area-with-line-one-series-chart.component';
@@ -28,9 +29,9 @@ const mapToChartSeries = (series: Record<string, TSeries>, assetName?: string) =
       hidden: assetName !== undefined ? assetName !== asset : index > 0,
       unit: seriesItem.unit,
       data: seriesItem.data.map((item) => ({
-        min: parseFloat(parseFloat((item.min || 0).toString()).toFixed(2)),
-        max: parseFloat(parseFloat((item.max || 0).toString()).toFixed(2)),
-        median: parseFloat(parseFloat((item.median || 0).toString()).toFixed(2)),
+        min: roundValue(item.min),
+        max: roundValue(item.max),
+        median: roundValue(item.median),
         timestamp: item.timestamp,
       })),
     })
