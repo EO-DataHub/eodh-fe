@@ -1,5 +1,5 @@
 import { useComparisonMode, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
-import { TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TAssetKey, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useMemo } from 'react';
 
 import { downloadFiles } from './download-files.utils';
@@ -27,9 +27,9 @@ export const useResult = () => {
   }, []);
 
   const handleSelectedItemToggle = useCallback(
-    (item: TFeature) => {
+    (item: TFeature, key?: TAssetKey) => {
       const newFeature = selectedFeature?.id !== item.id ? item : undefined;
-      setFeature(newFeature);
+      setFeature(newFeature, key);
     },
     [selectedFeature, setFeature]
   );

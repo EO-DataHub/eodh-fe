@@ -1,6 +1,6 @@
 import type {} from '@redux-devtools/extension';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TAssetKey, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -10,9 +10,9 @@ export const useTrueColorImageStore = create<ITrueImageStore>()(
   devtools((set) => ({
     stacUrl: undefined,
     feature: undefined,
-    setFeature: (feature: TFeature | undefined) =>
+    setFeature: (feature: TFeature | undefined, key?: TAssetKey) =>
       set(() => ({
-        stacUrl: feature?.links.find((link) => link.rel === 'self')?.href,
+        stacUrl: key ? feature?.assets[key]?.href : feature?.links.find((link) => link.rel === 'self')?.href,
         feature,
       })),
   }))
