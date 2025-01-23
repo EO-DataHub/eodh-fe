@@ -1,4 +1,4 @@
-import { Button } from '@ukri/shared/design-system';
+import { Button, Text } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
 export interface IMultipleItemsActionButtonsProps {
@@ -10,6 +10,16 @@ export interface IMultipleItemsActionButtonsProps {
   onDownload: () => void;
   onCompareItemToggle: () => void;
   onToggleSelectedItem?: () => void;
+  assets: {
+    [key: string]: {
+      href: string;
+      roles: string[];
+      size: number;
+      title: string;
+      type: string;
+      [key: string]: unknown;
+    };
+  };
 }
 
 export const MultipleItemsActionButtons = ({
@@ -21,6 +31,7 @@ export const MultipleItemsActionButtons = ({
   onToggleSelectedItem,
   onDownload,
   onCompareItemToggle,
+  assets,
 }: IMultipleItemsActionButtonsProps) => {
   const [isOpened, setIsOpened] = useState(false);
   const compareButtonClassName = addedForComparison ? '!text-error' : '';
@@ -34,41 +45,65 @@ export const MultipleItemsActionButtons = ({
     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE'
     : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW';
 
+  const { thumbnail, ...indices } = assets;
+
   const onToggleShowAssets = useCallback(() => {
     setIsOpened(!isOpened);
   }, [isOpened]);
 
-  if (canDownload) {
-    return (
-      <div className='flex justify-between'>
-        <Button
-          appearance='text'
-          text='GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON.DOWNLOAD'
-          size='medium'
-          type='link'
-          onClick={onDownload}
-          disabled={comparisonEnabled}
-        />
+  return (
+    <div>
+      <div className='flex space-between'>
+        {canDownload && (
+          <Button
+            appearance='text'
+            text='GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON.DOWNLOAD'
+            size='medium'
+            type='link'
+            onClick={onDownload}
+            disabled={comparisonEnabled}
+          />
+        )}
         <Button
           appearance='text'
           text={foldingButtonTitle}
           size='medium'
           onClick={onToggleShowAssets}
-          className={compareButtonClassName}
+          className='ml-auto'
         />
       </div>
-    );
-  }
 
-  return (
-    <div className='flex justify-end'>
-      <Button
-        appearance='text'
-        text={foldingButtonTitle}
-        size='medium'
-        onClick={onToggleShowAssets}
-        className={compareButtonClassName}
-      />
+      {isOpened && (
+        <div className='mt-2 border-t border-t-bright-dark'>
+          {Object.keys(indices).map((key) => (
+            <div className='pt-2 flex justify-between' key={key}>
+              {console.log('key', key)}
+              <Text
+                type='span'
+                content={assets[key].title}
+                translate={false}
+                fontSize='large'
+                fontWeight='regular'
+                className='text-text'
+              />
+              <Button
+                appearance='text'
+                text={compareButtonTitle}
+                size='medium'
+                onClick={onCompareItemToggle}
+                className={compareButtonClassName}
+                disabled={canCompare}
+              />
+              <Button
+                text={resultsButtonTitle}
+                size='small'
+                onClick={onToggleSelectedItem}
+                disabled={comparisonEnabled}
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

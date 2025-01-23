@@ -8,10 +8,10 @@ import { useResult } from './use-result.hook';
 
 export interface IResultsListProps {
   features: TCollection['features'];
-  type?: 'singleResult' | 'multipleResults';
+  // type?: 'singleResult' | 'multipleResults';
 }
 
-export const ResultsList = ({ features, type = 'singleResult' }: IResultsListProps) => {
+export const ResultsList = ({ features }: IResultsListProps) => {
   const {
     isSelected,
     toggleItem,
@@ -22,6 +22,7 @@ export const ResultsList = ({ features, type = 'singleResult' }: IResultsListPro
     toggleCompareItem,
   } = useResult();
   const { mode } = useMode();
+  console.log('features', features);
 
   return (
     <div className='mx-4 mt-4'>
@@ -37,8 +38,9 @@ export const ResultsList = ({ features, type = 'singleResult' }: IResultsListPro
           selected={isSelected(feature.id)}
           onToggleSelectedItem={() => toggleItem(feature)}
         >
-          {type === 'singleResult' ? (
-            <SingleItemActionButtons
+          {/* {console.log(feature.assets, Object.keys(feature.assets).length)} */}
+          {Object.keys(feature.assets).length > 1 ? (
+            <MultipleItemsActionButtons
               selected={isSelected(feature.id)}
               comparisonEnabled={comparisonEnabled}
               addedForComparison={isItemAddedToComparisonMode(feature)}
@@ -47,9 +49,10 @@ export const ResultsList = ({ features, type = 'singleResult' }: IResultsListPro
               onDownload={() => downloadItem(feature)}
               onCompareItemToggle={() => toggleCompareItem(feature)}
               onToggleSelectedItem={() => toggleItem(feature)}
+              assets={feature.assets}
             />
           ) : (
-            <MultipleItemsActionButtons
+            <SingleItemActionButtons
               selected={isSelected(feature.id)}
               comparisonEnabled={comparisonEnabled}
               addedForComparison={isItemAddedToComparisonMode(feature)}
