@@ -22,7 +22,7 @@ export const selectStyles = {
   list: 'z-20 max-h-60 overflow-y-scroll focus:outline-none',
 
   errorMessage: 'text-error text-small-semibold m-b-[5px]',
-  buttonText: 'truncate max-w-[100px]',
+  buttonText: 'truncate max-w-full',
   iconContainer: 'absolute right-0.5 flex items-center pointer-events-none',
   icon: (isOpen: boolean) => `text-neutral-light transform transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`,
 
