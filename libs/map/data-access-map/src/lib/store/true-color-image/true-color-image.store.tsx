@@ -10,16 +10,18 @@ export const useTrueColorImageStore = create<ITrueImageStore>()(
   devtools((set) => ({
     stacUrl: undefined,
     feature: undefined,
-    selectedKey: undefined,
+    visibleKey: undefined,
     setFeature: (feature: TFeature | undefined, key?: TAssetKey) =>
-      set(() =>
-        // eslint-disable-next-line no-console
-        // console.log('feature in setFeature', key, feature?.assets[key]),
-        ({
-          stacUrl: key ? feature?.assets[key]?.href : feature?.links.find((link) => link.rel === 'self')?.href,
-          feature,
-          selectedKey: key ? key : undefined,
-        })
+      set(
+        () => (
+          // eslint-disable-next-line no-console
+          console.log('feature in setFeature', key, feature),
+          {
+            stacUrl: key ? feature?.assets[key]?.href : feature?.links.find((link) => link.rel === 'self')?.href,
+            feature,
+            visibleKey: key ? key : undefined,
+          }
+        )
       ),
   }))
 );
@@ -27,9 +29,10 @@ export const useTrueColorImageStore = create<ITrueImageStore>()(
 export const getTrueColorImageStoreState = (): TTrueImageStoreState => ({
   stacUrl: useTrueColorImageStore.getState().stacUrl,
   feature: useTrueColorImageStore.getState().feature,
-  selectedKey: useTrueColorImageStore.getState().selectedKey,
+  visibleKey: useTrueColorImageStore.getState().visibleKey,
 });
 
 export const useTrueColorImage = (): ITrueImageStore => {
+  // console.log('useTrueColorImageStore', useTrueColorImageStore.getState());
   return useTrueColorImageStore();
 };

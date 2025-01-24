@@ -2,6 +2,8 @@ import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
 import { Button, Text } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
+import { useResult } from '../use-result.hook';
+
 export interface IMultipleItemsActionButtonsProps {
   addedForComparison: boolean;
   comparisonEnabled: boolean;
@@ -10,7 +12,8 @@ export interface IMultipleItemsActionButtonsProps {
   onDownload: () => void;
   onCompareItemToggle: () => void;
   onToggleSelectedItem: (key: TAssetKey) => void;
-  selected?: boolean;
+  // selected?: boolean;
+  featureId: string;
   assets: {
     [key: string]: {
       href: string;
@@ -31,11 +34,12 @@ export const MultipleItemsActionButtons = ({
   onToggleSelectedItem,
   onDownload,
   onCompareItemToggle,
+  featureId,
+  // selected = false,
   assets,
-  selected = false,
 }: IMultipleItemsActionButtonsProps) => {
   const [isOpened, setIsOpened] = useState(false);
-  const [selectedIndices, setSelectedIndices] = useState<string[]>([]);
+  const [selectedIndice, setSelectedIndice] = useState<TAssetKey>();
   const compareButtonClassName = addedForComparison ? '!text-error' : '';
   const foldingButtonTitle = isOpened
     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE_ASSETS'
@@ -43,6 +47,7 @@ export const MultipleItemsActionButtons = ({
   const compareButtonTitle = addedForComparison
     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.REMOVE_COMPARE'
     : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.ADD_TO_COMPARE';
+  const { isSelectedMultipleIndices, isSelected } = useResult();
 
   const { thumbnail, ...indices } = assets;
 
@@ -51,16 +56,16 @@ export const MultipleItemsActionButtons = ({
   }, [isOpened]);
 
   const onToggleViewButton = useCallback(
-    (key: string) => {
-      if (selectedIndices.includes(key)) {
-        setSelectedIndices(selectedIndices.filter((item) => item !== key));
-        onToggleSelectedItem(key as TAssetKey);
+    (key: TAssetKey) => {
+      if (isSelectedMultipleIndices(featureId, key) && isSelected(featureId)) {
+        setSelectedIndice(undefined);
+        onToggleSelectedItem(key);
       } else {
-        setSelectedIndices([...selectedIndices, key]);
-        onToggleSelectedItem(key as TAssetKey);
+        setSelectedIndice(key);
+        onToggleSelectedItem(key);
       }
     },
-    [selectedIndices, onToggleSelectedItem]
+    [onToggleSelectedItem, isSelectedMultipleIndices, featureId, isSelected]
   );
 
   return (
@@ -89,7 +94,7 @@ export const MultipleItemsActionButtons = ({
         <div className='mt-2 border-t border-t-bright-dark'>
           {Object.keys(indices).map((key) => (
             <div className='pt-2 flex justify-between' key={key}>
-              {console.log('key', key)}
+              {/* {console.log('key', key)} */}
               <Text
                 type='span'
                 content={assets[key].title}
@@ -108,12 +113,12 @@ export const MultipleItemsActionButtons = ({
               />
               <Button
                 text={
-                  selectedIndices.includes(key)
+                  selectedIndice === key && isSelected(featureId)
                     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE'
                     : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW'
                 }
                 size='small'
-                onClick={() => onToggleViewButton(key)}
+                onClick={() => onToggleViewButton(key as TAssetKey)}
                 disabled={comparisonEnabled}
               />
             </div>

@@ -22,12 +22,12 @@ export const ResultsList = ({ features }: IResultsListProps) => {
     toggleCompareItem,
   } = useResult();
   const { mode } = useMode();
-  console.log('features', features);
+  // console.log('features', features);
 
   return (
     <div className='mx-4 mt-4'>
       {features.map((feature: TFeature) =>
-        Object.keys(feature.assets).length > 1 ? (
+        mode === 'action-creator' && Object.keys(feature.assets).length > 1 ? (
           <ResultItem
             key={feature.id}
             className='mb-4'
@@ -37,10 +37,10 @@ export const ResultsList = ({ features }: IResultsListProps) => {
             collectionName={feature.collection}
             dateTime={feature.properties.datetime}
             selected={isSelected(feature.id)}
-            onToggleSelectedItem={() => toggleItem(feature)}
+            // onToggleSelectedItem={() => toggleItem(feature)}
           >
             <MultipleItemsActionButtons
-              selected={isSelected(feature.id)}
+              // selected={isSelectedMultipleIndices(feature.id)}
               comparisonEnabled={comparisonEnabled}
               addedForComparison={isItemAddedToComparisonMode(feature)}
               canDownload={mode === 'action-creator'}
@@ -49,6 +49,7 @@ export const ResultsList = ({ features }: IResultsListProps) => {
               onCompareItemToggle={() => toggleCompareItem(feature)}
               onToggleSelectedItem={(key) => toggleItem(feature, key)}
               assets={feature.assets}
+              featureId={feature.id}
             />
           </ResultItem>
         ) : (

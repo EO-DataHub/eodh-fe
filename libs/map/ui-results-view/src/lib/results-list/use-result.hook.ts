@@ -5,12 +5,16 @@ import { useCallback, useMemo } from 'react';
 import { downloadFiles } from './download-files.utils';
 
 export const useResult = () => {
-  const { feature: visibleFeature, selectedKey, setFeature } = useTrueColorImage();
+  const { feature: visibleFeature, visibleKey, setFeature } = useTrueColorImage();
   const { mode } = useMode();
   const { comparisonModeEnabled, itemAddedToComparisonMode, canAddAsNewItemToComparisonMode, toggleCompareItem } =
     useComparisonMode();
 
   const isSelected = useCallback((id: string) => visibleFeature?.id === id, [visibleFeature]);
+  const isSelectedMultipleIndices = useCallback(
+    (id: string, key: TAssetKey) => visibleFeature?.id === id && visibleKey === key,
+    [visibleFeature, visibleKey]
+  );
 
   const isAddedToComparison = useCallback(
     (item: TFeature) => itemAddedToComparisonMode(item),
@@ -29,13 +33,14 @@ export const useResult = () => {
   const handleSelectedItemToggle = useCallback(
     (item: TFeature, key?: TAssetKey) => {
       if (key) {
-        const newFeature = visibleFeature?.id !== item.id && selectedKey !== key ? item : undefined;
+        const newFeature = visibleFeature?.id !== item.id && visibleKey !== key ? item : undefined;
         setFeature(newFeature, key);
+      } else {
+        const newFeature = visibleFeature?.id !== item.id ? item : undefined;
+        setFeature(newFeature);
       }
-      const newFeature = visibleFeature?.id !== item.id ? item : undefined;
-      setFeature(newFeature);
     },
-    [setFeature, visibleFeature, selectedKey]
+    [setFeature, visibleFeature, visibleKey]
   );
 
   const handleToggleCompareItem = useCallback(
@@ -51,6 +56,7 @@ export const useResult = () => {
       toggleCompareItem: handleToggleCompareItem,
       downloadItem: download,
       isSelected,
+      isSelectedMultipleIndices,
       comparisonEnabled: comparisonModeEnabled,
       isItemAddedToComparisonMode: isAddedToComparison,
       canCompareItems: canCompare,
@@ -62,6 +68,7 @@ export const useResult = () => {
       handleSelectedItemToggle,
       isAddedToComparison,
       isSelected,
+      isSelectedMultipleIndices,
       handleToggleCompareItem,
     ]
   );
