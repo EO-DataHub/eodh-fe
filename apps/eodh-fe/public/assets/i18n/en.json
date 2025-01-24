@@ -253,7 +253,8 @@
       "CTA_BUTTON": {
         "COMPARE": "Compare",
         "END_COMPARE": "End compare"
-      }
+      },
+      "NO_INTERSECTION": "Selected data have no intersection"
     },
     "SEARCH_MODE_PANEL": {
       "HEADER": {
