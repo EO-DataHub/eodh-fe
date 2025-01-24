@@ -22,7 +22,7 @@ export const GraphAnalytics = () => {
     return <ChartLoader height={chartHeight} />;
   }
 
-  if (!data || status === 'error') {
+  if (status === 'error' || !data || !Object.entries(data.assets).length) {
     return (
       <div className='w-full'>
         <Error
