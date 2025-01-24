@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { createShape, getCoordinates } from '../../geometry/geometry';
-import { IMeasureDistanceStore, TMeasureDistanceStoreState } from './measure-distance.model';
+import { IMeasureDistanceStore } from './measure-distance.model';
 
 export const useMeasureDistanceStore = create<IMeasureDistanceStore>()(
   devtools((set) => ({
@@ -29,15 +29,10 @@ export const useMeasureDistanceStore = create<IMeasureDistanceStore>()(
           coordinates: getCoordinates({ type: state.shape.type, shape }),
         };
       }),
-    toggleVisibility: () => set((state) => ({ visible: !state.visible })),
+    show: () => set(() => ({ visible: true })),
+    hide: () => set(() => ({ visible: false })),
   }))
 );
-
-export const getMeasureDistanceStoreState = (): TMeasureDistanceStoreState => {
-  const { toggleVisibility, shape, ...rest } = useMeasureDistanceStore.getState();
-
-  return { ...rest };
-};
 
 export const useMeasureDistance = (): Omit<IMeasureDistanceStore, 'coordinates'> => {
   return useMeasureDistanceStore((state) => ({
@@ -45,6 +40,7 @@ export const useMeasureDistance = (): Omit<IMeasureDistanceStore, 'coordinates'>
     setShape: state.setShape,
     updateShape: state.updateShape,
     visible: state.visible,
-    toggleVisibility: state.toggleVisibility,
+    show: state.show,
+    hide: state.hide,
   }));
 };

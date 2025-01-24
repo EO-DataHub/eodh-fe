@@ -1,4 +1,4 @@
-import { Text, Toggle } from '@ukri/shared/design-system';
+import { Switch } from '@ukri/shared/design-system';
 import { useCallback, useContext } from 'react';
 
 import { MeasureDistanceLayerContext } from '../measure-distance-layer.component';
@@ -12,20 +12,12 @@ export const SwitchUnitButton = ({ className = '' }: { className?: string }) => 
 
   return (
     <div className={`flex flex-row items-center ${className}`}>
-      <Text
-        className={`pr-1 ${unit === 'km' ? 'text-primary' : 'text-neutral-light'}`}
-        content='GLOBAL.UNITS.KM'
-        type='span'
-        fontSize='medium'
-        fontWeight='regular'
-      />
-      <Toggle id='measureDistance' checked={unit === 'miles'} onChange={changeUnit} type='switch' />
-      <Text
-        className={`pl-1 ${unit === 'miles' ? 'text-primary' : 'text-neutral-light'}`}
-        content='GLOBAL.UNITS.MILES'
-        type='span'
-        fontSize='medium'
-        fontWeight='regular'
+      <Switch
+        id='changeDistance'
+        checked={unit === 'miles'}
+        onChange={changeUnit}
+        labelDisabled='GLOBAL.UNITS.KM'
+        labelEnabled='GLOBAL.UNITS.MILES'
       />
     </div>
   );

@@ -103,7 +103,7 @@ export const useMeasureDistanceLayer = () => {
       map.removeInteraction(draw.draw);
       document.removeEventListener('keydown', stopDrawing);
     };
-  }, [map, draw, setShape, setDraw]);
+  }, [map, draw, setShape]);
 
   useEffect(() => {
     if (!layer) {

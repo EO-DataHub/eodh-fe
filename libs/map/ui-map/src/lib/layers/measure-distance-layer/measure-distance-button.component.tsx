@@ -9,10 +9,18 @@ import { createLineStyles, measureDistanceDrawingInProgressStyles } from './meas
 import { MeasureDistanceLayerContext } from './measure-distance-layer.component';
 
 const createDraw = (drawType: 'polygon' | 'line') => {
+  if (drawType === 'polygon') {
+    return new Draw({
+      geometryName: 'Polygon',
+      type: 'Polygon',
+      style: measureDistanceDrawingInProgressStyles,
+    });
+  }
+
   return new Draw({
-    geometryName: drawType === 'polygon' ? 'Polygon' : 'LineString',
-    type: drawType === 'polygon' ? 'Polygon' : 'LineString',
-    style: drawType === 'polygon' ? measureDistanceDrawingInProgressStyles : createLineStyles,
+    geometryName: 'LineString',
+    type: 'LineString',
+    style: createLineStyles,
     finishCondition: (event) => event.originalEvent.type === MapBrowserEventType.DBLCLICK,
   });
 };
@@ -23,18 +31,19 @@ interface IStraightenButtonProps {
 
 export const MeasureDistanceButton = ({ disabled }: IStraightenButtonProps) => {
   const { draw, setDraw, drawType } = useContext(MeasureDistanceLayerContext);
-  const { visible, toggleVisibility, setShape } = useMeasureDistance();
+  const { visible, show, hide, setShape } = useMeasureDistance();
 
   const drawPolygon = useCallback(() => {
-    toggleVisibility();
-
-    if (draw?.type === drawType) {
+    if (visible) {
       setDraw(undefined);
+      hide();
       return;
     }
 
-    setDraw({ draw: createDraw(drawType), type: drawType });
-  }, [drawType, draw?.type, setDraw, toggleVisibility]);
+    const newDraw = draw?.type !== drawType ? { draw: createDraw(drawType), type: drawType } : undefined;
+    setDraw(newDraw);
+    show();
+  }, [visible, drawType, draw?.type, setDraw, show, hide]);
 
   useEffect(() => {
     if (!visible) {
@@ -43,13 +52,13 @@ export const MeasureDistanceButton = ({ disabled }: IStraightenButtonProps) => {
   }, [visible, setDraw]);
 
   useEffect(() => {
-    if (draw?.type === drawType) {
+    if (!visible || draw?.type === drawType) {
       return;
     }
 
     setDraw({ draw: createDraw(drawType), type: drawType });
     setShape(undefined);
-  }, [draw?.type, drawType, setDraw, setShape]);
+  }, [visible, draw?.type, drawType, setDraw, setShape]);
 
   return (
     <SquareButton selected={visible} disabled={disabled} onClick={drawPolygon}>

@@ -9,7 +9,6 @@ import {
 
 interface IToggleProps {
   id: string;
-  type?: 'toggle' | 'switch';
   checked?: boolean;
   onChange?: (checked: boolean) => void;
   label?: string;
@@ -17,19 +16,11 @@ interface IToggleProps {
   className?: string;
 }
 
-export const Toggle = ({
-  id,
-  checked = false,
-  onChange,
-  label,
-  disabled,
-  className = '',
-  type = 'toggle',
-}: IToggleProps) => {
+export const Toggle = ({ id, checked = false, onChange, label, disabled, className = '' }: IToggleProps) => {
   const labelClasses = `${getLabelClasses(disabled)} ${className}`;
   const labelTextClasses = getLabelTextClasses(checked, disabled);
-  const backgroundClasses = getBackgroundClasses(type, disabled);
-  const circleClasses = getCircleClasses(type, checked, disabled);
+  const backgroundClasses = getBackgroundClasses(disabled);
+  const circleClasses = getCircleClasses(checked, disabled);
 
   const handleChange = () => {
     if (disabled) {

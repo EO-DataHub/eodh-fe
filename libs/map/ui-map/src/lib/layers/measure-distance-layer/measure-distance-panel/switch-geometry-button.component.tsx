@@ -1,4 +1,4 @@
-import { Icon, Toggle } from '@ukri/shared/design-system';
+import { Icon, Switch } from '@ukri/shared/design-system';
 import { useCallback, useContext } from 'react';
 
 import { MeasureDistanceLayerContext } from '../measure-distance-layer.component';
@@ -12,18 +12,26 @@ export const SwitchGeometryButton = ({ className = '' }: { className?: string })
 
   return (
     <div className={`flex flex-row items-center justify-center ${className}`}>
-      <Icon
-        className={`pr-1 ${drawType === 'line' ? 'text-primary' : 'text-neutral-light'}`}
-        name='LineString'
-        width={24}
-        height={24}
-      />
-      <Toggle id='changeGeometry' checked={drawType === 'polygon'} onChange={changeGeometry} type='switch' />
-      <Icon
-        className={`pl-1 ${drawType === 'polygon' ? 'text-primary' : 'text-neutral-light'}`}
-        name='Geometry'
-        width={24}
-        height={24}
+      <Switch
+        id='changeGeometry'
+        checked={drawType === 'polygon'}
+        onChange={changeGeometry}
+        labelDisabled={
+          <Icon
+            className={drawType === 'line' ? 'text-primary' : 'text-neutral-light'}
+            name='LineString'
+            width={24}
+            height={24}
+          />
+        }
+        labelEnabled={
+          <Icon
+            className={drawType === 'polygon' ? 'text-primary' : 'text-neutral-light'}
+            name='Geometry'
+            width={24}
+            height={24}
+          />
+        }
       />
     </div>
   );

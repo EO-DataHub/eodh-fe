@@ -10,10 +10,11 @@ export interface IMeasureDistanceStore {
   setShape: (shape: TShape | TCoordinate | undefined) => void;
   updateShape: (shape: Geometry | undefined) => void;
   visible: boolean;
-  toggleVisibility: () => void;
+  show: () => void;
+  hide: () => void;
 }
 
 export type TMeasureDistanceStoreState = Omit<
   IMeasureDistanceStore,
-  'shape' | 'setShape' | 'toggleVisibility' | 'updateShape'
+  'shape' | 'setShape' | 'updateShape' | 'show' | 'hide'
 >;

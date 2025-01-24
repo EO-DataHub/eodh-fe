@@ -28,7 +28,7 @@ const getMinWidth = (
       return 'min-w-20';
     }
 
-    return 'min-w-10';
+    return 'min-w-14';
   }
 
   if (value > 100000000000) {
