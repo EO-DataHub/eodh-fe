@@ -72,6 +72,14 @@ export const BarChart = ({
           return renderToString(renderTooltip({ items, name: pointConfig.name, color: pointConfig.color }));
         },
       },
+      dataLabels: {
+        enabled: true,
+        offsetY: -20,
+        style: {
+          fontSize: '12px',
+          colors: [getComputedStyle(document.documentElement).getPropertyValue('--colors-text')],
+        },
+      },
     }),
     [categories, color, unit]
   );
