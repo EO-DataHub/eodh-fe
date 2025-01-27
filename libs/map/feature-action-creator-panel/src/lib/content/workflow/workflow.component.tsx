@@ -129,7 +129,7 @@ export const Workflow = () => {
       <Footer>
         <div className='flex justify-between gap-4 w-full'>
           <Button
-            className='px-0'
+            className='!px-0'
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.EXPORT'
             size='large'
@@ -137,7 +137,7 @@ export const Workflow = () => {
             onClick={exportWorkflow}
           />
           <Button
-            className='px-0'
+            className='!px-0'
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
             size='large'
