@@ -16,13 +16,11 @@ export const measureDistanceDrawingFinishedStyles = new Style({
   image: new CircleStyle({
     radius: 6,
     stroke: new Stroke({
-      // TODO to check if it is possible to get styles from tailwind
-      color: 'rgba(255, 255, 255, 1)',
+      color: getComputedStyle(document.documentElement).getPropertyValue('--colors-bright'),
       width: 1,
     }),
     fill: new Fill({
-      // TODO to check if it is possible to get styles from tailwind
-      color: 'rgba(143, 68, 255, 1)',
+      color: getComputedStyle(document.documentElement).getPropertyValue('--colors-text-visited'),
     }),
   }),
 });
@@ -41,13 +39,11 @@ export const measureDistanceDrawingInProgressStyles = new Style({
   image: new CircleStyle({
     radius: 6,
     stroke: new Stroke({
-      // TODO to check if it is possible to get styles from tailwind
-      color: 'rgba(255, 255, 255, 1)',
+      color: getComputedStyle(document.documentElement).getPropertyValue('--colors-bright'),
       width: 1,
     }),
     fill: new Fill({
-      // TODO to check if it is possible to get styles from tailwind
-      color: 'rgba(143, 68, 255, 1)',
+      color: getComputedStyle(document.documentElement).getPropertyValue('--colors-text-visited'),
     }),
   }),
 });

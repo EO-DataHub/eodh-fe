@@ -17,9 +17,7 @@ export const getArea = (value: TCoordinate | undefined): number => {
 };
 
 export const getLineLength = (coordinates: TCoordinate | undefined) => {
-  const shape = createGeometry(coordinates);
-
-  if (!shape || !coordinates) {
+  if (!coordinates) {
     return 0;
   }
 
