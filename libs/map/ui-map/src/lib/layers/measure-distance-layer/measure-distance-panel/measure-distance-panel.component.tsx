@@ -5,7 +5,11 @@ import { Distance } from './measure-distance.component';
 import { SwitchGeometryButton } from './switch-geometry-button.component';
 import { SwitchUnitButton } from './switch-unit-button.component';
 
-export const MeasureDistancePanel = () => {
+interface IMeasureDistancePanelProps {
+  className?: string;
+}
+
+export const MeasureDistancePanel = ({ className }: IMeasureDistancePanelProps) => {
   const { visible } = useMeasureDistance();
 
   if (!visible) {
@@ -13,7 +17,7 @@ export const MeasureDistancePanel = () => {
   }
 
   return (
-    <div className='absolute left-10 top-5 z-50'>
+    <div className={`absolute left-10 top-5 ${className}`}>
       <div className='bg-bright-main rounded-lg border-[1px] border-bright-dark p-4 flex flex-row'>
         <Icon name='Straighten' width={24} height={24} className='text-neutral-light pr-2' />
         <Distance className='px-1' />

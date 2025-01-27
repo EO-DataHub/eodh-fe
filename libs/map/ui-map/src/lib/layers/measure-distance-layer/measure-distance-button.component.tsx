@@ -1,4 +1,4 @@
-import { useMeasureDistance } from '@ukri/map/data-access-map';
+import { useComparisonMode, useMeasureDistance } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction';
 import MapBrowserEventType from 'ol/MapBrowserEventType';
@@ -31,7 +31,8 @@ interface IStraightenButtonProps {
 
 export const MeasureDistanceButton = ({ disabled }: IStraightenButtonProps) => {
   const { draw, setDraw, drawType } = useContext(MeasureDistanceLayerContext);
-  const { visible, show, hide, setShape } = useMeasureDistance();
+  const { visible, show, hide, setShape, enable, disable } = useMeasureDistance();
+  const { comparisonModeEnabled } = useComparisonMode();
 
   const drawPolygon = useCallback(() => {
     if (visible) {
@@ -60,8 +61,17 @@ export const MeasureDistanceButton = ({ disabled }: IStraightenButtonProps) => {
     setShape(undefined);
   }, [visible, draw?.type, drawType, setDraw, setShape]);
 
+  useEffect(() => {
+    if (comparisonModeEnabled) {
+      disable();
+      return;
+    }
+
+    enable();
+  }, [comparisonModeEnabled, enable, disable]);
+
   return (
-    <SquareButton selected={visible} disabled={disabled} onClick={drawPolygon}>
+    <SquareButton selected={visible} disabled={disabled || comparisonModeEnabled} onClick={drawPolygon}>
       <Icon name='Straighten' width={24} height={24} />
     </SquareButton>
   );

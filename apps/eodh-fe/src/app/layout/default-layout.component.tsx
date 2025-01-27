@@ -28,7 +28,7 @@ export const DefaultLayout = () => {
                 <FootprintLayer />
                 <ComparisonModeLayer />
                 <Checklist />
-                <MeasureDistancePanel />
+                <MeasureDistancePanel className='z-40' />
                 <ActionCreatorPanel className='z-30' />
               </Map>
               <BottomPanel />

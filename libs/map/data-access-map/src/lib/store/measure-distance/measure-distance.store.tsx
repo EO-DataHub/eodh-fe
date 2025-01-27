@@ -7,6 +7,7 @@ import { IMeasureDistanceStore } from './measure-distance.model';
 
 export const useMeasureDistanceStore = create<IMeasureDistanceStore>()(
   devtools((set) => ({
+    enabled: true,
     visible: false,
     shape: undefined,
     coordinates: undefined,
@@ -31,16 +32,20 @@ export const useMeasureDistanceStore = create<IMeasureDistanceStore>()(
       }),
     show: () => set(() => ({ visible: true })),
     hide: () => set(() => ({ visible: false })),
+    enable: () => set(() => ({ enabled: true })),
+    disable: () => set(() => ({ enabled: false })),
   }))
 );
 
-export const useMeasureDistance = (): Omit<IMeasureDistanceStore, 'coordinates'> => {
+export const useMeasureDistance = (): Omit<IMeasureDistanceStore, 'coordinates' | 'enabled'> => {
   return useMeasureDistanceStore((state) => ({
     shape: state.shape,
     setShape: state.setShape,
     updateShape: state.updateShape,
-    visible: state.visible,
+    visible: state.visible && state.enabled,
     show: state.show,
     hide: state.hide,
+    enable: state.enable,
+    disable: state.disable,
   }));
 };
