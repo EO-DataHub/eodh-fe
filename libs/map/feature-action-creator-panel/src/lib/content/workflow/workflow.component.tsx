@@ -5,6 +5,7 @@ import {
   TFunctionNode,
   TNode,
   useActionCreator,
+  useComparisonMode,
   useCreateWorkflow,
   useCreateWorkflowStatus,
   useDataSets,
@@ -55,6 +56,7 @@ export const Workflow = () => {
   const { setSupportedDataSets } = useDataSets();
   const { isOpen } = useTabsFlowModalState();
   const { aoiLimit } = useSettings();
+  const { comparisonModeEnabled } = useComparisonMode();
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
@@ -130,20 +132,27 @@ export const Workflow = () => {
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.EXPORT'
             size='medium'
-            disabled={!canExportWorkflow || !enabled}
+            disabled={!canExportWorkflow || !enabled || comparisonModeEnabled}
             onClick={exportWorkflow}
           />
           <Button
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
             size='medium'
-            disabled={isOpen || !enabled || status === 'pending'}
+            disabled={isOpen || !enabled || comparisonModeEnabled || status === 'pending'}
             onClick={importWorkflow}
           />
           <div className='flex justify-end gap-4 w-full'>
             <Button
               text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
-              disabled={isAreaIncorrect || !isValid || !enabled || status === 'pending' || status === 'success'}
+              disabled={
+                isAreaIncorrect ||
+                !isValid ||
+                !enabled ||
+                comparisonModeEnabled ||
+                status === 'pending' ||
+                status === 'success'
+              }
               onClick={createWorkflow}
             />
           </div>
