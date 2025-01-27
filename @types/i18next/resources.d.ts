@@ -21,6 +21,9 @@ interface Resources {
           BUTTON_HIDE: 'Hide';
           ADD_TO_COMPARE: 'Add to compare';
           REMOVE_COMPARE: 'Remove compare';
+          BUTTON: {
+            DOWNLOAD: 'Download files';
+          };
         };
         LOADER: {
           RESULTS_VIEW_LOADER: 'Please wait, searching Data Sets';
