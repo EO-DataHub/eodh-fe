@@ -44,14 +44,7 @@ export const defaultOptions: ApexOptions = {
       left: 5,
     },
   },
-  plotOptions: {
-    bar: {
-      dataLabels: {
-        position: 'top',
-        total: {
-          enabled: false,
-        },
-      },
-    },
+  dataLabels: {
+    enabled: false,
   },
 };

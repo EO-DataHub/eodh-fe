@@ -18,6 +18,9 @@ const defaultOptions: ApexOptions = {
   xaxis: {
     type: 'datetime',
   },
+  dataLabels: {
+    enabled: false,
+  },
 };
 
 const getRangeAreaValues = (series: TSeriesItem) => ({
