@@ -18,9 +18,9 @@ interface IToggleProps {
 
 export const Toggle = ({ id, checked = false, onChange, label, disabled, className = '' }: IToggleProps) => {
   const labelClasses = `${getLabelClasses(disabled)} ${className}`;
-  const labelTextClasses = getLabelTextClasses(disabled, checked);
+  const labelTextClasses = getLabelTextClasses(checked, disabled);
   const backgroundClasses = getBackgroundClasses(disabled);
-  const circleClasses = getCircleClasses(disabled, checked);
+  const circleClasses = getCircleClasses(checked, disabled);
 
   const handleChange = () => {
     if (disabled) {

@@ -2,8 +2,8 @@ import type {} from '@redux-devtools/extension';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import { createShape, getCoordinates } from '../../geometry/geometry';
 import { IAoiStore, TAoiState, TAoiStoreState } from './aoi.model';
-import { createShape, getCoordinates } from './geometry';
 
 export const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({

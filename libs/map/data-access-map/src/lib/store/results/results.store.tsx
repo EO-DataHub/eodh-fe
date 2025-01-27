@@ -5,11 +5,11 @@ import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { createGeometry, getCoordinates } from './geometry';
+import { createGeometry, getCoordinates } from '../../geometry/geometry';
+import { TCoordinate } from '../../geometry/shape.model';
 import {
   defaultState,
   TCatalogueSearchParams,
-  TCoordinate,
   TResultsStore,
   TResultsStoreState,
   TSearchParams,
@@ -44,7 +44,9 @@ export const useResultsStore = create<TResultsStore>()(
           ? state
           : {
               searchParams: searchParams ? cloneDeep(searchParams) : defaultState.searchParams,
-              coordinates: getCoordinates(searchParams?.aoi),
+              coordinates: getCoordinates(
+                searchParams?.aoi ? { type: 'polygon', shape: searchParams?.aoi } : undefined
+              ),
               searchType: getSearchType(searchParams ? searchParams : defaultState.searchParams),
             };
       }),
