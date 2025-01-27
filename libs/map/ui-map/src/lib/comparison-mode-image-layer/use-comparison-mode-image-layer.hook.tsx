@@ -1,5 +1,4 @@
 import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
-import { t } from 'i18next';
 import isArray from 'lodash/isArray';
 import { enqueueSnackbar } from 'notistack';
 import { Coordinate } from 'ol/coordinate';
@@ -7,6 +6,7 @@ import { boundingExtent, intersects } from 'ol/extent';
 import GroupLayer from 'ol/layer/Group';
 import { transform } from 'ol/proj';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { stacLayerZindex } from '../consts';
 import { MapContext } from '../map.component';
@@ -46,6 +46,7 @@ const convertCoordinates = (geometry: TComparisonItem['geometry']): Coordinate[]
 
 export const useComparisonModeImageLayers = () => {
   const map = useContext(MapContext);
+  const { t } = useTranslation();
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
   const [item1, setItem1] = useState<GroupLayer | undefined>(undefined);
   const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
@@ -140,7 +141,7 @@ export const useComparisonModeImageLayers = () => {
         removeLayerFromMap(groupLayer2);
       }
     };
-  }, [map, comparisonItems, comparisonModeEnabled, createLayer, removeLayerFromMap, addLayerToMap]);
+  }, [map, comparisonItems, comparisonModeEnabled, createLayer, removeLayerFromMap, addLayerToMap, t]);
 
   return useMemo(() => {
     return {
