@@ -44,18 +44,7 @@ export const defaultOptions: ApexOptions = {
       left: 5,
     },
   },
-  plotOptions: {
-    bar: {
-      dataLabels: {
-        total: {
-          enabled: false,
-          offsetX: 0,
-          style: {
-            fontSize: '13px',
-            fontWeight: 900,
-          },
-        },
-      },
-    },
+  dataLabels: {
+    enabled: false,
   },
 };
