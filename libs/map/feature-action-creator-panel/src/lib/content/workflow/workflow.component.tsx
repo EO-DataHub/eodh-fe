@@ -131,31 +131,30 @@ export const Workflow = () => {
           <Button
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.EXPORT'
-            size='medium'
+            size='large'
             disabled={!canExportWorkflow || !enabled || comparisonModeEnabled}
             onClick={exportWorkflow}
           />
           <Button
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
-            size='medium'
+            size='large'
             disabled={isOpen || !enabled || comparisonModeEnabled || status === 'pending'}
             onClick={importWorkflow}
           />
-          <div className='flex justify-end gap-4 w-full'>
-            <Button
-              text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
-              disabled={
-                isAreaIncorrect ||
-                !isValid ||
-                !enabled ||
-                comparisonModeEnabled ||
-                status === 'pending' ||
-                status === 'success'
-              }
-              onClick={createWorkflow}
-            />
-          </div>
+          <Button
+            className='w-full'
+            text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
+            disabled={
+              isAreaIncorrect ||
+              !isValid ||
+              !enabled ||
+              comparisonModeEnabled ||
+              status === 'pending' ||
+              status === 'success'
+            }
+            onClick={createWorkflow}
+          />
         </div>
       </Footer>
     </Container>

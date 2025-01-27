@@ -19,7 +19,7 @@ export const DefaultLayout = () => {
               <FootprintLayer />
               <ComparisonModeLayer />
               <Checklist />
-              <ActionCreatorPanel className='z-20' />
+              <ActionCreatorPanel className='z-30' />
             </Map>
             <BottomPanel />
           </div>
