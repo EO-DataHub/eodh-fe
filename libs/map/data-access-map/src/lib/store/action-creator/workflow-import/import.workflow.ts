@@ -126,7 +126,7 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
 
   clearWorkflowCache();
   useDataSetsStore.getState().setDataSet(dataSetImportedNode?.value || undefined);
-  useDataSetsStore.getState().enable(availableDatasets);
+  useDataSetsStore.getState().enable(availableDatasets.length ? availableDatasets : undefined);
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
 
   if (shape) {
