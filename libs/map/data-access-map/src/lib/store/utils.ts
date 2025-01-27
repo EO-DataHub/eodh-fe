@@ -116,7 +116,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
 
   clearWorkflowCache();
   useDataSetsStore.getState().setDataSet(dataSet);
-  useDataSetsStore.getState().enable(availableDatasets);
+  useDataSetsStore.getState().enable(availableDatasets.length ? availableDatasets : undefined);
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
 
   if (shape) {
