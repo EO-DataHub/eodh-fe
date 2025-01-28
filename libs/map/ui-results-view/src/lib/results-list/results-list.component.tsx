@@ -8,7 +8,6 @@ import { useResult } from './use-result.hook';
 
 export interface IResultsListProps {
   features: TCollection['features'];
-  // type?: 'singleResult' | 'multipleResults';
 }
 
 export const ResultsList = ({ features }: IResultsListProps) => {
@@ -22,7 +21,6 @@ export const ResultsList = ({ features }: IResultsListProps) => {
     toggleCompareItem,
   } = useResult();
   const { mode } = useMode();
-  // console.log('features', features);
 
   return (
     <div className='mx-4 mt-4'>

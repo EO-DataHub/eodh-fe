@@ -34,7 +34,7 @@ export const useResult = () => {
     (item: TFeature, key?: TAssetKey) => {
       if (key) {
         const newFeature = visibleFeature?.id !== item.id && visibleKey !== key ? item : undefined;
-        setFeature(newFeature, key);
+        newFeature ? setFeature(newFeature, key) : setFeature(undefined);
       } else {
         const newFeature = visibleFeature?.id !== item.id ? item : undefined;
         setFeature(newFeature);

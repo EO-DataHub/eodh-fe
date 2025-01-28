@@ -11,7 +11,9 @@
   --colors-primary-main: theme('colors.primary.main');
   --colors-primary-light: theme('colors.primary.light');
   --colors-neutral-light: theme('colors.neutral.light');
+  --colors-bright-main: theme('colors.bright.main');
   --colors-bright-mid: theme('colors.bright.mid');
+  --colors-text-visited: theme('colors.text.visited');
 }
 
 body {

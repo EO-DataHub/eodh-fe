@@ -8,6 +8,7 @@ export const fontSize = {
   'large-bold': ['14px', { lineHeight: '21px', fontWeight: '700' }],
   'large-semibold': ['14px', { lineHeight: '21px', fontWeight: '600' }],
   'large-regular': ['14px', { lineHeight: '21px', fontWeight: '400' }],
+  'body-medium-semibold': ['12px', { lineHeight: '16px', fontWeight: '600' }],
 };
 
 export const shadow = {

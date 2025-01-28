@@ -52,7 +52,7 @@ export const SampleSelect = {
 
 const Template = () => (
   /* eslint-disable @typescript-eslint/no-empty-function */
-  <Select onChange={() => {}} options={options} placeholder={placeholder} error='Select something' />
+  <Select size='sm' onChange={() => {}} options={options} placeholder={placeholder} error='Select something' />
 );
 
 export const Error = Template.bind({});

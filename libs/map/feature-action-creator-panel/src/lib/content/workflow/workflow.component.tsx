@@ -1,17 +1,20 @@
 import {
+  getArea,
   TAreaNode,
   TDataSetsNode,
   TDateRangeNode,
   TFunctionNode,
   TNode,
   useActionCreator,
+  useComparisonMode,
   useCreateWorkflow,
   useCreateWorkflowStatus,
   useDataSets,
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
-import { useCallback, useContext, useEffect } from 'react';
+import { useSettings } from '@ukri/shared/utils/settings';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
@@ -52,6 +55,8 @@ export const Workflow = () => {
   const { data, isSuccess: isFunctionsLoaded } = useFunctions({ enabled });
   const { setSupportedDataSets } = useDataSets();
   const { isOpen } = useTabsFlowModalState();
+  const { aoiLimit } = useSettings();
+  const { comparisonModeEnabled } = useComparisonMode();
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
@@ -93,6 +98,14 @@ export const Workflow = () => {
     setSupportedDataSets(options);
   }, [data, isFunctionsLoaded, enabled, setSupportedDataSets]);
 
+  const isAreaIncorrect = useMemo<boolean>(() => {
+    const area = nodes.find((node) => node.type === 'area') as TAreaNode | undefined;
+    if (area) {
+      return getArea(area.value) > aoiLimit;
+    }
+    return false;
+  }, [nodes, aoiLimit]);
+
   return (
     <Container>
       <Content>
@@ -116,26 +129,34 @@ export const Workflow = () => {
       <Footer>
         <div className='flex justify-between gap-4 w-full'>
           <Button
+            className='!px-0'
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.EXPORT'
-            size='medium'
-            disabled={!canExportWorkflow || !enabled}
+            size='large'
+            disabled={!canExportWorkflow || !enabled || comparisonModeEnabled}
             onClick={exportWorkflow}
           />
           <Button
+            className='!px-0'
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
-            size='medium'
-            disabled={isOpen || !enabled || status === 'pending'}
+            size='large'
+            disabled={isOpen || !enabled || comparisonModeEnabled || status === 'pending'}
             onClick={importWorkflow}
           />
-          <div className='flex justify-end gap-4 w-full'>
-            <Button
-              text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
-              disabled={!isValid || !enabled || status === 'pending' || status === 'success'}
-              onClick={createWorkflow}
-            />
-          </div>
+          <Button
+            className='w-full'
+            text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
+            disabled={
+              isAreaIncorrect ||
+              !isValid ||
+              !enabled ||
+              comparisonModeEnabled ||
+              status === 'pending' ||
+              status === 'success'
+            }
+            onClick={createWorkflow}
+          />
         </div>
       </Footer>
     </Container>

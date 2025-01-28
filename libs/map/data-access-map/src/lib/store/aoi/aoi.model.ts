@@ -1,25 +1,6 @@
 import { Geometry } from 'ol/geom';
 
-type TCoordinates = number[][][] | [number, number][][];
-
-export type TCoordinate =
-  | {
-      type: 'circle';
-      center: number[];
-      radius: number;
-    }
-  | {
-      type: 'rectangle';
-      coordinates: TCoordinates;
-    }
-  | {
-      type: 'polygon';
-      coordinates: TCoordinates;
-    };
-
-export type TShapeType = 'circle' | 'rectangle' | 'polygon';
-
-export type TShape = { type: TShapeType; shape: Geometry | undefined } | undefined;
+import { TCoordinate, TShape } from '../../geometry/shape.model';
 
 export type TAoiState = 'readonly' | 'edit';
 

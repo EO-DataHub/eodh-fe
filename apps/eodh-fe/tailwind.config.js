@@ -14,7 +14,7 @@ module.exports = {
   },
   safelist: [
     {
-      pattern: /text-(large|medium|small)-(bold|semibold|regular)/,
+      pattern: /text-(body-)?(large|medium|small)-(bold|semibold|regular)/,
     },
   ],
   plugins: [

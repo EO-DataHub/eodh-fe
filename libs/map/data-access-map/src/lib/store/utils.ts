@@ -1,13 +1,13 @@
 import { TDateTimeString } from '@ukri/shared/utils/date';
 import { nanoid } from 'nanoid';
 
+import { createShape } from '../geometry/geometry';
+import { TCoordinate } from '../geometry/shape.model';
 import { clearWorkflowCache } from '../mutation/workflow.mutation';
 import { defaultNodes, TFunctionNode, TNode } from './action-creator/action-creator.model';
 import { useActionCreatorStore } from './action-creator/action-creator.store';
 import { createNode, isFunctionNode } from './action-creator/node.utils';
-import { TCoordinate } from './aoi/aoi.model';
 import { useAoiStore } from './aoi/aoi.store';
-import { createShape } from './aoi/geometry';
 import { TDataSetValue } from './data-sets/data-sets.model';
 import { useDataSetsStore } from './data-sets/data-sets.store';
 import { useDateStore } from './date/date.store';
@@ -116,7 +116,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
 
   clearWorkflowCache();
   useDataSetsStore.getState().setDataSet(dataSet);
-  useDataSetsStore.getState().enable(availableDatasets);
+  useDataSetsStore.getState().enable(availableDatasets.length ? availableDatasets : undefined);
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
 
   if (shape) {

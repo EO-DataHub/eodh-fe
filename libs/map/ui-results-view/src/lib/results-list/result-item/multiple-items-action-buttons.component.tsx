@@ -57,15 +57,21 @@ export const MultipleItemsActionButtons = ({
 
   const onToggleViewButton = useCallback(
     (key: TAssetKey) => {
+      onToggleSelectedItem(key);
       if (isSelectedMultipleIndices(featureId, key) && isSelected(featureId)) {
         setSelectedIndice(undefined);
-        onToggleSelectedItem(key);
       } else {
         setSelectedIndice(key);
-        onToggleSelectedItem(key);
       }
     },
     [onToggleSelectedItem, isSelectedMultipleIndices, featureId, isSelected]
+  );
+
+  const isItemSelected = useCallback(
+    (key: TAssetKey) => {
+      return selectedIndice === key && isSelected(featureId);
+    },
+    [selectedIndice, isSelected, featureId]
   );
 
   return (
@@ -94,7 +100,6 @@ export const MultipleItemsActionButtons = ({
         <div className='mt-2 border-t border-t-bright-dark'>
           {Object.keys(indices).map((key) => (
             <div className='pt-2 flex justify-between' key={key}>
-              {/* {console.log('key', key)} */}
               <Text
                 type='span'
                 content={assets[key].title}
@@ -113,7 +118,7 @@ export const MultipleItemsActionButtons = ({
               />
               <Button
                 text={
-                  selectedIndice === key && isSelected(featureId)
+                  isItemSelected(key as TAssetKey)
                     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE'
                     : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW'
                 }

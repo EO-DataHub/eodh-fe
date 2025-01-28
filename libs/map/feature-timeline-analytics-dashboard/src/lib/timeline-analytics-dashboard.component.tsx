@@ -2,6 +2,7 @@ import { useComparisonMode } from '@ukri/map/data-access-map';
 import { TimeSlider } from '@ukri/shared/ui/time-slider';
 import { useMemo } from 'react';
 
+import { GraphAnalytics } from './graph-analytics.component';
 import { useTimelineAnalytics } from './use-timeline-analytics.hook';
 
 type TActionCreatorPanelProps = {
@@ -19,7 +20,9 @@ export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelPro
   }
 
   return (
-    <div className={className}>
+    <div
+      className={`flex flex-col items-center w-full bg-background-main border-b-[1px] border-bright-dark bottom-0 ${className}}`}
+    >
       <TimeSlider
         min={minDate}
         max={maxDate}
@@ -29,6 +32,7 @@ export const TimelineAnalyticsDashboard = ({ className }: TActionCreatorPanelPro
         onUpdate={updateSelectedDate}
         disabled={disabled}
       />
+      <GraphAnalytics />
     </div>
   );
 };

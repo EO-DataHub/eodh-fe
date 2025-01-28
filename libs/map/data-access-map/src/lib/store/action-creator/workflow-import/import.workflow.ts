@@ -3,9 +3,9 @@ import isString from 'lodash/isString';
 import { nanoid } from 'nanoid';
 import { enqueueSnackbar } from 'notistack';
 
+import { createShape } from '../../../geometry/geometry';
 import { clearWorkflowCache } from '../../../mutation/workflow.mutation';
 import { useAoiStore } from '../../aoi/aoi.store';
-import { createShape } from '../../aoi/geometry';
 import { useDataSetsStore } from '../../data-sets/data-sets.store';
 import { useDateStore } from '../../date/date.store';
 import { defaultNodes, TBaseNodeState, TFunctionNode, TNode } from '../action-creator.model';
@@ -126,7 +126,7 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
 
   clearWorkflowCache();
   useDataSetsStore.getState().setDataSet(dataSetImportedNode?.value || undefined);
-  useDataSetsStore.getState().enable(availableDatasets);
+  useDataSetsStore.getState().enable(availableDatasets.length ? availableDatasets : undefined);
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
 
   if (shape) {

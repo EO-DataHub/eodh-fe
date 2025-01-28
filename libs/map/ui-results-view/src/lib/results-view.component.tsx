@@ -21,7 +21,7 @@ export const ResultsView = (props: TResultsViewProps) => {
       if (!props.data || !props.data?.features.length) {
         return (
           <Error
-            iconName='SatelliteAlt'
+            icon='SatelliteAlt'
             title='GLOBAL.ERRORS.NO_RESULTS.TITLE'
             message='GLOBAL.ERRORS.NO_RESULTS.MESSAGE'
             ctaText='GLOBAL.NAVIGATION.RETURN_TO_SEARCH'

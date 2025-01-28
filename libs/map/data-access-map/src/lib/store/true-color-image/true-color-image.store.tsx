@@ -12,16 +12,14 @@ export const useTrueColorImageStore = create<ITrueImageStore>()(
     feature: undefined,
     visibleKey: undefined,
     setFeature: (feature: TFeature | undefined, key?: TAssetKey) =>
-      set(
-        () => (
-          // eslint-disable-next-line no-console
-          console.log('feature in setFeature', key, feature),
-          {
-            stacUrl: key ? feature?.assets[key]?.href : feature?.links.find((link) => link.rel === 'self')?.href,
-            feature,
-            visibleKey: key ? key : undefined,
-          }
-        )
+      set(() =>
+        // eslint-disable-next-line no-console
+        // console.log('feature in setFeature', key, feature),
+        ({
+          stacUrl: key ? feature?.assets[key]?.href : feature?.links.find((link) => link.rel === 'self')?.href,
+          feature,
+          visibleKey: key ? key : undefined,
+        })
       ),
   }))
 );

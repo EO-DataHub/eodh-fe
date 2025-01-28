@@ -1,6 +1,10 @@
 interface Resources {
   en: {
     GLOBAL: {
+      UNITS: {
+        KM: 'km';
+        MILES: 'm';
+      };
       DESIGN_SYSTEM: {
         SELECT: {
           PLACEHOLDER: 'Select a function...';
@@ -254,6 +258,7 @@ interface Resources {
           COMPARE: 'Compare';
           END_COMPARE: 'End compare';
         };
+        NO_INTERSECTION: 'Selected data have no intersection';
       };
       SEARCH_MODE_PANEL: {
         HEADER: {
@@ -361,6 +366,37 @@ interface Resources {
           DATA_SETS: 'Select one or more Data Sets.';
           DATE_RANGE: 'Update date range.';
           DONT_SHOW_IT_AGAIN: 'Don’t show again';
+        };
+      };
+      TIMELINE_ANALYTICS_DASHBOARD: {
+        CHARTS: {
+          ERRORS: {
+            NO_RESULTS: {
+              TITLE: 'No graph data available';
+              MESSAGE: 'Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets.';
+            };
+          };
+          RANGE_AREA: {
+            TOOLTIP: {
+              MEDIAN: 'Median';
+              MIN: 'Minimum';
+              MAX: 'Maximum';
+              DATE: 'Date';
+            };
+          };
+          STACK_BAR: {
+            TOOLTIP: {
+              VALUE: 'Value';
+              PERCENTAGE: 'Percentage';
+              DATE: 'Date';
+            };
+          };
+          BAR: {
+            TOOLTIP: {
+              VALUE: 'Value';
+              DATE: 'Date';
+            };
+          };
         };
       };
     };
