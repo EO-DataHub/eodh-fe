@@ -1,4 +1,11 @@
-import { useActionCreator, useMode, useResults, useWorkflow, useWorkflowStatus } from '@ukri/map/data-access-map';
+import {
+  useActionCreator,
+  useAoi,
+  useMode,
+  useResults,
+  useWorkflow,
+  useWorkflowStatus,
+} from '@ukri/map/data-access-map';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useAuth } from '@ukri/shared/utils/authorization';
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
@@ -47,7 +54,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const { mode, toggleMode } = useMode();
   const { authenticated } = useAuth();
   const { status: workflowStatus, hasWorkflowsToProcess } = useWorkflow();
-  const { enable, disable } = useActionCreator();
+  const { enable, disable, nodes: workflowNodesState } = useActionCreator();
   const { view, changeView } = useMode();
   const hideModal = useCloseTabsFlowModal();
   const { permanentHidden } = useTabsFlowModalState();
@@ -62,6 +69,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     context: { showOnboardingTooltip, hideOnboardingTooltip, enableOnboarding, disableOnboarding },
   } = useOnboarding();
   const { isOpen: isTabsFlowModalOpen } = useTabsFlowModalState();
+  const { changeState: changeAoiButtonsState } = useAoi();
 
   useWorkflowStatus({ enabled: shouldEnableWorkflow });
 
@@ -96,6 +104,16 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
         return;
       }
 
+      if (newTab !== 'workflow') {
+        console.log('changeAoiButtonsState("readonly")');
+        changeAoiButtonsState('readonly');
+      } else {
+        if (workflowNodesState[0].state === 'active') {
+          console.log('workflowNodesState[0].state === "active")');
+          // changeAoiButtonsState('edit');
+        }
+      }
+
       switchView();
       toggleActionCreatorState();
 
@@ -105,7 +123,15 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
 
       setActiveTab(newTab);
     },
-    [activeTab, markAsRead, setActiveTab, switchView, toggleActionCreatorState]
+    [
+      activeTab,
+      markAsRead,
+      setActiveTab,
+      switchView,
+      toggleActionCreatorState,
+      workflowNodesState,
+      changeAoiButtonsState,
+    ]
   );
 
   const toggle = useCallback(() => {

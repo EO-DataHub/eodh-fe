@@ -15,6 +15,7 @@ import { useDateStore } from './date/date.store';
 export const activatePanel = (node?: TNode) => {
   switch (node?.type) {
     case 'area': {
+      console.log('activatePanel area');
       useAoiStore.getState().changeState('edit');
       useDataSetsStore.getState().changeState('readonly');
       useDateStore.getState().changeState('readonly');

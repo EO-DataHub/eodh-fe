@@ -35,7 +35,10 @@ export const useAoiStore = create<IAoiStore>()(
     toggleVisibility: () => set((state) => ({ visible: !state.visible })),
     show: () => set(() => ({ visible: true })),
     hide: () => set(() => ({ visible: false })),
-    changeState: (state: TAoiState) => set(() => ({ state })),
+    changeState: (state: TAoiState) => {
+      console.log('useAOI store state', state);
+      set(() => ({ state }));
+    },
   }))
 );
 
