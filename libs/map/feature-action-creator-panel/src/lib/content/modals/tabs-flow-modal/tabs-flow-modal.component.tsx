@@ -1,9 +1,8 @@
 import { useActionCreator, useMode, useResults } from '@ukri/map/data-access-map';
 import { Button, Checkbox } from '@ukri/shared/design-system';
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { ActionCreator } from '../../../action-creator-panel.context';
 import { Modal } from '../modal/modal.component';
 import { useCloseTabsFlowModal, useDoNotShowAgain, useTabsFlowModalState } from './action-creator-tabs-flow.store';
 
@@ -28,7 +27,7 @@ export const TabsFlowModal = ({ header, content, ctaText }: ITabsFlowModalProps)
   const { changeView } = useMode();
   const hideModal = useCloseTabsFlowModal();
   const hideModalPermanently = useDoNotShowAgain();
-  const { setActiveTab } = useContext(ActionCreator);
+  const { setActiveTab } = useActionCreator();
   const { reset } = useActionCreator();
 
   const permanentHidden = watch('permanentHidden');

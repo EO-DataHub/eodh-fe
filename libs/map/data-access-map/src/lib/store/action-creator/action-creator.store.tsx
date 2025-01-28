@@ -110,6 +110,7 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
           nodes,
         };
       }),
+    setActiveTab: (newTab) => set({ activeTab: newTab }),
   }))
 );
 

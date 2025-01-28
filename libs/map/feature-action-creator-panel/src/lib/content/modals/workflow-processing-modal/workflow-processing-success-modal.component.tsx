@@ -1,12 +1,11 @@
 import { useActionCreator } from '@ukri/map/data-access-map';
 import { Button, Text } from '@ukri/shared/design-system';
-import { useCallback, useContext } from 'react';
+import { useCallback } from 'react';
 
-import { ActionCreator } from '../../../action-creator-panel.context';
 import { Modal } from '../modal/modal.component';
 
 export const WorkflowProcessingSuccessModal = () => {
-  const { setActiveTab } = useContext(ActionCreator);
+  const { setActiveTab } = useActionCreator();
   const { reset, exportWorkflow } = useActionCreator();
 
   const goToHistoryTab = useCallback(() => {

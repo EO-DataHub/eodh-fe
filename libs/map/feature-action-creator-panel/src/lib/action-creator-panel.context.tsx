@@ -1,11 +1,4 @@
-import {
-  useActionCreator,
-  useAoi,
-  useMode,
-  useResults,
-  useWorkflow,
-  useWorkflowStatus,
-} from '@ukri/map/data-access-map';
+import { TTab, useActionCreator, useMode, useResults, useWorkflow, useWorkflowStatus } from '@ukri/map/data-access-map';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useAuth } from '@ukri/shared/utils/authorization';
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
@@ -16,45 +9,33 @@ import {
   useTabsFlowModalState,
 } from './content/modals/tabs-flow-modal/action-creator-tabs-flow.store';
 
-const tabs = {
-  WORKFLOW: 'workflow',
-  HISTORY: 'history',
-  PRESETS: 'presets',
-  HELP: 'help',
-} as const;
-
-export type TTab = typeof tabs[keyof typeof tabs];
-
 type TActionCreatorState = {
   enabled: boolean;
   collapsed: boolean;
-  activeTab: TTab;
   toggle: () => void;
-  setActiveTab: (activeTab: TTab) => void;
   collapse: () => void;
+  changeTab: (newTab: TTab) => void;
 };
 
 const actionCreatorDefaultState: TActionCreatorState = {
   enabled: false,
   collapsed: false,
-  activeTab: tabs.WORKFLOW,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   toggle: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setActiveTab: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   collapse: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  changeTab: () => {},
 };
 
 export const ActionCreator = createContext<TActionCreatorState>(actionCreatorDefaultState);
 
 export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const [collapsed, setCollapsed] = useState(actionCreatorDefaultState.collapsed);
-  const [activeTab, setActiveTab] = useState(actionCreatorDefaultState.activeTab);
   const { mode, toggleMode } = useMode();
   const { authenticated } = useAuth();
   const { status: workflowStatus, hasWorkflowsToProcess } = useWorkflow();
-  const { enable, disable, nodes: workflowNodesState } = useActionCreator();
+  const { enable, disable, activeTab, setActiveTab } = useActionCreator();
   const { view, changeView } = useMode();
   const hideModal = useCloseTabsFlowModal();
   const { permanentHidden } = useTabsFlowModalState();
@@ -69,7 +50,6 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     context: { showOnboardingTooltip, hideOnboardingTooltip, enableOnboarding, disableOnboarding },
   } = useOnboarding();
   const { isOpen: isTabsFlowModalOpen } = useTabsFlowModalState();
-  const { changeState: changeAoiButtonsState } = useAoi();
 
   useWorkflowStatus({ enabled: shouldEnableWorkflow });
 
@@ -103,35 +83,15 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
       if (activeTab === newTab) {
         return;
       }
-
-      if (newTab !== 'workflow') {
-        console.log('changeAoiButtonsState("readonly")');
-        changeAoiButtonsState('readonly');
-      } else {
-        if (workflowNodesState[0].state === 'active') {
-          console.log('workflowNodesState[0].state === "active")');
-          // changeAoiButtonsState('edit');
-        }
-      }
-
+      setActiveTab(newTab);
       switchView();
       toggleActionCreatorState();
 
       if (newTab === 'history' || activeTab === 'history') {
         markAsRead();
       }
-
-      setActiveTab(newTab);
     },
-    [
-      activeTab,
-      markAsRead,
-      setActiveTab,
-      switchView,
-      toggleActionCreatorState,
-      workflowNodesState,
-      changeAoiButtonsState,
-    ]
+    [activeTab, markAsRead, setActiveTab, switchView, toggleActionCreatorState]
   );
 
   const toggle = useCallback(() => {
@@ -147,7 +107,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   }, [mode]);
 
   useEffect(() => {
-    if (mode === 'action-creator' && activeTab === tabs.WORKFLOW && !isTabsFlowModalOpen) {
+    if (mode === 'action-creator' && activeTab === 'workflow' && !isTabsFlowModalOpen) {
       enableOnboarding();
     } else {
       disableOnboarding();
@@ -163,9 +123,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   ]);
 
   return (
-    <ActionCreator.Provider
-      value={{ collapsed, collapse, toggle, activeTab, setActiveTab: changeTab, enabled: mode === 'action-creator' }}
-    >
+    <ActionCreator.Provider value={{ collapsed, collapse, toggle, changeTab, enabled: mode === 'action-creator' }}>
       {children}
     </ActionCreator.Provider>
   );

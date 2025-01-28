@@ -13,9 +13,16 @@ import { useDataSetsStore } from './data-sets/data-sets.store';
 import { useDateStore } from './date/date.store';
 
 export const activatePanel = (node?: TNode) => {
+  const activeTab = useActionCreatorStore.getState().activeTab;
+  if (activeTab !== 'workflow') {
+    useAoiStore.getState().changeState('readonly');
+    useDataSetsStore.getState().changeState('readonly');
+    useDateStore.getState().changeState('readonly');
+    return;
+  }
+
   switch (node?.type) {
     case 'area': {
-      console.log('activatePanel area');
       useAoiStore.getState().changeState('edit');
       useDataSetsStore.getState().changeState('readonly');
       useDateStore.getState().changeState('readonly');

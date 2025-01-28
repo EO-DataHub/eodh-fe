@@ -55,7 +55,6 @@ const restoreModeStoreState = (mode: TMode) => {
 };
 
 const restoreAoiStoreState = (mode: TMode) => {
-  console.log('restoreAoiStoreState');
   const currentState = getItemFromLocalStorage<IAoiStore>(storeKeys.AOI(mode));
   const newStoreState = mode === 'action-creator' ? 'readonly' : 'edit';
 

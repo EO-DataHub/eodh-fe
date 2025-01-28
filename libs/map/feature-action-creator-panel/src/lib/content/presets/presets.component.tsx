@@ -8,9 +8,8 @@ import {
 } from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { PropsWithChildren, useCallback, useContext } from 'react';
+import { PropsWithChildren, useCallback } from 'react';
 
-import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
 import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
 import { TabsFlowModal } from '../modals/tabs-flow-modal/tabs-flow-modal.component';
@@ -50,10 +49,9 @@ const PresetsContainer = ({ children }: PropsWithChildren) => {
 };
 
 export const Presets = () => {
-  const { setActiveTab } = useContext(ActionCreator);
   const { data, error, isLoading, refetch } = useGetPresets();
   const { data: functionData } = useFunctions();
-  const { loadPreset } = useActionCreator();
+  const { loadPreset, setActiveTab } = useActionCreator();
   const { changeView } = useMode();
   const status = useCreateWorkflowStatus();
   const {

@@ -30,6 +30,7 @@ export type {
   TDateRangeNode,
   TDataSetsNode,
   TFunctionNode,
+  TTab,
 } from './lib/store/action-creator/action-creator.model';
 export type { TDataSetValue } from './lib/store/action-creator/action-creator.schema';
 export type { TBaseFunction } from './lib/store/action-creator/node.utils';
