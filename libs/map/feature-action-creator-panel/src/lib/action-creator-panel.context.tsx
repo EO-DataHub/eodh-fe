@@ -69,27 +69,31 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     changeView('search');
   }, [changeView, hideModal, permanentHidden, setTabsFlowModalOpen, updateSearchParams, view]);
 
-  const toggleActionCreatorState = useCallback(() => {
-    if (activeTab === 'workflow') {
-      enable();
-      return;
-    }
+  const toggleActionCreatorState = useCallback(
+    (newTab: TTab) => {
+      if (newTab === 'workflow') {
+        enable();
+        return;
+      }
 
-    disable();
-  }, [disable, enable, activeTab]);
+      disable();
+    },
+    [disable, enable]
+  );
 
   const changeTab = useCallback(
     (newTab: TTab) => {
       if (activeTab === newTab) {
         return;
       }
-      setActiveTab(newTab);
       switchView();
-      toggleActionCreatorState();
 
       if (newTab === 'history' || activeTab === 'history') {
         markAsRead();
       }
+
+      setActiveTab(newTab);
+      toggleActionCreatorState(newTab);
     },
     [activeTab, markAsRead, setActiveTab, switchView, toggleActionCreatorState]
   );

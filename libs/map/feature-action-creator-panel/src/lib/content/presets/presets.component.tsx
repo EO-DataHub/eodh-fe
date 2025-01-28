@@ -8,8 +8,9 @@ import {
 } from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { PropsWithChildren, useCallback } from 'react';
+import { PropsWithChildren, useCallback, useContext } from 'react';
 
+import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
 import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
 import { TabsFlowModal } from '../modals/tabs-flow-modal/tabs-flow-modal.component';
@@ -51,7 +52,8 @@ const PresetsContainer = ({ children }: PropsWithChildren) => {
 export const Presets = () => {
   const { data, error, isLoading, refetch } = useGetPresets();
   const { data: functionData } = useFunctions();
-  const { loadPreset, setActiveTab } = useActionCreator();
+  const { loadPreset } = useActionCreator();
+  const { changeTab } = useContext(ActionCreator);
   const { changeView } = useMode();
   const status = useCreateWorkflowStatus();
   const {
@@ -73,10 +75,10 @@ export const Presets = () => {
         dateRange: preset.defaultValues.dateRange,
       });
       changeView('search');
-      setActiveTab('workflow');
+      changeTab('workflow');
       return;
     },
-    [functionData, changeView, loadPreset, setActiveTab, resetOnboarding]
+    [functionData, changeView, loadPreset, changeTab, resetOnboarding]
   );
 
   if (isLoading) {

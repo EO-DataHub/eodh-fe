@@ -48,6 +48,7 @@ interface IOnboardingTooltipProps {
   elementRef?: RefObject<HTMLDivElement | HTMLButtonElement>;
   className?: string;
   onClick?: () => void;
+  visible?: boolean;
 }
 
 export const OnboardingTooltip = ({
@@ -59,6 +60,7 @@ export const OnboardingTooltip = ({
   onClick,
   className,
   elementRef,
+  visible = true,
 }: PropsWithChildren<IOnboardingTooltipProps>) => {
   const [isOpen, setIsOpen] = useState(true);
   const [positionOfHookElememnt, setPositionOfHookElememnt] = useState<TPosition>();
@@ -75,9 +77,14 @@ export const OnboardingTooltip = ({
   const { authenticated } = useAuth();
 
   useEffect(() => {
-    const visible =
-      currentStep === stepName && !!positionOfTheTooltip && onboardingVisible && !isOnboardingComplete && authenticated;
-    setTooltipVisible(visible);
+    const visibility =
+      currentStep === stepName &&
+      !!positionOfTheTooltip &&
+      onboardingVisible &&
+      !isOnboardingComplete &&
+      authenticated &&
+      visible;
+    setTooltipVisible(visibility);
   }, [
     currentStep,
     stepName,
@@ -86,6 +93,7 @@ export const OnboardingTooltip = ({
     positionOfHookElememnt,
     isOnboardingComplete,
     authenticated,
+    visible,
   ]);
 
   const handleClose = useCallback(() => {
