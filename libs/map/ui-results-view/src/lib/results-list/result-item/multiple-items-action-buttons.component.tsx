@@ -1,5 +1,5 @@
 import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
-import { Button, Text } from '@ukri/shared/design-system';
+import { Button, Icon, Text } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
 import { useResult } from '../use-result.hook';
@@ -45,8 +45,8 @@ export const MultipleItemsActionButtons = ({
     ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE_ASSETS'
     : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SOW_ASSETS';
   const compareButtonTitle = addedForComparison
-    ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.REMOVE_COMPARE'
-    : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.ADD_TO_COMPARE';
+    ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.REMOVE_COMPARE_FROM_MULTIPLE_INDICES'
+    : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.ADD_TO_COMPARE_AT_MULTIPLE_INDICES';
   const { isSelectedMultipleIndices, isSelected } = useResult();
 
   const { thumbnail, ...indices } = assets;
@@ -57,12 +57,26 @@ export const MultipleItemsActionButtons = ({
 
   const onToggleViewButton = useCallback(
     (key: TAssetKey) => {
-      onToggleSelectedItem(key);
-      if (isSelectedMultipleIndices(featureId, key) && isSelected(featureId)) {
-        setSelectedIndice(undefined);
+      if (isSelected(featureId)) {
+        if (isSelectedMultipleIndices(featureId, key)) {
+          setSelectedIndice(undefined);
+        } else {
+          setSelectedIndice(key);
+        }
       } else {
-        setSelectedIndice(key);
+        if (isSelectedMultipleIndices(featureId, key)) {
+          setSelectedIndice(undefined);
+        } else {
+          setSelectedIndice(key);
+        }
+        onToggleSelectedItem(key);
       }
+      // onToggleSelectedItem(key);
+      // if (isSelectedMultipleIndices(featureId, key) && isSelected(featureId)) {
+      //   setSelectedIndice(undefined);
+      // } else {
+      //   setSelectedIndice(key);
+      // }
     },
     [onToggleSelectedItem, isSelectedMultipleIndices, featureId, isSelected]
   );
@@ -93,7 +107,14 @@ export const MultipleItemsActionButtons = ({
           size='medium'
           onClick={onToggleShowAssets}
           className='ml-auto'
-        />
+        >
+          <Icon
+            name='ArrowDown'
+            width={24}
+            height={24}
+            className={isOpened ? 'transform transition-transform rotate-180' : ''}
+          />
+        </Button>
       </div>
 
       {isOpened && (
@@ -108,24 +129,27 @@ export const MultipleItemsActionButtons = ({
                 fontWeight='regular'
                 className='text-text'
               />
-              <Button
-                appearance='text'
-                text={compareButtonTitle}
-                size='medium'
-                onClick={onCompareItemToggle}
-                className={compareButtonClassName}
-                disabled={canCompare}
-              />
-              <Button
-                text={
-                  isItemSelected(key as TAssetKey)
-                    ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE'
-                    : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW'
-                }
-                size='small'
-                onClick={() => onToggleViewButton(key as TAssetKey)}
-                disabled={comparisonEnabled}
-              />
+              <div className='flex justify-between items-center'>
+                <Button
+                  appearance='text'
+                  text={compareButtonTitle}
+                  size='medium'
+                  onClick={onCompareItemToggle}
+                  className={compareButtonClassName}
+                  disabled={canCompare}
+                />
+                <Button
+                  text={
+                    isItemSelected(key as TAssetKey)
+                      ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE'
+                      : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW'
+                  }
+                  size='small'
+                  onClick={() => onToggleViewButton(key as TAssetKey)}
+                  disabled={comparisonEnabled}
+                  className='ml-1 w-[41px]'
+                />
+              </div>
             </div>
           ))}
         </div>
