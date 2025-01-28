@@ -57,26 +57,26 @@ export const MultipleItemsActionButtons = ({
 
   const onToggleViewButton = useCallback(
     (key: TAssetKey) => {
-      if (isSelected(featureId)) {
-        if (isSelectedMultipleIndices(featureId, key)) {
-          setSelectedIndice(undefined);
-        } else {
-          setSelectedIndice(key);
-        }
-      } else {
-        if (isSelectedMultipleIndices(featureId, key)) {
-          setSelectedIndice(undefined);
-        } else {
-          setSelectedIndice(key);
-        }
-        onToggleSelectedItem(key);
-      }
-      // onToggleSelectedItem(key);
-      // if (isSelectedMultipleIndices(featureId, key) && isSelected(featureId)) {
-      //   setSelectedIndice(undefined);
+      // if (isSelected(featureId)) {
+      //   if (isSelectedMultipleIndices(featureId, key)) {
+      //     setSelectedIndice(undefined);
+      //   } else {
+      //     setSelectedIndice(key);
+      //   }
       // } else {
-      //   setSelectedIndice(key);
+      //   if (isSelectedMultipleIndices(featureId, key)) {
+      //     setSelectedIndice(undefined);
+      //   } else {
+      //     setSelectedIndice(key);
+      //   }
+      //   onToggleSelectedItem(key);
       // }
+      onToggleSelectedItem(key);
+      if (isSelectedMultipleIndices(featureId, key) && isSelected(featureId)) {
+        setSelectedIndice(undefined);
+      } else {
+        setSelectedIndice(key);
+      }
     },
     [onToggleSelectedItem, isSelectedMultipleIndices, featureId, isSelected]
   );
