@@ -2,13 +2,14 @@ import type {} from '@redux-devtools/extension';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { IAoiStore, TAoiState, TAoiStoreState } from './aoi.model';
-import { createShape, getCoordinates } from './geometry';
+import { createShape, getCoordinates } from '../../geometry/geometry';
+import { IAoiStore, TAoiState, TAoiStoreState, TDrawingTool } from './aoi.model';
 
 export const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
     state: 'edit',
     shape: undefined,
+    drawingTool: undefined,
     coordinates: undefined,
     fitToAoi: false,
     setShape: (shape, fitToAoi?: boolean) =>
@@ -35,14 +36,14 @@ export const useAoiStore = create<IAoiStore>()(
     toggleVisibility: () => set((state) => ({ visible: !state.visible })),
     show: () => set(() => ({ visible: true })),
     hide: () => set(() => ({ visible: false })),
-    changeState: (state: TAoiState) => {
-      set(() => ({ state }));
-    },
+    changeState: (state: TAoiState) => set(() => ({ state })),
+    setDrawingTool: (drawingTool?: TDrawingTool) => set(() => ({ drawingTool })),
   }))
 );
 
 export const getAoiStoreState = (): TAoiStoreState => {
-  const { show, hide, changeState, toggleVisibility, shape, ...rest } = useAoiStore.getState();
+  const { show, hide, changeState, toggleVisibility, shape, drawingTool, setDrawingTool, ...rest } =
+    useAoiStore.getState();
 
   return { ...rest };
 };
@@ -59,5 +60,7 @@ export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
     show: state.show,
     hide: state.hide,
     changeState: state.changeState,
+    drawingTool: state.drawingTool,
+    setDrawingTool: state.setDrawingTool,
   }));
 };

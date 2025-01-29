@@ -12,7 +12,7 @@ export const toggleStyles = {
       'bg-bright-mid border-bright-dark focus:peer:outline-none peer-focus:ring-2 focus:peer:ring-primary-light peer-checked:bg-bright-main peer-checked:border-primary',
   },
   circle: {
-    base: 'absolute top-1 left-1 rounded-full h-2.5 w-2.5 transition-all',
+    base: 'absolute top-1 left-1 rounded-full h-2.5 w-2.5 transition-all drop-shadow',
     enabled: 'bg-neutral-light',
     disabled: 'bg-bright-mid',
     checked: 'bg-primary-main',
@@ -25,7 +25,7 @@ export const toggleStyles = {
   },
 };
 
-export const getLabelTextClasses = (disabled?: boolean, checked?: boolean) => {
+export const getLabelTextClasses = (checked: boolean, disabled?: boolean) => {
   const classNames = [toggleStyles.labelText.base];
 
   if (disabled) {
@@ -49,7 +49,7 @@ export const getBackgroundClasses = (disabled?: boolean) => {
   }`;
 };
 
-export const getCircleClasses = (disabled?: boolean, checked?: boolean) => {
+export const getCircleClasses = (checked: boolean, disabled?: boolean) => {
   const classNames = [toggleStyles.circle.base];
 
   if (disabled) {

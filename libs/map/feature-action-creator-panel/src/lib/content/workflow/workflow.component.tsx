@@ -1,4 +1,5 @@
 import {
+  getArea,
   TAreaNode,
   TDataSetsNode,
   TDateRangeNode,
@@ -22,7 +23,6 @@ import { useTabsFlowModalState } from '../modals/tabs-flow-modal/action-creator-
 import { TabsFlowModal } from '../modals/tabs-flow-modal/tabs-flow-modal.component';
 import { WorkflowProcessingModal } from '../modals/workflow-processing-modal/workflow-processing-modal.component';
 import { AreaNode } from './nodes/area/area-node.component';
-import { getArea } from './nodes/area/value-node.component';
 import { DataSetNode } from './nodes/data-set/data-set-node.component';
 import { NodeDateRange } from './nodes/date-range/date-range-node.component';
 import { NodeFunction } from './nodes/function/function-node.component';

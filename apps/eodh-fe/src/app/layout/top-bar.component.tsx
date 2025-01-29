@@ -7,6 +7,7 @@ import {
   DrawCircleButton,
   DrawPolygonButton,
   DrawRectangleButton,
+  MeasureDistanceButton,
   ToggleLayerButton,
 } from '@ukri/map/ui-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
@@ -48,6 +49,7 @@ export const TopBar = () => {
           </div>
         </OnboardingTooltip>
         <ClearButton />
+        <MeasureDistanceButton />
         <ToggleLayerButton />
       </AoiLayer>
       <ComparisonTool />

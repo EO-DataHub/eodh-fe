@@ -16,4 +16,6 @@ const config = (() => ({
     realm: '',
     clientId: '',
   },
+  versionId: '',
+  buildId: '',
 }))();

@@ -1,6 +1,8 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import { Geometry } from 'ol/geom';
 
+import { TCoordinate } from '../../geometry/shape.model';
+
 type TDataSets = {
   public: {
     copernicus: {
@@ -59,23 +61,6 @@ type TDataSets = {
     };
   };
 };
-
-type TCoordinates = number[][][] | [number, number][][];
-
-export type TCoordinate =
-  | {
-      type: 'circle';
-      center: number[];
-      radius: number;
-    }
-  | {
-      type: 'rectangle';
-      coordinates: TCoordinates;
-    }
-  | {
-      type: 'polygon';
-      coordinates: TCoordinates;
-    };
 
 export type TCatalogueSearchParams = {
   id: string;

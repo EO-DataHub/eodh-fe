@@ -1,5 +1,9 @@
 {
   "GLOBAL": {
+    "UNITS": {
+      "KM": "km",
+      "MILES": "m"
+    },
     "DESIGN_SYSTEM": {
       "SELECT": {
         "PLACEHOLDER": "Select a function..."
