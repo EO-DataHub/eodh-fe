@@ -1,4 +1,4 @@
-import { useMeasureDistance } from '@ukri/map/data-access-map';
+import { useAoi, useMeasureDistance } from '@ukri/map/data-access-map';
 import { TBaseUnit, useSettings } from '@ukri/shared/utils/settings';
 import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
@@ -21,6 +21,7 @@ export const useMeasureDistanceLayer = () => {
   const map = useContext(MapContext);
   const { visible, shape, setShape } = useMeasureDistance();
   const { measurementUnit } = useSettings();
+  const { drawingTool } = useAoi();
   const [drawType, setDrawType] = useState<TDrawType>('line');
   const [unit, setUnit] = useState<TBaseUnit>(measurementUnit);
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
@@ -112,6 +113,14 @@ export const useMeasureDistanceLayer = () => {
 
     layer.setVisible(visible);
   }, [layer, visible]);
+
+  useEffect(() => {
+    if (!draw?.draw) {
+      return;
+    }
+
+    draw.draw.setActive(!drawingTool?.enabled);
+  }, [draw?.draw, drawingTool?.enabled]);
 
   return useMemo(
     () => ({
