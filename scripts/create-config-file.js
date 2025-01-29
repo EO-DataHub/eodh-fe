@@ -22,7 +22,7 @@ const config = {
     realm: getVariableValue(process.env.VITE_AUTHORIZATION_REALM),
     clientId: getVariableValue(process.env.VITE_AUTHORIZATION_CLIENT_ID),
   },
-  versionId: process.env.npm_package_version,
+  versionId: getVariableValue(process.env.npm_package_version),
   buildId: getVariableValue(process.env.VITE_BUILD_VERSION_NUMBER),
 };
 
