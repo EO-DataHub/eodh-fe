@@ -115,7 +115,7 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
 );
 
 export const getActionCreatorStoreState = (): TIActionCreatorStoreState => {
-  const { setActive, setValue, reset, ...rest } = useActionCreatorStore.getState();
+  const { setActiveTab, setActive, setValue, reset, ...rest } = useActionCreatorStore.getState();
 
   return { ...rest };
 };
