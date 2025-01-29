@@ -90,6 +90,10 @@ export const useMeasureDistanceLayer = () => {
       }
     };
 
+    const handleDoubleClickEvent = () => {
+      draw?.draw.finishDrawing();
+    };
+
     draw.draw.on('drawstart', () => {
       setShape(undefined);
       document.addEventListener('keydown', stopDrawing);
@@ -98,10 +102,13 @@ export const useMeasureDistanceLayer = () => {
       setShape({ type: draw.type, shape: event.feature.getGeometry() });
       document.removeEventListener('keydown', stopDrawing);
     });
+
     map.addInteraction(draw.draw);
+    map.on('dblclick', handleDoubleClickEvent);
 
     return () => {
       map.removeInteraction(draw.draw);
+      map.un('dblclick', handleDoubleClickEvent);
       document.removeEventListener('keydown', stopDrawing);
     };
   }, [map, draw, setShape]);

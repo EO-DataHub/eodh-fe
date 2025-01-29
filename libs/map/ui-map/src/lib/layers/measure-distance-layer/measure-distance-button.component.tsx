@@ -1,7 +1,6 @@
 import { useComparisonMode, useMeasureDistance } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 import { Draw } from 'ol/interaction';
-import MapBrowserEventType from 'ol/MapBrowserEventType';
 import { useCallback, useContext, useEffect } from 'react';
 
 import { SquareButton } from '../../components/square-button/square-button.component';
@@ -21,7 +20,6 @@ const createDraw = (drawType: 'polygon' | 'line') => {
     geometryName: 'LineString',
     type: 'LineString',
     style: createLineStyles,
-    finishCondition: (event) => event.originalEvent.type === MapBrowserEventType.DBLCLICK,
   });
 };
 
