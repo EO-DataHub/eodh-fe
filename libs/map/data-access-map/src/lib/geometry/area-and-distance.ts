@@ -1,4 +1,5 @@
-import { LineString } from 'ol/geom';
+import { Circle, Geometry, LineString } from 'ol/geom';
+import { fromCircle } from 'ol/geom/Polygon';
 import { getArea as getAreaFromGeometry } from 'ol/sphere';
 
 import { createGeometry } from './geometry';
@@ -7,13 +8,17 @@ import { TCoordinate, TUnit, TUnitType } from './shape.model';
 const SQUARE_KM_TO_SQUARE_MILE = 0.386102;
 const KM_TO_MILE = 0.621371192;
 
+const isCircle = (shape: Geometry): shape is Circle => shape.getType() === 'Circle';
+
 export const getArea = (value: TCoordinate | undefined): number => {
   const shape = createGeometry(value);
+
   if (!shape) {
     return 0;
   }
 
-  return getAreaFromGeometry(shape) || 0;
+  const geometry = isCircle(shape) ? fromCircle(shape) : shape;
+  return getAreaFromGeometry(geometry) || 0;
 };
 
 export const getLineLength = (coordinates: TCoordinate | undefined) => {
