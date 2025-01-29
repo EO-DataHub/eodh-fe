@@ -28,7 +28,7 @@ export const TabsFlowModal = ({ header, content, ctaText }: ITabsFlowModalProps)
   const { changeView } = useMode();
   const hideModal = useCloseTabsFlowModal();
   const hideModalPermanently = useDoNotShowAgain();
-  const { setActiveTab } = useContext(ActionCreator);
+  const { changeTab } = useContext(ActionCreator);
   const { reset } = useActionCreator();
 
   const permanentHidden = watch('permanentHidden');
@@ -47,9 +47,9 @@ export const TabsFlowModal = ({ header, content, ctaText }: ITabsFlowModalProps)
     if (permanentHidden) {
       hideModalPermanently(permanentHidden);
     }
-    setActiveTab('history');
+    changeTab('history');
     hideModal();
-  }, [hideModal, setActiveTab, permanentHidden, hideModalPermanently]);
+  }, [hideModal, changeTab, permanentHidden, hideModalPermanently]);
 
   if (!isOpen) {
     return;

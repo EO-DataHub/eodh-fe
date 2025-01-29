@@ -1,3 +1,4 @@
+import { useActionCreator } from '@ukri/map/data-access-map';
 import { useContext } from 'react';
 
 import { ActionCreator } from '../action-creator-panel.context';
@@ -7,7 +8,8 @@ import { Presets } from './presets/presets.component';
 import { Workflow } from './workflow/workflow.component';
 
 export const Content = () => {
-  const { collapsed, activeTab } = useContext(ActionCreator);
+  const { collapsed } = useContext(ActionCreator);
+  const { activeTab } = useActionCreator();
 
   if (!collapsed) {
     return null;

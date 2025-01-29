@@ -50,10 +50,10 @@ const PresetsContainer = ({ children }: PropsWithChildren) => {
 };
 
 export const Presets = () => {
-  const { setActiveTab } = useContext(ActionCreator);
   const { data, error, isLoading, refetch } = useGetPresets();
   const { data: functionData } = useFunctions();
   const { loadPreset } = useActionCreator();
+  const { changeTab } = useContext(ActionCreator);
   const { changeView } = useMode();
   const status = useCreateWorkflowStatus();
   const {
@@ -75,10 +75,10 @@ export const Presets = () => {
         dateRange: preset.defaultValues.dateRange,
       });
       changeView('search');
-      setActiveTab('workflow');
+      changeTab('workflow');
       return;
     },
-    [functionData, changeView, loadPreset, setActiveTab, resetOnboarding]
+    [functionData, changeView, loadPreset, changeTab, resetOnboarding]
   );
 
   if (isLoading) {

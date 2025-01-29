@@ -40,6 +40,7 @@ export const TopBar = () => {
           content={onboardingSteps.DRAWING_TOOLS.tooltip_content}
           className='bottom-[-50px]'
           elementRef={buttonsRef}
+          visible={!disabled}
         >
           <div ref={buttonsRef}>
             <DrawRectangleButton disabled={disabled} />

@@ -21,22 +21,33 @@ export type TFunctionNode = TBaseNode & {
   value: TFunctionValue | undefined;
 };
 
+const tabs = {
+  WORKFLOW: 'workflow',
+  HISTORY: 'history',
+  PRESETS: 'presets',
+  HELP: 'help',
+} as const;
+
+export type TTab = typeof tabs[keyof typeof tabs];
+
 export type TNode = TAreaNode | TDataSetsNode | TDateRangeNode | TFunctionNode;
 
 export interface IActionCreatorStore {
   state: TAoiState;
   nodes: TNode[];
+  activeTab: TTab;
   setActive: (node?: TNode) => void;
   setValue: <T extends TNode>(node: T, value: T['value'] | null) => void;
   addNode: (node: TNode) => void;
   removeNode: (node: TNode) => void;
   setNodes: (nodes?: TNode[]) => void;
   reset: (nodes?: TIActionCreatorStoreState) => void;
+  setActiveTab: (activeTab: TTab) => void;
 }
 
 export type TIActionCreatorStoreState = Omit<
   IActionCreatorStore,
-  'setActive' | 'canActivate' | 'setValue' | 'addNode' | 'removeNode' | 'setNodes' | 'reset'
+  'setActive' | 'canActivate' | 'setValue' | 'addNode' | 'removeNode' | 'setNodes' | 'reset' | 'setActiveTab'
 >;
 
 export const defaultNodes: TNode[] = [
@@ -49,4 +60,5 @@ export const defaultNodes: TNode[] = [
 export const defaultValues: TIActionCreatorStoreState = {
   nodes: defaultNodes,
   state: 'readonly',
+  activeTab: tabs.WORKFLOW,
 };
