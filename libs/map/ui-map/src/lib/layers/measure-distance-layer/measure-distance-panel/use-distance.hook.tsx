@@ -111,13 +111,13 @@ export const useDistance = () => {
   }, [shape, updateMeasurements]);
 
   useEffect(() => {
-    if (!draw?.type) {
+    if (!draw?.type || draw?.type === shape?.type) {
       return;
     }
 
     setArea(draw.type === 'polygon' ? 0 : undefined);
     setDistance(0);
-  }, [draw?.type]);
+  }, [draw?.type, shape?.type]);
 
   return useMemo(
     () => ({
