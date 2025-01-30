@@ -18,6 +18,7 @@ interface IOnboardingContextType {
   showOnboardingTooltip: () => void;
   hideOnboardingTooltip: () => void;
   resetOnboarding: () => void;
+  dontShowAgain: boolean;
 }
 
 export type TStepName =
@@ -194,6 +195,7 @@ export const OnboardingProvider = ({
         showOnboardingTooltip,
         hideOnboardingTooltip,
         resetOnboarding,
+        dontShowAgain,
       }}
     >
       {children}

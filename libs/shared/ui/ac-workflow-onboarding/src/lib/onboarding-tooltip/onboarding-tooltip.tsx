@@ -72,7 +72,7 @@ export const OnboardingTooltip = ({
   }>();
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const {
-    context: { isOnboardingComplete, currentStep, onboardingVisible },
+    context: { isOnboardingComplete, currentStep, onboardingVisible, dontShowAgain, completeOnboarding },
   } = useOnboarding();
   const { authenticated } = useAuth();
 
@@ -103,8 +103,11 @@ export const OnboardingTooltip = ({
       if (onClick) {
         onClick();
       }
+      if (dontShowAgain) {
+        completeOnboarding();
+      }
     }
-  }, [onClick, isOpen, tooltipVisible]);
+  }, [onClick, isOpen, tooltipVisible, dontShowAgain, completeOnboarding]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -167,6 +170,7 @@ export const OnboardingTooltip = ({
           tipLocation={tipLocation}
           content={content}
           tooltipPosition={positionOfTheTooltip}
+          onClose={handleClose}
         >
           {additionalContent}
         </Tooltip>
