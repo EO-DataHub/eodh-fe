@@ -24,7 +24,7 @@ const propertySchema = z.object({
   datetime: z.custom<NonNullable<TDateString>>(
     (value) => !z.string().datetime({ offset: true }).safeParse(value).error
   ),
-  'eo:cloud_cover': z.number().optional(),
+  'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
   'grid:code': z.string().optional(),
   'sat:orbit_state': z.string().optional(),
   'sar:instrument_mode': z.string().optional(),
@@ -61,7 +61,7 @@ const assetSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   href: z.string(),
-  type: z.string(),
+  type: z.string().optional(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
   'raster:bands': z
@@ -95,6 +95,7 @@ const featureSchema = z.object({
   stac_extensions: z.array(z.string()).optional(),
   assets: z.object({
     thumbnail: assetSchema,
+    cog: assetSchema.optional(),
     visual: assetSchema.optional(),
     cdom: waterQualitySchema.optional(),
     cya_cells: waterQualitySchema.optional(),

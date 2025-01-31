@@ -10,6 +10,10 @@ const createSentinel2FilterParamsHelper = (
     return [];
   }
 
+  if (collectionType === 'sentinel-2-l2a-ard') {
+    collectionType = 'sentinel2_ard';
+  }
+
   const args: TFilterParam[] = [
     {
       op: '=',
@@ -48,5 +52,6 @@ export const createSentinel2FilterParams = (
   return [
     ...createSentinel2FilterParamsHelper(enabled, params, 'sentinel-2-l1c', 'l1c'),
     ...createSentinel2FilterParamsHelper(enabled, params, 'sentinel-2-l2a', 'l2a'),
+    ...createSentinel2FilterParamsHelper(enabled, params, 'sentinel-2-l2a-ard', 'l2aARD'),
   ];
 };

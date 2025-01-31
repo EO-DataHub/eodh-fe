@@ -19,6 +19,8 @@ export const useActiveDataSet = (): TUseActiveDataSet => {
       enabled.push('sentinel-2-l1c');
     } else if (!dataSets?.public.copernicus.sentinel2?.l1c && dataSets?.public.copernicus.sentinel2?.l2a) {
       enabled.push('sentinel-2-l2a');
+    } else if (dataSets?.public.copernicus.sentinel2?.l2aARD) {
+      enabled.push('sentinel-2-l2a-ard');
     }
   }
 

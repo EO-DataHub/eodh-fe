@@ -23,6 +23,12 @@ export const dataSetsDisabledMap: { [key in TDataSetValue]: string[] } = {
     '0.children.0.children.1.options.disabled',
     '0.children.0.children.1.children.1.options.disabled',
   ],
+  'sentinel-2-l2a-ard': [
+    '0.options.disabled',
+    '0.children.0.options.disabled',
+    '0.children.0.children.1.options.disabled',
+    '0.children.0.children.1.children.0.options.disabled',
+  ],
   'sentinel-3': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.2.options.disabled'],
   'sentinel-5p': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.3.options.disabled'],
   'esacci-globallc': [
@@ -55,7 +61,8 @@ export const getValuesForDataSet = (
     }
 
     case 'sentinel-2-l1c':
-    case 'sentinel-2-l2a': {
+    case 'sentinel-2-l2a':
+    case 'sentinel-2-l2a-ard': {
       if (!state.dataSets.public.copernicus.sentinel2) {
         return state;
       }
@@ -64,6 +71,7 @@ export const getValuesForDataSet = (
       set(newValues, 'public.copernicus.sentinel2.expanded', true);
       set(newValues, 'public.copernicus.sentinel2.l1c', dataSet === 'sentinel-2-l1c');
       set(newValues, 'public.copernicus.sentinel2.l2a', dataSet === 'sentinel-2-l2a');
+      set(newValues, 'public.copernicus.sentinel2.l2aARD', dataSet === 'sentinel-2-l2a-ard');
 
       break;
     }

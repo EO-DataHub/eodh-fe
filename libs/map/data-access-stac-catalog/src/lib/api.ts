@@ -1,4 +1,4 @@
-const stacCatalogue = '/api/catalogue/stac/catalogs/supported-datasets/earth-search-aws/search';
+const stacCatalogue = '/api/catalogue/stac/catalogs/supported-datasets/ceda-stac-catalogue/search';
 const workflowResult =
   '/api/catalogue/stac/catalogs/user-datasets/{user_workspace}/processing-results/cat_{job_id}/search';
 const workflowResultChart =

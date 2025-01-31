@@ -4,8 +4,9 @@ const notDisplayedErrorMessage = '';
 
 export const sentinel2Schema = z.object({
   enabled: z.boolean(),
-  l1c: z.boolean(),
-  l2a: z.boolean(),
+  l1c: z.boolean().optional(),
+  l2a: z.boolean().optional(),
+  l2aARD: z.boolean().optional(),
   cloudCoverage: z.number().min(0).max(100),
 });
 
@@ -14,7 +15,7 @@ export const sentinel2SearchRefine = (schema: z.infer<typeof sentinel2Schema>, c
     return;
   }
 
-  if (!schema.l1c && !schema.l2a) {
+  if (!schema.l1c && !schema.l2a && !schema.l2aARD) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',

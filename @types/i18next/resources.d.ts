@@ -758,6 +758,7 @@ interface Resources {
                 SETTINGS: {
                   L1C: 'L1C';
                   L2A: 'L2A (atmospherically corrected)';
+                  L2A_ARD: 'L2A ARD';
                   MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
                 };
               };

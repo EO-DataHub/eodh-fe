@@ -21,6 +21,7 @@ export type TCopernicusSearchParams = {
     enabled: boolean;
     l1c: boolean;
     l2a: boolean;
+    l2aARD: boolean;
     cloudCoverage: number;
   };
   sentinel3: {
