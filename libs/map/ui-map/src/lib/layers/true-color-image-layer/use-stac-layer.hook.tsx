@@ -23,6 +23,7 @@ export const useStacLayer = () => {
     const loadLayer = async () => {
       const authorized = mode !== 'search';
       newStacLayer = await createStacLayer({ url: stacUrl, zIndex: stacLayerZindex, authorized });
+      console.log('loadLayer stacUrl', stacUrl);
 
       if (newStacLayer) {
         addLayerToMap(newStacLayer);

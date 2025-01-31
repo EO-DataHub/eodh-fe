@@ -23,6 +23,8 @@ export const useStacLayerCreation = () => {
 
       const view = map.getView();
       const extent = newStacLayer.getExtent();
+      console.log('view', view);
+      console.log('extent', extent);
 
       if (extent) {
         view.fit(extent);
@@ -39,6 +41,7 @@ export const useStacLayerCreation = () => {
   const createAuthorizedStacLayer = useCallback(
     async (url: string, zIndex: number) => {
       const data = await getHttpClient().get(url);
+      console.log('createAuthorizedStacLayer data', data);
 
       const newStacLayer = new STACWithColorMap({
         data,
@@ -80,6 +83,7 @@ export const useStacLayerCreation = () => {
   const addLayerToMap = useCallback(
     (layer: STAC | STACWithColorMap | GroupLayer) => {
       if (map) {
+        console.log('layer.getSourceState();', layer);
         map.addLayer(layer);
       }
     },
@@ -100,6 +104,12 @@ export const useStacLayerCreation = () => {
       const newStacLayer = authorized
         ? await createAuthorizedStacLayer(url, zIndex)
         : createUnauthorizedStacLayer(url, zIndex);
+      console.log(
+        'newStacLayer',
+        newStacLayer.addLayerForLink(
+          'https://eopro-spyro-test.workspaces.test.eodhp.eco-ke-staging.com/files/workspaces-eodhp-test/processing-results/cat_035426ae-dfc1-11ef-9a49-86a1f8f9b25e/col_035426ae-dfc1-11ef-9a49-86a1f8f9b25e/e62b4730-1f93-417a-9020-03c23b09fe7a_cdom.tif'
+        )
+      );
       return newStacLayer;
     },
     [createAuthorizedStacLayer, createUnauthorizedStacLayer]

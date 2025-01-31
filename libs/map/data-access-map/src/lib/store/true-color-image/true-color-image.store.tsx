@@ -16,7 +16,8 @@ export const useTrueColorImageStore = create<ITrueImageStore>()(
         // eslint-disable-next-line no-console
         // console.log('feature in setFeature', key, feature),
         ({
-          stacUrl: key ? feature?.assets[key]?.href : feature?.links.find((link) => link.rel === 'self')?.href,
+          // stacUrl: key ? feature?.assets[key]?.href : feature?.links.find((link) => link.rel === 'self')?.href,
+          stacUrl: feature?.links.find((link) => link.rel === 'self')?.href,
           feature,
           visibleKey: key ? key : undefined,
         })
