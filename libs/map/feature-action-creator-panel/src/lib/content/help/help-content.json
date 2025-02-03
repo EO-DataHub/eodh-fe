@@ -1,0 +1,30 @@
+{
+    "TITLE": "TITLE",
+    "INTRO": "INTRO",
+    "CONTENT": {
+        "GENERAL_FUNCIONALITY": {
+            "KEY": "GENERAL_FUNCIONALITY",
+            "SUBTITLE": "GENERAL_FUNCIONALITY"
+        },
+        "WHAT_IS_THE_AC": {
+            "KEY": "WHAT_IS_THE_AC",
+            "QUESTION": "WHAT_IS_THE_AC",
+            "ANSWER": "WHAT_IS_THE_AC"
+        },
+        "HOW_TO_CREATE_WORKFLOW_IN_THE_AC": {
+            "KEY": "HOW_TO_CREATE_WORKFLOW_IN_THE_AC",
+            "QUESTION": "HOW_TO_CREATE_WORKFLOW_IN_THE_AC",
+            "ANSWER": "HOW_TO_CREATE_WORKFLOW_IN_THE_AC"
+        },
+        "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {
+            "KEY": "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC",
+            "SUBTITLE": "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC"
+        },
+        "HOW_TO_ADD_COMERCIAL_DATASETS": {
+            "KEY": "HOW_TO_ADD_COMERCIAL_DATASETS",
+            "QUESTION": "HOW_TO_ADD_COMERCIAL_DATASETS",
+            "ANSWER": "HOW_TO_ADD_COMERCIAL_DATASETS"
+        }
+    }
+  }
+  

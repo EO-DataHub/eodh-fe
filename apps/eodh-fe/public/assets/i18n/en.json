@@ -173,7 +173,6 @@
           }
         }
       },
-
       "PRESETS": {
         "BUTTON": "Load preset",
         "COMING_SOON": "Coming soon!"
@@ -242,6 +241,57 @@
               "CLIP": "Clip"
             }
           }
+        }
+      },
+      "HELP": {
+        "TITLE": "Action Creator Help Topics",
+        "INTRO": "Click on one of the questions below to see more detailed explanations.",
+        "CONTENT": {
+            "GENERAL_FUNCIONALITY": {
+                "SUBTITLE": "General functionality"
+            },
+            "WHAT_IS_THE_AC": {
+                "QUESTION": "What is the Action Creator?",
+                "ANSWER": ["The Action Creator is a workflow builder that allows users to define workflow processing steps using datasets, AOI, date ranges, and functions."]
+            },
+            "HOW_TO_CREATE_WORKFLOW_IN_THE_AC": {
+                "QUESTION": "How do I create a workflow in Action Creator?",
+                "ANSWER": [[
+                  "Click on the toggle button in the top left of the Action Creator panel.",
+                  "Add an AOI, Dataset, Date Range, and Function(s).",
+                  "Click Run to execute the workflow."
+                ]]
+            },
+            "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {
+                "SUBTITLE": "Managing Datasets & Functions in Action Creator"
+            },
+            "HOW_TO_ADD_COMERCIAL_DATASETS": {
+                "QUESTION": "How do I add commercial datasets (e.g., Planet items) to Action Creator workflows?",
+                "ANSWER": [
+                  "To use commercial datasets in the Action Creator, the dataset’s item must first be purchased and available in My Items:",
+                  [
+                    "Purchase the dataset:",
+                    [
+                      "Run a search with a commercial dataset.",
+                      "Click 'Purchase' next to an item.",
+                      "Complete the transaction on the TPZ portal.",
+                      "After purchase, the item appears in My Items (left panel)."
+                    ],
+                    "Use the dataset’s item in Action Creator:",
+                    [
+                      "Open Action Creator and click on the 'Dataset' block.",
+                      "In the left-side menu, go to 'My Items'.",
+                      "Select the purchased item.",
+                      "The dataset item’s name appears in the Dataset block."
+                    ],
+                    "Proceed with workflow configuration:",
+                    [
+                      "Select a Date Range and Function(s).",
+                      "Click Run to execute the workflow using the commercial dataset’s item."
+                    ]
+                  ]
+                ]
+            }
         }
       }
     },
