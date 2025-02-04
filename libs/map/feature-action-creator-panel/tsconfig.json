@@ -3,7 +3,6 @@
     "jsx": "react-jsx",
     "allowJs": false,
     "esModuleInterop": false,
-    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "strict": true
   },
