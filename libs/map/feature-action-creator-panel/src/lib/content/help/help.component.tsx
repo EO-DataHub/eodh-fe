@@ -103,6 +103,13 @@ const Answer = ({ answer, answerKey, question }: IAnswerProps) => {
 
 const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
 
+interface IQuestionsSection {
+  SECTION_ID: string;
+  CONTENT: {
+    QUESTION_ID: string;
+  }[];
+}
+
 export const Help = () => {
   const { t } = useTranslation();
   return (
@@ -123,9 +130,8 @@ export const Help = () => {
             fontWeight='regular'
             className={helpStyles.helpIntro}
           />
-          {/* // QUESTIONS LIST */}
           <div className={helpStyles.questionsList}>
-            {helpContent.QUESTIONS.map((value) => (
+            {helpContent.QUESTIONS.map((value: IQuestionsSection) => (
               <div key={`${value.SECTION_ID}_question`}>
                 <Subtitle subtitle={`${translationPath}.SUBTITLES.${value.SECTION_ID}`} />
                 <ul>
@@ -144,12 +150,9 @@ export const Help = () => {
               </div>
             ))}
           </div>
-
-          {/* // ANSWERS LIST */}
-          {helpContent.QUESTIONS.map((category) => (
+          {helpContent.QUESTIONS.map((category: IQuestionsSection) => (
             <div key={`${category.SECTION_ID}_answer`}>
               <Subtitle subtitle={`${translationPath}.SUBTITLES.${category.SECTION_ID}`} />
-
               {category.CONTENT.map((question) => (
                 <div key={question.QUESTION_ID}>
                   <Answer
