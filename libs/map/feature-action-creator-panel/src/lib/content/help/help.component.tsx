@@ -1,6 +1,8 @@
-import { Text } from '@ukri/shared/design-system';
+import { Button, Text } from '@ukri/shared/design-system';
+import { useTranslation } from 'react-i18next';
 
 import { Container, Content, Footer } from '../container.component';
+import { helpStyles } from './help.styles';
 import helpContent from './help-content.json';
 
 interface ISubtitleProps {
@@ -9,31 +11,92 @@ interface ISubtitleProps {
 
 const Subtitle = ({ subtitle }: ISubtitleProps) => {
   return (
-    <div className='pt-4'>
-      <Text type='h3' content={subtitle} fontSize='large' fontWeight='semibold' className='' />
+    <div className={helpStyles.subtitle}>
+      <Text type='h3' content={subtitle} fontSize='large' fontWeight='semibold' />
     </div>
   );
 };
 
 interface IQuestionProps {
   question: string;
+  questionKey?: string;
 }
 
-const Question = ({ question }: IQuestionProps) => {
+const Question = ({ question, questionKey }: IQuestionProps) => {
   return (
-    <a className=''>
-      <Text type='h4' content={question} fontSize='medium' fontWeight='regular' className='text-primary' />
+    <a href={questionKey && `#${questionKey}_answer`} className='relative' id={`${questionKey}_question`}>
+      <Text type='h4' content={question} fontSize='medium' fontWeight='regular' className={helpStyles.question} />
     </a>
   );
 };
+
+type TAnswerType = string | [string] | [string][];
 interface IAnswerProps {
-  answer: string;
+  answer: TAnswerType[];
+  answerKey: string;
+  question: string;
 }
 
-const Answer = ({ answer }: IAnswerProps) => {
+const Answer = ({ answer, answerKey, question }: IAnswerProps) => {
+  const handleBackClick = () => {
+    const questionElement = document.getElementById(`${answerKey}_question`);
+    if (questionElement) {
+      questionElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
-    <div className=''>
-      <Text content={answer} fontSize='large' fontWeight='bold' className='' />
+    <div className={helpStyles.answer} id={`${answerKey}_answer`}>
+      <Text type='h4' content={question} fontSize='medium' fontWeight='semibold' className={helpStyles.answerTitle} />
+      {answer.map((item, arrayIndex) => {
+        if (typeof item === 'string') {
+          return <Text content={item} fontSize='medium' fontWeight='regular' />;
+        } else if (Array.isArray(item)) {
+          return (
+            <ul key={`${answerKey}_${arrayIndex}`}>
+              {item.map((subItem, index) => {
+                if (typeof subItem === 'string') {
+                  return (
+                    <Text
+                      key={`${answerKey}_${index}_string`}
+                      content={subItem}
+                      fontSize='medium'
+                      fontWeight='regular'
+                      className={helpStyles.listItem}
+                    />
+                  );
+                } else if (Array.isArray(subItem)) {
+                  return (
+                    <ul key={`${answerKey}_${index}_array`}>
+                      {subItem.map((subSubItem, subindex) => {
+                        return (
+                          <Text
+                            key={`${answerKey}_${index}_${subindex}`}
+                            content={subSubItem}
+                            fontSize='medium'
+                            fontWeight='regular'
+                            className={helpStyles.nestedListItem}
+                          />
+                        );
+                      })}
+                    </ul>
+                  );
+                }
+                return null;
+              })}
+            </ul>
+          );
+        }
+        return null;
+      })}
+      <Button
+        size='medium'
+        iconHeight={20}
+        iconWidth={20}
+        text={`${translationPath}.BACK_BTN`}
+        className={helpStyles.backButton}
+        iconName='ArrowUpward'
+        onClick={handleBackClick}
+      />
     </div>
   );
 };
@@ -41,42 +104,65 @@ const Answer = ({ answer }: IAnswerProps) => {
 const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
 
 export const Help = () => {
+  const { t } = useTranslation();
   return (
     <Container>
       <Content>
-        <section className='text-text-primary p-4'>
+        <section className={helpStyles.helpSection}>
           <Text
             type='h1'
             content={`${translationPath}.${helpContent.TITLE}`}
             fontSize='large'
             fontWeight='bold'
-            className='text-[18px]'
+            className={helpStyles.helpTitle}
           />
           <Text
             type='p'
             content={`${translationPath}.${helpContent.INTRO}`}
             fontSize='medium'
             fontWeight='regular'
-            className='pt-4'
+            className={helpStyles.helpIntro}
           />
-          {Object.entries(helpContent.CONTENT).map(([key, value]) => (
-            <div key={key}>
-              {'SUBTITLE' in value ? (
-                <Subtitle subtitle={`${translationPath}.CONTENT.${value.SUBTITLE}.SUBTITLE`} />
-              ) : (
-                <Question question={`${translationPath}.CONTENT.${value.QUESTION}.QUESTION`} />
-              )}
+          {/* // QUESTIONS LIST */}
+          <div className={helpStyles.questionsList}>
+            {helpContent.QUESTIONS.map((value) => (
+              <div key={`${value.SECTION_ID}_question`}>
+                <Subtitle subtitle={`${translationPath}.SUBTITLES.${value.SECTION_ID}`} />
+                <ul>
+                  {Object.entries(value.CONTENT).map((entry) => {
+                    const questionKey = entry[1].QUESTION_ID;
+                    return (
+                      <li key={questionKey}>
+                        <Question
+                          questionKey={questionKey}
+                          question={`${translationPath}.QUESTIONS.${entry[1].QUESTION_ID}.QUESTION`}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* // ANSWERS LIST */}
+          {helpContent.QUESTIONS.map((category) => (
+            <div key={`${category.SECTION_ID}_answer`}>
+              <Subtitle subtitle={`${translationPath}.SUBTITLES.${category.SECTION_ID}`} />
+
+              {category.CONTENT.map((question) => (
+                <div key={question.QUESTION_ID}>
+                  <Answer
+                    question={`${translationPath}.QUESTIONS.${question.QUESTION_ID}.QUESTION`}
+                    answerKey={question.QUESTION_ID}
+                    answer={t(`${translationPath}.QUESTIONS.${question.QUESTION_ID}.ANSWER`, {
+                      returnObjects: true,
+                    })}
+                  />
+                </div>
+              ))}
             </div>
           ))}
-          {/* {Object.entries(helpContent.CONTENT).map(([key, value]) => (
-            <div key={key}>
-              {'SUBTITLE' in value ? (
-                <Subtitle subtitle={`${translationPath}.CONTENT.${value.SUBTITLE}.SUBTITLE`} />
-              ) : (
-                <Answer answer={`${translationPath}.CONTENT.${value.ANSWER}.ANSWER`} />
-              )}
-            </div>
-          ))} */}
         </section>
       </Content>
       <Footer></Footer>
