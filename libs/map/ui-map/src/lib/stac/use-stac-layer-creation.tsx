@@ -5,10 +5,14 @@ import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
 import proj4 from 'proj4';
 import { useCallback, useContext, useMemo } from 'react';
+import { StacItem } from 'stac-ts';
 
 import { MapContext } from '../map.component';
 import { STACWithColorMap } from './stac-with-color-map';
 
+const conversion1 = '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000';
+const conversion2 = '+y_0=-100000 +ellps=airy +units=m +no_defs';
+proj4.defs('EPSG:27700', `${conversion1} ${conversion2}`);
 register(proj4);
 
 export const useStacLayerCreation = () => {
@@ -38,10 +42,8 @@ export const useStacLayerCreation = () => {
 
   const createAuthorizedStacLayer = useCallback(
     async (url: string, zIndex: number) => {
-      const data = await getHttpClient().get(url);
-
       const newStacLayer = new STACWithColorMap({
-        data,
+        url,
         zIndex,
         getSourceOptions: (type, options) => {
           const token = authClient.getToken().token;
@@ -52,6 +54,7 @@ export const useStacLayerCreation = () => {
           };
           return options;
         },
+        httpRequestFn: (url: string) => getHttpClient().get(url),
       });
 
       // todo remove after rewriting ol-stac library
@@ -65,13 +68,26 @@ export const useStacLayerCreation = () => {
   );
 
   const createUnauthorizedStacLayer = useCallback(
-    (url: string, zIndex: number) => {
+    async (url: string, zIndex: number) => {
+      const data = await getHttpClient().get<StacItem>(url);
+
+      if (data?.assets['cog'] && !data?.assets['cog'].type) {
+        data.assets['cog'] = {
+          ...data.assets['cog'],
+          type: 'image/tiff; application=geotiff; profile=cloud-optimized',
+        };
+      }
+
       const newStacLayer = new STACWithColorMap({
-        url,
+        data,
         zIndex,
+        assets: data?.assets['cog'] ? ['cog'] : undefined,
+        bands: data?.assets['cog'] ? [3, 2, 1] : undefined,
       });
 
-      newStacLayer.addEventListener('sourceready', () => zoomToLayer(newStacLayer));
+      newStacLayer.addEventListener('sourceready', () => {
+        zoomToLayer(newStacLayer);
+      });
       return newStacLayer;
     },
     [zoomToLayer]
