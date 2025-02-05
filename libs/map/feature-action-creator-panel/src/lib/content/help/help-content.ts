@@ -1,4 +1,6 @@
-export const helpContent = {
+export const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
+
+const helpContent = {
   TITLE: 'TITLE',
   INTRO: 'INTRO',
   QUESTIONS: [
@@ -102,4 +104,34 @@ export const helpContent = {
       ],
     },
   ],
+};
+
+interface IHelpContentWithTranslations {
+  TITLE: string;
+  INTRO: string;
+  QUESTIONS: {
+    SECTION_ID: string;
+    SECTION_TRANSLATION: string;
+    CONTENT: {
+      QUESTION_ID: string;
+      QUESTION_TRANSLATION: string;
+      ANSWER_TRANSLATION: string;
+    }[];
+  }[];
+}
+
+export const helpContentWithTranslations = (): IHelpContentWithTranslations => {
+  return {
+    TITLE: `${translationPath}.${helpContent.TITLE}`,
+    INTRO: `${translationPath}.${helpContent.INTRO}`,
+    QUESTIONS: helpContent.QUESTIONS.map((category) => ({
+      SECTION_ID: category.SECTION_ID,
+      SECTION_TRANSLATION: `${translationPath}.SUBTITLES.${category.SECTION_ID}`,
+      CONTENT: category.CONTENT.map((question) => ({
+        QUESTION_ID: question.QUESTION_ID,
+        QUESTION_TRANSLATION: `${translationPath}.QUESTIONS.${question.QUESTION_ID}.QUESTION`,
+        ANSWER_TRANSLATION: `${translationPath}.QUESTIONS.${question.QUESTION_ID}.ANSWER`,
+      })),
+    })),
+  };
 };

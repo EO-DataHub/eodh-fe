@@ -1,7 +1,7 @@
-import { Button, Text } from '@ukri/shared/design-system';
-import { useCallback } from 'react';
+import { Link, Text } from '@ukri/shared/design-system';
 
 import { helpStyles } from './help.styles';
+import { translationPath } from './help-content';
 
 type TAnswerType = string | [string] | [string][];
 
@@ -11,16 +11,7 @@ interface IAnswerProps {
   question: string;
 }
 
-const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
-
 export const Answer = ({ answer, answerKey, question }: IAnswerProps) => {
-  const handleBackClick = useCallback(() => {
-    const questionElement = document.getElementById(`${answerKey}_question`);
-    if (questionElement) {
-      questionElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [answerKey]);
-
   return (
     <div className={helpStyles.answer} id={`${answerKey}_answer`}>
       <Text type='h4' content={question} fontSize='medium' fontWeight='semibold' className={helpStyles.answerTitle} />
@@ -65,14 +56,15 @@ export const Answer = ({ answer, answerKey, question }: IAnswerProps) => {
         }
         return null;
       })}
-      <Button
+      <Link
+        type='button'
+        href={`#${answerKey}_question`}
         size='medium'
         iconHeight={20}
         iconWidth={20}
         text={`${translationPath}.BACK_BTN`}
         className={helpStyles.backButton}
         iconName='ArrowUpward'
-        onClick={handleBackClick}
       />
     </div>
   );

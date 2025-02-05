@@ -1,30 +1,25 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Answer } from './answer';
-import { helpContent } from './help-content';
+import { helpContentWithTranslations } from './help-content';
 import { Subtitle } from './subtitle';
-
-const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
-
-interface IQuestionsSection {
-  SECTION_ID: string;
-  CONTENT: {
-    QUESTION_ID: string;
-  }[];
-}
 
 export const Answers = () => {
   const { t } = useTranslation();
+  const memoizedQuestions = useMemo(() => {
+    return helpContentWithTranslations().QUESTIONS;
+  }, []);
 
-  return helpContent.QUESTIONS.map((category: IQuestionsSection) => (
+  return memoizedQuestions.map((category) => (
     <div key={`${category.SECTION_ID}_answer`}>
-      <Subtitle subtitle={`${translationPath}.SUBTITLES.${category.SECTION_ID}`} />
+      <Subtitle subtitle={category.SECTION_TRANSLATION} />
       {category.CONTENT.map((question) => (
         <div key={question.QUESTION_ID}>
           <Answer
-            question={`${translationPath}.QUESTIONS.${question.QUESTION_ID}.QUESTION`}
+            question={question.QUESTION_TRANSLATION}
             answerKey={question.QUESTION_ID}
-            answer={t(`${translationPath}.QUESTIONS.${question.QUESTION_ID}.ANSWER`, {
+            answer={t(`${question.ANSWER_TRANSLATION}`, {
               returnObjects: true,
             })}
           />

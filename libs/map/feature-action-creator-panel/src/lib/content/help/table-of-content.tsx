@@ -1,7 +1,8 @@
 import { Text } from '@ukri/shared/design-system';
+import { useMemo } from 'react';
 
 import { helpStyles } from './help.styles';
-import { helpContent } from './help-content';
+import { helpContentWithTranslations } from './help-content';
 import { Subtitle } from './subtitle';
 
 interface IQuestionProps {
@@ -17,30 +18,22 @@ const Question = ({ question, questionKey }: IQuestionProps) => {
   );
 };
 
-const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
-
-interface IQuestionsSection {
-  SECTION_ID: string;
-  CONTENT: {
-    QUESTION_ID: string;
-  }[];
-}
-
 export const TableOfContent = () => {
+  const memoizedHelpContent = useMemo(() => {
+    return helpContentWithTranslations().QUESTIONS;
+  }, []);
+
   return (
     <div className={helpStyles.questionsList}>
-      {helpContent.QUESTIONS.map((value: IQuestionsSection) => (
+      {memoizedHelpContent.map((value) => (
         <div key={`${value.SECTION_ID}_question`}>
-          <Subtitle subtitle={`${translationPath}.SUBTITLES.${value.SECTION_ID}`} />
+          <Subtitle subtitle={value.SECTION_TRANSLATION} />
           <ul>
             {Object.entries(value.CONTENT).map((entry) => {
               const questionKey = entry[1].QUESTION_ID;
               return (
                 <li key={questionKey}>
-                  <Question
-                    questionKey={questionKey}
-                    question={`${translationPath}.QUESTIONS.${questionKey}.QUESTION`}
-                  />
+                  <Question questionKey={questionKey} question={entry[1].QUESTION_TRANSLATION} />
                 </li>
               );
             })}
