@@ -29,11 +29,11 @@ export const TableOfContent = () => {
         <div key={`${value.SECTION_ID}_question`}>
           <Subtitle subtitle={value.SECTION_TRANSLATION} />
           <ul>
-            {Object.entries(value.CONTENT).map((entry) => {
-              const questionKey = entry[1].QUESTION_ID;
+            {value.CONTENT.map((entry) => {
+              const questionKey = entry.QUESTION_ID;
               return (
                 <li key={questionKey}>
-                  <Question questionKey={questionKey} question={entry[1].QUESTION_TRANSLATION} />
+                  <Question questionKey={questionKey} question={entry.QUESTION_TRANSLATION} />
                 </li>
               );
             })}
