@@ -14,7 +14,7 @@ const SubItemRenderer = ({ subItem, answerKey, index }: ISubItemRendererProps) =
   if (typeof subItem === 'string') {
     return (
       <Text
-        key={`${answerKey}_${index}_string`}
+        key={`${answerKey}_${index}`}
         content={subItem}
         fontSize='medium'
         fontWeight='regular'
@@ -23,7 +23,7 @@ const SubItemRenderer = ({ subItem, answerKey, index }: ISubItemRendererProps) =
     );
   } else if (Array.isArray(subItem) && subItem.length > 0) {
     return (
-      <ul key={`${answerKey}_${index}_array`}>
+      <ul key={`${answerKey}_${index}`}>
         {subItem.map((subSubItem, subindex) => {
           return (
             <Text
