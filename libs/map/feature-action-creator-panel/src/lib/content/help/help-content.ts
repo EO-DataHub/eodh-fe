@@ -100,6 +100,7 @@ const helpContentTranslationKeys: IHelpContent = {
         {
           QUESTION_ID: 'HOW_DO_I_ADJUST_THE_TIME_RANGE_DISPLAYED_ON_GRAPHS',
         },
+        { QUESTION_ID: 'WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES' },
       ],
     },
     {

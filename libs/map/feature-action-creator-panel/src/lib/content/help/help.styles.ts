@@ -11,4 +11,7 @@ export const helpStyles = {
   helpTitle: 'text-[18px]',
   helpIntro: 'pt-4',
   questionsList: 'border-b border-bright-mid pb-4',
+  table: 'mt-2',
+  tableCell: 'border border-main p-1',
+  colorCell: 'w-12 h-4',
 };

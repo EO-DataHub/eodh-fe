@@ -466,6 +466,192 @@
               "ANSWER": [
                 "Use the time slider to filter the displayed data range. Drag the start and end handles to narrow or expand the time window. Narrowing the range hides data outside the selected period. Expanding the range restores hidden timestamps (within the workflow’s original date range). This data manipulation is reflected automatically on a respective graph."
               ]
+            },
+            "WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES": {
+              "QUESTION": "What is the color coding for Land Cover Change classes?",
+              "ANSWER": [
+                "Land cover classes displayed on the Land Cover Changes graph use the following color coding:",
+                { "TABLE": [
+                  {
+                    "LABEL": "Continuous urban fabric",
+                    "COLOR": "#e6004d"
+                  },
+                  {
+                    "LABEL": "Discontinuous urban fabric",
+                    "COLOR": "#ff0000"
+                  },
+                  {
+                    "LABEL": "Industrial or commercial units",
+                    "COLOR": "#cc4df2"
+                  },
+                  {
+                    "LABEL": "Road and rail networks and associated land",
+                    "COLOR": "#cc0000"
+                  },
+                  {
+                    "LABEL": "Port areas",
+                    "COLOR": "#e6cccc"
+                  },
+                  {
+                    "LABEL": "Airports",
+                    "COLOR": "#e6cce6"
+                  },
+                  {
+                    "LABEL": "Mineral extraction sites",
+                    "COLOR": "#600ccc"
+                  },
+                  {
+                    "LABEL": "Dump sites",
+                    "COLOR": "#a64d00"
+                  },
+                  {
+                    "LABEL": "Construction sites",
+                    "COLOR": "#ff4dff"
+                  },
+                  {
+                    "LABEL": "Green urban areas",
+                    "COLOR": "#ffa6ff"
+                  },
+                  {
+                    "LABEL": "Sport and leisure facilities",
+                    "COLOR": "#ffe6ff"
+                  },
+                  {
+                    "LABEL": "Non-irrigated arable land",
+                    "COLOR": "#ffffa8"
+                  },
+                  {
+                    "LABEL": "Permanently irrigated land",
+                    "COLOR": "#ffff00"
+                  },
+                  {
+                    "LABEL": "Rice fields",
+                    "COLOR": "#e6e600"
+                  },
+                  {
+                    "LABEL": "Vineyards",
+                    "COLOR": "#e68000"
+                  },
+                  {
+                    "LABEL": "Fruit trees and berry plantations",
+                    "COLOR": "#f2a64d"
+                  },
+                  {
+                    "LABEL": "Olive groves",
+                    "COLOR": "#e6a600"
+                  },
+                  {
+                    "LABEL": "Pastures",
+                    "COLOR": "#e6e64d"
+                  },
+                  {
+                    "LABEL": "Annual crops associated with permanent crops",
+                    "COLOR": "#ffe6a6"
+                  },
+                  {
+                    "LABEL": "Complex cultivation patterns",
+                    "COLOR": "#ffe64d"
+                  },
+                  {
+                    "LABEL": "Agro-forestry areas",
+                    "COLOR": "#f2cca6"
+                  },
+                  {
+                    "LABEL": "Broad-leaved forest",
+                    "COLOR": "#80ff00"
+                  },
+                  {
+                    "LABEL": "Coniferous forest",
+                    "COLOR": "#00a600"
+                  },
+                  {
+                    "LABEL": "Mixed forest",
+                    "COLOR": "#4dff00"
+                  },
+                  {
+                    "LABEL": "Natural grasslands",
+                    "COLOR": "#ccf24d"
+                  },
+                  {
+                    "LABEL": "Moors and heathland",
+                    "COLOR": "#a6ff80"
+                  },
+                  {
+                    "LABEL": "Sclerophyllous vegetation",
+                    "COLOR": "#a6e64d"
+                  },
+                  {
+                    "LABEL": "Transitional woodland-shrub",
+                    "COLOR": "#a6f200"
+                  },
+                  {
+                    "LABEL": "Beaches - dunes - sands",
+                    "COLOR": "#e6e6e6"
+                  },
+                  {
+                    "LABEL": "Bare rocks",
+                    "COLOR": "#cccccc"
+                  },
+                  {
+                    "LABEL": "Sparsely vegetated areas",
+                    "COLOR": "#ccffcc"
+                  },
+                  {
+                    "LABEL": "Burnt areas",
+                    "COLOR": "#000000"
+                  },
+                  {
+                    "LABEL": "Glaciers and perpetual snow",
+                    "COLOR": "#a6e6cc"
+                  },
+                  {
+                    "LABEL": "Inland marshes",
+                    "COLOR": "#a6a6ff"
+                  },
+                  {
+                    "LABEL": "Peat bogs",
+                    "COLOR": "#4d4dff"
+                  },
+                  {
+                    "LABEL": "Salt marshes",
+                    "COLOR": "#ccccff"
+                  },
+                  {
+                    "LABEL": "Salines",
+                    "COLOR": "#e6e6ff"
+                  },
+                  {
+                    "LABEL": "Intertidal flats",
+                    "COLOR": "#a6a6e6"
+                  },
+                  {
+                    "LABEL": "Water courses",
+                    "COLOR": "#00ccf2"
+                  },
+                  {
+                    "LABEL": "Water bodies",
+                    "COLOR": "#80f2e6"
+                  },
+                  {
+                    "LABEL": "Coastal lagoons",
+                    "COLOR": "#00ffa6"
+                  },
+                  {
+                    "LABEL": "Estuaries",
+                    "COLOR": "#a6ffe6"
+                  },
+                  {
+                    "LABEL": "Sea and ocean",
+                    "COLOR": "#e6f2ff"
+                  },
+                  {
+                    "LABEL": "NODATA",
+                    "COLOR": "#ffffff"
+                  }
+
+
+                ]}
+              ]
             }
           },
           "MEASUREMENT_AOI_MANAGEMENT": {
