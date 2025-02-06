@@ -332,140 +332,6 @@
                   "Click Run to execute the preset workflow."
                 ]
               ]
-            }
-          },
-          "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {
-            "SUBTITLE": "Managing Datasets & Functions in Action Creator",
-            "HOW_TO_ADD_COMERCIAL_DATASETS": {
-              "QUESTION": "How do I add commercial datasets (e.g., Planet items) to Action Creator workflows?",
-              "ANSWER": [
-                "To use commercial datasets in the Action Creator, the dataset’s item must first be purchased and available in My Items:",
-                [
-                  "Purchase the dataset:",
-                  [
-                    "Run a search with a commercial dataset.",
-                    "Click 'Purchase' next to an item.",
-                    "Complete the transaction on the TPZ portal.",
-                    "After purchase, the item appears in My Items (left panel)."
-                  ],
-                  "Use the dataset’s item in Action Creator:",
-                  [
-                    "Open Action Creator and click on the 'Dataset' block.",
-                    "In the left-side menu, go to 'My Items'.",
-                    "Select the purchased item.",
-                    "The dataset item’s name appears in the Dataset block."
-                  ],
-                  "Proceed with workflow configuration:",
-                  [
-                    "Select a Date Range and Function(s).",
-                    "Click Run to execute the workflow using the commercial dataset’s item."
-                  ]
-                ]
-              ]
-            },
-            "HOW_TO_USE_MULTIPLE_FUNCTIONS": {
-              "QUESTION": "How do I use multiple functions in a single workflow?",
-              "ANSWER": [
-                [
-                  "Click on the 'Function' block in the Action Creator panel.",
-                  "Click the '+' button below the block to add another function."
-                ],
-                "Functions execute sequentially from top to bottom. You cannot remove or modify a function in the middle—only the last function can be deleted first. Parallel functions are not yet supported"
-              ]
-            },
-            "HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER": {
-              "QUESTION": "How do I filter workflow results by time using the time slider?",
-              "ANSWER": [
-                "After running a workflow, the time slider appears below the search/workflow panel. Drag the slider handles to adjust the displayed time range without re-running the workflow. Narrowing the range filters results to selected timestamps. Expanding the range shows more results but cannot exceed the original workflow date range. The workflow execution remains unchanged—only the displayed results update dynamically."
-              ]
-            }
-          },
-          "EXECUTING_AND_TRACKING_WORKFLOWS": {
-            "SUBTITLE": "Executing & Tracking Workflows",
-            "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS": {
-              "QUESTION": "How do I view workflow execution results?",
-              "ANSWER": [
-                "Open the History tab in Action Creator to see past workflows. Click 'View Results' to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click 'View' to load the result as a map layer."
-              ]
-            },
-            "HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW": {
-              "QUESTION": "How do I track the execution progress of my workflow?",
-              "ANSWER": [
-                "Open the History tab in Action Creator. Workflow status indicators:",
-                [
-                  "Processing – Workflow is still running.",
-                  "Ready – Workflow is completed and results are available.",
-                  "Failed – Workflow encountered an error."
-                ]
-              ]
-            },
-            "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_NOTIFICATIONS": {
-              "QUESTION": "How do I view workflow execution notifications?",
-              "ANSWER": [
-                "A green dot appears next to the History tab when a workflow finishes. Click History to view execution details."
-              ]
-            },
-            "WHAT_HAPPENS_IF_I_SWITCH_TO_ACTION_CREATOR_WHILE_HAVING_A_SEARCH_SESSION_ACTIVE": {
-              "QUESTION": "What happens if I switch to Action Creator while having a search session active?",
-              "ANSWER": [
-                "Your search selections (AOI, date range, dataset) are not transferred to Action Creator. You must redefine your AOI, dataset, and date range in Action Creator. Switching does not delete previous search results—they remain in the Search tab."
-              ]
-            },
-            "CAN_I_SAVE_MY_WORKFLOW_FOR_FUTURE_USE": {
-              "QUESTION": "Can I save my workflow for future use?",
-              "ANSWER": [
-                "Yes – Workflows can be exported and reloaded later. Click 'Export' to save the workflow as a JSON file. To reuse, go to 'Import' and upload the saved workflow."
-              ]
-            },
-            "WHAT_HAPPENS_IF_I_RUN_MULTIPLE_WORKFLOWS_AT_THE_SAME_TIME": {
-              "QUESTION": "What happens if I run multiple workflows at the same time?",
-              "ANSWER": [
-                "You can run multiple workflows simultaneously. Each workflow runs independently and appears in the History tab. Results are processed in parallel, and you can start a new workflow while others are still running."
-              ]
-            },
-            "HOW_DO_I_CANCEL_A_RUNNING_WORKFLOW": {
-              "QUESTION": "How do I cancel a running workflow?",
-              "ANSWER": ["Currently, running workflows cannot be cancelled."]
-            },
-            "HOW_DO_I_ACCESS_MY_SAVED_WORKFLOW_RESULTS_OR_CONFIGURATION": {
-              "QUESTION": "How do I access my saved workflow results or configuration?",
-              "ANSWER": [
-                "In order to access saved workflow results, go to History tab and click on View Results button next to a desired workflow.",
-                "Past workflow configurations have to be exported first and then imported in order to resume them. They are not saved automatically."
-              ]
-            }
-          },
-          "WORKING_WITH_GRAPHS": {
-            "SUBTITLE": "Working with Graphs",
-            "HOW_DO_I_VIEW_GRAPHS_FOR_MY_DATA": {
-              "QUESTION": "How do I view graphs for my data?",
-              "ANSWER": [
-                "Graphs are displayed automatically for applicable workflows. They show results as per used functions, for example NDVI values or Land Cover classes."
-              ]
-            },
-            "WHAT_TYPES_OF_GRAPHS_ARE_AVAILABLE_AND_WHAT_DO_THEY_REPRESENT": {
-              "QUESTION": "What types of graphs are available, and what do they represent?",
-              "ANSWER": [
-                [
-                  "Line Chart: Used for NDVI, SAVI, EVI, and Water Quality Analysis.",
-                  [
-                    "Min, max, and median values are plotted for each timestamp.",
-                    "Min and max create a shaded range, with the median inside."
-                  ],
-                  "Stacked Bar Chart: Used for Land Cover Change analysis.",
-                  [
-                    "Each bar represents land cover percentages for different classes (e.g., wetlands, grasslands).",
-                    "Clicking a legend item allows filtering to a single land cover class."
-                  ],
-                  "Graph types are predefined by metadata and cannot be changed manually."
-                ]
-              ]
-            },
-            "HOW_DO_I_ADJUST_THE_TIME_RANGE_DISPLAYED_ON_GRAPHS": {
-              "QUESTION": "How do I adjust the time range displayed on graphs?",
-              "ANSWER": [
-                "Use the time slider to filter the displayed data range. Drag the start and end handles to narrow or expand the time window. Narrowing the range hides data outside the selected period. Expanding the range restores hidden timestamps (within the workflow’s original date range). This data manipulation is reflected automatically on a respective graph."
-              ]
             },
             "WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES": {
               "QUESTION": "What is the color coding for Land Cover Change classes?",
@@ -651,6 +517,140 @@
                     }
                   ]
                 }
+              ]
+            }
+          },
+          "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {
+            "SUBTITLE": "Managing Datasets & Functions in Action Creator",
+            "HOW_TO_ADD_COMERCIAL_DATASETS": {
+              "QUESTION": "How do I add commercial datasets (e.g., Planet items) to Action Creator workflows?",
+              "ANSWER": [
+                "To use commercial datasets in the Action Creator, the dataset’s item must first be purchased and available in My Items:",
+                [
+                  "Purchase the dataset:",
+                  [
+                    "Run a search with a commercial dataset.",
+                    "Click 'Purchase' next to an item.",
+                    "Complete the transaction on the TPZ portal.",
+                    "After purchase, the item appears in My Items (left panel)."
+                  ],
+                  "Use the dataset’s item in Action Creator:",
+                  [
+                    "Open Action Creator and click on the 'Dataset' block.",
+                    "In the left-side menu, go to 'My Items'.",
+                    "Select the purchased item.",
+                    "The dataset item’s name appears in the Dataset block."
+                  ],
+                  "Proceed with workflow configuration:",
+                  [
+                    "Select a Date Range and Function(s).",
+                    "Click Run to execute the workflow using the commercial dataset’s item."
+                  ]
+                ]
+              ]
+            },
+            "HOW_TO_USE_MULTIPLE_FUNCTIONS": {
+              "QUESTION": "How do I use multiple functions in a single workflow?",
+              "ANSWER": [
+                [
+                  "Click on the 'Function' block in the Action Creator panel.",
+                  "Click the '+' button below the block to add another function."
+                ],
+                "Functions execute sequentially from top to bottom. You cannot remove or modify a function in the middle—only the last function can be deleted first. Parallel functions are not yet supported"
+              ]
+            },
+            "HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER": {
+              "QUESTION": "How do I filter workflow results by time using the time slider?",
+              "ANSWER": [
+                "After running a workflow, the time slider appears below the search/workflow panel. Drag the slider handles to adjust the displayed time range without re-running the workflow. Narrowing the range filters results to selected timestamps. Expanding the range shows more results but cannot exceed the original workflow date range. The workflow execution remains unchanged—only the displayed results update dynamically."
+              ]
+            }
+          },
+          "EXECUTING_AND_TRACKING_WORKFLOWS": {
+            "SUBTITLE": "Executing & Tracking Workflows",
+            "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS": {
+              "QUESTION": "How do I view workflow execution results?",
+              "ANSWER": [
+                "Open the History tab in Action Creator to see past workflows. Click 'View Results' to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click 'View' to load the result as a map layer."
+              ]
+            },
+            "HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW": {
+              "QUESTION": "How do I track the execution progress of my workflow?",
+              "ANSWER": [
+                "Open the History tab in Action Creator. Workflow status indicators:",
+                [
+                  "Processing – Workflow is still running.",
+                  "Ready – Workflow is completed and results are available.",
+                  "Failed – Workflow encountered an error."
+                ]
+              ]
+            },
+            "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_NOTIFICATIONS": {
+              "QUESTION": "How do I view workflow execution notifications?",
+              "ANSWER": [
+                "A green dot appears next to the History tab when a workflow finishes. Click History to view execution details."
+              ]
+            },
+            "WHAT_HAPPENS_IF_I_SWITCH_TO_ACTION_CREATOR_WHILE_HAVING_A_SEARCH_SESSION_ACTIVE": {
+              "QUESTION": "What happens if I switch to Action Creator while having a search session active?",
+              "ANSWER": [
+                "Your search selections (AOI, date range, dataset) are not transferred to Action Creator. You must redefine your AOI, dataset, and date range in Action Creator. Switching does not delete previous search results—they remain in the Search tab."
+              ]
+            },
+            "CAN_I_SAVE_MY_WORKFLOW_FOR_FUTURE_USE": {
+              "QUESTION": "Can I save my workflow for future use?",
+              "ANSWER": [
+                "Yes – Workflows can be exported and reloaded later. Click 'Export' to save the workflow as a JSON file. To reuse, go to 'Import' and upload the saved workflow."
+              ]
+            },
+            "WHAT_HAPPENS_IF_I_RUN_MULTIPLE_WORKFLOWS_AT_THE_SAME_TIME": {
+              "QUESTION": "What happens if I run multiple workflows at the same time?",
+              "ANSWER": [
+                "You can run multiple workflows simultaneously. Each workflow runs independently and appears in the History tab. Results are processed in parallel, and you can start a new workflow while others are still running."
+              ]
+            },
+            "HOW_DO_I_CANCEL_A_RUNNING_WORKFLOW": {
+              "QUESTION": "How do I cancel a running workflow?",
+              "ANSWER": ["Currently, running workflows cannot be cancelled."]
+            },
+            "HOW_DO_I_ACCESS_MY_SAVED_WORKFLOW_RESULTS_OR_CONFIGURATION": {
+              "QUESTION": "How do I access my saved workflow results or configuration?",
+              "ANSWER": [
+                "In order to access saved workflow results, go to History tab and click on View Results button next to a desired workflow.",
+                "Past workflow configurations have to be exported first and then imported in order to resume them. They are not saved automatically."
+              ]
+            }
+          },
+          "WORKING_WITH_GRAPHS": {
+            "SUBTITLE": "Working with Graphs",
+            "HOW_DO_I_VIEW_GRAPHS_FOR_MY_DATA": {
+              "QUESTION": "How do I view graphs for my data?",
+              "ANSWER": [
+                "Graphs are displayed automatically for applicable workflows. They show results as per used functions, for example NDVI values or Land Cover classes."
+              ]
+            },
+            "WHAT_TYPES_OF_GRAPHS_ARE_AVAILABLE_AND_WHAT_DO_THEY_REPRESENT": {
+              "QUESTION": "What types of graphs are available, and what do they represent?",
+              "ANSWER": [
+                [
+                  "Line Chart: Used for NDVI, SAVI, EVI, and Water Quality Analysis.",
+                  [
+                    "Min, max, and median values are plotted for each timestamp.",
+                    "Min and max create a shaded range, with the median inside."
+                  ],
+                  "Stacked Bar Chart: Used for Land Cover Change analysis.",
+                  [
+                    "Each bar represents land cover percentages for different classes (e.g., wetlands, grasslands).",
+                    "Clicking a legend item allows filtering to a single land cover class."
+                  ],
+                  "Graph types are predefined by metadata and cannot be changed manually."
+                ]
+              ]
+            },
+            "HOW_DO_I_ADJUST_THE_TIME_RANGE_DISPLAYED_ON_GRAPHS": {
+              "QUESTION": "How do I adjust the time range displayed on graphs?",
+              "ANSWER": [
+                "Use the time slider to filter the displayed data range. Drag the start and end handles to narrow or expand the time window. Narrowing the range hides data outside the selected period. Expanding the range restores hidden timestamps (within the workflow’s original date range). This data manipulation is reflected automatically on a respective graph."
               ]
             }
           },
