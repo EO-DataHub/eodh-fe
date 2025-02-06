@@ -7,12 +7,13 @@ import { Subtitle } from './subtitle';
 
 interface IQuestionProps {
   question: string;
-  questionKey: string;
+  questionId: string;
+  answerId: string;
 }
 
-const Question = ({ question, questionKey }: IQuestionProps) => {
+const Question = ({ question, questionId, answerId }: IQuestionProps) => {
   return (
-    <a href={`#${questionKey}_answer`} className='relative' id={`${questionKey}_question`}>
+    <a href={`#${answerId}`} className='relative' id={questionId}>
       <Text type='h4' content={question} fontSize='medium' fontWeight='regular' className={helpStyles.question} />
     </a>
   );
@@ -26,14 +27,17 @@ export const TableOfContent = () => {
   return (
     <div className={helpStyles.questionsList}>
       {memoizedHelpContent.map((value) => (
-        <div key={`${value.SECTION_ID}_question`}>
+        <div key={value.SECTION_ID}>
           <Subtitle subtitle={value.SECTION_TRANSLATION} />
           <ul>
             {value.CONTENT.map((entry) => {
-              const questionKey = entry.QUESTION_ID;
               return (
-                <li key={questionKey}>
-                  <Question questionKey={questionKey} question={entry.QUESTION_TRANSLATION} />
+                <li key={entry.UNIQUE_QUESTION_ID}>
+                  <Question
+                    questionId={entry.UNIQUE_QUESTION_ID}
+                    answerId={entry.UNIQUE_ANSWER_ID}
+                    question={entry.QUESTION_TRANSLATION}
+                  />
                 </li>
               );
             })}

@@ -12,13 +12,14 @@ export const Answers = () => {
   }, []);
 
   return memoizedQuestions.map((category) => (
-    <div key={`${category.SECTION_ID}_answer`}>
+    <div key={category.SECTION_ID}>
       <Subtitle subtitle={category.SECTION_TRANSLATION} />
       {category.CONTENT.map((question) => (
-        <div key={question.QUESTION_ID}>
+        <div key={question.UNIQUE_ANSWER_ID}>
           <Answer
             question={question.QUESTION_TRANSLATION}
-            answerKey={question.QUESTION_ID}
+            questionKey={question.UNIQUE_QUESTION_ID}
+            answerKey={question.UNIQUE_ANSWER_ID}
             answer={t(`${question.ANSWER_TRANSLATION}`, {
               returnObjects: true,
             })}
