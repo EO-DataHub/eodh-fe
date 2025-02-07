@@ -47,11 +47,11 @@ const SubItemRenderer = ({ subItem, answerKey, index }: ISubItemRendererProps) =
 
 interface ITextRendererProps {
   content: string;
-  key: string;
+  uniqueId: string;
 }
 
-const TextRenderer = ({ content, key }: ITextRendererProps) => (
-  <Text content={content} fontSize='medium' fontWeight='regular' key={key} />
+const TextRenderer = ({ content, uniqueId }: ITextRendererProps) => (
+  <Text content={content} fontSize='medium' fontWeight='regular' key={uniqueId} />
 );
 
 interface IListRendererProps {
@@ -98,7 +98,7 @@ interface IAnswerRendererProps {
 
 const AnswerRenderer = ({ item, answerKey, arrayIndex }: IAnswerRendererProps) => {
   if (typeof item === 'string') {
-    return <TextRenderer content={item} key={`${answerKey}_${arrayIndex}`} />;
+    return <TextRenderer content={item} uniqueId={`${answerKey}_${arrayIndex}_answer`} />;
   } else if (Array.isArray(item) && item.length > 0) {
     return <ListRenderer items={item} answerKey={`${answerKey}_${arrayIndex}`} />;
   } else if (typeof item === 'object' && item !== null && 'TABLE' in item) {
