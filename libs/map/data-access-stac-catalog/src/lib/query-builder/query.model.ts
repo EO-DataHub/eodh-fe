@@ -2,7 +2,7 @@ import { TDateString } from '@ukri/shared/utils/date';
 import { Geometry } from 'ol/geom';
 
 export type TCopernicusSearchParams = {
-  sentinel1: {
+  sentinel1?: {
     enabled: boolean;
     acquisitionMode: {
       ew: boolean;
@@ -17,20 +17,20 @@ export type TCopernicusSearchParams = {
       descending: boolean;
     };
   };
-  sentinel2: {
+  sentinel2?: {
     enabled: boolean;
     l1c: boolean;
     l2a: boolean;
     l2aARD: boolean;
     cloudCoverage: number;
   };
-  sentinel3: {
+  sentinel3?: {
     enabled: boolean;
     slstr: boolean;
     cloudCoverage: number;
     olci: boolean;
   };
-  sentinel5P: {
+  sentinel5P?: {
     enabled: boolean;
     aer_ai: boolean;
     ch4: boolean;

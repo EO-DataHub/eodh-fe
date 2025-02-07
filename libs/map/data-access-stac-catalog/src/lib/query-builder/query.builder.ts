@@ -17,6 +17,7 @@ export type TQueryBuilderParams = {
 
 export type TQueryBuilderOptions = {
   debug?: boolean;
+  enabledOnParams?: 'data' | 'dateTime' | 'dataOrDateTime';
 };
 
 export type TQueryParams = {
@@ -57,7 +58,7 @@ export class QueryBuilder {
       intersects,
     };
     const query: TQuery = {
-      enabled: !!Object.keys(params.filter).length,
+      enabled: this.isEnabled(),
       params,
     };
 
@@ -79,4 +80,16 @@ export class QueryBuilder {
       fields: {},
     },
   });
+
+  private isEnabled = () => {
+    if (!this.params.queryParams) {
+      return false;
+    }
+    const type =
+      !this.options.enabledOnParams || this.options.enabledOnParams === 'dataOrDateTime'
+        ? 'dataAndDateTime'
+        : this.options.enabledOnParams;
+
+    return !!Object.keys(createFilterParams(this.params.queryParams, type)).length;
+  };
 }

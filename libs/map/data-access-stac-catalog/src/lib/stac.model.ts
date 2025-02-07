@@ -118,6 +118,14 @@ export const collectionSchema = z.object({
   }),
 });
 
+export const itemsSchema = z.object({
+  items: z.object({
+    type: z.literal('FeatureCollection'),
+    features: z.array(featureSchema),
+  }),
+});
+
+
 export type TWaterQuality = z.infer<typeof waterQualitySchema>;
 export type TGeometry = z.infer<typeof geometrySchema>;
 export type TCollection = z.infer<typeof collectionSchema>;
