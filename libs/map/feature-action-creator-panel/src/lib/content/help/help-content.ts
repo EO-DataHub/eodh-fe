@@ -43,6 +43,9 @@ const helpContentTranslationKeys: IHelpContent = {
         {
           QUESTION_ID: 'WHAT_ARE_WORKFLOW_PRESETS_AND_HOW_DO_I_USE_THEM',
         },
+        {
+          QUESTION_ID: 'WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES',
+        },
       ],
     },
     {
@@ -100,7 +103,6 @@ const helpContentTranslationKeys: IHelpContent = {
         {
           QUESTION_ID: 'HOW_DO_I_ADJUST_THE_TIME_RANGE_DISPLAYED_ON_GRAPHS',
         },
-        { QUESTION_ID: 'WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES' },
       ],
     },
     {
