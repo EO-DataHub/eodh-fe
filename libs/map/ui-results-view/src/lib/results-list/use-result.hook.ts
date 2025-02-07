@@ -7,8 +7,13 @@ import { downloadFiles } from './download-files.utils';
 export const useResult = () => {
   const { feature: visibleFeature, visibleKey, setFeature } = useTrueColorImage();
   const { mode } = useMode();
-  const { comparisonModeEnabled, itemAddedToComparisonMode, canAddAsNewItemToComparisonMode, toggleCompareItem } =
-    useComparisonMode();
+  const {
+    comparisonModeEnabled,
+    itemAddedToComparisonMode,
+    canAddAsNewItemToComparisonMode,
+    toggleCompareItem,
+    comparisonItems,
+  } = useComparisonMode();
 
   const isSelected = useCallback((id: string) => visibleFeature?.id === id, [visibleFeature]);
   const isSelectedMultipleIndices = useCallback(
@@ -63,6 +68,7 @@ export const useResult = () => {
       comparisonEnabled: comparisonModeEnabled,
       isItemAddedToComparisonMode: isAddedToComparison,
       canCompareItems: canCompare,
+      comparisonItems,
     }),
     [
       canCompare,
@@ -73,6 +79,7 @@ export const useResult = () => {
       isSelected,
       isSelectedMultipleIndices,
       handleToggleCompareItem,
+      comparisonItems,
     ]
   );
 };

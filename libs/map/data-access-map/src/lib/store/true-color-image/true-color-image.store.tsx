@@ -15,7 +15,7 @@ export const useTrueColorImageStore = create<ITrueImageStore>()(
       set(() => ({
         stacUrl: feature?.links.find((link) => link.rel === 'self')?.href,
         feature,
-        visibleKey: key ? key : undefined,
+        visibleKey: key,
       })),
   }))
 );

@@ -1,7 +1,7 @@
 import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
 import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, Icon, Text } from '@ukri/shared/design-system';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useResult } from '../use-result.hook';
 
@@ -39,7 +39,7 @@ export const MultipleItemsActionButtons = ({
     addedForComparison(key)
       ? `${translationPath}.REMOVE_COMPARE_FROM_MULTIPLE_INDICES`
       : `${translationPath}.ADD_TO_COMPARE_AT_MULTIPLE_INDICES`;
-  const { isSelectedMultipleIndices, isSelected } = useResult();
+  const { isSelectedMultipleIndices, isSelected, comparisonItems } = useResult();
   const [itemsInComparison, setItemsInComparison] = useState<string[]>([]);
 
   const { thumbnail, ...indices } = assets;
@@ -72,6 +72,14 @@ export const MultipleItemsActionButtons = ({
     },
     [selectedIndice, isSelected, featureId]
   );
+
+  useEffect(() => {
+    itemsInComparison.forEach((item) => {
+      if (!addedForComparison(item as TAssetKey)) {
+        setItemsInComparison(itemsInComparison.filter((key) => item !== key));
+      }
+    });
+  }, [comparisonItems, addedForComparison, itemsInComparison]);
 
   const onComparisonToggle = useCallback(
     (key: TAssetKey) => {

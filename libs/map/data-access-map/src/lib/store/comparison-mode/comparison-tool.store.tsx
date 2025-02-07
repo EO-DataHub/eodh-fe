@@ -112,7 +112,6 @@ export const useComparisonMode = () => {
   const itemAddedToComparisonMode = useCallback(
     (item: TFeature, key?: TAssetKey) => {
       const uniqueId = createUniqueItemId(item, key);
-      // console.log('comparisonItems.items', comparisonItems.items);
       return comparisonItems.items.some((item) => item.uid === uniqueId);
     },
     [comparisonItems.items]
