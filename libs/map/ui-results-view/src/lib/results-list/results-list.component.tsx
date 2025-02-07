@@ -35,10 +35,8 @@ export const ResultsList = ({ features }: IResultsListProps) => {
             collectionName={feature.collection}
             dateTime={feature.properties.datetime}
             selected={isSelected(feature.id)}
-            // onToggleSelectedItem={() => toggleItem(feature)}
           >
             <MultipleItemsActionButtons
-              // selected={isSelectedMultipleIndices(feature.id)}
               comparisonEnabled={comparisonEnabled}
               addedForComparison={isItemAddedToComparisonMode(feature)}
               canDownload={mode === 'action-creator'}
