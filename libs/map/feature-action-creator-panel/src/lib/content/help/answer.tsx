@@ -98,7 +98,7 @@ interface IAnswerRendererProps {
 
 const AnswerRenderer = ({ item, answerKey, arrayIndex }: IAnswerRendererProps) => {
   if (typeof item === 'string') {
-    return <TextRenderer content={item} uniqueId={`${answerKey}_${arrayIndex}_answer`} />;
+    return <TextRenderer content={item} uniqueId={`${answerKey}_${arrayIndex}`} />;
   } else if (Array.isArray(item) && item.length > 0) {
     return <ListRenderer items={item} answerKey={`${answerKey}_${arrayIndex}`} />;
   } else if (typeof item === 'object' && item !== null && 'TABLE' in item) {
