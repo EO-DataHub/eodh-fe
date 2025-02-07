@@ -1,4 +1,5 @@
 import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
+import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, Icon, Text } from '@ukri/shared/design-system';
 import { useCallback, useState } from 'react';
 
@@ -13,16 +14,7 @@ export interface IMultipleItemsActionButtonsProps {
   onCompareItemToggle: (key: TAssetKey) => void;
   onToggleSelectedItem: (key: TAssetKey) => void;
   featureId: string;
-  assets: {
-    [key: string]: {
-      href: string;
-      roles: string[];
-      size: number;
-      title: string;
-      type: string;
-      [key: string]: unknown;
-    };
-  };
+  assets: TFeature['assets'];
 }
 
 const translationPath = 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM';
@@ -48,6 +40,7 @@ export const MultipleItemsActionButtons = ({
       ? `${translationPath}.REMOVE_COMPARE_FROM_MULTIPLE_INDICES`
       : `${translationPath}.ADD_TO_COMPARE_AT_MULTIPLE_INDICES`;
   const { isSelectedMultipleIndices, isSelected } = useResult();
+  const [itemsInComparison, setItemsInComparison] = useState<string[]>([]);
 
   const { thumbnail, ...indices } = assets;
 
@@ -80,6 +73,18 @@ export const MultipleItemsActionButtons = ({
     [selectedIndice, isSelected, featureId]
   );
 
+  const onComparisonToggle = useCallback(
+    (key: TAssetKey) => {
+      if (itemsInComparison.some((item) => item === key)) {
+        setItemsInComparison(itemsInComparison.filter((item) => item !== key));
+      } else {
+        setItemsInComparison([...itemsInComparison, key]);
+      }
+      onCompareItemToggle(key as TAssetKey);
+    },
+    [itemsInComparison, onCompareItemToggle]
+  );
+
   return (
     <div>
       <div className='flex space-between'>
@@ -100,6 +105,17 @@ export const MultipleItemsActionButtons = ({
           onClick={onToggleShowAssets}
           className='ml-auto'
         >
+          {itemsInComparison.length > 0 && (
+            <span className='w-4 h-4 rounded-lg bg-error-main text-bright-main ml-1 relative'>
+              <Text
+                type='span'
+                fontSize='small'
+                fontWeight='regular'
+                content={itemsInComparison.length}
+                className='top-[2px] left-[6px] absolute'
+              />
+            </span>
+          )}
           <Icon
             name='ArrowDown'
             width={24}
@@ -111,11 +127,16 @@ export const MultipleItemsActionButtons = ({
 
       {isOpened && (
         <div className='mt-2 border-t border-t-bright-dark'>
-          {Object.keys(indices).map((key) => (
-            <div className='pt-2 flex justify-between' key={key}>
+          {(Object.keys(indices) as TAssetKey[]).map((key) => (
+            <div
+              className={`p-1 rounded-md flex justify-between ${
+                isItemSelected(key as TAssetKey) ? 'bg-primary-light' : ''
+              }`}
+              key={key}
+            >
               <Text
                 type='span'
-                content={assets[key].title}
+                content={assets[key]?.title}
                 translate={false}
                 fontSize='large'
                 fontWeight='regular'
@@ -124,20 +145,16 @@ export const MultipleItemsActionButtons = ({
               <div className='flex justify-between items-center'>
                 <Button
                   appearance='text'
-                  text={compareButtonTitle(key as TAssetKey)}
+                  text={compareButtonTitle(key)}
                   size='medium'
-                  onClick={() => onCompareItemToggle(key as TAssetKey)}
-                  className={addedForComparison(key as TAssetKey) ? '!text-error' : ''}
-                  disabled={canCompare(key as TAssetKey)}
+                  onClick={() => onComparisonToggle(key)}
+                  className={addedForComparison(key) ? '!text-error' : ''}
+                  disabled={canCompare(key)}
                 />
                 <Button
-                  text={
-                    isItemSelected(key as TAssetKey)
-                      ? `${translationPath}.BUTTON_HIDE`
-                      : `${translationPath}.BUTTON_SHOW`
-                  }
+                  text={isItemSelected(key) ? `${translationPath}.BUTTON_HIDE` : `${translationPath}.BUTTON_SHOW`}
                   size='small'
-                  onClick={() => onToggleViewButton(key as TAssetKey)}
+                  onClick={() => onToggleViewButton(key)}
                   disabled={comparisonEnabled}
                   className='ml-1 w-[41px]'
                 />
