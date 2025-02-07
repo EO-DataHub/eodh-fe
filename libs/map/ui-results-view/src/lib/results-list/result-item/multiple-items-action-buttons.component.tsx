@@ -1,6 +1,6 @@
 import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
 import { Button, Icon, Text } from '@ukri/shared/design-system';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useResult } from '../use-result.hook';
 
@@ -40,35 +40,16 @@ export const MultipleItemsActionButtons = ({
 }: IMultipleItemsActionButtonsProps) => {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedIndice, setSelectedIndice] = useState<TAssetKey>();
-  const [itemsAddedForComparison, setItemsAddedForComparison] = useState<TAssetKey[]>([]);
   const foldingButtonTitle = isOpened
     ? `${translationPath}.BUTTON_HIDE_ASSETS`
     : `${translationPath}.BUTTON_SOW_ASSETS`;
   const compareButtonTitle = (key: TAssetKey) =>
-    itemsAddedForComparison.some((item) => item === key)
+    addedForComparison(key)
       ? `${translationPath}.REMOVE_COMPARE_FROM_MULTIPLE_INDICES`
       : `${translationPath}.ADD_TO_COMPARE_AT_MULTIPLE_INDICES`;
   const { isSelectedMultipleIndices, isSelected } = useResult();
 
   const { thumbnail, ...indices } = assets;
-
-  const onAddToComparisonToggle = useCallback(
-    (assetKey: TAssetKey) => {
-      if (addedForComparison(assetKey)) {
-        setItemsAddedForComparison((prev) => prev.filter((item) => item !== assetKey));
-      } else {
-        setItemsAddedForComparison((prev) => [...prev, assetKey]);
-      }
-      onCompareItemToggle(assetKey);
-    },
-    [onCompareItemToggle, addedForComparison]
-  );
-
-  // useEffect(() => {
-  //   if (!comparisonEnabled) {
-  //     setItemsAddedForComparison([]);
-  //   }
-  // },[comparisonModeEnabled]);
 
   const onToggleShowAssets = useCallback(() => {
     setIsOpened(!isOpened);
@@ -145,15 +126,15 @@ export const MultipleItemsActionButtons = ({
                   appearance='text'
                   text={compareButtonTitle(key as TAssetKey)}
                   size='medium'
-                  onClick={() => onAddToComparisonToggle(key as TAssetKey)}
+                  onClick={() => onCompareItemToggle(key as TAssetKey)}
                   className={addedForComparison(key as TAssetKey) ? '!text-error' : ''}
                   disabled={canCompare(key as TAssetKey)}
                 />
                 <Button
                   text={
                     isItemSelected(key as TAssetKey)
-                      ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE'
-                      : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SHOW'
+                      ? `${translationPath}.BUTTON_HIDE`
+                      : `${translationPath}.BUTTON_SHOW`
                   }
                   size='small'
                   onClick={() => onToggleViewButton(key as TAssetKey)}

@@ -46,7 +46,6 @@ export const ResultsList = ({ features }: IResultsListProps) => {
               onToggleSelectedItem={(key) => toggleItem(feature, key)}
               assets={feature.assets}
               featureId={feature.id}
-              // feature={feature}
             />
           </ResultItem>
         ) : (
