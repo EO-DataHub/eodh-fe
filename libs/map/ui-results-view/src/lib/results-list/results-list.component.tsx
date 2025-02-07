@@ -38,16 +38,15 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           >
             <MultipleItemsActionButtons
               comparisonEnabled={comparisonEnabled}
-              addedForComparison={isItemAddedToComparisonMode(feature)}
+              addedForComparison={(key) => isItemAddedToComparisonMode(feature, key)}
               canDownload={mode === 'action-creator'}
-              canCompare={canCompareItems(feature)}
+              canCompare={(key) => canCompareItems(feature, key)}
               onDownload={() => downloadItem(feature)}
-              onCompareItemToggle={() => toggleCompareItem(feature)}
-              onToggleSelectedItem={(key: 'thumbnail' | 'visual' | 'cdom' | 'cya_cells' | 'doc' | 'turb' | undefined) =>
-                toggleItem(feature, key)
-              }
+              onCompareItemToggle={(key) => toggleCompareItem(feature, key)}
+              onToggleSelectedItem={(key) => toggleItem(feature, key)}
               assets={feature.assets}
               featureId={feature.id}
+              // feature={feature}
             />
           </ResultItem>
         ) : (

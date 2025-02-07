@@ -60,7 +60,7 @@ export const useComparisonModeImageLayers = () => {
       }
 
       const authorized = item.mode !== 'search';
-      return createStacLayer({ url: item.stacUrl, zIndex: stacLayerZindex + index, authorized });
+      return createStacLayer({ url: item.stacUrl, zIndex: stacLayerZindex + index, authorized, visibleKey: item.key });
     },
     [comparisonItems, comparisonModeEnabled, createStacLayer]
   );

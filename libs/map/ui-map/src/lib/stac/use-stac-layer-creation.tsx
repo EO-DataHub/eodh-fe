@@ -106,7 +106,7 @@ export const useStacLayerCreation = () => {
       url: string;
       zIndex: number;
       authorized: boolean;
-      visibleKey: string;
+      visibleKey?: string;
     }) => {
       const newStacLayer = authorized
         ? await createAuthorizedStacLayer(url, zIndex, visibleKey)

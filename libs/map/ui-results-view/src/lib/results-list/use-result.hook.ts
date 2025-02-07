@@ -17,12 +17,15 @@ export const useResult = () => {
   );
 
   const isAddedToComparison = useCallback(
-    (item: TFeature) => itemAddedToComparisonMode(item),
+    (item: TFeature, key?: TAssetKey) => {
+      // console.log('isAddedToComparison itemAddedToComparisonMode(item, key)', itemAddedToComparisonMode(item, key));
+      return itemAddedToComparisonMode(item, key);
+    },
     [itemAddedToComparisonMode]
   );
 
   const canCompare = useCallback(
-    (item: TFeature) => canAddAsNewItemToComparisonMode(item),
+    (item: TFeature, key?: TAssetKey) => canAddAsNewItemToComparisonMode(item, key),
     [canAddAsNewItemToComparisonMode]
   );
 
@@ -33,11 +36,6 @@ export const useResult = () => {
   const handleSelectedItemToggle = useCallback(
     (item: TFeature, key?: TAssetKey) => {
       if (key) {
-        // const sameItemId = visibleFeature?.id === item.id;
-        // same Id
-        //  same key
-        //  different key
-        // different Id
         const newFeature = visibleFeature?.id === item.id && visibleKey === key ? undefined : item;
         newFeature ? setFeature(newFeature, key) : setFeature(undefined);
       } else {
@@ -49,8 +47,8 @@ export const useResult = () => {
   );
 
   const handleToggleCompareItem = useCallback(
-    (item: TFeature) => {
-      toggleCompareItem(item, mode);
+    (item: TFeature, key?: TAssetKey) => {
+      toggleCompareItem(item, mode, key);
     },
     [mode, toggleCompareItem]
   );

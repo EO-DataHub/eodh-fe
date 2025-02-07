@@ -1,22 +1,24 @@
 import type {} from '@redux-devtools/extension';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TAssetKey, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useMemo } from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { TMode } from '../mode.model';
 
-const createUniqueItemId = (item: TFeature) => `${item.collection}_${item.id}` as TUid;
+const createUniqueItemId = (item: TFeature, key?: TAssetKey) =>
+  key ? (`${item.collection}_${item.id}_KEY_${key}` as TUid) : (`${item.collection}_${item.id}` as TUid);
 
 type TId = string;
 type TCollection = string;
-export type TUid = `${TCollection}_${TId}`;
+export type TUid = `${TCollection}_${TId}` | `${TCollection}_${TId}_KEY_${TAssetKey}`;
 
 export type TComparisonItem = TFeature & {
   uid: TUid;
   mode: TMode;
   stacUrl?: string;
+  key?: TAssetKey;
 };
 
 interface IComparisonToolStore {
@@ -27,8 +29,8 @@ interface IComparisonToolStore {
   };
   comparisonModeEnabled: boolean;
   toggleComparisonMode: (comparisonModeEnabled?: boolean) => void;
-  addComparisonItem: (item: TFeature, mode: TMode) => void;
-  removeComparisonItem: (item: TFeature) => void;
+  addComparisonItem: (item: TFeature, mode: TMode, key?: TAssetKey) => void;
+  removeComparisonItem: (item: TFeature, key?: TAssetKey) => void;
 }
 
 const useComparisonToolStore = create<IComparisonToolStore>()(
@@ -44,14 +46,15 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
         ...state,
         comparisonModeEnabled: !state.comparisonModeEnabled,
       })),
-    addComparisonItem: (item: TFeature, mode: TMode) =>
+    addComparisonItem: (item: TFeature, mode: TMode, key?: TAssetKey) =>
       set((state) => {
-        const uniqueId = createUniqueItemId(item!);
+        const uniqueId = createUniqueItemId(item, key);
         const newItem = {
           ...item,
           uid: uniqueId,
           mode: mode,
           stacUrl: item?.links.find((link) => link.rel === 'self')?.href,
+          key,
         };
         if (state.comparisonItems.firsItemId === undefined) {
           return {
@@ -76,9 +79,9 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
           ...state,
         };
       }),
-    removeComparisonItem: (item: TFeature) => {
+    removeComparisonItem: (item: TFeature, key?: TAssetKey) => {
       set((state) => {
-        const uniqueId = createUniqueItemId(item);
+        const uniqueId = createUniqueItemId(item, key);
         const items = state.comparisonItems.items.filter((item) => item.uid !== uniqueId);
         return {
           ...state,
@@ -107,29 +110,30 @@ export const useComparisonMode = () => {
     }));
 
   const itemAddedToComparisonMode = useCallback(
-    (item: TFeature) => {
-      const uniqueId = createUniqueItemId(item);
+    (item: TFeature, key?: TAssetKey) => {
+      const uniqueId = createUniqueItemId(item, key);
+      // console.log('comparisonItems.items', comparisonItems.items);
       return comparisonItems.items.some((item) => item.uid === uniqueId);
     },
     [comparisonItems.items]
   );
 
   const canAddAsNewItemToComparisonMode = useCallback(
-    (item: TFeature) => {
-      const isAddedForComparison = itemAddedToComparisonMode(item);
+    (item: TFeature, key?: TAssetKey) => {
+      const isAddedForComparison = itemAddedToComparisonMode(item, key);
       return comparisonItems.items.length >= 2 && !isAddedForComparison;
     },
     [comparisonItems.items, itemAddedToComparisonMode]
   );
 
   const toggleCompareItem = useCallback(
-    (item: TFeature, mode: TMode) => {
-      if (itemAddedToComparisonMode(item)) {
-        removeComparisonItem(item);
+    (item: TFeature, mode: TMode, key?: TAssetKey) => {
+      if (itemAddedToComparisonMode(item, key)) {
+        removeComparisonItem(item, key);
         return;
       }
 
-      addComparisonItem(item, mode);
+      addComparisonItem(item, mode, key);
     },
     [addComparisonItem, removeComparisonItem, itemAddedToComparisonMode]
   );

@@ -1,19 +1,17 @@
 import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
 import { Button, Icon, Text } from '@ukri/shared/design-system';
-import { set } from 'ol/transform';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useResult } from '../use-result.hook';
 
 export interface IMultipleItemsActionButtonsProps {
-  addedForComparison: boolean;
+  addedForComparison: (key: TAssetKey) => boolean;
   comparisonEnabled: boolean;
-  canCompare: boolean;
+  canCompare: (key: TAssetKey) => boolean;
   canDownload: boolean;
   onDownload: () => void;
-  onCompareItemToggle: () => void;
+  onCompareItemToggle: (key: TAssetKey) => void;
   onToggleSelectedItem: (key: TAssetKey) => void;
-  // selected?: boolean;
   featureId: string;
   assets: {
     [key: string]: {
@@ -27,6 +25,8 @@ export interface IMultipleItemsActionButtonsProps {
   };
 }
 
+const translationPath = 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM';
+
 export const MultipleItemsActionButtons = ({
   addedForComparison,
   comparisonEnabled,
@@ -36,21 +36,39 @@ export const MultipleItemsActionButtons = ({
   onDownload,
   onCompareItemToggle,
   featureId,
-  // selected = false,
   assets,
 }: IMultipleItemsActionButtonsProps) => {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedIndice, setSelectedIndice] = useState<TAssetKey>();
-  const compareButtonClassName = addedForComparison ? '!text-error' : '';
+  const [itemsAddedForComparison, setItemsAddedForComparison] = useState<TAssetKey[]>([]);
   const foldingButtonTitle = isOpened
-    ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_HIDE_ASSETS'
-    : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.BUTTON_SOW_ASSETS';
-  const compareButtonTitle = addedForComparison
-    ? 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.REMOVE_COMPARE_FROM_MULTIPLE_INDICES'
-    : 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM.ADD_TO_COMPARE_AT_MULTIPLE_INDICES';
+    ? `${translationPath}.BUTTON_HIDE_ASSETS`
+    : `${translationPath}.BUTTON_SOW_ASSETS`;
+  const compareButtonTitle = (key: TAssetKey) =>
+    itemsAddedForComparison.some((item) => item === key)
+      ? `${translationPath}.REMOVE_COMPARE_FROM_MULTIPLE_INDICES`
+      : `${translationPath}.ADD_TO_COMPARE_AT_MULTIPLE_INDICES`;
   const { isSelectedMultipleIndices, isSelected } = useResult();
 
   const { thumbnail, ...indices } = assets;
+
+  const onAddToComparisonToggle = useCallback(
+    (assetKey: TAssetKey) => {
+      if (addedForComparison(assetKey)) {
+        setItemsAddedForComparison((prev) => prev.filter((item) => item !== assetKey));
+      } else {
+        setItemsAddedForComparison((prev) => [...prev, assetKey]);
+      }
+      onCompareItemToggle(assetKey);
+    },
+    [onCompareItemToggle, addedForComparison]
+  );
+
+  // useEffect(() => {
+  //   if (!comparisonEnabled) {
+  //     setItemsAddedForComparison([]);
+  //   }
+  // },[comparisonModeEnabled]);
 
   const onToggleShowAssets = useCallback(() => {
     setIsOpened(!isOpened);
@@ -58,51 +76,18 @@ export const MultipleItemsActionButtons = ({
 
   const onToggleViewButton = useCallback(
     (key: TAssetKey) => {
-      // if (isSelected(featureId)) {
-      //   if (isSelectedMultipleIndices(featureId, key)) {
-      //     setSelectedIndice(undefined);
-      //   } else {
-      //     setSelectedIndice(key);
-      //   }
-      // } else {
-      //   if (isSelectedMultipleIndices(featureId, key)) {
-      //     setSelectedIndice(undefined);
-      //   } else {
-      //     setSelectedIndice(key);
-      //   }
-      //   onToggleSelectedItem(key);
-      // }
-      // jesli ten Item jest klikniety
-      //   jesli te key jest klikniety
-      //   jesli inny key jest klikniety
-      // jesli inny Item jest klikniety
       if (isSelected(featureId)) {
         if (isSelectedMultipleIndices(featureId, key)) {
-          console.log(1);
           onToggleSelectedItem(key);
           setSelectedIndice(undefined);
         } else {
-          console.log(2);
           onToggleSelectedItem(key);
           setSelectedIndice(key);
         }
       } else {
-        console.log(3);
         onToggleSelectedItem(key);
         setSelectedIndice(key);
       }
-      // console.log('onToggleViewButton key', key);
-      // console.log('onToggleViewButton isSelected(featureId)', isSelected(featureId));
-      // console.log(
-      //   'onToggleViewButton isSelectedMultipleIndices(featureId, key)',
-      //   isSelectedMultipleIndices(featureId, key)
-      // );
-      // onToggleSelectedItem(key);
-      // if (isSelectedMultipleIndices(featureId, key) && isSelected(featureId)) {
-      //   setSelectedIndice(undefined);
-      // } else {
-      //   setSelectedIndice(key);
-      // }
     },
     [onToggleSelectedItem, isSelectedMultipleIndices, featureId, isSelected]
   );
@@ -158,11 +143,11 @@ export const MultipleItemsActionButtons = ({
               <div className='flex justify-between items-center'>
                 <Button
                   appearance='text'
-                  text={compareButtonTitle}
+                  text={compareButtonTitle(key as TAssetKey)}
                   size='medium'
-                  onClick={onCompareItemToggle}
-                  className={compareButtonClassName}
-                  disabled={canCompare}
+                  onClick={() => onAddToComparisonToggle(key as TAssetKey)}
+                  className={addedForComparison(key as TAssetKey) ? '!text-error' : ''}
+                  disabled={canCompare(key as TAssetKey)}
                 />
                 <Button
                   text={
