@@ -1,5 +1,6 @@
 import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
 import { Button, Icon, Text } from '@ukri/shared/design-system';
+import { set } from 'ol/transform';
 import { useCallback, useState } from 'react';
 
 import { useResult } from '../use-result.hook';
@@ -71,12 +72,37 @@ export const MultipleItemsActionButtons = ({
       //   }
       //   onToggleSelectedItem(key);
       // }
-      onToggleSelectedItem(key);
-      if (isSelectedMultipleIndices(featureId, key) && isSelected(featureId)) {
-        setSelectedIndice(undefined);
+      // jesli ten Item jest klikniety
+      //   jesli te key jest klikniety
+      //   jesli inny key jest klikniety
+      // jesli inny Item jest klikniety
+      if (isSelected(featureId)) {
+        if (isSelectedMultipleIndices(featureId, key)) {
+          console.log(1);
+          onToggleSelectedItem(key);
+          setSelectedIndice(undefined);
+        } else {
+          console.log(2);
+          onToggleSelectedItem(key);
+          setSelectedIndice(key);
+        }
       } else {
+        console.log(3);
+        onToggleSelectedItem(key);
         setSelectedIndice(key);
       }
+      // console.log('onToggleViewButton key', key);
+      // console.log('onToggleViewButton isSelected(featureId)', isSelected(featureId));
+      // console.log(
+      //   'onToggleViewButton isSelectedMultipleIndices(featureId, key)',
+      //   isSelectedMultipleIndices(featureId, key)
+      // );
+      // onToggleSelectedItem(key);
+      // if (isSelectedMultipleIndices(featureId, key) && isSelected(featureId)) {
+      //   setSelectedIndice(undefined);
+      // } else {
+      //   setSelectedIndice(key);
+      // }
     },
     [onToggleSelectedItem, isSelectedMultipleIndices, featureId, isSelected]
   );

@@ -33,7 +33,12 @@ export const useResult = () => {
   const handleSelectedItemToggle = useCallback(
     (item: TFeature, key?: TAssetKey) => {
       if (key) {
-        const newFeature = visibleFeature?.id !== item.id && visibleKey !== key ? item : undefined;
+        // const sameItemId = visibleFeature?.id === item.id;
+        // same Id
+        //  same key
+        //  different key
+        // different Id
+        const newFeature = visibleFeature?.id === item.id && visibleKey === key ? undefined : item;
         newFeature ? setFeature(newFeature, key) : setFeature(undefined);
       } else {
         const newFeature = visibleFeature?.id !== item.id ? item : undefined;

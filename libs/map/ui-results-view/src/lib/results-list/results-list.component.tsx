@@ -43,7 +43,9 @@ export const ResultsList = ({ features }: IResultsListProps) => {
               canCompare={canCompareItems(feature)}
               onDownload={() => downloadItem(feature)}
               onCompareItemToggle={() => toggleCompareItem(feature)}
-              onToggleSelectedItem={(key) => toggleItem(feature, key)}
+              onToggleSelectedItem={(key: 'thumbnail' | 'visual' | 'cdom' | 'cya_cells' | 'doc' | 'turb' | undefined) =>
+                toggleItem(feature, key)
+              }
               assets={feature.assets}
               featureId={feature.id}
             />
