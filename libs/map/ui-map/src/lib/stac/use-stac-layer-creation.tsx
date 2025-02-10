@@ -81,7 +81,6 @@ export const useStacLayerCreation = () => {
       const newStacLayer = new STACWithColorMap({
         data,
         zIndex,
-        assets: data?.assets['cog'] ? ['cog'] : undefined,
         bands: data?.assets['cog'] ? [3, 2, 1] : undefined,
       });
 

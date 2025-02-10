@@ -94,7 +94,7 @@ const featureSchema = z.object({
   stac_version: z.string(),
   stac_extensions: z.array(z.string()).optional(),
   assets: z.object({
-    thumbnail: assetSchema,
+    thumbnail: assetSchema.optional(),
     cog: assetSchema.optional(),
     visual: assetSchema.optional(),
     cdom: waterQualitySchema.optional(),
@@ -118,15 +118,6 @@ export const collectionSchema = z.object({
   }),
 });
 
-export const itemsSchema = z.object({
-  items: z.object({
-    type: z.literal('FeatureCollection'),
-    features: z.array(featureSchema),
-  }),
-});
-
-
-export type TWaterQuality = z.infer<typeof waterQualitySchema>;
 export type TGeometry = z.infer<typeof geometrySchema>;
 export type TCollection = z.infer<typeof collectionSchema>;
 export type TFeature = TCollection['features'][number];

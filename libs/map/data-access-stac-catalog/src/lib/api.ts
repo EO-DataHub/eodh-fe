@@ -1,5 +1,5 @@
-const stacCatalogue = '/api/catalogue/stac/catalogs/supported-datasets/ceda-stac-catalogue/search';
-const stacCatalogue2 = '/catalogue/stac/search';
+const element64Catalogue = '/api/catalogue/stac/catalogs/supported-datasets/earth-search-aws/search';
+const cedaCatalogue = '/api/catalogue/stac/catalogs/supported-datasets/ceda-stac-catalogue/search';
 const workflowResult =
   '/api/catalogue/stac/catalogs/user-datasets/{user_workspace}/processing-results/cat_{job_id}/search';
 const workflowResultChart =
@@ -9,7 +9,8 @@ const eodhProApiUrl = 'EODH_PRO_API_URL';
 const eodhStacApiUrl = 'EODH_STAC_API_URL';
 
 export const paths = {
-  STAC_CATALOGUE: `${eodhProApiUrl}${stacCatalogue2}`,
+  STAC_ELEMENT_64_CATALOGUE: `${eodhStacApiUrl}${element64Catalogue}`,
+  STAC_CEDA_CATALOGUE: `${eodhStacApiUrl}${cedaCatalogue}`,
   WORKFLOW_RESULT: ({ userWorkspace, jobId }: { userWorkspace: string; jobId: string }) =>
     `${eodhStacApiUrl}${workflowResult.replace('{user_workspace}', userWorkspace).replace('{job_id}', jobId)}`,
   WORKFLOW_RESULT_CHARTS: ({ userWorkspace, jobId }: { userWorkspace: string; jobId: string }) =>
