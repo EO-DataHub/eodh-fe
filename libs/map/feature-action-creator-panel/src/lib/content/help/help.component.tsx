@@ -7,7 +7,11 @@ export const Help = () => {
   return (
     <Container>
       <Content>
-        <HelpContent translationPath={translationPath} helpContentTranslationKeys={helpContentTranslationKeys} />
+        <HelpContent
+          translationPath={translationPath}
+          helpContentTranslationKeys={helpContentTranslationKeys}
+          className='p-4'
+        />
       </Content>
       <Footer></Footer>
     </Container>

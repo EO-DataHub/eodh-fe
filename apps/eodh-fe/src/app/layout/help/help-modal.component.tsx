@@ -11,7 +11,7 @@ export const HelpModal = ({ onClose }: IModalProps) => {
   return (
     <div className={styles.background}>
       <div className={styles.container}>
-        <div>
+        <div className={styles.topContainer}>
           <Text
             type='h1'
             content={`${translationPath}.TITLE`}
@@ -23,8 +23,9 @@ export const HelpModal = ({ onClose }: IModalProps) => {
             <Icon name='Close' />
           </button>
         </div>
-
-        <Help translationPath={translationPath} helpContentTranslationKeys={helpContentTranslationKeys}></Help>
+        <div className={styles.content}>
+          <Help translationPath={translationPath} helpContentTranslationKeys={helpContentTranslationKeys} />
+        </div>
       </div>
     </div>
   );

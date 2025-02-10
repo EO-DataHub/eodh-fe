@@ -61,7 +61,10 @@ interface IHelpContentWithTranslations {
   }[];
 }
 
-export const helpContentWithTranslations = (helpContentTranslationKeys: IHelpContent, translationPath: string): IHelpContentWithTranslations => {
+export const helpContentWithTranslations = (
+  helpContentTranslationKeys: IHelpContent,
+  translationPath: string
+): IHelpContentWithTranslations => {
   const helpContentTranslationUniqueKeys = checkForDuplicateQuestionIds(helpContentTranslationKeys);
   if (helpContentTranslationUniqueKeys.length > 0) {
     // eslint-disable-next-line no-console
