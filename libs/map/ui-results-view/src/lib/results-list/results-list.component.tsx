@@ -1,7 +1,7 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
 
-import { MultipleItemsActionButtons } from './result-item/multiple-items-action-buttons.component';
+import { MultipleItemsActionButtons } from './result-item/multiple-items-action-buttons/multiple-items-action-buttons.component';
 import { ResultItem } from './result-item/result-item.component';
 import { SingleItemActionButtons } from './result-item/single-item-action-buttons.component';
 import { useResult } from './use-result.hook';
