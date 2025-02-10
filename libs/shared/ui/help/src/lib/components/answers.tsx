@@ -2,13 +2,18 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Answer } from './answer';
-import { helpContentWithTranslations } from './help-content';
+import { helpContentWithTranslations, IHelpContent } from './help-content';
 import { Subtitle } from './subtitle';
 
-export const Answers = () => {
+interface IAnswersProps {
+  translationPath: string;
+  helpContentTranslationKeys: IHelpContent;
+}
+
+export const Answers = ({ translationPath, helpContentTranslationKeys}: IAnswersProps) => {
   const { t } = useTranslation();
   const memoizedQuestions = useMemo(() => {
-    return helpContentWithTranslations().QUESTIONS;
+    return helpContentWithTranslations(helpContentTranslationKeys, translationPath).QUESTIONS;
   }, []);
 
   return memoizedQuestions.map((category) => (

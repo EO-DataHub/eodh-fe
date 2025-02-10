@@ -2,8 +2,8 @@ import { Text } from '@ukri/shared/design-system';
 import { useMemo } from 'react';
 
 import { helpStyles } from './help.styles';
-import { helpContentWithTranslations } from './help-content';
 import { Subtitle } from './subtitle';
+import { helpContentWithTranslations, IHelpContent } from './help-content';
 
 interface IQuestionProps {
   question: string;
@@ -19,9 +19,14 @@ const Question = ({ question, questionId, answerId }: IQuestionProps) => {
   );
 };
 
-export const TableOfContent = () => {
+interface ITableOfContentProps {
+  translationPath: string;
+  helpContentTranslationKeys: IHelpContent;
+}
+
+export const TableOfContent = ({ translationPath, helpContentTranslationKeys}: ITableOfContentProps) => {
   const memoizedHelpContent = useMemo(() => {
-    return helpContentWithTranslations().QUESTIONS;
+    return helpContentWithTranslations(helpContentTranslationKeys, translationPath).QUESTIONS;
   }, []);
 
   return (

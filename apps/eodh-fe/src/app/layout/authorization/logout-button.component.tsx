@@ -11,5 +11,5 @@ export const LogoutButton = () => {
     authClient.logout();
   }, [authClient]);
 
-  return <Button onClick={handleLogout} size='large' text={t('GLOBAL.LOGIN.LOGOUT_BUTTON')} className='my-auto mx-6' />;
+  return <Button onClick={handleLogout} size='large' text={t('GLOBAL.LOGIN.LOGOUT_BUTTON')} />;
 };

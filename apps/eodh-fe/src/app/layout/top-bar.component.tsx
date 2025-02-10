@@ -13,6 +13,7 @@ import {
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useMemo, useRef } from 'react';
 
+import { HelpButton } from '../layout/help/help-button.component';
 import { Login } from './authorization/login.component';
 import { Logo } from './logo.component';
 
@@ -53,7 +54,10 @@ export const TopBar = () => {
         <ToggleLayerButton />
       </AoiLayer>
       <ComparisonTool />
-      <Login className='ml-auto' />
+      <div className='ml-auto flex'>
+        <HelpButton />
+        <Login />
+      </div>
     </div>
   );
 };
