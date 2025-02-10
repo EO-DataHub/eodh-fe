@@ -15,11 +15,23 @@ export const useActiveDataSet = (): TUseActiveDataSet => {
   }
 
   if (dataSets?.public.copernicus.sentinel2?.enabled) {
-    if (dataSets?.public.copernicus.sentinel2?.l1c && !dataSets?.public.copernicus.sentinel2?.l2a) {
+    if (
+      dataSets?.public.copernicus.sentinel2?.l1c &&
+      !dataSets?.public.copernicus.sentinel2?.l2a &&
+      !dataSets?.public.copernicus.sentinel2?.l2aARD
+    ) {
       enabled.push('sentinel-2-l1c');
-    } else if (!dataSets?.public.copernicus.sentinel2?.l1c && dataSets?.public.copernicus.sentinel2?.l2a) {
+    } else if (
+      !dataSets?.public.copernicus.sentinel2?.l1c &&
+      dataSets?.public.copernicus.sentinel2?.l2a &&
+      !dataSets?.public.copernicus.sentinel2?.l2aARD
+    ) {
       enabled.push('sentinel-2-l2a');
-    } else if (dataSets?.public.copernicus.sentinel2?.l2aARD) {
+    } else if (
+      !dataSets?.public.copernicus.sentinel2?.l1c &&
+      !dataSets?.public.copernicus.sentinel2?.l2a &&
+      dataSets?.public.copernicus.sentinel2?.l2aARD
+    ) {
       enabled.push('sentinel-2-l2a-ard');
     }
   }

@@ -27,6 +27,12 @@ export const sentinel2SearchRefine = (schema: z.infer<typeof sentinel2Schema>, c
       message: notDisplayedErrorMessage,
       path: ['l2a'],
     });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['l2aARD'],
+    });
   }
 };
 
@@ -35,7 +41,7 @@ export const sentinel2ActionCreatorRefine = (schema: z.infer<typeof sentinel2Sch
     return;
   }
 
-  if (schema.l1c && schema.l2a) {
+  if (schema.l1c && schema.l2a && !schema.l2aARD) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: notDisplayedErrorMessage,
@@ -52,6 +58,90 @@ export const sentinel2ActionCreatorRefine = (schema: z.infer<typeof sentinel2Sch
       code: z.ZodIssueCode.custom,
       message: notDisplayedErrorMessage,
       path: ['l2a'],
+    });
+  } else if (schema.l1c && !schema.l2a && schema.l2aARD) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['enabled'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED',
+      path: ['l1c'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['l2aARD'],
+    });
+  } else if (!schema.l1c && schema.l2a && schema.l2aARD) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['enabled'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED',
+      path: ['l2a'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['l2aARD'],
+    });
+  } else if (schema.l1c && schema.l2a && schema.l2aARD) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['enabled'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED',
+      path: ['l1c'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['l2a'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['l2aARD'],
+    });
+  } else if (!schema.l1c && !schema.l2a && !schema.l2aARD) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['enabled'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+      path: ['l1c'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['l2a'],
+    });
+
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: notDisplayedErrorMessage,
+      path: ['l2aARD'],
     });
   }
 };
