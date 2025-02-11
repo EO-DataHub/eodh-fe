@@ -6,9 +6,10 @@ import { useCallback, useEffect, useState } from 'react';
 interface IImageProps {
   imageUrl: string;
   onToggle?: () => void;
+  disabled?: boolean;
 }
 
-export const Image = ({ imageUrl, onToggle }: IImageProps) => {
+export const Image = ({ imageUrl, onToggle, disabled = false }: IImageProps) => {
   const { mode } = useMode();
   const [displayError, setDislayError] = useState(false);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
@@ -29,6 +30,12 @@ export const Image = ({ imageUrl, onToggle }: IImageProps) => {
   const showError = useCallback(() => {
     setDislayError(true);
   }, []);
+
+  const onImageClick = useCallback(() => {
+    if (onToggle && !disabled) {
+      onToggle();
+    }
+  }, [onToggle, disabled]);
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -59,8 +66,10 @@ export const Image = ({ imageUrl, onToggle }: IImageProps) => {
     <img
       src={imageSrc}
       alt='ResultItem'
-      className='w-[132px] h-[132px] min-w-[132px] min-h-[132px] object-cover rounded-md cursor-pointer'
-      onClick={onToggle}
+      className={`w-[132px] h-[132px] min-w-[132px] min-h-[132px] object-cover rounded-md ${
+        disabled ? '' : 'cursor-pointer'
+      }`}
+      onClick={onImageClick}
       onError={showError}
     />
   );

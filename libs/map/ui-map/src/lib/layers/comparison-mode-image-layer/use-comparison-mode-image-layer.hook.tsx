@@ -64,7 +64,7 @@ export const useComparisonModeImageLayers = () => {
         url: item.stacUrl,
         zIndex: stacLayerZindex + index,
         authorized,
-        assetNamesWhichShouldBeDisplayed: item.assetName,
+        assetNameWhichShouldBeDisplayed: item.assetName,
       });
     },
     [comparisonItems, comparisonModeEnabled, createStacLayer]

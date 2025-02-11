@@ -7,34 +7,27 @@ import { AssetItem } from './asset-item.component';
 import { DownloadButton, ToggleAssetsButton } from './toggle-sssets-button.component';
 
 export interface IMultipleItemsActionButtonsProps {
-  addedForComparison: (key: TAssetName) => boolean;
-  comparisonEnabled: boolean;
-  canCompare: (key: TAssetName) => boolean;
   canDownload: boolean;
-  onDownload: () => void;
-  onCompareItemToggle: (key: TAssetName) => void;
-  onToggleSelectedItem: (key: TAssetName) => void;
-  featureId: string;
-  assets: TFeature['assets'];
+  feature: TFeature;
 }
 
-export const MultipleItemsActionButtons = ({
-  addedForComparison,
-  comparisonEnabled,
-  canCompare,
-  canDownload,
-  onToggleSelectedItem,
-  onDownload,
-  onCompareItemToggle,
-  featureId,
-  assets,
-}: IMultipleItemsActionButtonsProps) => {
+export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleItemsActionButtonsProps) => {
   const [isOpened, setIsOpened] = useState(false);
   const [selectedIndice, setSelectedIndice] = useState<TAssetName>();
-  const { isSelectedMultipleIndices, isSelected, comparisonItems } = useResult();
+  const {
+    isSelectedMultipleIndices,
+    isSelected,
+    comparisonItems,
+    comparisonEnabled,
+    isItemAddedToComparisonMode,
+    canCompareItems,
+    downloadItem,
+    toggleCompareItem,
+    toggleItem,
+  } = useResult();
   const [itemsInComparison, setItemsInComparison] = useState<string[]>([]);
 
-  const { thumbnail, ...indices } = assets;
+  const { thumbnail, ...indices } = feature.assets;
 
   const onToggleShowAssets = useCallback(() => {
     setIsOpened(!isOpened);
@@ -42,40 +35,40 @@ export const MultipleItemsActionButtons = ({
 
   const onToggleViewButton = useCallback(
     (assetName: TAssetName) => {
-      if (isSelectedMultipleIndices(featureId, assetName)) {
-        onToggleSelectedItem(assetName);
+      if (isSelectedMultipleIndices(feature.id, assetName)) {
+        toggleItem(feature, assetName);
         setSelectedIndice(undefined);
       } else {
-        onToggleSelectedItem(assetName);
+        toggleItem(feature, assetName);
         setSelectedIndice(assetName);
       }
     },
-    [onToggleSelectedItem, isSelectedMultipleIndices, featureId]
+    [toggleItem, isSelectedMultipleIndices, feature]
   );
 
   const isItemSelected = useCallback(
     (assetName: TAssetName) => {
-      return selectedIndice === assetName && isSelected(featureId);
+      return selectedIndice === assetName && isSelected(feature.id);
     },
-    [selectedIndice, isSelected, featureId]
+    [selectedIndice, isSelected, feature.id]
   );
 
   useEffect(() => {
-    setItemsInComparison((prev) => prev.filter((item) => addedForComparison(item as TAssetName)));
-  }, [comparisonItems, addedForComparison]);
+    setItemsInComparison((prev) => prev.filter((item) => isItemAddedToComparisonMode(feature, item as TAssetName)));
+  }, [comparisonItems, isItemAddedToComparisonMode, feature]);
 
   const onComparisonToggle = useCallback(
     (key: TAssetName) => {
       setItemsInComparison((prev) => (prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]));
-      onCompareItemToggle(key);
+      toggleCompareItem(feature, key);
     },
-    [onCompareItemToggle]
+    [toggleCompareItem, feature]
   );
 
   return (
     <div>
       <div className='flex space-between'>
-        {canDownload && <DownloadButton onDownload={onDownload} disabled={comparisonEnabled} />}
+        {canDownload && <DownloadButton onDownload={() => downloadItem(feature)} disabled={comparisonEnabled} />}
         <ToggleAssetsButton isOpened={isOpened} onToggle={onToggleShowAssets} itemsInComparison={itemsInComparison} />
       </div>
 
@@ -85,10 +78,10 @@ export const MultipleItemsActionButtons = ({
             <AssetItem
               key={key}
               assetKey={key}
-              assetTitle={assets[key]?.title}
+              assetTitle={feature.assets[key]?.title}
               isSelected={isItemSelected(key)}
-              addedForComparison={addedForComparison(key)}
-              canCompare={canCompare(key)}
+              addedForComparison={isItemAddedToComparisonMode(feature, key)}
+              canCompare={canCompareItems(feature, key)}
               comparisonEnabled={comparisonEnabled}
               onComparisonToggle={() => onComparisonToggle(key)}
               onToggleView={() => onToggleViewButton(key)}

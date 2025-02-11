@@ -7,7 +7,7 @@ import { STACWithColorMap } from '../../stac/stac-with-color-map';
 import { useStacLayerCreation } from '../../stac/use-stac-layer-creation';
 
 export const useStacLayer = () => {
-  const { stacUrl, assetNamesWhichShouldBeDisplayed } = useTrueColorImage();
+  const { stacUrl, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
   const { comparisonModeEnabled } = useComparisonMode();
   const { mode } = useMode();
 
@@ -26,7 +26,7 @@ export const useStacLayer = () => {
         url: stacUrl,
         zIndex: stacLayerZindex,
         authorized,
-        assetNamesWhichShouldBeDisplayed: assetNamesWhichShouldBeDisplayed ? assetNamesWhichShouldBeDisplayed : '',
+        assetNameWhichShouldBeDisplayed: assetNameWhichShouldBeDisplayed ? assetNameWhichShouldBeDisplayed : '',
       });
 
       if (newStacLayer) {
@@ -48,6 +48,6 @@ export const useStacLayer = () => {
     createStacLayer,
     removeLayerFromMap,
     addLayerToMap,
-    assetNamesWhichShouldBeDisplayed,
+    assetNameWhichShouldBeDisplayed,
   ]);
 };

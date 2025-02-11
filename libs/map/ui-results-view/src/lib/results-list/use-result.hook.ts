@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { downloadFiles } from './download-files.utils';
 
 export const useResult = () => {
-  const { feature: visibleFeature, assetNamesWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
+  const { feature: visibleFeature, assetNameWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
   const { mode } = useMode();
   const {
     comparisonModeEnabled,
@@ -17,8 +17,8 @@ export const useResult = () => {
 
   const isSelected = useCallback((id: string) => visibleFeature?.id === id, [visibleFeature]);
   const isSelectedMultipleIndices = useCallback(
-    (id: string, key: TAssetName) => visibleFeature?.id === id && assetNamesWhichShouldBeDisplayed === key,
-    [visibleFeature, assetNamesWhichShouldBeDisplayed]
+    (id: string, key: TAssetName) => visibleFeature?.id === id && assetNameWhichShouldBeDisplayed === key,
+    [visibleFeature, assetNameWhichShouldBeDisplayed]
   );
 
   const isAddedToComparison = useCallback(
@@ -41,24 +41,15 @@ export const useResult = () => {
     (item: TFeature, key?: TAssetName) => {
       const getFeature = () => {
         if (key) {
-          return visibleFeature?.id === item.id && assetNamesWhichShouldBeDisplayed === key ? undefined : item;
+          return visibleFeature?.id === item.id && assetNameWhichShouldBeDisplayed === key ? undefined : item;
         }
 
         return visibleFeature?.id !== item.id ? item : undefined;
       };
 
       setFeature(getFeature(), key);
-
-      // if (key) {
-      //   const newFeature =
-      //     visibleFeature?.id === item.id && assetNamesWhichShouldBeDisplayed === key ? undefined : item;
-      //   newFeature ? setFeature(newFeature, key) : setFeature(undefined);
-      // } else {
-      //   const newFeature = visibleFeature?.id !== item.id ? item : undefined;
-      //   setFeature(newFeature);
-      // }
     },
-    [setFeature, visibleFeature, assetNamesWhichShouldBeDisplayed]
+    [setFeature, visibleFeature, assetNameWhichShouldBeDisplayed]
   );
 
   const handleToggleCompareItem = useCallback(
