@@ -7,25 +7,13 @@ import { downloadFiles } from './download-files.utils';
 export const useResult = () => {
   const { feature: visibleFeature, assetNameWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
   const { mode } = useMode();
-  const {
-    comparisonModeEnabled,
-    itemAddedToComparisonMode,
-    canAddAsNewItemToComparisonMode,
-    toggleCompareItem,
-    comparisonItems,
-  } = useComparisonMode();
+  const { comparisonModeEnabled, itemAddedToComparisonMode, canAddAsNewItemToComparisonMode, toggleCompareItem } =
+    useComparisonMode();
 
   const isSelected = useCallback((id: string) => visibleFeature?.id === id, [visibleFeature]);
   const isSelectedMultipleIndices = useCallback(
     (id: string, key: TAssetName) => visibleFeature?.id === id && assetNameWhichShouldBeDisplayed === key,
     [visibleFeature, assetNameWhichShouldBeDisplayed]
-  );
-
-  const isAddedToComparison = useCallback(
-    (item: TFeature, key?: TAssetName) => {
-      return itemAddedToComparisonMode(item, key);
-    },
-    [itemAddedToComparisonMode]
   );
 
   const canCompare = useCallback(
@@ -67,20 +55,18 @@ export const useResult = () => {
       isSelected,
       isSelectedMultipleIndices,
       comparisonEnabled: comparisonModeEnabled,
-      isItemAddedToComparisonMode: isAddedToComparison,
+      itemAddedToComparisonMode,
       canCompareItems: canCompare,
-      comparisonItems,
     }),
     [
       canCompare,
       comparisonModeEnabled,
       download,
       handleSelectedItemToggle,
-      isAddedToComparison,
       isSelected,
       isSelectedMultipleIndices,
       handleToggleCompareItem,
-      comparisonItems,
+      itemAddedToComparisonMode,
     ]
   );
 };

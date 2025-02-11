@@ -50,7 +50,7 @@ export const AssetItem = ({
         size='small'
         onClick={onToggleView}
         disabled={comparisonEnabled}
-        className='ml-1 w-[41px]'
+        className='ml-1 min-w-[41px]'
       />
     </div>
   </div>

@@ -17,9 +17,8 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
   const {
     isSelectedMultipleIndices,
     isSelected,
-    comparisonItems,
     comparisonEnabled,
-    isItemAddedToComparisonMode,
+    itemAddedToComparisonMode,
     canCompareItems,
     downloadItem,
     toggleCompareItem,
@@ -54,8 +53,8 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
   );
 
   useEffect(() => {
-    setItemsInComparison((prev) => prev.filter((item) => isItemAddedToComparisonMode(feature, item as TAssetName)));
-  }, [comparisonItems, isItemAddedToComparisonMode, feature]);
+    setItemsInComparison((prev) => prev.filter((item) => itemAddedToComparisonMode(feature, item as TAssetName)));
+  }, [itemAddedToComparisonMode, feature]);
 
   const onComparisonToggle = useCallback(
     (key: TAssetName) => {
@@ -80,7 +79,7 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
               assetKey={key}
               assetTitle={feature.assets[key]?.title}
               isSelected={isItemSelected(key)}
-              addedForComparison={isItemAddedToComparisonMode(feature, key)}
+              addedForComparison={itemAddedToComparisonMode(feature, key)}
               canCompare={canCompareItems(feature, key)}
               comparisonEnabled={comparisonEnabled}
               onComparisonToggle={() => onComparisonToggle(key)}
