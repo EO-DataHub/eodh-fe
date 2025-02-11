@@ -10,11 +10,11 @@ interface IAnswersProps {
   helpContentTranslationKeys: IHelpContent;
 }
 
-export const Answers = ({ translationPath, helpContentTranslationKeys}: IAnswersProps) => {
+export const Answers = ({ translationPath, helpContentTranslationKeys }: IAnswersProps) => {
   const { t } = useTranslation();
   const memoizedQuestions = useMemo(() => {
     return helpContentWithTranslations(helpContentTranslationKeys, translationPath).QUESTIONS;
-  }, []);
+  }, [helpContentTranslationKeys, translationPath]);
 
   return memoizedQuestions.map((category) => (
     <div key={category.SECTION_ID}>
