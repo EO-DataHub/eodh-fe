@@ -1,4 +1,4 @@
-import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
+import { TAssetName } from '@ukri/map/data-access-stac-catalog';
 import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -7,13 +7,13 @@ import { AssetItem } from './asset-item.component';
 import { DownloadButton, ToggleAssetsButton } from './toggle-sssets-button.component';
 
 export interface IMultipleItemsActionButtonsProps {
-  addedForComparison: (key: TAssetKey) => boolean;
+  addedForComparison: (key: TAssetName) => boolean;
   comparisonEnabled: boolean;
-  canCompare: (key: TAssetKey) => boolean;
+  canCompare: (key: TAssetName) => boolean;
   canDownload: boolean;
   onDownload: () => void;
-  onCompareItemToggle: (key: TAssetKey) => void;
-  onToggleSelectedItem: (key: TAssetKey) => void;
+  onCompareItemToggle: (key: TAssetName) => void;
+  onToggleSelectedItem: (key: TAssetName) => void;
   featureId: string;
   assets: TFeature['assets'];
 }
@@ -30,7 +30,7 @@ export const MultipleItemsActionButtons = ({
   assets,
 }: IMultipleItemsActionButtonsProps) => {
   const [isOpened, setIsOpened] = useState(false);
-  const [selectedIndice, setSelectedIndice] = useState<TAssetKey>();
+  const [selectedIndice, setSelectedIndice] = useState<TAssetName>();
   const { isSelectedMultipleIndices, isSelected, comparisonItems } = useResult();
   const [itemsInComparison, setItemsInComparison] = useState<string[]>([]);
 
@@ -41,36 +41,31 @@ export const MultipleItemsActionButtons = ({
   }, [isOpened]);
 
   const onToggleViewButton = useCallback(
-    (key: TAssetKey) => {
-      if (isSelected(featureId)) {
-        if (isSelectedMultipleIndices(featureId, key)) {
-          onToggleSelectedItem(key);
-          setSelectedIndice(undefined);
-        } else {
-          onToggleSelectedItem(key);
-          setSelectedIndice(key);
-        }
+    (assetName: TAssetName) => {
+      if (isSelectedMultipleIndices(featureId, assetName)) {
+        onToggleSelectedItem(assetName);
+        setSelectedIndice(undefined);
       } else {
-        onToggleSelectedItem(key);
-        setSelectedIndice(key);
+        onToggleSelectedItem(assetName);
+        setSelectedIndice(assetName);
       }
     },
-    [onToggleSelectedItem, isSelectedMultipleIndices, featureId, isSelected]
+    [onToggleSelectedItem, isSelectedMultipleIndices, featureId]
   );
 
   const isItemSelected = useCallback(
-    (key: TAssetKey) => {
-      return selectedIndice === key && isSelected(featureId);
+    (assetName: TAssetName) => {
+      return selectedIndice === assetName && isSelected(featureId);
     },
     [selectedIndice, isSelected, featureId]
   );
 
   useEffect(() => {
-    setItemsInComparison((prev) => prev.filter((item) => addedForComparison(item as TAssetKey)));
+    setItemsInComparison((prev) => prev.filter((item) => addedForComparison(item as TAssetName)));
   }, [comparisonItems, addedForComparison]);
 
   const onComparisonToggle = useCallback(
-    (key: TAssetKey) => {
+    (key: TAssetName) => {
       setItemsInComparison((prev) => (prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]));
       onCompareItemToggle(key);
     },
@@ -86,7 +81,7 @@ export const MultipleItemsActionButtons = ({
 
       {isOpened && (
         <div className='mt-2 border-t border-t-bright-dark'>
-          {(Object.keys(indices) as TAssetKey[]).map((key) => (
+          {(Object.keys(indices) as TAssetName[]).map((key) => (
             <AssetItem
               key={key}
               assetKey={key}

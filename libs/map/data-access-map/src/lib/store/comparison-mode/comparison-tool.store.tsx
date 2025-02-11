@@ -1,24 +1,24 @@
 import type {} from '@redux-devtools/extension';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { TAssetKey, TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TAssetName, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useMemo } from 'react';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { TMode } from '../mode.model';
 
-const createUniqueItemId = (item: TFeature, key?: TAssetKey) =>
-  key ? (`${item.collection}_${item.id}_KEY_${key}` as TUid) : (`${item.collection}_${item.id}` as TUid);
+const createUniqueItemId = (item: TFeature, assetName?: TAssetName) =>
+  assetName ? (`${item.collection}_${item.id}_KEY_${assetName}` as TUid) : (`${item.collection}_${item.id}` as TUid);
 
 type TId = string;
 type TCollection = string;
-export type TUid = `${TCollection}_${TId}` | `${TCollection}_${TId}_KEY_${TAssetKey}`;
+export type TUid = `${TCollection}_${TId}` | `${TCollection}_${TId}_KEY_${TAssetName}`;
 
 export type TComparisonItem = TFeature & {
   uid: TUid;
   mode: TMode;
   stacUrl?: string;
-  key?: TAssetKey;
+  assetName?: TAssetName;
 };
 
 interface IComparisonToolStore {
@@ -29,8 +29,8 @@ interface IComparisonToolStore {
   };
   comparisonModeEnabled: boolean;
   toggleComparisonMode: (comparisonModeEnabled?: boolean) => void;
-  addComparisonItem: (item: TFeature, mode: TMode, key?: TAssetKey) => void;
-  removeComparisonItem: (item: TFeature, key?: TAssetKey) => void;
+  addComparisonItem: (item: TFeature, mode: TMode, assetName?: TAssetName) => void;
+  removeComparisonItem: (item: TFeature, assetName?: TAssetName) => void;
 }
 
 const useComparisonToolStore = create<IComparisonToolStore>()(
@@ -46,15 +46,15 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
         ...state,
         comparisonModeEnabled: !state.comparisonModeEnabled,
       })),
-    addComparisonItem: (item: TFeature, mode: TMode, key?: TAssetKey) =>
+    addComparisonItem: (item: TFeature, mode: TMode, assetName?: TAssetName) =>
       set((state) => {
-        const uniqueId = createUniqueItemId(item, key);
+        const uniqueId = createUniqueItemId(item, assetName);
         const newItem = {
           ...item,
           uid: uniqueId,
           mode: mode,
           stacUrl: item?.links.find((link) => link.rel === 'self')?.href,
-          key,
+          assetName,
         };
         if (state.comparisonItems.firsItemId === undefined) {
           return {
@@ -79,9 +79,9 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
           ...state,
         };
       }),
-    removeComparisonItem: (item: TFeature, key?: TAssetKey) => {
+    removeComparisonItem: (item: TFeature, assetName?: TAssetName) => {
       set((state) => {
-        const uniqueId = createUniqueItemId(item, key);
+        const uniqueId = createUniqueItemId(item, assetName);
         const items = state.comparisonItems.items.filter((item) => item.uid !== uniqueId);
         return {
           ...state,
@@ -110,29 +110,29 @@ export const useComparisonMode = () => {
     }));
 
   const itemAddedToComparisonMode = useCallback(
-    (item: TFeature, key?: TAssetKey) => {
-      const uniqueId = createUniqueItemId(item, key);
+    (item: TFeature, assetName?: TAssetName) => {
+      const uniqueId = createUniqueItemId(item, assetName);
       return comparisonItems.items.some((item) => item.uid === uniqueId);
     },
     [comparisonItems.items]
   );
 
   const canAddAsNewItemToComparisonMode = useCallback(
-    (item: TFeature, key?: TAssetKey) => {
-      const isAddedForComparison = itemAddedToComparisonMode(item, key);
+    (item: TFeature, assetName?: TAssetName) => {
+      const isAddedForComparison = itemAddedToComparisonMode(item, assetName);
       return comparisonItems.items.length >= 2 && !isAddedForComparison;
     },
     [comparisonItems.items, itemAddedToComparisonMode]
   );
 
   const toggleCompareItem = useCallback(
-    (item: TFeature, mode: TMode, key?: TAssetKey) => {
-      if (itemAddedToComparisonMode(item, key)) {
-        removeComparisonItem(item, key);
+    (item: TFeature, mode: TMode, assetName?: TAssetName) => {
+      if (itemAddedToComparisonMode(item, assetName)) {
+        removeComparisonItem(item, assetName);
         return;
       }
 
-      addComparisonItem(item, mode, key);
+      addComparisonItem(item, mode, assetName);
     },
     [addComparisonItem, removeComparisonItem, itemAddedToComparisonMode]
   );

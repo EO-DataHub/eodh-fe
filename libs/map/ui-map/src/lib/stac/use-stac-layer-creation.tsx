@@ -37,13 +37,13 @@ export const useStacLayerCreation = () => {
   );
 
   const createAuthorizedStacLayer = useCallback(
-    async (url: string, zIndex: number, visibleKey?: string) => {
+    async (url: string, zIndex: number, assetNamesWhichShouldBeDisplayed?: string) => {
       const data = await getHttpClient().get(url);
 
       const newStacLayer = new STACWithColorMap({
         data,
         zIndex,
-        assets: visibleKey ? [visibleKey] : undefined,
+        assets: assetNamesWhichShouldBeDisplayed ? [assetNamesWhichShouldBeDisplayed] : undefined,
         getSourceOptions: (type, options) => {
           const token = authClient.getToken().token;
           (options as { sourceOptions?: object }).sourceOptions =
@@ -101,15 +101,15 @@ export const useStacLayerCreation = () => {
       url,
       zIndex,
       authorized,
-      visibleKey,
+      assetNamesWhichShouldBeDisplayed,
     }: {
       url: string;
       zIndex: number;
       authorized: boolean;
-      visibleKey?: string;
+      assetNamesWhichShouldBeDisplayed?: string;
     }) => {
       const newStacLayer = authorized
-        ? await createAuthorizedStacLayer(url, zIndex, visibleKey)
+        ? await createAuthorizedStacLayer(url, zIndex, assetNamesWhichShouldBeDisplayed)
         : createUnauthorizedStacLayer(url, zIndex);
       return newStacLayer;
     },

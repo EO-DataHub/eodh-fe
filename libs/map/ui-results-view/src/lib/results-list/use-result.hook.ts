@@ -1,11 +1,11 @@
 import { useComparisonMode, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
-import { TAssetKey, TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TAssetName, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useMemo } from 'react';
 
 import { downloadFiles } from './download-files.utils';
 
 export const useResult = () => {
-  const { feature: visibleFeature, visibleKey, setFeature } = useTrueColorImage();
+  const { feature: visibleFeature, assetNamesWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
   const { mode } = useMode();
   const {
     comparisonModeEnabled,
@@ -17,20 +17,19 @@ export const useResult = () => {
 
   const isSelected = useCallback((id: string) => visibleFeature?.id === id, [visibleFeature]);
   const isSelectedMultipleIndices = useCallback(
-    (id: string, key: TAssetKey) => visibleFeature?.id === id && visibleKey === key,
-    [visibleFeature, visibleKey]
+    (id: string, key: TAssetName) => visibleFeature?.id === id && assetNamesWhichShouldBeDisplayed === key,
+    [visibleFeature, assetNamesWhichShouldBeDisplayed]
   );
 
   const isAddedToComparison = useCallback(
-    (item: TFeature, key?: TAssetKey) => {
-      // console.log('isAddedToComparison itemAddedToComparisonMode(item, key)', itemAddedToComparisonMode(item, key));
+    (item: TFeature, key?: TAssetName) => {
       return itemAddedToComparisonMode(item, key);
     },
     [itemAddedToComparisonMode]
   );
 
   const canCompare = useCallback(
-    (item: TFeature, key?: TAssetKey) => canAddAsNewItemToComparisonMode(item, key),
+    (item: TFeature, key?: TAssetName) => canAddAsNewItemToComparisonMode(item, key),
     [canAddAsNewItemToComparisonMode]
   );
 
@@ -39,20 +38,21 @@ export const useResult = () => {
   }, []);
 
   const handleSelectedItemToggle = useCallback(
-    (item: TFeature, key?: TAssetKey) => {
+    (item: TFeature, key?: TAssetName) => {
       if (key) {
-        const newFeature = visibleFeature?.id === item.id && visibleKey === key ? undefined : item;
+        const newFeature =
+          visibleFeature?.id === item.id && assetNamesWhichShouldBeDisplayed === key ? undefined : item;
         newFeature ? setFeature(newFeature, key) : setFeature(undefined);
       } else {
         const newFeature = visibleFeature?.id !== item.id ? item : undefined;
         setFeature(newFeature);
       }
     },
-    [setFeature, visibleFeature, visibleKey]
+    [setFeature, visibleFeature, assetNamesWhichShouldBeDisplayed]
   );
 
   const handleToggleCompareItem = useCallback(
-    (item: TFeature, key?: TAssetKey) => {
+    (item: TFeature, key?: TAssetName) => {
       toggleCompareItem(item, mode, key);
     },
     [mode, toggleCompareItem]

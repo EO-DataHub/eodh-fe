@@ -1,9 +1,8 @@
-// AssetItem.tsx
-import { TAssetKey } from '@ukri/map/data-access-stac-catalog';
+import { TAssetName } from '@ukri/map/data-access-stac-catalog';
 import { Button, Text } from '@ukri/shared/design-system';
 
 interface IAssetItemProps {
-  assetKey: TAssetKey;
+  assetKey: TAssetName;
   assetTitle?: string;
   isSelected: boolean;
   addedForComparison: boolean;
