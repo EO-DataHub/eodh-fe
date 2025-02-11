@@ -40,10 +40,38 @@ export const useStacLayerCreation = () => {
     [map]
   );
 
-  const createAuthorizedStacLayer = useCallback(
+  const addLayerToMap = useCallback(
+    (layer: STAC | STACWithColorMap | GroupLayer) => {
+      if (map) {
+        map.addLayer(layer);
+      }
+    },
+    [map]
+  );
+
+  const removeLayerFromMap = useCallback(
+    (layer: STAC | STACWithColorMap | GroupLayer) => {
+      if (map) {
+        map.removeLayer(layer);
+      }
+    },
+    [map]
+  );
+
+  const createStacLayerWithSentinel2ArdFix = useCallback(
     async (url: string, zIndex: number) => {
+      const data = await getHttpClient().get<StacItem>(url);
+
+      if (data?.assets['cog'] && !data?.assets['cog'].type) {
+        data.assets['cog'] = {
+          ...data.assets['cog'],
+          type: 'image/tiff; application=geotiff; profile=cloud-optimized',
+        };
+      }
+
       const newStacLayer = new STACWithColorMap({
-        url,
+        data,
+        bands: data?.assets['cog'] ? [3, 2, 1] : undefined,
         zIndex,
         getSourceOptions: (type, options) => {
           const token = authClient.getToken().token;
@@ -67,57 +95,41 @@ export const useStacLayerCreation = () => {
     [authClient, zoomToLayer]
   );
 
-  const createUnauthorizedStacLayer = useCallback(
+  const createStacLayerWithSupportForAllCollection = useCallback(
     async (url: string, zIndex: number) => {
-      const data = await getHttpClient().get<StacItem>(url);
-
-      if (data?.assets['cog'] && !data?.assets['cog'].type) {
-        data.assets['cog'] = {
-          ...data.assets['cog'],
-          type: 'image/tiff; application=geotiff; profile=cloud-optimized',
-        };
-      }
-
       const newStacLayer = new STACWithColorMap({
-        data,
+        url,
         zIndex,
-        bands: data?.assets['cog'] ? [3, 2, 1] : undefined,
+        getSourceOptions: (type, options) => {
+          const token = authClient.getToken().token;
+          (options as { sourceOptions?: object }).sourceOptions =
+            (options as { sourceOptions?: object }).sourceOptions || {};
+          (options as { sourceOptions: { headers: object } }).sourceOptions.headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          return options;
+        },
+        httpRequestFn: (url: string) => getHttpClient().get(url),
       });
 
       newStacLayer.addEventListener('sourceready', () => {
         zoomToLayer(newStacLayer);
       });
+
       return newStacLayer;
     },
-    [zoomToLayer]
-  );
-
-  const addLayerToMap = useCallback(
-    (layer: STAC | STACWithColorMap | GroupLayer) => {
-      if (map) {
-        map.addLayer(layer);
-      }
-    },
-    [map]
-  );
-
-  const removeLayerFromMap = useCallback(
-    (layer: STAC | STACWithColorMap | GroupLayer) => {
-      if (map) {
-        map.removeLayer(layer);
-      }
-    },
-    [map]
+    [authClient, zoomToLayer]
   );
 
   const createStacLayer = useCallback(
-    async ({ url, zIndex, authorized }: { url: string; zIndex: number; authorized: boolean }) => {
-      const newStacLayer = authorized
-        ? await createAuthorizedStacLayer(url, zIndex)
-        : createUnauthorizedStacLayer(url, zIndex);
+    async ({ url, zIndex, collection }: { url: string; zIndex: number; collection?: string }) => {
+      const newStacLayer =
+        collection === 'sentinel2_ard'
+          ? await createStacLayerWithSentinel2ArdFix(url, zIndex)
+          : createStacLayerWithSupportForAllCollection(url, zIndex);
       return newStacLayer;
     },
-    [createAuthorizedStacLayer, createUnauthorizedStacLayer]
+    [createStacLayerWithSupportForAllCollection, createStacLayerWithSentinel2ArdFix]
   );
 
   return useMemo(
