@@ -1,15 +1,50 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
+import { Button, LoadingSpinner } from '@ukri/shared/design-system';
 
 import { ActionButtons } from './result-item/action-buttons.component';
 import { ResultItem } from './result-item/result-item.component';
 import { useResult } from './use-result.hook';
 
-export interface IResultsListProps {
-  features: TCollection['features'];
+interface ILoadMoreButtonProps {
+  isFetching: boolean;
+  onClick: () => void;
 }
 
-export const ResultsList = ({ features }: IResultsListProps) => {
+const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
+  if (isFetching) {
+    return (
+      <Button
+        disabled={true}
+        text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
+        appearance='outlined'
+        size='large'
+        className='px-3'
+      >
+        <LoadingSpinner size='xs' className='ml-2' />
+      </Button>
+    );
+  }
+
+  return (
+    <Button
+      text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
+      appearance='outlined'
+      size='large'
+      onClick={onClick}
+      className='px-3'
+    />
+  );
+};
+
+export interface IResultsListProps {
+  features: TCollection['features'];
+  hasNextPage: boolean;
+  isFetching: boolean;
+  onLoadMore: () => void;
+}
+
+export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: IResultsListProps) => {
   const {
     isSelected,
     toggleItem,
@@ -47,6 +82,11 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           />
         </ResultItem>
       ))}
+      {hasNextPage && (
+        <div className='flex justify-center mt-5'>
+          <LoadMoreButton isFetching={isFetching} onClick={onLoadMore} />
+        </div>
+      )}
     </div>
   );
 };

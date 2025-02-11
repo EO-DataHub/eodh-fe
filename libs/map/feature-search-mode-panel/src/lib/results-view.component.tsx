@@ -7,12 +7,23 @@ import { Header } from './header.component';
 
 type TResultsViewProps = {
   searchType: 'catalogue' | 'workflow' | undefined;
-  data: TCollection | undefined;
+  data: TCollection['features'] | undefined;
   status: 'error' | 'success' | 'pending';
+  isFetching: boolean;
+  hasNextPage: boolean;
   onBack: () => void;
+  onLoadMore: () => void;
 };
 
-export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewProps) => {
+export const ResultsView = ({
+  searchType,
+  data,
+  status,
+  isFetching,
+  hasNextPage,
+  onBack,
+  onLoadMore,
+}: TResultsViewProps) => {
   const { comparisonModeEnabled } = useComparisonMode();
 
   switch (searchType) {
@@ -29,7 +40,14 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
             />
           </Header>
           <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
-            <UIResultsView status={status} data={data} onBack={onBack} />
+            <UIResultsView
+              status={status}
+              isFetching={isFetching}
+              data={data}
+              hasNextPage={hasNextPage}
+              onBack={onBack}
+              onLoadMore={onLoadMore}
+            />
           </div>
         </div>
       );
@@ -56,7 +74,14 @@ export const ResultsView = ({ searchType, data, status, onBack }: TResultsViewPr
             </button>
           </Header>
           <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
-            <UIResultsView status={status} data={data} onBack={onBack} />
+            <UIResultsView
+              status={status}
+              isFetching={isFetching}
+              data={data}
+              hasNextPage={hasNextPage}
+              onBack={onBack}
+              onLoadMore={onLoadMore}
+            />
           </div>
         </div>
       );

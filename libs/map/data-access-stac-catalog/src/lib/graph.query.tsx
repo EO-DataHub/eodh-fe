@@ -34,7 +34,7 @@ const getChartData = async (
 };
 
 type TGraphSearchProps = {
-  params?: TSearchParams;
+  params?: Omit<TSearchParams, 'collection'>;
 };
 
 export const useGraphSearch = ({ params }: TGraphSearchProps) => {

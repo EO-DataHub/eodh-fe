@@ -48,13 +48,7 @@ const linkSchema = z.object({
   title: z.string().optional(),
   merge: z.boolean().optional(),
   method: z.string().optional(),
-  body: z
-    .object({
-      collections: z.array(z.string()).optional(),
-      token: z.string().optional(),
-      next: z.number().optional(),
-    })
-    .optional(),
+  body: z.object({}).passthrough().optional(),
 });
 
 const assetSchema = z.object({

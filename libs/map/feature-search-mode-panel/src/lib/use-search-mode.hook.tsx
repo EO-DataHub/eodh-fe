@@ -7,7 +7,7 @@ import {
   useResults,
   useTrueColorImage,
 } from '@ukri/map/data-access-map';
-import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
+import { TCollection, useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search-view';
 import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -17,7 +17,7 @@ export const useSearchMode = () => {
   const { state: dataSetsState, schema, treeModel, dataSets, updateDataSets } = useDataSets();
   const { state: dateRangeState, date, updateDate } = useDate();
   const { view: currentView, changeView: setCurrentView } = useMode();
-  const { data, status } = useCatalogSearch({ params: searchParams });
+  const { data, status, isFetching, hasNextPage, fetchNextPage } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
   const { setFeature } = useTrueColorImage();
@@ -82,7 +82,16 @@ export const useSearchMode = () => {
   );
 
   useEffect(() => {
-    setFootprints(data);
+    const collection = data?.pages.reduce(
+      (acc, val) => ({
+        ...acc,
+        type: acc.type ? acc.type : val.type,
+        features: [...acc.features, ...val.features],
+        links: [...acc.links, ...val.links],
+      }),
+      { type: undefined, features: [], links: [] } as unknown as TCollection
+    );
+    setFootprints(collection);
   }, [data, setFootprints]);
 
   useEffect(() => {
@@ -94,9 +103,12 @@ export const useSearchMode = () => {
 
   return useMemo(
     () => ({
-      data,
+      results: data?.pages.map((item) => item.features).flat() || [],
       state,
       status,
+      isFetching,
+      hasNextPage,
+      fetchNextPage,
       view: currentView,
       changeToSearchView,
       schema,
@@ -111,6 +123,9 @@ export const useSearchMode = () => {
       data,
       state,
       status,
+      hasNextPage,
+      fetchNextPage,
+      isFetching,
       currentView,
       changeToSearchView,
       schema,

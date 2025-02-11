@@ -4,9 +4,9 @@ const notDisplayedErrorMessage = '';
 
 export const sentinel2Schema = z.object({
   enabled: z.boolean(),
-  l1c: z.boolean().optional(),
-  l2a: z.boolean().optional(),
-  l2aARD: z.boolean().optional(),
+  l1c: z.boolean(),
+  l2a: z.boolean(),
+  l2aARD: z.boolean(),
   cloudCoverage: z.number().min(0).max(100),
 });
 
