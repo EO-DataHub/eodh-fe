@@ -1,4 +1,5 @@
 import { DefaultError, InfiniteData, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
+import { createDate } from '@ukri/shared/utils/date';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { useMemo } from 'react';
 
@@ -16,7 +17,7 @@ import { queryKey } from './query-key.const';
 import { collectionSchema, TCollection } from './stac.model';
 
 const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[]) => {
-  return responses
+  const data = responses
     .map((response) => {
       if (response.status === 'fulfilled') {
         const parsedData = collectionSchema.safeParse(response.value);
@@ -51,6 +52,16 @@ const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[]) =>
         },
       } as TCollection
     );
+
+  return {
+    ...data,
+    features: data.features.sort((feature1, feature2) => {
+      const date1 = createDate(feature1.properties.datetime)?.getTime() || 0;
+      const date2 = createDate(feature2.properties.datetime)?.getTime() || 0;
+
+      return date1 - date2;
+    }),
+  };
 };
 
 const getNextPageResults = async (links: TCollection['links']): Promise<TCollection> => {
