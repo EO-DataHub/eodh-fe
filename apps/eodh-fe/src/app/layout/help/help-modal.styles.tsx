@@ -8,5 +8,5 @@ export const styles = {
   bodyContainer: 'flex flex-row',
   body: 'flex flex-col gap-4',
   closeIcon: 'text-neutral-light',
-  helpTitle: 'text-[18px]',
+  helpTitle: 'text-lg leading-[18px]',
 };

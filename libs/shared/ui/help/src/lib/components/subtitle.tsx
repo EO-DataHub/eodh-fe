@@ -8,8 +8,8 @@ interface ISubtitleProps {
 
 export const Subtitle = ({ subtitle }: ISubtitleProps) => {
   return (
-    <div className={helpStyles.subtitle}>
-      <Text type='h3' content={subtitle} fontSize='large' fontWeight='semibold' />
+    <div className={helpStyles.subtitleContainer}>
+      <Text type='h3' content={subtitle} fontSize='large' fontWeight='semibold' className={helpStyles.subtitle} />
     </div>
   );
 };
