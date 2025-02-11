@@ -14,7 +14,7 @@ type TChartItem = {
 
 const mapToChartSeries = (data: TChartItem[], index: number | undefined) => {
   return data
-    .filter((item) => item.value.every((dataItem) => dataItem > 0))
+    .filter((item) => item.value.some((dataItem) => dataItem > 0))
     .map((item, currentIndex) => [
       {
         name: item.name,
