@@ -518,6 +518,46 @@
                   ]
                 }
               ]
+            },
+            "WHAT_IS_THE_COLOUR_CODING_FOR_WATER_QUALITY_ANALYSIS": {
+              "QUESTION": "What is the colour coding for Water Quality Analysis?",
+              "ANSWER": [[
+                  {
+                    "IMAGE": {
+                      "NDWI": {
+                        "DESCRIPTION_ABOVE": "NDWI",
+                        "ALT": "NDWI"
+                      }
+                    }
+                  },
+                  {
+                    "IMAGE": {
+                      "DOC": {
+                        "DESCRIPTION_ABOVE": "DOC",
+                        "ALT": "DOC"
+                      }
+                    }
+                    
+                  },
+                  {
+                    "IMAGE": {
+                      "CDOM": {
+                        "DESCRIPTION_ABOVE": "CDOM",
+                        "ALT": "CDOM"
+                      }
+                    }
+                    
+                  },
+                  {
+                    "IMAGE": {
+                      "CYA": {
+                        "DESCRIPTION_ABOVE": "CYA",
+                        "ALT": "CYA"
+                      }
+                    }
+                    
+                  }
+                ]]
             }
           },
           "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {

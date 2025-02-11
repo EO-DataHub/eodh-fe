@@ -8,9 +8,10 @@ import { Subtitle } from './subtitle';
 interface IAnswersProps {
   translationPath: string;
   helpContentTranslationKeys: IHelpContent;
+  pathToImages?: string;
 }
 
-export const Answers = ({ translationPath, helpContentTranslationKeys }: IAnswersProps) => {
+export const Answers = ({ translationPath, helpContentTranslationKeys, pathToImages }: IAnswersProps) => {
   const { t } = useTranslation();
   const memoizedQuestions = useMemo(() => {
     return helpContentWithTranslations(helpContentTranslationKeys, translationPath).QUESTIONS;
@@ -28,6 +29,7 @@ export const Answers = ({ translationPath, helpContentTranslationKeys }: IAnswer
             answer={t(`${question.ANSWER_TRANSLATION}`, {
               returnObjects: true,
             })}
+            pathToImages={pathToImages}
           />
         </div>
       ))}

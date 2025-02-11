@@ -11,9 +11,10 @@ interface IHelpProps {
   translationPath: string;
   helpContentTranslationKeys: IHelpContent;
   className?: string;
+  pathToImages?: string;
 }
 
-export const Help = ({ translationPath, helpContentTranslationKeys, className }: IHelpProps) => {
+export const Help = ({ translationPath, helpContentTranslationKeys, pathToImages, className }: IHelpProps) => {
   const memoizedTitleTranslation = useMemo(() => {
     return (
       helpContentTranslationKeys.TITLE && helpContentWithTranslations(helpContentTranslationKeys, translationPath).TITLE
@@ -43,7 +44,11 @@ export const Help = ({ translationPath, helpContentTranslationKeys, className }:
         className={helpStyles.helpIntro}
       />
       <TableOfContent translationPath={translationPath} helpContentTranslationKeys={helpContentTranslationKeys} />
-      <Answers translationPath={translationPath} helpContentTranslationKeys={helpContentTranslationKeys} />
+      <Answers
+        translationPath={translationPath}
+        helpContentTranslationKeys={helpContentTranslationKeys}
+        pathToImages={pathToImages}
+      />
     </section>
   );
 };

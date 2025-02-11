@@ -46,6 +46,9 @@ export const helpContentTranslationKeys: IHelpContent = {
         {
           QUESTION_ID: 'WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES',
         },
+        {
+          QUESTION_ID: 'WHAT_IS_THE_COLOUR_CODING_FOR_WATER_QUALITY_ANALYSIS',
+        },
       ],
     },
     {
