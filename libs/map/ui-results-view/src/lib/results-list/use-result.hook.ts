@@ -39,14 +39,24 @@ export const useResult = () => {
 
   const handleSelectedItemToggle = useCallback(
     (item: TFeature, key?: TAssetName) => {
-      if (key) {
-        const newFeature =
-          visibleFeature?.id === item.id && assetNamesWhichShouldBeDisplayed === key ? undefined : item;
-        newFeature ? setFeature(newFeature, key) : setFeature(undefined);
-      } else {
-        const newFeature = visibleFeature?.id !== item.id ? item : undefined;
-        setFeature(newFeature);
-      }
+      const getFeature = () => {
+        if (key) {
+          return visibleFeature?.id === item.id && assetNamesWhichShouldBeDisplayed === key ? undefined : item;
+        }
+
+        return visibleFeature?.id !== item.id ? item : undefined;
+      };
+
+      setFeature(getFeature(), key);
+
+      // if (key) {
+      //   const newFeature =
+      //     visibleFeature?.id === item.id && assetNamesWhichShouldBeDisplayed === key ? undefined : item;
+      //   newFeature ? setFeature(newFeature, key) : setFeature(undefined);
+      // } else {
+      //   const newFeature = visibleFeature?.id !== item.id ? item : undefined;
+      //   setFeature(newFeature);
+      // }
     },
     [setFeature, visibleFeature, assetNamesWhichShouldBeDisplayed]
   );
