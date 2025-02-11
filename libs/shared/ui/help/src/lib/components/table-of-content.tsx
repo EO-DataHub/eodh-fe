@@ -13,8 +13,8 @@ interface IQuestionProps {
 
 const Question = ({ question, questionId, answerId }: IQuestionProps) => {
   return (
-    <a href={`#${answerId}`} className='relative' id={questionId}>
-      <Text type='h4' content={question} fontSize='medium' fontWeight='regular' className={helpStyles.question} />
+    <a href={`#${answerId}`} className={helpStyles.question} id={questionId}>
+      <Text type='h4' content={question} fontSize='medium' fontWeight='regular' className={helpStyles.questionText} />
     </a>
   );
 };

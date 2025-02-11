@@ -1,7 +1,8 @@
 export const helpStyles = {
   subtitleContainer: 'pt-4',
   subtitle: 'leading-[18px]',
-  question: 'text-primary before:content-["•"] before:absolute before:left-1 pl-4 underline hover:text-primary-dark',
+  question: 'text-primary visited:text-purple-600 hover:text-primary-dark relative',
+  questionText: 'before:content-["•"] before:absolute before:left-1 pl-4 underline',
   answer: 'border-b border-bright-mid pb-4 relative',
   answerTitle: 'pt-3 leading-[16px]',
   listItem: 'relative before:content-["•"] before:absolute before:left-[-12px]  before:top-[-3px] ml-4',

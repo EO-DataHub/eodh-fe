@@ -128,7 +128,7 @@ const SubItemRenderer = ({ subItem, answerKey, index, imagePath }: ISubItemRende
     );
   }
   return (
-    <div className={helpStyles.listItem} key={answerKey}>
+    <div className={helpStyles.listItem} key={`${answerKey}_${index}`}>
       <ContentRenderer item={subItem} answerKey={answerKey} arrayIndex={index} imagePath={imagePath} />
     </div>
   );
@@ -143,7 +143,9 @@ interface IListRendererProps {
 const ListRenderer = ({ items, answerKey, imagePath }: IListRendererProps) => (
   <ul key={answerKey}>
     {items.map((subItem, index) => (
-      <SubItemRenderer imagePath={imagePath} subItem={subItem} answerKey={answerKey} index={index} />
+      <div key={`${answerKey}_${index}`}>
+        <SubItemRenderer imagePath={imagePath} subItem={subItem} answerKey={answerKey} index={index} />
+      </div>
     ))}
   </ul>
 );

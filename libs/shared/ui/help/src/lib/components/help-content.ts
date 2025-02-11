@@ -1,5 +1,3 @@
-export const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
-
 interface IQuestion {
   QUESTION_ID: string;
 }
