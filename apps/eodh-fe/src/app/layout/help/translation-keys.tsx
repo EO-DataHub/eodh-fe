@@ -1,5 +1,5 @@
 import { IHelpContent } from '@ukri/shared/ui/help';
-export const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
+export const translationPath = 'MAP.GENERAL_HELP_MODAL';
 
 export const helpContentTranslationKeys: IHelpContent = {
   INTRO: 'INTRO',
@@ -8,101 +8,91 @@ export const helpContentTranslationKeys: IHelpContent = {
       SECTION_ID: 'GENERAL_FUNCIONALITY',
       CONTENT: [
         {
-          QUESTION_ID: 'WHAT_IS_THE_AC',
+          QUESTION_ID: 'WHAT_IS_EOPRO',
         },
         {
-          QUESTION_ID: 'HOW_TO_CREATE_WORKFLOW_IN_THE_AC',
+          QUESTION_ID: 'HOW_DO_I_GET_STARTED',
         },
         {
-          QUESTION_ID: 'WHAT_ARE_THE_DIFFERENT_WORKFLOW_BLOCKS',
-        },
-        {
-          QUESTION_ID: 'HOW_DO_I_SELECT_A_DATASET_FOR_MY_WORKFLOW',
-        },
-        {
-          QUESTION_ID: 'HOW_DO_I_SELECT_WORKFLOW_FUNCTIONS',
-        },
-        {
-          QUESTION_ID: 'WHAT_IS_THE_DIFFERENCE_BETWEEN_THE_WORKFLOW_AND_HISTORY_TABS',
-        },
-        {
-          QUESTION_ID: 'WHAT_ARE_WORKFLOW_PRESETS_AND_HOW_DO_I_USE_THEM',
-        },
-        {
-          QUESTION_ID: 'WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES',
+          QUESTION_ID: 'DO_I_NEED_ACCOUNT',
         },
       ],
     },
     {
-      SECTION_ID: 'MANAGING_DATASETS_AND_FUNCTIONS_IN_AC',
+      SECTION_ID: 'SEARCH_MODULE_FUNCIONALITY',
       CONTENT: [
         {
-          QUESTION_ID: 'HOW_TO_ADD_COMERCIAL_DATASETS',
+          QUESTION_ID: 'WHAT_IS_THE_SEARCH_MODULE',
         },
         {
-          QUESTION_ID: 'HOW_TO_USE_MULTIPLE_FUNCTIONS',
+          QUESTION_ID: 'HOW_DO_I_SELECT_A_DATA_SET_AS_PART_OF_A_SEARCH',
         },
         {
-          QUESTION_ID: 'HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER',
+          QUESTION_ID: 'HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI',
+        },
+        {
+          QUESTION_ID: 'HOW_DO_I_SET_A_DATE_RANGE_FOR_MY_SEARCH',
+        },
+        {
+          QUESTION_ID: 'WHAT_HAPPENS_WHEN_I_RUN_A_SEARCH',
+        },
+        {
+          QUESTION_ID: 'HOW_DO_I_REFINE_OR_MODIFY_MY_SEARCH_PARAMETERS',
+        },
+        {
+          QUESTION_ID: 'HOW_DO_I_USE_ADVANCED_SEARCH_OPTIONS_FOR_DATASETS',
+        },
+        {
+          QUESTION_ID: 'WHAT_IS_THE_DIFFERENCE_BETWEEN_PUBLIC_AND_COMMERCIAL_DATASETS',
         },
       ],
     },
     {
-      SECTION_ID: 'EXECUTING_AND_TRACKING_WORKFLOWS',
+      SECTION_ID: 'INTERPRETING_SEARCH_RESULTS',
       CONTENT: [
         {
-          QUESTION_ID: 'HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS',
-        },
-        {
-          QUESTION_ID: 'HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW',
-        },
-        {
-          QUESTION_ID: 'HOW_DO_I_VIEW_WORKFLOW_EXECUTION_NOTIFICATIONS',
-        },
-        {
-          QUESTION_ID: 'WHAT_HAPPENS_IF_I_SWITCH_TO_ACTION_CREATOR_WHILE_HAVING_A_SEARCH_SESSION_ACTIVE',
-        },
-        {
-          QUESTION_ID: 'CAN_I_SAVE_MY_WORKFLOW_FOR_FUTURE_USE',
-        },
-        {
-          QUESTION_ID: 'WHAT_HAPPENS_IF_I_RUN_MULTIPLE_WORKFLOWS_AT_THE_SAME_TIME',
-        },
-        {
-          QUESTION_ID: 'HOW_DO_I_CANCEL_A_RUNNING_WORKFLOW',
-        },
-        {
-          QUESTION_ID: 'HOW_DO_I_ACCESS_MY_SAVED_WORKFLOW_RESULTS_OR_CONFIGURATION',
+          QUESTION_ID: 'WHAT_ARE_FOOTPRINTS_ON_THE_MAP',
         },
       ],
     },
     {
-      SECTION_ID: 'WORKING_WITH_GRAPHS',
+      SECTION_ID: 'VIEWING_AND_PURCHASING_SEARCH_RESULTS',
       CONTENT: [
         {
-          QUESTION_ID: 'HOW_DO_I_VIEW_GRAPHS_FOR_MY_DATA',
+          QUESTION_ID: 'HOW_DO_I_VIEW_AN_ITEM_FROM_THE_SEARCH_RESULTS',
         },
         {
-          QUESTION_ID: 'WHAT_TYPES_OF_GRAPHS_ARE_AVAILABLE_AND_WHAT_DO_THEY_REPRESENT',
+          QUESTION_ID: 'HOW_DO_I_PURCHASE_COMMERCIAL_DATA',
         },
         {
-          QUESTION_ID: 'HOW_DO_I_ADJUST_THE_TIME_RANGE_DISPLAYED_ON_GRAPHS',
+          QUESTION_ID: 'HOW_DO_I_DISPLAY_PURCHASED_ITEMS_ON_THE_MAP',
         },
       ],
     },
     {
-      SECTION_ID: 'MEASUREMENT_AOI_MANAGEMENT',
+      SECTION_ID: 'TIME_MANAGEMENT_IN_SEARCH',
       CONTENT: [
         {
-          QUESTION_ID: 'HOW_DO_I_MEASURE_DISTANCES_AND_AREAS_ON_THE_MAP',
+          QUESTION_ID: 'HOW_DOES_THE_TIME_SLIDER_AFFECT_SEARCH_RESULTS',
         },
       ],
     },
     {
-      SECTION_ID: 'COMPARISON_AND_LAYER_MANAGEMENT',
+      SECTION_ID: 'COMPARISON_AND_EXPORTING',
       CONTENT: [
         {
-          QUESTION_ID: 'HOW_DO_I_USE_THE_COMPARISON_TOOL',
+          QUESTION_ID: 'HOW_DO_I_ADD_SEARCH_RESULTS_TO_THE_COMPARISON_TOOL',
+        },
+      ],
+    },
+    {
+      SECTION_ID: 'GENERAL_FEATURES_USER_SETTINGS',
+      CONTENT: [
+        {
+          QUESTION_ID: 'HOW_DO_I_HIDE_FOOTPRINTS_OR_AOI_TO_BETTER_SEE_MY_SELECTED_IMAGERY',
+        },
+        {
+          QUESTION_ID: 'HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS',
         },
       ],
     },
