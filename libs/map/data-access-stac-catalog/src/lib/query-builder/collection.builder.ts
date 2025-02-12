@@ -55,18 +55,12 @@ export class CollectionBuilder {
         type: 'workflow',
         userWorkspace: queryParams.userWorkspace,
         jobId: queryParams.jobId,
-        ...new QueryBuilder(
-          { ...this.params, queryParams },
-          { ...this.options, enabledOnParams: 'dataOrDateTime' }
-        ).build(),
+        ...new QueryBuilder({ ...this.params, queryParams }, this.options).build(),
       };
     } else if (isCatalogue(this.params.queryParams)) {
       const queryParams = this.params.queryParams;
       const queries = collections.map((collection) => ({
-        ...new QueryBuilder(
-          { ...this.params, queryParams: { ...queryParams, collection } },
-          { ...this.options, enabledOnParams: 'data' }
-        ).build(),
+        ...new QueryBuilder({ ...this.params, queryParams: { ...queryParams, collection } }, this.options).build(),
         collection,
       }));
 
@@ -82,7 +76,7 @@ export class CollectionBuilder {
 
   private getDefaultQuery = (): TCollectionQuery => {
     const { queryParams, ...params } = this.params;
-    const query = new QueryBuilder(params, { ...this.options, enabledOnParams: 'dataOrDateTime' }).build();
+    const query = new QueryBuilder(params, this.options).build();
 
     return {
       type: 'search',
