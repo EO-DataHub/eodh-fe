@@ -49,11 +49,11 @@ const createElement64CopernicusParams = (
 
 export const createCopernicusParams = (params: TCopernicusParams, collection: TCatalogueCollection): TFilterParam[] => {
   switch (collection) {
-    case 'element64': {
+    case 'EarthSearchElement84': {
       return createElement64CopernicusParams(params, collection);
     }
 
-    case 'ard': {
+    case 'CEDA': {
       return createArdCopernicusParams(params, collection);
     }
 

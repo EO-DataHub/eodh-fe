@@ -1,16 +1,16 @@
 import { paths } from '../api';
 
-export const collections = ['element64', 'ard'] as const;
+export const collections = ['EarthSearchElement84', 'CEDA'] as const;
 
 export type TCatalogueCollection = typeof collections[number];
 
 export const getCollectionUrl = (collection: TCatalogueCollection | undefined) => {
   switch (collection) {
-    case 'element64': {
+    case 'EarthSearchElement84': {
       return paths.STAC_ELEMENT_64_CATALOGUE;
     }
 
-    case 'ard': {
+    case 'CEDA': {
       return paths.STAC_CEDA_CATALOGUE;
     }
 

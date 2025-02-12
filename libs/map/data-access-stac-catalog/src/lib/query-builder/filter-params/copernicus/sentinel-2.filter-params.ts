@@ -52,7 +52,7 @@ export const createSentinel2FilterParams = (
   }
 
   switch (collection) {
-    case 'element64': {
+    case 'EarthSearchElement84': {
       return [
         ...createSentinel2FilterParamsHelper(
           enabled,
@@ -69,7 +69,7 @@ export const createSentinel2FilterParams = (
       ];
     }
 
-    case 'ard': {
+    case 'CEDA': {
       return [
         ...createSentinel2FilterParamsHelper(
           enabled,
