@@ -169,9 +169,10 @@ interface IAnswerProps {
   questionKey: string;
   question: string;
   pathToImages?: string;
+  translationPath: string;
 }
 
-export const Answer = ({ answer, answerKey, question, questionKey, pathToImages }: IAnswerProps) => {
+export const Answer = ({ answer, answerKey, question, questionKey, pathToImages, translationPath }: IAnswerProps) => {
   return (
     <div className={helpStyles.answer} id={answerKey}>
       <Text type='h4' content={question} fontSize='medium' fontWeight='semibold' className={helpStyles.answerTitle} />

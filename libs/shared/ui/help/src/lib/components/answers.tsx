@@ -30,6 +30,7 @@ export const Answers = ({ translationPath, helpContentTranslationKeys, pathToIma
               returnObjects: true,
             })}
             pathToImages={pathToImages}
+            translationPath={translationPath}
           />
         </div>
       ))}
