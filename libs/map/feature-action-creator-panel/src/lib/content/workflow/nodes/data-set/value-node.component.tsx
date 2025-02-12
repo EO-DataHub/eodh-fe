@@ -12,10 +12,7 @@ const useNodeTranslation = (node: TValueNodeProps['node']) => {
       return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_1');
     }
 
-    case 'sentinel-2-l1c': {
-      return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_2');
-    }
-
+    case 'sentinel-2-l1c':
     case 'sentinel-2-l2a':
     case 'sentinel-2-l2a-ard': {
       return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.SENTINEL_2');

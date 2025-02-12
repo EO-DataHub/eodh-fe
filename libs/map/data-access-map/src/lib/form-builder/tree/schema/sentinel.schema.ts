@@ -228,7 +228,7 @@ export const sentinel2ActionCreatorSchema: IDynamicTreeItem = {
         value: {
           name: 'public.copernicus.sentinel2.l2a',
           type: 'checkbox',
-          value: true,
+          value: false,
         },
       },
     },

@@ -1,6 +1,20 @@
-import { z } from 'zod';
+import { RefinementCtx, z } from 'zod';
 
 const notDisplayedErrorMessage = '';
+
+const addCustomIssue = (ctx: RefinementCtx, path: string, message: string) => {
+  ctx.addIssue({
+    code: z.ZodIssueCode.custom,
+    message,
+    path: [path],
+  });
+};
+
+const addCustomIssues = (ctx: RefinementCtx, paths: string[], message: string) => {
+  paths.forEach((path) => {
+    addCustomIssue(ctx, path, message);
+  });
+};
 
 export const sentinel2Schema = z.object({
   enabled: z.boolean(),
@@ -16,23 +30,8 @@ export const sentinel2SearchRefine = (schema: z.infer<typeof sentinel2Schema>, c
   }
 
   if (!schema.l1c && !schema.l2a && !schema.l2aARD) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
-      path: ['l1c'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['l2a'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['l2aARD'],
-    });
+    addCustomIssues(ctx, ['l2a', 'l2aARD'], notDisplayedErrorMessage);
+    addCustomIssue(ctx, 'l1c', 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED');
   }
 };
 
@@ -42,106 +41,19 @@ export const sentinel2ActionCreatorRefine = (schema: z.infer<typeof sentinel2Sch
   }
 
   if (schema.l1c && schema.l2a && !schema.l2aARD) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['enabled'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED',
-      path: ['l1c'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['l2a'],
-    });
+    addCustomIssues(ctx, ['enabled', 'l2a'], notDisplayedErrorMessage);
+    addCustomIssue(ctx, 'l1c', 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED');
   } else if (schema.l1c && !schema.l2a && schema.l2aARD) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['enabled'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED',
-      path: ['l1c'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['l2aARD'],
-    });
+    addCustomIssues(ctx, ['enabled', 'l2aARD'], notDisplayedErrorMessage);
+    addCustomIssue(ctx, 'l1c', 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED');
   } else if (!schema.l1c && schema.l2a && schema.l2aARD) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['enabled'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED',
-      path: ['l2a'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['l2aARD'],
-    });
+    addCustomIssues(ctx, ['enabled', 'l2aARD'], notDisplayedErrorMessage);
+    addCustomIssue(ctx, 'l2a', 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED');
   } else if (schema.l1c && schema.l2a && schema.l2aARD) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['enabled'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED',
-      path: ['l1c'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['l2a'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['l2aARD'],
-    });
+    addCustomIssues(ctx, ['enabled', 'l2a', 'l2aARD'], notDisplayedErrorMessage);
+    addCustomIssue(ctx, 'l1c', 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_FIELD_IS_REQUIRED');
   } else if (!schema.l1c && !schema.l2a && !schema.l2aARD) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['enabled'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
-      path: ['l1c'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['l2a'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['l2aARD'],
-    });
+    addCustomIssues(ctx, ['enabled', 'l2a', 'l2aARD'], notDisplayedErrorMessage);
+    addCustomIssue(ctx, 'l1c', 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED');
   }
 };
