@@ -61,8 +61,11 @@ export const useStacLayerCreation = () => {
   const createStacLayerWithSentinel2ArdFix = useCallback(
     async (url: string, zIndex: number) => {
       const data = await getHttpClient().get<StacItem>(url);
+      const isCogAsset = data?.assets['cog'] && !data?.assets['cog'].type;
+      const cogAssetBands = [3, 2, 1];
+      const sentinel2ArdAssets = ['cog'];
 
-      if (data?.assets['cog'] && !data?.assets['cog'].type) {
+      if (isCogAsset) {
         data.assets['cog'] = {
           ...data.assets['cog'],
           type: 'image/tiff; application=geotiff; profile=cloud-optimized',
@@ -71,7 +74,8 @@ export const useStacLayerCreation = () => {
 
       const newStacLayer = new STACWithColorMap({
         data,
-        bands: data?.assets['cog'] ? [3, 2, 1] : undefined,
+        bands: isCogAsset ? cogAssetBands : undefined,
+        assets: isCogAsset ? sentinel2ArdAssets : undefined,
         zIndex,
         getSourceOptions: (type, options) => {
           const token = authClient.getToken().token;
