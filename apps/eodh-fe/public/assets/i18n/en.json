@@ -503,22 +503,22 @@
                   }
                 },
                 "References and further reading:",
-                [ 
+                [
                   {
-                    "LINK" : {
+                    "LINK": {
                       "POTES_CYA": {
                         "DESCRIPTION": "Potes et al. 2018 - CYA"
                       }
                     }
                   },
                   {
-                    "LINK" : {
+                    "LINK": {
                       "SENTINEL_2_WATER_MASK": {
                         "DESCRIPTION": "Sentinel 2 Water Mask"
                       }
                     }
                   },
-                  { 
+                  {
                     "LINK": {
                       "ZHAN_TURB": {
                         "DESCRIPTION": "Zhan et al. 2022 - TURB"
