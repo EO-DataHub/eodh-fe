@@ -58,8 +58,8 @@ interface IImageRendererProps {
 const ImageRenderer = ({ imageData, answerKey, imagePath }: IImageRendererProps) => {
   return Object.keys(imageData).map((imageDataKey) => (
     <div className='mt-3' key={answerKey}>
-      {imageData[imageDataKey].DESCRIPTION_ABOVE && (
-        <TextRenderer content={imageData[imageDataKey].DESCRIPTION_ABOVE} uniqueId={imageDataKey} />
+      {imageData[imageDataKey]?.DESCRIPTION_ABOVE && (
+        <TextRenderer content={imageData[imageDataKey].DESCRIPTION_ABOVE || ''} uniqueId={imageDataKey} />
       )}
       <img src={`${imagePath}/${imageDataKey}.png`} alt={imageData[imageDataKey].ALT} className={helpStyles.image} />
     </div>
