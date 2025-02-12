@@ -1,7 +1,6 @@
 import { Link, Text } from '@ukri/shared/design-system';
 
 import { helpStyles } from './help.styles';
-import { translationPath } from './help-content';
 
 type TTableItem = {
   TABLE: { LABEL: string; COLOR: string }[];
