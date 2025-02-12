@@ -1,4 +1,5 @@
-import { Link, Text } from '@ukri/shared/design-system';
+import { Button, Text } from '@ukri/shared/design-system';
+import { useCallback } from 'react';
 
 import { helpStyles } from './help.styles';
 
@@ -173,8 +174,15 @@ interface IAnswerProps {
 }
 
 export const Answer = ({ answer, answerKey, question, questionKey, pathToImages, translationPath }: IAnswerProps) => {
+  const handleClick = useCallback(() => {
+    const element = document.getElementById(questionKey);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [questionKey]);
+
   return (
-    <div className={helpStyles.answer} id={answerKey}>
+    <div id={answerKey}>
       <Text type='h4' content={question} fontSize='medium' fontWeight='semibold' className={helpStyles.answerTitle} />
       {answer.map((item, arrayIndex) => {
         return (
@@ -187,15 +195,14 @@ export const Answer = ({ answer, answerKey, question, questionKey, pathToImages,
           />
         );
       })}
-      <Link
-        type='button'
-        href={`#${questionKey}`}
+      <Button
         size='medium'
         iconHeight={20}
         iconWidth={20}
         text={`${translationPath}.BACK_BTN`}
         className={helpStyles.backButton}
         iconName='ArrowUpward'
+        onClick={handleClick}
       />
     </div>
   );

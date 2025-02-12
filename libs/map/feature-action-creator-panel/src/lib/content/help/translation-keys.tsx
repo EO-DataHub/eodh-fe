@@ -1,23 +1,10 @@
-export const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
+import { IHelpContent } from '@ukri/shared/ui/help';
+const translationPath = 'MAP.ACTION_CREATOR_PANEL.HELP';
 
-interface IQuestion {
-  QUESTION_ID: string;
-}
-
-interface ISection {
-  SECTION_ID: string;
-  CONTENT: IQuestion[];
-}
-
-export interface IHelpContent {
-  TITLE: string;
-  INTRO: string;
-  QUESTIONS: ISection[];
-}
-
-export const helpContentTranslationKeys: IHelpContent = {
+export const helpContentConfig: IHelpContent = {
   TITLE: 'TITLE',
   INTRO: 'INTRO',
+  TRANSLATION_PATH: translationPath,
   QUESTIONS: [
     {
       SECTION_ID: 'GENERAL_FUNCIONALITY',

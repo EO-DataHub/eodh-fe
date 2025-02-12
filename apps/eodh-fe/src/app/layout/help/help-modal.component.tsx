@@ -2,7 +2,7 @@ import { Icon, Text } from '@ukri/shared/design-system';
 import { Help } from '@ukri/shared/ui/help';
 
 import { styles } from './help-modal.styles';
-import { helpContentTranslationKeys, translationPath } from './translation-keys';
+import { helpContentConfig, translationPath } from './translation-keys';
 interface IModalProps {
   onClose: () => void;
 }
@@ -24,7 +24,7 @@ export const HelpModal = ({ onClose }: IModalProps) => {
           </button>
         </div>
         <div className={styles.content}>
-          <Help translationPath={translationPath} helpContentTranslationKeys={helpContentTranslationKeys} />
+          <Help helpContentConfig={helpContentConfig} className={styles.helpContent} />
         </div>
       </div>
     </div>

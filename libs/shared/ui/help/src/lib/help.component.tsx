@@ -8,22 +8,19 @@ import { helpContentWithTranslations, IHelpContent } from './components/help-con
 import { TableOfContent } from './components/table-of-content';
 
 interface IHelpProps {
-  translationPath: string;
-  helpContentTranslationKeys: IHelpContent;
+  helpContentConfig: IHelpContent;
   className?: string;
   pathToImages?: string;
 }
 
-export const Help = ({ translationPath, helpContentTranslationKeys, pathToImages, className }: IHelpProps) => {
+export const Help = ({ helpContentConfig, pathToImages, className }: IHelpProps) => {
   const memoizedTitleTranslation = useMemo(() => {
-    return (
-      helpContentTranslationKeys.TITLE && helpContentWithTranslations(helpContentTranslationKeys, translationPath).TITLE
-    );
-  }, [helpContentTranslationKeys, translationPath]);
+    return helpContentConfig.TITLE && helpContentWithTranslations(helpContentConfig).TITLE;
+  }, [helpContentConfig]);
 
   const memoizedIntroTranslation = useMemo(() => {
-    return helpContentWithTranslations(helpContentTranslationKeys, translationPath).INTRO;
-  }, [helpContentTranslationKeys, translationPath]);
+    return helpContentWithTranslations(helpContentConfig).INTRO;
+  }, [helpContentConfig]);
 
   return (
     <section className={clsx(helpStyles.helpSection, className)}>
@@ -43,12 +40,8 @@ export const Help = ({ translationPath, helpContentTranslationKeys, pathToImages
         fontWeight='regular'
         className={helpStyles.helpIntro}
       />
-      <TableOfContent translationPath={translationPath} helpContentTranslationKeys={helpContentTranslationKeys} />
-      <Answers
-        translationPath={translationPath}
-        helpContentTranslationKeys={helpContentTranslationKeys}
-        pathToImages={pathToImages}
-      />
+      <TableOfContent helpContentConfig={helpContentConfig} />
+      <Answers helpContentConfig={helpContentConfig} pathToImages={pathToImages} />
     </section>
   );
 };

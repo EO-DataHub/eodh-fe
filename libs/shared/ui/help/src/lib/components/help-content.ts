@@ -11,6 +11,7 @@ export interface IHelpContent {
   TITLE?: string;
   INTRO: string;
   QUESTIONS: ISection[];
+  TRANSLATION_PATH: string;
 }
 
 const checkForDuplicateQuestionIds = (content: IHelpContent): string[] => {
@@ -59,26 +60,23 @@ interface IHelpContentWithTranslations {
   }[];
 }
 
-export const helpContentWithTranslations = (
-  helpContentTranslationKeys: IHelpContent,
-  translationPath: string
-): IHelpContentWithTranslations => {
-  const helpContentTranslationUniqueKeys = checkForDuplicateQuestionIds(helpContentTranslationKeys);
+export const helpContentWithTranslations = (helpContentConfig: IHelpContent): IHelpContentWithTranslations => {
+  const helpContentTranslationUniqueKeys = checkForDuplicateQuestionIds(helpContentConfig);
   if (helpContentTranslationUniqueKeys.length > 0) {
     // eslint-disable-next-line no-console
     console.error(`Duplicate QUESTION_IDs found: ${helpContentTranslationUniqueKeys.join(', ')}`);
   }
   return {
-    TITLE: `${translationPath}.${helpContentTranslationKeys.TITLE}`,
-    INTRO: `${translationPath}.${helpContentTranslationKeys.INTRO}`,
-    QUESTIONS: helpContentTranslationKeys.QUESTIONS.map((category) => ({
+    TITLE: `${helpContentConfig.TRANSLATION_PATH}.${helpContentConfig.TITLE}`,
+    INTRO: `${helpContentConfig.TRANSLATION_PATH}.${helpContentConfig.INTRO}`,
+    QUESTIONS: helpContentConfig.QUESTIONS.map((category) => ({
       SECTION_ID: category.SECTION_ID,
-      SECTION_TRANSLATION: `${translationPath}.QUESTIONS.${category.SECTION_ID}.SUBTITLE`,
+      SECTION_TRANSLATION: `${helpContentConfig.TRANSLATION_PATH}.QUESTIONS.${category.SECTION_ID}.SUBTITLE`,
       CONTENT: category.CONTENT.map((question) => ({
         UNIQUE_QUESTION_ID: `${category.SECTION_ID}_${question.QUESTION_ID}_question`,
         UNIQUE_ANSWER_ID: `${category.SECTION_ID}_${question.QUESTION_ID}_answer`,
-        QUESTION_TRANSLATION: `${translationPath}.QUESTIONS.${category.SECTION_ID}.${question.QUESTION_ID}.QUESTION`,
-        ANSWER_TRANSLATION: `${translationPath}.QUESTIONS.${category.SECTION_ID}.${question.QUESTION_ID}.ANSWER`,
+        QUESTION_TRANSLATION: `${helpContentConfig.TRANSLATION_PATH}.QUESTIONS.${category.SECTION_ID}.${question.QUESTION_ID}.QUESTION`,
+        ANSWER_TRANSLATION: `${helpContentConfig.TRANSLATION_PATH}.QUESTIONS.${category.SECTION_ID}.${question.QUESTION_ID}.ANSWER`,
       })),
     })),
   };

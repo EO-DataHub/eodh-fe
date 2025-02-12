@@ -1,8 +1,9 @@
 import { IHelpContent } from '@ukri/shared/ui/help';
 export const translationPath = 'MAP.GENERAL_HELP_MODAL';
 
-export const helpContentTranslationKeys: IHelpContent = {
+export const helpContentConfig: IHelpContent = {
   INTRO: 'INTRO',
+  TRANSLATION_PATH: translationPath,
   QUESTIONS: [
     {
       SECTION_ID: 'GENERAL_FUNCIONALITY',
