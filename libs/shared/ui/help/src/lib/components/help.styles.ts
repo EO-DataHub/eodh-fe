@@ -19,4 +19,5 @@ export const helpStyles = {
   tableCell: 'border border-main p-1 w-full',
   colorCell: 'min-w-12 h-4',
   image: 'object-cover',
+  link: 'text-primary visited:text-purple-600 hover:text-primary-dark',
 };

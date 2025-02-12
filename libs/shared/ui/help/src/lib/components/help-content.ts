@@ -1,5 +1,8 @@
 interface IQuestion {
   QUESTION_ID: string;
+  LINKS?: {
+    [key: string]: string;
+  };
 }
 
 interface ISection {
@@ -56,6 +59,9 @@ interface IHelpContentWithTranslations {
       UNIQUE_ANSWER_ID: string;
       QUESTION_TRANSLATION: string;
       ANSWER_TRANSLATION: string;
+      LINKS?: {
+        [key: string]: string;
+      };
     }[];
   }[];
 }
@@ -77,6 +83,7 @@ export const helpContentWithTranslations = (helpContentConfig: IHelpContent): IH
         UNIQUE_ANSWER_ID: `${category.SECTION_ID}_${question.QUESTION_ID}_answer`,
         QUESTION_TRANSLATION: `${helpContentConfig.TRANSLATION_PATH}.QUESTIONS.${category.SECTION_ID}.${question.QUESTION_ID}.QUESTION`,
         ANSWER_TRANSLATION: `${helpContentConfig.TRANSLATION_PATH}.QUESTIONS.${category.SECTION_ID}.${question.QUESTION_ID}.ANSWER`,
+        LINKS: question.LINKS,
       })),
     })),
   };

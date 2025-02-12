@@ -248,8 +248,8 @@
         "INTRO": "Click on one of the questions below to see more detailed explanations.",
         "BACK_BTN": "Back to Top",
         "QUESTIONS": {
-          "GENERAL_FUNCIONALITY": {
-            "SUBTITLE": "General functionality",
+          "GETTING_STARTED_WITH_AC": {
+            "SUBTITLE": "Getting Started with the Action Creator",
             "WHAT_IS_THE_AC": {
               "QUESTION": "What is the Action Creator?",
               "ANSWER": [
@@ -330,6 +330,222 @@
                   "Click 'Load Preset' on the desired workflow.",
                   "The Dataset and Function blocks will be pre-filled, and the user can define the AOI and Date Range.",
                   "Click Run to execute the preset workflow."
+                ],
+                "Detailed description of presents can be found in a separate section."
+              ]
+            },
+            "HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS": {
+              "QUESTION": "How do I download a workflow results?",
+              "ANSWER": [
+                "Click the 'Download' button next to a result in Action Creator. A respective files for a particular item will be downloaded."
+              ]
+            }
+          },
+          "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {
+            "SUBTITLE": "Managing Datasets & Functions in Action Creator",
+            "HOW_TO_ADD_COMERCIAL_DATASETS": {
+              "QUESTION": "How do I add commercial datasets (e.g., Planet items) to Action Creator workflows?",
+              "ANSWER": [
+                "To use commercial datasets in the Action Creator, the dataset’s item must first be purchased and available in My Items:",
+                [
+                  "Purchase the dataset:",
+                  [
+                    "Run a search with a commercial dataset.",
+                    "Click 'Purchase' next to an item.",
+                    "Complete the transaction on the TPZ portal.",
+                    "After purchase, the item appears in My Items (left panel)."
+                  ],
+                  "Use the dataset’s item in Action Creator:",
+                  [
+                    "Open Action Creator and click on the 'Dataset' block.",
+                    "In the left-side menu, go to 'My Items'.",
+                    "Select the purchased item.",
+                    "The dataset item’s name appears in the Dataset block."
+                  ],
+                  "Proceed with workflow configuration:",
+                  [
+                    "Select a Date Range and Function(s).",
+                    "Click Run to execute the workflow using the commercial dataset’s item."
+                  ]
+                ]
+              ]
+            },
+            "HOW_TO_USE_MULTIPLE_FUNCTIONS": {
+              "QUESTION": "How do I use multiple functions in a single workflow?",
+              "ANSWER": [
+                [
+                  "Click on the 'Function' block in the Action Creator panel.",
+                  "Click the '+' button below the block to add another function."
+                ],
+                "Functions execute sequentially from top to bottom. You cannot remove or modify a function in the middle—only the last function can be deleted first. Parallel functions are not yet supported"
+              ]
+            },
+            "HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER": {
+              "QUESTION": "How do I filter workflow results by time using the time slider?",
+              "ANSWER": [
+                "After running a workflow, the time slider appears below the search/workflow panel. Drag the slider handles to adjust the displayed time range without re-running the workflow. Narrowing the range filters results to selected timestamps. Expanding the range shows more results but cannot exceed the original workflow date range. The workflow execution remains unchanged—only the displayed results update dynamically."
+              ]
+            }
+          },
+          "EXECUTING_AND_TRACKING_WORKFLOWS": {
+            "SUBTITLE": "Executing & Tracking Workflows",
+            "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS": {
+              "QUESTION": "How do I view workflow execution results?",
+              "ANSWER": [
+                "Open the History tab in Action Creator to see past workflows. Click 'View Results' to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click 'View' to load the result as a map layer."
+              ]
+            },
+            "HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW": {
+              "QUESTION": "How do I track the execution progress of my workflow?",
+              "ANSWER": [
+                "Open the History tab in Action Creator. Workflow status indicators:",
+                [
+                  "Processing – Workflow is still running.",
+                  "Ready – Workflow is completed and results are available.",
+                  "Failed – Workflow encountered an error."
+                ]
+              ]
+            },
+            "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_NOTIFICATIONS": {
+              "QUESTION": "How do I view workflow execution notifications?",
+              "ANSWER": [
+                "A green dot appears next to the History tab when a workflow finishes. Click History to view execution details."
+              ]
+            },
+            "WHAT_HAPPENS_IF_I_SWITCH_TO_ACTION_CREATOR_WHILE_HAVING_A_SEARCH_SESSION_ACTIVE": {
+              "QUESTION": "What happens if I switch to Action Creator while having a search session active?",
+              "ANSWER": [
+                "Your search selections (AOI, date range, dataset) are not transferred to Action Creator. You must redefine your AOI, dataset, and date range in Action Creator. Switching does not delete previous search results—they remain in the Search tab."
+              ]
+            },
+            "CAN_I_SAVE_MY_WORKFLOW_FOR_FUTURE_USE": {
+              "QUESTION": "Can I save my workflow for future use?",
+              "ANSWER": [
+                "Yes – Workflows can be exported and reloaded later. Click 'Export' to save the workflow as a JSON file. To reuse, go to 'Import' and upload the saved workflow."
+              ]
+            },
+            "WHAT_HAPPENS_IF_I_RUN_MULTIPLE_WORKFLOWS_AT_THE_SAME_TIME": {
+              "QUESTION": "What happens if I run multiple workflows at the same time?",
+              "ANSWER": [
+                "You can run multiple workflows simultaneously. Each workflow runs independently and appears in the History tab. Results are processed in parallel, and you can start a new workflow while others are still running."
+              ]
+            },
+            "HOW_DO_I_CANCEL_A_RUNNING_WORKFLOW": {
+              "QUESTION": "How do I cancel a running workflow?",
+              "ANSWER": ["Currently, running workflows cannot be cancelled."]
+            },
+            "HOW_DO_I_ACCESS_MY_SAVED_WORKFLOW_RESULTS_OR_CONFIGURATION": {
+              "QUESTION": "How do I access my saved workflow results or configuration?",
+              "ANSWER": [
+                "In order to access saved workflow results, go to History tab and click on View Results button next to a desired workflow.",
+                "Past workflow configurations have to be exported first and then imported in order to resume them. They are not saved automatically."
+              ]
+            }
+          },
+          "WORKING_WITH_ACTIONS": {
+            "SUBTITLE": "Working with Actions (Presets and Functions)",
+            "WHAT_IS_LAND_COVER_CHANGE_SCENARIO": {
+              "QUESTION": "What is Land Cover Changes scenario?",
+              "ANSWER": [
+                "The Land Cover Changes preset is designed to help users monitor how different land cover classes evolve over time. By leveraging established datasets such as CORINE, ESA Global Land Cover Map (ESA GLCM), and Copernicus Land Monitoring Service (CLMS) Water Bodies, it offers quick insights into the spatial distribution and temporal changes of various land cover classes (e.g., forest, cropland, urban areas, water bodies).",
+                "It can be used for:",
+                [
+                  "Detecting Urban Expansion: Observe how cities grow and change land use.",
+                  "Measuring Deforestation/Reforestation: Track increases or decreases in forested areas.",
+                  "Agricultural Management: Understand the shift and scale of farmland, pasture, or crop types over time.",
+                  "Environmental Monitoring: Identify changes in wetlands, grasslands, or other habitats sensitive to climate or human impact."
+                ],
+                "Workflow explanation:",
+                [
+                  "Data Ingestion: The system takes in relevant land cover datasets—CORINE, ESA GLCM, and CLMS Water Bodies.",
+                  "Per-Class Area Calculation: Within the user-specified region of interest, the workflow calculates the area occupied by each land cover class for each available time period.",
+                  "Storage: These aggregated results are stored as a STAC collection in the user’s workspace, ensuring easy retrieval and compatibility with EOPro tools.",
+                  "Visualisation: In the front-end application, the user sees a time series bar-chart illustrating how each land cover class’s area changes over different time periods."
+                ],
+                {
+                  "IMAGE": {
+                    "WHAT_IS_LAND_COVER_CHANGES_SCENARIO": {
+                      "ALT": "Land Cover Changes"
+                    }
+                  }
+                }
+              ]
+            },
+            "WHAT_IS_WATER_QUALITY_SCENARIO": {
+              "QUESTION": "What is Water Quality Analysis scenario?",
+              "ANSWER": [
+                "The Water Quality Analysis preset leverages Sentinel-2 imagery (Level-2A and Analysis Ready Data) to derive crucial water quality indicators. It calculates various spectral indices related to water health and composition, helping stakeholders assess conditions such as turbidity, potential for harmful algal blooms, and other factors critical for water resource management.",
+                "It can be used for:",
+                [
+                  "Monitoring Algal Blooms: Track and predict cyanobacteria growth in lakes and reservoirs.",
+                  "Drinking Water Safety: Detect high turbidity or dissolved organic matter levels that might indicate contamination.",
+                  "Ecosystem Health: Gauge the clarity and overall health of rivers, lakes, and coastal waters.",
+                  "Aquaculture & Fisheries: Evaluate suitable environments for fish farming and maintain healthy aquatic habitats."
+                ],
+                "Workflow explanation:",
+                [
+                  "Data Ingestion: The preset retrieves Sentinel-2 L2A or Analysis Ready Data (ARD) for the water bodies of interest.",
+                  "Spectral Indices Calculation: A suite of indices is generated, including but not limited to:",
+                  [
+                    "Cyanobacteria Density: Helps indicate the presence and concentration of harmful algal blooms.",
+                    "Turbidity: Measures water clarity; higher values can signal suspended sediment or pollution.",
+                    "Dissolved Organic Carbon (DOC): Estimates organic carbon content, critical for water chemistry and quality.",
+                    "Coloured Dissolved Organic Matter (CDOM): Evaluates the amount of organic material that affects water colour and light penetration.",
+                    "Normalised Difference Water Index (NDWI): Delineates water bodies and tracks water content in vegetation."
+                  ],
+                  "Result Storage & Visualisation: The output data and derived indices are saved in the user’s workspace as STAC collections for easy access. Graphical tools and dashboards within EOPro can be used to visualise trends over time, allowing for early detection of deteriorating water conditions."
+                ],
+                {
+                  "IMAGE": {
+                    "WHAT_IS_WATER_QUALITY_ANALYSIS_SCENARIO": {
+                      "ALT": "Water Quality Analysis"
+                    }
+                  }
+                },
+                "References and further reading:",
+                [ 
+                  {
+                    "LINK" : {
+                      "POTES_CYA": {
+                        "DESCRIPTION": "Potes et al. 2018 - CYA"
+                      }
+                    }
+                  },
+                  {
+                    "LINK" : {
+                      "SENTINEL_2_WATER_MASK": {
+                        "DESCRIPTION": "Sentinel 2 Water Mask"
+                      }
+                    }
+                  },
+                  { 
+                    "LINK": {
+                      "ZHAN_TURB": {
+                        "DESCRIPTION": "Zhan et al. 2022 - TURB"
+                      }
+                    }
+                  },
+                  {
+                    "LINK": {
+                      "SORIA_PERPINYA_CDOM": {
+                        "DESCRIPTION": "Soria-Perpinya et al. 2021 - CDOM"
+                      }
+                    }
+                  },
+                  {
+                    "LINK": {
+                      "POTES_DOC": {
+                        "DESCRIPTION": "Potes et al. 2018 - DOC"
+                      }
+                    }
+                  },
+                  {
+                    "LINK": {
+                      "SENTINEL_2_NDWI": {
+                        "DESCRIPTION": "Sentinel 2 NDWI"
+                      }
+                    }
+                  }
                 ]
               ]
             },
@@ -557,106 +773,47 @@
                   }
                 ]
               ]
-            }
-          },
-          "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {
-            "SUBTITLE": "Managing Datasets & Functions in Action Creator",
-            "HOW_TO_ADD_COMERCIAL_DATASETS": {
-              "QUESTION": "How do I add commercial datasets (e.g., Planet items) to Action Creator workflows?",
+            },
+            "WHAT_IS_THE_COLOUR_CODING_FOR_NDVI": {
+              "QUESTION": "What is the colour coding for NDVI?",
               "ANSWER": [
-                "To use commercial datasets in the Action Creator, the dataset’s item must first be purchased and available in My Items:",
                 [
-                  "Purchase the dataset:",
-                  [
-                    "Run a search with a commercial dataset.",
-                    "Click 'Purchase' next to an item.",
-                    "Complete the transaction on the TPZ portal.",
-                    "After purchase, the item appears in My Items (left panel)."
-                  ],
-                  "Use the dataset’s item in Action Creator:",
-                  [
-                    "Open Action Creator and click on the 'Dataset' block.",
-                    "In the left-side menu, go to 'My Items'.",
-                    "Select the purchased item.",
-                    "The dataset item’s name appears in the Dataset block."
-                  ],
-                  "Proceed with workflow configuration:",
-                  [
-                    "Select a Date Range and Function(s).",
-                    "Click Run to execute the workflow using the commercial dataset’s item."
-                  ]
+                  {
+                    "IMAGE": {
+                      "NDVI": {
+                        "ALT": "NDVI"
+                      }
+                    }
+                  }
                 ]
               ]
             },
-            "HOW_TO_USE_MULTIPLE_FUNCTIONS": {
-              "QUESTION": "How do I use multiple functions in a single workflow?",
+            "WHAT_IS_THE_COLOUR_CODING_FOR_EVI": {
+              "QUESTION": "What is the colour coding for EVI?",
               "ANSWER": [
                 [
-                  "Click on the 'Function' block in the Action Creator panel.",
-                  "Click the '+' button below the block to add another function."
-                ],
-                "Functions execute sequentially from top to bottom. You cannot remove or modify a function in the middle—only the last function can be deleted first. Parallel functions are not yet supported"
-              ]
-            },
-            "HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER": {
-              "QUESTION": "How do I filter workflow results by time using the time slider?",
-              "ANSWER": [
-                "After running a workflow, the time slider appears below the search/workflow panel. Drag the slider handles to adjust the displayed time range without re-running the workflow. Narrowing the range filters results to selected timestamps. Expanding the range shows more results but cannot exceed the original workflow date range. The workflow execution remains unchanged—only the displayed results update dynamically."
-              ]
-            }
-          },
-          "EXECUTING_AND_TRACKING_WORKFLOWS": {
-            "SUBTITLE": "Executing & Tracking Workflows",
-            "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS": {
-              "QUESTION": "How do I view workflow execution results?",
-              "ANSWER": [
-                "Open the History tab in Action Creator to see past workflows. Click 'View Results' to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click 'View' to load the result as a map layer."
-              ]
-            },
-            "HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW": {
-              "QUESTION": "How do I track the execution progress of my workflow?",
-              "ANSWER": [
-                "Open the History tab in Action Creator. Workflow status indicators:",
-                [
-                  "Processing – Workflow is still running.",
-                  "Ready – Workflow is completed and results are available.",
-                  "Failed – Workflow encountered an error."
+                  {
+                    "IMAGE": {
+                      "EVI": {
+                        "ALT": "EVI"
+                      }
+                    }
+                  }
                 ]
               ]
             },
-            "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_NOTIFICATIONS": {
-              "QUESTION": "How do I view workflow execution notifications?",
+            "WHAT_IS_THE_COLOUR_CODING_FOR_SAVI": {
+              "QUESTION": "What is the colour coding for SAVI?",
               "ANSWER": [
-                "A green dot appears next to the History tab when a workflow finishes. Click History to view execution details."
-              ]
-            },
-            "WHAT_HAPPENS_IF_I_SWITCH_TO_ACTION_CREATOR_WHILE_HAVING_A_SEARCH_SESSION_ACTIVE": {
-              "QUESTION": "What happens if I switch to Action Creator while having a search session active?",
-              "ANSWER": [
-                "Your search selections (AOI, date range, dataset) are not transferred to Action Creator. You must redefine your AOI, dataset, and date range in Action Creator. Switching does not delete previous search results—they remain in the Search tab."
-              ]
-            },
-            "CAN_I_SAVE_MY_WORKFLOW_FOR_FUTURE_USE": {
-              "QUESTION": "Can I save my workflow for future use?",
-              "ANSWER": [
-                "Yes – Workflows can be exported and reloaded later. Click 'Export' to save the workflow as a JSON file. To reuse, go to 'Import' and upload the saved workflow."
-              ]
-            },
-            "WHAT_HAPPENS_IF_I_RUN_MULTIPLE_WORKFLOWS_AT_THE_SAME_TIME": {
-              "QUESTION": "What happens if I run multiple workflows at the same time?",
-              "ANSWER": [
-                "You can run multiple workflows simultaneously. Each workflow runs independently and appears in the History tab. Results are processed in parallel, and you can start a new workflow while others are still running."
-              ]
-            },
-            "HOW_DO_I_CANCEL_A_RUNNING_WORKFLOW": {
-              "QUESTION": "How do I cancel a running workflow?",
-              "ANSWER": ["Currently, running workflows cannot be cancelled."]
-            },
-            "HOW_DO_I_ACCESS_MY_SAVED_WORKFLOW_RESULTS_OR_CONFIGURATION": {
-              "QUESTION": "How do I access my saved workflow results or configuration?",
-              "ANSWER": [
-                "In order to access saved workflow results, go to History tab and click on View Results button next to a desired workflow.",
-                "Past workflow configurations have to be exported first and then imported in order to resume them. They are not saved automatically."
+                [
+                  {
+                    "IMAGE": {
+                      "SAVI": {
+                        "ALT": "SAVI"
+                      }
+                    }
+                  }
+                ]
               ]
             }
           },
@@ -785,7 +942,7 @@
           "WHAT_HAPPENS_WHEN_I_RUN_A_SEARCH": {
             "QUESTION": "What happens when I run a search?",
             "ANSWER": [
-              "The system processes your dataset, AOI (Area of Intrest), and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results."
+              "The system processes your dataset, AOI (Area of Interest), and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results."
             ]
           },
           "HOW_DO_I_REFINE_OR_MODIFY_MY_SEARCH_PARAMETERS": {
@@ -865,12 +1022,6 @@
             "QUESTION": "How do I hide footprints or AOI to better see my selected imagery?",
             "ANSWER": [
               "Click the Eye icon in the top menu. This hides both the AOI boundary and footprints without affecting the imagery. Click the Eye icon again to restore visibility."
-            ]
-          },
-          "HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS": {
-            "QUESTION": "How do I download a workflow or search results?",
-            "ANSWER": [
-              "Click the 'Download' button next to a result in Search or Action Creator. A respective files for a particular item will be downloaded."
             ]
           }
         }

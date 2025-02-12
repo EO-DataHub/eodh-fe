@@ -31,6 +31,7 @@ export const Answers = ({ helpContentConfig, pathToImages }: IAnswersProps) => {
             })}
             pathToImages={pathToImages}
             translationPath={helpContentConfig.TRANSLATION_PATH}
+            links={question.LINKS}
           />
         </div>
       ))}

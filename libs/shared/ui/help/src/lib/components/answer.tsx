@@ -12,7 +12,7 @@ type TImageItem = {
 };
 
 type TLinkItem = {
-  LINK: { HREF: string; DESCRIPTION: string };
+  LINK: { [key: string]: { DESCRIPTION: string } };
 };
 
 type TAnswerType = string | string[] | [string] | [string][] | TTableItem | TImageItem | TLinkItem;
@@ -57,7 +57,7 @@ interface IImageRendererProps {
 
 const ImageRenderer = ({ imageData, answerKey, imagePath }: IImageRendererProps) => {
   return Object.keys(imageData).map((imageDataKey) => (
-    <div className='mt-3' key={answerKey}>
+    <div className='my-3' key={answerKey}>
       {imageData[imageDataKey]?.DESCRIPTION_ABOVE && (
         <TextRenderer content={imageData[imageDataKey].DESCRIPTION_ABOVE || ''} uniqueId={imageDataKey} />
       )}
@@ -69,16 +69,20 @@ const ImageRenderer = ({ imageData, answerKey, imagePath }: IImageRendererProps)
 interface ILinkRendererProps {
   linkData: TLinkItem['LINK'];
   answerKey: string;
+  links?: { [key: string]: string };
 }
 
-const LinkRenderer = ({ linkData, answerKey }: ILinkRendererProps) => {
-  return (
-    <div className='mt-3' key={answerKey}>
-      <a className='ml-4 my-4 no-underline' href={linkData.HREF}>
-        {linkData.DESCRIPTION}
+const LinkRenderer = ({ linkData, answerKey, links }: ILinkRendererProps) => {
+  if (!links) {
+    return null;
+  }
+  return Object.keys(linkData).map((linkDataKey) => (
+    <div className='' key={answerKey}>
+      <a className={helpStyles.link} href={links[linkDataKey]} target='_blank' rel='noreferrer'>
+        <Text content={linkData[linkDataKey].DESCRIPTION} fontSize='medium' fontWeight='regular' />
       </a>
     </div>
-  );
+  ));
 };
 
 interface IContentRendererProps {
@@ -86,9 +90,10 @@ interface IContentRendererProps {
   answerKey: string;
   arrayIndex: number;
   imagePath?: string;
+  links?: { [key: string]: string };
 }
 
-const ContentRenderer = ({ item, answerKey, arrayIndex, imagePath }: IContentRendererProps) => {
+const ContentRenderer = ({ item, answerKey, arrayIndex, imagePath, links }: IContentRendererProps) => {
   if (typeof item === 'string') {
     return <TextRenderer content={item} uniqueId={`${answerKey}_${arrayIndex}`} />;
   } else if (typeof item === 'object' && item !== null && 'TABLE' in item) {
@@ -96,7 +101,7 @@ const ContentRenderer = ({ item, answerKey, arrayIndex, imagePath }: IContentRen
   } else if (typeof item === 'object' && item !== null && 'IMAGE' in item && imagePath) {
     return <ImageRenderer imageData={item.IMAGE} answerKey={`${answerKey}_${arrayIndex}`} imagePath={imagePath} />;
   } else if (typeof item === 'object' && item !== null && 'LINK' in item) {
-    return <LinkRenderer linkData={item.LINK} answerKey={`${answerKey}_${arrayIndex}`} />;
+    return <LinkRenderer linkData={item.LINK} answerKey={`${answerKey}_${arrayIndex}`} links={links} />;
   }
   return null;
 };
@@ -106,9 +111,10 @@ interface ISubItemRendererProps {
   answerKey: string;
   index: number;
   imagePath?: string;
+  links?: { [key: string]: string };
 }
 
-const SubItemRenderer = ({ subItem, answerKey, index, imagePath }: ISubItemRendererProps) => {
+const SubItemRenderer = ({ subItem, answerKey, index, imagePath, links }: ISubItemRendererProps) => {
   if (Array.isArray(subItem) && subItem.length > 0) {
     return (
       <ul key={`${answerKey}_${index}`}>
@@ -120,6 +126,7 @@ const SubItemRenderer = ({ subItem, answerKey, index, imagePath }: ISubItemRende
                 answerKey={`${answerKey}_${index}_${subindex}`}
                 arrayIndex={index}
                 imagePath={imagePath}
+                links={links}
               />
             </div>
           );
@@ -129,7 +136,7 @@ const SubItemRenderer = ({ subItem, answerKey, index, imagePath }: ISubItemRende
   }
   return (
     <div className={helpStyles.listItem} key={`${answerKey}_${index}`}>
-      <ContentRenderer item={subItem} answerKey={answerKey} arrayIndex={index} imagePath={imagePath} />
+      <ContentRenderer item={subItem} answerKey={answerKey} arrayIndex={index} imagePath={imagePath} links={links} />
     </div>
   );
 };
@@ -138,13 +145,14 @@ interface IListRendererProps {
   items: TAnswerType[];
   answerKey: string;
   imagePath?: string;
+  links?: { [key: string]: string };
 }
 
-const ListRenderer = ({ items, answerKey, imagePath }: IListRendererProps) => (
+const ListRenderer = ({ items, answerKey, imagePath, links }: IListRendererProps) => (
   <ul key={answerKey}>
     {items.map((subItem, index) => (
       <div key={`${answerKey}_${index}`}>
-        <SubItemRenderer imagePath={imagePath} subItem={subItem} answerKey={answerKey} index={index} />
+        <SubItemRenderer imagePath={imagePath} subItem={subItem} answerKey={answerKey} index={index} links={links} />
       </div>
     ))}
   </ul>
@@ -155,13 +163,16 @@ interface IAnswerRendererProps {
   answerKey: string;
   arrayIndex: number;
   imagePath?: string;
+  links?: { [key: string]: string };
 }
 
-const AnswerRenderer = ({ item, answerKey, arrayIndex, imagePath }: IAnswerRendererProps) => {
+const AnswerRenderer = ({ item, answerKey, arrayIndex, imagePath, links }: IAnswerRendererProps) => {
   if (Array.isArray(item) && item.length > 0) {
-    return <ListRenderer items={item} answerKey={`${answerKey}_${arrayIndex}`} imagePath={imagePath} />;
+    return <ListRenderer items={item} answerKey={`${answerKey}_${arrayIndex}`} imagePath={imagePath} links={links} />;
   }
-  return <ContentRenderer item={item} answerKey={answerKey} arrayIndex={arrayIndex} imagePath={imagePath} />;
+  return (
+    <ContentRenderer item={item} answerKey={answerKey} arrayIndex={arrayIndex} imagePath={imagePath} links={links} />
+  );
 };
 
 interface IAnswerProps {
@@ -171,9 +182,18 @@ interface IAnswerProps {
   question: string;
   pathToImages?: string;
   translationPath: string;
+  links?: { [key: string]: string };
 }
 
-export const Answer = ({ answer, answerKey, question, questionKey, pathToImages, translationPath }: IAnswerProps) => {
+export const Answer = ({
+  answer,
+  answerKey,
+  question,
+  questionKey,
+  pathToImages,
+  translationPath,
+  links,
+}: IAnswerProps) => {
   const handleClick = useCallback(() => {
     const element = document.getElementById(questionKey);
     if (element) {
@@ -192,6 +212,7 @@ export const Answer = ({ answer, answerKey, question, questionKey, pathToImages,
             answerKey={answerKey}
             arrayIndex={arrayIndex}
             imagePath={pathToImages}
+            links={links}
           />
         );
       })}

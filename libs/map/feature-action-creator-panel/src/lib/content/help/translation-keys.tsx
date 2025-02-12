@@ -7,7 +7,7 @@ export const helpContentConfig: IHelpContent = {
   TRANSLATION_PATH: translationPath,
   QUESTIONS: [
     {
-      SECTION_ID: 'GENERAL_FUNCIONALITY',
+      SECTION_ID: 'GETTING_STARTED_WITH_AC',
       CONTENT: [
         {
           QUESTION_ID: 'WHAT_IS_THE_AC',
@@ -31,19 +31,17 @@ export const helpContentConfig: IHelpContent = {
           QUESTION_ID: 'WHAT_ARE_WORKFLOW_PRESETS_AND_HOW_DO_I_USE_THEM',
         },
         {
-          QUESTION_ID: 'WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES',
-        },
-        {
-          QUESTION_ID: 'WHAT_IS_THE_COLOUR_CODING_FOR_WATER_QUALITY_ANALYSIS',
+          QUESTION_ID: 'HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS',
         },
       ],
     },
     {
       SECTION_ID: 'MANAGING_DATASETS_AND_FUNCTIONS_IN_AC',
       CONTENT: [
-        {
-          QUESTION_ID: 'HOW_TO_ADD_COMERCIAL_DATASETS',
-        },
+        // to be hidden for now
+        // {
+        //   QUESTION_ID: 'HOW_TO_ADD_COMERCIAL_DATASETS',
+        // },
         {
           QUESTION_ID: 'HOW_TO_USE_MULTIPLE_FUNCTIONS',
         },
@@ -78,6 +76,41 @@ export const helpContentConfig: IHelpContent = {
         },
         {
           QUESTION_ID: 'HOW_DO_I_ACCESS_MY_SAVED_WORKFLOW_RESULTS_OR_CONFIGURATION',
+        },
+      ],
+    },
+    {
+      SECTION_ID: 'WORKING_WITH_ACTIONS',
+      CONTENT: [
+        {
+          QUESTION_ID: 'WHAT_IS_LAND_COVER_CHANGE_SCENARIO',
+        },
+        {
+          QUESTION_ID: 'WHAT_IS_WATER_QUALITY_SCENARIO',
+          LINKS: {
+            POTES_CYA: 'https://piahs.copernicus.org/articles/380/73/2018/',
+            SENTINEL_2_WATER_MASK:
+              'http://www.informacjakryzysowa.pl/en/publikacje1/sentinel-water-mask-(swm)-new-index-for-water-detection-on-sentinel-2-images',
+            ZHAN_TURB: 'http://dx.doi.org/10.23818/limn.41.18',
+            SORIA_PERPINYA_CDOM: 'https://www.mdpi.com/2073-4441/13/5/686',
+            POTES_DOC: 'https://piahs.copernicus.org/articles/380/73/2018/',
+            SENTINEL_2_NDWI: 'https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ndwi/',
+          },
+        },
+        {
+          QUESTION_ID: 'WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES',
+        },
+        {
+          QUESTION_ID: 'WHAT_IS_THE_COLOUR_CODING_FOR_WATER_QUALITY_ANALYSIS',
+        },
+        {
+          QUESTION_ID: 'WHAT_IS_THE_COLOUR_CODING_FOR_NDVI',
+        },
+        {
+          QUESTION_ID: 'WHAT_IS_THE_COLOUR_CODING_FOR_EVI',
+        },
+        {
+          QUESTION_ID: 'WHAT_IS_THE_COLOUR_CODING_FOR_SAVI',
         },
       ],
     },

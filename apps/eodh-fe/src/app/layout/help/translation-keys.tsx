@@ -62,12 +62,13 @@ export const helpContentConfig: IHelpContent = {
         {
           QUESTION_ID: 'HOW_DO_I_VIEW_AN_ITEM_FROM_THE_SEARCH_RESULTS',
         },
-        {
-          QUESTION_ID: 'HOW_DO_I_PURCHASE_COMMERCIAL_DATA',
-        },
-        {
-          QUESTION_ID: 'HOW_DO_I_DISPLAY_PURCHASED_ITEMS_ON_THE_MAP',
-        },
+        // to be hidden for now
+        // {
+        //   QUESTION_ID: 'HOW_DO_I_PURCHASE_COMMERCIAL_DATA',
+        // },
+        // {
+        //   QUESTION_ID: 'HOW_DO_I_DISPLAY_PURCHASED_ITEMS_ON_THE_MAP',
+        // },
       ],
     },
     {
@@ -91,9 +92,6 @@ export const helpContentConfig: IHelpContent = {
       CONTENT: [
         {
           QUESTION_ID: 'HOW_DO_I_HIDE_FOOTPRINTS_OR_AOI_TO_BETTER_SEE_MY_SELECTED_IMAGERY',
-        },
-        {
-          QUESTION_ID: 'HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS',
         },
       ],
     },
