@@ -1,9 +1,9 @@
 import { createIsoStringDate } from '@ukri/shared/utils/date';
 import z from 'zod';
 
-import { functionSchema, TFunction } from '../query/function.model';
+import { createGeometry } from '../geometry/geometry';
+import { functionSchema, TFunction } from '../query/function/function.model';
 import { TAreaNode, TDataSetsNode, TDateRangeNode, TFunctionNode } from '../store/action-creator/action-creator.model';
-import { createGeometry } from '../store/results/geometry';
 import { getIntersects, TGeometry } from './get-intersects';
 
 type TFunctionInternal = z.input<typeof functionSchema>;

@@ -5,6 +5,7 @@ import Interaction from 'ol/interaction/Interaction';
 import type BaseLayer from 'ol/layer/Base';
 import TileLayer from 'ol/layer/Tile';
 import OlMap from 'ol/Map.js';
+import MapBrowserEvent from 'ol/MapBrowserEvent';
 import { fromLonLat } from 'ol/proj';
 import OSM from 'ol/source/OSM';
 import OlView from 'ol/View.js';
@@ -18,6 +19,10 @@ interface IMap {
   addInteraction(interaction: Interaction): void;
   removeInteraction(interaction: Interaction): Interaction | undefined;
   removeLayer(layer: BaseLayer): BaseLayer | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  on(event: 'dblclick', callback: (event: MapBrowserEvent<any>) => void): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  un(event: 'dblclick', callback: (event: MapBrowserEvent<any>) => void): void;
   getView(): OlView;
   getSize(): number[] | undefined;
   getLayers(): { getArray(): BaseLayer[] };
@@ -34,6 +39,10 @@ const defaultMap = {
   addInteraction() {},
   removeInteraction: () => undefined,
   removeLayer: () => undefined,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  on() {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  un() {},
   getView: () => new OlView(),
   getSize: () => getSize([0, 0, 0, 0]),
   getLayers: () => ({ getArray: () => [] }),

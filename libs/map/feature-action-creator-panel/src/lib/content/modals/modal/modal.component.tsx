@@ -5,7 +5,7 @@ import { styles } from './modal.styles';
 
 interface IModalProps {
   header: string;
-  content: string;
+  content: string | JSX.Element;
   remainingContent?: JSX.Element;
   icon?: keyof typeof IconsNames;
   ctaButtons?: JSX.Element;

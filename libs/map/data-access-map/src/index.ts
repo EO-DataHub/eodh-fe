@@ -1,5 +1,8 @@
 export { useAoi } from './lib/store/aoi/aoi.store';
-export { createGeometry, getCoordinates } from './lib/store/aoi/geometry';
+export { useMeasureDistance } from './lib/store/measure-distance/measure-distance.store';
+export { createGeometry, getCoordinates } from './lib/geometry/geometry';
+export type { TUnit, TUnitType, TShapeType } from './lib/geometry/shape.model';
+export { getArea, convertUnits, getLineLength } from './lib/geometry/area-and-distance';
 export { useDate } from './lib/store/date/date.store';
 export { useMode } from './lib/store/mode.store';
 export { useTrueColorImage } from './lib/store/true-color-image/true-color-image.store';
@@ -11,7 +14,7 @@ export {
   useFootprintCollectionMutation,
 } from './lib/store/footprint/footprint.store';
 export { useDataSets } from './lib/store/data-sets/data-sets.store';
-export { useGetPresets } from './lib/query/presets.query';
+export { useGetPresets } from './lib/query/presets/presets.query';
 export { useGetHistory } from './lib/query/history/history.query';
 export { useWorkflowStatus } from './lib/query/history/workflow-status.query';
 export type { IHistoryParams } from './lib/query/history/history.query';
@@ -30,14 +33,15 @@ export type {
   TDateRangeNode,
   TDataSetsNode,
   TFunctionNode,
+  TTab,
 } from './lib/store/action-creator/action-creator.model';
 export type { TDataSetValue } from './lib/store/action-creator/action-creator.schema';
 export type { TBaseFunction } from './lib/store/action-creator/node.utils';
-export { useFunctions } from './lib/query/function.query';
+export { useFunctions } from './lib/query/function/function.query';
 export { useCreateWorkflow, useCreateWorkflowStatus } from './lib/mutation/workflow.mutation';
-export type { TFunction } from './lib/query/function.model';
-export type { TPreset } from './lib/query/presets.model';
-export { useCollectionInfo } from './lib/query/collection-info.query';
+export type { TFunction } from './lib/query/function/function.model';
+export type { TPreset } from './lib/query/presets/presets.model';
+export { useCollectionInfo } from './lib/query/collection-info/collection-info.query';
 export { fetchImage } from './lib/query/protected-image.query';
 export type { TMode } from './lib/store/mode.model';
 export { useWorkflow } from './lib/store/workflow/workflow.store';

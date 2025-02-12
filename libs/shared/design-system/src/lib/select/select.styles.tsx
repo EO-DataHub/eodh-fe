@@ -1,5 +1,17 @@
+import { TSize } from './select.model';
+
+const containerHeight: { [key in TSize]: string } = {
+  sm: 'h-[26px]',
+  md: 'h-8',
+};
+
+const fontSize: { [key in TSize]: string } = {
+  sm: 'text-action-creator-body',
+  md: 'text-medium-regular',
+};
+
 export const selectStyles = {
-  container: 'relative w-64 text-action-creator-body',
+  container: (size: TSize) => `relative w-64 ${fontSize[size]} ${containerHeight[size]}`,
 
   selectWrapper: (error?: string, disabled?: boolean) =>
     `absolute border w-full rounded [&:has(ul)]:z-10 ${!disabled ? 'bg-bright' : 'bg-bright-light cursor-default'} ${
@@ -10,7 +22,7 @@ export const selectStyles = {
   list: 'z-20 max-h-60 overflow-y-scroll focus:outline-none',
 
   errorMessage: 'text-error text-small-semibold m-b-[5px]',
-  buttonText: 'truncate max-w-[100px]',
+  buttonText: 'truncate max-w-full',
   iconContainer: 'absolute right-0.5 flex items-center pointer-events-none',
   icon: (isOpen: boolean) => `text-neutral-light transform transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`,
 

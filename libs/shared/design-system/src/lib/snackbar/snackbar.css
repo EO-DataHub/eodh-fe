@@ -29,8 +29,24 @@
 .notistack-SnackbarContainer
   .notistack-CollapseWrapper
   .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-success
+  svg {
+  @apply text-success-contrastText;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
   .notistack-MuiContent.notistack-MuiContent-error {
   @apply bg-error text-error-contrastText;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-error
+  svg {
+  @apply text-error-contrastText;
 }
 
 .notistack-SnackbarContainer
@@ -43,6 +59,22 @@
 .notistack-SnackbarContainer
   .notistack-CollapseWrapper
   .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-warning
+  svg {
+  @apply text-warning-contrastText;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
   .notistack-MuiContent.notistack-MuiContent-info {
   @apply bg-information text-information-contrastText;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-info
+  svg {
+  @apply text-information-contrastText;
 }

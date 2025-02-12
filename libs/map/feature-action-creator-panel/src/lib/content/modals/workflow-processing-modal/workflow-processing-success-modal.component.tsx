@@ -6,13 +6,13 @@ import { ActionCreator } from '../../../action-creator-panel.context';
 import { Modal } from '../modal/modal.component';
 
 export const WorkflowProcessingSuccessModal = () => {
-  const { setActiveTab } = useContext(ActionCreator);
+  const { changeTab } = useContext(ActionCreator);
   const { reset, exportWorkflow } = useActionCreator();
 
   const goToHistoryTab = useCallback(() => {
     reset();
-    setActiveTab('history');
-  }, [reset, setActiveTab]);
+    changeTab('history');
+  }, [reset, changeTab]);
 
   return (
     <Modal
@@ -33,14 +33,15 @@ export const WorkflowProcessingSuccessModal = () => {
             text='MAP.ACTION_CREATOR_PANEL.MODALS.WORKFLOW_PROCESSING_MODAL.SUCCESS.BUTTON.EXPORT_CONFIGURATION'
             iconName='Upload'
             appearance='outlined'
-            size='small'
+            size='medium'
             iconWidth={20}
             iconHeight={20}
             onClick={exportWorkflow}
+            className='!py-0.5'
           />
           <Button
             text='MAP.ACTION_CREATOR_PANEL.MODALS.WORKFLOW_PROCESSING_MODAL.SUCCESS.BUTTON.VIEW_HISTORY'
-            size='small'
+            size='medium'
             onClick={goToHistoryTab}
           />
         </>

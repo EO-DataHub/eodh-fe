@@ -1,4 +1,5 @@
 import { Tooltip } from '@ukri/shared/design-system';
+import { useAuth } from '@ukri/shared/utils/authorization';
 import { PropsWithChildren, RefObject, useCallback, useEffect, useState } from 'react';
 
 import { TStepName, useOnboarding } from '../ac-workflow-onboarding.context';
@@ -47,6 +48,7 @@ interface IOnboardingTooltipProps {
   elementRef?: RefObject<HTMLDivElement | HTMLButtonElement>;
   className?: string;
   onClick?: () => void;
+  visible?: boolean;
 }
 
 export const OnboardingTooltip = ({
@@ -58,6 +60,7 @@ export const OnboardingTooltip = ({
   onClick,
   className,
   elementRef,
+  visible = true,
 }: PropsWithChildren<IOnboardingTooltipProps>) => {
   const [isOpen, setIsOpen] = useState(true);
   const [positionOfHookElememnt, setPositionOfHookElememnt] = useState<TPosition>();
@@ -71,11 +74,27 @@ export const OnboardingTooltip = ({
   const {
     context: { isOnboardingComplete, currentStep, onboardingVisible },
   } = useOnboarding();
+  const { authenticated } = useAuth();
 
   useEffect(() => {
-    const visible = currentStep === stepName && !!positionOfTheTooltip && onboardingVisible;
-    setTooltipVisible(visible);
-  }, [currentStep, stepName, positionOfTheTooltip, onboardingVisible, positionOfHookElememnt]);
+    const visibility =
+      currentStep === stepName &&
+      !!positionOfTheTooltip &&
+      onboardingVisible &&
+      !isOnboardingComplete &&
+      authenticated &&
+      visible;
+    setTooltipVisible(visibility);
+  }, [
+    currentStep,
+    stepName,
+    positionOfTheTooltip,
+    onboardingVisible,
+    positionOfHookElememnt,
+    isOnboardingComplete,
+    authenticated,
+    visible,
+  ]);
 
   const handleClose = useCallback(() => {
     if (tooltipVisible && isOpen) {
