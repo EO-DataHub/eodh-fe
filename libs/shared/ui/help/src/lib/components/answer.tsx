@@ -23,7 +23,7 @@ interface ITextRendererProps {
 }
 
 const TextRenderer = ({ content, uniqueId }: ITextRendererProps) => (
-  <Text content={content} fontSize='medium' fontWeight='regular' key={uniqueId} />
+  <Text content={content} fontSize='medium' fontWeight='regular' key={uniqueId} className='mb-4' />
 );
 
 interface ITableRendererProps {
