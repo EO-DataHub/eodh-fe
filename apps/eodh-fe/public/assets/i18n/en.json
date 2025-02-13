@@ -284,7 +284,7 @@
               "QUESTION": "How do I select a data set for my workflow?",
               "ANSWER": [
                 [
-                  "Click on the 'Data set' block in the Action Creator panel.",
+                  "Click on the \"Data set\" block in the Action Creator panel.",
                   "The left-side menu will display available data sets.",
                   "Choose a dataset (e.g., Sentinel-1).",
                   "If the data set has advanced settings (e.g., cloud coverage), configure them if needed.",
@@ -296,11 +296,11 @@
               "QUESTION": "How do I select workflow functions?",
               "ANSWER": [
                 [
-                  "Click on the 'Function' block in Action Creator.",
+                  "Click on the \"Function\" block in Action Creator.",
                   "A dropdown menu appears with available functions (e.g., NDVI, Land Cover Change, Water Quality Analysis).",
                   "Select a function that is compatible with your dataset.",
                   "The Function block will now display the selected function.",
-                  "You can click '+' below the function block to add additional compatible functions."
+                  "You can click \"+\" below the function block to add additional compatible functions."
                 ]
               ]
             },
@@ -325,9 +325,9 @@
                 ["Land Cover Change", "Water Quality Analysis"],
                 "To use a preset:",
                 [
-                  "Click on the 'Presets' tab in Action Creator.",
+                  "Click on the \"Presets\" tab in Action Creator.",
                   "A list of available presets will appear with descriptions.",
-                  "Click 'Load Preset' on the desired workflow.",
+                  "Click \"Load Preset\" on the desired workflow.",
                   "The Dataset and Function blocks will be pre-filled, and the user can define the AOI and Date Range.",
                   "Click Run to execute the preset workflow."
                 ],
@@ -337,7 +337,7 @@
             "HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS": {
               "QUESTION": "How do I download a workflow results?",
               "ANSWER": [
-                "Click the 'Download' button next to a result in Action Creator. A respective files for a particular item will be downloaded."
+                "Click the \"Download\" button next to a result in Action Creator. A respective files for a particular item will be downloaded."
               ]
             }
           },
@@ -351,14 +351,14 @@
                   "Purchase the dataset:",
                   [
                     "Run a search with a commercial dataset.",
-                    "Click 'Purchase' next to an item.",
+                    "Click \"Purchase\" next to an item.",
                     "Complete the transaction on the TPZ portal.",
                     "After purchase, the item appears in My Items (left panel)."
                   ],
                   "Use the dataset’s item in Action Creator:",
                   [
-                    "Open Action Creator and click on the 'Dataset' block.",
-                    "In the left-side menu, go to 'My Items'.",
+                    "Open Action Creator and click on the \"Dataset\" block.",
+                    "In the left-side menu, go to \"My Items\".",
                     "Select the purchased item.",
                     "The dataset item’s name appears in the Dataset block."
                   ],
@@ -374,8 +374,8 @@
               "QUESTION": "How do I use multiple functions in a single workflow?",
               "ANSWER": [
                 [
-                  "Click on the 'Function' block in the Action Creator panel.",
-                  "Click the '+' button below the block to add another function."
+                  "Click on the \"Function\" block in the Action Creator panel.",
+                  "Click the \"+\" button below the block to add another function."
                 ],
                 "Functions execute sequentially from top to bottom. You cannot remove or modify a function in the middle—only the last function can be deleted first. Parallel functions are not yet supported"
               ]
@@ -392,7 +392,7 @@
             "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS": {
               "QUESTION": "How do I view workflow execution results?",
               "ANSWER": [
-                "Open the History tab in Action Creator to see past workflows. Click 'View Results' to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click 'View' to load the result as a map layer."
+                "Open the History tab in Action Creator to see past workflows. Click \"View Results\" to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click \"View\" to load the result as a map layer."
               ]
             },
             "HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW": {
@@ -421,7 +421,7 @@
             "CAN_I_SAVE_MY_WORKFLOW_FOR_FUTURE_USE": {
               "QUESTION": "Can I save my workflow for future use?",
               "ANSWER": [
-                "Yes – Workflows can be exported and reloaded later. Click 'Export' to save the workflow as a JSON file. To reuse, go to 'Import' and upload the saved workflow."
+                "Yes – Workflows can be exported and reloaded later. Click \"Export\" to save the workflow as a JSON file. To reuse, go to \"Import\" and upload the saved workflow."
               ]
             },
             "WHAT_HAPPENS_IF_I_RUN_MULTIPLE_WORKFLOWS_AT_THE_SAME_TIME": {
@@ -864,7 +864,7 @@
             "HOW_DO_I_USE_THE_COMPARISON_TOOL": {
               "QUESTION": "How do I use the comparison tool?",
               "ANSWER": [
-                "Click 'Add to Compare' for an item from Search or Action Creator. Select a second item to enable the comparison tool. The comparison tool provides a swipe bar to compare images. You cannot run Search or Action Creator while actively using the comparison tool—exit the comparison mode to resume other tasks."
+                "Click \"Add to Compare\" for an item from Search or Action Creator. Select a second item to enable the comparison tool. The comparison tool provides a swipe bar to compare images. You cannot run Search or Action Creator while actively using the comparison tool—exit the comparison mode to resume other tasks."
               ]
             }
           }
@@ -936,13 +936,13 @@
           "HOW_DO_I_SET_A_DATE_RANGE_FOR_MY_SEARCH": {
             "QUESTION": "How do I set a date range for my search?",
             "ANSWER": [
-              "Click on the Date Range Picker in the search panel. Select a 'From' and 'To' date. The “To” date must be the same or later than the 'From' date."
+              "Click on the Date Range Picker in the search panel. Select a \"From\" and \"To\" date. The \"To\" date must be the same or later than the \"From\" date."
             ]
           },
           "WHAT_HAPPENS_WHEN_I_RUN_A_SEARCH": {
             "QUESTION": "What happens when I run a search?",
             "ANSWER": [
-              "The system processes your dataset, AOI (Area of Interest), and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results."
+              "The system processes your dataset, AOI, and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results."
             ]
           },
           "HOW_DO_I_REFINE_OR_MODIFY_MY_SEARCH_PARAMETERS": {
@@ -985,17 +985,19 @@
           "SUBTITLE": "Viewing & Purchasing Search Results",
           "HOW_DO_I_VIEW_AN_ITEM_FROM_THE_SEARCH_RESULTS": {
             "QUESTION": "How do I view an item from the search results?",
-            "ANSWER": ["Click the 'View' button next to a search result. The asset will load as an overlay on the map."]
+            "ANSWER": [
+              "Click the \"View\" button next to a search result. The asset will load as an overlay on the map."
+            ]
           },
           "HOW_DO_I_PURCHASE_COMMERCIAL_DATA": {
             "QUESTION": "How do I purchase commercial data (e.g., Planet data)?",
             "ANSWER": [
-              "Click 'Purchase' next to a commercial dataset. You will be redirected to the TPZ portal to accept terms and complete the transaction. After purchase, the item appears in My Items."
+              "Click \"Purchase\" next to a commercial dataset. You will be redirected to the TPZ portal to accept terms and complete the transaction. After purchase, the item appears in My Items."
             ]
           },
           "HOW_DO_I_DISPLAY_PURCHASED_ITEMS_ON_THE_MAP": {
             "QUESTION": "How do I display purchased items on the map?",
-            "ANSWER": ["In 'My Items', click 'View' to load the purchased asset on the map."]
+            "ANSWER": ["In \"My Items\", click \"View\" to load the purchased asset on the map."]
           }
         },
         "TIME_MANAGEMENT_IN_SEARCH": {
@@ -1012,7 +1014,7 @@
           "HOW_DO_I_ADD_SEARCH_RESULTS_TO_THE_COMPARISON_TOOL": {
             "QUESTION": "How do I add search results to the comparison tool?",
             "ANSWER": [
-              "Click 'Add to Compare' on a search result. Add a second asset to enable the comparison tool. Use the comparison swipe to analyse differences."
+              "Click \"Add to Compare\" on a search result. Add a second asset to enable the comparison tool. Use the comparison swipe to analyse differences."
             ]
           }
         },
