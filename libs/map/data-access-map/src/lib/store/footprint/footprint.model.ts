@@ -8,7 +8,7 @@ export interface IFootprintStore {
       visible: boolean;
     };
   };
-  setCollection: (url: TCollection | undefined, id?: string) => void;
+  setCollection: (collection: TCollection | undefined, id?: string) => void;
   toggleVisibility: (id?: string) => void;
   show: (id?: string) => void;
   hide: (id?: string) => void;

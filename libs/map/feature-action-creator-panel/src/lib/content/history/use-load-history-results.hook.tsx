@@ -7,7 +7,7 @@ import { useCallback } from 'react';
 export const useLoadHistoryResults = () => {
   const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
   const { searchParams, updateSearchParams } = useResults();
-  const { data: catalogData, status } = useCatalogSearch({ params: searchParams });
+  const { status } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const { changeView } = useMode();
   const { markAsRead } = useWorkflow();
@@ -65,7 +65,6 @@ export const useLoadHistoryResults = () => {
 
   return {
     status,
-    data: catalogData,
     showResults,
     hideResults,
     selectedResult: searchParams?.jobId || null,

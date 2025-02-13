@@ -7,13 +7,37 @@ import { ResultsView } from './results-view.component';
 import { useSearchMode } from './use-search-mode.hook';
 
 export const SearchModePanel = () => {
-  const { schema, data, state, status, values, treeModel, updateState, view, changeToSearchView, search, searchType } =
-    useSearchMode();
+  const {
+    schema,
+    results,
+    state,
+    status,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+    values,
+    treeModel,
+    updateState,
+    view,
+    changeToSearchView,
+    search,
+    searchType,
+  } = useSearchMode();
 
   switch (view) {
     case 'results': {
       if (searchType === 'workflow' || searchType === 'catalogue') {
-        return <ResultsView status={status} searchType={searchType} data={data} onBack={changeToSearchView} />;
+        return (
+          <ResultsView
+            status={status}
+            isFetching={isFetching}
+            searchType={searchType}
+            hasNextPage={hasNextPage}
+            data={results}
+            onBack={changeToSearchView}
+            onLoadMore={fetchNextPage}
+          />
+        );
       }
 
       return (

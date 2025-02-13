@@ -1,5 +1,6 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { TAssetName, TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
+import { Button, LoadingSpinner } from '@ukri/shared/design-system';
 
 import { MultipleItemsActionButtons } from './result-item/multiple-items-action-buttons/multiple-items-action-buttons.component';
 import { ResultItem } from './result-item/result-item.component';
@@ -30,14 +31,14 @@ const ActionButtons = ({
   isSelected,
 }: IActionButtons) => {
   if (mode === 'action-creator' && Object.keys(feature.assets).length > 1) {
-    return <MultipleItemsActionButtons feature={feature} canDownload={mode === 'action-creator'} />;
+    return <MultipleItemsActionButtons feature={feature} canDownload={true} />;
   }
   return (
     <SingleItemActionButtons
       selected={isSelected(feature.id)}
       comparisonEnabled={comparisonEnabled}
       addedForComparison={isItemAddedToComparisonMode(feature)}
-      canDownload={mode === 'action-creator'}
+      canDownload={false}
       canCompare={canCompareItems(feature)}
       onDownload={() => downloadItem(feature)}
       onCompareItemToggle={() => toggleCompareItem(feature)}
@@ -46,17 +47,51 @@ const ActionButtons = ({
   );
 };
 
-export interface IResultsListProps {
-  features: TCollection['features'];
+interface ILoadMoreButtonProps {
+  isFetching: boolean;
+  onClick: () => void;
 }
 
-export const ResultsList = ({ features }: IResultsListProps) => {
+const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
+  if (isFetching) {
+    return (
+      <Button
+        disabled={true}
+        text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
+        appearance='outlined'
+        size='large'
+        className='px-3'
+      >
+        <LoadingSpinner size='xs' className='ml-2' />
+      </Button>
+    );
+  }
+
+  return (
+    <Button
+      text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
+      appearance='outlined'
+      size='large'
+      onClick={onClick}
+      className='px-3'
+    />
+  );
+};
+
+export interface IResultsListProps {
+  features: TCollection['features'];
+  hasNextPage: boolean;
+  isFetching: boolean;
+  onLoadMore: () => void;
+}
+
+export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: IResultsListProps) => {
   const {
     isSelected,
     toggleItem,
     downloadItem,
     canCompareItems,
-    isItemAddedToComparisonMode,
+    itemAddedToComparisonMode,
     comparisonEnabled,
     toggleCompareItem,
   } = useResult();
@@ -81,7 +116,7 @@ export const ResultsList = ({ features }: IResultsListProps) => {
             feature={feature}
             mode={mode}
             comparisonEnabled={comparisonEnabled}
-            isItemAddedToComparisonMode={isItemAddedToComparisonMode}
+            isItemAddedToComparisonMode={itemAddedToComparisonMode}
             canCompareItems={canCompareItems}
             downloadItem={downloadItem}
             toggleCompareItem={toggleCompareItem}
@@ -90,6 +125,11 @@ export const ResultsList = ({ features }: IResultsListProps) => {
           />
         </ResultItem>
       ))}
+      {hasNextPage && (
+        <div className='flex justify-center mt-5'>
+          <LoadMoreButton isFetching={isFetching} onClick={onLoadMore} />
+        </div>
+      )}
     </div>
   );
 };

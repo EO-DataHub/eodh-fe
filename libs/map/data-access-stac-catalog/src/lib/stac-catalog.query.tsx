@@ -1,40 +1,117 @@
-import { useQuery } from '@tanstack/react-query';
+import { DefaultError, InfiniteData, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
+import { createDate } from '@ukri/shared/utils/date';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { useMemo } from 'react';
 
 import { paths } from './api';
-import { TQueryBuilderParams, TQueryParams } from './query-builder/query.builder';
+import { collections, getCollectionUrl } from './query-builder/collection';
+import {
+  TCollectionQuery,
+  TCollectionQueryBuilderParams,
+  TSearchQuery,
+  TWorkflowQuery,
+} from './query-builder/collection.builder';
 import { TSearchParams } from './query-builder/query.model';
 import { useQueryBuilder } from './query-builder/use-query-builder.hook';
 import { queryKey } from './query-key.const';
 import { collectionSchema, TCollection } from './stac.model';
 
-const getSearchResults = async (params: TQueryParams): Promise<TCollection> => {
-  const response = await getHttpClient().post(paths.STAC_CATALOGUE, params);
+const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[]) => {
+  const data = responses
+    .map((response) => {
+      if (response.status === 'fulfilled') {
+        const parsedData = collectionSchema.safeParse(response.value);
+
+        if (parsedData.success) {
+          return parsedData.data;
+        }
+      }
+
+      return undefined;
+    })
+    .filter((item): item is TCollection => !!item)
+    .reduce(
+      (acc, val) => ({
+        ...acc,
+        type: acc.type,
+        features: [...acc.features, ...val.features],
+        links: [...acc.links, ...val.links].filter((link) => link.rel === 'next'),
+        context: {
+          ...acc.context,
+          returned: acc.context.returned + val.context.returned,
+          limit: acc.context.limit + val.context.limit,
+        },
+      }),
+      {
+        type: 'FeatureCollection',
+        features: [],
+        links: [],
+        context: {
+          returned: 0,
+          limit: 0,
+        },
+      } as TCollection
+    );
+
+  return {
+    ...data,
+    features: data.features.sort((feature1, feature2) => {
+      const date1 = createDate(feature1.properties.datetime)?.getTime() || 0;
+      const date2 = createDate(feature2.properties.datetime)?.getTime() || 0;
+
+      return date1 - date2;
+    }),
+  };
+};
+
+const getNextPageResults = async (links: TCollection['links']): Promise<TCollection> => {
+  const requests = links
+    .filter((link) => link.rel === 'next')
+    .map((link) => getHttpClient().post<TCollection>(link.href, link.body));
+  const data = await Promise.allSettled(requests);
+
+  return collectionSchema.parse(mapResponsesToSchema(data));
+};
+
+const getSearchResults = async (query: TSearchQuery): Promise<TCollection> => {
+  const requests = query.params
+    .filter((params) => params.enabled)
+    .map((params) => {
+      const url = getCollectionUrl(params.collection);
+      return getHttpClient().post<TCollection>(url, params.params);
+    });
+  const data = await Promise.allSettled(requests);
+
+  return collectionSchema.parse(mapResponsesToSchema(data));
+};
+
+const getWorkflowResults = async (query: TWorkflowQuery): Promise<TCollection> => {
+  const response = await getHttpClient().post(
+    paths.WORKFLOW_RESULT({ jobId: query.jobId, userWorkspace: query.userWorkspace }),
+    query.params
+  );
 
   return collectionSchema.parse(response);
 };
 
-const getWorkflowResults = async (jobId: string, userWorkspace: string, params: TQueryParams): Promise<TCollection> => {
-  const response = await getHttpClient().post(paths.WORKFLOW_RESULT({ jobId, userWorkspace }), params);
-
-  return collectionSchema.parse(response);
-};
-
-const getResults = async (queryParams: TQueryParams, searchParams?: TSearchParams) => {
-  if (searchParams?.jobId && searchParams?.userWorkspace) {
-    return getWorkflowResults(searchParams.jobId, searchParams.userWorkspace, queryParams);
+const getResults = async (query: TCollectionQuery, links: TCollection['links']) => {
+  if (links.length) {
+    return await getNextPageResults(links);
   }
 
-  return getSearchResults(queryParams);
+  if (query.type === 'workflow') {
+    return getWorkflowResults(query);
+  }
+
+  return getSearchResults(query);
 };
 
 type TCatalogSearchProps = {
-  params?: TSearchParams;
+  params?: Omit<TSearchParams, 'collection'>;
 };
 
 export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
-  const queryBuilderParams: TQueryBuilderParams = useMemo(
+  const queryBuilderParams: TCollectionQueryBuilderParams = useMemo(
     () => ({
       queryParams: params,
       limit: 50,
@@ -46,12 +123,15 @@ export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
     [params]
   );
 
-  const query = useQueryBuilder(queryBuilderParams);
+  const query = useQueryBuilder([...collections], queryBuilderParams);
 
-  return useQuery<TCollection>({
+  return useInfiniteQuery<TCollection, DefaultError, InfiniteData<TCollection>, QueryKey, TCollection['links']>({
     enabled: query.enabled,
     queryKey: queryKey.CATALOG_SEARCH(query.params),
-    queryFn: () => getResults(query.params, params),
+    queryFn: ({ pageParam = [] }) => getResults(query, pageParam),
     staleTime: 200,
+    initialPageParam: [],
+    getNextPageParam: (lastPage): TCollection['links'] | undefined =>
+      lastPage.links.find((link) => link.rel === 'next') ? lastPage.links : undefined,
   });
 };

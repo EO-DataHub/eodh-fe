@@ -59,11 +59,10 @@ export const useComparisonModeImageLayers = () => {
         return undefined;
       }
 
-      const authorized = item.mode !== 'search';
       return createStacLayer({
         url: item.stacUrl,
         zIndex: stacLayerZindex + index,
-        authorized,
+        collection: item.collection,
         assetNameWhichShouldBeDisplayed: item.assetName,
       });
     },

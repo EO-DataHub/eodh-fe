@@ -11,5 +11,5 @@ export const LoginButton = () => {
     authClient.login();
   }, [authClient]);
 
-  return <Button onClick={handleLogin} size='large' text={t('GLOBAL.LOGIN.LOGIN_BUTTON')} className='my-auto mx-6' />;
+  return <Button onClick={handleLogin} size='large' text={t('GLOBAL.LOGIN.LOGIN_BUTTON')} />;
 };

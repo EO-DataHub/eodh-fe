@@ -25,8 +25,7 @@ export type TDataSetsValues = {
       sentinel2?: {
         enabled: boolean;
         expanded: boolean;
-        l1c: boolean;
-        l2a: boolean;
+        l2aARD: boolean;
         cloudCoverage: number;
       };
       sentinel3?: {

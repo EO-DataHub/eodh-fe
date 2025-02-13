@@ -1,8 +1,9 @@
+import { TCatalogueCollection } from '../../collection';
 import { TCopernicusSearchParams, TFilterParam } from '../../query.model';
 
 const createSentinel2FilterParamsHelper = (
   enabled: boolean,
-  params: Omit<TCopernicusSearchParams['sentinel2'], 'enabled'>,
+  params: Omit<Required<TCopernicusSearchParams>['sentinel2'], 'enabled'>,
   collectionType: string,
   collectionKey: keyof typeof params
 ): TFilterParam[] => {
@@ -43,10 +44,31 @@ const createSentinel2FilterParamsHelper = (
 
 export const createSentinel2FilterParams = (
   enabled: boolean,
-  params: Omit<TCopernicusSearchParams['sentinel2'], 'enabled'>
+  params: Omit<TCopernicusSearchParams['sentinel2'], 'enabled'>,
+  collection: TCatalogueCollection
 ): TFilterParam[] => {
-  return [
-    ...createSentinel2FilterParamsHelper(enabled, params, 'sentinel-2-l1c', 'l1c'),
-    ...createSentinel2FilterParamsHelper(enabled, params, 'sentinel-2-l2a', 'l2a'),
-  ];
+  if (!params) {
+    return [];
+  }
+
+  switch (collection) {
+    case 'EarthSearchElement84': {
+      return [];
+    }
+
+    case 'CEDA': {
+      return [
+        ...createSentinel2FilterParamsHelper(
+          enabled,
+          params as Omit<Required<TCopernicusSearchParams>['sentinel2'], 'enabled'>,
+          'sentinel2_ard',
+          'l2aARD'
+        ),
+      ];
+    }
+
+    default: {
+      return [];
+    }
+  }
 };

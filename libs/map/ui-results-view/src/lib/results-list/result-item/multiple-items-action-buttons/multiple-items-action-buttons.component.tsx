@@ -1,6 +1,6 @@
 import { TAssetName } from '@ukri/map/data-access-stac-catalog';
 import { TFeature } from '@ukri/map/data-access-stac-catalog';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useResult } from '../../use-result.hook';
 import { AssetItem } from './asset-item.component';
@@ -15,7 +15,7 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
   const [isOpened, setIsOpened] = useState(false);
   const [selectedIndice, setSelectedIndice] = useState<TAssetName>();
   const {
-    isSelectedMultipleIndices,
+    // isSelectedMultipleIndices,
     isSelected,
     comparisonEnabled,
     itemAddedToComparisonMode,
@@ -26,7 +26,8 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
   } = useResult();
   const [itemsInComparison, setItemsInComparison] = useState<string[]>([]);
 
-  const { thumbnail, ...indices } = feature.assets;
+  const { thumbnail, ...rawIndices } = feature.assets;
+  const indices = useMemo(() => rawIndices, [rawIndices]);
 
   const onToggleShowAssets = useCallback(() => {
     setIsOpened(!isOpened);
@@ -34,7 +35,7 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
 
   const onToggleViewButton = useCallback(
     (assetName: TAssetName) => {
-      if (isSelectedMultipleIndices(feature.id, assetName)) {
+      if (isSelected(feature.id, assetName)) {
         toggleItem(feature, assetName);
         setSelectedIndice(undefined);
       } else {
@@ -42,7 +43,7 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
         setSelectedIndice(assetName);
       }
     },
-    [toggleItem, isSelectedMultipleIndices, feature]
+    [toggleItem, isSelected, feature]
   );
 
   const isItemSelected = useCallback(

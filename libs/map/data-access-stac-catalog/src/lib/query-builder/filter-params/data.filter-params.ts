@@ -31,7 +31,7 @@ export const createDataFilterParams = (params: TSearchParams): TFilterParam | nu
             options: rest,
           } as TCopernicusParams)
       )
-      .map((param) => createCopernicusParams(param))
+      .map((param) => createCopernicusParams(param, params.collection))
       .flat();
 
     filterParams = [...filterParams, ...catalogueParams];

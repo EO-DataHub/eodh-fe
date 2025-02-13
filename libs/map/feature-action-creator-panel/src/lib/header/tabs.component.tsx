@@ -1,9 +1,9 @@
-import { useWorkflow } from '@ukri/map/data-access-map';
+import { TTab, useActionCreator, useWorkflow } from '@ukri/map/data-access-map';
 import { Text } from '@ukri/shared/design-system';
 import { ParseKeys } from 'i18next';
 import { PropsWithChildren, useContext, useMemo } from 'react';
 
-import { ActionCreator, TTab } from '../action-creator-panel.context';
+import { ActionCreator } from '../action-creator-panel.context';
 
 type TTabProps = {
   name: ParseKeys;
@@ -11,14 +11,15 @@ type TTabProps = {
 };
 
 const Tab = ({ name, tab, children }: PropsWithChildren<TTabProps>) => {
-  const { activeTab, setActiveTab } = useContext(ActionCreator);
+  const { activeTab } = useActionCreator();
+  const { changeTab } = useContext(ActionCreator);
   const buttonClassName =
     activeTab === tab
       ? 'border-primary text-primary border-b-2 px-1 pt-2 pb-[6px] z-20 flex items-center'
       : 'px-1 py-2 text-text flex items-center';
 
   return (
-    <button type='button' className={buttonClassName} onClick={() => setActiveTab(tab)}>
+    <button type='button' className={buttonClassName} onClick={() => changeTab(tab)}>
       {children}
       <Text content={name} type='p' fontSize='medium' fontWeight='regular' />
     </button>
@@ -34,7 +35,7 @@ const InProgressTab = ({ name, tab }: TTabProps) => {
 };
 
 const HistoryTab = () => {
-  const { activeTab } = useContext(ActionCreator);
+  const { activeTab } = useActionCreator();
   const { hasProcessedWorkflows, hasSuccessWorkflows } = useWorkflow();
   const shouldShowInProgressTab = useMemo(
     () => (activeTab === 'workflow' ? hasSuccessWorkflows : hasProcessedWorkflows),

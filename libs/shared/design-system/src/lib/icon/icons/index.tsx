@@ -3,6 +3,7 @@ export { default as ArrowDown } from './arrow-down';
 export { default as ArrowLeft } from './arrow-left';
 export { default as ArrowDropRight } from './arrow-drop-right';
 export { default as ArrowDropDown } from './arrow-drop-down';
+export { default as ArrowUpward } from './arrow-upward';
 export { default as Bolt } from './bolt';
 export { default as Calendar } from './calendar';
 export { default as Check } from './check';

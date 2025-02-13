@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { LoginButton } from './login-button.component';
 import { LogoutButton } from './logout-button.component';
 
-export const Login = ({ className }: { className: string }) => {
+export const Login = ({ className }: { className?: string }) => {
   const { authenticated } = useAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -14,7 +14,7 @@ export const Login = ({ className }: { className: string }) => {
   }, [authenticated]);
 
   return (
-    <div className={clsx('flex items-center', className)}>
+    <div className={clsx('flex items-center my-auto mr-6 ml-5', className)}>
       <div>{isAuthenticated ? <LogoutButton /> : <LoginButton />}</div>
     </div>
   );

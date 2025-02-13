@@ -15,7 +15,7 @@ export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
 export const useAoiLayer = () => {
   const map = useContext(MapContext);
-  const { visible, shape, fitToAoi, setShape } = useAoi();
+  const { visible, shape, fitToAoi, setShape, setDrawingTool } = useAoi();
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
@@ -86,6 +86,10 @@ export const useAoiLayer = () => {
       map.removeInteraction(draw.draw);
     };
   }, [map, draw, setShape, setDraw]);
+
+  useEffect(() => {
+    setDrawingTool(draw ? { enabled: true, type: draw.type } : undefined);
+  }, [draw, setDrawingTool]);
 
   useEffect(() => {
     if (!layer) {

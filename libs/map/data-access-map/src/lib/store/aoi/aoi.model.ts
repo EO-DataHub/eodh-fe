@@ -1,13 +1,19 @@
 import { Geometry } from 'ol/geom';
 
-import { TCoordinate, TShape } from '../../geometry/shape.model';
+import { TCoordinate, TShape, TShapeType } from '../../geometry/shape.model';
 
 export type TAoiState = 'readonly' | 'edit';
+
+export type TDrawingTool = {
+  enabled: boolean;
+  type: TShapeType;
+};
 
 export interface IAoiStore {
   state: TAoiState;
   coordinates: TCoordinate | undefined;
   fitToAoi?: boolean;
+  drawingTool?: TDrawingTool;
   shape: TShape;
   setShape: (shape: TShape | TCoordinate | undefined, fitToAoi?: boolean) => void;
   updateShape: (shape: Geometry | undefined) => void;
@@ -16,9 +22,18 @@ export interface IAoiStore {
   show: () => void;
   hide: () => void;
   changeState: (state: TAoiState) => void;
+  setDrawingTool: (drawingTool?: TDrawingTool) => void;
 }
 
 export type TAoiStoreState = Omit<
   IAoiStore,
-  'shape' | 'setShape' | 'toggleVisibility' | 'show' | 'hide' | 'changeState' | 'updateShape'
+  | 'shape'
+  | 'setShape'
+  | 'toggleVisibility'
+  | 'show'
+  | 'hide'
+  | 'changeState'
+  | 'updateShape'
+  | 'drawingTool'
+  | 'setDrawingTool'
 >;

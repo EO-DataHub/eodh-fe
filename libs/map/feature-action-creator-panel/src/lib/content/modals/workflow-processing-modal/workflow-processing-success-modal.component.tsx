@@ -6,13 +6,13 @@ import { ActionCreator } from '../../../action-creator-panel.context';
 import { Modal } from '../modal/modal.component';
 
 export const WorkflowProcessingSuccessModal = () => {
-  const { setActiveTab } = useContext(ActionCreator);
+  const { changeTab } = useContext(ActionCreator);
   const { reset, exportWorkflow } = useActionCreator();
 
   const goToHistoryTab = useCallback(() => {
     reset();
-    setActiveTab('history');
-  }, [reset, setActiveTab]);
+    changeTab('history');
+  }, [reset, changeTab]);
 
   return (
     <Modal

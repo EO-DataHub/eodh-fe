@@ -10,9 +10,14 @@ export const useResult = () => {
   const { comparisonModeEnabled, itemAddedToComparisonMode, canAddAsNewItemToComparisonMode, toggleCompareItem } =
     useComparisonMode();
 
-  const isSelected = useCallback((id: string) => visibleFeature?.id === id, [visibleFeature]);
-  const isSelectedMultipleIndices = useCallback(
-    (id: string, key: TAssetName) => visibleFeature?.id === id && assetNameWhichShouldBeDisplayed === key,
+  const isSelected = useCallback(
+    (id: string, assetName?: TAssetName) => {
+      if (assetName) {
+        return visibleFeature?.id === id && assetName === assetNameWhichShouldBeDisplayed;
+      }
+
+      return visibleFeature?.id === id;
+    },
     [visibleFeature, assetNameWhichShouldBeDisplayed]
   );
 
@@ -53,7 +58,6 @@ export const useResult = () => {
       toggleCompareItem: handleToggleCompareItem,
       downloadItem: download,
       isSelected,
-      isSelectedMultipleIndices,
       comparisonEnabled: comparisonModeEnabled,
       itemAddedToComparisonMode,
       canCompareItems: canCompare,
@@ -64,7 +68,6 @@ export const useResult = () => {
       download,
       handleSelectedItemToggle,
       isSelected,
-      isSelectedMultipleIndices,
       handleToggleCompareItem,
       itemAddedToComparisonMode,
     ]

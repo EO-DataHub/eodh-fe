@@ -27,3 +27,4 @@ export { Tooltip } from './lib/tooltip/tooltip';
 export { useOutsideClick } from './lib/hooks/use-outside-click';
 export { SnackbarProvider } from './lib/snackbar/snackbar-provider.component';
 export { SnackbarCloseButton } from './lib/snackbar/snackbar-close-button.component';
+export { Link } from './lib/link/link';
