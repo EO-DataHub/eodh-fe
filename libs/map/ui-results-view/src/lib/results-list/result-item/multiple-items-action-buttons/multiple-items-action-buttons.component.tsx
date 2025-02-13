@@ -13,7 +13,6 @@ export interface IMultipleItemsActionButtonsProps {
 
 export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleItemsActionButtonsProps) => {
   const [isOpened, setIsOpened] = useState(false);
-  const [selectedIndice, setSelectedIndice] = useState<TAssetName>();
   const {
     isSelected,
     comparisonEnabled,
@@ -23,6 +22,7 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
     toggleCompareItem,
     toggleItem,
     countItemsAddedToComparisonMode,
+    assetNameWhichShouldBeDisplayed,
   } = useResult();
   const [itemsInComparison, setItemsInComparison] = useState<number>(0);
 
@@ -33,24 +33,11 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
     setIsOpened(!isOpened);
   }, [isOpened]);
 
-  const onToggleViewButton = useCallback(
-    (assetName: TAssetName) => {
-      if (isSelected(feature.id, assetName)) {
-        toggleItem(feature, assetName);
-        setSelectedIndice(undefined);
-      } else {
-        toggleItem(feature, assetName);
-        setSelectedIndice(assetName);
-      }
-    },
-    [toggleItem, isSelected, feature]
-  );
-
   const isItemSelected = useCallback(
     (assetName: TAssetName) => {
-      return selectedIndice === assetName && isSelected(feature.id);
+      return assetNameWhichShouldBeDisplayed === assetName && isSelected(feature.id);
     },
-    [selectedIndice, isSelected, feature.id]
+    [isSelected, feature.id, assetNameWhichShouldBeDisplayed]
   );
 
   useEffect(() => {
@@ -84,7 +71,7 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
               canCompare={canCompareItems(feature, key)}
               comparisonEnabled={comparisonEnabled}
               onComparisonToggle={() => onComparisonToggle(key)}
-              onToggleView={() => onToggleViewButton(key)}
+              onToggleView={() => toggleItem(feature, key)}
             />
           ))}
         </div>

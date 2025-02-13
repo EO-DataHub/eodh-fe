@@ -67,6 +67,7 @@ export const useResult = () => {
       itemAddedToComparisonMode,
       canCompareItems: canCompare,
       countItemsAddedToComparisonMode,
+      assetNameWhichShouldBeDisplayed,
     }),
     [
       canCompare,
@@ -77,6 +78,7 @@ export const useResult = () => {
       handleToggleCompareItem,
       itemAddedToComparisonMode,
       countItemsAddedToComparisonMode,
+      assetNameWhichShouldBeDisplayed,
     ]
   );
 };
