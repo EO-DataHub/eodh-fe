@@ -1,42 +1,15 @@
-import { Text } from '@ukri/shared/design-system';
-import { useMemo } from 'react';
+import { Help as HelpContent } from '@ukri/shared/ui/help';
 
 import { Container, Content, Footer } from '../container.component';
-import { Answers } from './answers';
-import { helpStyles } from './help.styles';
-import { helpContentWithTranslations } from './help-content';
-import { TableOfContent } from './table-of-content';
+import { helpContentConfig } from './translation-keys';
+
+const pathToImages = '/assets/images';
 
 export const Help = () => {
-  const memoizedTitleTranslation = useMemo(() => {
-    return helpContentWithTranslations().TITLE;
-  }, []);
-
-  const memoizedIntroTranslation = useMemo(() => {
-    return helpContentWithTranslations().INTRO;
-  }, []);
-
   return (
     <Container>
       <Content>
-        <section className={helpStyles.helpSection}>
-          <Text
-            type='h1'
-            content={memoizedTitleTranslation}
-            fontSize='large'
-            fontWeight='bold'
-            className={helpStyles.helpTitle}
-          />
-          <Text
-            type='p'
-            content={memoizedIntroTranslation}
-            fontSize='medium'
-            fontWeight='regular'
-            className={helpStyles.helpIntro}
-          />
-          <TableOfContent />
-          <Answers />
-        </section>
+        <HelpContent helpContentConfig={helpContentConfig} className='p-4' pathToImages={pathToImages} />
       </Content>
       <Footer></Footer>
     </Container>

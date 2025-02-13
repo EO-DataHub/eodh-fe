@@ -58,7 +58,7 @@ export const Checklist = () => {
 
   return (
     <form
-      className='absolute left-14 bottom-14 z-50 bg-bright-main rounded-2xl border-[1px] border-bright-dark p-4 max-w-[240px]'
+      className='absolute left-14 bottom-14 z-30 bg-bright-main rounded-2xl border-[1px] border-bright-dark p-4 max-w-[240px]'
       onSubmit={handleSubmit(toggleChecklist)}
     >
       <header className='relative'>

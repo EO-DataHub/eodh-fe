@@ -1,8 +1,8 @@
 import { Text } from '@ukri/shared/design-system';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { helpStyles } from './help.styles';
-import { helpContentWithTranslations } from './help-content';
+import { helpContentWithTranslations, IHelpContent } from './help-content';
 import { Subtitle } from './subtitle';
 
 interface IQuestionProps {
@@ -12,17 +12,32 @@ interface IQuestionProps {
 }
 
 const Question = ({ question, questionId, answerId }: IQuestionProps) => {
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+      event.preventDefault();
+      const element = document.getElementById(answerId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
+    [answerId]
+  );
+
   return (
-    <a href={`#${answerId}`} className='relative' id={questionId}>
-      <Text type='h4' content={question} fontSize='medium' fontWeight='regular' className={helpStyles.question} />
+    <a href={`#${answerId}`} className={helpStyles.question} id={questionId} onClick={handleClick}>
+      <Text type='h4' content={question} fontSize='medium' fontWeight='regular' className={helpStyles.questionText} />
     </a>
   );
 };
 
-export const TableOfContent = () => {
+interface ITableOfContentProps {
+  helpContentConfig: IHelpContent;
+}
+
+export const TableOfContent = ({ helpContentConfig }: ITableOfContentProps) => {
   const memoizedHelpContent = useMemo(() => {
-    return helpContentWithTranslations().QUESTIONS;
-  }, []);
+    return helpContentWithTranslations(helpContentConfig).QUESTIONS;
+  }, [helpContentConfig]);
 
   return (
     <div className={helpStyles.questionsList}>
