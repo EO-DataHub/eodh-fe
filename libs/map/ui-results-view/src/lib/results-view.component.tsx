@@ -3,34 +3,33 @@ import { Error, ResultsViewLoader } from '@ukri/shared/design-system';
 
 import { ResultsList } from './results-list/results-list.component';
 
-interface IBaseResultsPanelProps {
-  onBack?: () => void;
-}
-
 type TResultsStateProps = {
   status: 'pending' | 'error' | 'success';
-  data: TCollection | undefined;
-  error?: Error;
+  isFetching: boolean;
+  hasNextPage: boolean;
+  data: TCollection['features'] | undefined;
+  onLoadMore: () => void;
+  onBack?: () => void;
 };
 
-type TResultsViewProps = TResultsStateProps & IBaseResultsPanelProps;
+type TResultsViewProps = TResultsStateProps;
 
-export const ResultsView = (props: TResultsViewProps) => {
-  switch (props.status) {
+export const ResultsView = ({ status, data, isFetching, hasNextPage, onBack, onLoadMore }: TResultsViewProps) => {
+  switch (status) {
     case 'success': {
-      if (!props.data || !props.data?.features.length) {
+      if (!data?.length) {
         return (
           <Error
             icon='SatelliteAlt'
             title='GLOBAL.ERRORS.NO_RESULTS.TITLE'
             message='GLOBAL.ERRORS.NO_RESULTS.MESSAGE'
             ctaText='GLOBAL.NAVIGATION.RETURN_TO_SEARCH'
-            ctaOnClick={props.onBack}
+            ctaOnClick={onBack}
           />
         );
       }
 
-      return <ResultsList features={props.data.features} />;
+      return <ResultsList isFetching={isFetching} features={data} hasNextPage={hasNextPage} onLoadMore={onLoadMore} />;
     }
 
     case 'error': {
@@ -39,7 +38,7 @@ export const ResultsView = (props: TResultsViewProps) => {
           title='GLOBAL.ERRORS.SERVER_ERROR.TITLE'
           message='GLOBAL.ERRORS.SERVER_ERROR.MESSAGE'
           ctaText='GLOBAL.NAVIGATION.RETURN_TO_SEARCH'
-          ctaOnClick={props.onBack}
+          ctaOnClick={onBack}
         />
       );
     }

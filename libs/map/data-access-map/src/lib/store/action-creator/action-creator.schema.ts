@@ -20,8 +20,7 @@ export const areaValueSchema = z.union([circleSchema, rectangleSchema, polygonSc
 
 export const dataSetValueSchema = z.union([
   z.literal('sentinel-1'),
-  z.literal('sentinel-2-l1c'),
-  z.literal('sentinel-2-l2a'),
+  z.literal('sentinel-2-l2a-ard'),
   z.literal('sentinel-3'),
   z.literal('sentinel-5p'),
   z.literal('esacci-globallc'),
