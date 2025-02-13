@@ -27,7 +27,7 @@ export const dataSetsDisabledMap: { [key in TDataSetValue]: string[] } = {
     '0.options.disabled',
     '0.children.0.options.disabled',
     '0.children.0.children.1.options.disabled',
-    '0.children.0.children.1.children.0.options.disabled',
+    '0.children.0.children.1.children.2.options.disabled',
   ],
   'sentinel-3': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.2.options.disabled'],
   'sentinel-5p': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.3.options.disabled'],
