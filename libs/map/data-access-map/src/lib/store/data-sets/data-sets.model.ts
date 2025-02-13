@@ -9,8 +9,6 @@ export type TSchema = 'search' | 'action-creator';
 
 export type TDataSetValue =
   | 'sentinel-1'
-  | 'sentinel-2-l1c'
-  | 'sentinel-2-l2a'
   | 'sentinel-2-l2a-ard'
   | 'sentinel-3'
   | 'sentinel-5p'

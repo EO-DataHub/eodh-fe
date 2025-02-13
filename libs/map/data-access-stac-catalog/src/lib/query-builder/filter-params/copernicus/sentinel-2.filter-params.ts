@@ -53,20 +53,7 @@ export const createSentinel2FilterParams = (
 
   switch (collection) {
     case 'EarthSearchElement84': {
-      return [
-        ...createSentinel2FilterParamsHelper(
-          enabled,
-          params as Omit<Required<TCopernicusSearchParams>['sentinel2'], 'enabled'>,
-          'sentinel-2-l1c',
-          'l1c'
-        ),
-        ...createSentinel2FilterParamsHelper(
-          enabled,
-          params as Omit<Required<TCopernicusSearchParams>['sentinel2'], 'enabled'>,
-          'sentinel-2-l2a',
-          'l2a'
-        ),
-      ];
+      return [];
     }
 
     case 'CEDA': {

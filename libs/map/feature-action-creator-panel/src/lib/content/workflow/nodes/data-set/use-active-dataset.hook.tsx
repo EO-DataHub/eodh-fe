@@ -15,23 +15,15 @@ export const useActiveDataSet = (): TUseActiveDataSet => {
   }
 
   if (dataSets.public.copernicus.sentinel2?.enabled) {
-    const { l1c, l2a, l2aARD: l2ard } = dataSets.public.copernicus.sentinel2;
+    const { l2aARD: l2ard } = dataSets.public.copernicus.sentinel2;
 
-    if (l1c && !l2a && !l2ard) {
-      enabled.push('sentinel-2-l1c');
-    } else if (!l1c && l2a && !l2ard) {
-      enabled.push('sentinel-2-l2a');
-    } else if (!l1c && !l2a && l2ard) {
+    if (l2ard) {
       enabled.push('sentinel-2-l2a-ard');
     }
   }
 
   if (dataSets.public.copernicus.sentinel3?.enabled) {
     enabled.push('sentinel-3');
-  }
-
-  if (dataSets.public.copernicus.sentinel5P?.enabled) {
-    enabled.push('sentinel-5p');
   }
 
   if (dataSets.public.copernicus.sentinel5P?.enabled) {

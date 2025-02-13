@@ -154,28 +154,6 @@ export const sentinel2SearchSchema: IDynamicTreeItem = {
   },
   children: [
     {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L1C',
-      type: 'settingItem',
-      controls: {
-        value: {
-          name: 'public.copernicus.sentinel2.l1c',
-          type: 'checkbox',
-          value: true,
-        },
-      },
-    },
-    {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L2A',
-      type: 'settingItem',
-      controls: {
-        value: {
-          name: 'public.copernicus.sentinel2.l2a',
-          type: 'checkbox',
-          value: true,
-        },
-      },
-    },
-    {
       translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L2A_ARD',
       type: 'settingItem',
       controls: {
@@ -210,28 +188,6 @@ export const sentinel2ActionCreatorSchema: IDynamicTreeItem = {
     },
   },
   children: [
-    {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L1C',
-      type: 'settingItem',
-      controls: {
-        value: {
-          name: 'public.copernicus.sentinel2.l1c',
-          type: 'checkbox',
-          value: false,
-        },
-      },
-    },
-    {
-      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L2A',
-      type: 'settingItem',
-      controls: {
-        value: {
-          name: 'public.copernicus.sentinel2.l2a',
-          type: 'checkbox',
-          value: false,
-        },
-      },
-    },
     {
       translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.L2A_ARD',
       type: 'settingItem',
