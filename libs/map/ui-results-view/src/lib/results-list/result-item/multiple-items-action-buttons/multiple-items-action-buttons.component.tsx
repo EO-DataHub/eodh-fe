@@ -15,7 +15,6 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
   const [isOpened, setIsOpened] = useState(false);
   const [selectedIndice, setSelectedIndice] = useState<TAssetName>();
   const {
-    // isSelectedMultipleIndices,
     isSelected,
     comparisonEnabled,
     itemAddedToComparisonMode,
@@ -23,8 +22,9 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
     downloadItem,
     toggleCompareItem,
     toggleItem,
+    countItemsAddedToComparisonMode,
   } = useResult();
-  const [itemsInComparison, setItemsInComparison] = useState<string[]>([]);
+  const [itemsInComparison, setItemsInComparison] = useState<number>(0);
 
   const { thumbnail, ...rawIndices } = feature.assets;
   const indices = useMemo(() => rawIndices, [rawIndices]);
@@ -54,12 +54,12 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
   );
 
   useEffect(() => {
-    setItemsInComparison((prev) => prev.filter((item) => itemAddedToComparisonMode(feature, item as TAssetName)));
-  }, [itemAddedToComparisonMode, feature]);
+    const count = countItemsAddedToComparisonMode(feature);
+    setItemsInComparison(count);
+  }, [itemAddedToComparisonMode, feature, countItemsAddedToComparisonMode]);
 
   const onComparisonToggle = useCallback(
     (key: TAssetName) => {
-      setItemsInComparison((prev) => (prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]));
       toggleCompareItem(feature, key);
     },
     [toggleCompareItem, feature]

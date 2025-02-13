@@ -7,8 +7,13 @@ import { downloadFiles } from './download-files.utils';
 export const useResult = () => {
   const { feature: visibleFeature, assetNameWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
   const { mode } = useMode();
-  const { comparisonModeEnabled, itemAddedToComparisonMode, canAddAsNewItemToComparisonMode, toggleCompareItem } =
-    useComparisonMode();
+  const {
+    comparisonModeEnabled,
+    itemAddedToComparisonMode,
+    canAddAsNewItemToComparisonMode,
+    toggleCompareItem,
+    countItemsAddedToComparisonMode,
+  } = useComparisonMode();
 
   const isSelected = useCallback(
     (id: string, assetName?: TAssetName) => {
@@ -61,6 +66,7 @@ export const useResult = () => {
       comparisonEnabled: comparisonModeEnabled,
       itemAddedToComparisonMode,
       canCompareItems: canCompare,
+      countItemsAddedToComparisonMode,
     }),
     [
       canCompare,
@@ -70,6 +76,7 @@ export const useResult = () => {
       isSelected,
       handleToggleCompareItem,
       itemAddedToComparisonMode,
+      countItemsAddedToComparisonMode,
     ]
   );
 };

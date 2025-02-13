@@ -19,7 +19,7 @@ export const DownloadButton = ({ onDownload, disabled }: IDownloadButtonProps) =
 interface IToggleAssetsButtonProps {
   isOpened: boolean;
   onToggle: () => void;
-  itemsInComparison: string[];
+  itemsInComparison: number;
 }
 
 const translationPath = 'GLOBAL.DESIGN_SYSTEM.RESULT_ITEM';
@@ -32,13 +32,13 @@ export const ToggleAssetsButton = ({ isOpened, onToggle, itemsInComparison }: IT
     onClick={onToggle}
     className='ml-auto'
   >
-    {itemsInComparison.length > 0 && (
+    {itemsInComparison > 0 && (
       <span className='w-4 h-4 rounded-lg bg-error-main text-bright-main ml-1 relative'>
         <Text
           type='span'
           fontSize='small'
           fontWeight='regular'
-          content={itemsInComparison.length}
+          content={itemsInComparison}
           className='top-[2px] left-[6px] absolute'
         />
       </span>

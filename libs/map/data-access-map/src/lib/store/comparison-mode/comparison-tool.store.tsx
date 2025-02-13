@@ -117,6 +117,11 @@ export const useComparisonMode = () => {
     [comparisonItems.items]
   );
 
+  const countItemsAddedToComparisonMode = useCallback(
+    (item: TFeature) => comparisonItems.items.filter((comparisonItem) => comparisonItem.id === item.id).length,
+    [comparisonItems.items]
+  );
+
   const canAddAsNewItemToComparisonMode = useCallback(
     (item: TFeature, assetName?: TAssetName) => {
       const isAddedForComparison = itemAddedToComparisonMode(item, assetName);
@@ -147,6 +152,7 @@ export const useComparisonMode = () => {
       itemAddedToComparisonMode,
       canAddAsNewItemToComparisonMode,
       toggleCompareItem,
+      countItemsAddedToComparisonMode,
     }),
     [
       comparisonItems,
@@ -157,6 +163,7 @@ export const useComparisonMode = () => {
       itemAddedToComparisonMode,
       canAddAsNewItemToComparisonMode,
       toggleCompareItem,
+      countItemsAddedToComparisonMode,
     ]
   );
 };
