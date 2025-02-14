@@ -14,6 +14,8 @@ export interface IResultItemProps {
   dateTime: string;
   selected?: boolean;
   onToggleSelectedItem?: () => void;
+  onImageHover?: () => void;
+  onImageLeftHover?: () => void;
 }
 
 export const ResultItem = ({
@@ -26,6 +28,8 @@ export const ResultItem = ({
   dateTime,
   children,
   onToggleSelectedItem,
+  onImageHover,
+  onImageLeftHover,
 }: PropsWithChildren<IResultItemProps>) => {
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
@@ -40,7 +44,7 @@ export const ResultItem = ({
         selected ? ' border-primary' : 'border-transparent'
       } ${className}`}
     >
-      <div className='w-full flex mb-2'>
+      <div className='w-full flex mb-2' onMouseEnter={onImageHover} onMouseLeave={onImageLeftHover}>
         <Image imageUrl={imageUrl} onToggle={onToggleSelectedItem} />
         <div className='flex flex-col ml-2.5 text-text justify-start gap-1'>
           <ResultItemInfo value={collectionName} iconName='Satellite' />

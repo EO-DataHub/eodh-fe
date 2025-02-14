@@ -12,6 +12,10 @@ export const useFootprintStore = create<IFootprintStore>()(
   devtools((set) => ({
     currentCollection: undefined,
     collections: {},
+    footprintClickId: undefined,
+    thumbnailHoverId: undefined,
+    setFootprintClickId: (id: string | undefined) => set({ footprintClickId: id }),
+    setThumbnailHoverId: (id: string | undefined) => set({ thumbnailHoverId: id }),
     setCollection: (collection: TCollection | undefined, id = defaultCollectionName) =>
       set((state) => {
         const currentCollection = state.collections[id];
@@ -82,6 +86,22 @@ export const useFootprintStore = create<IFootprintStore>()(
       }),
   }))
 );
+
+export const useFootprintClickId = () => {
+  return useFootprintStore((state) => state.footprintClickId);
+};
+
+export const useSetFootprintClickId = () => {
+  return useFootprintStore((state) => state.setFootprintClickId);
+};
+
+export const useThumbnailHoverId = () => {
+  return useFootprintStore((state) => state.thumbnailHoverId);
+};
+
+export const useSetThumbnailHoverId = () => {
+  return useFootprintStore((state) => state.setThumbnailHoverId);
+};
 
 export const getFootprintStoreState = (): TFootprintStoreState => {
   const { toggleVisibility, show, hide, setCollection, ...rest } = useFootprintStore.getState();

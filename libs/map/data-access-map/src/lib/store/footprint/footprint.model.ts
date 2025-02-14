@@ -9,6 +9,10 @@ export interface IFootprintStore {
     };
   };
   setCollection: (collection: TCollection | undefined, id?: string) => void;
+  footprintClickId: string | undefined;
+  thumbnailHoverId: string | undefined;
+  setFootprintClickId: (id: string | undefined) => void;
+  setThumbnailHoverId: (id: string | undefined) => void;
   toggleVisibility: (id?: string) => void;
   show: (id?: string) => void;
   hide: (id?: string) => void;

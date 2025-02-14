@@ -34,6 +34,10 @@ export const useResult = () => {
     [selectedFeature, setFeature]
   );
 
+  const unToggleSelectedItem = useCallback(() => {
+    setFeature(undefined);
+  }, [setFeature]);
+
   const handleToggleCompareItem = useCallback(
     (item: TFeature) => {
       toggleCompareItem(item, mode);
@@ -44,6 +48,7 @@ export const useResult = () => {
   return useMemo(
     () => ({
       toggleItem: handleSelectedItemToggle,
+      untoggleItem: unToggleSelectedItem,
       toggleCompareItem: handleToggleCompareItem,
       downloadItem: download,
       isSelected,
@@ -52,13 +57,14 @@ export const useResult = () => {
       canCompareItems: canCompare,
     }),
     [
-      canCompare,
-      comparisonModeEnabled,
-      download,
       handleSelectedItemToggle,
-      isAddedToComparison,
-      isSelected,
+      unToggleSelectedItem,
       handleToggleCompareItem,
+      download,
+      isSelected,
+      comparisonModeEnabled,
+      isAddedToComparison,
+      canCompare,
     ]
   );
 };

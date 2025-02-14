@@ -1,4 +1,5 @@
 import { useFootprintCollection, useFootprintLayerVisible } from '@ukri/map/data-access-map';
+import { useSetFootprintClickId, useThumbnailHoverId } from '@ukri/map/data-access-map';
 import { Feature } from 'ol';
 import { click, pointerMove } from 'ol/events/condition';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -41,6 +42,8 @@ export const useFootprintLayer = (id?: string) => {
   const map = useContext(MapContext);
   const visible = useFootprintLayerVisible(id);
   const collection = useFootprintCollection(id);
+  const setFootprintClickId = useSetFootprintClickId();
+  const thumbnailHoverId = useThumbnailHoverId();
   const [layer, setLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
 
   useEffect(() => {
@@ -48,8 +51,16 @@ export const useFootprintLayer = (id?: string) => {
       return;
     }
 
+    const collectionWithId = {
+      ...collection,
+      features: collection.features.map((feature) => ({
+        ...feature,
+        properties: { ...feature.properties, id: feature.id },
+      })),
+    };
+
     const vectorSource = new VectorSource({
-      features: new GeoJSON().readFeatures(collection, {
+      features: new GeoJSON().readFeatures(collectionWithId, {
         featureProjection: map.getView().getProjection(),
       }),
     });
@@ -78,12 +89,25 @@ export const useFootprintLayer = (id?: string) => {
     map.addInteraction(selectHover);
     map.addInteraction(selectClick);
 
+    const handleClick = (event) => {
+      let featureId = undefined;
+      map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
+        if (layer === newVectorLayer) {
+          featureId = feature.getProperties().id;
+        }
+      });
+      setFootprintClickId(featureId);
+    };
+
+    map.on('click', handleClick);
+
     setLayer(newVectorLayer);
 
     return () => {
       map.removeLayer(newVectorLayer);
       map.removeInteraction(selectHover);
       map.removeInteraction(selectClick);
+      map.un('click', handleClick);
     };
   }, [map, collection]);
 
@@ -94,4 +118,19 @@ export const useFootprintLayer = (id?: string) => {
 
     layer.setVisible(visible);
   }, [layer, visible]);
+
+  useEffect(() => {
+    if (!layer) {
+      return;
+    }
+
+    const features = layer.getSource()?.getFeatures();
+    features?.forEach((feature) => {
+      if (feature.getProperties().id === thumbnailHoverId) {
+        feature.setStyle(highlightStyle);
+      } else {
+        feature.setStyle(defaultStyle);
+      }
+    });
+  }, [thumbnailHoverId, layer]);
 };
