@@ -1,9 +1,11 @@
 import { DefaultError, InfiniteData, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { createDate } from '@ukri/shared/utils/date';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
+import { isAxiosError } from 'axios';
 import { useMemo } from 'react';
 
 import { paths } from './api';
+import { NoWorkflowResultsFoundError } from './no-results.error';
 import { collections, getCollectionUrl } from './query-builder/collection';
 import {
   TCollectionQuery,
@@ -99,10 +101,18 @@ const getSearchResults = async (query: TSearchQuery): Promise<TCollection> => {
 };
 
 const getWorkflowResults = async (query: TWorkflowQuery): Promise<TCollection> => {
-  const response = await getHttpClient().post(
-    paths.WORKFLOW_RESULT({ jobId: query.jobId, userWorkspace: query.userWorkspace }),
-    query.params
-  );
+  let response: unknown = undefined;
+
+  try {
+    response = await getHttpClient().post(
+      paths.WORKFLOW_RESULT({ jobId: query.jobId, userWorkspace: query.userWorkspace }),
+      query.params
+    );
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.data?.code === 'NotFoundError' && error.response?.status === 404) {
+      throw new NoWorkflowResultsFoundError();
+    }
+  }
 
   return collectionSchema.parse(response);
 };
@@ -138,7 +148,13 @@ export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
 
   const query = useQueryBuilder([...collections], queryBuilderParams);
 
-  return useInfiniteQuery<TCollection, DefaultError, InfiniteData<TCollection>, QueryKey, TCollection['links']>({
+  return useInfiniteQuery<
+    TCollection,
+    DefaultError | NoWorkflowResultsFoundError,
+    InfiniteData<TCollection>,
+    QueryKey,
+    TCollection['links']
+  >({
     enabled: query.enabled,
     queryKey: queryKey.CATALOG_SEARCH(query.params),
     queryFn: ({ pageParam = [] }) => getResults(query, pageParam),

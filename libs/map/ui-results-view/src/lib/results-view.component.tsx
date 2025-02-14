@@ -1,10 +1,11 @@
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { NoWorkflowResultsFoundError, TCollection } from '@ukri/map/data-access-stac-catalog';
 import { Error, ResultsViewLoader } from '@ukri/shared/design-system';
 
 import { ResultsList } from './results-list/results-list.component';
 
 type TResultsStateProps = {
   status: 'pending' | 'error' | 'success';
+  error: Error | NoWorkflowResultsFoundError | null;
   isFetching: boolean;
   hasNextPage: boolean;
   data: TCollection['features'] | undefined;
@@ -14,7 +15,15 @@ type TResultsStateProps = {
 
 type TResultsViewProps = TResultsStateProps;
 
-export const ResultsView = ({ status, data, isFetching, hasNextPage, onBack, onLoadMore }: TResultsViewProps) => {
+export const ResultsView = ({
+  status,
+  data,
+  error,
+  isFetching,
+  hasNextPage,
+  onBack,
+  onLoadMore,
+}: TResultsViewProps) => {
   switch (status) {
     case 'success': {
       if (!data?.length) {
@@ -33,6 +42,15 @@ export const ResultsView = ({ status, data, isFetching, hasNextPage, onBack, onL
     }
 
     case 'error': {
+      if (error instanceof NoWorkflowResultsFoundError) {
+        return (
+          <Error
+            title='MAP.SEARCH_VIEW.ERROR.NO_WORKFLOW_RESULTS.TITLE'
+            message='MAP.SEARCH_VIEW.ERROR.NO_WORKFLOW_RESULTS.MESSAGE'
+          />
+        );
+      }
+
       return (
         <Error
           title='GLOBAL.ERRORS.SERVER_ERROR.TITLE'

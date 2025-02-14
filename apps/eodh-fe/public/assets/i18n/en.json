@@ -1041,6 +1041,12 @@
       }
     },
     "SEARCH_VIEW": {
+      "ERROR": {
+        "NO_WORKFLOW_RESULTS": {
+          "TITLE": "Sorry, there was no data to process.",
+          "MESSAGE": "Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets."
+        }
+      },
       "VALIDATION": {
         "ONE_OF_FIELDS_REQUIRED": "You must select at least one of the following options",
         "ONLY_ONE_FIELD_IS_REQUIRED": "You must select only one of the following options",
