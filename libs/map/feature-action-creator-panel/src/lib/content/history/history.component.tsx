@@ -54,6 +54,17 @@ const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
   );
 };
 
+const NoHistory = () => {
+  return (
+    <div className='flex flex-col items-center p-4'>
+      <Error
+        title='MAP.ACTION_CREATOR_PANEL.HISTORY.NO_RESULTS_TITLE'
+        message='MAP.ACTION_CREATOR_PANEL.HISTORY.NO_RESULTS_MESSAGE'
+      />
+    </div>
+  );
+};
+
 export const History = () => {
   const { results, changeOrder, loadMore, error, isLoading, isFetching, refetch, orderBy, hasNextPage } =
     useHistoryData();
@@ -87,9 +98,13 @@ export const History = () => {
     <Container>
       <Content>
         <section className='text-text-primary h-full overflow-x-visible overflow-y-scroll p-4'>
-          <div className='flex justify-end'>
-            <SortFilter onSortChange={changeOrder} sortKey={orderBy} />
-          </div>
+          {results.length === 0 ? (
+            <NoHistory />
+          ) : (
+            <div className='flex justify-end'>
+              <SortFilter onSortChange={changeOrder} sortKey={orderBy} />
+            </div>
+          )}
 
           {results.map((workflow) => (
             <HistoryTile
