@@ -7,6 +7,8 @@ import { ResultItem } from './result-item/result-item.component';
 import { SingleItemActionButtons } from './result-item/single-item-action-buttons.component';
 import { useResult } from './use-result.hook';
 
+const hasManyIndices = (feature: TFeature) => Object.keys(feature.assets).length > 1;
+
 interface IActionButtons {
   feature: TFeature;
   mode: 'search' | 'action-creator';
@@ -30,7 +32,7 @@ const ActionButtons = ({
   toggleItem,
   isSelected,
 }: IActionButtons) => {
-  if (mode === 'action-creator' && Object.keys(feature.assets).length > 1) {
+  if (mode === 'action-creator' && hasManyIndices(feature)) {
     return <MultipleItemsActionButtons feature={feature} canDownload={true} />;
   }
   return (
@@ -110,7 +112,7 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
           dateTime={feature.properties.datetime}
           selected={isSelected(feature.id)}
           onToggleSelectedItem={() => toggleItem(feature)}
-          hasManyIndices={Object.keys(feature.assets).length > 1}
+          hasManyIndices={hasManyIndices(feature)}
         >
           <ActionButtons
             feature={feature}

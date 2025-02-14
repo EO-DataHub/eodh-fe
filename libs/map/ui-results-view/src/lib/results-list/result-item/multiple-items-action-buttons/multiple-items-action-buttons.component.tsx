@@ -27,7 +27,7 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
   const [itemsInComparison, setItemsInComparison] = useState<number>(0);
 
   const { thumbnail, ...rawIndices } = feature.assets;
-  const indices = useMemo(() => rawIndices, [rawIndices]);
+  const indices = useMemo(() => Object.keys(rawIndices), [rawIndices]) as TAssetName[];
 
   const onToggleShowAssets = useCallback(() => {
     setIsOpened(!isOpened);
@@ -43,7 +43,7 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
   useEffect(() => {
     const count = countItemsAddedToComparisonMode(feature);
     setItemsInComparison(count);
-  }, [itemAddedToComparisonMode, feature, countItemsAddedToComparisonMode]);
+  }, [feature, countItemsAddedToComparisonMode]);
 
   const onComparisonToggle = useCallback(
     (key: TAssetName) => {
@@ -61,7 +61,7 @@ export const MultipleItemsActionButtons = ({ canDownload, feature }: IMultipleIt
 
       {isOpened && (
         <div className='mt-2 border-t border-t-bright-dark'>
-          {(Object.keys(indices) as TAssetName[]).map((key) => (
+          {indices.map((key) => (
             <AssetItem
               key={key}
               assetKey={key}

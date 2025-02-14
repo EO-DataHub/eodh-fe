@@ -34,13 +34,9 @@ export const ToggleAssetsButton = ({ isOpened, onToggle, itemsInComparison }: IT
   >
     {itemsInComparison > 0 && (
       <span className='w-4 h-4 rounded-lg bg-error-main text-bright-main ml-1 relative'>
-        <Text
-          type='span'
-          fontSize='small'
-          fontWeight='regular'
-          content={itemsInComparison}
-          className='top-[2px] left-[6px] absolute'
-        />
+        <span className='absolute w-full h-full flex top-0 left-0 justify-center items-center'>
+          <Text type='span' fontSize='small' fontWeight='regular' content={itemsInComparison} />
+        </span>
       </span>
     )}
     <Icon
