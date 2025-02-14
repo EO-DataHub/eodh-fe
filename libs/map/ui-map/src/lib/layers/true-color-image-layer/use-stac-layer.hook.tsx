@@ -7,7 +7,8 @@ import { STACWithColorMap } from '../../stac/stac-with-color-map';
 import { useStacLayerCreation } from '../../stac/use-stac-layer-creation';
 
 export const useStacLayer = () => {
-  const { stacUrl, feature } = useTrueColorImage();
+  const { stacUrl, feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
+
   const { comparisonModeEnabled } = useComparisonMode();
 
   const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
@@ -20,7 +21,12 @@ export const useStacLayer = () => {
     let newStacLayer: STAC | STACWithColorMap | null = null;
 
     const loadLayer = async () => {
-      newStacLayer = await createStacLayer({ url: stacUrl, zIndex: stacLayerZindex, collection: feature?.collection });
+      newStacLayer = await createStacLayer({
+        url: stacUrl,
+        zIndex: stacLayerZindex,
+        collection: feature?.collection,
+        assetNameWhichShouldBeDisplayed: assetNameWhichShouldBeDisplayed ? assetNameWhichShouldBeDisplayed : '',
+      });
 
       if (newStacLayer) {
         addLayerToMap(newStacLayer);
@@ -34,5 +40,13 @@ export const useStacLayer = () => {
         removeLayerFromMap(newStacLayer);
       }
     };
-  }, [stacUrl, comparisonModeEnabled, feature, createStacLayer, removeLayerFromMap, addLayerToMap]);
+  }, [
+    stacUrl,
+    comparisonModeEnabled,
+    feature,
+    createStacLayer,
+    removeLayerFromMap,
+    addLayerToMap,
+    assetNameWhichShouldBeDisplayed,
+  ]);
 };

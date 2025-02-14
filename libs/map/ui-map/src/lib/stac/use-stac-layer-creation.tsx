@@ -59,11 +59,16 @@ export const useStacLayerCreation = () => {
   );
 
   const createStacLayerWithSentinel2ArdFix = useCallback(
-    async (url: string, zIndex: number) => {
+    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string) => {
       const data = await getHttpClient().get<StacItem>(url);
       const isCogAsset = data?.assets['cog'] && !data?.assets['cog'].type;
       const cogAssetBands = [3, 2, 1];
       const sentinel2ArdAssets = ['cog'];
+      const assetToBeDisplayed = assetNameWhichShouldBeDisplayed
+        ? [assetNameWhichShouldBeDisplayed]
+        : isCogAsset
+        ? sentinel2ArdAssets
+        : undefined;
 
       if (isCogAsset) {
         data.assets['cog'] = {
@@ -75,7 +80,7 @@ export const useStacLayerCreation = () => {
       const newStacLayer = new STACWithColorMap({
         data,
         bands: isCogAsset ? cogAssetBands : undefined,
-        assets: isCogAsset ? sentinel2ArdAssets : undefined,
+        assets: assetToBeDisplayed,
         zIndex,
         getSourceOptions: (type, options) => {
           const token = authClient.getToken().token;
@@ -100,10 +105,11 @@ export const useStacLayerCreation = () => {
   );
 
   const createStacLayerWithSupportForAllCollection = useCallback(
-    async (url: string, zIndex: number) => {
+    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string) => {
       const newStacLayer = new STACWithColorMap({
         url,
         zIndex,
+        assets: assetNameWhichShouldBeDisplayed ? [assetNameWhichShouldBeDisplayed] : undefined,
         getSourceOptions: (type, options) => {
           const token = authClient.getToken().token;
           (options as { sourceOptions?: object }).sourceOptions =
@@ -126,11 +132,21 @@ export const useStacLayerCreation = () => {
   );
 
   const createStacLayer = useCallback(
-    async ({ url, zIndex, collection }: { url: string; zIndex: number; collection?: string }) => {
+    async ({
+      url,
+      zIndex,
+      collection,
+      assetNameWhichShouldBeDisplayed,
+    }: {
+      url: string;
+      zIndex: number;
+      collection?: string;
+      assetNameWhichShouldBeDisplayed?: string;
+    }) => {
       const newStacLayer =
         collection === 'sentinel2_ard'
-          ? await createStacLayerWithSentinel2ArdFix(url, zIndex)
-          : createStacLayerWithSupportForAllCollection(url, zIndex);
+          ? await createStacLayerWithSentinel2ArdFix(url, zIndex, assetNameWhichShouldBeDisplayed)
+          : createStacLayerWithSupportForAllCollection(url, zIndex, assetNameWhichShouldBeDisplayed);
       return newStacLayer;
     },
     [createStacLayerWithSupportForAllCollection, createStacLayerWithSentinel2ArdFix]
