@@ -3,7 +3,7 @@ import { QueryBuilder, TQuery } from './query.builder';
 import { TCatalogSearchParams, TSearchParams, TWorkflowSearchParams } from './query.model';
 
 export type TSortBy = {
-  field: string;
+  field: 'properties.datetime';
   direction: 'desc' | 'asc';
 };
 
@@ -23,12 +23,14 @@ export type TWorkflowQuery = {
   jobId: string;
   type: 'workflow';
   params: TQuery['params'];
+  sortBy: TSortBy;
 };
 
 export type TSearchQuery = {
   enabled: boolean;
   type: 'search';
   params: (TQuery & { collection?: TCatalogueCollection })[];
+  sortBy: TSortBy;
 };
 
 export type TCollectionQuery = TWorkflowQuery | TSearchQuery;
@@ -55,6 +57,7 @@ export class CollectionBuilder {
         type: 'workflow',
         userWorkspace: queryParams.userWorkspace,
         jobId: queryParams.jobId,
+        sortBy: this.params.sortBy,
         ...new QueryBuilder({ ...this.params, queryParams }, this.options).build(),
       };
     } else if (isCatalogue(this.params.queryParams)) {
@@ -68,6 +71,7 @@ export class CollectionBuilder {
         type: 'search',
         enabled: queries.some((query) => query.params),
         params: queries,
+        sortBy: this.params.sortBy,
       };
     }
 
@@ -82,6 +86,7 @@ export class CollectionBuilder {
       type: 'search',
       enabled: query.enabled,
       params: [query],
+      sortBy: params.sortBy,
     };
   };
 }
