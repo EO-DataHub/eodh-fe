@@ -12,6 +12,7 @@ export const SearchModePanel = () => {
     results,
     state,
     status,
+    error,
     isFetching,
     hasNextPage,
     fetchNextPage,
@@ -30,6 +31,7 @@ export const SearchModePanel = () => {
         return (
           <ResultsView
             status={status}
+            error={error}
             isFetching={isFetching}
             searchType={searchType}
             hasNextPage={hasNextPage}

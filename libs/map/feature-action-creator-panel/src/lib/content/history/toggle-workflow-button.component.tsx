@@ -47,9 +47,9 @@ export const ToggleWorkflowButton = ({
     case 'error': {
       return (
         <Button
-          text='MAP.ACTION_CREATOR_PANEL.HISTORY.VIEW_RESULTS'
+          text='MAP.ACTION_CREATOR_PANEL.HISTORY.HIDE_RESULTS'
           size='medium'
-          onClick={onShow}
+          onClick={onHide}
           disabled={workflowStatus === 'PROCESSING'}
         />
       );
