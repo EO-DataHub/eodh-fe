@@ -1,3 +1,12 @@
+import { getValue } from './get-value';
+import {
+  getCEDACatalogueUrl,
+  getChartsUrl,
+  getElement84CatalogueUrl,
+  getEodhProUrl,
+  getWorkflowCatalogueUrl,
+} from './url.config';
+
 declare const config: {
   baseUrl: string;
   apiUrl: string;
@@ -9,6 +18,15 @@ declare const config: {
     url: string;
     realm: string;
     clientId: string;
+  };
+  http: {
+    proxyConfig: {
+      EODH_PRO_API_URL: string;
+      EODH_ELEMENT_84_CATALOGUE_API_URL: string;
+      EODH_CEDA_CATALOGUE_API_URL: string;
+      EODH_WORKFLOW_CATALOGUE_API_URL: string;
+      EODH_CHARTS_API_URL: string;
+    };
   };
 };
 
@@ -29,53 +47,14 @@ interface IEnvConfig {
     http: {
       proxyConfig: {
         EODH_PRO_API_URL: string;
-        EODH_STAC_API_URL: string;
+        EODH_CHARTS_API_URL: string;
+        EODH_ELEMENT_84_CATALOGUE_API_URL: string;
+        EODH_CEDA_CATALOGUE_API_URL: string;
+        EODH_WORKFLOW_CATALOGUE_API_URL: string;
       };
     };
   };
 }
-
-const getValue = <T extends string | string[] | undefined[] | boolean>(
-  envValue: T | undefined,
-  configValue: T | undefined,
-  defaultValue: T
-): T => {
-  if (
-    (Array.isArray(envValue) && !!envValue.filter((item) => !!item).length) ||
-    (!Array.isArray(envValue) && envValue)
-  ) {
-    return envValue;
-  }
-
-  if (
-    (Array.isArray(configValue) && !!configValue.filter((item) => !!item).length) ||
-    (!Array.isArray(configValue) && configValue)
-  ) {
-    return configValue;
-  }
-
-  return defaultValue;
-};
-
-const removeTrailingSlashes = (url: string) => {
-  return url.replace(/\/+$/, '');
-};
-
-const getEodhProUrl = () => {
-  const apiVersion = '/v1.2';
-  const importedUrl = getValue<string>(import.meta.env.VITE_EODH_PRO_API_URL, config?.authorization.clientId, '');
-
-  if (importedUrl) {
-    return removeTrailingSlashes(importedUrl) + apiVersion;
-  }
-
-  return '';
-};
-
-const getEodhStacUrl = () => {
-  const importedUrl = getValue<string>(import.meta.env.VITE_EODH_STAC_API_URL, config?.authorization.clientId, '');
-  return removeTrailingSlashes(importedUrl);
-};
 
 export const getEnvConfig = (): IEnvConfig => ({
   production: import.meta.env.NODE_ENV !== 'development',
@@ -97,8 +76,11 @@ export const getEnvConfig = (): IEnvConfig => ({
     },
     http: {
       proxyConfig: {
-        EODH_PRO_API_URL: getEodhProUrl(),
-        EODH_STAC_API_URL: getEodhStacUrl(),
+        EODH_PRO_API_URL: getEodhProUrl(config.http.proxyConfig),
+        EODH_ELEMENT_84_CATALOGUE_API_URL: getElement84CatalogueUrl(config.http.proxyConfig),
+        EODH_CEDA_CATALOGUE_API_URL: getCEDACatalogueUrl(config.http.proxyConfig),
+        EODH_WORKFLOW_CATALOGUE_API_URL: getWorkflowCatalogueUrl(config.http.proxyConfig),
+        EODH_CHARTS_API_URL: getChartsUrl(config.http.proxyConfig),
       },
     },
   },

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const statusEnum = z.enum(['submitted', 'running', 'cancel-request', 'successful', 'failed', 'cancelled']);
 
-const submissionSchema = z
+const workflowItemSchema = z
   .object({
     submission_id: z.string().uuid(),
     status: statusEnum.transform((status) => {
@@ -20,9 +20,10 @@ const submissionSchema = z
     successful: z.union([z.boolean(), z.null(), z.undefined()]),
   })
   .transform((data) => ({
-    submissionId: data.submission_id,
+    jobId: data.submission_id,
     status: data.status,
-    functionIdentifier: data.function_identifier,
+    workflowId: data.function_identifier,
+    functionId: data.function_identifier,
     submittedAt: data.submitted_at,
     finishedAt: data.finished_at,
     submittedAtDate: data.submitted_at,
@@ -31,7 +32,7 @@ const submissionSchema = z
 
 export const historySchema = z
   .object({
-    results: z.array(submissionSchema),
+    results: z.array(workflowItemSchema),
     total_items: z.number().int(),
     current_page: z.number().int(),
     total_pages: z.number().int(),
@@ -53,7 +54,7 @@ export const historySchema = z
 
 export const historyAllItemsSchema = z
   .object({
-    results: z.array(submissionSchema),
+    results: z.array(workflowItemSchema),
     total_items: z.number().int(),
     ordered_by: z.string(),
     order_direction: z.enum(['asc', 'desc']),
@@ -65,5 +66,5 @@ export const historyAllItemsSchema = z
     orderDirection: data.order_direction,
   }));
 
-export type THistoryItem = z.infer<typeof submissionSchema>;
+export type THistoryItem = z.infer<typeof workflowItemSchema>;
 export type THistory = z.infer<typeof historySchema>;

@@ -22,7 +22,7 @@ const optimisticUpdateWorkflowHistory = (newWorkflows: IWorkflow[]) => {
     const pages = data?.pages.map((item) => ({
       ...item,
       results: item.results.map((result) => {
-        const newWorkflow = newWorkflows.find((workflow) => workflow.id === result.submissionId);
+        const newWorkflow = newWorkflows.find((workflow) => workflow.id === result.jobId);
 
         if (!newWorkflow) {
           return result;
@@ -74,7 +74,7 @@ type TStatus = NonNullable<THistoryItem['status']>;
 export const updateWorkflowHistory = async (results: THistoryItem[]) => {
   const newWorkflows = results
     .filter((item): item is Omit<THistoryItem, 'status'> & { status: TStatus } => !!item.status)
-    .map((item) => ({ id: item.submissionId, status: item.status }));
+    .map((item) => ({ id: item.jobId, status: item.status }));
 
   await updateWorkflowHistoryCache(newWorkflows, Object.values(useWorkflowStore.getState().workflows));
   useWorkflowStore.getState().updateWorkflows(newWorkflows);

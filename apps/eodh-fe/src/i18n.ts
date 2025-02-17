@@ -1,6 +1,6 @@
 import { setupI18n } from '@ukri/shared/utils/translate';
 
-import { env } from './env.config';
+import { env } from './env/env.config';
 
 const i18n = setupI18n(env.module.translation);
 

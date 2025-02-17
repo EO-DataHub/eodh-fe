@@ -70,6 +70,7 @@ export type TCatalogueSearchParams = {
   };
   aoi: Geometry;
   jobId?: never;
+  workflowId?: never;
   userWorkspace?: never;
   timeSliderBoundaries: {
     from: NonNullable<TDateString>;
@@ -86,6 +87,7 @@ export type TWorkflowSearchParams = {
     to: NonNullable<TDateString>;
   };
   jobId: string;
+  workflowId: string;
   userWorkspace: string;
   timeSliderBoundaries?: {
     from: NonNullable<TDateString>;

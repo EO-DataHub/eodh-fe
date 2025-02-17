@@ -1,6 +1,7 @@
 import Axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 import { IHttpClientConfig, IHttpInterceptor, IHttpRequest } from './model';
+import { ParamReplacerInterceptor } from './param-replacer.interceptor';
 import { ProxyInterceptor } from './proxy.interceptor';
 
 let instance: AxiosInstance | undefined = undefined;
@@ -34,7 +35,7 @@ export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInt
   }
 
   instance = Axios.create({ timeout: 60000 });
-  applyInterceptors(instance, [new ProxyInterceptor(config), ...interceptors]);
+  applyInterceptors(instance, [new ParamReplacerInterceptor(), new ProxyInterceptor(config), ...interceptors]);
 
   instance.interceptors.response.use((response) => response.data);
 };

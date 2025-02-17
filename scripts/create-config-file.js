@@ -10,7 +10,10 @@ const config = {
   http: {
     proxyConfig: {
       EODH_PRO_API_URL: getVariableValue(process.env.VITE_EODH_PRO_API_URL),
-      EODH_STAC_API_URL: getVariableValue(process.env.VITE_EODH_STAC_API_URL),
+      EODH_CHARTS_API_URL: getVariableValue(process.env.VITE_EODH_CHARTS_API_URL),
+      EODH_ELEMENT_84_CATALOGUE_API_URL: getVariableValue(process.env.VITE_EODH_ELEMENT_84_CATALOGUE_API_URL),
+      EODH_CEDA_CATALOGUE_API_URL: getVariableValue(process.env.VITE_EODH_CEDA_CATALOGUE_API_URL),
+      EODH_WORKFLOW_CATALOGUE_API_URL: getVariableValue(process.env.VITE_EODH_WORKFLOW_CATALOGUE_API_URL),
     },
   },
   translation: {

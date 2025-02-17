@@ -13,12 +13,12 @@ type TCollectionName =
   | 'clms-corinelc'
   | 'clms-water-bodies';
 
-type TFunctionIdentifier = 'raster-calculate' | 'lulc-change' | 'water-quality' | 'clip';
+type TFunctionId = 'raster-calculate' | 'lulc-change' | 'water-quality' | 'clip';
 
 interface ICollectionNotSupportedError {
   type: 'collection_not_supported_error';
   ctx: {
-    function_identifier: TFunctionIdentifier;
+    function_identifier: TFunctionId;
     stac_collection: TCollectionName;
     valid_options: TCollectionName[];
   };
@@ -73,7 +73,7 @@ const collectionTranslationMap: Record<TCollectionName, string> = {
   'clms-water-bodies': `${BASE_KEY}.DATA_SET.AUXILIARY.WATER_BODIES`,
 };
 
-const functionTranslationMap: Record<TFunctionIdentifier, string> = {
+const functionTranslationMap: Record<TFunctionId, string> = {
   'raster-calculate': `${BASE_KEY}.FUNCTION.OPTIONS.RASTER_CALCULATOR`,
   'lulc-change': `${BASE_KEY}.FUNCTION.OPTIONS.LAND_COVER_CHANGES`,
   'water-quality': `${BASE_KEY}.FUNCTION.OPTIONS.WATER_QUALITY`,
@@ -84,8 +84,8 @@ const getCollectionTranslationKey = (collection: TCollectionName): string | null
   return collectionTranslationMap[collection] || null;
 };
 
-const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier) => {
-  return functionTranslationMap[functionIdentifier] || null;
+const getFunctionTranslationKey = (functionId: TFunctionId) => {
+  return functionTranslationMap[functionId] || null;
 };
 
 const useErrorMessage = () => {
