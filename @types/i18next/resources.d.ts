@@ -183,6 +183,8 @@ interface Resources {
           COMING_SOON: 'Coming soon!';
         };
         HISTORY: {
+          NO_RESULTS_TITLE: 'No items to display';
+          NO_RESULTS_MESSAGE: "You haven't run any workflows yet. Start by creating a new workflow in the Workflow tab.";
           VIEW_RESULTS: 'View results';
           HIDE_RESULTS: 'Hide results';
           SAVED_ON: 'Saved on';
