@@ -43,6 +43,7 @@ export const ResultsView = ({
           </Header>
           <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
             <UIResultsView
+              searchType={searchType}
               status={status}
               error={error}
               isFetching={isFetching}
@@ -78,6 +79,7 @@ export const ResultsView = ({
           </Header>
           <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
             <UIResultsView
+              searchType={searchType}
               status={status}
               error={error}
               isFetching={isFetching}

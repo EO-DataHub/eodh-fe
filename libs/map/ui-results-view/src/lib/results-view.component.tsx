@@ -1,9 +1,11 @@
 import { NoWorkflowResultsFoundError, TCollection } from '@ukri/map/data-access-stac-catalog';
-import { Error, ResultsViewLoader } from '@ukri/shared/design-system';
+import { ResultsViewLoader } from '@ukri/shared/design-system';
 
+import { ResultsError } from './results-error.component';
 import { ResultsList } from './results-list/results-list.component';
 
 type TResultsStateProps = {
+  searchType: 'catalogue' | 'workflow' | undefined;
   status: 'pending' | 'error' | 'success';
   error: Error | NoWorkflowResultsFoundError | null;
   isFetching: boolean;
@@ -16,6 +18,7 @@ type TResultsStateProps = {
 type TResultsViewProps = TResultsStateProps;
 
 export const ResultsView = ({
+  searchType,
   status,
   data,
   error,
@@ -28,12 +31,13 @@ export const ResultsView = ({
     case 'success': {
       if (!data?.length) {
         return (
-          <Error
+          <ResultsError
+            searchType={searchType}
             icon='SatelliteAlt'
             title='GLOBAL.ERRORS.NO_RESULTS.TITLE'
             message='GLOBAL.ERRORS.NO_RESULTS.MESSAGE'
-            ctaText='GLOBAL.NAVIGATION.RETURN_TO_SEARCH'
-            ctaOnClick={onBack}
+            goBackText='GLOBAL.NAVIGATION.RETURN_TO_SEARCH'
+            onBack={onBack}
           />
         );
       }
@@ -44,7 +48,8 @@ export const ResultsView = ({
     case 'error': {
       if (error instanceof NoWorkflowResultsFoundError) {
         return (
-          <Error
+          <ResultsError
+            searchType={searchType}
             title='MAP.SEARCH_VIEW.ERROR.NO_WORKFLOW_RESULTS.TITLE'
             message='MAP.SEARCH_VIEW.ERROR.NO_WORKFLOW_RESULTS.MESSAGE'
           />
@@ -52,11 +57,12 @@ export const ResultsView = ({
       }
 
       return (
-        <Error
+        <ResultsError
+          searchType={searchType}
           title='GLOBAL.ERRORS.SERVER_ERROR.TITLE'
           message='GLOBAL.ERRORS.SERVER_ERROR.MESSAGE'
-          ctaText='GLOBAL.NAVIGATION.RETURN_TO_SEARCH'
-          ctaOnClick={onBack}
+          goBackText='GLOBAL.NAVIGATION.RETURN_TO_SEARCH'
+          onBack={onBack}
         />
       );
     }

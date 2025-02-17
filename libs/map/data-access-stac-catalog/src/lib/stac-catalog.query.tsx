@@ -5,7 +5,6 @@ import { isAxiosError } from 'axios';
 import { useMemo } from 'react';
 
 import { paths } from './api';
-import { NoWorkflowResultsFoundError } from './no-results.error';
 import { collections, getCollectionUrl } from './query-builder/collection';
 import {
   TCollectionQuery,
@@ -18,6 +17,7 @@ import { TSearchParams } from './query-builder/query.model';
 import { useQueryBuilder } from './query-builder/use-query-builder.hook';
 import { queryKey } from './query-key.const';
 import { collectionSchema, TCollection } from './stac.model';
+import { NoWorkflowResultsFoundError } from './workflow.error';
 
 const sortCollectionFeatures = (features: TCollection['features'], sortBy: TSortBy): TCollection['features'] => {
   if (sortBy.field === 'properties.datetime') {
@@ -101,20 +101,19 @@ const getSearchResults = async (query: TSearchQuery): Promise<TCollection> => {
 };
 
 const getWorkflowResults = async (query: TWorkflowQuery): Promise<TCollection> => {
-  let response: unknown = undefined;
-
   try {
-    response = await getHttpClient().post(
+    const response = await getHttpClient().post(
       paths.WORKFLOW_RESULT({ jobId: query.jobId, userWorkspace: query.userWorkspace }),
       query.params
     );
+    return collectionSchema.parse(response);
   } catch (error) {
-    if (isAxiosError(error) && error.response?.data?.code === 'NotFoundError' && error.response?.status === 404) {
-      throw new NoWorkflowResultsFoundError();
+    if (isAxiosError(error) && error.response?.data?.code === 'NotFoundError' && error.status === 404) {
+      throw new NoWorkflowResultsFoundError(error.message);
     }
-  }
 
-  return collectionSchema.parse(response);
+    throw error;
+  }
 };
 
 const getResults = async (query: TCollectionQuery, links: TCollection['links']) => {
