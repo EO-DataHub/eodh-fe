@@ -109,7 +109,7 @@ export const useFootprintLayer = (id?: string) => {
       map.removeInteraction(selectClick);
       map.un('click', handleClick);
     };
-  }, [map, collection]);
+  }, [map, collection, setFootprintClickId]);
 
   useEffect(() => {
     if (!layer) {
