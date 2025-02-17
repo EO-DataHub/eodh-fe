@@ -9,7 +9,7 @@ const meta: Meta<typeof HistoryTile> = {
     workflowId: {
       control: {
         type: 'text',
-        default: 'huwd786zf6s4vcd7',
+        default: 'raster-calculate',
       },
     },
     status: {
@@ -31,10 +31,10 @@ const meta: Meta<typeof HistoryTile> = {
         default: false,
       },
     },
-    function_identifier: {
+    jobId: {
       control: {
         type: 'text',
-        default: 'raster-calculate',
+        default: 'huwd786zf6s4vcd7',
       },
     },
   },
@@ -43,9 +43,9 @@ export default meta;
 
 export const SampleHistoryItem = {
   args: {
-    workflowId: 'huwd786zf6s4vcd7',
+    workflowId: 'raster-calculate',
     submittedAtDate: '2024-10-05T14:27:05.752000Z',
     status: 'READY',
-    function_identifier: 'raster-calculate',
+    jobId: 'huwd786zf6s4vcd7',
   },
 };
