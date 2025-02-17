@@ -1,24 +1,33 @@
 import { useComparisonMode, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
-import { TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TAssetName, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useMemo } from 'react';
 
 import { downloadFiles } from './download-files.utils';
 
 export const useResult = () => {
-  const { feature: selectedFeature, setFeature } = useTrueColorImage();
+  const { feature: visibleFeature, assetNameWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
   const { mode } = useMode();
-  const { comparisonModeEnabled, itemAddedToComparisonMode, canAddAsNewItemToComparisonMode, toggleCompareItem } =
-    useComparisonMode();
+  const {
+    comparisonModeEnabled,
+    itemAddedToComparisonMode,
+    canAddAsNewItemToComparisonMode,
+    toggleCompareItem,
+    countItemsAddedToComparisonMode,
+  } = useComparisonMode();
 
-  const isSelected = useCallback((id: string) => selectedFeature?.id === id, [selectedFeature?.id]);
+  const isSelected = useCallback(
+    (id: string, assetName?: TAssetName) => {
+      if (assetName) {
+        return visibleFeature?.id === id && assetName === assetNameWhichShouldBeDisplayed;
+      }
 
-  const isAddedToComparison = useCallback(
-    (item: TFeature) => itemAddedToComparisonMode(item),
-    [itemAddedToComparisonMode]
+      return visibleFeature?.id === id;
+    },
+    [visibleFeature, assetNameWhichShouldBeDisplayed]
   );
 
   const canCompare = useCallback(
-    (item: TFeature) => canAddAsNewItemToComparisonMode(item),
+    (item: TFeature, key?: TAssetName) => canAddAsNewItemToComparisonMode(item, key),
     [canAddAsNewItemToComparisonMode]
   );
 
@@ -27,11 +36,18 @@ export const useResult = () => {
   }, []);
 
   const handleSelectedItemToggle = useCallback(
-    (item: TFeature) => {
-      const newFeature = selectedFeature?.id !== item.id ? item : undefined;
-      setFeature(newFeature);
+    (item: TFeature, key?: TAssetName) => {
+      const getFeature = () => {
+        if (key) {
+          return visibleFeature?.id === item.id && assetNameWhichShouldBeDisplayed === key ? undefined : item;
+        }
+
+        return visibleFeature?.id !== item.id ? item : undefined;
+      };
+
+      setFeature(getFeature(), key);
     },
-    [selectedFeature, setFeature]
+    [setFeature, visibleFeature, assetNameWhichShouldBeDisplayed]
   );
 
   const unToggleSelectedItem = useCallback(() => {
@@ -39,8 +55,8 @@ export const useResult = () => {
   }, [setFeature]);
 
   const handleToggleCompareItem = useCallback(
-    (item: TFeature) => {
-      toggleCompareItem(item, mode);
+    (item: TFeature, key?: TAssetName) => {
+      toggleCompareItem(item, mode, key);
     },
     [mode, toggleCompareItem]
   );
@@ -53,8 +69,10 @@ export const useResult = () => {
       downloadItem: download,
       isSelected,
       comparisonEnabled: comparisonModeEnabled,
-      isItemAddedToComparisonMode: isAddedToComparison,
+      itemAddedToComparisonMode,
       canCompareItems: canCompare,
+      countItemsAddedToComparisonMode,
+      assetNameWhichShouldBeDisplayed,
     }),
     [
       handleSelectedItemToggle,
@@ -63,8 +81,10 @@ export const useResult = () => {
       download,
       isSelected,
       comparisonModeEnabled,
-      isAddedToComparison,
       canCompare,
+      itemAddedToComparisonMode,
+      countItemsAddedToComparisonMode,
+      assetNameWhichShouldBeDisplayed,
     ]
   );
 };

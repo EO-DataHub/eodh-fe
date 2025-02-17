@@ -4,13 +4,56 @@ import {
   useSetFootprintClickId,
   useSetThumbnailHoverId,
 } from '@ukri/map/data-access-map';
-import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TAssetName, TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, LoadingSpinner } from '@ukri/shared/design-system';
 import { useEffect, useRef } from 'react';
 
-import { ActionButtons } from './result-item/action-buttons.component';
+import { MultipleItemsActionButtons } from './result-item/multiple-items-action-buttons/multiple-items-action-buttons.component';
 import { ResultItem } from './result-item/result-item.component';
+import { SingleItemActionButtons } from './result-item/single-item-action-buttons.component';
 import { useResult } from './use-result.hook';
+
+const hasManyIndices = (feature: TFeature) => Object.keys(feature.assets).length > 1;
+
+interface IActionButtons {
+  feature: TFeature;
+  mode: 'search' | 'action-creator';
+  comparisonEnabled: boolean;
+  isItemAddedToComparisonMode: (feature: TFeature, key?: TAssetName) => boolean;
+  canCompareItems: (feature: TFeature, key?: TAssetName) => boolean;
+  downloadItem: (feature: TFeature) => void;
+  toggleCompareItem: (feature: TFeature, key?: TAssetName) => void;
+  toggleItem: (feature: TFeature, key?: TAssetName) => void;
+  isSelected: (id: string) => boolean;
+}
+
+const ActionButtons = ({
+  feature,
+  mode,
+  comparisonEnabled,
+  isItemAddedToComparisonMode,
+  canCompareItems,
+  downloadItem,
+  toggleCompareItem,
+  toggleItem,
+  isSelected,
+}: IActionButtons) => {
+  if (mode === 'action-creator' && hasManyIndices(feature)) {
+    return <MultipleItemsActionButtons feature={feature} canDownload={true} />;
+  }
+  return (
+    <SingleItemActionButtons
+      selected={isSelected(feature.id)}
+      comparisonEnabled={comparisonEnabled}
+      addedForComparison={isItemAddedToComparisonMode(feature)}
+      canDownload={false}
+      canCompare={canCompareItems(feature)}
+      onDownload={() => downloadItem(feature)}
+      onCompareItemToggle={() => toggleCompareItem(feature)}
+      onToggleSelectedItem={() => toggleItem(feature)}
+    />
+  );
+};
 
 interface ILoadMoreButtonProps {
   isFetching: boolean;
@@ -57,7 +100,7 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
     untoggleItem,
     downloadItem,
     canCompareItems,
-    isItemAddedToComparisonMode,
+    itemAddedToComparisonMode,
     comparisonEnabled,
     toggleCompareItem,
   } = useResult();
@@ -79,7 +122,7 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
       scrollToItem(footprintClickId);
       untoggleItem();
     }
-  }, [footprintClickId]);
+  }, [footprintClickId, untoggleItem]);
 
   return (
     <div className='mx-4 mt-4'>
@@ -96,22 +139,38 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
             onToggleSelectedItem={() => toggleItem(feature)}
             onImageHover={() => setThumbnailHoverId(feature.id)}
             onImageLeftHover={() => setThumbnailHoverId(undefined)}
+            hasManyIndices={hasManyIndices(feature)}
           >
             <ActionButtons
-              selected={isSelected(feature.id)}
+              // selected={isSelected(feature.id)}
+              isSelected={isSelected}
               comparisonEnabled={comparisonEnabled}
-              addedForComparison={isItemAddedToComparisonMode(feature)}
-              canDownload={mode === 'action-creator'}
-              canCompare={canCompareItems(feature)}
-              onDownload={() => downloadItem(feature)}
-              onCompareItemToggle={() => toggleCompareItem(feature)}
-              onToggleSelectedItem={() => {
+              isItemAddedToComparisonMode={itemAddedToComparisonMode}
+              downloadItem={downloadItem}
+              canCompareItems={canCompareItems}
+              // onDownload={() => downloadItem(feature)}
+              toggleCompareItem={toggleCompareItem}
+              toggleItem={() => {
                 toggleItem(feature);
                 setFootprintClickId(undefined);
               }}
+              feature={feature}
+              mode={mode}
             />
           </ResultItem>
         </div>
+
+        // <ActionButtons
+        //   feature={feature}
+        //   mode={mode}
+        //   comparisonEnabled={comparisonEnabled}
+        //   isItemAddedToComparisonMode={itemAddedToComparisonMode}
+        //   canCompareItems={canCompareItems}
+        //   downloadItem={downloadItem}
+        //   toggleCompareItem={toggleCompareItem}
+        //   toggleItem={toggleItem}
+        //   isSelected={isSelected}
+        // />
       ))}
       {hasNextPage && (
         <div className='flex justify-center mt-5'>

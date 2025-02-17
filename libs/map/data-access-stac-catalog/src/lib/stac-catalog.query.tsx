@@ -9,6 +9,7 @@ import {
   TCollectionQuery,
   TCollectionQueryBuilderParams,
   TSearchQuery,
+  TSortBy,
   TWorkflowQuery,
 } from './query-builder/collection.builder';
 import { TSearchParams } from './query-builder/query.model';
@@ -16,7 +17,24 @@ import { useQueryBuilder } from './query-builder/use-query-builder.hook';
 import { queryKey } from './query-key.const';
 import { collectionSchema, TCollection } from './stac.model';
 
-const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[]) => {
+const sortCollectionFeatures = (features: TCollection['features'], sortBy: TSortBy): TCollection['features'] => {
+  if (sortBy.field === 'properties.datetime') {
+    return features.sort((feature1, feature2) => {
+      const date1 = createDate(feature1.properties.datetime)?.getTime() || 0;
+      const date2 = createDate(feature2.properties.datetime)?.getTime() || 0;
+
+      if (sortBy.direction === 'asc') {
+        return date1 - date2;
+      }
+
+      return date2 - date1;
+    });
+  }
+
+  return features;
+};
+
+const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[], sortBy: TSortBy) => {
   const data = responses
     .map((response) => {
       if (response.status === 'fulfilled') {
@@ -55,22 +73,17 @@ const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[]) =>
 
   return {
     ...data,
-    features: data.features.sort((feature1, feature2) => {
-      const date1 = createDate(feature1.properties.datetime)?.getTime() || 0;
-      const date2 = createDate(feature2.properties.datetime)?.getTime() || 0;
-
-      return date1 - date2;
-    }),
+    features: sortCollectionFeatures(data.features, sortBy),
   };
 };
 
-const getNextPageResults = async (links: TCollection['links']): Promise<TCollection> => {
+const getNextPageResults = async (links: TCollection['links'], sortBy: TSortBy): Promise<TCollection> => {
   const requests = links
     .filter((link) => link.rel === 'next')
     .map((link) => getHttpClient().post<TCollection>(link.href, link.body));
   const data = await Promise.allSettled(requests);
 
-  return collectionSchema.parse(mapResponsesToSchema(data));
+  return collectionSchema.parse(mapResponsesToSchema(data, sortBy));
 };
 
 const getSearchResults = async (query: TSearchQuery): Promise<TCollection> => {
@@ -82,7 +95,7 @@ const getSearchResults = async (query: TSearchQuery): Promise<TCollection> => {
     });
   const data = await Promise.allSettled(requests);
 
-  return collectionSchema.parse(mapResponsesToSchema(data));
+  return collectionSchema.parse(mapResponsesToSchema(data, query.sortBy));
 };
 
 const getWorkflowResults = async (query: TWorkflowQuery): Promise<TCollection> => {
@@ -96,7 +109,7 @@ const getWorkflowResults = async (query: TWorkflowQuery): Promise<TCollection> =
 
 const getResults = async (query: TCollectionQuery, links: TCollection['links']) => {
   if (links.length) {
-    return await getNextPageResults(links);
+    return await getNextPageResults(links, query.sortBy);
   }
 
   if (query.type === 'workflow') {
