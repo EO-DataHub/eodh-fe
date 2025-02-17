@@ -35,7 +35,7 @@ export const TooltipComponent = () => {
   const removeItemFromComparison = useCallback(
     (itemId?: string) => {
       const itemToRemove = comparisonItems.items.filter((item) => item.uid === itemId)[0];
-      removeComparisonItem(itemToRemove);
+      removeComparisonItem(itemToRemove, itemToRemove.assetName);
     },
     [comparisonItems, removeComparisonItem]
   );

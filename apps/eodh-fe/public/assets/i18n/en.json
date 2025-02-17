@@ -18,8 +18,12 @@
         "NO_IMAGE": "No image",
         "BUTTON_SHOW": "View",
         "BUTTON_HIDE": "Hide",
+        "BUTTON_SOW_ASSETS": "Show assets",
+        "BUTTON_HIDE_ASSETS": "Hide assets",
         "ADD_TO_COMPARE": "Add to compare",
+        "ADD_TO_COMPARE_AT_MULTIPLE_INDICES": "Compare",
         "REMOVE_COMPARE": "Remove compare",
+        "REMOVE_COMPARE_FROM_MULTIPLE_INDICES": "Remove",
         "BUTTON": {
           "DOWNLOAD": "Download files"
         }

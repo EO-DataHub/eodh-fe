@@ -5,7 +5,7 @@ import { getIntersects } from './get-intersects';
 import { TFields, TFilterParam, TSearchParams } from './query.model';
 
 export type TSortBy = {
-  field: string;
+  field: 'properties.datetime';
   direction: 'desc' | 'asc';
 };
 
