@@ -1,6 +1,8 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import { Geometry } from 'ol/geom';
 
+import { TCatalogueCollection } from './collection';
+
 export type TCopernicusSearchParams = {
   sentinel1: {
     enabled: boolean;
@@ -19,8 +21,7 @@ export type TCopernicusSearchParams = {
   };
   sentinel2: {
     enabled: boolean;
-    l1c: boolean;
-    l2a: boolean;
+    l2aARD: boolean;
     cloudCoverage: number;
   };
   sentinel3: {
@@ -45,6 +46,7 @@ export type TCopernicusSearchParams = {
 export type TCatalogSearchParams = {
   userWorkspace?: never;
   jobId?: never;
+  collection: TCatalogueCollection;
   dataSets: {
     public: {
       copernicus: TCopernicusSearchParams;
@@ -60,6 +62,7 @@ export type TCatalogSearchParams = {
 export type TWorkflowSearchParams = {
   dataSets?: never;
   aoi?: never;
+  collection?: never;
   userWorkspace: string;
   jobId: string;
   date?: {

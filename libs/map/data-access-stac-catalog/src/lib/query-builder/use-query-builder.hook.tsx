@@ -1,9 +1,14 @@
 import { useMemo } from 'react';
 
-import { QueryBuilder, TQueryBuilderOptions, TQueryBuilderParams } from './query.builder';
+import { TCatalogueCollection } from './collection';
+import { CollectionBuilder, TCollectionQueryBuilderOptions, TCollectionQueryBuilderParams } from './collection.builder';
 
-export const useQueryBuilder = (params: TQueryBuilderParams, options: TQueryBuilderOptions = {}) => {
+export const useQueryBuilder = (
+  collections: TCatalogueCollection[],
+  params: TCollectionQueryBuilderParams,
+  options: TCollectionQueryBuilderOptions = {}
+) => {
   return useMemo(() => {
-    return new QueryBuilder(params, options).build();
-  }, [params, options]);
+    return new CollectionBuilder(params, options).build(collections);
+  }, [collections, params, options]);
 };

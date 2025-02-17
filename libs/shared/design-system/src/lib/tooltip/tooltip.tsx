@@ -13,6 +13,7 @@ interface ITooltipProps {
   className?: string;
   isOpen?: boolean;
   tooltipPosition?: React.CSSProperties;
+  onClose?: () => void;
 }
 
 export const Tooltip = ({
@@ -22,6 +23,7 @@ export const Tooltip = ({
   className,
   tooltipPosition,
   children,
+  onClose,
 }: PropsWithChildren<ITooltipProps>) => {
   const [isTooltipOpen, setIsOpen] = useState(isOpen);
 
@@ -32,8 +34,9 @@ export const Tooltip = ({
   const handleClose = useCallback(() => {
     if (isTooltipOpen) {
       setIsOpen(false);
+      onClose?.();
     }
-  }, [isTooltipOpen]);
+  }, [isTooltipOpen, onClose]);
 
   return (
     isTooltipOpen && (

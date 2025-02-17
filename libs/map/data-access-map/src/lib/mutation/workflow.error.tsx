@@ -6,8 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 type TCollectionName =
   | 'sentinel-1'
-  | 'sentinel-2-l1c'
-  | 'sentinel-2-l2a'
+  | 'sentinel-2-l2a-ard'
   | 'sentinel-3'
   | 'sentinel-5p'
   | 'esacci-globallc'
@@ -60,8 +59,7 @@ export interface IErrorResponse {
 const BASE_KEY = 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE';
 const collectionTranslationMap: Record<TCollectionName, string> = {
   'sentinel-1': `${BASE_KEY}.DATA_SET.SENTINEL_1`,
-  'sentinel-2-l1c': `${BASE_KEY}.DATA_SET.SENTINEL_2`,
-  'sentinel-2-l2a': `${BASE_KEY}.DATA_SET.SENTINEL_2`,
+  'sentinel-2-l2a-ard': `${BASE_KEY}.DATA_SET.SENTINEL_2`,
   'sentinel-3': `${BASE_KEY}.DATA_SET.SENTINEL_3`,
   'sentinel-5p': `${BASE_KEY}.DATA_SET.SENTINEL_5P`,
   'esacci-globallc': `${BASE_KEY}.DATA_SET.AUXILIARY.GLOBAL_LAND_COVER`,

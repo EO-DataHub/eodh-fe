@@ -1,0 +1,23 @@
+export const helpStyles = {
+  subtitleContainer: 'pt-4',
+  subtitle: 'leading-[18px]',
+  question: 'text-primary visited:text-purple-600 hover:text-primary-dark relative',
+  questionText: 'before:content-["•"] before:absolute before:left-1 pl-4 underline',
+  answers: 'border-t border-bright-mid',
+  answerFirst: 'pb-4',
+  answer: 'border-t border-bright-mid pb-4',
+  answerTitle: 'pt-3 leading-[16px]',
+  listItem: 'relative before:content-["•"] before:absolute before:left-[-12px]  before:top-[-3px] ml-4',
+  nestedListItem:
+    'before:inline-block before:w-1 before:h-1 before:mr-3 before:mt-2 before:border-[1px] before:border-text-primary before:rounded-full before:left-5 pl-8 flex',
+  backButton: 'ml-auto pl-2 pr-3 py-[4px] mt-4',
+  helpSection: 'text-text-primary h-full overflow-x-visible overflow-y-scroll',
+  helpTitle: 'text-lg leading-[18px]',
+  helpIntro: 'pt-4',
+  questionsList: 'pb-4',
+  table: 'mt-2',
+  tableCell: 'border border-main p-1 w-full',
+  colorCell: 'min-w-12 h-4',
+  image: 'object-cover',
+  link: 'text-primary visited:text-purple-600 hover:text-primary-dark',
+};

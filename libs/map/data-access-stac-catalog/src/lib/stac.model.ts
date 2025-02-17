@@ -24,7 +24,7 @@ const propertySchema = z.object({
   datetime: z.custom<NonNullable<TDateString>>(
     (value) => !z.string().datetime({ offset: true }).safeParse(value).error
   ),
-  'eo:cloud_cover': z.number().optional(),
+  'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
   'grid:code': z.string().optional(),
   'sat:orbit_state': z.string().optional(),
   'sar:instrument_mode': z.string().optional(),
@@ -48,20 +48,14 @@ const linkSchema = z.object({
   title: z.string().optional(),
   merge: z.boolean().optional(),
   method: z.string().optional(),
-  body: z
-    .object({
-      collections: z.array(z.string()).optional(),
-      token: z.string().optional(),
-      next: z.number().optional(),
-    })
-    .optional(),
+  body: z.object({}).passthrough().optional(),
 });
 
 const assetSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   href: z.string(),
-  type: z.string(),
+  type: z.string().optional(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
   'raster:bands': z
@@ -94,12 +88,14 @@ const featureSchema = z.object({
   stac_version: z.string(),
   stac_extensions: z.array(z.string()).optional(),
   assets: z.object({
-    thumbnail: assetSchema,
+    thumbnail: assetSchema.optional(),
+    cog: assetSchema.optional(),
     visual: assetSchema.optional(),
     cdom: waterQualitySchema.optional(),
     cya_cells: waterQualitySchema.optional(),
     doc: waterQualitySchema.optional(),
     turb: waterQualitySchema.optional(),
+    ndwi: waterQualitySchema.optional(),
   }),
   links: z.array(linkSchema),
   collection: z.string(),
@@ -117,6 +113,7 @@ export const collectionSchema = z.object({
   }),
 });
 
+export type TAssetName = keyof TFeature['assets'];
 export type TWaterQuality = z.infer<typeof waterQualitySchema>;
 export type TGeometry = z.infer<typeof geometrySchema>;
 export type TCollection = z.infer<typeof collectionSchema>;

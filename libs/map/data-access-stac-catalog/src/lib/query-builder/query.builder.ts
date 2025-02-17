@@ -5,7 +5,7 @@ import { getIntersects } from './get-intersects';
 import { TFields, TFilterParam, TSearchParams } from './query.model';
 
 export type TSortBy = {
-  field: string;
+  field: 'properties.datetime';
   direction: 'desc' | 'asc';
 };
 
@@ -57,7 +57,7 @@ export class QueryBuilder {
       intersects,
     };
     const query: TQuery = {
-      enabled: !!Object.keys(params.filter).length,
+      enabled: this.isEnabled(),
       params,
     };
 
@@ -79,4 +79,12 @@ export class QueryBuilder {
       fields: {},
     },
   });
+
+  private isEnabled = () => {
+    if (!this.params.queryParams) {
+      return false;
+    }
+
+    return !!Object.keys(createFilterParams(this.params.queryParams, 'data')).length;
+  };
 }

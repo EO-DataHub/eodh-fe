@@ -11,11 +11,7 @@ import { getGeoTiffSourceInfoFromAsset, getProjection } from './utils';
 // TODO - this is a temporary fix to allow the use of the STACWithColorMap class, as addGeoTiff_ is a private methid that cant be overriden
 // @ts-expect-error - needed for build
 export class STACWithColorMap extends STAC {
-  async addGeoTiff_(this: ISTACWithColorMap, asset: IAsset): Promise<WebGLTileLayer | undefined> {
-    if (!this.displayOverview_) {
-      return;
-    }
-
+  async addGeoTiff_(this: ISTACWithColorMap, asset: IAsset) {
     if (this.buildTileUrlTemplate_ && !this.useTileLayerAsFallback_) {
       return await this.addTileLayerForImagery_(asset);
     }
@@ -35,37 +31,28 @@ export class STACWithColorMap extends STAC {
       options = await this.getSourceOptions_(SourceType.GeoTIFF, options, asset);
     }
 
-    const tileserverFallback = async (asset: IAsset, layer: WebGLTileLayer | null) => {
-      if (layer) {
-        this.getLayers().remove(layer);
-      }
-      return await this.addTileLayerForImagery_(asset);
-    };
-
+    const source = new GeoTIFF({ ...options, normalize: !this.hasColorMap(asset) });
+    const status = new Promise((resolve, reject) => {
+      source.on('error', reject);
+      source.on('change', () => {
+        if (source.getState() === 'error') {
+          reject(source.getError());
+        } else {
+          resolve(true);
+        }
+      });
+    });
     try {
-      const source = new GeoTIFF({ ...options, normalize: !this.hasColorMap(asset) });
+      await status;
       const layer = new WebGLTileLayer({
         source,
         style: this.getColorMapStyles(asset),
       });
-
-      if (this.useTileLayerAsFallback_) {
-        const errorFn = () => tileserverFallback(asset, layer);
-        source.on('error', errorFn);
-        source.on('tileloaderror', errorFn);
-        source.on('change', () => {
-          if (source.getState() === 'error') {
-            tileserverFallback(asset, layer);
-          }
-        });
-        layer.on('error', errorFn);
-        await source.getView();
-      }
       this.addLayer_(layer, asset);
       return layer;
     } catch (error) {
       if (this.useTileLayerAsFallback_) {
-        return await tileserverFallback(asset, null);
+        return await this.addTileLayerForImagery_(asset);
       }
       this.handleError_(error);
     }

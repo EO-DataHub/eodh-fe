@@ -59,8 +59,12 @@ export const useComparisonModeImageLayers = () => {
         return undefined;
       }
 
-      const authorized = item.mode !== 'search';
-      return createStacLayer({ url: item.stacUrl, zIndex: stacLayerZindex + index, authorized });
+      return createStacLayer({
+        url: item.stacUrl,
+        zIndex: stacLayerZindex + index,
+        collection: item.collection,
+        assetNameWhichShouldBeDisplayed: item.assetName,
+      });
     },
     [comparisonItems, comparisonModeEnabled, createStacLayer]
   );
