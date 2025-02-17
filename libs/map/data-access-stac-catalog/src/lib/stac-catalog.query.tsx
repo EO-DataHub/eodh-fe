@@ -108,7 +108,7 @@ const getWorkflowResults = async (query: TWorkflowQuery): Promise<TCollection> =
     );
     return collectionSchema.parse(response);
   } catch (error) {
-    if (isAxiosError(error) && error.response?.data?.code === 'NotFoundError' && error.status === 404) {
+    if (isAxiosError(error) && error.response?.data.code === 'NotFoundError' && error.response?.status === 404) {
       throw new NoWorkflowResultsFoundError(error.message);
     }
 

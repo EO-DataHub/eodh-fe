@@ -1043,9 +1043,15 @@ interface Resources {
       };
       SEARCH_VIEW: {
         ERROR: {
-          NO_WORKFLOW_RESULTS: {
-            TITLE: 'Sorry, there was no data to process.';
-            MESSAGE: 'Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets.';
+          WORKFLOW: {
+            NO_RESULTS: {
+              TITLE: 'Sorry, there was no data to process.';
+              MESSAGE: 'Please refine your workflow criteria. Try a broader date range, adjust Data Set settings or consider choosing different Data Set.';
+            };
+            SERVER_ERROR: {
+              TITLE: 'Server error';
+              MESSAGE: 'There was a problem retrieving your workflow results from the server, please try again.';
+            };
           };
         };
         VALIDATION: {
