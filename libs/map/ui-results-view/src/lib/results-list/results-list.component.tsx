@@ -40,7 +40,7 @@ const ActionButtons = ({
       selected={isSelected(feature.id)}
       comparisonEnabled={comparisonEnabled}
       addedForComparison={isItemAddedToComparisonMode(feature)}
-      canDownload={false}
+      canDownload={mode === 'action-creator'}
       canCompare={canCompareItems(feature)}
       onDownload={() => downloadItem(feature)}
       onCompareItemToggle={() => toggleCompareItem(feature)}
@@ -113,6 +113,7 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
           selected={isSelected(feature.id)}
           onToggleSelectedItem={() => toggleItem(feature)}
           hasManyIndices={hasManyIndices(feature)}
+          mode={mode}
         >
           <ActionButtons
             feature={feature}
