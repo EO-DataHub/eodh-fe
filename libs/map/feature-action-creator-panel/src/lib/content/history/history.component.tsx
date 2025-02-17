@@ -2,6 +2,7 @@ import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
 
 import { Container, Content, Footer } from '../container.component';
 import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
+import { styles } from './history.styles';
 import { HistoryTile } from './history-tile/history-tile.component';
 import { SortFilter } from './sort-filter/sort-filter.component';
 import { ToggleWorkflowButton } from './toggle-workflow-button.component';
@@ -13,7 +14,7 @@ interface IErrorMessageProps {
 }
 
 const ErrorMessage = ({ refetch }: IErrorMessageProps) => (
-  <div className='flex flex-col items-center p-4'>
+  <div className={styles.errorContainer}>
     <Error
       title='MAP.ACTION_CREATOR_PANEL.HISTORY.ERROR.TITLE'
       message='MAP.ACTION_CREATOR_PANEL.HISTORY.ERROR.MESSAGE'
@@ -36,7 +37,7 @@ const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
         text='MAP.ACTION_CREATOR_PANEL.HISTORY.LOAD_MORE'
         appearance='outlined'
         size='large'
-        className='px-3'
+        className={styles.button}
       >
         <LoadingSpinner size='xs' className='ml-2' />
       </Button>
@@ -49,14 +50,14 @@ const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
       appearance='outlined'
       size='large'
       onClick={onClick}
-      className='px-3'
+      className={styles.button}
     />
   );
 };
 
 const NoHistory = () => {
   return (
-    <div className='flex flex-col items-center p-4'>
+    <div className={styles.noHistoryContainer}>
       <Error
         title='MAP.ACTION_CREATOR_PANEL.HISTORY.NO_RESULTS_TITLE'
         message='MAP.ACTION_CREATOR_PANEL.HISTORY.NO_RESULTS_MESSAGE'
@@ -74,7 +75,7 @@ export const History = () => {
     return (
       <Container>
         <Content>
-          <div className='flex justify-center p-4'>
+          <div className={styles.loadingContainer}>
             <LoadingSpinner />
           </div>
         </Content>
@@ -94,17 +95,26 @@ export const History = () => {
     );
   }
 
+  if (!results.length) {
+    return (
+      <Container>
+        <Content>
+          <section className={styles.historySection}>
+            <NoHistory />
+          </section>
+        </Content>
+        <Footer></Footer>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <Content>
-        <section className='text-text-primary h-full overflow-x-visible overflow-y-scroll p-4'>
-          {results.length === 0 ? (
-            <NoHistory />
-          ) : (
-            <div className='flex justify-end'>
-              <SortFilter onSortChange={changeOrder} sortKey={orderBy} />
-            </div>
-          )}
+        <section className={styles.historySection}>
+          <div className={styles.sortFilterContainer}>
+            <SortFilter onSortChange={changeOrder} sortKey={orderBy} />
+          </div>
 
           {results.map((workflow) => (
             <HistoryTile
@@ -127,7 +137,7 @@ export const History = () => {
           ))}
 
           {hasNextPage && (
-            <div className='flex justify-center mt-5'>
+            <div className={styles.loadMoreContainer}>
               <LoadMoreButton isFetching={isFetching} onClick={loadMore} />
             </div>
           )}
