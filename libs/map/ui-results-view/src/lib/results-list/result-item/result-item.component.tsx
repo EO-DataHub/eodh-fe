@@ -1,3 +1,4 @@
+import { IHighlightedItem } from '@ukri/map/data-access-map';
 import { formatDate, formatHourInUtc, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
 import { PropsWithChildren, useEffect, useMemo, useRef } from 'react';
@@ -9,15 +10,15 @@ export interface IResultItemProps {
   className?: string;
   imageUrl: string;
   id: string;
-  selectedId: string | undefined;
+  highlightedItem: IHighlightedItem | undefined;
   gridCode?: string;
   cloudCoverage?: number;
   collectionName: string;
   dateTime: string;
   selected?: boolean;
   onToggleSelectedItem?: () => void;
-  onImageHover?: () => void;
-  onImageLeftHover?: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   hasManyIndices?: boolean;
 }
 
@@ -25,7 +26,7 @@ export const ResultItem = ({
   className = '',
   imageUrl,
   id,
-  selectedId,
+  highlightedItem,
   gridCode,
   cloudCoverage,
   selected,
@@ -34,8 +35,8 @@ export const ResultItem = ({
   children,
   hasManyIndices,
   onToggleSelectedItem,
-  onImageHover,
-  onImageLeftHover,
+  onMouseEnter,
+  onMouseLeave,
 }: PropsWithChildren<IResultItemProps>) => {
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
@@ -46,20 +47,21 @@ export const ResultItem = ({
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (selectedId && id === selectedId) {
-      ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // untoggleItem();
+    if (highlightedItem && id === highlightedItem.featureId && highlightedItem.eventSource === 'map') {
+      ref.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
     }
-  }, [selectedId, id]);
+  }, [highlightedItem, id]);
 
   return (
     <div
+      ref={ref}
       className={`flex flex-col bg-bright-light p-[13px] rounded-md max-w-96 border-[3px] ${
         selected ? ' border-primary' : 'border-transparent'
       } ${className}`}
-      ref={ref}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      <div className='w-full flex mb-2' onMouseEnter={onImageHover} onMouseLeave={onImageLeftHover}>
+      <div className='w-full flex mb-2'>
         <Image imageUrl={imageUrl} disabled={hasManyIndices} onToggle={onToggleSelectedItem} />
         <div className='flex flex-col ml-2.5 text-text justify-start gap-1'>
           <ResultItemInfo value={collectionName} iconName='Satellite' />

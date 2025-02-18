@@ -1,10 +1,11 @@
 import type {} from '@redux-devtools/extension';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { TCollection } from '@ukri/map/data-access-stac-catalog'; // todo: [fix boundaries] check if it fixed when Anti-Corruption Layer for Map will be created
+import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { IFootprintStore, TFootprintStoreState } from './footprint.model';
+import { IFootprintStore, IHighlightedItem, TFootprintStoreState } from './footprint.model';
 
 const defaultCollectionName = 'default';
 
@@ -12,10 +13,15 @@ export const useFootprintStore = create<IFootprintStore>()(
   devtools((set) => ({
     currentCollection: undefined,
     collections: {},
-    footprintClickId: undefined,
-    thumbnailHoverId: undefined,
-    setFootprintClickId: (id: string | undefined) => set({ footprintClickId: id }),
-    setThumbnailHoverId: (id: string | undefined) => set({ thumbnailHoverId: id }),
+    highlightedItem: undefined,
+    setHighlightedItem: (highlightedItem: IHighlightedItem | undefined) =>
+      set((state) => {
+        if (isEqual(state.highlightedItem, highlightedItem)) {
+          return state;
+        }
+
+        return { highlightedItem };
+      }),
     setCollection: (collection: TCollection | undefined, id = defaultCollectionName) =>
       set((state) => {
         const currentCollection = state.collections[id];
@@ -87,22 +93,6 @@ export const useFootprintStore = create<IFootprintStore>()(
   }))
 );
 
-export const useFootprintClickId = () => {
-  return useFootprintStore((state) => state.footprintClickId);
-};
-
-export const useSetFootprintClickId = () => {
-  return useFootprintStore((state) => state.setFootprintClickId);
-};
-
-export const useThumbnailHoverId = () => {
-  return useFootprintStore((state) => state.thumbnailHoverId);
-};
-
-export const useSetThumbnailHoverId = () => {
-  return useFootprintStore((state) => state.setThumbnailHoverId);
-};
-
 export const getFootprintStoreState = (): TFootprintStoreState => {
   const { toggleVisibility, show, hide, setCollection, ...rest } = useFootprintStore.getState();
 
@@ -130,10 +120,12 @@ export const useFootprintLayerVisible = (id: string = defaultCollectionName) => 
   });
 };
 
-export const useToggleFootprintLayer = () => {
+export const useFootprints = () => {
   return useFootprintStore((state) => ({
     show: state.show,
     hide: state.hide,
     toggle: state.toggleVisibility,
+    highlightedItem: state.highlightedItem,
+    setHighlightedItem: state.setHighlightedItem,
   }));
 };

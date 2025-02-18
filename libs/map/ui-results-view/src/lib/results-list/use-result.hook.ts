@@ -1,4 +1,4 @@
-import { useComparisonMode, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
+import { useComparisonMode, useFootprints, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
 import { TAssetName, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useMemo } from 'react';
 
@@ -6,6 +6,7 @@ import { downloadFiles } from './download-files.utils';
 
 export const useResult = () => {
   const { feature: visibleFeature, assetNameWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
+  const { highlightedItem, setHighlightedItem } = useFootprints();
   const { mode } = useMode();
   const {
     comparisonModeEnabled,
@@ -17,13 +18,17 @@ export const useResult = () => {
 
   const isSelected = useCallback(
     (id: string, assetName?: TAssetName) => {
+      if (id === highlightedItem?.featureId) {
+        return true;
+      }
+
       if (assetName) {
         return visibleFeature?.id === id && assetName === assetNameWhichShouldBeDisplayed;
       }
 
       return visibleFeature?.id === id;
     },
-    [visibleFeature, assetNameWhichShouldBeDisplayed]
+    [visibleFeature, assetNameWhichShouldBeDisplayed, highlightedItem]
   );
 
   const canCompare = useCallback(
@@ -46,13 +51,10 @@ export const useResult = () => {
       };
 
       setFeature(getFeature(), key);
+      setHighlightedItem(undefined);
     },
-    [setFeature, visibleFeature, assetNameWhichShouldBeDisplayed]
+    [visibleFeature, assetNameWhichShouldBeDisplayed, setFeature, setHighlightedItem]
   );
-
-  const unToggleSelectedItem = useCallback(() => {
-    setFeature(undefined);
-  }, [setFeature]);
 
   const handleToggleCompareItem = useCallback(
     (item: TFeature, key?: TAssetName) => {
@@ -61,10 +63,23 @@ export const useResult = () => {
     [mode, toggleCompareItem]
   );
 
+  const highlightFeature = useCallback(
+    (feature?: TFeature) => {
+      if (feature) {
+        setHighlightedItem({ featureId: feature.id, eventSource: 'results-list', eventType: 'pointermove' });
+      } else {
+        setHighlightedItem(undefined);
+      }
+    },
+    [setHighlightedItem]
+  );
+
   return useMemo(
     () => ({
+      mode,
       toggleItem: handleSelectedItemToggle,
-      untoggleItem: unToggleSelectedItem,
+      highlightedItem,
+      highlightItem: highlightFeature,
       toggleCompareItem: handleToggleCompareItem,
       downloadItem: download,
       isSelected,
@@ -75,8 +90,10 @@ export const useResult = () => {
       assetNameWhichShouldBeDisplayed,
     }),
     [
+      mode,
       handleSelectedItemToggle,
-      unToggleSelectedItem,
+      highlightedItem,
+      highlightFeature,
       handleToggleCompareItem,
       download,
       isSelected,

@@ -10,7 +10,7 @@ export { useLayers } from './lib/store/use-toggle-layers.hook';
 export {
   useFootprintLayerVisible,
   useFootprintCollection,
-  useToggleFootprintLayer,
+  useFootprints,
   useFootprintCollectionMutation,
 } from './lib/store/footprint/footprint.store';
 export { useDataSets } from './lib/store/data-sets/data-sets.store';
@@ -69,9 +69,4 @@ export type {
 } from './lib/form-builder/tree/tree-builder/tree-builder.model';
 export { useComparisonMode } from './lib/store/comparison-mode/comparison-tool.store';
 export type { TUid, TComparisonItem } from './lib/store/comparison-mode/comparison-tool.store';
-export {
-  useFootprintClickId,
-  useSetFootprintClickId,
-  useSetThumbnailHoverId,
-  useThumbnailHoverId,
-} from './lib/store/footprint/footprint.store';
+export type { IHighlightedItem } from './lib/store/footprint/footprint.model';

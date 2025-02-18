@@ -1,12 +1,5 @@
-import {
-  useFootprintClickId,
-  useMode,
-  useSetFootprintClickId,
-  useSetThumbnailHoverId,
-} from '@ukri/map/data-access-map';
 import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, LoadingSpinner } from '@ukri/shared/design-system';
-import { useEffect } from 'react';
 
 import { MultipleItemsActionButtons } from './result-item/multiple-items-action-buttons/multiple-items-action-buttons.component';
 import { ResultItem } from './result-item/result-item.component';
@@ -96,25 +89,17 @@ export interface IResultsListProps {
 
 export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: IResultsListProps) => {
   const {
+    mode,
     isSelected,
+    highlightItem,
+    highlightedItem,
     toggleItem,
-    untoggleItem,
     downloadItem,
     canCompareItems,
     itemAddedToComparisonMode,
     comparisonEnabled,
     toggleCompareItem,
   } = useResult();
-  const { mode } = useMode();
-  const footprintClickId = useFootprintClickId();
-  const setFootprintClickId = useSetFootprintClickId();
-  const setThumbnailHoverId = useSetThumbnailHoverId();
-
-  useEffect(() => {
-    if (footprintClickId) {
-      untoggleItem();
-    }
-  }, [footprintClickId, untoggleItem]);
 
   return (
     <div className='mx-4 mt-4'>
@@ -123,17 +108,17 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
           key={feature.id}
           className='mb-4'
           id={feature.id}
-          selectedId={footprintClickId}
+          highlightedItem={highlightedItem}
           imageUrl={feature.assets.thumbnail?.href || ''}
           gridCode={feature.properties['grid:code']}
           cloudCoverage={feature.properties['eo:cloud_cover']}
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
           hasManyIndices={hasManyIndices(feature)}
-          selected={isSelected(feature.id) || feature.id === footprintClickId}
+          selected={isSelected(feature.id)}
           onToggleSelectedItem={() => toggleItem(feature)}
-          onImageHover={() => setThumbnailHoverId(feature.id)}
-          onImageLeftHover={() => setThumbnailHoverId(undefined)}
+          onMouseEnter={() => highlightItem(feature)}
+          onMouseLeave={() => highlightItem(undefined)}
         >
           <ActionButtons
             feature={feature}
@@ -144,10 +129,7 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
             onDownload={() => downloadItem(feature)}
             selected={isSelected(feature.id)}
             onCompareItemToggle={() => toggleCompareItem(feature)}
-            onToggleSelectedItem={() => {
-              toggleItem(feature);
-              setFootprintClickId(undefined);
-            }}
+            onToggleSelectedItem={() => toggleItem(feature)}
           />
         </ResultItem>
       ))}
