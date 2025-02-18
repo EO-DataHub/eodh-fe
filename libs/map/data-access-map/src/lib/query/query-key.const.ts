@@ -9,10 +9,10 @@ const QUERY_KEY = {
 export const queryKey = {
   PRESETS: () => [QUERY_KEY.PRESETS],
   FUNCTIONS: () => [QUERY_KEY.FUNCTIONS],
-  COLLECTION_INFO: ({ userWorkspace, workflowId }: { userWorkspace: string; workflowId: string }) => [
+  COLLECTION_INFO: ({ userWorkspace, jobId }: { userWorkspace: string; jobId: string }) => [
     QUERY_KEY.COLLECTION_INFO,
     userWorkspace,
-    workflowId,
+    jobId,
   ],
   WORKFLOW_HISTORY: ({ orderDirection }: { orderDirection?: 'asc' | 'desc' } = {}) =>
     [QUERY_KEY.WORKFLOW_HISTORY, orderDirection].filter((item) => !!item),

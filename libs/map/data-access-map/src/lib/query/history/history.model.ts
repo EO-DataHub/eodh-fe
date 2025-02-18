@@ -20,9 +20,8 @@ const workflowItemSchema = z
     successful: z.union([z.boolean(), z.null(), z.undefined()]),
   })
   .transform((data) => ({
-    workflowId: data.submission_id,
-    workspaceId: data.function_identifier,
-    functionId: data.function_identifier,
+    jobId: data.submission_id,
+    workflowId: data.function_identifier,
     submittedAt: data.submitted_at,
     finishedAt: data.finished_at,
     submittedAtDate: data.submitted_at,

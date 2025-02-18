@@ -20,8 +20,8 @@ export type TCollectionQueryBuilderOptions = {
 export type TWorkflowQuery = {
   enabled: boolean;
   userWorkspace: string;
+  jobId: string;
   workflowId: string;
-  workspaceId: string;
   type: 'workflow';
   params: TQuery['params'];
   sortBy: TSortBy;
@@ -37,7 +37,7 @@ export type TSearchQuery = {
 export type TCollectionQuery = TWorkflowQuery | TSearchQuery;
 
 const isWorkflow = (params: Omit<TSearchParams, 'collection'>): params is TWorkflowSearchParams =>
-  !!params.userWorkspace && !!params.workflowId;
+  !!params.userWorkspace && !!params.jobId;
 
 const isCatalogue = (params: Omit<TSearchParams, 'collection'>): params is TCatalogSearchParams => !!params.dataSets;
 
@@ -57,8 +57,8 @@ export class CollectionBuilder {
       return {
         type: 'workflow',
         userWorkspace: queryParams.userWorkspace,
+        jobId: queryParams.jobId,
         workflowId: queryParams.workflowId,
-        workspaceId: queryParams.workspaceId,
         sortBy: this.params.sortBy,
         ...new QueryBuilder({ ...this.params, queryParams }, this.options).build(),
       };

@@ -103,7 +103,7 @@ const getSearchResults = async (query: TSearchQuery): Promise<TCollection> => {
 const getWorkflowResults = async (query: TWorkflowQuery): Promise<TCollection> => {
   try {
     const response = await getHttpClient().post(paths.WORKFLOW_RESULT, query.params, {
-      params: { workflowId: query.workflowId, userWorkspace: query.userWorkspace, workspaceId: query.workspaceId },
+      params: { jobId: query.jobId, userWorkspace: query.userWorkspace, workflowId: query.workflowId },
     });
     return collectionSchema.parse(response);
   } catch (error) {

@@ -68,7 +68,7 @@ const stackBarSchema = z
     }),
   })
   .transform((data) => ({
-    workflowId: data.job_id,
+    jobId: data.job_id,
     assets: data.assets,
     chartType: 'stacked-bar' as const,
   }));
@@ -79,7 +79,7 @@ const rangeAreaWithLineSchema = z
     assets: z.record(z.string(), rangeAreaWithLineAsset),
   })
   .transform((data) => ({
-    workflowId: data.job_id,
+    jobId: data.job_id,
     assets: data.assets,
     chartType: 'range-area-with-line' as const,
   }));
