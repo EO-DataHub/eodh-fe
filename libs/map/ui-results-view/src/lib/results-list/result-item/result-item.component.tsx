@@ -38,12 +38,7 @@ export const ResultItem = ({
     [cloudCoverage]
   );
 
-  const disabled = useMemo(() => {
-    if (mode === 'action-creator' && hasManyIndices) {
-      return true;
-    }
-    return false;
-  }, [hasManyIndices, mode]);
+  const imageDisabled = useMemo(() => mode === 'action-creator' && hasManyIndices, [hasManyIndices, mode]);
 
   return (
     <div
@@ -52,7 +47,7 @@ export const ResultItem = ({
       } ${className}`}
     >
       <div className='w-full flex mb-2'>
-        <Image imageUrl={imageUrl} disabled={disabled} onToggle={onToggleSelectedItem} />
+        <Image imageUrl={imageUrl} disabled={imageDisabled} onToggle={onToggleSelectedItem} />
         <div className='flex flex-col ml-2.5 text-text justify-start gap-1'>
           <ResultItemInfo value={collectionName} iconName='Satellite' />
           <ResultItemInfo value={date ?? ''} iconName='Calendar' />
