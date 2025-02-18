@@ -15,6 +15,7 @@ export interface IResultItemProps {
   selected?: boolean;
   onToggleSelectedItem?: () => void;
   hasManyIndices?: boolean;
+  mode: 'search' | 'action-creator';
 }
 
 export const ResultItem = ({
@@ -27,6 +28,7 @@ export const ResultItem = ({
   dateTime,
   children,
   hasManyIndices,
+  mode,
   onToggleSelectedItem,
 }: PropsWithChildren<IResultItemProps>) => {
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
@@ -36,6 +38,8 @@ export const ResultItem = ({
     [cloudCoverage]
   );
 
+  const imageDisabled = useMemo(() => mode === 'action-creator' && hasManyIndices, [hasManyIndices, mode]);
+
   return (
     <div
       className={`flex flex-col bg-bright-light p-[13px] rounded-md max-w-96 border-[3px] ${
@@ -43,7 +47,7 @@ export const ResultItem = ({
       } ${className}`}
     >
       <div className='w-full flex mb-2'>
-        <Image imageUrl={imageUrl} disabled={hasManyIndices} onToggle={onToggleSelectedItem} />
+        <Image imageUrl={imageUrl} disabled={imageDisabled} onToggle={onToggleSelectedItem} />
         <div className='flex flex-col ml-2.5 text-text justify-start gap-1'>
           <ResultItemInfo value={collectionName} iconName='Satellite' />
           <ResultItemInfo value={date ?? ''} iconName='Calendar' />
