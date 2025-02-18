@@ -101,20 +101,41 @@ const featureSchema = z.object({
   collection: z.string(),
 });
 
-export const collectionSchema = z.object({
+const collectionSchemaV1 = z.object({
   type: z.literal('FeatureCollection'),
   features: z.array(featureSchema),
   links: z.array(linkSchema),
   context: z.object({
     returned: z.number(),
-    limit: z.number(),
+    limit: z.number().optional(),
     matched: z.number().optional(),
     next: z.number().optional(),
   }),
 });
 
+const collectionSchemaV2 = z
+  .object({
+    type: z.literal('FeatureCollection'),
+    features: z.array(featureSchema),
+    links: z.array(linkSchema),
+    numReturned: z.number(),
+    numMatched: z.number(),
+  })
+  .transform((data) => ({
+    type: data.type,
+    features: data.features,
+    links: data.links,
+    context: {
+      returned: data.numReturned,
+      limit: undefined,
+      matched: data.numMatched,
+      next: undefined,
+    },
+  }));
+
+export const collectionSchema = collectionSchemaV1.or(collectionSchemaV2);
+
 export type TAssetName = keyof TFeature['assets'];
-export type TWaterQuality = z.infer<typeof waterQualitySchema>;
 export type TGeometry = z.infer<typeof geometrySchema>;
 export type TCollection = z.infer<typeof collectionSchema>;
 export type TFeature = TCollection['features'][number];
