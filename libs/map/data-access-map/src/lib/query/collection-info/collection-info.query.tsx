@@ -7,20 +7,25 @@ import { collectionInfoCacheSchema, collectionInfoResponseSchema, TCollectionInf
 
 interface IGetCollectionInfoProps {
   jobId: string;
+  workflowId: string;
   userWorkspace: string;
 }
 
-const getCollectionInfo = async ({ jobId, userWorkspace }: IGetCollectionInfoProps): Promise<TCollectionInfo> => {
+const getCollectionInfo = async ({
+  jobId,
+  workflowId,
+  userWorkspace,
+}: IGetCollectionInfoProps): Promise<TCollectionInfo> => {
   const cachedResult = queryClient
     .getQueryCache()
-    .find({ queryKey: queryKey.COLLECTION_INFO({ jobId, userWorkspace }) });
+    .find({ queryKey: queryKey.COLLECTION_INFO({ jobId, userWorkspace, workflowId }) });
   const data = collectionInfoCacheSchema.safeParse(cachedResult?.state.data);
 
   if (data.success) {
     return Promise.resolve(data.data);
   }
 
-  const response = await getHttpClient().get(paths.COLLECTION_INFO, { params: { userWorkspace, jobId } });
+  const response = await getHttpClient().get(paths.COLLECTION_INFO, { params: { userWorkspace, jobId, workflowId } });
   return collectionInfoResponseSchema.parse(response);
 };
 

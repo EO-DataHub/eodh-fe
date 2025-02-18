@@ -25,7 +25,7 @@ export const useLoadHistoryResults = () => {
       }
 
       try {
-        const collectionInfo = await mutateAsync({ jobId, userWorkspace });
+        const collectionInfo = await mutateAsync({ jobId, userWorkspace, workflowId });
 
         const dateFrom = formatDate(
           createDateString(collectionInfo?.collectionInterval.from)

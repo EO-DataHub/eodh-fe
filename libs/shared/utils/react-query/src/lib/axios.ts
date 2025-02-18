@@ -35,7 +35,7 @@ export const initHttpClient = (config: IHttpClientConfig, interceptors: IHttpInt
   }
 
   instance = Axios.create({ timeout: 60000 });
-  applyInterceptors(instance, [new ParamReplacerInterceptor(), new ProxyInterceptor(config), ...interceptors]);
+  applyInterceptors(instance, [new ProxyInterceptor(config), new ParamReplacerInterceptor(), ...interceptors]);
 
   instance.interceptors.response.use((response) => response.data);
 };
@@ -45,7 +45,7 @@ const applyInterceptors = (instance: AxiosInstance, interceptors: IHttpIntercept
     return;
   }
 
-  interceptors.forEach((interceptor) => {
+  interceptors.reverse().forEach((interceptor) => {
     instance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) =>
         interceptor

@@ -14,5 +14,5 @@ export const paths: TQueryKey = {
   PRESETS: `${eodhProApiUrl}${presets}`,
   FUNCTIONS: `${eodhProApiUrl}${functions}`,
   WORKFLOW: `${eodhProApiUrl}${history}`,
-  COLLECTION_INFO: 'VITE_EODH_WORKFLOW_CATALOGUE_API_URL',
+  COLLECTION_INFO: 'EODH_WORKFLOW_CATALOGUE_API_URL',
 };

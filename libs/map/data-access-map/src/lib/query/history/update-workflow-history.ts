@@ -50,7 +50,9 @@ export const updateWorkflowHistoryCache = async (newWorkflows: IWorkflow[], curr
   const inProgressCurrentWorkflows = currentWorkflows.filter((workflow) => workflow.status === 'PROCESSING');
   const workflowStatusChanged = inProgressCurrentWorkflows.some(
     (workflow) =>
-      !!newWorkflows.find((newWorkflow) => newWorkflow.jobId === workflow.jobId && newWorkflow.status !== workflow.status)
+      !!newWorkflows.find(
+        (newWorkflow) => newWorkflow.jobId === workflow.jobId && newWorkflow.status !== workflow.status
+      )
   );
   let workflowHistoryUpdated = false;
 

@@ -14,12 +14,24 @@ export class ParamReplacerInterceptor implements IHttpInterceptor {
       return request;
     }
 
+    const params = new Map(Object.entries(request.params));
     let url = request.url;
 
     Object.entries(request.params).forEach(([key, value]) => {
-      url = url?.replace(`{${key}}`, value);
+      if (url?.includes(`{${key}}`)) {
+        url = url?.replace(`{${key}}`, value);
+
+        if (
+          request.method === 'GET' ||
+          request.method === 'get' ||
+          request.method === 'POST' ||
+          request.method === 'post'
+        ) {
+          params.delete(key);
+        }
+      }
     });
 
-    return { ...request, url };
+    return { ...request, url, params: Object.fromEntries(params) };
   };
 }
