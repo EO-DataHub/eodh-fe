@@ -1,6 +1,6 @@
 import { formatDate, formatHourInUtc, type TDateTimeString } from '@ukri/shared/utils/date';
 import isNumber from 'lodash/isNumber';
-import { PropsWithChildren, useMemo } from 'react';
+import { PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 
 import { Image } from './image.component';
 import { ResultItemInfo } from './result-info.component';
@@ -8,6 +8,8 @@ import { ResultItemInfo } from './result-info.component';
 export interface IResultItemProps {
   className?: string;
   imageUrl: string;
+  id: string;
+  selectedId: string | undefined;
   gridCode?: string;
   cloudCoverage?: number;
   collectionName: string;
@@ -22,6 +24,8 @@ export interface IResultItemProps {
 export const ResultItem = ({
   className = '',
   imageUrl,
+  id,
+  selectedId,
   gridCode,
   cloudCoverage,
   selected,
@@ -39,12 +43,21 @@ export const ResultItem = ({
     () => (isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage),
     [cloudCoverage]
   );
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (selectedId && id === selectedId) {
+      ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // untoggleItem();
+    }
+  }, [selectedId, id]);
 
   return (
     <div
       className={`flex flex-col bg-bright-light p-[13px] rounded-md max-w-96 border-[3px] ${
         selected ? ' border-primary' : 'border-transparent'
       } ${className}`}
+      ref={ref}
     >
       <div className='w-full flex mb-2' onMouseEnter={onImageHover} onMouseLeave={onImageLeftHover}>
         <Image imageUrl={imageUrl} disabled={hasManyIndices} onToggle={onToggleSelectedItem} />
