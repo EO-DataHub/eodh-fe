@@ -142,13 +142,11 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
             hasManyIndices={hasManyIndices(feature)}
           >
             <ActionButtons
-              // selected={isSelected(feature.id)}
               isSelected={isSelected}
               comparisonEnabled={comparisonEnabled}
               isItemAddedToComparisonMode={itemAddedToComparisonMode}
               downloadItem={downloadItem}
               canCompareItems={canCompareItems}
-              // onDownload={() => downloadItem(feature)}
               toggleCompareItem={toggleCompareItem}
               toggleItem={() => {
                 toggleItem(feature);
@@ -159,18 +157,6 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
             />
           </ResultItem>
         </div>
-
-        // <ActionButtons
-        //   feature={feature}
-        //   mode={mode}
-        //   comparisonEnabled={comparisonEnabled}
-        //   isItemAddedToComparisonMode={itemAddedToComparisonMode}
-        //   canCompareItems={canCompareItems}
-        //   downloadItem={downloadItem}
-        //   toggleCompareItem={toggleCompareItem}
-        //   toggleItem={toggleItem}
-        //   isSelected={isSelected}
-        // />
       ))}
       {hasNextPage && (
         <div className='flex justify-center mt-5'>
