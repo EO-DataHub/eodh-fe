@@ -118,20 +118,20 @@ export const History = () => {
 
           {results.map((workflow) => (
             <HistoryTile
-              key={workflow.jobId}
-              jobId={workflow.jobId}
+              key={workflow.workflowId}
               workflowId={workflow.workflowId}
+              workspaceId={workflow.workspaceId}
               submittedAtDate={workflow.submittedAtDate}
               status={workflow.status}
-              selected={selectedResult === workflow.jobId}
+              selected={selectedResult === workflow.workflowId}
             >
               <ToggleWorkflowButton
-                selected={selectedResult === workflow.jobId}
+                selected={selectedResult === workflow.workflowId}
                 selectedWorkflowId={selectedResult}
                 loadResultsStatus={status}
                 workflowStatus={workflow.status}
                 onHide={hideResults}
-                onShow={() => showResults(workflow.jobId, workflow.workflowId)}
+                onShow={() => showResults(workflow.workflowId, workflow.workspaceId)}
               />
             </HistoryTile>
           ))}

@@ -1,14 +1,14 @@
 import { TFilterParam } from '../query.model';
 
-export const createWorkflowFilterParams = (jobId: string): TFilterParam[] => {
-  if (!jobId.length) {
+export const createWorkflowFilterParams = (workflowId: string): TFilterParam[] => {
+  if (!workflowId.length) {
     return [];
   }
 
   return [
     {
       op: '=',
-      args: [{ property: 'collection' }, `col_${jobId}`],
+      args: [{ property: 'collection' }, `col_${workflowId}`],
     },
   ];
 };

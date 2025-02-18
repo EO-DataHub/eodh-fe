@@ -6,7 +6,7 @@ const meta: Meta<typeof HistoryTile> = {
   component: HistoryTile,
   title: 'libs/map/action-creator-panel/content/HistoryTile',
   argTypes: {
-    workflowId: {
+    workspaceId: {
       control: {
         type: 'text',
         default: 'raster-calculate',
@@ -31,7 +31,7 @@ const meta: Meta<typeof HistoryTile> = {
         default: false,
       },
     },
-    jobId: {
+    workflowId: {
       control: {
         type: 'text',
         default: 'huwd786zf6s4vcd7',
@@ -43,9 +43,9 @@ export default meta;
 
 export const SampleHistoryItem = {
   args: {
-    workflowId: 'raster-calculate',
+    workspaceId: 'raster-calculate',
     submittedAtDate: '2024-10-05T14:27:05.752000Z',
     status: 'READY',
-    jobId: 'huwd786zf6s4vcd7',
+    workflowId: 'huwd786zf6s4vcd7',
   },
 };

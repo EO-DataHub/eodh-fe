@@ -32,8 +32,8 @@ const truncateString = (str: string, maxLength: number) => {
 };
 
 export interface IHistoryTileProps {
-  jobId: string;
   workflowId: string;
+  workspaceId: string;
   submittedAtDate: string;
   status?: 'READY' | 'PROCESSING' | 'FAILED';
   selected: boolean;
@@ -41,8 +41,8 @@ export interface IHistoryTileProps {
 }
 
 export const HistoryTile = ({
-  jobId,
   workflowId,
+  workspaceId,
   submittedAtDate,
   status,
   className,
@@ -57,12 +57,12 @@ export const HistoryTile = ({
     <div className={clsx(historyTileStyles.container(selected), className)}>
       <div className={historyTileStyles.section}>
         <div className={historyTileStyles.textContainer}>
-          <Text content={workflowId} fontSize='medium' fontWeight='semibold' />
+          <Text content={workspaceId} fontSize='medium' fontWeight='semibold' />
           <Text
-            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.ID')}: ${truncateString(jobId, 25)}`}
+            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.ID')}: ${truncateString(workflowId, 25)}`}
             fontSize='small'
             fontWeight='regular'
-            className={historyTileStyles.jobId}
+            className={historyTileStyles.workflowId}
           />
         </div>
         <div className={clsx(historyTileStyles.textContainer, historyTileStyles.date)}>

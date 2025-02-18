@@ -6,5 +6,5 @@ export const historyTileStyles = {
   section: 'flex justify-between items-center w-full',
   textContainer: 'flex-shrink whitespace-nowrap',
   date: 'flex flex-col items-end',
-  jobId: 'overflow-hidden text-ellipsis mr-2 font-normal',
+  workflowId: 'overflow-hidden text-ellipsis mr-2 font-normal',
 };

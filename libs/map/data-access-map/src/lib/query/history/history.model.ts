@@ -20,14 +20,14 @@ const workflowItemSchema = z
     successful: z.union([z.boolean(), z.null(), z.undefined()]),
   })
   .transform((data) => ({
-    jobId: data.submission_id,
-    status: data.status,
-    workflowId: data.function_identifier,
+    workflowId: data.submission_id,
+    workspaceId: data.function_identifier,
     functionId: data.function_identifier,
     submittedAt: data.submitted_at,
     finishedAt: data.finished_at,
     submittedAtDate: data.submitted_at,
     successful: data.successful,
+    status: data.status,
   }));
 
 export const historySchema = z

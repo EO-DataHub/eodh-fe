@@ -17,7 +17,7 @@ import {
 } from './results.model';
 
 const isWorkflow = (params: Omit<TSearchParams, 'aoi'>): params is TWorkflowSearchParams =>
-  !!params.jobId && !!params.userWorkspace;
+  !!params.workflowId && !!params.userWorkspace;
 
 const isCatalogue = (
   params: Omit<TSearchParams, 'aoi'> & { aoi?: TCatalogueSearchParams['aoi'] }
@@ -28,7 +28,7 @@ const getSearchType = (params: TSearchParams | undefined) => {
     return undefined;
   }
 
-  if (params.jobId && params.userWorkspace && !params.dataSets && !params.aoi) {
+  if (params.workflowId && params.userWorkspace && !params.dataSets && !params.aoi) {
     return 'workflow';
   }
 

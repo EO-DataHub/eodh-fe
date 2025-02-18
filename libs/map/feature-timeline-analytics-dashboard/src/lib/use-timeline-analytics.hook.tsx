@@ -98,8 +98,8 @@ export const useTimelineAnalytics = () => {
             from: newDateFrom,
             to: newDateTo,
           },
-          jobId: searchParams.jobId || '',
           workflowId: searchParams.workflowId || '',
+          workspaceId: searchParams.workspaceId || '',
           userWorkspace: searchParams.userWorkspace || '',
           timeSliderBoundaries: searchParams.timeSliderBoundaries,
         });

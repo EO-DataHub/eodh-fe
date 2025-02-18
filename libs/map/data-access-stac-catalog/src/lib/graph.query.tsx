@@ -16,7 +16,7 @@ const getChartDataForWorkflowResults = async (query: TWorkflowQuery): Promise<TC
     {
       stac_query: query.params,
     },
-    { params: { jobId: query.jobId, userWorkspace: query.userWorkspace, workflowId: query.workflowId } }
+    { params: { workflowId: query.workflowId, userWorkspace: query.userWorkspace, workspaceId: query.workspaceId } }
   );
 
   return chartSchema.parse(response);
@@ -24,12 +24,12 @@ const getChartDataForWorkflowResults = async (query: TWorkflowQuery): Promise<TC
 
 const getChartData = async (
   query: TCollectionQuery
-): Promise<TChartSchema | { assets: never; chartType: never; jobId: never }> => {
+): Promise<TChartSchema | { assets: never; chartType: never; workflowId: never }> => {
   if (query.type === 'workflow') {
     return getChartDataForWorkflowResults(query);
   }
 
-  return {} as { assets: never; chartType: never; jobId: never };
+  return {} as { assets: never; chartType: never; workflowId: never };
 };
 
 type TGraphSearchProps = {

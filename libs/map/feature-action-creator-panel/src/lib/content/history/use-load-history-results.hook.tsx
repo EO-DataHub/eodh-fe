@@ -15,17 +15,17 @@ export const useLoadHistoryResults = () => {
   const { mutateAsync } = useCollectionInfo();
 
   const showResults = useCallback(
-    async (jobId: string, workflowId: string) => {
+    async (workflowId: string, workspaceId: string) => {
       const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
 
-      markAsRead(jobId);
+      markAsRead(workflowId);
 
       if (!userWorkspace) {
         return;
       }
 
       try {
-        const collectionInfo = await mutateAsync({ jobId, userWorkspace });
+        const collectionInfo = await mutateAsync({ workflowId, userWorkspace });
 
         const dateFrom = formatDate(
           createDateString(collectionInfo?.collectionInterval.from)
@@ -33,9 +33,9 @@ export const useLoadHistoryResults = () => {
         const dateTo = formatDate(createDateString(collectionInfo?.collectionInterval.to)) as NonNullable<TDateString>;
 
         updateSearchParams({
-          id: jobId,
-          jobId,
+          id: workflowId,
           workflowId,
+          workspaceId,
           userWorkspace,
           timeSliderBoundaries: {
             from: dateFrom,
@@ -48,9 +48,9 @@ export const useLoadHistoryResults = () => {
         });
       } catch (error: unknown) {
         updateSearchParams({
-          id: jobId,
-          jobId,
+          id: workflowId,
           workflowId,
+          workspaceId,
           userWorkspace,
         });
       }
@@ -69,6 +69,6 @@ export const useLoadHistoryResults = () => {
     status,
     showResults,
     hideResults,
-    selectedResult: searchParams?.jobId || null,
+    selectedResult: searchParams?.workflowId || null,
   };
 };

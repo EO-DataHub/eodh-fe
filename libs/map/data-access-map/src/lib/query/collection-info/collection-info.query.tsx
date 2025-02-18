@@ -6,21 +6,21 @@ import { queryKey } from '../query-key.const';
 import { collectionInfoCacheSchema, collectionInfoResponseSchema, TCollectionInfo } from './collection-info.model';
 
 interface IGetCollectionInfoProps {
-  jobId: string;
+  workflowId: string;
   userWorkspace: string;
 }
 
-const getCollectionInfo = async ({ jobId, userWorkspace }: IGetCollectionInfoProps): Promise<TCollectionInfo> => {
+const getCollectionInfo = async ({ workflowId, userWorkspace }: IGetCollectionInfoProps): Promise<TCollectionInfo> => {
   const cachedResult = queryClient
     .getQueryCache()
-    .find({ queryKey: queryKey.COLLECTION_INFO({ jobId, userWorkspace }) });
+    .find({ queryKey: queryKey.COLLECTION_INFO({ workflowId, userWorkspace }) });
   const data = collectionInfoCacheSchema.safeParse(cachedResult?.state.data);
 
   if (data.success) {
     return Promise.resolve(data.data);
   }
 
-  const response = await getHttpClient().get(paths.COLLECTION_INFO({ userWorkspace, jobId }));
+  const response = await getHttpClient().get(paths.COLLECTION_INFO({ userWorkspace, workflowId }));
   return collectionInfoResponseSchema.parse(response);
 };
 
