@@ -1,5 +1,5 @@
 import { useComparisonMode } from '@ukri/map/data-access-map';
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { NoWorkflowResultsFoundError, TCollection } from '@ukri/map/data-access-stac-catalog';
 import { ResultsView as UIResultsView } from '@ukri/map/ui-results-view';
 import { Icon, Text } from '@ukri/shared/design-system';
 
@@ -9,6 +9,7 @@ type TResultsViewProps = {
   searchType: 'catalogue' | 'workflow' | undefined;
   data: TCollection['features'] | undefined;
   status: 'error' | 'success' | 'pending';
+  error: Error | NoWorkflowResultsFoundError | null;
   isFetching: boolean;
   hasNextPage: boolean;
   onBack: () => void;
@@ -19,6 +20,7 @@ export const ResultsView = ({
   searchType,
   data,
   status,
+  error,
   isFetching,
   hasNextPage,
   onBack,
@@ -41,7 +43,9 @@ export const ResultsView = ({
           </Header>
           <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
             <UIResultsView
+              searchType={searchType}
               status={status}
+              error={error}
               isFetching={isFetching}
               data={data}
               hasNextPage={hasNextPage}
@@ -75,7 +79,9 @@ export const ResultsView = ({
           </Header>
           <div className='flex-1 overflow-y-auto pb-4 border-t-[1px]'>
             <UIResultsView
+              searchType={searchType}
               status={status}
+              error={error}
               isFetching={isFetching}
               data={data}
               hasNextPage={hasNextPage}

@@ -183,6 +183,8 @@ interface Resources {
           COMING_SOON: 'Coming soon!';
         };
         HISTORY: {
+          NO_RESULTS_TITLE: 'No items to display';
+          NO_RESULTS_MESSAGE: "You haven't run any workflows yet. Start by creating a new workflow in the Workflow tab.";
           VIEW_RESULTS: 'View results';
           HIDE_RESULTS: 'Hide results';
           SAVED_ON: 'Saved on';
@@ -211,6 +213,7 @@ interface Resources {
             AOI_MISSING: 'Area of Interest is missing.';
             INVALID_DATE_RANGE: 'End date cannot be before start date.';
             COLLECTION_NOT_SUPPORTED: 'Collection {{collection}} cannot be used with {{function}} function! Valid options are: {{options}}.';
+            NO_ITEMS_TO_PROCESS: 'No STAC items found for the selected configuration. Adjust area, data set, date range, or functions and try again.';
           };
           NODE: {
             AREA: {
@@ -1041,6 +1044,18 @@ interface Resources {
         };
       };
       SEARCH_VIEW: {
+        ERROR: {
+          WORKFLOW: {
+            NO_RESULTS: {
+              TITLE: 'Sorry, there was no data to process.';
+              MESSAGE: 'Please refine your workflow criteria. Try a broader date range, adjust Data Set settings or consider choosing different Data Set.';
+            };
+            SERVER_ERROR: {
+              TITLE: 'Server error';
+              MESSAGE: 'There was a problem retrieving your workflow results from the server, please try again.';
+            };
+          };
+        };
         VALIDATION: {
           ONE_OF_FIELDS_REQUIRED: 'You must select at least one of the following options';
           ONLY_ONE_FIELD_IS_REQUIRED: 'You must select only one of the following options';

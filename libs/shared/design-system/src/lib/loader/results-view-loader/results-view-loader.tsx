@@ -3,7 +3,7 @@ import { LoadingSpinner } from '../loading-spinner';
 
 export const ResultsViewLoader = () => {
   return (
-    <div className='text-text text-center p-4'>
+    <div className='text-text text-center mx-4 mt-28'>
       <LoadingSpinner className='mx-auto' />
       <Text
         type='h1'

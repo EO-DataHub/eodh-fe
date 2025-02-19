@@ -20,6 +20,7 @@ export interface IResultItemProps {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
   hasManyIndices?: boolean;
+  mode: 'search' | 'action-creator';
 }
 
 export const ResultItem = ({
@@ -34,6 +35,7 @@ export const ResultItem = ({
   dateTime,
   children,
   hasManyIndices,
+  mode,
   onToggleSelectedItem,
   onMouseEnter,
   onMouseLeave,
@@ -52,6 +54,8 @@ export const ResultItem = ({
     }
   }, [highlightedItem, id]);
 
+  const imageDisabled = useMemo(() => mode === 'action-creator' && hasManyIndices, [hasManyIndices, mode]);
+
   return (
     <div
       ref={ref}
@@ -62,7 +66,7 @@ export const ResultItem = ({
       onMouseLeave={onMouseLeave}
     >
       <div className='w-full flex mb-2'>
-        <Image imageUrl={imageUrl} disabled={hasManyIndices} onToggle={onToggleSelectedItem} />
+        <Image imageUrl={imageUrl} disabled={imageDisabled} onToggle={onToggleSelectedItem} />
         <div className='flex flex-col ml-2.5 text-text justify-start gap-1'>
           <ResultItemInfo value={collectionName} iconName='Satellite' />
           <ResultItemInfo value={date ?? ''} iconName='Calendar' />

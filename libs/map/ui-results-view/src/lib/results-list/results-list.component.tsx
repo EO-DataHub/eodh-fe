@@ -115,6 +115,7 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
           hasManyIndices={hasManyIndices(feature)}
+          mode={mode}
           selected={isSelected(feature.id)}
           onToggleSelectedItem={() => toggleItem(feature)}
           onMouseEnter={() => highlightItem(feature)}

@@ -95,6 +95,7 @@ const featureSchema = z.object({
     cya_cells: waterQualitySchema.optional(),
     doc: waterQualitySchema.optional(),
     turb: waterQualitySchema.optional(),
+    ndwi: waterQualitySchema.optional(),
   }),
   links: z.array(linkSchema),
   collection: z.string(),

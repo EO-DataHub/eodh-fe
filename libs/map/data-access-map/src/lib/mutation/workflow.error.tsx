@@ -46,11 +46,17 @@ interface IInvalidDateRangeError {
   msg: string;
 }
 
+interface INoItemsToProcessError {
+  type: 'no_items_to_process_error';
+  msg: string;
+}
+
 type TErrorMessage =
   | ICollectionNotSupportedError
   | IAreaOfInterestTooBigError
   | IAreaOfInterestMissingError
-  | IInvalidDateRangeError;
+  | IInvalidDateRangeError
+  | INoItemsToProcessError;
 
 export interface IErrorResponse {
   detail: TErrorMessage[];
@@ -120,6 +126,10 @@ const useErrorMessage = () => {
 
       case 'invalid_date_range_error': {
         return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.INVALID_DATE_RANGE');
+      }
+
+      case 'no_items_to_process_error': {
+        return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.NO_ITEMS_TO_PROCESS');
       }
 
       default: {

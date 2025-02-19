@@ -26,7 +26,7 @@ export const GraphAnalytics = () => {
     return (
       <div className='w-full'>
         <Error
-          icon={<Icon name='Warning' width={48} height={48} className='mr-1.5 mb-4 text-error-main' />}
+          icon={<Icon name='Warning' width={48} height={48} className='mb-4 text-error-main' />}
           title='MAP.TIMELINE_ANALYTICS_DASHBOARD.CHARTS.ERRORS.NO_RESULTS.TITLE'
           message='MAP.TIMELINE_ANALYTICS_DASHBOARD.CHARTS.ERRORS.NO_RESULTS.MESSAGE'
         />
