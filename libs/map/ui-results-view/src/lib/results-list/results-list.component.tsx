@@ -1,5 +1,4 @@
-import { useMode } from '@ukri/map/data-access-map';
-import { TAssetName, TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, LoadingSpinner } from '@ukri/shared/design-system';
 
 import { MultipleItemsActionButtons } from './result-item/multiple-items-action-buttons/multiple-items-action-buttons.component';
@@ -13,38 +12,39 @@ interface IActionButtons {
   feature: TFeature;
   mode: 'search' | 'action-creator';
   comparisonEnabled: boolean;
-  isItemAddedToComparisonMode: (feature: TFeature, key?: TAssetName) => boolean;
-  canCompareItems: (feature: TFeature, key?: TAssetName) => boolean;
-  downloadItem: (feature: TFeature) => void;
-  toggleCompareItem: (feature: TFeature, key?: TAssetName) => void;
-  toggleItem: (feature: TFeature, key?: TAssetName) => void;
-  isSelected: (id: string) => boolean;
+  addedForComparison: boolean;
+  canCompare: boolean;
+  selected: boolean;
+  onDownload: () => void;
+  onCompareItemToggle: () => void;
+  onToggleSelectedItem: () => void;
 }
 
 const ActionButtons = ({
   feature,
   mode,
   comparisonEnabled,
-  isItemAddedToComparisonMode,
-  canCompareItems,
-  downloadItem,
-  toggleCompareItem,
-  toggleItem,
-  isSelected,
+  addedForComparison,
+  canCompare,
+  selected,
+  onDownload,
+  onCompareItemToggle,
+  onToggleSelectedItem,
 }: IActionButtons) => {
   if (mode === 'action-creator' && hasManyIndices(feature)) {
     return <MultipleItemsActionButtons feature={feature} canDownload={true} />;
   }
+
   return (
     <SingleItemActionButtons
-      selected={isSelected(feature.id)}
+      selected={selected}
       comparisonEnabled={comparisonEnabled}
-      addedForComparison={isItemAddedToComparisonMode(feature)}
-      canDownload={mode === 'action-creator'}
-      canCompare={canCompareItems(feature)}
-      onDownload={() => downloadItem(feature)}
-      onCompareItemToggle={() => toggleCompareItem(feature)}
-      onToggleSelectedItem={() => toggleItem(feature)}
+      addedForComparison={addedForComparison}
+      canDownload={false}
+      canCompare={canCompare}
+      onDownload={onDownload}
+      onCompareItemToggle={onCompareItemToggle}
+      onToggleSelectedItem={onToggleSelectedItem}
     />
   );
 };
@@ -89,7 +89,11 @@ export interface IResultsListProps {
 
 export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: IResultsListProps) => {
   const {
+    mode,
     isSelected,
+    isHighlighted,
+    highlightItem,
+    highlightedItem,
     toggleItem,
     downloadItem,
     canCompareItems,
@@ -97,7 +101,6 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
     comparisonEnabled,
     toggleCompareItem,
   } = useResult();
-  const { mode } = useMode();
 
   return (
     <div className='mx-4 mt-4'>
@@ -105,26 +108,30 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
         <ResultItem
           key={feature.id}
           className='mb-4'
+          id={feature.id}
+          highlightedItem={highlightedItem}
           imageUrl={feature.assets.thumbnail?.href || ''}
           gridCode={feature.properties['grid:code']}
           cloudCoverage={feature.properties['eo:cloud_cover']}
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
-          selected={isSelected(feature.id)}
-          onToggleSelectedItem={() => toggleItem(feature)}
           hasManyIndices={hasManyIndices(feature)}
           mode={mode}
+          selected={isSelected(feature.id) || isHighlighted(feature.id)}
+          onToggleSelectedItem={() => toggleItem(feature)}
+          onMouseEnter={() => highlightItem(feature)}
+          onMouseLeave={() => highlightItem(undefined)}
         >
           <ActionButtons
             feature={feature}
             mode={mode}
             comparisonEnabled={comparisonEnabled}
-            isItemAddedToComparisonMode={itemAddedToComparisonMode}
-            canCompareItems={canCompareItems}
-            downloadItem={downloadItem}
-            toggleCompareItem={toggleCompareItem}
-            toggleItem={toggleItem}
-            isSelected={isSelected}
+            addedForComparison={itemAddedToComparisonMode(feature)}
+            canCompare={canCompareItems(feature)}
+            onDownload={() => downloadItem(feature)}
+            selected={isSelected(feature.id)}
+            onCompareItemToggle={() => toggleCompareItem(feature)}
+            onToggleSelectedItem={() => toggleItem(feature)}
           />
         </ResultItem>
       ))}
