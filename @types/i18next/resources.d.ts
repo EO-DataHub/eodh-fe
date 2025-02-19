@@ -1070,7 +1070,7 @@ interface Resources {
             };
           };
           DATA_SETS_CONFIGURATION: {
-            PRIVATE: 'Private';
+            COMMERCIAL: 'Commercial';
             PUBLIC: 'Public';
             PLANET: {
               NAME: 'Planet';

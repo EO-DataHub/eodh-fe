@@ -3,7 +3,7 @@ import { aibusSchema } from './airbus.schema';
 import { planetActionCreatorSchema, planetSearchSchema } from './planet.schema';
 
 export const privateSearchSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PRIVATE',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COMMERCIAL',
   type: 'category',
   options: {
     expendable: true,
@@ -20,7 +20,7 @@ export const privateSearchSchema: IDynamicTreeCategory = {
 };
 
 export const privateActionCreatorSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PRIVATE',
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COMMERCIAL',
   type: 'category',
   options: {
     expendable: true,
