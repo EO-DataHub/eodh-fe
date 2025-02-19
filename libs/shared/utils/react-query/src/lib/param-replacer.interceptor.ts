@@ -1,5 +1,15 @@
 import { IHttpErrorResponse, IHttpInterceptor, IHttpRequest } from './model';
 
+const replaceParam = (url: string | undefined, key: string, value: string): string | undefined => {
+  url = url?.replace(`{${key}}`, value);
+
+  if (url?.includes(`{${key}}`)) {
+    url = replaceParam(url, key, value);
+  }
+
+  return url;
+};
+
 export class ParamReplacerInterceptor implements IHttpInterceptor {
   public async intercept(request: IHttpRequest): Promise<IHttpRequest> {
     return this.handleRequest(request);
@@ -19,7 +29,7 @@ export class ParamReplacerInterceptor implements IHttpInterceptor {
 
     Object.entries(request.params).forEach(([key, value]) => {
       if (url?.includes(`{${key}}`)) {
-        url = url?.replace(`{${key}}`, value);
+        url = replaceParam(url, key, value);
 
         if (
           request.method === 'GET' ||
