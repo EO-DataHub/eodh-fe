@@ -16,20 +16,6 @@ export const useFootprintStore = create<IFootprintStore>()(
     highlightedItems: [],
     highlightItem: (newItem: IHighlightedItem | undefined) =>
       set((state) => {
-        const itemAlreadyExists = state.highlightedItems.some((item) => isEqual(item, newItem));
-        const itemWithSameIdExits = state.highlightedItems.some((item) => item.featureId === newItem?.featureId);
-
-        if (itemAlreadyExists) {
-          if (newItem && newItem.eventType === 'click') {
-            const items = state.highlightedItems.filter((item) => item.featureId !== newItem?.featureId);
-            return {
-              highlightedItems: [...items, { ...newItem, eventType: 'pointermove' }],
-            };
-          }
-
-          return state;
-        }
-
         if (!newItem) {
           const pointerMoveItems = state.highlightedItems.some((item) => item.eventType === 'pointermove');
           if (pointerMoveItems) {
@@ -41,20 +27,38 @@ export const useFootprintStore = create<IFootprintStore>()(
           return state;
         }
 
+        const itemAlreadyExists = state.highlightedItems.some((item) => isEqual(item, newItem));
+        const itemWithSameIdExits = state.highlightedItems.some((item) => item.featureId === newItem.featureId);
+
+        if (itemAlreadyExists) {
+          if (newItem.eventType === 'click') {
+            return {
+              highlightedItems: state.highlightedItems
+                .filter((item) => item.featureId !== newItem.featureId)
+                .concat({ ...newItem, eventType: 'pointermove' }),
+            };
+          }
+
+          return state;
+        }
+
         if (itemWithSameIdExits) {
-          const restItems = state.highlightedItems.filter((item) => item.featureId !== newItem?.featureId);
-          const highlightedItems = state.highlightedItems.filter((item) => item.featureId === newItem?.featureId);
-          const items = [...restItems, ...highlightedItems].filter((item) => item.eventType !== newItem.eventType);
-
-          return { highlightedItems: [...items, { ...newItem }] };
+          return {
+            highlightedItems: state.highlightedItems
+              .filter((item) => item.eventType !== newItem.eventType)
+              .concat({ ...newItem }),
+          };
         }
 
-        let highlightedItems = state.highlightedItems;
         if (newItem.eventType === 'pointermove') {
-          highlightedItems = highlightedItems.filter((item) => item.eventType !== 'pointermove');
+          return {
+            highlightedItems: state.highlightedItems
+              .filter((item) => item.eventType !== 'pointermove')
+              .concat({ ...newItem }),
+          };
         }
 
-        return { highlightedItems: [...highlightedItems, newItem] };
+        return { highlightedItems: state.highlightedItems.concat({ ...newItem }) };
       }),
     clearHighlight: () => set(() => ({ highlightedItems: [] })),
     setCollection: (collection: TCollection | undefined, id = defaultCollectionName) =>
