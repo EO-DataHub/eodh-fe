@@ -15,8 +15,9 @@ export interface IFootprintStore {
     };
   };
   setCollection: (collection: TCollection | undefined, id?: string) => void;
-  highlightedItem: IHighlightedItem | undefined;
-  setHighlightedItem: (highlightFeature: IHighlightedItem | undefined) => void;
+  highlightedItems: IHighlightedItem[];
+  highlightItem: (highlightFeature: IHighlightedItem | undefined) => void;
+  clearHighlight: () => void;
   toggleVisibility: (id?: string) => void;
   show: (id?: string) => void;
   hide: (id?: string) => void;

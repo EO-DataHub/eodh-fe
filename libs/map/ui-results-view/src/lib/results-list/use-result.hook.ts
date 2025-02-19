@@ -6,7 +6,7 @@ import { downloadFiles } from './download-files.utils';
 
 export const useResult = () => {
   const { feature: visibleFeature, assetNameWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
-  const { highlightedItem, setHighlightedItem } = useFootprints();
+  const { highlightedItems, highlightItem, clearHighlight } = useFootprints();
   const { mode } = useMode();
   const {
     comparisonModeEnabled,
@@ -15,20 +15,27 @@ export const useResult = () => {
     toggleCompareItem,
     countItemsAddedToComparisonMode,
   } = useComparisonMode();
+  const highlightedItem = useMemo(
+    () => highlightedItems.find((item) => item.eventType === 'click'),
+    [highlightedItems]
+  );
 
   const isSelected = useCallback(
     (id: string, assetName?: TAssetName) => {
-      if (id === highlightedItem?.featureId) {
-        return true;
-      }
-
       if (assetName) {
         return visibleFeature?.id === id && assetName === assetNameWhichShouldBeDisplayed;
       }
 
       return visibleFeature?.id === id;
     },
-    [visibleFeature, assetNameWhichShouldBeDisplayed, highlightedItem]
+    [visibleFeature, assetNameWhichShouldBeDisplayed]
+  );
+
+  const isHighlighted = useCallback(
+    (id: string) => {
+      return !!highlightedItems.find((item) => item.featureId === id);
+    },
+    [highlightedItems]
   );
 
   const canCompare = useCallback(
@@ -49,11 +56,15 @@ export const useResult = () => {
 
         return visibleFeature?.id !== item.id ? item : undefined;
       };
+      const feature = getFeature();
 
-      setFeature(getFeature(), key);
-      setHighlightedItem(undefined);
+      setFeature(feature, key);
+
+      if (feature) {
+        clearHighlight();
+      }
     },
-    [visibleFeature, assetNameWhichShouldBeDisplayed, setFeature, setHighlightedItem]
+    [visibleFeature, assetNameWhichShouldBeDisplayed, setFeature, clearHighlight]
   );
 
   const handleToggleCompareItem = useCallback(
@@ -66,12 +77,12 @@ export const useResult = () => {
   const highlightFeature = useCallback(
     (feature?: TFeature) => {
       if (feature) {
-        setHighlightedItem({ featureId: feature.id, eventSource: 'results-list', eventType: 'pointermove' });
+        highlightItem({ featureId: feature.id, eventSource: 'results-list', eventType: 'pointermove' });
       } else {
-        setHighlightedItem(undefined);
+        highlightItem(undefined);
       }
     },
-    [setHighlightedItem]
+    [highlightItem]
   );
 
   return useMemo(
@@ -82,6 +93,7 @@ export const useResult = () => {
       highlightItem: highlightFeature,
       toggleCompareItem: handleToggleCompareItem,
       downloadItem: download,
+      isHighlighted,
       isSelected,
       comparisonEnabled: comparisonModeEnabled,
       itemAddedToComparisonMode,
@@ -96,6 +108,7 @@ export const useResult = () => {
       highlightFeature,
       handleToggleCompareItem,
       download,
+      isHighlighted,
       isSelected,
       comparisonModeEnabled,
       canCompare,

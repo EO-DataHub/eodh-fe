@@ -46,15 +46,14 @@ export const ResultItem = ({
     () => (isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage),
     [cloudCoverage]
   );
+  const imageDisabled = useMemo(() => mode === 'action-creator' && hasManyIndices, [hasManyIndices, mode]);
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (highlightedItem && id === highlightedItem.featureId && highlightedItem.eventSource === 'map') {
-      ref.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+      ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [highlightedItem, id]);
-
-  const imageDisabled = useMemo(() => mode === 'action-creator' && hasManyIndices, [hasManyIndices, mode]);
 
   return (
     <div

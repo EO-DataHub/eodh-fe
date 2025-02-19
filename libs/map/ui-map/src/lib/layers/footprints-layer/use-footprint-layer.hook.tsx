@@ -1,6 +1,6 @@
 import { useFootprintCollection, useFootprintLayerVisible, useFootprints } from '@ukri/map/data-access-map';
 import { Feature, MapBrowserEvent } from 'ol';
-import { click, pointerMove } from 'ol/events/condition';
+import { click } from 'ol/events/condition';
 import GeoJSON from 'ol/format/GeoJSON';
 import Geometry from 'ol/geom/Geometry';
 import Select from 'ol/interaction/Select';
@@ -55,7 +55,7 @@ export const useFootprintLayer = (id?: string) => {
   const map = useContext(MapContext);
   const visible = useFootprintLayerVisible(id);
   const collection = useFootprintCollection(id);
-  const { highlightedItem, setHighlightedItem } = useFootprints();
+  const { highlightedItems, highlightItem: highlightFootprint } = useFootprints();
   const [layer, setLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
 
   useEffect(() => {
@@ -86,30 +86,23 @@ export const useFootprintLayer = (id?: string) => {
 
     map.addLayer(newVectorLayer);
 
-    const selectHover = new Select({
-      condition: pointerMove,
-      style: highlightStyle,
-      layers: [newVectorLayer],
-    });
-
     const selectClick = new Select({
       condition: click,
       style: highlightStyle,
       layers: [newVectorLayer],
     });
 
-    map.addInteraction(selectHover);
     map.addInteraction(selectClick);
 
     const highlightItem = (event: MapBrowserEvent<UIEvent>) => {
       let featureId: string | undefined;
       map.forEachFeatureAtPixel(event.pixel, (feature, layer) => {
-        if (layer === newVectorLayer) {
+        if (layer === newVectorLayer && !featureId) {
           featureId = feature.getProperties().id;
         }
       });
       const eventType = getEventType(event);
-      setHighlightedItem(featureId ? { featureId, eventType, eventSource: 'map' } : undefined);
+      highlightFootprint(featureId ? { featureId, eventType, eventSource: 'map' } : undefined);
     };
 
     map.on('click', highlightItem);
@@ -119,12 +112,11 @@ export const useFootprintLayer = (id?: string) => {
 
     return () => {
       map.removeLayer(newVectorLayer);
-      map.removeInteraction(selectHover);
       map.removeInteraction(selectClick);
       map.un('click', highlightItem);
       map.un('pointermove', highlightItem);
     };
-  }, [map, collection, setHighlightedItem]);
+  }, [map, collection, highlightFootprint]);
 
   useEffect(() => {
     if (!layer) {
@@ -141,11 +133,11 @@ export const useFootprintLayer = (id?: string) => {
 
     const features = layer.getSource()?.getFeatures();
     features?.forEach((feature) => {
-      if (feature.getProperties().id === highlightedItem?.featureId) {
+      if (highlightedItems.find((item) => item.featureId === feature.getProperties().id)) {
         feature.setStyle(highlightStyle);
       } else {
         feature.setStyle(defaultStyle);
       }
     });
-  }, [highlightedItem?.featureId, layer]);
+  }, [highlightedItems, layer]);
 };

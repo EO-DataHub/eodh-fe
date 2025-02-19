@@ -13,15 +13,50 @@ export const useFootprintStore = create<IFootprintStore>()(
   devtools((set) => ({
     currentCollection: undefined,
     collections: {},
-    highlightedItem: undefined,
-    setHighlightedItem: (highlightedItem: IHighlightedItem | undefined) =>
+    highlightedItems: [],
+    highlightItem: (newItem: IHighlightedItem | undefined) =>
       set((state) => {
-        if (isEqual(state.highlightedItem, highlightedItem)) {
+        const itemAlreadyExists = state.highlightedItems.some((item) => isEqual(item, newItem));
+        const itemWithSameIdExits = state.highlightedItems.some((item) => item.featureId === newItem?.featureId);
+
+        if (itemAlreadyExists) {
+          if (newItem && newItem.eventType === 'click') {
+            const items = state.highlightedItems.filter((item) => item.featureId !== newItem?.featureId);
+            return {
+              highlightedItems: [...items, { ...newItem, eventType: 'pointermove' }],
+            };
+          }
+
           return state;
         }
 
-        return { highlightedItem };
+        if (!newItem) {
+          const pointerMoveItems = state.highlightedItems.some((item) => item.eventType === 'pointermove');
+          if (pointerMoveItems) {
+            return {
+              highlightedItems: state.highlightedItems.filter((item) => item.eventType !== 'pointermove'),
+            };
+          }
+
+          return state;
+        }
+
+        if (itemWithSameIdExits) {
+          const restItems = state.highlightedItems.filter((item) => item.featureId !== newItem?.featureId);
+          const highlightedItems = state.highlightedItems.filter((item) => item.featureId === newItem?.featureId);
+          const items = [...restItems, ...highlightedItems].filter((item) => item.eventType !== newItem.eventType);
+
+          return { highlightedItems: [...items, { ...newItem }] };
+        }
+
+        let highlightedItems = state.highlightedItems;
+        if (newItem.eventType === 'pointermove') {
+          highlightedItems = highlightedItems.filter((item) => item.eventType !== 'pointermove');
+        }
+
+        return { highlightedItems: [...highlightedItems, newItem] };
       }),
+    clearHighlight: () => set(() => ({ highlightedItems: [] })),
     setCollection: (collection: TCollection | undefined, id = defaultCollectionName) =>
       set((state) => {
         const currentCollection = state.collections[id];
@@ -125,7 +160,8 @@ export const useFootprints = () => {
     show: state.show,
     hide: state.hide,
     toggle: state.toggleVisibility,
-    highlightedItem: state.highlightedItem,
-    setHighlightedItem: state.setHighlightedItem,
+    highlightedItems: state.highlightedItems,
+    highlightItem: state.highlightItem,
+    clearHighlight: state.clearHighlight,
   }));
 };
