@@ -27,10 +27,9 @@ export const useAoiLayer = () => {
       }
 
       const view = map.getView();
-      const zoom = view.getZoom();
-
       view.fit(extent);
 
+      const zoom = view.getZoom();
       if (zoom) {
         view.setZoom(zoom - 1);
       }
