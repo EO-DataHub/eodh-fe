@@ -63,6 +63,7 @@ jobs:
           VITE_AUTHORIZATION_URL: ${{ vars.APP_AUTHORIZATION_URL }}
           VITE_AUTHORIZATION_REALM: ${{ vars.APP_AUTHORIZATION_REALM }}
           VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
+          VITE_AUTHORIZATION_SCOPES: ${{ vars.APP_AUTHORIZATION_SCOPES }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
@@ -118,6 +119,7 @@ jobs:
           VITE_AUTHORIZATION_URL: ${{ vars.APP_AUTHORIZATION_URL }}
           VITE_AUTHORIZATION_REALM: ${{ vars.APP_AUTHORIZATION_REALM }}
           VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
+          VITE_AUTHORIZATION_SCOPES: ${{ vars.APP_AUTHORIZATION_SCOPES }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
@@ -174,6 +176,7 @@ jobs:
           VITE_AUTHORIZATION_URL: ${{ vars.APP_AUTHORIZATION_URL }}
           VITE_AUTHORIZATION_REALM: ${{ vars.APP_AUTHORIZATION_REALM }}
           VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
+          VITE_AUTHORIZATION_SCOPES: ${{ vars.APP_AUTHORIZATION_SCOPES }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
@@ -230,6 +233,7 @@ jobs:
           VITE_AUTHORIZATION_URL: ${{ vars.APP_AUTHORIZATION_URL }}
           VITE_AUTHORIZATION_REALM: ${{ vars.APP_AUTHORIZATION_REALM }}
           VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
+          VITE_AUTHORIZATION_SCOPES: ${{ vars.APP_AUTHORIZATION_SCOPES }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3

@@ -62,14 +62,14 @@ export class KeycloakAdapter<T extends IBaseIdentityClaims> implements IAuthAdap
     status: 'idle',
   };
 
-  public constructor(config: KeycloakConfig) {
-    if (!config.clientId || !config.realm) {
+  public constructor(private config: KeycloakConfig & { scopes: string[] }) {
+    if (!this.config.clientId || !this.config.realm) {
       this.instance = new KeycloakConfigError();
       return;
     }
 
     try {
-      this.instance = new Keycloak(config);
+      this.instance = new Keycloak(this.config);
       this.instance.onReady = this.runOnReadyCallback;
       this.instance.onAuthSuccess = this.runAuthSuccessCallback;
       this.instance.onAuthError = this.runAuthErrorCallback;
@@ -88,8 +88,14 @@ export class KeycloakAdapter<T extends IBaseIdentityClaims> implements IAuthAdap
       return Promise.resolve(true);
     }
 
+    const scope = this.config.scopes.length ? this.config.scopes.join(' ') : undefined;
+    const options: KeycloakInitOptions = {
+      scope,
+      ...initOptions,
+    };
+
     this.state.status = 'initializing';
-    return this.instance.init(initOptions).then((initialized) => {
+    return this.instance.init(options).then((initialized) => {
       if (initialized) {
         this.state.status = 'initialized';
       }

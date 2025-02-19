@@ -18,6 +18,7 @@ declare const config: {
     url: string;
     realm: string;
     clientId: string;
+    scopes: [];
   };
   http: {
     proxyConfig: {
@@ -43,6 +44,7 @@ interface IEnvConfig {
       url: string;
       realm: string;
       clientId: string;
+      scopes: [];
     };
     http: {
       proxyConfig: {
@@ -73,6 +75,11 @@ export const getEnvConfig = (): IEnvConfig => ({
       url: getValue<string>(import.meta.env.VITE_AUTHORIZATION_URL, config?.authorization.url, ''),
       realm: getValue<string>(import.meta.env.VITE_AUTHORIZATION_REALM, config?.authorization.realm, ''),
       clientId: getValue<string>(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, config?.authorization.clientId, ''),
+      scopes: getValue<string[]>(
+        import.meta.env.VITE_AUTHORIZATION_SCOPES?.split(' '),
+        config?.authorization.scopes,
+        []
+      ),
     },
     http: {
       proxyConfig: {

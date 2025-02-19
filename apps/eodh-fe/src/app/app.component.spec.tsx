@@ -39,6 +39,7 @@ vi.mock('../env/env.config', () => ({
         url: '',
         realm: '',
         clientId: '',
+        scopes: [],
       },
       http: {
         baseUrl: '',
@@ -58,6 +59,7 @@ vi.mock('../env/env.config', () => ({
         url: '',
         realm: '',
         clientId: '',
+        scopes: [],
       },
       http: {
         baseUrl: '',

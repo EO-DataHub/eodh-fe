@@ -24,6 +24,7 @@ const config = {
     url: getVariableValue(process.env.VITE_AUTHORIZATION_URL),
     realm: getVariableValue(process.env.VITE_AUTHORIZATION_REALM),
     clientId: getVariableValue(process.env.VITE_AUTHORIZATION_CLIENT_ID),
+    scopes: process.env.VITE_AUTHORIZATION_CLIENT_ID?.split(' ') || [],
   },
   versionId: getVariableValue(process.env.npm_package_version),
   buildId: getVariableValue(process.env.VITE_BUILD_VERSION_NUMBER),

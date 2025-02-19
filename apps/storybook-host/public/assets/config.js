@@ -18,6 +18,7 @@ const config = (() => ({
     url: '',
     realm: '',
     clientId: '',
+    scopes: [],
   },
   versionId: '',
   buildId: '',
