@@ -1099,7 +1099,7 @@
               "SETTINGS": {
                 "ACQUISITION_MODE": "Acquisition mode:",
                 "EW": "EW - Extra-Wide Swath 40m x 40m",
-                "POLARIZATION": "Polarization",
+                "POLARIZATION": "Polarization:",
                 "HH": "HH",
                 "HH_HV": "HH+HV",
                 "IW": "IW - Interferometric Wide Swath 10m x 10m",
