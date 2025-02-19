@@ -11,6 +11,7 @@ const config = {
     proxyConfig: {
       EODH_PRO_API_URL: getVariableValue(process.env.VITE_EODH_PRO_API_URL),
       EODH_CHARTS_API_URL: getVariableValue(process.env.VITE_EODH_CHARTS_API_URL),
+      EODH_COLLECTION_INFO_API_URL: getVariableValue(process.env.VITE_EODH_COLLECTION_INFO_API_URL),
       EODH_ELEMENT_84_CATALOGUE_API_URL: getVariableValue(process.env.VITE_EODH_ELEMENT_84_CATALOGUE_API_URL),
       EODH_CEDA_CATALOGUE_API_URL: getVariableValue(process.env.VITE_EODH_CEDA_CATALOGUE_API_URL),
       EODH_WORKFLOW_CATALOGUE_API_URL: getVariableValue(process.env.VITE_EODH_WORKFLOW_CATALOGUE_API_URL),
@@ -24,7 +25,7 @@ const config = {
     url: getVariableValue(process.env.VITE_AUTHORIZATION_URL),
     realm: getVariableValue(process.env.VITE_AUTHORIZATION_REALM),
     clientId: getVariableValue(process.env.VITE_AUTHORIZATION_CLIENT_ID),
-    scopes: process.env.VITE_AUTHORIZATION_CLIENT_ID?.split(' ') || [],
+    scopes: process.env.VITE_AUTHORIZATION_SCOPES?.split(' ') || [],
   },
   versionId: getVariableValue(process.env.npm_package_version),
   buildId: getVariableValue(process.env.VITE_BUILD_VERSION_NUMBER),
