@@ -7,7 +7,7 @@ import { THistory, THistoryItem } from './history.model';
 import { getHistoryDefaultParams } from './history.query';
 
 interface IWorkflow {
-  id: string;
+  jobId: string;
   status: THistoryItem['status'];
 }
 
@@ -22,13 +22,13 @@ const optimisticUpdateWorkflowHistory = (newWorkflows: IWorkflow[]) => {
     const pages = data?.pages.map((item) => ({
       ...item,
       results: item.results.map((result) => {
-        const newWorkflow = newWorkflows.find((workflow) => workflow.id === result.submissionId);
+        const newWorkflow = newWorkflows.find((workflow) => workflow.jobId === result.jobId);
 
         if (!newWorkflow) {
           return result;
         }
 
-        optimisticUpdatedIds.push(newWorkflow.id);
+        optimisticUpdatedIds.push(newWorkflow.jobId);
 
         return {
           ...result,
@@ -50,14 +50,16 @@ export const updateWorkflowHistoryCache = async (newWorkflows: IWorkflow[], curr
   const inProgressCurrentWorkflows = currentWorkflows.filter((workflow) => workflow.status === 'PROCESSING');
   const workflowStatusChanged = inProgressCurrentWorkflows.some(
     (workflow) =>
-      !!newWorkflows.find((newWorkflow) => newWorkflow.id === workflow.id && newWorkflow.status !== workflow.status)
+      !!newWorkflows.find(
+        (newWorkflow) => newWorkflow.jobId === workflow.jobId && newWorkflow.status !== workflow.status
+      )
   );
   let workflowHistoryUpdated = false;
 
   try {
     const workflowHistoryUpdatedIds = optimisticUpdateWorkflowHistory(newWorkflows);
-    workflowHistoryUpdated = workflowHistoryUpdatedIds.some((id) =>
-      currentWorkflows.some((workflow) => workflow.id === id)
+    workflowHistoryUpdated = workflowHistoryUpdatedIds.some((jobId) =>
+      currentWorkflows.some((workflow) => workflow.jobId === jobId)
     );
   } catch (e) {
     // eslint-disable-next-line no-console
@@ -74,7 +76,7 @@ type TStatus = NonNullable<THistoryItem['status']>;
 export const updateWorkflowHistory = async (results: THistoryItem[]) => {
   const newWorkflows = results
     .filter((item): item is Omit<THistoryItem, 'status'> & { status: TStatus } => !!item.status)
-    .map((item) => ({ id: item.submissionId, status: item.status }));
+    .map((item) => ({ jobId: item.jobId, status: item.status }));
 
   await updateWorkflowHistoryCache(newWorkflows, Object.values(useWorkflowStore.getState().workflows));
   useWorkflowStore.getState().updateWorkflows(newWorkflows);

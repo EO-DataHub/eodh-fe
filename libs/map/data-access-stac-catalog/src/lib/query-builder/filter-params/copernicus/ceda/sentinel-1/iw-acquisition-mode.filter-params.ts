@@ -1,4 +1,4 @@
-import { TCopernicusSearchParams, TFilterParam } from '../../../query.model';
+import { TCopernicusSearchParams, TFilterParam } from '../../../../query.model';
 
 type TAcquisitionIwMode = 'vv+vv_vh' | 'vv' | 'vv_vh' | undefined;
 
@@ -23,7 +23,7 @@ const createPolarizationFilter = (mode: TAcquisitionIwMode): TFilterParam[] => {
 
   const baseFilter: TFilterParam = {
     op: '=',
-    args: [{ property: 'properties.sar:instrument_mode' }, 'IW'],
+    args: [{ property: 'properties.instrument_mode' }, 'IW'],
   };
 
   const polarizationFilters: Record<NonNullable<TAcquisitionIwMode>, TFilterParam[]> = {
@@ -31,24 +31,24 @@ const createPolarizationFilter = (mode: TAcquisitionIwMode): TFilterParam[] => {
       {
         op: 'and',
         args: [
-          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['VV']] },
-          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['VH']] },
+          { op: 'in', args: [{ property: 'properties.Polarisation' }, ['VV']] },
+          { op: 'in', args: [{ property: 'properties.Polarisation' }, ['VH']] },
         ],
       },
     ],
     vv: [
-      { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['VV']] },
+      { op: 'in', args: [{ property: 'properties.Polarisation' }, ['VV']] },
       {
         op: 'not',
-        args: [{ op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['VH']] }],
+        args: [{ op: 'in', args: [{ property: 'properties.Polarisation' }, ['VH']] }],
       },
     ],
     vv_vh: [
       {
         op: 'or',
         args: [
-          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['VV']] },
-          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['VH']] },
+          { op: 'in', args: [{ property: 'properties.Polarisation' }, ['VV']] },
+          { op: 'in', args: [{ property: 'properties.Polarisation' }, ['VH']] },
         ],
       },
     ],

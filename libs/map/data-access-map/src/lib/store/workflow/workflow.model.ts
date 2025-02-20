@@ -1,5 +1,5 @@
 export interface IWorkflow {
-  id: string;
+  jobId: string;
   status: 'READY' | 'PROCESSING' | 'FAILED';
 }
 
@@ -12,9 +12,9 @@ export interface IWorkflowStore {
   hasProcessedWorkflows: boolean;
   hasWorkflowsToProcess: boolean;
   addWorkflow: (workflow: IWorkflow) => void;
-  updateWorkflowStatus: (id: IWorkflow['id'], status: IWorkflow['status']) => void;
+  updateWorkflowStatus: (jobId: IWorkflow['jobId'], status: IWorkflow['status']) => void;
   updateWorkflows: (workflows: IWorkflow[]) => void;
-  markAsRead: (workflowId?: IWorkflow['id']) => void;
+  markAsRead: (jobId?: IWorkflow['jobId']) => void;
 }
 
 export type TWorkflowStoreState = Omit<

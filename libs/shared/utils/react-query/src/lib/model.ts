@@ -1,3 +1,5 @@
+import { Method } from 'axios';
+
 export interface IHttpErrorResponse {
   response: {
     status: number;
@@ -10,6 +12,7 @@ export interface IHttpRequest extends Record<string, any> {
   headers?: Record<string, any>;
   url?: string;
   params?: { [key: string]: string };
+  method?: Method | string | undefined;
 }
 
 export interface IHttpInterceptor {
