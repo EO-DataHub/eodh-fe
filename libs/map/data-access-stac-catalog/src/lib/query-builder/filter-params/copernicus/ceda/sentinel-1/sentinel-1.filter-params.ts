@@ -1,4 +1,4 @@
-import { TCopernicusSearchParams, TFilterParam } from '../../../query.model';
+import { TCopernicusSearchParams, TFilterParam } from '../../../../query.model';
 import { getAcquisitionModeFilterParams } from './acquisition-mode.filter-params';
 import { getOrbitDirectionFilterParams } from './orbit-direction.filter-params';
 
@@ -13,7 +13,7 @@ export const createSentinel1FilterParams = (
   const args: TFilterParam[] = [
     {
       op: '=',
-      args: [{ property: 'collection' }, 'sentinel-1-grd'],
+      args: [{ property: 'collection' }, 'sentinel1'],
     },
     ...getOrbitDirectionFilterParams(params),
     ...getAcquisitionModeFilterParams(params),

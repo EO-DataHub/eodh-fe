@@ -1,4 +1,4 @@
-import { TCopernicusSearchParams, TFilterParam } from '../../../query.model';
+import { TCopernicusSearchParams, TFilterParam } from '../../../../query.model';
 
 type TAcquisitionEwMode = 'hh+hh_hv' | 'hh' | 'hh_hv' | undefined;
 

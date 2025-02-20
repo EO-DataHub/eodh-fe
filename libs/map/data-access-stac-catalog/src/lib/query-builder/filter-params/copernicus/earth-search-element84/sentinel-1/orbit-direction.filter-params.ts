@@ -1,4 +1,4 @@
-import { TCopernicusSearchParams, TFilterParam } from '../../../query.model';
+import { TCopernicusSearchParams, TFilterParam } from '../../../../query.model';
 
 export const getOrbitDirectionFilterParams = (
   params: Omit<TCopernicusSearchParams['sentinel1'], 'enabled'>

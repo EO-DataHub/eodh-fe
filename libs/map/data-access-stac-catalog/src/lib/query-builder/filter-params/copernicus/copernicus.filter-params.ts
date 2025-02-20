@@ -1,15 +1,19 @@
 import { TCatalogueCollection } from '../../collection';
 import { TCopernicusParams, TFilterParam } from '../../query.model';
-import { createSentinel1FilterParams } from './sentinel-1/sentinel-1.filter-params';
+import { createSentinel1FilterParams } from './sentinel-1.filter-params';
 import { createSentinel2FilterParams } from './sentinel-2.filter-params';
 import { createSentinel3FilterParams } from './sentinel-3.filter-params';
 import { createSentinel5PFilterParams } from './sentinel-5p.filter-params';
 
-export const createArdCopernicusParams = (
+export const createCedaCopernicusParams = (
   params: TCopernicusParams,
   collection: TCatalogueCollection
 ): TFilterParam[] => {
   switch (params.type) {
+    case 'sentinel1': {
+      return createSentinel1FilterParams(params.enabled, params.options, collection);
+    }
+
     case 'sentinel2': {
       return createSentinel2FilterParams(params.enabled, params.options, collection);
     }
@@ -26,7 +30,7 @@ const createElement64CopernicusParams = (
 ): TFilterParam[] => {
   switch (params.type) {
     case 'sentinel1': {
-      return createSentinel1FilterParams(params.enabled, params.options);
+      return [];
     }
 
     case 'sentinel2': {
@@ -54,7 +58,7 @@ export const createCopernicusParams = (params: TCopernicusParams, collection: TC
     }
 
     case 'CEDA': {
-      return createArdCopernicusParams(params, collection);
+      return createCedaCopernicusParams(params, collection);
     }
 
     default: {
