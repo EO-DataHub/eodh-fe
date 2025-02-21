@@ -24,16 +24,17 @@ export const dateToNumber = (date: TDateTimeString | TDateString, type: 'firstDa
   }
 
   const dateWithFirstDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
-  const dateWithLastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+  const dateWithLastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
   const newDate = type === 'firstDay' ? dateWithFirstDayOfMonth : dateWithLastDayOfMonth;
 
-  return newDate.getFullYear() + newDate.getMonth() / 12;
+  const toReturn = newDate.getFullYear() + newDate.getMonth() / 12;
+  return toReturn;
 };
 
 export const numberToDateString = (num: number, monthEnd?: boolean): TDateString => {
   const year = Math.floor(num);
   const month = Math.round((num - year) * 12);
-  const date = monthEnd ? new Date(Date.UTC(year, month + 1, 0, 23, 59, 59, 999)) : new Date(Date.UTC(year, month));
+  const date = monthEnd ? new Date(Date.UTC(year, month, 0, 23, 59, 59, 999)) : new Date(Date.UTC(year, month));
 
   return formatDate(createDateString(date));
 };
