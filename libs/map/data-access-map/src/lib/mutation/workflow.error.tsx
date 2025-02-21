@@ -13,12 +13,12 @@ type TCollectionName =
   | 'clms-corinelc'
   | 'clms-water-bodies';
 
-type TFunctionIdentifier = 'raster-calculate' | 'lulc-change' | 'water-quality' | 'clip';
+type TFunctionName = 'raster-calculate' | 'lulc-change' | 'water-quality' | 'clip';
 
 interface ICollectionNotSupportedError {
   type: 'collection_not_supported_error';
   ctx: {
-    function_identifier: TFunctionIdentifier;
+    function_identifier: TFunctionName;
     stac_collection: TCollectionName;
     valid_options: TCollectionName[];
   };
@@ -46,11 +46,17 @@ interface IInvalidDateRangeError {
   msg: string;
 }
 
+interface INoItemsToProcessError {
+  type: 'no_items_to_process_error';
+  msg: string;
+}
+
 type TErrorMessage =
   | ICollectionNotSupportedError
   | IAreaOfInterestTooBigError
   | IAreaOfInterestMissingError
-  | IInvalidDateRangeError;
+  | IInvalidDateRangeError
+  | INoItemsToProcessError;
 
 export interface IErrorResponse {
   detail: TErrorMessage[];
@@ -67,7 +73,7 @@ const collectionTranslationMap: Record<TCollectionName, string> = {
   'clms-water-bodies': `${BASE_KEY}.DATA_SET.AUXILIARY.WATER_BODIES`,
 };
 
-const functionTranslationMap: Record<TFunctionIdentifier, string> = {
+const functionTranslationMap: Record<TFunctionName, string> = {
   'raster-calculate': `${BASE_KEY}.FUNCTION.OPTIONS.RASTER_CALCULATOR`,
   'lulc-change': `${BASE_KEY}.FUNCTION.OPTIONS.LAND_COVER_CHANGES`,
   'water-quality': `${BASE_KEY}.FUNCTION.OPTIONS.WATER_QUALITY`,
@@ -78,8 +84,8 @@ const getCollectionTranslationKey = (collection: TCollectionName): string | null
   return collectionTranslationMap[collection] || null;
 };
 
-const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier) => {
-  return functionTranslationMap[functionIdentifier] || null;
+const getFunctionTranslationKey = (functionName: TFunctionName) => {
+  return functionTranslationMap[functionName] || null;
 };
 
 const useErrorMessage = () => {
@@ -120,6 +126,10 @@ const useErrorMessage = () => {
 
       case 'invalid_date_range_error': {
         return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.INVALID_DATE_RANGE');
+      }
+
+      case 'no_items_to_process_error': {
+        return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.NO_ITEMS_TO_PROCESS');
       }
 
       default: {

@@ -21,6 +21,7 @@ export type TWorkflowQuery = {
   enabled: boolean;
   userWorkspace: string;
   jobId: string;
+  workflowId: string;
   type: 'workflow';
   params: TQuery['params'];
   sortBy: TSortBy;
@@ -57,6 +58,7 @@ export class CollectionBuilder {
         type: 'workflow',
         userWorkspace: queryParams.userWorkspace,
         jobId: queryParams.jobId,
+        workflowId: queryParams.workflowId,
         sortBy: this.params.sortBy,
         ...new QueryBuilder({ ...this.params, queryParams }, this.options).build(),
       };

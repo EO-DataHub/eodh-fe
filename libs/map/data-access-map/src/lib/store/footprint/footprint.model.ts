@@ -1,6 +1,12 @@
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { TCollection } from '@ukri/map/data-access-stac-catalog';
 
+export interface IHighlightedItem {
+  featureId: TCollection['features'][number]['id'] | undefined;
+  eventSource: 'map' | 'results-list';
+  eventType: 'click' | 'pointermove' | undefined;
+}
+
 export interface IFootprintStore {
   collections: {
     [key: string]: {
@@ -9,6 +15,9 @@ export interface IFootprintStore {
     };
   };
   setCollection: (collection: TCollection | undefined, id?: string) => void;
+  highlightedItems: IHighlightedItem[];
+  highlightItem: (highlightFeature: IHighlightedItem | undefined) => void;
+  clearHighlight: () => void;
   toggleVisibility: (id?: string) => void;
   show: (id?: string) => void;
   hide: (id?: string) => void;

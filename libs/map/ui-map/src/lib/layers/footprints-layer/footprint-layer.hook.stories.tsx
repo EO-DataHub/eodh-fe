@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react';
-import { useFootprintCollectionMutation, useToggleFootprintLayer } from '@ukri/map/data-access-map';
+import { useFootprintCollectionMutation, useFootprints } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
 import { useEffect } from 'react';
 
@@ -9,7 +9,7 @@ import { FootprintLayer } from './footprint.layer';
 
 const GeoJsonLayerComponent = () => {
   const setCollection = useFootprintCollectionMutation();
-  const { toggle } = useToggleFootprintLayer();
+  const { toggle } = useFootprints();
 
   useEffect(() => {
     setCollection(sentinel1Item1CollectionMock);

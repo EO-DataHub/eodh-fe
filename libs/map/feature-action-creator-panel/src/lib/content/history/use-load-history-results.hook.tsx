@@ -15,7 +15,7 @@ export const useLoadHistoryResults = () => {
   const { mutateAsync } = useCollectionInfo();
 
   const showResults = useCallback(
-    async (jobId: string) => {
+    async (jobId: string, workflowId: string) => {
       const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
 
       markAsRead(jobId);
@@ -25,7 +25,7 @@ export const useLoadHistoryResults = () => {
       }
 
       try {
-        const collectionInfo = await mutateAsync({ jobId, userWorkspace });
+        const collectionInfo = await mutateAsync({ jobId, userWorkspace, workflowId });
 
         const dateFrom = formatDate(
           createDateString(collectionInfo?.collectionInterval.from)
@@ -35,6 +35,7 @@ export const useLoadHistoryResults = () => {
         updateSearchParams({
           id: jobId,
           jobId,
+          workflowId,
           userWorkspace,
           timeSliderBoundaries: {
             from: dateFrom,
@@ -49,6 +50,7 @@ export const useLoadHistoryResults = () => {
         updateSearchParams({
           id: jobId,
           jobId,
+          workflowId,
           userWorkspace,
         });
       }

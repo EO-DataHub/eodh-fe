@@ -17,7 +17,7 @@ export const useSearchMode = () => {
   const { state: dataSetsState, schema, treeModel, dataSets, updateDataSets } = useDataSets();
   const { state: dateRangeState, date, updateDate } = useDate();
   const { view: currentView, changeView: setCurrentView } = useMode();
-  const { data, status, isFetching, hasNextPage, fetchNextPage } = useCatalogSearch({ params: searchParams });
+  const { data, status, error, isFetching, hasNextPage, fetchNextPage } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
   const { setFeature } = useTrueColorImage();
@@ -106,6 +106,7 @@ export const useSearchMode = () => {
       results: data?.pages.map((item) => item.features).flat() || [],
       state,
       status,
+      error,
       isFetching,
       hasNextPage,
       fetchNextPage,
@@ -123,6 +124,7 @@ export const useSearchMode = () => {
       data,
       state,
       status,
+      error,
       hasNextPage,
       fetchNextPage,
       isFetching,

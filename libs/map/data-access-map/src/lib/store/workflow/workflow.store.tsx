@@ -10,10 +10,10 @@ export const useWorkflowStore = create<IWorkflowStore>()(
     status: 'initial',
     ...getDefaultValues(),
     addWorkflow: (workflow: IWorkflow) => set((state) => addWorkflow(workflow, state)),
-    updateWorkflowStatus: (id: IWorkflow['id'], status: IWorkflow['status']) =>
-      set((state) => updateWorkflowStatus(id, status, state)),
+    updateWorkflowStatus: (jobId: IWorkflow['jobId'], status: IWorkflow['status']) =>
+      set((state) => updateWorkflowStatus(jobId, status, state)),
     updateWorkflows: (workflows) => set((state) => updateWorkflows(workflows, state)),
-    markAsRead: (workflowId) => set((state) => markAsRead(workflowId, state)),
+    markAsRead: (jobId) => set((state) => markAsRead(jobId, state)),
   }))
 );
 

@@ -25,7 +25,7 @@ vi.mock('@ukri/shared/utils/react-query', () => ({
   initHttpClient: vi.fn(),
 }));
 
-vi.mock('../env.config', () => ({
+vi.mock('../env/env.config', () => ({
   getEnvConfig: vi.fn().mockImplementation(() => ({
     production: false,
     baseUrl: '',
@@ -39,6 +39,7 @@ vi.mock('../env.config', () => ({
         url: '',
         realm: '',
         clientId: '',
+        scopes: [],
       },
       http: {
         baseUrl: '',
@@ -58,6 +59,7 @@ vi.mock('../env.config', () => ({
         url: '',
         realm: '',
         clientId: '',
+        scopes: [],
       },
       http: {
         baseUrl: '',

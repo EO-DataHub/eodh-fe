@@ -5,7 +5,7 @@ import { initHttpClient, withQueryClient } from '@ukri/shared/utils/react-query'
 import { Suspense } from 'react';
 import { I18nextProvider } from 'react-i18next';
 
-import { getEnvConfig } from '../env.config';
+import { getEnvConfig } from '../env/env.config';
 import i18n from '../i18n';
 import { DefaultLayout } from './layout/default-layout.component';
 

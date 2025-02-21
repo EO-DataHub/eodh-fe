@@ -99,6 +99,7 @@ export const useTimelineAnalytics = () => {
             to: newDateTo,
           },
           jobId: searchParams.jobId || '',
+          workflowId: searchParams.workflowId || '',
           userWorkspace: searchParams.userWorkspace || '',
           timeSliderBoundaries: searchParams.timeSliderBoundaries,
         });
