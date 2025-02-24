@@ -9,10 +9,7 @@
 
 # Available Feature Flags
 
-- `search functionality` - `APP_FEATURE_FLAG_SEARCH`
-- `Action Creator Panel` - `APP_FEATURE_FLAG_ACTION_CREATOR`
-- `toggle layers button` - `APP_FEATURE_FLAG_TOGGLE_LAYER_BUTTON`
-- `clear AOI button` - `APP_FEATURE_FLAG_CLEAR_LAYER_BUTTON`
+- `download asset functionality` - `APP_FEATURE_FLAG_DOWNLOAD_ASSET`
 
 # Enabling/disabling Feature Flags
 
@@ -36,7 +33,7 @@ If flag isn't added or value is different from `true` then feature will be hidde
 1. New Feature Flags should be added in the repository:
 
 - `apps/edoh-fe/public/config.js`
-- `apps/edoh-fe/src/env.config.ts`
+- `apps/edoh-fe/src/env/env.config.ts`
 - `apps/edoh-fe/.env.example`
 - `apps/storybook-host/public/assets/config.js`
 - `apps/storybook-host/.storybook/config/env.config.ts`
@@ -47,14 +44,14 @@ If flag isn't added or value is different from `true` then feature will be hidde
 
 ## Testing on environments
 
-Flag should be added for `dev` and `qa` environments. To do this go through process described in [Enabling/disabling Feature Flags](#Enablingdisabling-Feature-Flags) for each environment.
+Flag should be added for `dev`, `qa`, `staging` and `prod` environments. To do this go through process described in [Enabling/disabling Feature Flags](#Enablingdisabling-Feature-Flags) for each environment.
 
 # Remove Feature Flags
 
 1. Feature Flags should be removed from:
 
 - `apps/edoh-fe/public/config.js`
-- `apps/edoh-fe/src/env.config.ts`
+- `apps/edoh-fe/src/env/env.config.ts`
 - `apps/edoh-fe/.env.example`
 - `apps/storybook-host/public/assets/config.js`
 - `apps/storybook-host/.storybook/config/env.config.ts`
