@@ -47,6 +47,8 @@ const renderNode = (node: TNode) => {
   }
 };
 
+const backgroundDot = `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='9' cy='9' r='1' fill='%23F7F7F7'/%3E%3C/svg%3E")`;
+
 export const Workflow = () => {
   const { enabled } = useContext(ActionCreator);
   const { nodes, isValid, canExportWorkflow, getNodesByType, importWorkflow, exportWorkflow } = useActionCreator();
@@ -109,7 +111,12 @@ export const Workflow = () => {
   return (
     <Container>
       <Content>
-        <section className='h-full overflow-y-scroll overflow-x-visible'>
+        <section
+          className='h-full overflow-y-scroll overflow-x-visible bg-repeat bg-[length:10px_10px]'
+          style={{
+            backgroundImage: backgroundDot,
+          }}
+        >
           <div className='flex justify-center'>
             <section className='p-4 text-text-primary flex justify-center flex-col pb-28'>
               {nodes.sort((a, b) => a.order - b.order).map((node) => renderNode(node))}
