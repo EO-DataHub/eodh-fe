@@ -57,6 +57,6 @@ Flag should be added for `dev`, `qa`, `staging` and `prod` environments. To do t
 - `apps/storybook-host/.storybook/config/env.config.ts`
 - `apps/storybook-host/.env.example`
 - `libs/shared/utils/feature-flag`
-- any place that it is using feature flag (each if condition should be removed).
+- any place that is using feature flag (each if condition should be removed).
 
 Feature flags should be removed for features that doesn't require them before release to `Staging` environment.
