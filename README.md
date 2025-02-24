@@ -9,6 +9,7 @@
   - [Git hooks](#Git-hooks)
   - [Required steps on pipelines](#Required-steps-on-pipelines)
 - [Release process](#Release-process)
+- [Feature Flags](#Feature-Flags)
 - [Rollback process](#Rollback-process)
 - [Testing](#Testing)
   - [Unit & integration tests](#Unit--integration-tests)
@@ -61,6 +62,10 @@ GitHub's pipelines are used for ci/cd. Check `.github` directory for more detail
 # Release process
 
 Release process is described in [docs/release-and-rollback-process.md](./docs/release-and-rollback-process)
+
+# Feature Flags
+
+Feature flags are described in [docs/feature-flags.md](./docs/feature-flags.md)
 
 # Rollback process
 
