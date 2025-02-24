@@ -66,6 +66,7 @@ jobs:
           VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
           VITE_AUTHORIZATION_SCOPES: ${{ vars.APP_AUTHORIZATION_SCOPES }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
+          VITE_FEATURE_FLAG_DOWNLOAD_ASSET: ${{ vars.APP_FEATURE_FLAG_DOWNLOAD_ASSET }}
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -123,6 +124,7 @@ jobs:
           VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
           VITE_AUTHORIZATION_SCOPES: ${{ vars.APP_AUTHORIZATION_SCOPES }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
+          VITE_FEATURE_FLAG_DOWNLOAD_ASSET: ${{ vars.APP_FEATURE_FLAG_DOWNLOAD_ASSET }}
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -181,6 +183,7 @@ jobs:
           VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
           VITE_AUTHORIZATION_SCOPES: ${{ vars.APP_AUTHORIZATION_SCOPES }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
+          VITE_FEATURE_FLAG_DOWNLOAD_ASSET: ${{ vars.APP_FEATURE_FLAG_DOWNLOAD_ASSET }}
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
         with:
@@ -239,6 +242,7 @@ jobs:
           VITE_AUTHORIZATION_CLIENT_ID: ${{ vars.APP_AUTHORIZATION_CLIENT_ID }}
           VITE_AUTHORIZATION_SCOPES: ${{ vars.APP_AUTHORIZATION_SCOPES }}
           VITE_BUILD_VERSION_NUMBER: ${{ github.run_id }}
+          VITE_FEATURE_FLAG_DOWNLOAD_ASSET: ${{ vars.APP_FEATURE_FLAG_DOWNLOAD_ASSET }}
       - name: 'Configure AWS credentials'
         uses: aws-actions/configure-aws-credentials@v3
         with:

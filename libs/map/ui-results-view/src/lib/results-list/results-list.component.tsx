@@ -1,5 +1,6 @@
 import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, LoadingSpinner } from '@ukri/shared/design-system';
+import { useFeatureFlag } from '@ukri/shared/utils/feature-flag';
 
 import { MultipleItemsActionButtons } from './result-item/multiple-items-action-buttons/multiple-items-action-buttons.component';
 import { ResultItem } from './result-item/result-item.component';
@@ -31,8 +32,10 @@ const ActionButtons = ({
   onCompareItemToggle,
   onToggleSelectedItem,
 }: IActionButtons) => {
+  const canShowDownloadButton = useFeatureFlag('downloadAsset');
+
   if (mode === 'action-creator' && hasManyIndices(feature)) {
-    return <MultipleItemsActionButtons feature={feature} canDownload={true} />;
+    return <MultipleItemsActionButtons feature={feature} canDownload={canShowDownloadButton} />;
   }
 
   return (

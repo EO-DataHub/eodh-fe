@@ -8,6 +8,8 @@ import {
   getWorkflowCatalogueUrl,
 } from './url.config';
 
+type TFeatureFlag = 'true' | 'false' | boolean;
+
 declare const config: {
   baseUrl: string;
   apiUrl: string;
@@ -30,6 +32,9 @@ declare const config: {
       EODH_CEDA_CATALOGUE_API_URL: string;
       EODH_WORKFLOW_CATALOGUE_API_URL: string;
     };
+  };
+  feature: {
+    downloadAsset: TFeatureFlag;
   };
 };
 
@@ -57,6 +62,9 @@ interface IEnvConfig {
         EODH_CEDA_CATALOGUE_API_URL: string;
         EODH_WORKFLOW_CATALOGUE_API_URL: string;
       };
+    };
+    feature: {
+      downloadAsset: TFeatureFlag;
     };
   };
 }
@@ -93,6 +101,13 @@ export const getEnvConfig = (): IEnvConfig => ({
         EODH_WORKFLOW_CATALOGUE_API_URL: getWorkflowCatalogueUrl(config.http.proxyConfig),
         EODH_CHARTS_API_URL: getChartsUrl(config.http.proxyConfig),
       },
+    },
+    feature: {
+      downloadAsset: getValue<TFeatureFlag>(
+        import.meta.env.VITE_FEATURE_FLAG_DOWNLOAD_ASSET,
+        config?.feature.downloadAsset,
+        'false'
+      ),
     },
   },
 });
