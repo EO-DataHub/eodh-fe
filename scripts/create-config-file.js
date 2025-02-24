@@ -27,6 +27,9 @@ const config = {
     clientId: getVariableValue(process.env.VITE_AUTHORIZATION_CLIENT_ID),
     scopes: process.env.VITE_AUTHORIZATION_SCOPES?.split(' ') || [],
   },
+  feature: {
+    downloadAsset: getVariableValue(process.env.VITE_FEATURE_FLAG_DOWNLOAD_ASSET),
+  },
   versionId: getVariableValue(process.env.npm_package_version),
   buildId: getVariableValue(process.env.VITE_BUILD_VERSION_NUMBER),
 };

@@ -20,6 +20,9 @@ const config = (() => ({
     clientId: '',
     scopes: [],
   },
+  feature: {
+    downloadAsset: false,
+  },
   versionId: '',
   buildId: '',
 }))();
