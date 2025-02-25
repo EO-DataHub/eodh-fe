@@ -27,8 +27,7 @@ export const dateToNumber = (date: TDateTimeString | TDateString, type: 'firstDa
   const dateWithLastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
   const newDate = type === 'firstDay' ? dateWithFirstDayOfMonth : dateWithLastDayOfMonth;
 
-  const toReturn = newDate.getFullYear() + newDate.getMonth() / 12;
-  return toReturn;
+  return newDate.getFullYear() + newDate.getMonth() / 12;
 };
 
 export const numberToDateString = (num: number, monthEnd?: boolean): TDateString => {
