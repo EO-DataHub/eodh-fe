@@ -1,6 +1,6 @@
 export const styles = {
   errorContainer: 'flex flex-col items-center p-4',
-  button: 'px-3',
+  button: '!px-3',
   noHistoryContainer: 'flex flex-col items-center p-4',
   historySection: 'text-text-primary h-full overflow-x-visible overflow-y-scroll p-4',
   sortFilterContainer: 'flex justify-end',
