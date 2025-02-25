@@ -4,19 +4,22 @@ import { useEffect, useMemo } from 'react';
 
 import { Node } from '../node.component';
 import { NodeSelect, TOption, TValue } from '../node-select.component';
+import { TErrorType, useErrorMessage } from './use-error-message.hook';
 
 type TValueNodeProps = {
   node: TFunctionNode;
   options: TOption[];
+  errorType?: TErrorType;
   functions: TBaseFunction[] | undefined;
   onChange?: (value: TValue | undefined | null) => void;
 };
 
-export const ValueNode = ({ node, options, functions, onChange }: TValueNodeProps) => {
+export const ValueNode = ({ node, options, functions, errorType, onChange }: TValueNodeProps) => {
   const { canActivateNode, isLast, addNode, removeNode, canRemoveNode, canAddNextNode, editable } = useActionCreator();
   const {
     context: { onboardingSteps, goToNextOnboardingStep },
   } = useOnboarding();
+  const errorMessage = useErrorMessage(errorType);
 
   useEffect(() => {
     if (node.value) {
@@ -34,6 +37,7 @@ export const ValueNode = ({ node, options, functions, onChange }: TValueNodeProp
 
   return (
     <Node
+      error={errorMessage}
       active={true}
       type={node.type}
       clickable={canActivateNode(node) && editable(node)}
