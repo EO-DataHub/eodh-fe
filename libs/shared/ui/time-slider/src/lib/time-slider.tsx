@@ -4,8 +4,10 @@ import {
   getBeginingOfYear,
   getEndYear,
   numberToDateString,
+  returnMaxDate,
+  returnMinDate,
+  type TDate,
   type TDateString,
-  type TDateTimeString,
 } from '@ukri/shared/utils/date';
 import { useCallback, useMemo } from 'react';
 
@@ -27,8 +29,6 @@ const getMarks = (minNum: number, maxNum: number) => {
   return result;
 };
 
-type TDate = TDateString | TDateTimeString;
-
 interface ITimeSliderProps {
   min: TDate;
   max: TDate;
@@ -37,40 +37,6 @@ interface ITimeSliderProps {
   className?: string;
   disabled?: boolean;
   onUpdate: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void;
-}
-
-function returnMaxDate(maxDate: TDate, newSelectedMaxDate: TDate) {
-  if (!maxDate || !newSelectedMaxDate) {
-    // eslint-disable-next-line no-console
-    console.error('Invalid date');
-    return null;
-  }
-  const dateObjA = new Date(maxDate);
-  const dateObjB = new Date(newSelectedMaxDate);
-
-  if (dateObjA < dateObjB) {
-    return maxDate;
-  } else if (dateObjA > dateObjB) {
-    return newSelectedMaxDate;
-  }
-  return maxDate;
-}
-
-function returnMinDate(minDate: TDate, newSelectedMinDate: TDate) {
-  if (!minDate || !newSelectedMinDate) {
-    // eslint-disable-next-line no-console
-    console.error('Invalid date');
-    return null;
-  }
-  const dateObjA = new Date(minDate);
-  const dateObjB = new Date(newSelectedMinDate);
-
-  if (dateObjA > dateObjB) {
-    return minDate;
-  } else if (dateObjA < dateObjB) {
-    return newSelectedMinDate;
-  }
-  return minDate;
 }
 
 export const TimeSlider = ({

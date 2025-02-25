@@ -11,6 +11,8 @@ export type TDateTimeString = TDateStringInternal | null;
 
 export type TDateString = TDateInternal | null;
 
+export type TDate = TDateString | TDateTimeString;
+
 export type TDateFormat = 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'DD-MM-YY';
 
 export const defaultDateFormat = 'YYYY-MM-DD';
@@ -191,3 +193,37 @@ export function createDateString(date?: Date | string): TDateTimeString {
   console.error(`[DATE UTILS] Invalid datetime string: ${date}`);
   return null;
 }
+
+export const returnMaxDate = (maxDate: TDate, newSelectedMaxDate: TDate) => {
+  if (!maxDate || !newSelectedMaxDate) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid date');
+    return null;
+  }
+  const dateObjA = new Date(maxDate);
+  const dateObjB = new Date(newSelectedMaxDate);
+
+  if (dateObjA < dateObjB) {
+    return maxDate;
+  } else if (dateObjA > dateObjB) {
+    return newSelectedMaxDate;
+  }
+  return maxDate;
+};
+
+export const returnMinDate = (minDate: TDate, newSelectedMinDate: TDate) => {
+  if (!minDate || !newSelectedMinDate) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid date');
+    return null;
+  }
+  const dateObjA = new Date(minDate);
+  const dateObjB = new Date(newSelectedMinDate);
+
+  if (dateObjA > dateObjB) {
+    return minDate;
+  } else if (dateObjA < dateObjB) {
+    return newSelectedMinDate;
+  }
+  return minDate;
+};
