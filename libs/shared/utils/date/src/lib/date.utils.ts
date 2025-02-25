@@ -194,10 +194,10 @@ export function createDateString(date?: Date | string): TDateTimeString {
   return null;
 }
 
-export const returnMaxDate = (maxDate: TDate, newSelectedMaxDate: TDate) => {
+export const returnMaxDate = (maxDate: TDate, newSelectedMaxDate: TDate): TDate => {
   if (!maxDate || !newSelectedMaxDate) {
     // eslint-disable-next-line no-console
-    console.error('Invalid date');
+    console.error("[DATE UTILS] Can't return max date, invalid dates provided.");
     return null;
   }
   const dateObjA = new Date(maxDate);
@@ -211,10 +211,10 @@ export const returnMaxDate = (maxDate: TDate, newSelectedMaxDate: TDate) => {
   return maxDate;
 };
 
-export const returnMinDate = (minDate: TDate, newSelectedMinDate: TDate) => {
+export const returnMinDate = (minDate: TDate, newSelectedMinDate: TDate): TDate => {
   if (!minDate || !newSelectedMinDate) {
     // eslint-disable-next-line no-console
-    console.error('Invalid date');
+    console.error("[DATE UTILS] Can't return min date, invalid dates provided.");
     return null;
   }
   const dateObjA = new Date(minDate);

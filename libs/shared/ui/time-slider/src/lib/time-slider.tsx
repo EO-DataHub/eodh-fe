@@ -54,12 +54,12 @@ export const TimeSlider = ({
   const updateSliderValue = useCallback(
     (_: Event, newValue: number | number[]) => {
       const updatedValue = Array.isArray(newValue) ? newValue : [newValue];
-      const clampedValue = [
-        Math.max(minNum ?? 0, Math.min(updatedValue[0], maxNum ?? 0)),
-        Math.max(minNum ?? 0, Math.min(updatedValue[1], maxNum ?? 0)),
-      ];
-      const dateFrom = returnMinDate(min, numberToDateString(clampedValue[0]));
-      const dateTo = returnMaxDate(max, numberToDateString(clampedValue[1], true));
+      let minValue = updatedValue[0];
+      let maxValue = updatedValue[1];
+      minValue = Math.max(minNum ?? 0, Math.min(minValue, maxNum ?? 0));
+      maxValue = Math.max(minNum ?? 0, Math.min(maxValue, maxNum ?? 0));
+      const dateFrom = returnMinDate(min, numberToDateString(minValue));
+      const dateTo = returnMaxDate(max, numberToDateString(maxValue, true));
 
       if (dateFrom && dateTo) {
         onUpdate(dateFrom, dateTo);
