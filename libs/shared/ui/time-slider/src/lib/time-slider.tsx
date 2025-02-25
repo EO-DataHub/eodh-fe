@@ -6,7 +6,6 @@ import {
   numberToDateString,
   returnMaxDate,
   returnMinDate,
-  type TDate,
   type TDateString,
 } from '@ukri/shared/utils/date';
 import { useCallback, useMemo } from 'react';
@@ -30,10 +29,10 @@ const getMarks = (minNum: number, maxNum: number) => {
 };
 
 interface ITimeSliderProps {
-  min: TDate;
-  max: TDate;
-  selectedMin?: TDate;
-  selectedMax?: TDate;
+  min: TDateString;
+  max: TDateString;
+  selectedMin?: TDateString;
+  selectedMax?: TDateString;
   className?: string;
   disabled?: boolean;
   onUpdate: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void;
