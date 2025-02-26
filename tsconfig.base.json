@@ -33,6 +33,7 @@
       "@ukri/shared/ui/time-slider": ["libs/shared/ui/time-slider/src/index.ts"],
       "@ukri/shared/utils/authorization": ["libs/shared/utils/authorization/src/index.ts"],
       "@ukri/shared/utils/date": ["libs/shared/utils/date/src/index.ts"],
+      "@ukri/shared/utils/feature-flag": ["libs/shared/utils/feature-flag/src/index.ts"],
       "@ukri/shared/utils/react-query": ["libs/shared/utils/react-query/src/index.ts"],
       "@ukri/shared/utils/settings": ["libs/shared/utils/settings/src/index.ts"],
       "@ukri/shared/utils/store": ["libs/shared/utils/store/src/index.ts"],

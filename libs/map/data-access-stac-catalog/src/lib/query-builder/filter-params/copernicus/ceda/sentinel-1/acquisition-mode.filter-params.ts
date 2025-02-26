@@ -1,4 +1,4 @@
-import { TCopernicusSearchParams, TFilterParam } from '../../../query.model';
+import { TCopernicusSearchParams, TFilterParam } from '../../../../query.model';
 import { getEwFilterParams } from './ew-acquisition-mode.filter-params';
 import { getIwFilterParams } from './iw-acquisition-mode.filter-params';
 

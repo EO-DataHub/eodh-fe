@@ -20,6 +20,26 @@ const circleSchema = z.object({
 
 const geometrySchema = z.union([polygonSchema, multiPolygonSchema, circleSchema]);
 
+const sentinel1CedaPropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
+    'grid:code': z.string().optional(),
+    'Orbit Direction': z.string().optional(),
+    instrument_mode: z.string().optional(),
+    Polarisation: z.array(z.string()).optional(),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    'eo:cloud_cover': data['eo:cloud_cover'],
+    'grid:code': data['grid:code'],
+    'sat:orbit_state': data['Orbit Direction'],
+    'sar:instrument_mode': data.instrument_mode,
+    'sar:polarizations': data.Polarisation,
+  }));
+
 const propertySchema = z.object({
   datetime: z.custom<NonNullable<TDateString>>(
     (value) => !z.string().datetime({ offset: true }).safeParse(value).error
@@ -82,7 +102,7 @@ const waterQualitySchema = assetSchema.extend({
 const featureSchema = z.object({
   type: z.literal('Feature'),
   geometry: geometrySchema,
-  properties: propertySchema,
+  properties: propertySchema.or(sentinel1CedaPropertySchema),
   id: z.string(),
   bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
   stac_version: z.string(),
@@ -101,20 +121,41 @@ const featureSchema = z.object({
   collection: z.string(),
 });
 
-export const collectionSchema = z.object({
+const collectionSchemaV1 = z.object({
   type: z.literal('FeatureCollection'),
   features: z.array(featureSchema),
   links: z.array(linkSchema),
   context: z.object({
     returned: z.number(),
-    limit: z.number(),
+    limit: z.number().optional(),
     matched: z.number().optional(),
     next: z.number().optional(),
   }),
 });
 
+const collectionSchemaV2 = z
+  .object({
+    type: z.literal('FeatureCollection'),
+    features: z.array(featureSchema),
+    links: z.array(linkSchema),
+    numReturned: z.number(),
+    numMatched: z.number(),
+  })
+  .transform((data) => ({
+    type: data.type,
+    features: data.features,
+    links: data.links,
+    context: {
+      returned: data.numReturned,
+      limit: undefined,
+      matched: data.numMatched,
+      next: undefined,
+    },
+  }));
+
+export const collectionSchema = collectionSchemaV1.or(collectionSchemaV2);
+
 export type TAssetName = keyof TFeature['assets'];
-export type TWaterQuality = z.infer<typeof waterQualitySchema>;
 export type TGeometry = z.infer<typeof geometrySchema>;
 export type TCollection = z.infer<typeof collectionSchema>;
 export type TFeature = TCollection['features'][number];

@@ -36,6 +36,18 @@ const sortCollectionFeatures = (features: TCollection['features'], sortBy: TSort
   return features;
 };
 
+const calculateContextValue = (val1: undefined | number, val2: undefined | number) => {
+  if (val1 !== undefined && val2 !== undefined) {
+    return val1 + val2;
+  }
+
+  if (val1 !== undefined) {
+    return val2;
+  }
+
+  return val1;
+};
+
 const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[], sortBy: TSortBy) => {
   const data = responses
     .map((response) => {
@@ -59,7 +71,9 @@ const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[], so
         context: {
           ...acc.context,
           returned: acc.context.returned + val.context.returned,
-          limit: acc.context.limit + val.context.limit,
+          limit: calculateContextValue(acc.context.limit, val.context.limit),
+          matched: calculateContextValue(acc.context.matched, val.context.matched),
+          next: calculateContextValue(acc.context.next, val.context.next),
         },
       }),
       {
@@ -68,9 +82,11 @@ const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[], so
         links: [],
         context: {
           returned: 0,
-          limit: 0,
+          limit: undefined,
+          matched: undefined,
+          next: undefined,
         },
-      } as TCollection
+      }
     );
 
   return {
@@ -102,10 +118,9 @@ const getSearchResults = async (query: TSearchQuery): Promise<TCollection> => {
 
 const getWorkflowResults = async (query: TWorkflowQuery): Promise<TCollection> => {
   try {
-    const response = await getHttpClient().post(
-      paths.WORKFLOW_RESULT({ jobId: query.jobId, userWorkspace: query.userWorkspace }),
-      query.params
-    );
+    const response = await getHttpClient().post(paths.WORKFLOW_RESULT, query.params, {
+      params: { jobId: query.jobId, userWorkspace: query.userWorkspace, workflowId: query.workflowId },
+    });
     return collectionSchema.parse(response);
   } catch (error) {
     if (isAxiosError(error) && error.response?.data.code === 'NotFoundError' && error.response?.status === 404) {

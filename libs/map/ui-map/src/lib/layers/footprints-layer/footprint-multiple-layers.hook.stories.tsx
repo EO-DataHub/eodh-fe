@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react';
-import { useFootprintCollectionMutation, useToggleFootprintLayer } from '@ukri/map/data-access-map';
+import { useFootprintCollectionMutation, useFootprints } from '@ukri/map/data-access-map';
 import { TCollection } from '@ukri/map/data-access-stac-catalog';
 import { Button } from '@ukri/shared/design-system';
 import { useCallback, useEffect } from 'react';
@@ -14,7 +14,7 @@ import { FootprintLayer } from './footprint.layer';
 
 const GeoJsonLayerComponent = ({ resultItem, collectionId }: { resultItem: TCollection; collectionId: string }) => {
   const setCollection = useFootprintCollectionMutation();
-  const { toggle } = useToggleFootprintLayer();
+  const { toggle } = useFootprints();
 
   useEffect(() => {
     setCollection(resultItem, collectionId);

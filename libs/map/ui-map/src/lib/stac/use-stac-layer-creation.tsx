@@ -61,16 +61,17 @@ export const useStacLayerCreation = () => {
   const createStacLayerWithSentinel2ArdFix = useCallback(
     async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string) => {
       const data = await getHttpClient().get<StacItem>(url);
-      const isCogAsset = data?.assets['cog'] && !data?.assets['cog'].type;
+      const hasCogAsset = !!data?.assets['cog'];
+      const shouldFixCogAsset = hasCogAsset && !data?.assets['cog'].type;
       const cogAssetBands = [3, 2, 1];
       const sentinel2ArdAssets = ['cog'];
       const assetToBeDisplayed = assetNameWhichShouldBeDisplayed
         ? [assetNameWhichShouldBeDisplayed]
-        : isCogAsset
+        : hasCogAsset
         ? sentinel2ArdAssets
         : undefined;
 
-      if (isCogAsset) {
+      if (shouldFixCogAsset) {
         data.assets['cog'] = {
           ...data.assets['cog'],
           type: 'image/tiff; application=geotiff; profile=cloud-optimized',
@@ -79,7 +80,7 @@ export const useStacLayerCreation = () => {
 
       const newStacLayer = new STACWithColorMap({
         data,
-        bands: isCogAsset ? cogAssetBands : undefined,
+        bands: hasCogAsset ? cogAssetBands : undefined,
         assets: assetToBeDisplayed,
         zIndex,
         getSourceOptions: (type, options) => {

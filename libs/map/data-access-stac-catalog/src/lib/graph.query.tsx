@@ -5,20 +5,19 @@ import { useMemo } from 'react';
 import { paths } from './api';
 import { chartSchema, TChartSchema } from './graph.model';
 import { collections } from './query-builder/collection';
-import { TCollectionQuery, TCollectionQueryBuilderParams } from './query-builder/collection.builder';
-import { TQueryParams } from './query-builder/query.builder';
+import { TCollectionQuery, TCollectionQueryBuilderParams, TWorkflowQuery } from './query-builder/collection.builder';
 import { TSearchParams } from './query-builder/query.model';
 import { useQueryBuilder } from './query-builder/use-query-builder.hook';
 import { queryKey } from './query-key.const';
 
-const getChartDataForWorkflowResults = async (
-  jobId: string,
-  userWorkspace: string,
-  params: TQueryParams
-): Promise<TChartSchema> => {
-  const response = await getHttpClient().post(paths.WORKFLOW_RESULT_CHARTS({ jobId, userWorkspace }), {
-    stac_query: params,
-  });
+const getChartDataForWorkflowResults = async (query: TWorkflowQuery): Promise<TChartSchema> => {
+  const response = await getHttpClient().post(
+    paths.WORKFLOW_RESULT_CHARTS,
+    {
+      stac_query: query.params,
+    },
+    { params: { jobId: query.jobId, userWorkspace: query.userWorkspace, workflowId: query.workflowId } }
+  );
 
   return chartSchema.parse(response);
 };
@@ -27,7 +26,7 @@ const getChartData = async (
   query: TCollectionQuery
 ): Promise<TChartSchema | { assets: never; chartType: never; jobId: never }> => {
   if (query.type === 'workflow') {
-    return getChartDataForWorkflowResults(query.jobId, query.userWorkspace, query.params);
+    return getChartDataForWorkflowResults(query);
   }
 
   return {} as { assets: never; chartType: never; jobId: never };

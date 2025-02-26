@@ -20,14 +20,16 @@ interface IMap {
   removeInteraction(interaction: Interaction): Interaction | undefined;
   removeLayer(layer: BaseLayer): BaseLayer | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  on(event: 'dblclick', callback: (event: MapBrowserEvent<any>) => void): void;
+  on(event: 'dblclick' | 'click' | 'pointermove', callback: (event: MapBrowserEvent<any>) => void): void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  un(event: 'dblclick', callback: (event: MapBrowserEvent<any>) => void): void;
+  un(event: 'dblclick' | 'click' | 'pointermove', callback: (event: MapBrowserEvent<any>) => void): void;
   getView(): OlView;
   getSize(): number[] | undefined;
   getLayers(): { getArray(): BaseLayer[] };
   getTargetElement(): HTMLElement | null;
   render(): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  forEachFeatureAtPixel(pixel: Array<number>, compareFunction: (feature: any, layer: any) => void): void;
 }
 
 const defaultMap = {
@@ -49,6 +51,8 @@ const defaultMap = {
   getTargetElement: () => null,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   render() {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  forEachFeatureAtPixel() {},
 };
 
 export const MapContext = createContext<IMap>(defaultMap);

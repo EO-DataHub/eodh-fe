@@ -18,20 +18,28 @@ import { ActiveNode } from './active-node.component';
 import { LoadingNode } from './loading-node.component';
 import { ValueNode } from './value-node.component';
 
-type TFunctionIdentifier = 'raster-calculate' | 'lulc-change' | 'water-quality' | 'clip' | string;
+type TFunctionName = 'raster-calculate' | 'lulc-change' | 'water-quality' | 'clip' | string;
 const BASE_KEY = 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE';
-const functionTranslationMap: Record<TFunctionIdentifier, string> = {
+const functionTranslationMap: Record<TFunctionName, string> = {
   'raster-calculate': `${BASE_KEY}.FUNCTION.OPTIONS.RASTER_CALCULATOR`,
   'lulc-change': `${BASE_KEY}.FUNCTION.OPTIONS.LAND_COVER_CHANGES`,
   'water-quality': `${BASE_KEY}.FUNCTION.OPTIONS.WATER_QUALITY`,
   clip: `${BASE_KEY}.FUNCTION.OPTIONS.CLIP`,
 };
 
-const getFunctionTranslationKey = (functionIdentifier: TFunctionIdentifier, name: string) => {
-  return functionTranslationMap[functionIdentifier] || name;
+const getFunctionTranslationKey = (functionName: TFunctionName, name: string) => {
+  return functionTranslationMap[functionName] || name;
 };
 
-const isFunctionOptionDisabled = (dataSet: TDataSetValue | undefined, functionDataSet: string[] | undefined) => {
+const isFunctionOptionDisabled = (
+  dataSet: TDataSetValue | undefined,
+  functionDataSet: string[] | undefined,
+  dataSetHasError: boolean
+) => {
+  if (dataSetHasError) {
+    return true;
+  }
+
   if (!dataSet || !functionDataSet) {
     return false;
   }
@@ -39,7 +47,7 @@ const isFunctionOptionDisabled = (dataSet: TDataSetValue | undefined, functionDa
   return functionDataSet.every((option) => option !== dataSet);
 };
 
-const useOptions = (dataSet: TDataSetValue | undefined) => {
+const useOptions = (dataSet: TDataSetValue | undefined, hasError: boolean) => {
   const { t } = useTranslation();
   const { getValidFunctions } = useActionCreator();
 
@@ -52,7 +60,8 @@ const useOptions = (dataSet: TDataSetValue | undefined) => {
       label: t(getFunctionTranslationKey(item.identifier, item.name) || ''),
       disabled: isFunctionOptionDisabled(
         dataSet,
-        item.inputs.stacCollection?.options.map((option) => option.value)
+        item.inputs.stacCollection?.options.map((option) => option.value),
+        hasError
       ),
     }));
 };
@@ -65,8 +74,8 @@ type TNodeProps = {
 };
 
 const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
-  const { dataSet } = useActiveDataSet();
-  const getOptions = useOptions(dataSet);
+  const { dataSet, error } = useActiveDataSet();
+  const getOptions = useOptions(dataSet, error);
 
   return useMemo(() => {
     const options = getOptions(node, data);
@@ -87,16 +96,18 @@ const Node = ({ node, data, isLoading, onChange }: TNodeProps) => {
       }
 
       case 'active': {
+        const errorType = error ? 'dataSetError' : undefined;
+
         if (isLoading) {
           return <LoadingNode node={node} />;
         } else if (!node.value) {
-          return <ActiveNode node={node} options={options} onChange={onChange} />;
+          return <ActiveNode node={node} options={options} errorType={errorType} onChange={onChange} />;
         }
 
-        return <ValueNode node={node} options={options} functions={data} onChange={onChange} />;
+        return <ValueNode node={node} options={options} errorType={errorType} functions={data} onChange={onChange} />;
       }
     }
-  }, [data, node, onChange, isLoading, getOptions]);
+  }, [data, node, onChange, isLoading, getOptions, error]);
 };
 
 interface IFunctionNodeProps {

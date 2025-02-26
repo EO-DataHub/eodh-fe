@@ -39,7 +39,7 @@ export const workflowCreatedSchema = z
     }),
   })
   .transform((data) => ({
-    workflowId: data.submission_id,
+    jobId: data.submission_id,
     status: data.status,
     submittedAt: data.submitted_at,
     runningAt: data.running_at,

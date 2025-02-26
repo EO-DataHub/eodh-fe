@@ -46,6 +46,7 @@ export type TCopernicusSearchParams = {
 export type TCatalogSearchParams = {
   userWorkspace?: never;
   jobId?: never;
+  workflowId?: never;
   collection: TCatalogueCollection;
   dataSets: {
     public: {
@@ -65,6 +66,7 @@ export type TWorkflowSearchParams = {
   collection?: never;
   userWorkspace: string;
   jobId: string;
+  workflowId: string;
   date?: {
     from: NonNullable<TDateString>;
     to: NonNullable<TDateString>;

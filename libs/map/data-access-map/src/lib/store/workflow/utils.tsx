@@ -23,19 +23,19 @@ const getWorkflowStatus = (workflows: IWorkflow[]): Omit<TWorkflowStoreState, 'w
   };
 };
 
-export const markAsRead = (workflowId: string | undefined, state: TWorkflowStoreState): Partial<IWorkflowStore> => {
+export const markAsRead = (jobId: string | undefined, state: TWorkflowStoreState): Partial<IWorkflowStore> => {
   const currentWorkflows = Object.values(state.workflows);
   let inProgressWorkflows = currentWorkflows.filter((workflow) => filterWorkflowByStatuses(workflow, ['PROCESSING']));
 
-  if (workflowId) {
+  if (jobId) {
     inProgressWorkflows = currentWorkflows
-      .filter((workflow) => workflow.id !== workflowId)
+      .filter((workflow) => workflow.jobId !== jobId)
       .filter((workflow) => !filterWorkflowByStatuses(workflow, ['FAILED']));
   }
 
   return {
     workflows: inProgressWorkflows.reduce(
-      (acc, workflow) => ({ ...acc, [workflow.id]: workflow }),
+      (acc, workflow) => ({ ...acc, [workflow.jobId]: workflow }),
       {} as IWorkflowStore['workflows']
     ),
     ...getWorkflowStatus(Object.values(inProgressWorkflows)),
@@ -45,7 +45,7 @@ export const markAsRead = (workflowId: string | undefined, state: TWorkflowStore
 export const addWorkflow = (workflow: IWorkflow, state: TWorkflowStoreState): Partial<IWorkflowStore> => {
   const workflows = {
     ...state.workflows,
-    [workflow.id]: workflow,
+    [workflow.jobId]: workflow,
   };
 
   return {
@@ -55,14 +55,14 @@ export const addWorkflow = (workflow: IWorkflow, state: TWorkflowStoreState): Pa
 };
 
 export const updateWorkflowStatus = (
-  id: IWorkflow['id'],
+  jobId: IWorkflow['jobId'],
   status: IWorkflow['status'],
   state: TWorkflowStoreState
 ): Partial<IWorkflowStore> => {
   const workflows = {
     ...state.workflows,
-    [id]: {
-      ...state.workflows[id],
+    [jobId]: {
+      ...state.workflows[jobId],
       status,
     },
   };
@@ -89,11 +89,12 @@ export const updateWorkflows = (
     ...currentWorkflows,
     ...workflowsToUpdate
       .filter(
-        (workflow) => workflow.status === 'PROCESSING' && !currentWorkflows.find((item) => item.id === workflow.id)
+        (workflow) =>
+          workflow.status === 'PROCESSING' && !currentWorkflows.find((item) => item.jobId === workflow.jobId)
       )
-      .map((workflow) => ({ id: workflow.id, status: workflow.status })),
-  ].map((currentWorkflow) => {
-    const newWorkflow = workflowsToUpdate.find((newWorkflow) => newWorkflow.id === currentWorkflow.id);
+      .map((workflow) => ({ jobId: workflow.jobId, status: workflow.status })),
+  ].map((currentWorkflow: IWorkflow): IWorkflow => {
+    const newWorkflow = workflowsToUpdate.find((newWorkflow) => newWorkflow.jobId === currentWorkflow.jobId);
 
     if (!newWorkflow) {
       return currentWorkflow;
@@ -101,14 +102,14 @@ export const updateWorkflows = (
 
     return {
       ...currentWorkflow,
-      id: newWorkflow.id,
+      jobId: newWorkflow.jobId,
       status: newWorkflow.status,
     };
   });
 
   return {
     workflows: {
-      ...newWorkflows.reduce((acc, workflow) => ({ ...acc, [workflow.id]: workflow }), {}),
+      ...newWorkflows.reduce((acc, workflow) => ({ ...acc, [workflow.jobId]: workflow }), {}),
     },
     ...getWorkflowStatus(newWorkflows),
   };

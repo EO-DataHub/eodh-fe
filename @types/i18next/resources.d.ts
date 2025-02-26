@@ -224,6 +224,9 @@ interface Resources {
               ALLOWED_SIZE: 'Please select an area less than {{maxSize}}';
             };
             DATA_SET: {
+              ERROR: {
+                WRONG_DATA_SET: 'There is a conflict with your Data Set selection';
+              };
               TITLE: 'Data Set';
               INSTRUCTIONS: 'Select a data set';
               SENTINEL_1: 'Sentinel-1';
@@ -241,6 +244,9 @@ interface Resources {
               INSTRUCTIONS: 'Select a start and end date range';
             };
             FUNCTION: {
+              ERROR: {
+                WRONG_DATA_SET: 'Please note: some functions may not be available due to your chosen data set';
+              };
               TITLE: 'Function';
               OPTIONS: {
                 RASTER_CALCULATOR: 'Raster Calculator';
@@ -1070,7 +1076,7 @@ interface Resources {
             };
           };
           DATA_SETS_CONFIGURATION: {
-            PRIVATE: 'Private';
+            COMMERCIAL: 'Commercial';
             PUBLIC: 'Public';
             PLANET: {
               NAME: 'Planet';
@@ -1100,7 +1106,7 @@ interface Resources {
                 SETTINGS: {
                   ACQUISITION_MODE: 'Acquisition mode:';
                   EW: 'EW - Extra-Wide Swath 40m x 40m';
-                  POLARIZATION: 'Polarization';
+                  POLARIZATION: 'Polarization:';
                   HH: 'HH';
                   HH_HV: 'HH+HV';
                   IW: 'IW - Interferometric Wide Swath 10m x 10m';

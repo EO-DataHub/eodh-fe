@@ -1,6 +1,6 @@
 {
   "extends": [],
-  "plugins": ["@nx", "unicorn", "react", "react-hooks", "simple-import-sort", "prettier"],
+  "plugins": ["@nx", "unicorn", "react", "react-hooks", "simple-import-sort"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -223,7 +223,6 @@
         "react/jsx-no-useless-fragment": "off",
         "react-hooks/exhaustive-deps": "error",
         "simple-import-sort/imports": "error",
-        "prettier/prettier": "error",
         "curly": "error",
         "no-unused-vars": [
           "error",

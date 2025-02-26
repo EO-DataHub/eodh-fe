@@ -49,6 +49,7 @@ type TValueNodeProps = {
 export const ValueNode = ({ error, node, onClearButtonClick }: TValueNodeProps) => {
   const { canActivateNode, isLast } = useActionCreator();
   const value = useNodeTranslation(node);
+  const { t } = useTranslation();
 
   return (
     <Node
@@ -57,6 +58,7 @@ export const ValueNode = ({ error, node, onClearButtonClick }: TValueNodeProps) 
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
+      error={error ? t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.DATA_SET.ERROR.WRONG_DATA_SET') : undefined}
     >
       <NodeInput iconName='Satellite' value={value} error={error} onClearButtonClick={onClearButtonClick} />
     </Node>

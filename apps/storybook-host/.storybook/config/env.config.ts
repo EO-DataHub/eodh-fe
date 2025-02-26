@@ -1,3 +1,15 @@
+import { getValue } from './get-value';
+import {
+  getCEDACatalogueUrl,
+  getChartsUrl,
+  getCollectionInfoUrl,
+  getElement84CatalogueUrl,
+  getEodhProUrl,
+  getWorkflowCatalogueUrl,
+} from './url.config';
+
+type TFeatureFlag = 'true' | 'false' | boolean;
+
 declare const config: {
   baseUrl: string;
   apiUrl: string;
@@ -9,6 +21,20 @@ declare const config: {
     url: string;
     realm: string;
     clientId: string;
+    scopes: [];
+  };
+  http: {
+    proxyConfig: {
+      EODH_PRO_API_URL: string;
+      EODH_CHARTS_API_URL: string;
+      EODH_COLLECTION_INFO_API_URL: string;
+      EODH_ELEMENT_84_CATALOGUE_API_URL: string;
+      EODH_CEDA_CATALOGUE_API_URL: string;
+      EODH_WORKFLOW_CATALOGUE_API_URL: string;
+    };
+  };
+  feature: {
+    downloadAsset: TFeatureFlag;
   };
 };
 
@@ -25,57 +51,23 @@ interface IEnvConfig {
       url: string;
       realm: string;
       clientId: string;
+      scopes: [];
     };
     http: {
       proxyConfig: {
         EODH_PRO_API_URL: string;
-        EODH_STAC_API_URL: string;
+        EODH_CHARTS_API_URL: string;
+        EODH_COLLECTION_INFO_API_URL: string;
+        EODH_ELEMENT_84_CATALOGUE_API_URL: string;
+        EODH_CEDA_CATALOGUE_API_URL: string;
+        EODH_WORKFLOW_CATALOGUE_API_URL: string;
       };
+    };
+    feature: {
+      downloadAsset: TFeatureFlag;
     };
   };
 }
-
-const getValue = <T extends string | string[] | undefined[] | boolean>(
-  envValue: T | undefined,
-  configValue: T | undefined,
-  defaultValue: T
-): T => {
-  if (
-    (Array.isArray(envValue) && !!envValue.filter((item) => !!item).length) ||
-    (!Array.isArray(envValue) && envValue)
-  ) {
-    return envValue;
-  }
-
-  if (
-    (Array.isArray(configValue) && !!configValue.filter((item) => !!item).length) ||
-    (!Array.isArray(configValue) && configValue)
-  ) {
-    return configValue;
-  }
-
-  return defaultValue;
-};
-
-const removeTrailingSlashes = (url: string) => {
-  return url.replace(/\/+$/, '');
-};
-
-const getEodhProUrl = () => {
-  const apiVersion = '/v1.2';
-  const importedUrl = getValue<string>(import.meta.env.VITE_EODH_PRO_API_URL, config?.authorization.clientId, '');
-
-  if (importedUrl) {
-    return removeTrailingSlashes(importedUrl) + apiVersion;
-  }
-
-  return '';
-};
-
-const getEodhStacUrl = () => {
-  const importedUrl = getValue<string>(import.meta.env.VITE_EODH_STAC_API_URL, config?.authorization.clientId, '');
-  return removeTrailingSlashes(importedUrl);
-};
 
 export const getEnvConfig = (): IEnvConfig => ({
   production: import.meta.env.NODE_ENV !== 'development',
@@ -94,12 +86,28 @@ export const getEnvConfig = (): IEnvConfig => ({
       url: getValue<string>(import.meta.env.VITE_AUTHORIZATION_URL, config?.authorization.url, ''),
       realm: getValue<string>(import.meta.env.VITE_AUTHORIZATION_REALM, config?.authorization.realm, ''),
       clientId: getValue<string>(import.meta.env.VITE_AUTHORIZATION_CLIENT_ID, config?.authorization.clientId, ''),
+      scopes: getValue<string[]>(
+        import.meta.env.VITE_AUTHORIZATION_SCOPES?.split(' '),
+        config?.authorization.scopes,
+        []
+      ),
     },
     http: {
       proxyConfig: {
-        EODH_PRO_API_URL: getEodhProUrl(),
-        EODH_STAC_API_URL: getEodhStacUrl(),
+        EODH_PRO_API_URL: getEodhProUrl(config.http.proxyConfig),
+        EODH_COLLECTION_INFO_API_URL: getCollectionInfoUrl(config.http.proxyConfig),
+        EODH_ELEMENT_84_CATALOGUE_API_URL: getElement84CatalogueUrl(config.http.proxyConfig),
+        EODH_CEDA_CATALOGUE_API_URL: getCEDACatalogueUrl(config.http.proxyConfig),
+        EODH_WORKFLOW_CATALOGUE_API_URL: getWorkflowCatalogueUrl(config.http.proxyConfig),
+        EODH_CHARTS_API_URL: getChartsUrl(config.http.proxyConfig),
       },
+    },
+    feature: {
+      downloadAsset: getValue<TFeatureFlag>(
+        import.meta.env.VITE_FEATURE_FLAG_DOWNLOAD_ASSET,
+        config?.feature.downloadAsset,
+        'false'
+      ),
     },
   },
 });
