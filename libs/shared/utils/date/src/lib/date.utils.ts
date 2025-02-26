@@ -24,7 +24,7 @@ export const dateToNumber = (date: TDateTimeString | TDateString, type: 'firstDa
   }
 
   const dateWithFirstDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1);
-  const dateWithLastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+  const dateWithLastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 1);
   const newDate = type === 'firstDay' ? dateWithFirstDayOfMonth : dateWithLastDayOfMonth;
 
   return newDate.getFullYear() + newDate.getMonth() / 12;
@@ -33,7 +33,7 @@ export const dateToNumber = (date: TDateTimeString | TDateString, type: 'firstDa
 export const numberToDateString = (num: number, monthEnd?: boolean): TDateString => {
   const year = Math.floor(num);
   const month = Math.round((num - year) * 12);
-  const date = monthEnd ? new Date(Date.UTC(year, month + 1, 0, 23, 59, 59, 999)) : new Date(Date.UTC(year, month));
+  const date = monthEnd ? new Date(Date.UTC(year, month, 0, 23, 59, 59, 999)) : new Date(Date.UTC(year, month));
 
   return formatDate(createDateString(date));
 };
@@ -191,3 +191,37 @@ export function createDateString(date?: Date | string): TDateTimeString {
   console.error(`[DATE UTILS] Invalid datetime string: ${date}`);
   return null;
 }
+
+export const returnMaxDate = (maxDate: TDateString, newSelectedMaxDate: TDateString): TDateString => {
+  if (!maxDate || !newSelectedMaxDate) {
+    // eslint-disable-next-line no-console
+    console.error("[DATE UTILS] Can't return max date, invalid dates provided.");
+    return null;
+  }
+  const dateObjA = new Date(maxDate);
+  const dateObjB = new Date(newSelectedMaxDate);
+
+  if (dateObjA < dateObjB) {
+    return maxDate;
+  } else if (dateObjA > dateObjB) {
+    return newSelectedMaxDate;
+  }
+  return maxDate;
+};
+
+export const returnMinDate = (minDate: TDateString, newSelectedMinDate: TDateString): TDateString => {
+  if (!minDate || !newSelectedMinDate) {
+    // eslint-disable-next-line no-console
+    console.error("[DATE UTILS] Can't return min date, invalid dates provided.");
+    return null;
+  }
+  const dateObjA = new Date(minDate);
+  const dateObjB = new Date(newSelectedMinDate);
+
+  if (dateObjA > dateObjB) {
+    return minDate;
+  } else if (dateObjA < dateObjB) {
+    return newSelectedMinDate;
+  }
+  return minDate;
+};

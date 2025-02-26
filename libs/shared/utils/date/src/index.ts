@@ -7,6 +7,8 @@ export {
   numberToDateString,
   getBeginingOfYear,
   getEndYear,
+  returnMinDate,
+  returnMaxDate,
   type TDateTimeString,
   type TDateString,
 } from './lib/date.utils';
