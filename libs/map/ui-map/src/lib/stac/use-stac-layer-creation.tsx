@@ -1,19 +1,15 @@
 import { useAuth } from '@ukri/shared/utils/authorization';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
 import GroupLayer from 'ol/layer/Group';
-import { register } from 'ol/proj/proj4.js';
 import STAC from 'ol-stac';
-import proj4 from 'proj4';
 import { useCallback, useContext, useMemo } from 'react';
 import { StacItem } from 'stac-ts';
 
 import { MapContext } from '../map.component';
+import { registerOpenLayersProjections } from './projection';
 import { STACWithColorMap } from './stac-with-color-map';
 
-const conversion1 = '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000';
-const conversion2 = '+y_0=-100000 +ellps=airy +units=m +no_defs';
-proj4.defs('EPSG:27700', `${conversion1} ${conversion2}`);
-register(proj4);
+registerOpenLayersProjections();
 
 export const useStacLayerCreation = () => {
   const map = useContext(MapContext);

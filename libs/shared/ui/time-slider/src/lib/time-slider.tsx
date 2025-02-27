@@ -4,8 +4,9 @@ import {
   getBeginingOfYear,
   getEndYear,
   numberToDateString,
+  returnMaxDate,
+  returnMinDate,
   type TDateString,
-  type TDateTimeString,
 } from '@ukri/shared/utils/date';
 import { useCallback, useMemo } from 'react';
 
@@ -27,13 +28,11 @@ const getMarks = (minNum: number, maxNum: number) => {
   return result;
 };
 
-type TDate = TDateString | TDateTimeString;
-
 interface ITimeSliderProps {
-  min: TDate;
-  max: TDate;
-  selectedMin?: TDate;
-  selectedMax?: TDate;
+  min: TDateString;
+  max: TDateString;
+  selectedMin?: TDateString;
+  selectedMax?: TDateString;
   className?: string;
   disabled?: boolean;
   onUpdate: (dateFrom: NonNullable<TDateString>, dateTo: NonNullable<TDateString>) => void;
@@ -54,15 +53,25 @@ export const TimeSlider = ({
   const updateSliderValue = useCallback(
     (_: Event, newValue: number | number[]) => {
       const updatedValue = Array.isArray(newValue) ? newValue : [newValue];
-      const dateFrom = numberToDateString(updatedValue[0]);
-      const dateTo = numberToDateString(updatedValue[1], true);
+      let minValue = updatedValue[0];
+      let maxValue = updatedValue[1];
+      minValue = Math.max(minNum ?? 0, Math.min(minValue, maxNum ?? 0));
+      maxValue = Math.max(minNum ?? 0, Math.min(maxValue, maxNum ?? 0));
+      const dateFrom = returnMinDate(min, numberToDateString(minValue));
+      const dateTo = returnMaxDate(max, numberToDateString(maxValue, true));
 
       if (dateFrom && dateTo) {
         onUpdate(dateFrom, dateTo);
       }
     },
-    [onUpdate]
+    [onUpdate, minNum, maxNum, max, min]
   );
+
+  const initialSliderValue = useMemo(() => {
+    const begining = dateToNumber(selectedMin, 'firstDay') ?? 0;
+    const end = dateToNumber(selectedMax, 'lastDay') ?? 0;
+    return [begining, end];
+  }, [selectedMin, selectedMax]);
 
   const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);
 
@@ -70,7 +79,7 @@ export const TimeSlider = ({
     <div className={`${sliderStyles.container} ${className}`}>
       <div className={sliderStyles.innerContainer}>
         <Slider
-          value={[dateToNumber(selectedMin, 'firstDay') ?? 0, dateToNumber(selectedMax, 'lastDay') ?? 0]}
+          value={initialSliderValue}
           onChange={updateSliderValue}
           valueLabelDisplay='auto'
           min={minNum}
@@ -84,6 +93,7 @@ export const TimeSlider = ({
           }}
           className={sliderStyles.slider}
           disabled={disabled}
+          disableSwap
         />
       </div>
     </div>

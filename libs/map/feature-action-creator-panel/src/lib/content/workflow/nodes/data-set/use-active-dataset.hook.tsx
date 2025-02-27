@@ -1,5 +1,8 @@
 import { TDataSetValue, useDataSets } from '@ukri/map/data-access-map';
 
+// fix for UKRIW-819
+const hotFixCollectionNotExistingOnBe = 'sentinel-2';
+
 type TUseActiveDataSet = {
   dataSet: TDataSetValue | undefined;
   error: boolean;
@@ -19,6 +22,8 @@ export const useActiveDataSet = (): TUseActiveDataSet => {
 
     if (l2ard) {
       enabled.push('sentinel-2-l2a-ard');
+    } else {
+      enabled.push(hotFixCollectionNotExistingOnBe);
     }
   }
 
@@ -42,9 +47,12 @@ export const useActiveDataSet = (): TUseActiveDataSet => {
     enabled.push('clms-water-bodies');
   }
 
+  const hasError =
+    enabled.length > 1 || (enabled.length === 1 && enabled.some((item) => item === hotFixCollectionNotExistingOnBe));
+
   return {
-    dataSet: enabled.length !== 1 ? undefined : enabled[0],
-    error: enabled.length > 1,
+    dataSet: hasError ? undefined : enabled[0],
+    error: hasError,
     updateDataSets,
   };
 };

@@ -30,8 +30,12 @@ export const sentinel2SearchRefine = (schema: z.infer<typeof sentinel2Schema>, c
   }
 };
 
-export const sentinel2ActionCreatorRefine = (schema: z.infer<typeof sentinel2Schema>) => {
+export const sentinel2ActionCreatorRefine = (schema: z.infer<typeof sentinel2Schema>, ctx: z.RefinementCtx) => {
   if (!schema.enabled) {
     return;
+  }
+
+  if (!schema.l2aARD) {
+    addCustomIssues(ctx, ['l2aARD'], 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED');
   }
 };

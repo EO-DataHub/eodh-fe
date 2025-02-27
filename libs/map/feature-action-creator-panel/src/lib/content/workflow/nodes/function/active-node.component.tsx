@@ -4,23 +4,27 @@ import { useRef } from 'react';
 
 import { Node } from '../node.component';
 import { NodeSelect, TOption, TValue } from '../node-select.component';
+import { TErrorType, useErrorMessage } from './use-error-message.hook';
 
 type TValueNodeProps = {
   node: TFunctionNode;
   options: TOption[];
+  errorType?: TErrorType;
   onChange?: (value: TValue | null | undefined) => void;
 };
 
-export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {
+export const ActiveNode = ({ node, options, errorType, onChange }: TValueNodeProps) => {
   const { canActivateNode, isLast, canRemoveNode, removeNode } = useActionCreator();
   const {
     context: { onboardingSteps },
   } = useOnboarding();
   const nodeRef = useRef<HTMLDivElement>(null);
+  const errorMessage = useErrorMessage(errorType);
 
   if (!node.tooltip) {
     return (
       <Node
+        error={errorMessage}
         active={true}
         type={node.type}
         clickable={canActivateNode(node)}
@@ -36,6 +40,7 @@ export const ActiveNode = ({ node, options, onChange }: TValueNodeProps) => {
 
   return (
     <Node
+      error={errorMessage}
       active={true}
       type={node.type}
       clickable={canActivateNode(node)}
