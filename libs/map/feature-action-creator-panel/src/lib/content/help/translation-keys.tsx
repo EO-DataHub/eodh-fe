@@ -146,3 +146,13 @@ export const helpContentConfig: IHelpContent = {
     },
   ],
 };
+
+export const getHelpContent = (skipQuestionIds: string[] = []): IHelpContent => {
+  return {
+    ...helpContentConfig,
+    QUESTIONS: helpContentConfig.QUESTIONS.map((question) => ({
+      ...question,
+      CONTENT: question.CONTENT.filter((content) => !skipQuestionIds.includes(content.QUESTION_ID)),
+    })),
+  };
+};
