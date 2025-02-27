@@ -8,7 +8,7 @@ const pathToImages = '/assets/images';
 
 export const Help = () => {
   const downloadingAssetsEnabled = useFeatureFlag('downloadAsset');
-  const disabledQuestionIds = downloadingAssetsEnabled ? ['HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS'] : [];
+  const disabledQuestionIds = !downloadingAssetsEnabled ? ['HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS'] : [];
 
   return (
     <Container>
