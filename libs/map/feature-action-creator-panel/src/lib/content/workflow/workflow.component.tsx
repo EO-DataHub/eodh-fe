@@ -1,4 +1,5 @@
 import {
+  clearWorkflowCache,
   getArea,
   TAreaNode,
   TDataSetsNode,
@@ -77,6 +78,7 @@ export const Workflow = () => {
       return;
     }
 
+    clearWorkflowCache();
     mutate({
       nodes: {
         aoi: aoiNode,
