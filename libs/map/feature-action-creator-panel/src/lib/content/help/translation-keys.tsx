@@ -45,9 +45,6 @@ export const helpContentConfig: IHelpContent = {
         {
           QUESTION_ID: 'HOW_TO_USE_MULTIPLE_FUNCTIONS',
         },
-        {
-          QUESTION_ID: 'HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER',
-        },
       ],
     },
     {
@@ -55,6 +52,9 @@ export const helpContentConfig: IHelpContent = {
       CONTENT: [
         {
           QUESTION_ID: 'HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS',
+        },
+        {
+          QUESTION_ID: 'HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER',
         },
         {
           QUESTION_ID: 'HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW',
