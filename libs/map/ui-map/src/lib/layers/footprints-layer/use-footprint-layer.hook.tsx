@@ -1,4 +1,6 @@
 import { useFootprintCollection, useFootprintLayerVisible, useFootprints } from '@ukri/map/data-access-map';
+import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { createDate } from '@ukri/shared/utils/date';
 import { Feature, MapBrowserEvent } from 'ol';
 import { click } from 'ol/events/condition';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -51,6 +53,28 @@ const getEventType = (event: MapBrowserEvent<UIEvent>) => {
   return undefined;
 };
 
+type TSortBy = {
+  field: 'properties.datetime';
+  direction: 'desc' | 'asc';
+};
+
+const sortFeatures = (features: TCollection['features'], sortBy: TSortBy): TCollection['features'] => {
+  if (sortBy.field === 'properties.datetime') {
+    return features.sort((feature1, feature2) => {
+      const date1 = createDate(feature1.properties.datetime)?.getTime() || 0;
+      const date2 = createDate(feature2.properties.datetime)?.getTime() || 0;
+
+      if (sortBy.direction === 'asc') {
+        return date1 - date2;
+      }
+
+      return date2 - date1;
+    });
+  }
+
+  return features;
+};
+
 export const useFootprintLayer = (id?: string) => {
   const map = useContext(MapContext);
   const visible = useFootprintLayerVisible(id);
@@ -63,12 +87,17 @@ export const useFootprintLayer = (id?: string) => {
       return;
     }
 
+    const sortBy: TSortBy = {
+      field: 'properties.datetime',
+      direction: 'desc',
+    };
+    const features = collection.features.map((feature) => ({
+      ...feature,
+      properties: { ...feature.properties, id: feature.id },
+    }));
     const collectionWithId = {
       ...collection,
-      features: collection.features.map((feature) => ({
-        ...feature,
-        properties: { ...feature.properties, id: feature.id },
-      })),
+      features: sortFeatures(features, sortBy).reverse(),
     };
 
     const vectorSource = new VectorSource({
