@@ -1,139 +1,114 @@
-import { useEffect, useMemo } from 'react';
-import { FormState } from 'react-hook-form';
+import { useEffect } from 'react';
+import { UseFormReturn } from 'react-hook-form';
 
-import { TInitialForm, TSchema } from '../schema/form.schema';
+import { getSchema, TInitialForm, TSchema, TUpdateForm } from '../schema/form.schema';
 import { TSearchViewState } from '../search-view.context';
 import { useSetValidation } from './checklist.store';
 
-type TFormStateErrors = Pick<FormState<TInitialForm>, 'errors'>['errors'];
-type TFormStateTouchedFields = Pick<FormState<TInitialForm>, 'touchedFields'>['touchedFields'];
-type TFormStateDirtyFields = Pick<FormState<TInitialForm>, 'dirtyFields'>['dirtyFields'];
+const useFormValues = ({ watch, getValues }: UseFormReturn<TInitialForm, unknown, TUpdateForm>) => {
+  return {
+    ...watch(),
+    ...getValues(),
+  };
+};
 
 const useAoiValidation = (
   schema: TSchema,
   state: TSearchViewState | undefined,
-  touchedFields: TFormStateTouchedFields,
-  dirtyFields: TFormStateDirtyFields,
-  errors: TFormStateErrors
+  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>
 ) => {
   const { setAoiValid } = useSetValidation();
+  const aoi = form.getValues('aoi');
 
   useEffect(() => {
-    if (schema !== 'search' || state !== 'edit') {
+    if (schema !== 'search' || state !== 'edit' || !aoi) {
       setAoiValid(false);
       return;
     }
 
-    if (!touchedFields.aoi && !dirtyFields.aoi) {
+    if (!form.formState.dirtyFields.aoi && !form.formState.touchedFields.aoi) {
       return;
     }
 
-    setAoiValid(!errors.aoi);
-  }, [schema, state, touchedFields.aoi, dirtyFields.aoi, errors.aoi, setAoiValid]);
-};
-
-const useIsCopernicusDataUntouched = (touchedFields: TFormStateTouchedFields, dirtyFields: TFormStateDirtyFields) => {
-  return useMemo(
-    () =>
-      !touchedFields.dataSets?.public?.copernicus?.sentinel1?.enabled &&
-      !touchedFields.dataSets?.public?.copernicus?.sentinel2?.enabled &&
-      !touchedFields.dataSets?.public?.copernicus?.sentinel3?.enabled &&
-      !touchedFields.dataSets?.public?.copernicus?.sentinel5P?.enabled &&
-      !dirtyFields.dataSets?.public?.copernicus?.sentinel1?.enabled &&
-      !dirtyFields.dataSets?.public?.copernicus?.sentinel2?.enabled &&
-      !dirtyFields.dataSets?.public?.copernicus?.sentinel3?.enabled &&
-      !dirtyFields.dataSets?.public?.copernicus?.sentinel5P?.enabled,
-    [
-      dirtyFields.dataSets?.public?.copernicus?.sentinel1?.enabled,
-      dirtyFields.dataSets?.public?.copernicus?.sentinel2?.enabled,
-      dirtyFields.dataSets?.public?.copernicus?.sentinel3?.enabled,
-      dirtyFields.dataSets?.public?.copernicus?.sentinel5P?.enabled,
-      touchedFields.dataSets?.public?.copernicus?.sentinel1?.enabled,
-      touchedFields.dataSets?.public?.copernicus?.sentinel2?.enabled,
-      touchedFields.dataSets?.public?.copernicus?.sentinel3?.enabled,
-      touchedFields.dataSets?.public?.copernicus?.sentinel5P?.enabled,
-    ]
-  );
-};
-
-const useIsCopernicusDataValid = (errors: TFormStateErrors) => {
-  return useMemo(
-    () =>
-      !errors.dataSets?.public?.copernicus?.sentinel1 &&
-      !errors.dataSets?.public?.copernicus?.sentinel2 &&
-      !errors.dataSets?.public?.copernicus?.sentinel3 &&
-      !errors.dataSets?.public?.copernicus?.sentinel5P,
-    [
-      errors.dataSets?.public?.copernicus?.sentinel1,
-      errors.dataSets?.public?.copernicus?.sentinel2,
-      errors.dataSets?.public?.copernicus?.sentinel3,
-      errors.dataSets?.public?.copernicus?.sentinel5P,
-    ]
-  );
+    setAoiValid(!form.formState.errors.aoi);
+  }, [
+    schema,
+    state,
+    form.formState.touchedFields.aoi,
+    form.formState.dirtyFields.aoi,
+    form.formState.errors.aoi,
+    setAoiValid,
+    aoi,
+  ]);
 };
 
 const useDataSetsValidation = (
   schema: TSchema,
   state: TSearchViewState | undefined,
-  touchedFields: TFormStateTouchedFields,
-  dirtyFields: TFormStateDirtyFields,
-  errors: TFormStateErrors
+  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>
 ) => {
   const { setDataSetsValid } = useSetValidation();
-  const isCopernicusDataUntouched = useIsCopernicusDataUntouched(touchedFields, dirtyFields);
-  const isCopernicusDataValid = useIsCopernicusDataValid(errors);
+  const values = useFormValues(form);
 
   useEffect(() => {
-    if (isCopernicusDataUntouched || schema !== 'search' || state !== 'edit') {
+    const validationSchema = getSchema(schema, 'dataSets').update;
+    const dataSetsValid = validationSchema.safeParse(values.dataSets);
+
+    if (!dataSetsValid.success || schema !== 'search' || state !== 'edit') {
       setDataSetsValid(false);
       return;
     }
 
-    setDataSetsValid(isCopernicusDataValid);
-  }, [schema, state, isCopernicusDataUntouched, isCopernicusDataValid, setDataSetsValid]);
+    setDataSetsValid(dataSetsValid.success);
+  }, [schema, setDataSetsValid, state, values]);
 };
 
 const useDateRangeValidation = (
   schema: TSchema,
   state: TSearchViewState | undefined,
-  touchedFields: TFormStateTouchedFields,
-  dirtyFields: TFormStateDirtyFields,
-  errors: TFormStateErrors
+  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>
 ) => {
   const { setDateRangeValid } = useSetValidation();
+  const dateFrom = form.getValues('date.from');
+  const dateTo = form.getValues('date.to');
 
   useEffect(() => {
-    if (schema !== 'search' || state !== 'edit') {
+    if (schema !== 'search' || state !== 'edit' || !dateFrom || !dateTo) {
       setDateRangeValid(false);
       return;
     }
 
-    if (!dirtyFields.date?.from && !dirtyFields.date?.to && !touchedFields.date?.from && !touchedFields.date?.to) {
+    if (
+      !form.formState.dirtyFields.date?.from &&
+      !form.formState.dirtyFields.date?.to &&
+      !form.formState.touchedFields.date?.from &&
+      !form.formState.touchedFields.date?.to
+    ) {
       return;
     }
 
-    setDateRangeValid(!errors.date?.from && !errors.date?.to);
+    setDateRangeValid(!form.formState.errors.date?.from && !form.formState.errors.date?.to);
   }, [
     schema,
     state,
     setDateRangeValid,
-    touchedFields.date?.from,
-    touchedFields.date?.to,
-    dirtyFields.date?.from,
-    dirtyFields.date?.to,
-    errors.date?.from,
-    errors.date?.to,
+    form.formState.touchedFields.date?.from,
+    form.formState.touchedFields.date?.to,
+    form.formState.dirtyFields.date?.from,
+    form.formState.dirtyFields.date?.to,
+    form.formState.errors.date?.from,
+    form.formState.errors.date?.to,
+    dateFrom,
+    dateTo,
   ]);
 };
 
 export const useSyncChecklistState = (
   schema: TSchema,
   state: TSearchViewState | undefined,
-  touchedFields: TFormStateTouchedFields,
-  dirtyFields: TFormStateDirtyFields,
-  errors: TFormStateErrors
+  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>
 ) => {
-  useAoiValidation(schema, state, touchedFields, dirtyFields, errors);
-  useDataSetsValidation(schema, state, touchedFields, dirtyFields, errors);
-  useDateRangeValidation(schema, state, touchedFields, dirtyFields, errors);
+  useAoiValidation(schema, state, form);
+  useDataSetsValidation(schema, state, form);
+  useDateRangeValidation(schema, state, form);
 };

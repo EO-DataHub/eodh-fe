@@ -49,7 +49,7 @@ export const SearchView = ({
   const { comparisonModeEnabled } = useComparisonMode();
 
   useFormUpdate(form, schema, onChange);
-  useSyncChecklistState(schema, state, form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
+  useSyncChecklistState(schema, state, form);
 
   useEffect(() => {
     const { aoi, ...rest } = { ...form.getValues(), ...form.watch() };

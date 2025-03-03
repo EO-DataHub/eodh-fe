@@ -39,9 +39,30 @@ const useChecklistStore = create<IChecklistStore>()(
             open: true,
             permanentHidden: false,
           })),
-        setAoi: (valid: boolean) => set(() => ({ isAoiValid: valid })),
-        setDataSets: (valid: boolean) => set(() => ({ isDataSetsValid: valid })),
-        setDateRange: (valid: boolean) => set(() => ({ isDateRangeValid: valid })),
+        setAoi: (valid: boolean) =>
+          set((state) => {
+            if (valid === state.isAoiValid) {
+              return state;
+            }
+
+            return { isAoiValid: valid };
+          }),
+        setDataSets: (valid: boolean) =>
+          set((state) => {
+            if (valid === state.isDataSetsValid) {
+              return state;
+            }
+
+            return { isDataSetsValid: valid };
+          }),
+        setDateRange: (valid: boolean) =>
+          set((state) => {
+            if (valid === state.isDateRangeValid) {
+              return state;
+            }
+
+            return { isDateRangeValid: valid };
+          }),
         setMode: (mode: TMode) => set(() => ({ mode })),
       }),
       {

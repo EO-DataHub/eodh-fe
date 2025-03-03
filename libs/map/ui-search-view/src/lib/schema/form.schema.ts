@@ -9,35 +9,50 @@ import {
 } from './data-sets.schema';
 import { dateInitialSchema, dateUpdateSchema } from './date.schema';
 
-export const initialSearchSchema = z.object({
+const initialSearchSchemaDefinition = {
   dataSets: dataSetsSearchInitialSchema,
   date: dateInitialSchema,
   aoi: aoiSchema.optional(),
-});
+};
 
-export const updateSearchSchema = z.object({
+const initialSearchSchema = z.object(initialSearchSchemaDefinition);
+
+const updateSearchSchemaDefinition = {
   dataSets: dataSetsSearchUpdateSchema,
   date: dateUpdateSchema,
   aoi: aoiSchema,
-});
+};
 
-export const initialActionCreatorSchema = z.object({
+const updateSearchSchema = z.object(updateSearchSchemaDefinition);
+
+const initialActionCreatorSchemaDefinition = {
   dataSets: dataSetsActionCreatorInitialSchema,
   date: dateInitialSchema,
   aoi: aoiSchema.optional(),
-});
+};
 
-export const updateActionCreatorSchema = z.object({
+const initialActionCreatorSchema = z.object(initialActionCreatorSchemaDefinition);
+
+const updateActionCreatorSchemaDefinition = {
   dataSets: dataSetsActionCreatorUpdateSchema,
   date: dateUpdateSchema,
   aoi: aoiSchema,
-});
+};
+
+const updateActionCreatorSchema = z.object(updateActionCreatorSchemaDefinition);
 
 export type TSchema = 'search' | 'action-creator';
 
-export const getSchema = (schema: TSchema) => {
+export const getSchema = (schema: TSchema, type?: 'dataSets' | 'date' | 'aoi') => {
   switch (schema) {
     case 'action-creator': {
+      if (type) {
+        return {
+          initial: initialActionCreatorSchemaDefinition[type],
+          update: updateActionCreatorSchemaDefinition[type],
+        };
+      }
+
       return {
         initial: initialActionCreatorSchema,
         update: updateActionCreatorSchema,
@@ -45,6 +60,13 @@ export const getSchema = (schema: TSchema) => {
     }
 
     case 'search': {
+      if (type) {
+        return {
+          initial: initialSearchSchemaDefinition[type],
+          update: updateSearchSchemaDefinition[type],
+        };
+      }
+
       return {
         initial: initialSearchSchema,
         update: updateSearchSchema,
