@@ -22,7 +22,7 @@ jobs:
   deployToDev:
     name: 'Dev'
     if: inputs.canDeployOnDev
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       contents: read
@@ -80,7 +80,7 @@ jobs:
   deployToQa:
     name: 'QA'
     if: inputs.canDeployOnQA
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       contents: read
@@ -139,7 +139,7 @@ jobs:
     name: 'Staging'
     needs: [deployToQa]
     if: inputs.canDeployOnStaging
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       contents: read
@@ -198,7 +198,7 @@ jobs:
     name: 'Production'
     needs: [deployToStaging]
     if: inputs.canDeployOnProduction
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     permissions:
       id-token: write
       contents: read
