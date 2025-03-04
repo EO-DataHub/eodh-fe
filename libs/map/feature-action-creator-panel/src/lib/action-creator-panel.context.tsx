@@ -32,11 +32,10 @@ export const ActionCreator = createContext<TActionCreatorState>(actionCreatorDef
 
 export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const [collapsed, setCollapsed] = useState(actionCreatorDefaultState.collapsed);
-  const { mode, toggleMode } = useMode();
+  const { mode, toggleMode, view, changeView, changeMode } = useMode();
   const { authenticated } = useAuth();
   const { status: workflowStatus, hasWorkflowsToProcess } = useWorkflow();
   const { enable, disable, activeTab, setActiveTab } = useActionCreator();
-  const { view, changeView } = useMode();
   const hideModal = useCloseTabsFlowModal();
   const { permanentHidden } = useTabsFlowModalState();
   const setTabsFlowModalOpen = useOpenTabsFlowModal();
@@ -125,6 +124,12 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     enableOnboarding,
     disableOnboarding,
   ]);
+
+  useEffect(() => {
+    if (!authenticated) {
+      changeMode('search');
+    }
+  }, [authenticated, changeMode]);
 
   return (
     <ActionCreator.Provider value={{ collapsed, collapse, toggle, changeTab, enabled: mode === 'action-creator' }}>
