@@ -3,7 +3,7 @@ import { Button } from '@ukri/shared/design-system';
 import { useEffect } from 'react';
 
 import { Checklist } from './checklist.component';
-import { useChecklist, useChecklistState, useSetValidation } from './checklist.store';
+import { useChecklist, useChecklistState } from './checklist.store';
 
 const ToggleChecklistButton = () => {
   const { open } = useChecklistState();
@@ -25,7 +25,7 @@ const Template = ({
   dataSetsValid: boolean;
   dateRangeValid: boolean;
 }) => {
-  const { setAoiValid, setDataSetsValid, setDateRangeValid } = useSetValidation();
+  const { setAoiValid, setDataSetsValid, setDateRangeValid } = useChecklist();
 
   useEffect(() => {
     setAoiValid(aoiValid);

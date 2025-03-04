@@ -7,7 +7,6 @@ import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { AreaOfInterest } from './aoi.component';
-import { useChecklist } from './checklist/checklist.store';
 import { useSyncChecklistState } from './checklist/use-checklist.hook';
 import { DateRangePicker } from './date-range-picker/date-range-picker.component';
 import { DynamicTreeForm } from './dynamic-tree-form/tree.component';
@@ -45,11 +44,10 @@ export const SearchView = ({
     reValidateMode: 'onChange',
   });
   const { shape } = useAoi();
-  const { setMode } = useChecklist();
   const { comparisonModeEnabled } = useComparisonMode();
 
   useFormUpdate(form, schema, onChange);
-  useSyncChecklistState(schema, state, form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
+  useSyncChecklistState(form, schema, state);
 
   useEffect(() => {
     const { aoi, ...rest } = { ...form.getValues(), ...form.watch() };
@@ -70,10 +68,6 @@ export const SearchView = ({
       setCurrentTreeModel(treeModel);
     }
   }, [form, defaultValues, shape?.shape, state, treeModel, currentTreeModel]);
-
-  useEffect(() => {
-    setMode(schema);
-  }, [schema, setMode]);
 
   const disabled = useMemo(
     () => comparisonModeEnabled || !form.formState.isValid,

@@ -37,7 +37,7 @@ const defaultValues: TChecklistForm = {
 };
 
 export const Checklist = () => {
-  const { open, isAoiValid, isDataSetsValid, isDateRangeValid } = useChecklistState();
+  const { open, isAoiValid, isDataSetsValid, isDateRangeValid, isDateRangeUpdated } = useChecklistState();
   const { toggle: toggleVisibility } = useChecklist();
   const { register, handleSubmit, reset } = useForm<TChecklistForm>({ defaultValues });
 
@@ -77,7 +77,7 @@ export const Checklist = () => {
       <section className='flex flex-col gap-3 my-3'>
         <Section content='MAP.SEARCH_VIEW.CHECKLIST.AREA_OF_INTERESTS' checked={isAoiValid} />
         <Section content='MAP.SEARCH_VIEW.CHECKLIST.DATA_SETS' checked={isDataSetsValid} />
-        <Section content='MAP.SEARCH_VIEW.CHECKLIST.DATE_RANGE' checked={isDateRangeValid} />
+        <Section content='MAP.SEARCH_VIEW.CHECKLIST.DATE_RANGE' checked={isDateRangeValid && isDateRangeUpdated} />
       </section>
 
       <footer className='border-t-[1px] border-bright-dark flex justify-center pt-2 text-text'>
