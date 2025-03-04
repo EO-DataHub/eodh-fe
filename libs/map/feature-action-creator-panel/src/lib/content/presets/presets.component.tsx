@@ -50,10 +50,10 @@ const PresetsContainer = ({ children }: PropsWithChildren) => {
 };
 
 export const Presets = () => {
-  const { data, error, isLoading, refetch } = useGetPresets();
-  const { data: functionData } = useFunctions();
+  const { enabled, changeTab } = useContext(ActionCreator);
+  const { data, error, isLoading, refetch } = useGetPresets({ enabled });
+  const { data: functionData } = useFunctions({ enabled });
   const { loadPreset } = useActionCreator();
-  const { changeTab } = useContext(ActionCreator);
   const { changeView } = useMode();
   const status = useCreateWorkflowStatus();
   const {

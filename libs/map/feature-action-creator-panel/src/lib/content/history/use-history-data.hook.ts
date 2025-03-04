@@ -1,5 +1,7 @@
 import { IHistoryParams, THistory, THistoryItem, useGetHistory } from '@ukri/map/data-access-map';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
+
+import { ActionCreator } from '../../action-creator-panel.context';
 
 const getSortOrder = (orderBy: TOrderBy): 'desc' | 'asc' => {
   switch (orderBy) {
@@ -35,7 +37,11 @@ export const useHistoryData = (): IUseHistoryData => {
   const params: IHistoryParams = {
     orderDirection: getSortOrder(orderBy),
   };
-  const { data, error, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } = useGetHistory({ params });
+  const { enabled } = useContext(ActionCreator);
+  const { data, error, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } = useGetHistory({
+    params,
+    enabled,
+  });
 
   const changeOrder = useCallback((order: TOrderBy) => {
     setOrderBy(order);
