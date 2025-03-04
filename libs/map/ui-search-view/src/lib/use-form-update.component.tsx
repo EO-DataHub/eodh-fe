@@ -14,7 +14,7 @@ const useFormValues = ({ watch, getValues }: UseFormReturn<TInitialForm, unknown
 export const useFormUpdate = (
   form: UseFormReturn<TInitialForm, unknown, TUpdateForm>,
   schemaName: TSchema,
-  onChange?: (data: TInitialForm) => unknown | Promise<unknown>
+  onChange?: (data: TInitialForm, schema: TSchema) => unknown | Promise<unknown>
 ) => {
   const [currentSchema, setCurrentSchema] = useState<TSchema>(schemaName);
   const values = useFormValues(form);
@@ -27,12 +27,12 @@ export const useFormUpdate = (
         const parsedValues = schema.safeParse(values);
 
         if (parsedValues.success) {
-          onChange(values);
+          onChange(values, schemaA);
         }
       }
     };
 
-    return debounce(callback, 200);
+    return debounce(callback, 10);
   }, [form, onChange]);
 
   useEffect(() => {

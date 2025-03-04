@@ -1,5 +1,6 @@
 import './slider.css';
 
+import throttle from 'lodash/throttle';
 import {
   ChangeEvent,
   ForwardedRef,
@@ -42,7 +43,8 @@ export const Slider = forwardRef(
       (event: ChangeEvent<HTMLInputElement>) => {
         const value = Number(event.target.value);
         setSliderValue(value);
-        onChange(event);
+
+        return throttle((event: ChangeEvent<HTMLInputElement>) => onChange(event), 100);
       },
       [onChange]
     );

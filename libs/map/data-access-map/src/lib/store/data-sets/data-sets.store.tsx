@@ -2,6 +2,7 @@ import type {} from '@redux-devtools/extension';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import merge from 'lodash/merge';
+import uniq from 'lodash/uniq';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -20,16 +21,16 @@ import { getTreeModel, getValuesForDataSet } from './utils';
 export const useDataSetsStore = create<TDataSetsStore>()(
   devtools((set) => ({
     ...defaultState,
-    updateDataSets: (dataSets: TDataSetsValues | undefined) =>
-      set((state) =>
-        isEqual(dataSets, state.dataSets)
-          ? state
-          : {
-              dataSets: dataSets
-                ? { ...cloneDeep(dataSets), status: 'updated' }
-                : getDefaultDataSetValues(state.schema),
-            }
-      ),
+    updateDataSets: (dataSets: TDataSetsValues | undefined, schema: TSchema) =>
+      set((state) => {
+        if (isEqual(dataSets, state.dataSets) || schema !== state.schema) {
+          return state;
+        }
+
+        return {
+          dataSets: dataSets ? { ...cloneDeep(dataSets), status: 'updated' } : getDefaultDataSetValues(state.schema),
+        };
+      }),
     changeSchema: (schema: TSchema) =>
       set(() => {
         const treeModel = getTreeModel(schema, undefined);
@@ -70,18 +71,24 @@ export const useDataSetsStore = create<TDataSetsStore>()(
     setDataSet: (dataSet) => set((state) => getValuesForDataSet(dataSet, state)),
     setSupportedDataSets: (dataSets) =>
       set((state) => {
+        const supportedDataSets = uniq(dataSets);
+
+        if (isEqual(state.supportedDataSets, supportedDataSets)) {
+          return state;
+        }
+
         if (state.treeModel.filteredDataSets?.length) {
           return {
-            supportedDataSets: dataSets,
+            supportedDataSets,
           };
         }
 
         return {
-          supportedDataSets: dataSets,
+          supportedDataSets,
           treeModel: {
-            model: getTreeModel(state.schema, state.treeModel.model, dataSets),
+            model: getTreeModel(state.schema, state.treeModel.model, supportedDataSets),
             showNotificationMessage: false,
-            filteredDataSets: dataSets,
+            filteredDataSets: supportedDataSets,
           },
         };
       }),

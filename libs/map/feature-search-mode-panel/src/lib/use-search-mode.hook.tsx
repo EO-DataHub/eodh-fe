@@ -12,6 +12,8 @@ import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search
 import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useMemo } from 'react';
 
+export type TSchema = 'search' | 'action-creator';
+
 export const useSearchMode = () => {
   const { searchType, searchParams, updateSearchParams } = useResults();
   const { state: dataSetsState, schema, treeModel, dataSets, updateDataSets } = useDataSets();
@@ -66,8 +68,8 @@ export const useSearchMode = () => {
   }, [changeView]);
 
   const updateState = useCallback(
-    (formData: TInitialForm) => {
-      updateDataSets(formData.dataSets);
+    (formData: TInitialForm, schema: TSchema) => {
+      updateDataSets(formData.dataSets, schema);
       updateDate(formData.date);
     },
     [updateDataSets, updateDate]

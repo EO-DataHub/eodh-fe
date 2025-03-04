@@ -60,7 +60,8 @@ export const activatePanel = (node?: TNode) => {
 
 export const reset = () => {
   useAoiStore.getState().setShape(undefined);
-  useDataSetsStore.getState().updateDataSets(undefined);
+  useDataSetsStore.getState().updateDataSets(undefined, 'search');
+  useDataSetsStore.getState().updateDataSets(undefined, 'action-creator');
   useDataSetsStore.getState().enable();
   useDateStore.getState().reset();
 };
