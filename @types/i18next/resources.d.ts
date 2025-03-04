@@ -301,7 +301,7 @@ interface Resources {
                 QUESTION: 'How do I select a data set for my workflow?';
                 ANSWER: [
                   [
-                    'Click on the "Data set" block in the Action Creator panel.',
+                    'Click on the "Data Set" block in the Action Creator panel.',
                     ['Note: the block is clickable if node before is already filled in.'],
                     'The left-side menu will display available data sets.',
                     'Choose a data set (e.g., Sentinel-1).',
