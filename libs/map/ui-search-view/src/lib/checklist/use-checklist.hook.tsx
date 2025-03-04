@@ -3,7 +3,7 @@ import { UseFormReturn } from 'react-hook-form';
 
 import { getSchema, TInitialForm, TSchema, TUpdateForm } from '../schema/form.schema';
 import { TSearchViewState } from '../search-view.context';
-import { useSetValidation } from './checklist.store';
+import { useChecklist } from './checklist.store';
 
 const useFormValues = ({ watch, getValues }: UseFormReturn<TInitialForm, unknown, TUpdateForm>) => {
   return {
@@ -13,11 +13,11 @@ const useFormValues = ({ watch, getValues }: UseFormReturn<TInitialForm, unknown
 };
 
 const useAoiValidation = (
+  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>,
   schema: TSchema,
-  state: TSearchViewState | undefined,
-  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>
+  state: TSearchViewState | undefined
 ) => {
-  const { setAoiValid } = useSetValidation();
+  const { setAoiValid } = useChecklist();
   const aoi = form.getValues('aoi');
 
   useEffect(() => {
@@ -43,11 +43,11 @@ const useAoiValidation = (
 };
 
 const useDataSetsValidation = (
+  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>,
   schema: TSchema,
-  state: TSearchViewState | undefined,
-  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>
+  state: TSearchViewState | undefined
 ) => {
-  const { setDataSetsValid } = useSetValidation();
+  const { setDataSetsValid } = useChecklist();
   const values = useFormValues(form);
 
   useEffect(() => {
@@ -64,51 +64,53 @@ const useDataSetsValidation = (
 };
 
 const useDateRangeValidation = (
+  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>,
   schema: TSchema,
-  state: TSearchViewState | undefined,
-  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>
+  state: TSearchViewState | undefined
 ) => {
-  const { setDateRangeValid } = useSetValidation();
+  const { setDateRangeValid, setDateRangeState } = useChecklist();
   const dateFrom = form.getValues('date.from');
   const dateTo = form.getValues('date.to');
 
   useEffect(() => {
-    if (schema !== 'search' || state !== 'edit' || !dateFrom || !dateTo) {
+    const validationSchema = getSchema(schema, 'date').update;
+    const dateValid = validationSchema.safeParse({ from: dateFrom, to: dateTo });
+
+    if (!dateValid.success || schema !== 'search' || state !== 'edit') {
       setDateRangeValid(false);
       return;
     }
 
-    if (
-      !form.formState.dirtyFields.date?.from &&
-      !form.formState.dirtyFields.date?.to &&
-      !form.formState.touchedFields.date?.from &&
-      !form.formState.touchedFields.date?.to
-    ) {
-      return;
-    }
+    setDateRangeValid(dateValid.success);
+  }, [schema, state, setDateRangeValid, dateFrom, dateTo]);
 
-    setDateRangeValid(!form.formState.errors.date?.from && !form.formState.errors.date?.to);
-  }, [
-    schema,
-    state,
-    setDateRangeValid,
-    form.formState.touchedFields.date?.from,
-    form.formState.touchedFields.date?.to,
-    form.formState.dirtyFields.date?.from,
-    form.formState.dirtyFields.date?.to,
-    form.formState.errors.date?.from,
-    form.formState.errors.date?.to,
-    dateFrom,
-    dateTo,
-  ]);
+  useEffect(() => {
+    const subscription = form.watch((value, { name, type }) => {
+      if (
+        (name === 'date.from' || name === 'date.to') &&
+        type === 'change' &&
+        schema === 'search' &&
+        state === 'edit'
+      ) {
+        setDateRangeState(true);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form, schema, setDateRangeState, state]);
 };
 
 export const useSyncChecklistState = (
+  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>,
   schema: TSchema,
-  state: TSearchViewState | undefined,
-  form: UseFormReturn<TInitialForm, unknown, TUpdateForm>
+  state: TSearchViewState | undefined
 ) => {
-  useAoiValidation(schema, state, form);
-  useDataSetsValidation(schema, state, form);
-  useDateRangeValidation(schema, state, form);
+  const { setMode } = useChecklist();
+
+  useEffect(() => {
+    setMode(schema);
+  }, [schema, setMode]);
+
+  useAoiValidation(form, schema, state);
+  useDataSetsValidation(form, schema, state);
+  useDateRangeValidation(form, schema, state);
 };
