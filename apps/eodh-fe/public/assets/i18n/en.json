@@ -257,7 +257,7 @@
         }
       },
       "HELP": {
-        "TITLE": "Action Creator Help Topics",
+        "TITLE": "Action Creator help topics",
         "INTRO": "Click on one of the questions below to see more detailed explanations.",
         "BACK_BTN": "Back to Top",
         "QUESTIONS": {
@@ -266,26 +266,29 @@
             "WHAT_IS_THE_AC": {
               "QUESTION": "What is the Action Creator?",
               "ANSWER": [
-                "The Action Creator is a workflow builder that allows users to define workflow processing steps using datasets, AOI, date ranges, and functions."
+                "The Action Creator is a no code a workflow builder that allows users to define workflow processing steps using data sets, AOI, date ranges, and functions."
               ]
             },
             "HOW_TO_CREATE_WORKFLOW_IN_THE_AC": {
               "QUESTION": "How do I create a workflow in Action Creator?",
               "ANSWER": [
                 [
-                  "Click on the toggle button in the top left of the Action Creator panel.",
-                  "Add an AOI, Dataset, Date Range, and Function(s).",
-                  "Click Run to execute the workflow."
+                  "Click on the Workflow tab.",
+                  "Add an AOI, Data Set, Date Range, and Function(s).",
+                  "Click Run to execute the workflow.",
+                  [
+                    "Note: Run button will become active only if all nodes are filled in correctly and there are no validation errors."
+                  ]
                 ]
               ]
             },
             "WHAT_ARE_THE_DIFFERENT_WORKFLOW_BLOCKS": {
               "QUESTION": "What are the different workflow blocks (nodes) and how do they work?",
               "ANSWER": [
-                "Workflow blocks (also called nodes) represent different stages in the Action Creator workflow. Each block must be filled before running the workflow. These blocks are:",
+                "Workflow blocks (also called nodes) represent different stages in the Action Creator workflow. Each block must be filled in before running the workflow. These blocks are:",
                 [
                   "Area (AOI) – Defines the geographic region for analysis.",
-                  "Dataset – Selects the dataset(s) to be used in the workflow.",
+                  "Data Set – Selects the data set to be used in the workflow.",
                   "Date Range – Specifies the time period for data selection.",
                   "Function – Applies a data processing function (e.g., NDVI calculation, water quality analysis).",
                   "Additional Function Blocks – Users can add consecutive functions to process data in multiple steps."
@@ -298,10 +301,11 @@
               "ANSWER": [
                 [
                   "Click on the \"Data set\" block in the Action Creator panel.",
+                  ["Note: the block is clickable if node before is already filled in."],
                   "The left-side menu will display available data sets.",
-                  "Choose a dataset (e.g., Sentinel-1).",
+                  "Choose a data set (e.g., Sentinel-1).",
                   "If the data set has advanced settings (e.g., cloud coverage), configure them if needed.",
-                  "The selected data set name will appear inside the Dataset block."
+                  "The selected data set name will appear inside the Data Set block."
                 ]
               ]
             },
@@ -310,10 +314,14 @@
               "ANSWER": [
                 [
                   "Click on the \"Function\" block in Action Creator.",
+                  ["Note: the block is clickable if node before is already filled in."],
                   "A dropdown menu appears with available functions (e.g., NDVI, Land Cover Change, Water Quality Analysis).",
-                  "Select a function that is compatible with your dataset.",
-                  "The Function block will now display the selected function.",
-                  "You can click \"+\" below the function block to add additional compatible functions."
+                  "Select a function that is compatible with your data set.",
+                  [
+                    "Note: some functions are disabled due to incompatibility with selected data set. In order to use such function, you need first to select a compatible data set"
+                  ],
+                  "The \"Function\" block will now display the selected function.",
+                  "You can click \"+\" below the \"Function\" block to add additional compatible functions."
                 ]
               ]
             },
@@ -321,7 +329,7 @@
               "QUESTION": "What is the difference between the Workflow and History tabs?",
               "ANSWER": [
                 [
-                  "Workflow Tab – Allows users to design and run new workflows by selecting AOI, dataset, date range, and function(s). This is the active workflow builder.",
+                  "Workflow Tab – Allows users to design and run new workflows by selecting AOI, data set, date range, and function(s). This is the active workflow builder.",
                   "History Tab – Shows previously run workflows along with their status:",
                   [
                     "Processing – Workflow is still running.",
@@ -341,10 +349,10 @@
                   "Click on the \"Presets\" tab in Action Creator.",
                   "A list of available presets will appear with descriptions.",
                   "Click \"Load Preset\" on the desired workflow.",
-                  "The Dataset and Function blocks will be pre-filled, and the user can define the AOI and Date Range.",
+                  "The \"Data Set\" and \"Function\" blocks will be pre-filled, and the user can define the AOI and Date Range.",
                   "Click Run to execute the preset workflow."
                 ],
-                "Detailed description of presents can be found in a separate section."
+                "Detailed description of presets can be found the “Working with Actions (Presets and Functions)” section."
               ]
             },
             "HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS": {
@@ -355,30 +363,30 @@
             }
           },
           "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {
-            "SUBTITLE": "Managing Datasets & Functions in Action Creator",
+            "SUBTITLE": "Managing Data Sets & Functions in Action Creator",
             "HOW_TO_ADD_COMERCIAL_DATASETS": {
-              "QUESTION": "How do I add commercial datasets (e.g., Planet items) to Action Creator workflows?",
+              "QUESTION": "How do I add commercial data sets (e.g., Planet items) to Action Creator workflows?",
               "ANSWER": [
-                "To use commercial datasets in the Action Creator, the dataset’s item must first be purchased and available in My Items:",
+                "To use commercial data sets in the Action Creator, the data set’s item must first be purchased and available in My Items:",
                 [
-                  "Purchase the dataset:",
+                  "Purchase the data set:",
                   [
-                    "Run a search with a commercial dataset.",
+                    "Run a search with a commercial data set.",
                     "Click \"Purchase\" next to an item.",
                     "Complete the transaction on the TPZ portal.",
                     "After purchase, the item appears in My Items (left panel)."
                   ],
-                  "Use the dataset’s item in Action Creator:",
+                  "Use the data set’s item in Action Creator:",
                   [
                     "Open Action Creator and click on the \"Dataset\" block.",
                     "In the left-side menu, go to \"My Items\".",
                     "Select the purchased item.",
-                    "The dataset item’s name appears in the Dataset block."
+                    "The data set item’s name appears in the Dataset block."
                   ],
                   "Proceed with workflow configuration:",
                   [
                     "Select a Date Range and Function(s).",
-                    "Click Run to execute the workflow using the commercial dataset’s item."
+                    "Click Run to execute the workflow using the commercial dat set’s item."
                   ]
                 ]
               ]
@@ -392,12 +400,6 @@
                 ],
                 "Functions execute sequentially from top to bottom. You cannot remove or modify a function in the middle—only the last function can be deleted first. Parallel functions are not yet supported"
               ]
-            },
-            "HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER": {
-              "QUESTION": "How do I filter workflow results by time using the time slider?",
-              "ANSWER": [
-                "After running a workflow, the time slider appears below the search/workflow panel. Drag the slider handles to adjust the displayed time range without re-running the workflow. Narrowing the range filters results to selected timestamps. Expanding the range shows more results but cannot exceed the original workflow date range. The workflow execution remains unchanged—only the displayed results update dynamically."
-              ]
             }
           },
           "EXECUTING_AND_TRACKING_WORKFLOWS": {
@@ -406,6 +408,12 @@
               "QUESTION": "How do I view workflow execution results?",
               "ANSWER": [
                 "Open the History tab in Action Creator to see past workflows. Click \"View Results\" to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click \"View\" to load the result as a map layer."
+              ]
+            },
+            "HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER": {
+              "QUESTION": "How do I filter workflow results by time using the time slider?",
+              "ANSWER": [
+                "After running a workflow, the time slider appears below the search/workflow panel. Drag the slider handles to adjust the displayed time range without re-running the workflow. Narrowing the range filters results to selected timestamps. Expanding the range shows more results but cannot exceed the original workflow date range. The workflow execution remains unchanged—only the displayed results update dynamically."
               ]
             },
             "HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW": {
@@ -422,13 +430,13 @@
             "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_NOTIFICATIONS": {
               "QUESTION": "How do I view workflow execution notifications?",
               "ANSWER": [
-                "A green dot appears next to the History tab when a workflow finishes. Click History to view execution details."
+                "A green dot appears next to the History tab when a workflow finishes. Click on the History tab to view execution details."
               ]
             },
             "WHAT_HAPPENS_IF_I_SWITCH_TO_ACTION_CREATOR_WHILE_HAVING_A_SEARCH_SESSION_ACTIVE": {
               "QUESTION": "What happens if I switch to Action Creator while having a search session active?",
               "ANSWER": [
-                "Your search selections (AOI, date range, dataset) are not transferred to Action Creator. You must redefine your AOI, dataset, and date range in Action Creator. Switching does not delete previous search results—they remain in the Search tab."
+                "Your search selections (AOI, date range, data set) are not transferred to Action Creator. You must redefine your AOI, data set, and date range in Action Creator. Switching does not delete previous search results—they remain in the Search module."
               ]
             },
             "CAN_I_SAVE_MY_WORKFLOW_FOR_FUTURE_USE": {
@@ -460,7 +468,7 @@
             "WHAT_IS_LAND_COVER_CHANGE_SCENARIO": {
               "QUESTION": "What is Land Cover Changes scenario?",
               "ANSWER": [
-                "The Land Cover Changes preset is designed to help users monitor how different land cover classes evolve over time. By leveraging established datasets such as CORINE, ESA Global Land Cover Map (ESA GLCM), and Copernicus Land Monitoring Service (CLMS) Water Bodies, it offers quick insights into the spatial distribution and temporal changes of various land cover classes (e.g., forest, cropland, urban areas, water bodies).",
+                "The Land Cover Changes preset is designed to help users monitor how different land cover classes evolve over time. By leveraging established data sets such as CORINE, ESA Global Land Cover Map (ESA GLCM), and Copernicus Land Monitoring Service (CLMS) Water Bodies, it offers quick insights into the spatial distribution and temporal changes of various land cover classes (e.g., forest, cropland, urban areas, water bodies).",
                 "It can be used for:",
                 [
                   "Detecting Urban Expansion: Observe how cities grow and change land use.",
@@ -470,7 +478,7 @@
                 ],
                 "Workflow explanation:",
                 [
-                  "Data Ingestion: The system takes in relevant land cover datasets—CORINE, ESA GLCM, and CLMS Water Bodies.",
+                  "Data Ingestion: The system takes in relevant land cover data sets—CORINE, ESA GLCM, and CLMS Water Bodies.",
                   "Per-Class Area Calculation: Within the user-specified region of interest, the workflow calculates the area occupied by each land cover class for each available time period.",
                   "Storage: These aggregated results are stored as a STAC collection in the user’s workspace, ensuring easy retrieval and compatibility with EOPro tools.",
                   "Visualisation: In the front-end application, the user sees a time series bar-chart illustrating how each land cover class’s area changes over different time periods."
@@ -868,7 +876,7 @@
             "HOW_DO_I_MEASURE_DISTANCES_AND_AREAS_ON_THE_MAP": {
               "QUESTION": "How do I measure distances and areas on the map?",
               "ANSWER": [
-                "Click the Measurement Tool in the top menu. Click on the map to place points and measure distances. For areas, add at least three points to enclose a shape. You can also change measurement units."
+                "Click the Measurement Tool in the top menu. Click on the map to place points and measure distances. For measuring areas, click the switch to enter area measurement mode and add at least three points to enclose a shape. You can also change measurement units."
               ]
             }
           },
@@ -877,7 +885,7 @@
             "HOW_DO_I_USE_THE_COMPARISON_TOOL": {
               "QUESTION": "How do I use the comparison tool?",
               "ANSWER": [
-                "Click \"Add to Compare\" for an item from Search or Action Creator. Select a second item to enable the comparison tool. The comparison tool provides a swipe bar to compare images. You cannot run Search or Action Creator while actively using the comparison tool—exit the comparison mode to resume other tasks."
+                "Click \"Add to Compare\" for an item from Search or Action Creator. Select a second item to enable the comparison tool. Open top menu and click on \"Compare\" button to activate comparison mode. The comparison tool provides a swipe bar to compare images. You cannot run Search or Action Creator while actively using the comparison tool—exit the comparison mode to resume other tasks."
               ]
             }
           }
@@ -905,24 +913,37 @@
       "BACK_BTN": "Back to Top",
       "QUESTIONS": {
         "GENERAL_FUNCIONALITY": {
-          "SUBTITLE": "General functionality",
+          "SUBTITLE": "General Functionality",
           "WHAT_IS_EOPRO": {
             "QUESTION": "What is EOPro?",
             "ANSWER": [
-              "EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public datasets through a dynamic pan-and-zoom mapping interface. "
+              "EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface. "
             ]
           },
           "HOW_DO_I_GET_STARTED": {
             "QUESTION": "How do I get started?",
             "ANSWER": [
-              "To begin accessing the imaging data, you can use the Search Module from the left menu, draw an area of interest using the drawing tools at the top of the screen, and define a data range near the search button bottom-left. Once you’ve configured all these options, clicking the search button will return results (or let you know if you need to refine your search parameters in any way) that you can view on the main map.",
-              "If you’d like to take your search further, you can log in using the button at the top-right of the screen to take advantage of the Action Creator (see below for more information on how this functions). "
+              "To begin accessing the imaging data, you can use the Search Module from the left menu, draw an area of interest using the drawing tools at the top of the screen, and define a date range near the search button bottom-left. Once you’ve configured all these options, clicking the search button will return results (or let you know if you need to refine your search parameters in any way) that you can view on the map.",
+              "If you’d like to take your search further, you can log in using the button at the top-right of the screen to take advantage of the Action Creator. "
             ]
           },
           "DO_I_NEED_ACCOUNT": {
             "QUESTION": "Do I need to create an account?",
             "ANSWER": [
-              "No, but if you want to get the most out of the imaging data EOPro has access to, we would recommend logging in so you can use all the advanced features of the Action Creator."
+              "No, but if you want to get the most out of the imaging data EOPro has access to, we would recommend logging in. This way you can also use all the features of the Action Creator."
+            ]
+          },
+          "HOW_DO_I_LOG_IN": {
+            "QUESTION": "How do I log in?",
+            "ANSWER": [
+              "In order to log in, you need to first register your Github account with EODH. Please see more details here:",
+              {
+                "LINK": {
+                  "ACCOUNT_SETUP": {
+                    "DESCRIPTION": "Account Setup"
+                  }
+                }
+              }
             ]
           }
         },
@@ -931,13 +952,13 @@
           "WHAT_IS_THE_SEARCH_MODULE": {
             "QUESTION": "What is the search module and how does it work?",
             "ANSWER": [
-              "The Search Module allows users to find satellite imagery based on a specified Area of Interest (AOI), date range, and selected dataset(s). Once a search is performed, the system displays results as thumbnails in the left panel and footprints on the map for geographic reference."
+              "The Search Module allows users to find satellite imagery based on a specified Area of Interest (AOI), date range, and selected data set(s). Once a search is performed, the system displays results as thumbnails in the left panel and footprints on the map for geographic reference."
             ]
           },
           "HOW_DO_I_SELECT_A_DATA_SET_AS_PART_OF_A_SEARCH": {
-            "QUESTION": "How do I select a Data Set as part of a search?",
+            "QUESTION": "How do I select a data set as part of a search?",
             "ANSWER": [
-              "Click on the Data Set Selection Menu on the left panel. Browse through available public and commercial datasets. Click on a Data Set to select it. If applicable, configure advanced settings."
+              "Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings."
             ]
           },
           "HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI": {
@@ -955,7 +976,7 @@
           "WHAT_HAPPENS_WHEN_I_RUN_A_SEARCH": {
             "QUESTION": "What happens when I run a search?",
             "ANSWER": [
-              "The system processes your dataset, AOI, and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results."
+              "The system processes your data set, AOI, and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results."
             ]
           },
           "HOW_DO_I_REFINE_OR_MODIFY_MY_SEARCH_PARAMETERS": {
@@ -963,20 +984,20 @@
             "ANSWER": [
               [
                 "Modify AOI: Click on the drawing tool and redraw the area.",
-                "Change Data set: Click on the dataset selector and choose a new dataset.",
+                "Change Data Set: Click on the data set selector and choose a new data set.",
                 "Adjust Date Range: Modify the date range using the picker or time slider.",
                 "Click Search again to refresh results, unless you used only time slider to refine your search results."
               ]
             ]
           },
           "HOW_DO_I_USE_ADVANCED_SEARCH_OPTIONS_FOR_DATASETS": {
-            "QUESTION": "How do I use advanced search options for datasets?",
+            "QUESTION": "How do I use advanced search options for data sets?",
             "ANSWER": [
-              "For datasets like Sentinel-1, toggle Advanced Search in the dataset panel. Configure acquisition modes, orbit direction, polarisation settings, etc. These settings affect search results based on data set-specific filtering."
+              "For data sets like Sentinel-1, toggle Advanced Search in the data set panel. Configure acquisition modes, orbit direction, polarisation settings, etc. These settings affect search results based on data set-specific filtering."
             ]
           },
           "WHAT_IS_THE_DIFFERENCE_BETWEEN_PUBLIC_AND_COMMERCIAL_DATASETS": {
-            "QUESTION": "What is the difference between public and commercial datasets?",
+            "QUESTION": "What is the difference between public and commercial data sets?",
             "ANSWER": [
               [
                 "Public data sets (e.g., Copernicus Sentinel) are freely available.",
@@ -995,7 +1016,7 @@
           }
         },
         "VIEWING_AND_PURCHASING_SEARCH_RESULTS": {
-          "SUBTITLE": "Viewing & Purchasing Search Results",
+          "SUBTITLE": "Viewing Search Results",
           "HOW_DO_I_VIEW_AN_ITEM_FROM_THE_SEARCH_RESULTS": {
             "QUESTION": "How do I view an item from the search results?",
             "ANSWER": [
@@ -1005,7 +1026,7 @@
           "HOW_DO_I_PURCHASE_COMMERCIAL_DATA": {
             "QUESTION": "How do I purchase commercial data (e.g., Planet data)?",
             "ANSWER": [
-              "Click \"Purchase\" next to a commercial dataset. You will be redirected to the TPZ portal to accept terms and complete the transaction. After purchase, the item appears in My Items."
+              "Click \"Purchase\" next to a commercial data set. You will be redirected to the TPZ portal to accept terms and complete the transaction. After purchase, the item appears in My Items."
             ]
           },
           "HOW_DO_I_DISPLAY_PURCHASED_ITEMS_ON_THE_MAP": {
@@ -1018,7 +1039,7 @@
           "HOW_DOES_THE_TIME_SLIDER_AFFECT_SEARCH_RESULTS": {
             "QUESTION": "How does the time slider affect search results?",
             "ANSWER": [
-              "The time slider allows you to filter results dynamically by narrowing the displayed time range. Moving the slider updates results in real-time without re-running the search."
+              "The time slider allows you to filter results dynamically by narrowing the displayed time range. Moving the slider updates results in real-time."
             ]
           }
         },
@@ -1027,7 +1048,7 @@
           "HOW_DO_I_ADD_SEARCH_RESULTS_TO_THE_COMPARISON_TOOL": {
             "QUESTION": "How do I add search results to the comparison tool?",
             "ANSWER": [
-              "Click \"Add to Compare\" on a search result. Add a second asset to enable the comparison tool. Use the comparison swipe to analyse differences."
+              "Click \"Add to Compare\" on a search result. Add a second asset to enable the comparison tool. Open top menu and click on \"Compare\" button to activate comparison mode.  Use the comparison swipe to analyse differences."
             ]
           }
         },
