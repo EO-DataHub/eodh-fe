@@ -66,24 +66,30 @@ const stackBarSchema = z
     assets: z.object({
       data: stackBarAsset,
     }),
+    continuation_token: z.string(),
   })
   .transform((data) => ({
     jobId: data.job_id,
     assets: data.assets,
     chartType: 'stacked-bar' as const,
+    continuationToken: data.continuation_token,
   }));
 
 const rangeAreaWithLineSchema = z
   .object({
     job_id: z.string(),
     assets: z.record(z.string(), rangeAreaWithLineAsset),
+    continuation_token: z.string(),
   })
   .transform((data) => ({
     jobId: data.job_id,
     assets: data.assets,
     chartType: 'range-area-with-line' as const,
+    continuationToken: data.continuation_token,
   }));
 
 export const chartSchema = z.union([stackBarSchema, rangeAreaWithLineSchema]);
 
-export type TChartSchema = z.infer<typeof chartSchema>;
+export type TRangeAreaWithLineChartData = z.infer<typeof rangeAreaWithLineSchema>;
+export type TStackBarChartData = z.infer<typeof stackBarSchema>;
+export type TChartData = z.infer<typeof chartSchema>;

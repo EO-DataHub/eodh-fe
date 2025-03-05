@@ -1,6 +1,7 @@
 import { useComparisonMode, useMode, useResults } from '@ukri/map/data-access-map';
-import { useGraphSearch } from '@ukri/map/data-access-stac-catalog';
+import { TRangeAreaWithLineChartData, TStackBarChartData, useGraphSearch } from '@ukri/map/data-access-stac-catalog';
 import { Error, Icon } from '@ukri/shared/design-system';
+import { useMemo } from 'react';
 
 import { ChartLoader } from './charts/chart-loader.component';
 import { RangeAreaWithLineMultipleSeriesChart } from './charts/range-area/range-area-with-line-multiple-series-chart.component';
@@ -13,6 +14,8 @@ export const GraphAnalytics = () => {
   const { data, status } = useGraphSearch({ params: searchParams });
   const { mode } = useMode();
   const { comparisonModeEnabled } = useComparisonMode();
+  const chartType = useMemo(() => [...(data?.pages || [])]?.pop()?.chartType, [data?.pages]);
+  const assets = useMemo(() => data?.pages.map((item) => item.assets).flat() || [], [data?.pages]);
 
   if (mode !== 'action-creator' || comparisonModeEnabled) {
     return null;
@@ -22,7 +25,7 @@ export const GraphAnalytics = () => {
     return <ChartLoader height={chartHeight} />;
   }
 
-  if (status === 'error' || !data || !Object.entries(data.assets).length) {
+  if (status === 'error' || !data || !Object.entries(assets).length) {
     return (
       <div className='w-full'>
         <Error
@@ -34,14 +37,14 @@ export const GraphAnalytics = () => {
     );
   }
 
-  switch (data.chartType) {
+  switch (chartType) {
     case 'stacked-bar': {
       return (
         <div className='w-full'>
           <StackedBarChart
-            data={data.assets.data.data}
-            categories={data.assets.data.categories}
-            unit={data.assets.data.unit}
+            data={(assets as unknown as TStackBarChartData['assets']).data.data}
+            categories={(assets as unknown as TStackBarChartData['assets']).data.categories}
+            unit={(assets as unknown as TStackBarChartData['assets']).data.unit}
             height={chartHeight}
           />
         </div>
@@ -51,7 +54,10 @@ export const GraphAnalytics = () => {
     case 'range-area-with-line': {
       return (
         <div className='w-full'>
-          <RangeAreaWithLineMultipleSeriesChart series={data.assets} height={chartHeight} />
+          <RangeAreaWithLineMultipleSeriesChart
+            series={assets as unknown as TRangeAreaWithLineChartData['assets']}
+            height={chartHeight}
+          />
         </div>
       );
     }
