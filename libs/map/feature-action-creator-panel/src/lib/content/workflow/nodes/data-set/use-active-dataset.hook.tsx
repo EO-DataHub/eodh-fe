@@ -32,14 +32,6 @@ export const useActiveDataSet = (): TUseActiveDataSet => {
     }
   }
 
-  if (dataSets.public.copernicus.sentinel3?.enabled) {
-    enabled.push('sentinel-3');
-  }
-
-  if (dataSets.public.copernicus.sentinel5P?.enabled) {
-    enabled.push('sentinel-5p');
-  }
-
   if (dataSets.public.auxiliary?.esacciGloballc?.enabled) {
     enabled.push('esacci-globallc');
   }
