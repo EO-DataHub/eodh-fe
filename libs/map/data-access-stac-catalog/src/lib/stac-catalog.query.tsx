@@ -36,18 +36,6 @@ const sortCollectionFeatures = (features: TCollection['features'], sortBy: TSort
   return features;
 };
 
-const calculateContextValue = (val1: undefined | number, val2: undefined | number) => {
-  if (val1 !== undefined && val2 !== undefined) {
-    return val1 + val2;
-  }
-
-  if (val1 !== undefined) {
-    return val2;
-  }
-
-  return val1;
-};
-
 const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[], sortBy: TSortBy) => {
   const data = responses
     .map((response) => {
@@ -68,24 +56,11 @@ const mapResponsesToSchema = (responses: PromiseSettledResult<TCollection>[], so
         type: acc.type,
         features: [...acc.features, ...val.features],
         links: [...acc.links, ...val.links].filter((link) => link.rel === 'next'),
-        context: {
-          ...acc.context,
-          returned: acc.context.returned + val.context.returned,
-          limit: calculateContextValue(acc.context.limit, val.context.limit),
-          matched: calculateContextValue(acc.context.matched, val.context.matched),
-          next: calculateContextValue(acc.context.next, val.context.next),
-        },
       }),
       {
         type: 'FeatureCollection',
         features: [],
         links: [],
-        context: {
-          returned: 0,
-          limit: undefined,
-          matched: undefined,
-          next: undefined,
-        },
       }
     );
 
