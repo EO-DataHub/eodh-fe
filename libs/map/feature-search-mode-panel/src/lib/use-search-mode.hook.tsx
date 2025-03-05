@@ -7,7 +7,7 @@ import {
   useResults,
   useTrueColorImage,
 } from '@ukri/map/data-access-map';
-import { TCollection, useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
+import { TCollection, useCatalogSearch, useGraphSearch } from '@ukri/map/data-access-stac-catalog';
 import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search-view';
 import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -19,7 +19,15 @@ export const useSearchMode = () => {
   const { state: dataSetsState, schema, treeModel, dataSets, updateDataSets } = useDataSets();
   const { state: dateRangeState, date, updateDate } = useDate();
   const { view: currentView, changeView: setCurrentView } = useMode();
-  const { data, status, error, isFetching, hasNextPage, fetchNextPage } = useCatalogSearch({ params: searchParams });
+  const {
+    data,
+    status,
+    error,
+    isFetching,
+    hasNextPage,
+    fetchNextPage: fetchNextSearchPage,
+  } = useCatalogSearch({ params: searchParams });
+  const { fetchNextPage: fetchNextChartPage } = useGraphSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
   const { setFeature } = useTrueColorImage();
@@ -82,6 +90,11 @@ export const useSearchMode = () => {
     },
     [changeView, updateSearchParams]
   );
+
+  const fetchNextPage = useCallback(() => {
+    fetchNextSearchPage();
+    fetchNextChartPage();
+  }, [fetchNextChartPage, fetchNextSearchPage]);
 
   useEffect(() => {
     const collection = data?.pages.reduce(
