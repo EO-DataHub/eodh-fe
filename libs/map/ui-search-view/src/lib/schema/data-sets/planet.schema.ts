@@ -1,30 +1,35 @@
 import { z } from 'zod';
 
-const planetScopeSchema = z.object({
-  enabled: z.boolean(),
+export const planetInitialSchema = z.object({
+  enabled: z.boolean().optional(),
+  expanded: z.boolean().optional(),
+  planetScope: z
+    .object({
+      enabled: z.boolean().optional(),
+    })
+    .optional(),
+  skySat: z
+    .object({
+      enabled: z.boolean().optional(),
+    })
+    .optional(),
+  rapidEye: z
+    .object({
+      enabled: z.boolean().optional(),
+    })
+    .optional(),
 });
 
-const skySatSchema = z.object({
-  enabled: z.boolean(),
-});
-
-const rapidEyeSchema = z.object({
-  enabled: z.boolean(),
-});
-
-export const planetSchema = z.object({
-  enabled: z.boolean(),
-  expanded: z.boolean(),
-  planetScope: planetScopeSchema.extend({
-    expanded: z.boolean().optional(),
+export const planetUpdateSchema = z.object({
+  enabled: z.boolean().optional(),
+  expanded: z.boolean().optional(),
+  planetScope: z.object({
     enabled: z.boolean(),
   }),
-  skySat: skySatSchema.extend({
-    expanded: z.boolean().optional(),
+  skySat: z.object({
     enabled: z.boolean(),
   }),
-  rapidEye: rapidEyeSchema.extend({
-    expanded: z.boolean().optional(),
+  rapidEye: z.object({
     enabled: z.boolean(),
   }),
 });

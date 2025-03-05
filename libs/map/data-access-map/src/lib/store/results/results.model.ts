@@ -29,16 +29,15 @@ type TDataSets = {
     };
   };
   private: {
-    planet: {
-      enabled: boolean;
-      planetScope: {
-        enabled: boolean;
+    planet?: {
+      planetScope?: {
+        enabled?: boolean;
       };
-      skySat: {
-        enabled: boolean;
+      skySat?: {
+        enabled?: boolean;
       };
-      rapidEye: {
-        enabled: boolean;
+      rapidEye?: {
+        enabled?: boolean;
       };
     };
   };

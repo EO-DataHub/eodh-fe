@@ -1,5 +1,6 @@
 import { TCatalogueCollection } from './collection';
-import { QueryBuilder, TQuery } from './query.builder';
+import { PlanetQueryBuilder } from './comercial/planet.query-builder';
+import { QueryBuilder, TQuery } from './public/query.builder';
 import { TCatalogSearchParams, TSearchParams, TWorkflowSearchParams } from './query.model';
 
 export type TSortBy = {
@@ -68,10 +69,14 @@ export class CollectionBuilder {
         ...new QueryBuilder({ ...this.params, queryParams: { ...queryParams, collection } }, this.options).build(),
         collection,
       }));
+      queries.push({
+        ...new PlanetQueryBuilder({ ...this.params, queryParams }, this.options).build(),
+        collection: 'planet',
+      });
 
       return {
         type: 'search',
-        enabled: queries.some((query) => query.params),
+        enabled: queries.some((query) => query.enabled),
         params: queries,
         sortBy: this.params.sortBy,
       };

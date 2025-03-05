@@ -6,7 +6,7 @@ export const privateSearchSchema: IDynamicTreeCategory = {
   type: 'category',
   options: {
     expendable: true,
-    disabled: true,
+    disabled: false,
   },
   controls: {
     expand: {
