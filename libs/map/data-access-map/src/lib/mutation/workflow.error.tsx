@@ -1,3 +1,4 @@
+import { createDateString, formatDate } from '@ukri/shared/utils/date';
 import { AxiosError } from 'axios';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
@@ -41,6 +42,18 @@ interface IAreaOfInterestMissingError {
   msg: string;
 }
 
+interface INoDataInSelectedDateRangeError {
+  type: 'stac_date_range_error';
+  ctx: {
+    valid_start: string;
+    valid_end: string | undefined | null;
+    date_start: string | undefined | null;
+    date_end: string | undefined | null;
+    collection: TCollectionName;
+  };
+  msg: string;
+}
+
 interface IInvalidDateRangeError {
   type: 'invalid_date_range_error';
   msg: string;
@@ -56,6 +69,7 @@ type TErrorMessage =
   | IAreaOfInterestTooBigError
   | IAreaOfInterestMissingError
   | IInvalidDateRangeError
+  | INoDataInSelectedDateRangeError
   | INoItemsToProcessError;
 
 export interface IErrorResponse {
@@ -126,6 +140,21 @@ const useErrorMessage = () => {
 
       case 'invalid_date_range_error': {
         return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.INVALID_DATE_RANGE');
+      }
+
+      case 'stac_date_range_error': {
+        if (error.ctx.valid_start && error.ctx.valid_end) {
+          return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.NO_DATA_IN_SELECTED_DATE_RANGE.WITH_DATE_RANGE', {
+            collection: t(getCollectionTranslationKey(error.ctx.collection) || ''),
+            dateFrom: formatDate(createDateString(error.ctx.valid_start)),
+            dateTo: formatDate(createDateString(error.ctx.valid_end)),
+          });
+        }
+
+        return t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.NO_DATA_IN_SELECTED_DATE_RANGE.WITH_DATE_START', {
+          collection: t(getCollectionTranslationKey(error.ctx.collection) || ''),
+          dateFrom: formatDate(createDateString(error.ctx.valid_start)),
+        });
       }
 
       case 'no_items_to_process_error': {

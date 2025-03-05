@@ -212,6 +212,10 @@ interface Resources {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
             AOI_MISSING: 'Area of Interest is missing.';
             INVALID_DATE_RANGE: 'End date cannot be before start date.';
+            NO_DATA_IN_SELECTED_DATE_RANGE: {
+              WITH_DATE_RANGE: 'Invalid date range for selected STAC collection: {{collection}}. Valid range is between {{dateFrom}} and {{dateTo}}';
+              WITH_DATE_START: 'Invalid start date for selected STAC collection: {{collection}}. Valid start date begins {{dateFrom}}';
+            };
             COLLECTION_NOT_SUPPORTED: 'Collection {{collection}} cannot be used with {{function}} function! Valid options are: {{options}}.';
             NO_ITEMS_TO_PROCESS: 'No STAC items found for the selected configuration. Adjust area, data set, date range, or functions and try again.';
           };
