@@ -52,13 +52,13 @@ export const copernicusUpdateSchema = copernicusUpdateSearchSchema.superRefine((
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
-      path: ['sentinel1.enabled'],
+      path: ['sentinel1'],
     });
 
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: notDisplayedErrorMessage,
-      path: ['sentinel2.enabled'],
+      path: ['sentinel2'],
     });
   }
 });
