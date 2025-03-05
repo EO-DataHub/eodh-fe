@@ -1092,6 +1092,7 @@ interface Resources {
           ONLY_ONE_FIELD_IS_REQUIRED: 'You must select only one of the following options';
           DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO: 'Invalid date. Date from should be earlier';
           DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
+          ONLY_ONE_COLLECTION_IS_REQUIRED: 'You can only select Data Sets from within the same collection. Please refine your selection and try again.';
         };
         DATA_SETS: {
           INFO_BOX: {
