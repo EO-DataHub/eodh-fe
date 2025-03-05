@@ -5,7 +5,7 @@ export const aibusSchema: IDynamicTreeCategory = {
   type: 'category',
   controls: {
     expand: {
-      name: 'private.planet.enabled',
+      name: 'private.airbus.expanded',
       type: 'expand',
       value: true,
     },

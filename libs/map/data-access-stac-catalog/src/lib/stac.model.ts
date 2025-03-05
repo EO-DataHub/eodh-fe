@@ -40,6 +40,45 @@ const sentinel1CedaPropertySchema = z
     'sar:polarizations': data.Polarisation,
   }));
 
+const skySatPropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    cloud_percent: z.number(),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    'eo:cloud_cover': data.cloud_percent,
+    'grid:code': undefined,
+  }));
+
+const rapidEyePropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    cloud_cover: z.number().transform((value) => value * 100),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    'eo:cloud_cover': data.cloud_cover,
+    'grid:code': undefined,
+  }));
+
+const planetScopePropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    cloud_percent: z.number(),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    'eo:cloud_cover': data.cloud_percent,
+    'grid:code': undefined,
+  }));
+
 const propertySchema = z.object({
   datetime: z.custom<NonNullable<TDateString>>(
     (value) => !z.string().datetime({ offset: true }).safeParse(value).error
@@ -102,7 +141,13 @@ const waterQualitySchema = assetSchema.extend({
 const featureSchema = z.object({
   type: z.literal('Feature'),
   geometry: geometrySchema,
-  properties: propertySchema.or(sentinel1CedaPropertySchema),
+  properties: z.union([
+    propertySchema,
+    sentinel1CedaPropertySchema,
+    skySatPropertySchema,
+    rapidEyePropertySchema,
+    planetScopePropertySchema,
+  ]),
   id: z.string(),
   bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
   stac_version: z.string(),

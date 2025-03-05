@@ -43,6 +43,18 @@ export type TCopernicusSearchParams = {
   };
 };
 
+export type TPlanetSearchParams = {
+  planetScope?: {
+    enabled?: boolean;
+  };
+  skySat?: {
+    enabled?: boolean;
+  };
+  rapidEye?: {
+    enabled?: boolean;
+  };
+};
+
 export type TCatalogSearchParams = {
   userWorkspace?: never;
   jobId?: never;
@@ -51,6 +63,10 @@ export type TCatalogSearchParams = {
   dataSets: {
     public: {
       copernicus: TCopernicusSearchParams;
+      auxiliary?: object;
+    };
+    private: {
+      planet?: TPlanetSearchParams;
     };
   };
   date: {

@@ -5,6 +5,7 @@ import {
   getCollectionInfoUrl,
   getElement84CatalogueUrl,
   getEodhProUrl,
+  getPlanetCatalogueUrl,
   getWorkflowCatalogueUrl,
 } from './url.config';
 
@@ -30,6 +31,7 @@ declare const config: {
       EODH_COLLECTION_INFO_API_URL: string;
       EODH_ELEMENT_84_CATALOGUE_API_URL: string;
       EODH_CEDA_CATALOGUE_API_URL: string;
+      EODH_PLANET_CATALOGUE_API_URL: string;
       EODH_WORKFLOW_CATALOGUE_API_URL: string;
     };
   };
@@ -60,6 +62,7 @@ interface IEnvConfig {
         EODH_COLLECTION_INFO_API_URL: string;
         EODH_ELEMENT_84_CATALOGUE_API_URL: string;
         EODH_CEDA_CATALOGUE_API_URL: string;
+        EODH_PLANET_CATALOGUE_API_URL: string;
         EODH_WORKFLOW_CATALOGUE_API_URL: string;
       };
     };
@@ -98,6 +101,7 @@ export const getEnvConfig = (): IEnvConfig => ({
         EODH_COLLECTION_INFO_API_URL: getCollectionInfoUrl(config.http.proxyConfig),
         EODH_ELEMENT_84_CATALOGUE_API_URL: getElement84CatalogueUrl(config.http.proxyConfig),
         EODH_CEDA_CATALOGUE_API_URL: getCEDACatalogueUrl(config.http.proxyConfig),
+        EODH_PLANET_CATALOGUE_API_URL: getPlanetCatalogueUrl(config.http.proxyConfig),
         EODH_WORKFLOW_CATALOGUE_API_URL: getWorkflowCatalogueUrl(config.http.proxyConfig),
         EODH_CHARTS_API_URL: getChartsUrl(config.http.proxyConfig),
       },
