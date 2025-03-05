@@ -3,7 +3,7 @@ import { Button, Text } from '@ukri/shared/design-system';
 
 interface IAssetItemProps {
   assetKey: TAssetName;
-  assetTitle?: string;
+  assetTitle?: string | null;
   isSelected: boolean;
   addedForComparison: boolean;
   canCompare: boolean;
