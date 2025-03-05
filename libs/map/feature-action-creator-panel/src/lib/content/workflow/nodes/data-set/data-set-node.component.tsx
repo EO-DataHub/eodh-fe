@@ -49,7 +49,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
-  const { dataSet, error, updateDataSets } = useActiveDataSet();
+  const { dataSet, error, clearDataSets } = useActiveDataSet();
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
@@ -61,10 +61,6 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
     }
   }, [canBeActivated, node, setActiveNode, goToNextOnboardingStep, onboardingSteps.DATA_SET_NODE.step_name]);
 
-  const clear = useCallback(() => {
-    updateDataSets(undefined);
-  }, [updateDataSets]);
-
   useEffect(() => {
     if (node.state !== 'initial') {
       setValue(node, dataSet);
@@ -74,7 +70,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
   if (!node.tooltip) {
     return (
       <div ref={nodeRef} onClick={activateNode}>
-        <Node node={node} error={error} onClearButtonClick={clear} />
+        <Node node={node} error={error} onClearButtonClick={clearDataSets} />
       </div>
     );
   }
@@ -87,7 +83,7 @@ export const DataSetNode = ({ node }: TDataSetNodeProps) => {
       elementRef={nodeRef}
     >
       <div ref={nodeRef} id={node.id} onClick={activateNode}>
-        <Node node={node} error={error} onClearButtonClick={clear} />
+        <Node node={node} error={error} onClearButtonClick={clearDataSets} />
       </div>
     </OnboardingTooltip>
   );

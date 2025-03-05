@@ -34,6 +34,11 @@ export const copernicusActionCreatorSchema: IDynamicTreeCategory = {
       type: 'expand',
       value: true,
     },
+    value: {
+      name: 'public.copernicus.enabled',
+      type: 'checkbox',
+      value: false,
+    },
   },
   children: [sentinel1Schema, sentinel2ActionCreatorSchema, sentinel3Schema, sentinel5pSchema],
 };

@@ -24,7 +24,7 @@ type TSearchPanelProps = {
   defaultValues?: TInitialForm;
   treeModel: TDynamicTreeModel;
   onSubmit: (data: TUpdateForm) => unknown | Promise<unknown>;
-  onChange?: (data: TInitialForm) => unknown | Promise<unknown>;
+  onChange?: (data: TInitialForm, schema: TSchema) => unknown | Promise<unknown>;
 };
 
 export const SearchView = ({
@@ -36,7 +36,7 @@ export const SearchView = ({
   treeModel,
   children,
 }: PropsWithChildren<TSearchPanelProps>) => {
-  const [currentTreeModel, setCurrentTreeModel] = useState(treeModel);
+  const [dataModel, setDataModel] = useState({ schema, treeModel });
   const [initialValues] = useState(defaultValues);
   const form = useForm<TInitialForm, unknown, TUpdateForm>({
     defaultValues: initialValues,
@@ -64,10 +64,10 @@ export const SearchView = ({
       }
     }
 
-    if (!isEqual(treeModel, currentTreeModel)) {
-      setCurrentTreeModel(treeModel);
+    if (!isEqual(treeModel, dataModel.treeModel) || schema !== dataModel.schema) {
+      setDataModel({ schema, treeModel });
     }
-  }, [form, defaultValues, shape?.shape, state, treeModel, currentTreeModel]);
+  }, [form, defaultValues, shape?.shape, state, treeModel, schema, dataModel, setDataModel]);
 
   const disabled = useMemo(
     () => comparisonModeEnabled || !form.formState.isValid,
@@ -81,7 +81,7 @@ export const SearchView = ({
           {children}
           <AreaOfInterest />
           <div className='flex-1 overflow-y-auto pb-4'>
-            <DynamicTreeForm tree={currentTreeModel} />
+            <DynamicTreeForm tree={dataModel.treeModel} />
           </div>
           <div className='mt-auto shadow-date-range-picker p-4'>
             <DateRangePicker dateMin={minDate} dateMax={today} />

@@ -1,3 +1,5 @@
+import cloneDeep from 'lodash/cloneDeep';
+
 import { TIActionCreatorStoreState } from './action-creator/action-creator.model';
 import { getActionCreatorStoreState, useActionCreatorStore } from './action-creator/action-creator.store';
 import { IAoiStore } from './aoi/aoi.model';
@@ -86,12 +88,16 @@ const restoreDataSetsStoreState = (mode: TMode) => {
   const currentState = getItemFromLocalStorage<TDataSetsStore>(storeKeys.DATA_SETS(mode));
 
   if (!currentState) {
-    useDataSetsStore.getState().updateDataSets(undefined);
     useDataSetsStore.getState().changeSchema(mode);
     return;
   }
 
-  useDataSetsStore.setState(currentState);
+  useDataSetsStore.setState(
+    cloneDeep({
+      ...currentState,
+      supportedDataSets: currentState.supportedDataSets ? currentState.supportedDataSets : undefined,
+    })
+  );
 };
 
 const restoreDateStoreState = (mode: TMode) => {
