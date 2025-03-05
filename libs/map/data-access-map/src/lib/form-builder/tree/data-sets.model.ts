@@ -67,20 +67,21 @@ export type TDataSetsValues = {
   };
   private: {
     expanded: boolean;
-    planet: {
-      enabled: boolean;
-      planetScope: {
-        enabled: boolean;
-        expanded?: boolean;
+    planet?: {
+      enabled?: boolean;
+      expanded?: boolean;
+      planetScope?: {
+        enabled?: boolean;
       };
-      skySat: {
-        enabled: boolean;
-        expanded?: boolean;
+      skySat?: {
+        enabled?: boolean;
       };
-      rapidEye: {
-        enabled: boolean;
-        expanded?: boolean;
+      rapidEye?: {
+        enabled?: boolean;
       };
+    };
+    airbus?: {
+      expanded?: boolean;
     };
   };
 };
