@@ -11,11 +11,13 @@ interface IChecklistStore {
   toggle: (permanentHidden?: boolean) => void;
   show: () => void;
   isAoiValid: boolean;
-  setAoi: (valid: boolean) => void;
+  setAoiValid: (valid: boolean) => void;
   isDataSetsValid: boolean;
-  setDataSets: (valid: boolean) => void;
+  setDataSetsValid: (valid: boolean) => void;
   isDateRangeValid: boolean;
-  setDateRange: (valid: boolean) => void;
+  setDateRangeValid: (valid: boolean) => void;
+  isDateRangeUpdated: boolean;
+  setDateRangeState: (updated: boolean) => void;
   setMode: (mode: TMode) => void;
 }
 
@@ -29,6 +31,7 @@ const useChecklistStore = create<IChecklistStore>()(
         isAoiValid: false,
         isDataSetsValid: false,
         isDateRangeValid: false,
+        isDateRangeUpdated: false,
         toggle: (permanentHidden?: boolean) =>
           set((state) => ({
             open: !state.open,
@@ -39,9 +42,38 @@ const useChecklistStore = create<IChecklistStore>()(
             open: true,
             permanentHidden: false,
           })),
-        setAoi: (valid: boolean) => set(() => ({ isAoiValid: valid })),
-        setDataSets: (valid: boolean) => set(() => ({ isDataSetsValid: valid })),
-        setDateRange: (valid: boolean) => set(() => ({ isDateRangeValid: valid })),
+        setAoiValid: (valid: boolean) =>
+          set((state) => {
+            if (valid === state.isAoiValid) {
+              return state;
+            }
+
+            return { isAoiValid: valid };
+          }),
+        setDataSetsValid: (valid: boolean) =>
+          set((state) => {
+            if (valid === state.isDataSetsValid) {
+              return state;
+            }
+
+            return { isDataSetsValid: valid };
+          }),
+        setDateRangeValid: (valid: boolean) =>
+          set((state) => {
+            if (valid === state.isDateRangeValid) {
+              return state;
+            }
+
+            return { isDateRangeValid: valid };
+          }),
+        setDateRangeState: (updated: boolean) =>
+          set((state) => {
+            if (updated === state.isDateRangeUpdated) {
+              return state;
+            }
+
+            return { isDateRangeUpdated: updated };
+          }),
         setMode: (mode: TMode) => set(() => ({ mode })),
       }),
       {
@@ -67,6 +99,7 @@ export const useChecklistState = () => {
     isAoiValid: state.isAoiValid,
     isDataSetsValid: state.isDataSetsValid,
     isDateRangeValid: state.isDateRangeValid,
+    isDateRangeUpdated: state.isDateRangeUpdated,
   }));
 };
 
@@ -75,13 +108,9 @@ export const useChecklist = () => {
     toggle: state.toggle,
     show: state.show,
     setMode: state.setMode,
-  }));
-};
-
-export const useSetValidation = () => {
-  return useChecklistStore((state) => ({
-    setAoiValid: state.setAoi,
-    setDataSetsValid: state.setDataSets,
-    setDateRangeValid: state.setDateRange,
+    setAoiValid: state.setAoiValid,
+    setDataSetsValid: state.setDataSetsValid,
+    setDateRangeValid: state.setDateRangeValid,
+    setDateRangeState: state.setDateRangeState,
   }));
 };
