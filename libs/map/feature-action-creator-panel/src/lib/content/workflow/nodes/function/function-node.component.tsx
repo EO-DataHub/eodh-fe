@@ -8,9 +8,10 @@ import {
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { ActionCreator } from '../../../../action-creator-panel.context';
 import { useActiveDataSet } from '../data-set/use-active-dataset.hook';
 import { EmptyNode } from '../empty-node.component';
 import { TOption, TValue } from '../node-select.component';
@@ -115,11 +116,12 @@ interface IFunctionNodeProps {
 }
 
 export const NodeFunction = ({ node }: IFunctionNodeProps) => {
+  const { enabled } = useContext(ActionCreator);
   const {
     context: { goToNextOnboardingStep, onboardingSteps },
   } = useOnboarding();
   const { setActiveNode, setValue, canActivateNode } = useActionCreator();
-  const { data, isLoading } = useFunctions();
+  const { data, isLoading } = useFunctions({ enabled });
   const nodeRef = useRef<HTMLDivElement>(null);
   const canBeActivated = useMemo(() => canActivateNode(node), [node, canActivateNode]);
 
