@@ -1115,9 +1115,6 @@ interface Resources {
                 NAME: 'RapidEye';
               };
             };
-            AIR_BUS: {
-              NAME: 'AirBus';
-            };
             AUXILIARY: {
               NAME: 'Auxiliary';
               GLOBAL_LAND_COVER: 'Global Land Cover';
@@ -1147,27 +1144,6 @@ interface Resources {
                 SETTINGS: {
                   L2A_ARD: 'L2A ARD';
                   MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
-                };
-              };
-              SENTINEL_3: {
-                NAME: 'Sentinel-3';
-                SETTINGS: {
-                  SLSTR: 'SLSTR';
-                  MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
-                  OLCI: 'OLCI';
-                };
-              };
-              SENTINEL_5P: {
-                NAME: 'Sentinel-5P';
-                SETTINGS: {
-                  AER_AI: 'AER AI (Aerosol Index)';
-                  CH4: 'CH4 (Methane)';
-                  CLOUD: 'Cloud';
-                  CO: 'CO (Carbon monoxide)';
-                  HCHO: 'HCHO (Formaldehyde)';
-                  NO2: 'NO2 (Nitrogen dioxide)';
-                  O3: 'O3 (Ozone)';
-                  SO2: 'SO2 (Sulfur dioxide)';
                 };
               };
             };
