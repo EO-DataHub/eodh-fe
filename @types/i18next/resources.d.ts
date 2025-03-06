@@ -1104,7 +1104,7 @@ interface Resources {
             COMMERCIAL: 'Commercial';
             PUBLIC: 'Public';
             PLANET: {
-              NAME: 'Planet (Coming soon)';
+              NAME: 'Planet';
               PLANET_SCOPE: {
                 NAME: 'Planet Scope';
               };
