@@ -1,5 +1,5 @@
 import { Icon } from '@ukri/shared/design-system';
-import { useCallback,useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 
 import { SquareButton } from '../../components/square-button/square-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
@@ -13,9 +13,9 @@ export const DrawCircleButton = ({ disabled }: IDrawCircleButtonProps) => {
 
   const selected = useMemo(() => drawingTool?.type === 'circle' && drawingTool.enabled, [drawingTool]);
 
- const drawCircle = useCallback(() => {
+  const drawCircle = useCallback(() => {
     toggleDrawingToolShape('circle');
-  }, [ toggleDrawingToolShape]);
+  }, [toggleDrawingToolShape]);
 
   return (
     <SquareButton selected={selected} disabled={disabled} onClick={drawCircle}>

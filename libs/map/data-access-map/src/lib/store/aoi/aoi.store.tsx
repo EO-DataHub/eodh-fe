@@ -54,7 +54,8 @@ export const useAoiStore = create<IAoiStore>()(
 );
 
 export const getAoiStoreState = (): TAoiStoreState => {
-  const { show, hide, changeState, toggleVisibility, shape, toggleDrawingToolShape, setDrawingTool, ...rest } = useAoiStore.getState();
+  const { show, hide, changeState, toggleVisibility, shape, toggleDrawingToolShape, setDrawingTool, ...rest } =
+    useAoiStore.getState();
 
   return { ...rest };
 };

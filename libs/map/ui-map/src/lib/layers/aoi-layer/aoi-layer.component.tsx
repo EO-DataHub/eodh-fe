@@ -14,7 +14,7 @@ export type TAoiLayer = {
   layer: TVectorLayer | undefined;
   draw: TDraw | undefined;
   setDraw: (draw: TDraw | undefined) => void;
-  toggleDrawingToolShape: (shape: "rectangle" | "polygon" | "circle" | "line") => void
+  toggleDrawingToolShape: (shape: 'rectangle' | 'polygon' | 'circle' | 'line') => void;
   drawingTool: { enabled: boolean; type: 'rectangle' | 'polygon' | 'circle' | 'line' } | undefined;
 };
 
@@ -32,12 +32,10 @@ const defaultValues: TAoiLayer = {
 export const AoiLayerContext = createContext<TAoiLayer>(defaultValues);
 
 export const AoiLayer = ({ children }: PropsWithChildren) => {
-  const { source, layer, draw, setDraw,  drawingTool, toggleDrawingToolShape } = useAoiLayer();
+  const { source, layer, draw, setDraw, drawingTool, toggleDrawingToolShape } = useAoiLayer();
 
   return (
-    <AoiLayerContext.Provider
-      value={{ source, layer, draw, setDraw, toggleDrawingToolShape, drawingTool }}
-    >
+    <AoiLayerContext.Provider value={{ source, layer, draw, setDraw, toggleDrawingToolShape, drawingTool }}>
       <EditModeProvider>{children}</EditModeProvider>
     </AoiLayerContext.Provider>
   );

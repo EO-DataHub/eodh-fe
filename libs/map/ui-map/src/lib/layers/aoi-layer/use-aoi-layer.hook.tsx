@@ -69,14 +69,12 @@ export const useAoiLayer = () => {
     };
   }, [shape?.shape, source, fitToLayer]);
 
-  useEffect(() => {  
+  useEffect(() => {
     if (!draw?.draw) {
-      return;  
-    }  
+      return;
+    }
     draw.draw.setActive(!!drawingTool?.enabled);
   }, [draw?.draw, drawingTool?.enabled]);
-
- 
 
   useEffect(() => {
     if (!draw?.draw) {
@@ -94,10 +92,10 @@ export const useAoiLayer = () => {
     return () => {
       map.removeInteraction(draw.draw);
     };
-  }, [map, draw, setShape, setDraw, drawingTool, setDrawingTool]);  
+  }, [map, draw, setShape, setDraw, drawingTool, setDrawingTool]);
 
   useEffect(() => {
-   if (drawingTool?.type === 'rectangle') {
+    if (drawingTool?.type === 'rectangle') {
       const rectangle = new Draw({
         geometryName: 'Rectangle',
         type: 'Circle',
@@ -106,18 +104,18 @@ export const useAoiLayer = () => {
       });
 
       setDraw({ draw: rectangle, type: 'rectangle' });
-   }
+    }
 
-   if (drawingTool?.type === 'polygon') {
-        const polygon = new Draw({
+    if (drawingTool?.type === 'polygon') {
+      const polygon = new Draw({
         geometryName: 'Polygon',
         type: 'Polygon',
       });
 
       setDraw({ draw: polygon, type: 'polygon' });
-   }
+    }
 
-  if (drawingTool?.type === 'circle') {
+    if (drawingTool?.type === 'circle') {
       const circle = new Draw({
         geometryName: 'Circle',
         type: 'Circle',
@@ -126,7 +124,6 @@ export const useAoiLayer = () => {
 
       setDraw({ draw: circle, type: 'circle' });
     }
-
   }, [drawingTool, setDraw]);
 
   useEffect(() => {
@@ -135,7 +132,7 @@ export const useAoiLayer = () => {
     }
 
     layer.setVisible(visible);
-  }, [layer, visible]);  
+  }, [layer, visible]);
 
   return useMemo(
     () => ({

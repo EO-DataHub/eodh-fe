@@ -1,5 +1,5 @@
 import { Icon } from '@ukri/shared/design-system';
-import { useCallback,useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 
 import { SquareButton } from '../../components/square-button/square-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
@@ -14,7 +14,7 @@ export const DrawRectangleButton = ({ disabled }: IDrawRectangleButtonProps) => 
 
   const drawRectangle = useCallback(() => {
     toggleDrawingToolShape('rectangle');
-  }, [ toggleDrawingToolShape]);
+  }, [toggleDrawingToolShape]);
 
   return (
     <SquareButton selected={selected} disabled={disabled} onClick={drawRectangle}>
