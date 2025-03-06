@@ -1,4 +1,5 @@
 import { TDataSetValue, useDataSets } from '@ukri/map/data-access-map';
+import { useCallback } from 'react';
 
 // fix for UKRIW-819
 const hotFixCollectionNotExistingOnBe = 'sentinel-2';
@@ -6,12 +7,16 @@ const hotFixCollectionNotExistingOnBe = 'sentinel-2';
 type TUseActiveDataSet = {
   dataSet: TDataSetValue | undefined;
   error: boolean;
-  updateDataSets: ReturnType<typeof useDataSets>['updateDataSets'];
+  clearDataSets: () => void;
 };
 
 export const useActiveDataSet = (): TUseActiveDataSet => {
   const { dataSets, updateDataSets } = useDataSets();
   const enabled: TDataSetValue[] = [];
+
+  const clearDataSets = useCallback(() => {
+    updateDataSets(undefined, 'action-creator');
+  }, [updateDataSets]);
 
   if (dataSets.public.copernicus.sentinel1?.enabled) {
     enabled.push('sentinel-1');
@@ -25,14 +30,6 @@ export const useActiveDataSet = (): TUseActiveDataSet => {
     } else {
       enabled.push(hotFixCollectionNotExistingOnBe);
     }
-  }
-
-  if (dataSets.public.copernicus.sentinel3?.enabled) {
-    enabled.push('sentinel-3');
-  }
-
-  if (dataSets.public.copernicus.sentinel5P?.enabled) {
-    enabled.push('sentinel-5p');
   }
 
   if (dataSets.public.auxiliary?.esacciGloballc?.enabled) {
@@ -53,6 +50,6 @@ export const useActiveDataSet = (): TUseActiveDataSet => {
   return {
     dataSet: hasError ? undefined : enabled[0],
     error: hasError,
-    updateDataSets,
+    clearDataSets,
   };
 };

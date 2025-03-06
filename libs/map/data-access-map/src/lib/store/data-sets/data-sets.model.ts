@@ -26,7 +26,7 @@ export type TDataSetsStore<T = TDataSetsValues> = {
     filteredDataSets: string[] | undefined;
   };
   state: TDataSetsState;
-  updateDataSets: (state: T | undefined) => void;
+  updateDataSets: (state: T | undefined, schema: TSchema) => void;
   changeSchema: (schema: TSchema) => void;
   changeState: (state: TDataSetsState) => void;
   setDataSet: (dataSet: TDataSetValue | string | undefined) => void;

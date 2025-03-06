@@ -17,8 +17,8 @@ export const dataSetsDisabledMap: { [key in TDataSetValue]: string[] } = {
     '0.children.0.children.1.options.disabled',
     '0.children.0.children.1.children.0.options.disabled',
   ],
-  'sentinel-3': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.2.options.disabled'],
-  'sentinel-5p': ['0.options.disabled', '0.children.0.options.disabled', '0.children.0.children.3.options.disabled'],
+  'sentinel-3': [],
+  'sentinel-5p': [],
   'esacci-globallc': [
     '0.options.disabled',
     '0.children.1.options.disabled',
@@ -56,26 +56,6 @@ export const getValuesForDataSet = (
       set(newValues, 'public.copernicus.sentinel2.enabled', true);
       set(newValues, 'public.copernicus.sentinel2.expanded', true);
       set(newValues, 'public.copernicus.sentinel2.l2aARD', dataSet === 'sentinel-2-l2a-ard');
-
-      break;
-    }
-
-    case 'sentinel-3': {
-      if (!state.dataSets.public.copernicus.sentinel3) {
-        return state;
-      }
-
-      set(newValues, 'public.copernicus.sentinel3.enabled', true);
-
-      break;
-    }
-
-    case 'sentinel-5p': {
-      if (!state.dataSets.public.copernicus.sentinel5P) {
-        return state;
-      }
-
-      set(newValues, 'public.copernicus.sentinel5P.enabled', true);
 
       break;
     }

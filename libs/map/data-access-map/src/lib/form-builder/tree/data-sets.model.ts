@@ -28,25 +28,6 @@ export type TDataSetsValues = {
         l2aARD: boolean;
         cloudCoverage: number;
       };
-      sentinel3?: {
-        enabled: boolean;
-        expanded: boolean;
-        slstr: boolean;
-        cloudCoverage: number;
-        olci: boolean;
-      };
-      sentinel5P?: {
-        enabled: boolean;
-        expanded: boolean;
-        aer_ai: boolean;
-        ch4: boolean;
-        cloud: boolean;
-        co: boolean;
-        hcho: boolean;
-        no2: boolean;
-        o3: boolean;
-        so2: boolean;
-      };
     };
     auxiliary?: {
       expanded?: boolean;
@@ -68,6 +49,7 @@ export type TDataSetsValues = {
   private: {
     expanded: boolean;
     planet: {
+      expanded: boolean;
       enabled: boolean;
       planetScope: {
         enabled: boolean;

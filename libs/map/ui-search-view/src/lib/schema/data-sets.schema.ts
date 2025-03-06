@@ -58,8 +58,6 @@ export const dataSetsActionCreatorUpdateSchema = z.object({
       const enabledItems = [
         schema.copernicus.sentinel1.enabled,
         schema.copernicus.sentinel2.enabled,
-        schema.copernicus.sentinel3.enabled,
-        schema.copernicus.sentinel5P.enabled,
         schema.auxiliary.clmsCorinelc.enabled,
         schema.auxiliary.clmsWaterBodies.enabled,
         schema.auxiliary.esacciGloballc.enabled,
@@ -76,18 +74,6 @@ export const dataSetsActionCreatorUpdateSchema = z.object({
           code: z.ZodIssueCode.custom,
           message: notDisplayedErrorMessage,
           path: ['copernicus.sentinel2.enabled'],
-        });
-
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: notDisplayedErrorMessage,
-          path: ['copernicus.sentinel3.enabled'],
-        });
-
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: notDisplayedErrorMessage,
-          path: ['copernicus.sentinel5P.enabled'],
         });
 
         ctx.addIssue({

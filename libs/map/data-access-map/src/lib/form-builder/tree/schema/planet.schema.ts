@@ -47,7 +47,7 @@ export const planetSearchSchema: IDynamicTreeCategory = {
   type: 'category',
   controls: {
     expand: {
-      name: 'private.planet.enabled',
+      name: 'private.planet.expanded',
       type: 'expand',
       value: true,
     },
@@ -68,9 +68,14 @@ export const planetActionCreatorSchema: IDynamicTreeCategory = {
   type: 'category',
   controls: {
     expand: {
-      name: 'private.planet.enabled',
+      name: 'private.planet.expanded',
       type: 'expand',
       value: true,
+    },
+    value: {
+      name: 'private.planet.enabled',
+      type: 'checkbox',
+      value: false,
     },
   },
   options: {

@@ -38,7 +38,7 @@ export type {
 export type { TDataSetValue } from './lib/store/action-creator/action-creator.schema';
 export type { TBaseFunction } from './lib/store/action-creator/node.utils';
 export { useFunctions } from './lib/query/function/function.query';
-export { useCreateWorkflow, useCreateWorkflowStatus } from './lib/mutation/workflow.mutation';
+export { useCreateWorkflow, useCreateWorkflowStatus, clearWorkflowCache } from './lib/mutation/workflow.mutation';
 export type { TFunction } from './lib/query/function/function.model';
 export type { TPreset } from './lib/query/presets/presets.model';
 export { useCollectionInfo } from './lib/query/collection-info/collection-info.query';

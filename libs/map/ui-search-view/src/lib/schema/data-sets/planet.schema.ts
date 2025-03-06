@@ -14,6 +14,7 @@ const rapidEyeSchema = z.object({
 
 export const planetSchema = z.object({
   enabled: z.boolean(),
+  expanded: z.boolean(),
   planetScope: planetScopeSchema.extend({
     expanded: z.boolean().optional(),
     enabled: z.boolean(),
