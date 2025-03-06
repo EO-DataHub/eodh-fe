@@ -1,6 +1,5 @@
 import { Icon } from '@ukri/shared/design-system';
-import { Draw } from 'ol/interaction.js';
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback,useContext, useMemo } from 'react';
 
 import { SquareButton } from '../../components/square-button/square-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
@@ -10,23 +9,13 @@ interface IDrawPolygonButtonProps {
 }
 
 export const DrawPolygonButton = ({ disabled }: IDrawPolygonButtonProps) => {
-  const { draw, setDraw } = useContext(AoiLayerContext);
+  const { drawingTool, toggleDrawingToolShape } = useContext(AoiLayerContext);
 
-  const selected = useMemo(() => draw?.type === 'polygon', [draw?.type]);
+  const selected = useMemo(() => drawingTool?.type === 'polygon' && drawingTool.enabled, [drawingTool]);
 
   const drawPolygon = useCallback(() => {
-    if (draw?.type === 'polygon') {
-      setDraw(undefined);
-      return;
-    }
-
-    const polygon = new Draw({
-      geometryName: 'Polygon',
-      type: 'Polygon',
-    });
-
-    setDraw({ draw: polygon, type: 'polygon' });
-  }, [draw, setDraw]);
+    toggleDrawingToolShape('polygon');
+  }, [ toggleDrawingToolShape]);
 
   return (
     <SquareButton selected={selected} disabled={disabled} onClick={drawPolygon}>

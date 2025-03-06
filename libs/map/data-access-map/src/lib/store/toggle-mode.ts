@@ -61,11 +61,13 @@ const restoreAoiStoreState = (mode: TMode) => {
   if (!currentState) {
     useAoiStore.getState().setShape(undefined);
     useAoiStore.getState().changeState(newStoreState);
+    useAoiStore.getState().setDrawingTool(undefined);
     return;
   }
 
   useAoiStore.setState(currentState);
   useAoiStore.getState().setShape(currentState.coordinates);
+  useAoiStore.getState().setDrawingTool(currentState.drawingTool);
   useAoiStore.getState().changeState(newStoreState);
 };
 

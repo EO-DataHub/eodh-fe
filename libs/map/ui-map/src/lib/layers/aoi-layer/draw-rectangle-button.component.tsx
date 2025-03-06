@@ -1,7 +1,5 @@
 import { Icon } from '@ukri/shared/design-system';
-import { Draw } from 'ol/interaction.js';
-import { createBox } from 'ol/interaction/Draw.js';
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback,useContext, useMemo } from 'react';
 
 import { SquareButton } from '../../components/square-button/square-button.component';
 import { AoiLayerContext } from './aoi-layer.component';
@@ -11,24 +9,12 @@ interface IDrawRectangleButtonProps {
 }
 
 export const DrawRectangleButton = ({ disabled }: IDrawRectangleButtonProps) => {
-  const { draw, setDraw } = useContext(AoiLayerContext);
-  const selected = useMemo(() => draw?.type === 'rectangle', [draw?.type]);
+  const { drawingTool, toggleDrawingToolShape } = useContext(AoiLayerContext);
+  const selected = useMemo(() => drawingTool?.type === 'rectangle' && drawingTool.enabled, [drawingTool]);
 
   const drawRectangle = useCallback(() => {
-    if (draw?.type === 'rectangle') {
-      setDraw(undefined);
-      return;
-    }
-
-    const rectangle = new Draw({
-      geometryName: 'Rectangle',
-      type: 'Circle',
-      geometryFunction: createBox(),
-      freehand: true,
-    });
-
-    setDraw({ draw: rectangle, type: 'rectangle' });
-  }, [draw, setDraw]);
+    toggleDrawingToolShape('rectangle');
+  }, [ toggleDrawingToolShape]);
 
   return (
     <SquareButton selected={selected} disabled={disabled} onClick={drawRectangle}>
