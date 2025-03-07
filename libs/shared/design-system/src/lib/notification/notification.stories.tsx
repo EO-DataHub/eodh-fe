@@ -34,7 +34,6 @@ const SampleSet = () => (
       <p className='text-medium-regular mt-6 mb-3'>In case of trouble reach to our help desk</p>
     </Notification>
     <Notification type='warning'>Warning message.</Notification>
-    <Notification type='warning-light'>Warning light message.</Notification>
     <Notification type='success'>Success message.</Notification>
     <Notification type='information'>Information message.</Notification>
     <Notification type='general'>Info message.</Notification>

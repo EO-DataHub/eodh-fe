@@ -4,7 +4,7 @@ import { Icon, TIconNames } from '../icon/icon';
 import { notificationStyles } from './notification.styles';
 
 interface INotificationProps {
-  type: 'error' | 'warning' | 'warning-light' | 'success' | 'information' | 'general';
+  type: 'error' | 'warning' | 'success' | 'information' | 'general';
   children: ReactNode | string;
   className?: string;
   iconName?: TIconNames;

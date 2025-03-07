@@ -3,7 +3,6 @@ export const notificationStyles = {
   type: {
     error: 'bg-error text-error-contrastText',
     warning: 'bg-warning text-warning-contrastText',
-    'warning-light': 'bg-warning-light text-error',
     success: 'bg-success text-success-contrastText',
     information: 'bg-information text-information-contrastText',
     general: 'bg-bright-light text-text-primary',

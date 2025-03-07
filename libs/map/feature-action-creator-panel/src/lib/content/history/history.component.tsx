@@ -5,6 +5,7 @@ import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-
 import { styles } from './history.styles';
 import { HistoryTile } from './history-tile/history-tile.component';
 import { SortFilter } from './sort-filter/sort-filter.component';
+import { ToggleWorkflowButton } from './toggle-workflow-button.component';
 import { useHistoryData } from './use-history-data.hook';
 import { useLoadHistoryResults } from './use-load-history-results.hook';
 
@@ -122,11 +123,17 @@ export const History = () => {
               workflowId={workflow.workflowId}
               submittedAtDate={workflow.submittedAtDate}
               status={workflow.status}
-              selectedResult={selectedResult}
-              loadResultsStatus={status}
-              onHide={hideResults}
-              onShow={() => showResults(workflow.jobId, workflow.workflowId)}
-            />
+              selected={selectedResult === workflow.jobId}
+            >
+              <ToggleWorkflowButton
+                selected={selectedResult === workflow.jobId}
+                selectedJobId={selectedResult}
+                loadResultsStatus={status}
+                workflowStatus={workflow.status}
+                onHide={hideResults}
+                onShow={() => showResults(workflow.jobId, workflow.workflowId)}
+              />
+            </HistoryTile>
           ))}
 
           {hasNextPage && (
