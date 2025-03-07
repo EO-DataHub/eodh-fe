@@ -38,11 +38,23 @@ export const useAoiStore = create<IAoiStore>()(
     hide: () => set(() => ({ visible: false })),
     changeState: (state: TAoiState) => set(() => ({ state })),
     setDrawingTool: (drawingTool?: TDrawingTool) => set(() => ({ drawingTool })),
+    toggleDrawingToolShape: (shape: TDrawingTool['type']) =>
+      set((state) => {
+        if (state.drawingTool?.type === shape) {
+          return { drawingTool: undefined };
+        }
+        return {
+          drawingTool: {
+            enabled: true,
+            type: shape,
+          },
+        };
+      }),
   }))
 );
 
 export const getAoiStoreState = (): TAoiStoreState => {
-  const { show, hide, changeState, toggleVisibility, shape, drawingTool, setDrawingTool, ...rest } =
+  const { show, hide, changeState, toggleVisibility, shape, toggleDrawingToolShape, setDrawingTool, ...rest } =
     useAoiStore.getState();
 
   return { ...rest };
@@ -61,6 +73,7 @@ export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
     hide: state.hide,
     changeState: state.changeState,
     drawingTool: state.drawingTool,
+    toggleDrawingToolShape: state.toggleDrawingToolShape,
     setDrawingTool: state.setDrawingTool,
   }));
 };
