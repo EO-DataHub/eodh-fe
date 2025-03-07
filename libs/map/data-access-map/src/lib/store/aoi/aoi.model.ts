@@ -22,6 +22,7 @@ export interface IAoiStore {
   show: () => void;
   hide: () => void;
   changeState: (state: TAoiState) => void;
+  toggleDrawingToolShape: (shape: TDrawingTool['type']) => void;
   setDrawingTool: (drawingTool?: TDrawingTool) => void;
 }
 
@@ -35,5 +36,6 @@ export type TAoiStoreState = Omit<
   | 'changeState'
   | 'updateShape'
   | 'drawingTool'
+  | 'toggleDrawingToolShape'
   | 'setDrawingTool'
 >;

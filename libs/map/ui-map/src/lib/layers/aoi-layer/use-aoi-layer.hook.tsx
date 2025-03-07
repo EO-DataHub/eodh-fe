@@ -3,6 +3,7 @@ import { Extent } from 'ol/extent';
 import Feature from 'ol/Feature';
 import { Draw } from 'ol/interaction.js';
 import { DrawEvent } from 'ol/interaction/Draw';
+import { createBox } from 'ol/interaction/Draw.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -15,7 +16,7 @@ export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
 export const useAoiLayer = () => {
   const map = useContext(MapContext);
-  const { visible, shape, fitToAoi, setShape, setDrawingTool } = useAoi();
+  const { visible, shape, fitToAoi, setShape, toggleDrawingToolShape, setDrawingTool, drawingTool } = useAoi();
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
@@ -72,23 +73,61 @@ export const useAoiLayer = () => {
     if (!draw?.draw) {
       return;
     }
+    draw.draw.setActive(!!drawingTool?.enabled);
+  }, [draw?.draw, drawingTool?.enabled]);
+
+  useEffect(() => {
+    if (!draw?.draw) {
+      return;
+    }
 
     draw.draw.on('drawstart', () => setShape(undefined));
     draw.draw.on('drawend', (event: DrawEvent) => {
       map.removeInteraction(draw.draw);
       setShape({ type: draw.type, shape: event.feature.getGeometry() });
-      setDraw(undefined);
+      setDrawingTool(undefined);
     });
     map.addInteraction(draw.draw);
 
     return () => {
       map.removeInteraction(draw.draw);
     };
-  }, [map, draw, setShape, setDraw]);
+  }, [map, draw, setShape, setDraw, drawingTool, setDrawingTool]);
 
   useEffect(() => {
-    setDrawingTool(draw ? { enabled: true, type: draw.type } : undefined);
-  }, [draw, setDrawingTool]);
+    switch (drawingTool?.type) {
+      case 'rectangle': {
+        const rectangle = new Draw({
+          geometryName: 'Rectangle',
+          type: 'Circle',
+          geometryFunction: createBox(),
+          freehand: true,
+        });
+        setDraw({ draw: rectangle, type: 'rectangle' });
+        break;
+      }
+      case 'polygon': {
+        const polygon = new Draw({
+          geometryName: 'Polygon',
+          type: 'Polygon',
+        });
+        setDraw({ draw: polygon, type: 'polygon' });
+        break;
+      }
+      case 'circle': {
+        const circle = new Draw({
+          geometryName: 'Circle',
+          type: 'Circle',
+          freehand: true,
+        });
+        setDraw({ draw: circle, type: 'circle' });
+        break;
+      }
+      default: {
+        setDraw(undefined);
+      }
+    }
+  }, [drawingTool, setDraw]);
 
   useEffect(() => {
     if (!layer) {
@@ -104,7 +143,9 @@ export const useAoiLayer = () => {
       draw,
       setDraw,
       source,
+      toggleDrawingToolShape,
+      drawingTool,
     }),
-    [draw, source, layer]
+    [draw, source, layer, setDraw, drawingTool, toggleDrawingToolShape]
   );
 };

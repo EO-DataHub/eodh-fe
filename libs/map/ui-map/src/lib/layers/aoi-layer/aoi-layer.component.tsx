@@ -14,6 +14,8 @@ export type TAoiLayer = {
   layer: TVectorLayer | undefined;
   draw: TDraw | undefined;
   setDraw: (draw: TDraw | undefined) => void;
+  toggleDrawingToolShape: (shape: 'rectangle' | 'polygon' | 'circle' | 'line') => void;
+  drawingTool: { enabled: boolean; type: 'rectangle' | 'polygon' | 'circle' | 'line' } | undefined;
 };
 
 const defaultValues: TAoiLayer = {
@@ -22,15 +24,18 @@ const defaultValues: TAoiLayer = {
   draw: undefined,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setDraw: () => {},
+  drawingTool: undefined,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  toggleDrawingToolShape: () => {},
 };
 
 export const AoiLayerContext = createContext<TAoiLayer>(defaultValues);
 
 export const AoiLayer = ({ children }: PropsWithChildren) => {
-  const { source, layer, draw, setDraw } = useAoiLayer();
+  const { source, layer, draw, setDraw, drawingTool, toggleDrawingToolShape } = useAoiLayer();
 
   return (
-    <AoiLayerContext.Provider value={{ source, layer, draw, setDraw }}>
+    <AoiLayerContext.Provider value={{ source, layer, draw, setDraw, toggleDrawingToolShape, drawingTool }}>
       <EditModeProvider>{children}</EditModeProvider>
     </AoiLayerContext.Provider>
   );

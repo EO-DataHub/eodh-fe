@@ -1,5 +1,4 @@
 import { Icon } from '@ukri/shared/design-system';
-import { Draw } from 'ol/interaction.js';
 import { useCallback, useContext, useMemo } from 'react';
 
 import { SquareButton } from '../../components/square-button/square-button.component';
@@ -10,23 +9,13 @@ interface IDrawCircleButtonProps {
 }
 
 export const DrawCircleButton = ({ disabled }: IDrawCircleButtonProps) => {
-  const { draw, setDraw } = useContext(AoiLayerContext);
-  const selected = useMemo(() => draw?.type === 'circle', [draw?.type]);
+  const { drawingTool, toggleDrawingToolShape } = useContext(AoiLayerContext);
+
+  const selected = useMemo(() => drawingTool?.type === 'circle' && drawingTool.enabled, [drawingTool]);
 
   const drawCircle = useCallback(() => {
-    if (draw?.type === 'circle') {
-      setDraw(undefined);
-      return;
-    }
-
-    const circle = new Draw({
-      geometryName: 'Circle',
-      type: 'Circle',
-      freehand: true,
-    });
-
-    setDraw({ draw: circle, type: 'circle' });
-  }, [draw, setDraw]);
+    toggleDrawingToolShape('circle');
+  }, [toggleDrawingToolShape]);
 
   return (
     <SquareButton selected={selected} disabled={disabled} onClick={drawCircle}>
