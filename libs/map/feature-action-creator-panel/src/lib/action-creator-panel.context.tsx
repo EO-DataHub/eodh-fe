@@ -32,11 +32,10 @@ export const ActionCreator = createContext<TActionCreatorState>(actionCreatorDef
 
 export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const [collapsed, setCollapsed] = useState(actionCreatorDefaultState.collapsed);
-  const { mode, toggleMode } = useMode();
+  const { mode, toggleMode, view, changeView, changeMode } = useMode();
   const { authenticated } = useAuth();
   const { status: workflowStatus, hasWorkflowsToProcess } = useWorkflow();
   const { enable, disable, activeTab, setActiveTab } = useActionCreator();
-  const { view, changeView } = useMode();
   const hideModal = useCloseTabsFlowModal();
   const { permanentHidden } = useTabsFlowModalState();
   const setTabsFlowModalOpen = useOpenTabsFlowModal();
@@ -50,6 +49,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     context: { showOnboardingTooltip, hideOnboardingTooltip, enableOnboarding, disableOnboarding },
   } = useOnboarding();
   const { isOpen: isTabsFlowModalOpen } = useTabsFlowModalState();
+  const actionCreatorEnabled = useMemo(() => mode === 'action-creator', [mode]);
 
   useWorkflowStatus({ enabled: shouldEnableWorkflow });
 
@@ -93,9 +93,11 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
       }
 
       setActiveTab(newTab);
-      toggleActionCreatorState(newTab);
+      if (actionCreatorEnabled) {
+        toggleActionCreatorState(newTab);
+      }
     },
-    [activeTab, markAsRead, setActiveTab, switchView, toggleActionCreatorState]
+    [activeTab, markAsRead, setActiveTab, switchView, actionCreatorEnabled, toggleActionCreatorState]
   );
 
   const toggle = useCallback(() => {
@@ -126,8 +128,14 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     disableOnboarding,
   ]);
 
+  useEffect(() => {
+    if (!authenticated) {
+      changeMode('search');
+    }
+  }, [authenticated, changeMode]);
+
   return (
-    <ActionCreator.Provider value={{ collapsed, collapse, toggle, changeTab, enabled: mode === 'action-creator' }}>
+    <ActionCreator.Provider value={{ collapsed, collapse, toggle, changeTab, enabled: actionCreatorEnabled }}>
       {children}
     </ActionCreator.Provider>
   );

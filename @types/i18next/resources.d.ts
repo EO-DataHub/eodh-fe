@@ -212,6 +212,10 @@ interface Resources {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
             AOI_MISSING: 'Area of Interest is missing.';
             INVALID_DATE_RANGE: 'End date cannot be before start date.';
+            NO_DATA_IN_SELECTED_DATE_RANGE: {
+              WITH_DATE_RANGE: 'Invalid date range for selected STAC collection: {{collection}}. Valid range is between {{dateFrom}} and {{dateTo}}';
+              WITH_DATE_START: 'Invalid start date for selected STAC collection: {{collection}}. Valid start date begins {{dateFrom}}';
+            };
             COLLECTION_NOT_SUPPORTED: 'Collection {{collection}} cannot be used with {{function}} function! Valid options are: {{options}}.';
             NO_ITEMS_TO_PROCESS: 'No STAC items found for the selected configuration. Adjust area, data set, date range, or functions and try again.';
           };
@@ -301,7 +305,7 @@ interface Resources {
                 QUESTION: 'How do I select a data set for my workflow?';
                 ANSWER: [
                   [
-                    'Click on the "Data set" block in the Action Creator panel.',
+                    'Click on the "Data Set" block in the Action Creator panel.',
                     ['Note: the block is clickable if node before is already filled in.'],
                     'The left-side menu will display available data sets.',
                     'Choose a data set (e.g., Sentinel-1).',
@@ -1111,9 +1115,6 @@ interface Resources {
                 NAME: 'RapidEye';
               };
             };
-            AIR_BUS: {
-              NAME: 'AirBus';
-            };
             AUXILIARY: {
               NAME: 'Auxiliary';
               GLOBAL_LAND_COVER: 'Global Land Cover';
@@ -1143,27 +1144,6 @@ interface Resources {
                 SETTINGS: {
                   L2A_ARD: 'L2A ARD';
                   MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
-                };
-              };
-              SENTINEL_3: {
-                NAME: 'Sentinel-3';
-                SETTINGS: {
-                  SLSTR: 'SLSTR';
-                  MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
-                  OLCI: 'OLCI';
-                };
-              };
-              SENTINEL_5P: {
-                NAME: 'Sentinel-5P';
-                SETTINGS: {
-                  AER_AI: 'AER AI (Aerosol Index)';
-                  CH4: 'CH4 (Methane)';
-                  CLOUD: 'Cloud';
-                  CO: 'CO (Carbon monoxide)';
-                  HCHO: 'HCHO (Formaldehyde)';
-                  NO2: 'NO2 (Nitrogen dioxide)';
-                  O3: 'O3 (Ozone)';
-                  SO2: 'SO2 (Sulfur dioxide)';
                 };
               };
             };

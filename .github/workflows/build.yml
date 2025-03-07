@@ -4,7 +4,7 @@ on:
 jobs:
   CheckLint:
     name: 'Run linter and prettier'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: 'Clone repository'
         uses: actions/checkout@v4
@@ -25,7 +25,7 @@ jobs:
         run: npm run format:check
   RunTests:
     name: 'Run tests'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: 'Clone repository'
         uses: actions/checkout@v4
@@ -41,7 +41,7 @@ jobs:
         run: npm run test:unit
   RunStorybookTests:
     name: 'Run Storybook Tests'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: 'Clone repository'
         uses: actions/checkout@v4
@@ -59,7 +59,7 @@ jobs:
         run: npm run test:storybook:ci
   BuildAndPublish:
     name: 'Build and publish'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: 'Clone repository'
         uses: actions/checkout@v4

@@ -11,11 +11,15 @@ const presets = async (): Promise<TPreset[]> => {
   return presetsSchema.parse(response).presets;
 };
 
-export const useGetPresets = () => {
+type TGetPresetsOptions = {
+  enabled?: boolean;
+};
+
+export const useGetPresets = ({ enabled = true }: TGetPresetsOptions) => {
   return useQuery<TExtractFnReturnType<typeof presets>>({
     queryKey: queryKey.PRESETS(),
     queryFn: () => presets(),
-    enabled: true,
+    enabled,
     staleTime: 60 * 1000,
   });
 };

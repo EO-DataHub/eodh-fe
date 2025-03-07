@@ -1,6 +1,6 @@
 import { Icon, Toggle } from '@ukri/shared/design-system';
 import { useAuth } from '@ukri/shared/utils/authorization';
-import { useCallback, useContext } from 'react';
+import { useContext } from 'react';
 
 import { ActionCreator } from '../action-creator-panel.context';
 import { Tabs } from './tabs.component';
@@ -20,10 +20,6 @@ export const Header = () => {
   const { collapsed, enabled, toggle: toggleMode } = useContext(ActionCreator);
   const { authenticated } = useAuth();
 
-  const handleToggleAc = useCallback(() => {
-    toggleMode();
-  }, [toggleMode]);
-
   return (
     <>
       <header>
@@ -33,7 +29,7 @@ export const Header = () => {
             label='MAP.ACTION_CREATOR_PANEL.HEADER.ACTION_CREATOR'
             checked={enabled}
             disabled={!authenticated}
-            onChange={handleToggleAc}
+            onChange={toggleMode}
           />
 
           <div className='flex text-neutral-light gap-2'>

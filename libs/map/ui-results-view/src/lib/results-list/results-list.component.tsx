@@ -32,7 +32,8 @@ const ActionButtons = ({
   onCompareItemToggle,
   onToggleSelectedItem,
 }: IActionButtons) => {
-  const canShowDownloadButton = useFeatureFlag('downloadAsset');
+  const downloadingAssetsEnabled = useFeatureFlag('downloadAsset');
+  const canShowDownloadButton = downloadingAssetsEnabled && mode === 'action-creator';
 
   if (mode === 'action-creator' && hasManyIndices(feature)) {
     return <MultipleItemsActionButtons feature={feature} canDownload={canShowDownloadButton} />;
@@ -43,7 +44,7 @@ const ActionButtons = ({
       selected={selected}
       comparisonEnabled={comparisonEnabled}
       addedForComparison={addedForComparison}
-      canDownload={false}
+      canDownload={canShowDownloadButton}
       canCompare={canCompare}
       onDownload={onDownload}
       onCompareItemToggle={onCompareItemToggle}

@@ -24,23 +24,6 @@ export type TCopernicusSearchParams = {
     l2aARD: boolean;
     cloudCoverage: number;
   };
-  sentinel3: {
-    enabled: boolean;
-    slstr: boolean;
-    cloudCoverage: number;
-    olci: boolean;
-  };
-  sentinel5P: {
-    enabled: boolean;
-    aer_ai: boolean;
-    ch4: boolean;
-    cloud: boolean;
-    co: boolean;
-    hcho: boolean;
-    no2: boolean;
-    o3: boolean;
-    so2: boolean;
-  };
 };
 
 export type TCatalogSearchParams = {

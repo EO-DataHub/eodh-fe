@@ -1,5 +1,4 @@
 import { IDynamicTreeCategory } from '../tree-dynamic.model';
-import { aibusSchema } from './airbus.schema';
 import { planetActionCreatorSchema, planetSearchSchema } from './planet.schema';
 
 export const privateSearchSchema: IDynamicTreeCategory = {
@@ -16,7 +15,7 @@ export const privateSearchSchema: IDynamicTreeCategory = {
       value: true,
     },
   },
-  children: [planetSearchSchema, aibusSchema],
+  children: [planetSearchSchema],
 };
 
 export const privateActionCreatorSchema: IDynamicTreeCategory = {
@@ -33,5 +32,5 @@ export const privateActionCreatorSchema: IDynamicTreeCategory = {
       value: true,
     },
   },
-  children: [planetActionCreatorSchema, aibusSchema],
+  children: [planetActionCreatorSchema],
 };

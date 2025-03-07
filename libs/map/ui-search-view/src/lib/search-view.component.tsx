@@ -7,7 +7,6 @@ import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { AreaOfInterest } from './aoi.component';
-import { useChecklist } from './checklist/checklist.store';
 import { useSyncChecklistState } from './checklist/use-checklist.hook';
 import { DateRangePicker } from './date-range-picker/date-range-picker.component';
 import { DynamicTreeForm } from './dynamic-tree-form/tree.component';
@@ -25,7 +24,7 @@ type TSearchPanelProps = {
   defaultValues?: TInitialForm;
   treeModel: TDynamicTreeModel;
   onSubmit: (data: TUpdateForm) => unknown | Promise<unknown>;
-  onChange?: (data: TInitialForm) => unknown | Promise<unknown>;
+  onChange?: (data: TInitialForm, schema: TSchema) => unknown | Promise<unknown>;
 };
 
 export const SearchView = ({
@@ -37,7 +36,7 @@ export const SearchView = ({
   treeModel,
   children,
 }: PropsWithChildren<TSearchPanelProps>) => {
-  const [currentTreeModel, setCurrentTreeModel] = useState(treeModel);
+  const [dataModel, setDataModel] = useState({ schema, treeModel });
   const [initialValues] = useState(defaultValues);
   const form = useForm<TInitialForm, unknown, TUpdateForm>({
     defaultValues: initialValues,
@@ -45,11 +44,10 @@ export const SearchView = ({
     reValidateMode: 'onChange',
   });
   const { shape } = useAoi();
-  const { setMode } = useChecklist();
   const { comparisonModeEnabled } = useComparisonMode();
 
   useFormUpdate(form, schema, onChange);
-  useSyncChecklistState(schema, state, form.formState.touchedFields, form.formState.dirtyFields, form.formState.errors);
+  useSyncChecklistState(form, schema, state);
 
   useEffect(() => {
     const { aoi, ...rest } = { ...form.getValues(), ...form.watch() };
@@ -66,14 +64,10 @@ export const SearchView = ({
       }
     }
 
-    if (!isEqual(treeModel, currentTreeModel)) {
-      setCurrentTreeModel(treeModel);
+    if (!isEqual(treeModel, dataModel.treeModel) || schema !== dataModel.schema) {
+      setDataModel({ schema, treeModel });
     }
-  }, [form, defaultValues, shape?.shape, state, treeModel, currentTreeModel]);
-
-  useEffect(() => {
-    setMode(schema);
-  }, [schema, setMode]);
+  }, [form, defaultValues, shape?.shape, state, treeModel, schema, dataModel, setDataModel]);
 
   const disabled = useMemo(
     () => comparisonModeEnabled || !form.formState.isValid,
@@ -87,7 +81,7 @@ export const SearchView = ({
           {children}
           <AreaOfInterest />
           <div className='flex-1 overflow-y-auto pb-4'>
-            <DynamicTreeForm tree={currentTreeModel} />
+            <DynamicTreeForm tree={dataModel.treeModel} />
           </div>
           <div className='mt-auto shadow-date-range-picker p-4'>
             <DateRangePicker dateMin={minDate} dateMax={today} />
