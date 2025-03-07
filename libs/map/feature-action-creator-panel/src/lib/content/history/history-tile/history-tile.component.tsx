@@ -1,28 +1,12 @@
-import { Text } from '@ukri/shared/design-system';
+import { Button,Text } from '@ukri/shared/design-system';
 import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
-import { PropsWithChildren, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { historyTileStyles } from './history-tile.styles';
-
-const Tag = ({ status }: { status: 'READY' | 'PROCESSING' | 'FAILED' }) => {
-  const tagStyles = {
-    READY: 'bg-success text-success-contrastText',
-    PROCESSING: 'bg-warning text-bright',
-    FAILED: 'bg-error text-error-contrastText',
-  };
-  return (
-    <div className={clsx('rounded h-5 flex items-center', tagStyles[status])}>
-      <Text
-        content={`MAP.ACTION_CREATOR_PANEL.HISTORY.STATUS.${status}`}
-        fontSize='small'
-        fontWeight='bold'
-        className='mx-1.5 my-[3px] uppercase'
-      />
-    </div>
-  );
-};
+import { Tag } from './tag.component';
+import { ToggleWorkflowButton } from './toggle-workflow-button.component';
 
 const truncateString = (str: string, maxLength: number) => {
   if (str.length > maxLength) {
@@ -36,8 +20,11 @@ export interface IHistoryTileProps {
   workflowId: string;
   submittedAtDate: string;
   status?: 'READY' | 'PROCESSING' | 'FAILED';
-  selected: boolean;
   className?: string;
+  selectedResult: string | null;
+  loadResultsStatus: 'pending' | 'error' | 'success';
+  onHide: () => void;
+  onShow: () => void;
 }
 
 export const HistoryTile = ({
@@ -46,12 +33,16 @@ export const HistoryTile = ({
   submittedAtDate,
   status,
   className,
-  selected,
-  children,
-}: PropsWithChildren<IHistoryTileProps>) => {
+  selectedResult,
+  loadResultsStatus,
+  onHide,
+  onShow,
+}: IHistoryTileProps) => {
+  const [ deleteInProgress, setDeleteInProgress ] = useState(false);
   const { t } = useTranslation();
   const submittedHour = useMemo(() => formatHour(createDateString(submittedAtDate)), [submittedAtDate]);
   const submittedDate = useMemo(() => formatDate(createDateString(submittedAtDate), 'DD-MM-YY'), [submittedAtDate]);
+  const selected = useMemo(() => selectedResult === jobId, [selectedResult, jobId]);
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
@@ -79,8 +70,31 @@ export const HistoryTile = ({
         </div>
       </div>
       <div className={historyTileStyles.section}>
-        {status && <Tag status={status} />}
-        {children}
+        {deleteInProgress ? (
+          <Text content={t('MAP.ACTION_CREATOR_PANEL.HISTORY.DELETING')} fontSize='medium' fontWeight='regular' />
+        ) : (
+          <>
+            {status && <Tag status={status} />}
+            <div className='flex space-x-2'>
+             <Button
+                text={t('MAP.ACTION_CREATOR_PANEL.HISTORY.DELETE')}
+                size='medium'
+                appearance='text'
+                onClick={() => setDeleteInProgress(true)}
+                disabled={deleteInProgress}
+              />
+              <ToggleWorkflowButton
+                selected={selected}
+                selectedJobId={selectedResult}
+                loadResultsStatus={loadResultsStatus}
+                workflowStatus={status}
+                onHide={onHide}
+                onShow={onShow}
+              />
+            </div>
+             
+          </>
+        )}
       </div>
     </div>
   );

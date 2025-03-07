@@ -186,6 +186,7 @@
         "NO_RESULTS_MESSAGE": "You haven't run any workflows yet. Start by creating a new workflow in the Workflow tab.",
         "VIEW_RESULTS": "View results",
         "HIDE_RESULTS": "Hide results",
+        "DELETE": "Delete",
         "SAVED_ON": "Saved on",
         "SAVED_AT": "at",
         "ID": "ID",

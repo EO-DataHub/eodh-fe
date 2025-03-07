@@ -59,7 +59,7 @@ const restoreAoiStoreState = (mode: TMode) => {
   const newStoreState = mode === 'action-creator' ? 'readonly' : 'edit';
 
   if (!currentState) {
-    useAoiStore.getState().setShape(undefined);
+    useAoiStore.getState().setShape(undefined); 
     useAoiStore.getState().changeState(newStoreState);
     useAoiStore.getState().setDrawingTool(undefined);
     return;
