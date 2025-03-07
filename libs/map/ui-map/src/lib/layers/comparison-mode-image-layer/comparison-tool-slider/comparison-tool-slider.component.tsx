@@ -16,7 +16,6 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
   const map = useContext(MapContext);
   const { item1, item2 } = useContext(ComparisonContext);
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
-  const slider = sliderRef.current;
 
   const updateSliderPosition = useCallback(
     (newSliderPosition: number) => {
@@ -43,6 +42,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
 
   const onMouseMove = useCallback(
     (event: MouseEvent) => {
+      const slider = sliderRef.current;
       if (!slider) {
         return;
       }
@@ -57,7 +57,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
 
       updateSliderPosition(newSliderPosition);
     },
-    [map, updateSliderPosition, slider]
+    [map, updateSliderPosition]
   );
 
   const onMouseUp = useCallback(() => {
