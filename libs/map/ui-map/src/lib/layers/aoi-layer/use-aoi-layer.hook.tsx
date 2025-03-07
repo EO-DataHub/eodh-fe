@@ -95,34 +95,37 @@ export const useAoiLayer = () => {
   }, [map, draw, setShape, setDraw, drawingTool, setDrawingTool]);
 
   useEffect(() => {
-    if (drawingTool?.type === 'rectangle') {
+    switch (drawingTool?.type) {
+    case 'rectangle': {
       const rectangle = new Draw({
         geometryName: 'Rectangle',
         type: 'Circle',
         geometryFunction: createBox(),
         freehand: true,
       });
-
       setDraw({ draw: rectangle, type: 'rectangle' });
+    break;
     }
-
-    if (drawingTool?.type === 'polygon') {
+    case 'polygon': {
       const polygon = new Draw({
         geometryName: 'Polygon',
         type: 'Polygon',
       });
-
       setDraw({ draw: polygon, type: 'polygon' });
+    break;
     }
-
-    if (drawingTool?.type === 'circle') {
+    case 'circle': {
       const circle = new Draw({
         geometryName: 'Circle',
         type: 'Circle',
         freehand: true,
       });
-
-      setDraw({ draw: circle, type: 'circle' });
+      setDraw({ draw: circle, type: 'circle' });  
+    break;
+    }
+    default: {
+      setDraw(undefined);
+    }
     }
   }, [drawingTool, setDraw]);
 
