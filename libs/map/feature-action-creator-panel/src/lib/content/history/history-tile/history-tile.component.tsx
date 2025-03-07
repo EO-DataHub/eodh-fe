@@ -1,4 +1,4 @@
-import { Button,Text } from '@ukri/shared/design-system';
+import { Button, Text } from '@ukri/shared/design-system';
 import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
@@ -38,7 +38,7 @@ export const HistoryTile = ({
   onHide,
   onShow,
 }: IHistoryTileProps) => {
-  const [ deleteInProgress, setDeleteInProgress ] = useState(false);
+  const [deleteInProgress, setDeleteInProgress] = useState(false);
   const { t } = useTranslation();
   const submittedHour = useMemo(() => formatHour(createDateString(submittedAtDate)), [submittedAtDate]);
   const submittedDate = useMemo(() => formatDate(createDateString(submittedAtDate), 'DD-MM-YY'), [submittedAtDate]);
@@ -76,7 +76,7 @@ export const HistoryTile = ({
           <>
             {status && <Tag status={status} />}
             <div className='flex space-x-2'>
-             <Button
+              <Button
                 text={t('MAP.ACTION_CREATOR_PANEL.HISTORY.DELETE')}
                 size='medium'
                 appearance='text'
@@ -92,7 +92,6 @@ export const HistoryTile = ({
                 onShow={onShow}
               />
             </div>
-             
           </>
         )}
       </div>
