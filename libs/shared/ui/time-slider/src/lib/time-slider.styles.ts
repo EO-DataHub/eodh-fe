@@ -25,6 +25,6 @@ export const sliderStyles = (disabled?: boolean) => `h-2
   ${
     disabled
       ? '[&_.MuiSlider-thumb]:bg-[#B4BBCA] [&_.MuiSlider-track]:bg-[#B4BBCA]'
-      : '[&_.MuiSlider-thumb]:bg-blue-600   [&_.MuiSlider-track]:bg-blue-600'
+      : '[&_.MuiSlider-thumb]:bg-[#4483FF] [&_.MuiSlider-track]:bg-[#4483FF]'
   }
   `;
