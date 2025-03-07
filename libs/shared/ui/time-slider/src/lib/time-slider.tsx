@@ -11,7 +11,7 @@ import {
 import { useCallback, useMemo } from 'react';
 
 import { CustomLabel, CustomMark, ValueLabelComponent } from './custom-components';
-import { sliderStyles } from './time-slider.styles';
+import { sliderBgStyles, sliderStyles } from './time-slider.styles';
 
 const getMarks = (minNum: number, maxNum: number) => {
   const result = [];
@@ -29,7 +29,7 @@ const getMarks = (minNum: number, maxNum: number) => {
 };
 
 interface ITimeSliderProps {
-  min: TDateString;
+  min: TDateString; 
   max: TDateString;
   selectedMin?: TDateString;
   selectedMax?: TDateString;
@@ -76,8 +76,8 @@ export const TimeSlider = ({
   const marks = useMemo(() => (minNum && maxNum ? getMarks(minNum, maxNum) : []), [minNum, maxNum]);
 
   return (
-    <div className={`${sliderStyles.container} ${className}`}>
-      <div className={sliderStyles.innerContainer}>
+    <div className={`${sliderBgStyles.container} ${className}`}>
+      <div className={sliderBgStyles.innerContainer}>
         <Slider
           value={initialSliderValue}
           onChange={updateSliderValue}
@@ -91,7 +91,7 @@ export const TimeSlider = ({
             mark: CustomMark,
             markLabel: CustomLabel,
           }}
-          className={sliderStyles.slider}
+          className={sliderStyles(disabled)}
           disabled={disabled}
           disableSwap
         />
