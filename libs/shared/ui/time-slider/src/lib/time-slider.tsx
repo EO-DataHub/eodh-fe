@@ -29,7 +29,7 @@ const getMarks = (minNum: number, maxNum: number) => {
 };
 
 interface ITimeSliderProps {
-  min: TDateString; 
+  min: TDateString;
   max: TDateString;
   selectedMin?: TDateString;
   selectedMax?: TDateString;

@@ -3,7 +3,7 @@ export const sliderBgStyles = {
   innerContainer: 'w-full px-6 pb-4 pt-[17px] absolute top-0',
 };
 
-export const sliderStyles = (disabled?: boolean) =>  `h-2
+export const sliderStyles = (disabled?: boolean) => `h-2
   [&_.MuiSlider-track]:border-none
   [&_.MuiSlider-track]:h-[5px]
   [&_.MuiSlider-track]:z-10
@@ -22,8 +22,9 @@ export const sliderStyles = (disabled?: boolean) =>  `h-2
   [&_.MuiSlider-mark]:w-0.5
   [&_.MuiSlider-markLabel]:text-gray-500
   [&_.MuiSlider-markLabel]:text-xs 
-  ${disabled ? 
-    '[&_.MuiSlider-thumb]:bg-[#B4BBCA] [&_.MuiSlider-track]:bg-[#B4BBCA]'
-    :
-    '[&_.MuiSlider-thumb]:bg-blue-600   [&_.MuiSlider-track]:bg-blue-600'}
+  ${
+    disabled
+      ? '[&_.MuiSlider-thumb]:bg-[#B4BBCA] [&_.MuiSlider-track]:bg-[#B4BBCA]'
+      : '[&_.MuiSlider-thumb]:bg-blue-600   [&_.MuiSlider-track]:bg-blue-600'
+  }
   `;
