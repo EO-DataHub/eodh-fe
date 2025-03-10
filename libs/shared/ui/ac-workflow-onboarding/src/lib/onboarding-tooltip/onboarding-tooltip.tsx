@@ -85,7 +85,7 @@ export const OnboardingTooltip = ({
       authenticated &&
       visible;
     setTooltipVisible(visibility);
-    if(visibility) {
+    if (visibility) {
       setIsOpen(true);
     }
   }, [

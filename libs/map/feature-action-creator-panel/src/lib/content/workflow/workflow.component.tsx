@@ -61,9 +61,9 @@ export const Workflow = () => {
   const { isOpen } = useTabsFlowModalState();
   const { aoiLimit } = useSettings();
   const { comparisonModeEnabled } = useComparisonMode();
-    const {
-      context: { resetOnboarding },
-    } = useOnboarding();
+  const {
+    context: { resetOnboarding },
+  } = useOnboarding();
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
