@@ -14,6 +14,7 @@ import {
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
+import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useSettings } from '@ukri/shared/utils/settings';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 
@@ -60,6 +61,9 @@ export const Workflow = () => {
   const { isOpen } = useTabsFlowModalState();
   const { aoiLimit } = useSettings();
   const { comparisonModeEnabled } = useComparisonMode();
+    const {
+      context: { resetOnboarding },
+    } = useOnboarding();
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
@@ -131,6 +135,7 @@ export const Workflow = () => {
             header='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.WORKFLOW.HEADER'
             content='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.WORKFLOW.CONTENT'
             ctaText='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.WORKFLOW.CTA_BUTTON'
+            onClick={resetOnboarding}
           />
         )}
         <ComparisonModeModal />
