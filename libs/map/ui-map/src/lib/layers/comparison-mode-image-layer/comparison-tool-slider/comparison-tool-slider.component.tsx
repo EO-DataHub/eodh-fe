@@ -40,24 +40,26 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
     updateSliderPosition(defaultSliderPosition);
   }, [updateSliderPosition]);
 
+  const updateStyles = useCallback((newSliderPosition: number) => {
+    const slider = sliderRef.current;
+    if (!slider) {
+      return;
+    }
+    slider.style.left = `${newSliderPosition * 100}%`;
+  }, []);
+
   const onMouseMove = useCallback(
     (event: MouseEvent) => {
-      const slider = sliderRef.current;
-      if (!slider) {
-        return;
-      }
-
       const rect = map.getTargetElement()?.getBoundingClientRect();
       if (!rect) {
         return;
       }
       let newSliderPosition = (event.clientX - rect.left) / rect.width;
       newSliderPosition = Math.max(0, Math.min(1, newSliderPosition));
-      slider.style.left = `${newSliderPosition * 100}%`;
-
       updateSliderPosition(newSliderPosition);
+      updateStyles(newSliderPosition);
     },
-    [map, updateSliderPosition]
+    [map, updateSliderPosition, updateStyles]
   );
 
   const onMouseUp = useCallback(() => {
