@@ -40,6 +40,45 @@ const sentinel1CedaPropertySchema = z
     'sar:polarizations': data.Polarisation,
   }));
 
+const skySatPropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    cloud_percent: z.number(),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    'eo:cloud_cover': data.cloud_percent,
+    'grid:code': undefined,
+  }));
+
+const rapidEyePropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    cloud_cover: z.number().transform((value) => value * 100),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    'eo:cloud_cover': data.cloud_cover,
+    'grid:code': undefined,
+  }));
+
+const planetScopePropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    cloud_percent: z.number(),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    'eo:cloud_cover': data.cloud_percent,
+    'grid:code': undefined,
+  }));
+
 const propertySchema = z.object({
   datetime: z.custom<NonNullable<TDateString>>(
     (value) => !z.string().datetime({ offset: true }).safeParse(value).error
@@ -65,17 +104,17 @@ const linkSchema = z.object({
     z.literal('next').optional(),
   ]),
   type: z.string().optional(),
-  title: z.string().optional(),
+  title: z.string().nullish(),
   merge: z.boolean().optional(),
   method: z.string().optional(),
   body: z.object({}).passthrough().optional(),
 });
 
 const assetSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
+  title: z.string().nullish(),
+  description: z.string().nullish(),
   href: z.string(),
-  type: z.string().optional(),
+  type: z.string().nullish(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
   'raster:bands': z
@@ -102,7 +141,13 @@ const waterQualitySchema = assetSchema.extend({
 const featureSchema = z.object({
   type: z.literal('Feature'),
   geometry: geometrySchema,
-  properties: propertySchema.or(sentinel1CedaPropertySchema),
+  properties: z.union([
+    propertySchema,
+    sentinel1CedaPropertySchema,
+    skySatPropertySchema,
+    rapidEyePropertySchema,
+    planetScopePropertySchema,
+  ]),
   id: z.string(),
   bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
   stac_version: z.string(),
@@ -121,39 +166,11 @@ const featureSchema = z.object({
   collection: z.string(),
 });
 
-const collectionSchemaV1 = z.object({
+export const collectionSchema = z.object({
   type: z.literal('FeatureCollection'),
   features: z.array(featureSchema),
   links: z.array(linkSchema),
-  context: z.object({
-    returned: z.number(),
-    limit: z.number().optional(),
-    matched: z.number().optional(),
-    next: z.number().optional(),
-  }),
 });
-
-const collectionSchemaV2 = z
-  .object({
-    type: z.literal('FeatureCollection'),
-    features: z.array(featureSchema),
-    links: z.array(linkSchema),
-    numReturned: z.number(),
-    numMatched: z.number(),
-  })
-  .transform((data) => ({
-    type: data.type,
-    features: data.features,
-    links: data.links,
-    context: {
-      returned: data.numReturned,
-      limit: undefined,
-      matched: data.numMatched,
-      next: undefined,
-    },
-  }));
-
-export const collectionSchema = collectionSchemaV1.or(collectionSchemaV2);
 
 export type TAssetName = keyof TFeature['assets'];
 export type TGeometry = z.infer<typeof geometrySchema>;

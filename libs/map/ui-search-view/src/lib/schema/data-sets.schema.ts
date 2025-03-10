@@ -7,43 +7,82 @@ import {
   copernicusUpdateActionCreatorSchema,
   copernicusUpdateSchema,
 } from './data-sets/copernicus.schema';
-import { planetSchema } from './data-sets/planet.schema';
+import { planetInitialSchema, planetUpdateSchema } from './data-sets/planet.schema';
 
 const notDisplayedErrorMessage = '';
+
+const airBusSchema = z
+  .object({
+    expanded: z.boolean().optional(),
+  })
+  .optional();
 
 export const dataSetsSearchInitialSchema = z.object({
   status: z.union([z.literal('initial'), z.literal('updated')]),
   public: z.object({
     expanded: z.boolean(),
     copernicus: copernicusInitialSearchSchema,
+    auxiliary: auxiliaryInitialSchema.optional(),
   }),
   private: z.object({
     expanded: z.boolean(),
-    planet: planetSchema,
+    planet: planetInitialSchema,
+    airbus: airBusSchema,
   }),
 });
 
-export const dataSetsSearchUpdateSchema = z.object({
-  public: z.object({
-    expanded: z.boolean(),
-    copernicus: copernicusUpdateSchema,
-  }),
-  private: z.object({
-    expanded: z.boolean(),
-    planet: planetSchema,
-  }),
-});
+export const dataSetsSearchUpdateSchema = z
+  .object({
+    public: z.object({
+      expanded: z.boolean(),
+      copernicus: copernicusUpdateSchema,
+      auxiliary: auxiliaryInitialSchema.optional(),
+    }),
+    private: z.object({
+      expanded: z.boolean(),
+      planet: planetUpdateSchema,
+      airbus: airBusSchema,
+    }),
+  })
+  .superRefine((schema, ctx) => {
+    const isCopernicusSatelliteEnabled =
+      schema.public.copernicus.sentinel1.enabled || schema.public.copernicus.sentinel2.enabled;
+    const isPlanetSatelliteEnabled =
+      schema.private.planet.planetScope.enabled ||
+      schema.private.planet.rapidEye.enabled ||
+      schema.private.planet.skySat.enabled;
+
+    if (isCopernicusSatelliteEnabled && isPlanetSatelliteEnabled) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'MAP.SEARCH_VIEW.VALIDATION.ONLY_ONE_COLLECTION_IS_REQUIRED',
+        path: ['private.planet.planetScope.enabled'],
+      });
+    } else if (!isCopernicusSatelliteEnabled && !isPlanetSatelliteEnabled) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+        path: ['public.copernicus'],
+      });
+
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
+        path: ['private.planet'],
+      });
+    }
+  });
 
 export const dataSetsActionCreatorInitialSchema = z.object({
   status: z.union([z.literal('initial'), z.literal('updated')]),
   public: z.object({
     expanded: z.boolean(),
     copernicus: copernicusInitialUpdateSchema,
-    auxiliary: auxiliaryInitialSchema,
+    auxiliary: auxiliaryInitialSchema.optional(),
   }),
   private: z.object({
     expanded: z.boolean(),
-    planet: planetSchema,
+    planet: planetInitialSchema.optional(),
   }),
 });
 
@@ -97,6 +136,6 @@ export const dataSetsActionCreatorUpdateSchema = z.object({
     }),
   private: z.object({
     expanded: z.boolean(),
-    planet: planetSchema,
+    planet: planetInitialSchema.optional(),
   }),
 });

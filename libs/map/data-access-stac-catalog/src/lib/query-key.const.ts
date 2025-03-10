@@ -1,4 +1,4 @@
-import { TQuery, TQueryParams } from './query-builder/query.builder';
+import { TQuery, TQueryParams } from './query-builder/public/query.builder';
 
 const QUERY_KEY = {
   CATALOG_SEARCH: 'catalog-search',

@@ -3,8 +3,6 @@ import { z } from 'zod';
 import { sentinel1Refine, sentinel1Schema } from './sentinel-1.schema';
 import { sentinel2ActionCreatorRefine, sentinel2Schema, sentinel2SearchRefine } from './sentinel-2.schema';
 
-const notDisplayedErrorMessage = '';
-
 export const copernicusInitialSearchSchema = z.object({
   enabled: z.boolean().optional(),
   expanded: z.boolean(),
@@ -37,7 +35,7 @@ export const copernicusInitialUpdateSchema = z.object({
     })
     .optional(),
 });
-export const copernicusUpdateSearchSchema = z.object({
+export const copernicusUpdateSchema = z.object({
   sentinel1: sentinel1Schema.superRefine(sentinel1Refine),
   sentinel2: sentinel2Schema.superRefine(sentinel2SearchRefine),
 });
@@ -45,20 +43,4 @@ export const copernicusUpdateSearchSchema = z.object({
 export const copernicusUpdateActionCreatorSchema = z.object({
   sentinel1: sentinel1Schema.superRefine(sentinel1Refine),
   sentinel2: sentinel2Schema.superRefine(sentinel2ActionCreatorRefine),
-});
-
-export const copernicusUpdateSchema = copernicusUpdateSearchSchema.superRefine((schema, ctx) => {
-  if (!schema.sentinel1.enabled && !schema.sentinel2.enabled) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'MAP.SEARCH_VIEW.VALIDATION.ONE_OF_FIELDS_REQUIRED',
-      path: ['sentinel1'],
-    });
-
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: notDisplayedErrorMessage,
-      path: ['sentinel2'],
-    });
-  }
 });
