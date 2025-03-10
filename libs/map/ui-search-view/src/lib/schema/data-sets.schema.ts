@@ -46,10 +46,7 @@ export const dataSetsSearchUpdateSchema = z
   })
   .superRefine((schema, ctx) => {
     const isCopernicusSatelliteEnabled =
-      schema.public.copernicus.sentinel1.enabled ||
-      schema.public.copernicus.sentinel2.enabled ||
-      schema.public.copernicus.sentinel3.enabled ||
-      schema.public.copernicus.sentinel5P.enabled;
+      schema.public.copernicus.sentinel1.enabled || schema.public.copernicus.sentinel2.enabled;
     const isPlanetSatelliteEnabled =
       schema.private.planet.planetScope.enabled ||
       schema.private.planet.rapidEye.enabled ||
