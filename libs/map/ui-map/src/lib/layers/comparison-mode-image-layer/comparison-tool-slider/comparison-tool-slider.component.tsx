@@ -16,7 +16,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
   const map = useContext(MapContext);
   const { item1, item2 } = useContext(ComparisonContext);
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
-  
+
   const updateSliderPosition = useCallback(
     (newSliderPosition: number) => {
       if (!map || !map.getView() || !map.getView().getCenter() || !item1 || !item2) {
@@ -40,16 +40,13 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
     updateSliderPosition(defaultSliderPosition);
   }, [updateSliderPosition]);
 
-  const updateStyles = useCallback(
-    (newSliderPosition: number) => {
-      const slider = sliderRef.current;
-      if (!slider) {
-        return;
-      }
-      slider.style.left = `${newSliderPosition * 100}%`;
-    },
-    []
-  );
+  const updateStyles = useCallback((newSliderPosition: number) => {
+    const slider = sliderRef.current;
+    if (!slider) {
+      return;
+    }
+    slider.style.left = `${newSliderPosition * 100}%`;
+  }, []);
 
   const onMouseMove = useCallback(
     (event: MouseEvent) => {
