@@ -1,5 +1,7 @@
 export { useCatalogSearch } from './lib/stac-catalog.query';
-export { useGraphSearch } from './lib/graph.query';
-export type { TCollection, TGeometry, TFeature, TAsset, TAssetName } from './lib/stac.model';
-export type { TChartData, TRangeAreaWithLineChartData, TStackBarChartData } from './lib/graph.model';
+export { getAllPages } from './lib/stac-model/collection.schema';
+export type { TCollection, TFeature, TAsset, TAssetName } from './lib/stac-model/collection.schema';
+export type { TGeometry } from './lib/stac-model/geometry.schema';
+export type { TRangeAreaWithLine, TStackBar } from './lib/stac-model/graph.model';
+export { isRangeAreaWithLineSchema, isStackBarSchema } from './lib/stac-model/graph.model';
 export { NoWorkflowResultsFoundError } from './lib/workflow.error';

@@ -1,5 +1,10 @@
 import { useComparisonMode, useMode, useResults } from '@ukri/map/data-access-map';
-import { TRangeAreaWithLineChartData, TStackBarChartData, useGraphSearch } from '@ukri/map/data-access-stac-catalog';
+import {
+  getAllPages,
+  isRangeAreaWithLineSchema,
+  isStackBarSchema,
+  useCatalogSearch,
+} from '@ukri/map/data-access-stac-catalog';
 import { Error, Icon } from '@ukri/shared/design-system';
 import { useMemo } from 'react';
 
@@ -11,11 +16,10 @@ const chartHeight = 160;
 
 export const GraphAnalytics = () => {
   const { searchParams } = useResults();
-  const { data, status } = useGraphSearch({ params: searchParams });
+  const { data, status } = useCatalogSearch({ params: searchParams });
   const { mode } = useMode();
   const { comparisonModeEnabled } = useComparisonMode();
-  const chartType = useMemo(() => [...(data?.pages || [])]?.pop()?.chartType, [data?.pages]);
-  const assets = useMemo(() => data?.pages.map((item) => item.assets).flat() || [], [data?.pages]);
+  const allPages = useMemo(() => getAllPages(data), [data]);
 
   if (mode !== 'action-creator' || comparisonModeEnabled) {
     return null;
@@ -25,7 +29,7 @@ export const GraphAnalytics = () => {
     return <ChartLoader height={chartHeight} />;
   }
 
-  if (status === 'error' || !data || !Object.entries(assets).length) {
+  if (status === 'error' || !data || !allPages?.features.length) {
     return (
       <div className='w-full'>
         <Error
@@ -37,33 +41,21 @@ export const GraphAnalytics = () => {
     );
   }
 
-  switch (chartType) {
-    case 'stacked-bar': {
-      return (
-        <div className='w-full'>
-          <StackedBarChart
-            data={(assets as unknown as TStackBarChartData['assets']).data.data}
-            categories={(assets as unknown as TStackBarChartData['assets']).data.categories}
-            unit={(assets as unknown as TStackBarChartData['assets']).data.unit}
-            height={chartHeight}
-          />
-        </div>
-      );
-    }
-
-    case 'range-area-with-line': {
-      return (
-        <div className='w-full'>
-          <RangeAreaWithLineMultipleSeriesChart
-            series={assets as unknown as TRangeAreaWithLineChartData['assets']}
-            height={chartHeight}
-          />
-        </div>
-      );
-    }
-
-    default: {
-      return null;
-    }
+  if (isStackBarSchema(allPages)) {
+    return (
+      <div className='w-full'>
+        <StackedBarChart id={searchParams?.id} features={allPages.features} height={chartHeight} />
+      </div>
+    );
   }
+
+  if (isRangeAreaWithLineSchema(allPages)) {
+    return (
+      <div className='w-full'>
+        <RangeAreaWithLineMultipleSeriesChart id={searchParams?.id} features={allPages.features} height={chartHeight} />
+      </div>
+    );
+  }
+
+  return null;
 };
