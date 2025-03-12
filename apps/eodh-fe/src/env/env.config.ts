@@ -1,7 +1,6 @@
 import { getValue } from './get-value';
 import {
   getCEDACatalogueUrl,
-  getChartsUrl,
   getCollectionInfoUrl,
   getElement84CatalogueUrl,
   getEodhProUrl,
@@ -26,7 +25,6 @@ declare const config: {
   http: {
     proxyConfig: {
       EODH_PRO_API_URL: string;
-      EODH_CHARTS_API_URL: string;
       EODH_COLLECTION_INFO_API_URL: string;
       EODH_ELEMENT_84_CATALOGUE_API_URL: string;
       EODH_CEDA_CATALOGUE_API_URL: string;
@@ -56,7 +54,6 @@ interface IEnvConfig {
     http: {
       proxyConfig: {
         EODH_PRO_API_URL: string;
-        EODH_CHARTS_API_URL: string;
         EODH_COLLECTION_INFO_API_URL: string;
         EODH_ELEMENT_84_CATALOGUE_API_URL: string;
         EODH_CEDA_CATALOGUE_API_URL: string;
@@ -99,7 +96,6 @@ export const getEnvConfig = (): IEnvConfig => ({
         EODH_ELEMENT_84_CATALOGUE_API_URL: getElement84CatalogueUrl(config.http.proxyConfig),
         EODH_CEDA_CATALOGUE_API_URL: getCEDACatalogueUrl(config.http.proxyConfig),
         EODH_WORKFLOW_CATALOGUE_API_URL: getWorkflowCatalogueUrl(config.http.proxyConfig),
-        EODH_CHARTS_API_URL: getChartsUrl(config.http.proxyConfig),
       },
     },
     feature: {
