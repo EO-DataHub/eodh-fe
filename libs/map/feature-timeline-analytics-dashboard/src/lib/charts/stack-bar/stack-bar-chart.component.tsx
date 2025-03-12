@@ -15,7 +15,7 @@ type TStackBarChartProps = {
   series: TChartItem[];
   unit: string;
   categories: TDateString[] | string[];
-  onLegendClick: (index: number | undefined) => void;
+  onLegendClick: (seriesName: string | undefined) => void;
 };
 
 export const StackBarChart = ({ series, categories, unit, height, onLegendClick }: TStackBarChartProps) => {

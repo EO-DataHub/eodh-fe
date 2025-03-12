@@ -1,4 +1,4 @@
-import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, LoadingSpinner } from '@ukri/shared/design-system';
 import { useFeatureFlag } from '@ukri/shared/utils/feature-flag';
 
@@ -85,7 +85,7 @@ const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
 };
 
 export interface IResultsListProps {
-  features: TCollection['features'];
+  features: TFeature[];
   hasNextPage: boolean;
   isFetching: boolean;
   onLoadMore: () => void;
@@ -115,8 +115,8 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
           id={feature.id}
           highlightedItem={highlightedItem}
           imageUrl={feature.assets.thumbnail?.href || ''}
-          gridCode={feature.properties['grid:code']}
-          cloudCoverage={feature.properties['eo:cloud_cover']}
+          gridCode={feature.properties.gridCode}
+          cloudCoverage={feature.properties.cloudCoverage}
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
           hasManyIndices={hasManyIndices(feature)}

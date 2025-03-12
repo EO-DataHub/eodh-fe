@@ -15,10 +15,10 @@ type TBarChartProps = {
   height: number;
   series: TChartItem[];
   allSeriesItems: TChartItem[];
-  color: string;
+  color?: string;
   unit: string;
   categories: TDateString[] | string[];
-  onLegendClick: (index: number | undefined) => void;
+  onLegendClick: (seriesName: string | undefined) => void;
 };
 
 export const BarChart = ({

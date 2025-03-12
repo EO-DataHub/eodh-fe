@@ -1,4 +1,4 @@
-import { NoWorkflowResultsFoundError, TCollection } from '@ukri/map/data-access-stac-catalog';
+import { NoWorkflowResultsFoundError, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { ResultsViewLoader } from '@ukri/shared/design-system';
 
 import { DefaultError, NoResultsError } from './results-error.component';
@@ -10,7 +10,7 @@ type TResultsStateProps = {
   error: Error | NoWorkflowResultsFoundError | null;
   isFetching: boolean;
   hasNextPage: boolean;
-  data: TCollection['features'] | undefined;
+  data: TFeature[] | undefined;
   onLoadMore: () => void;
   onBack?: () => void;
 };
