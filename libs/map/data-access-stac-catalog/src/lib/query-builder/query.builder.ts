@@ -1,4 +1,4 @@
-import { TGeometry } from '../stac.model';
+import { TGeometry } from '../stac-model/geometry.schema';
 import { getFields } from './fields/get-fields';
 import { createFilterParams } from './filter-params/create.filter-params';
 import { getIntersects } from './get-intersects';

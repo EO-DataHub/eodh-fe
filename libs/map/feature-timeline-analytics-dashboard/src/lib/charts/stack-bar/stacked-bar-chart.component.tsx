@@ -1,61 +1,55 @@
-import { TDateString } from '@ukri/shared/utils/date';
+import { TStackBar } from '@ukri/map/data-access-stac-catalog';
+import uniq from 'lodash/uniq';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { roundValue } from '../utils';
 import { BarChart } from './bar-chart.component';
+import { mapToChartSeries } from './bar-chart.model';
 import { StackBarChart } from './stack-bar-chart.component';
 
-type TChartItem = {
-  name: string;
-  value: number[];
-  percentage: number[];
-  color: string;
-};
-
-const mapToChartSeries = (data: TChartItem[], index: number | undefined) => {
-  return data
-    .filter((item) => item.value.some((dataItem) => dataItem > 0))
-    .map((item, currentIndex) => [
-      {
-        name: item.name,
-        data: item.value.map((value) => roundValue(value)),
-        color: item.color,
-        hidden: index !== undefined ? currentIndex !== index : false,
-      },
-    ])
-    .flat();
-};
-
 type TChartData = {
-  data: TChartItem[];
-  categories: TDateString[] | string[];
-  unit: string;
+  id: string | undefined;
+  features: TStackBar[];
   height: number;
 };
 
-export const StackedBarChart = ({ data, categories, unit, height }: TChartData) => {
-  const [currentSeriesIndex, setCurrentSeriesIndex] = useState<number | undefined>(undefined);
-  const allSeries = useMemo(() => mapToChartSeries(data, currentSeriesIndex), [data, currentSeriesIndex]);
+const unit = 'sq km';
+
+export const StackedBarChart = ({ id, features, height }: TChartData) => {
+  const [currentSeriesName, setCurrentSeriesName] = useState<string | undefined>(undefined);
+  const categories = useMemo(() => uniq(features.map((feature) => feature.properties.datetime)), [features]);
+  const color = useMemo(
+    () =>
+      features
+        .map((feature) => [...feature.assets.data['classification:classes']].map((item) => item['color-hint']))
+        .flat()
+        .pop(),
+    [features]
+  );
+  const allSeries = useMemo(() => mapToChartSeries(features, currentSeriesName), [features, currentSeriesName]);
   const barChartSeries = useMemo(() => allSeries.filter((item) => !item.hidden), [allSeries]);
+  const [currentId, setCurrentId] = useState(id);
 
   const changeSeries = useCallback(
-    (newIndex: number | undefined) => {
-      setCurrentSeriesIndex(newIndex === currentSeriesIndex ? undefined : newIndex);
+    (newSeriesName: string | undefined) => {
+      setCurrentSeriesName(newSeriesName === currentSeriesName ? undefined : newSeriesName);
     },
-    [currentSeriesIndex]
+    [currentSeriesName]
   );
 
   useEffect(() => {
-    setCurrentSeriesIndex(undefined);
-  }, [data]);
+    if (id !== currentId) {
+      setCurrentSeriesName(undefined);
+      setCurrentId(id);
+    }
+  }, [currentId, id]);
 
-  if (currentSeriesIndex !== undefined) {
+  if (currentSeriesName !== undefined) {
     return (
       <BarChart
         series={barChartSeries}
         allSeriesItems={allSeries}
         categories={categories}
-        color={allSeries[currentSeriesIndex].color}
+        color={color}
         unit={unit}
         height={height}
         onLegendClick={changeSeries}
