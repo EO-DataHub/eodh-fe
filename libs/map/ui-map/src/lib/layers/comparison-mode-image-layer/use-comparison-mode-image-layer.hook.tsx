@@ -50,6 +50,9 @@ export const useComparisonModeImageLayers = () => {
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
   const [item1, setItem1] = useState<GroupLayer | undefined>(undefined);
   const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
+  const [isItem1Ready, setIsItem1Ready] = useState(false);
+  const [isItem2Ready, setIsItem2Ready] = useState(false);
+  const [ combinedExtent, setCombinedExtent ] = useState<number[]>([]);
 
   const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
 
@@ -64,6 +67,7 @@ export const useComparisonModeImageLayers = () => {
         zIndex: stacLayerZindex + index,
         collection: item.collection,
         assetNameWhichShouldBeDisplayed: item.assetName,
+        fitToZoom: false,
       });
     },
     [comparisonItems, comparisonModeEnabled, createStacLayer]
@@ -102,10 +106,11 @@ export const useComparisonModeImageLayers = () => {
     const secondExtent = boundingExtent(secondExtentCoords);
 
     const isIntersection = intersects(firstExtent, secondExtent);
-    const combinedExtent = boundingExtent([...firstExtentCoords, ...secondExtentCoords]);
+    setCombinedExtent(boundingExtent([...firstExtentCoords, ...secondExtentCoords]));
 
     const setLayers = async () => {
       layer1 = await createLayer(firstItem, 1);
+
       layer2 = await createLayer(secondItem, 2);
 
       if (layer1) {
@@ -126,13 +131,15 @@ export const useComparisonModeImageLayers = () => {
       !isIntersection &&
         enqueueSnackbar(t('MAP.COMPARISON_TOOL.NO_INTERSECTION'), { variant: 'warning', persist: false });
 
-      setTimeout(() => {
-        map.getView().fit(combinedExtent, {
-          size: map.getSize(),
-          padding: [15, 15, 15, 15],
-          maxZoom: 16,
-        });
-      }, 1500);
+
+       layer1?.addEventListener('layersready', () => { 
+        setIsItem1Ready(true);
+       })
+
+       layer2?.addEventListener('layersready', () => {
+        setIsItem2Ready(true);
+       })
+      
     };
 
     setLayers().then();
@@ -147,10 +154,22 @@ export const useComparisonModeImageLayers = () => {
     };
   }, [map, comparisonItems, comparisonModeEnabled, createLayer, removeLayerFromMap, addLayerToMap, t]);
 
+
+  useEffect(() => {
+    if (!isItem1Ready || !isItem2Ready) {
+      return;
+    }
+    map.getView().fit(combinedExtent, {
+      size: map.getSize(),
+      padding: [15, 15, 15, 15],
+      maxZoom: 16,
+    });
+  }, [isItem1Ready, isItem2Ready, combinedExtent, map]);
+
   return useMemo(() => {
     return {
       item1,
-      item2,
+      item2
     };
   }, [item1, item2]);
 };

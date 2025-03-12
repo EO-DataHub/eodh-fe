@@ -37,8 +37,20 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
   );
 
   useEffect(() => {
-    updateSliderPosition(defaultSliderPosition);
-  }, [updateSliderPosition]);
+    let currZoom = map.getView().getZoom();
+    const func = () => {
+      const newZoom = map.getView().getZoom();
+      if (currZoom !== newZoom) {
+        currZoom = newZoom;
+        updateSliderPosition(defaultSliderPosition);
+      }
+    };
+    map.on('moveend', func);
+    
+    return () => {
+      map.un('moveend', func);
+    };
+  }, [updateSliderPosition, map]);
 
   const updateStyles = useCallback((newSliderPosition: number) => {
     const slider = sliderRef.current;
