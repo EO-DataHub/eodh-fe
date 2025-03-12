@@ -46,7 +46,7 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
       }
     };
     map.on('moveend', func);
-    
+
     return () => {
       map.un('moveend', func);
     };

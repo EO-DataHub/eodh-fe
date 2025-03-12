@@ -52,7 +52,7 @@ export const useComparisonModeImageLayers = () => {
   const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
   const [isItem1Ready, setIsItem1Ready] = useState(false);
   const [isItem2Ready, setIsItem2Ready] = useState(false);
-  const [ combinedExtent, setCombinedExtent ] = useState<number[]>([]);
+  const [combinedExtent, setCombinedExtent] = useState<number[]>([]);
 
   const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
 
@@ -131,15 +131,13 @@ export const useComparisonModeImageLayers = () => {
       !isIntersection &&
         enqueueSnackbar(t('MAP.COMPARISON_TOOL.NO_INTERSECTION'), { variant: 'warning', persist: false });
 
-
-       layer1?.addEventListener('layersready', () => { 
+      layer1?.addEventListener('layersready', () => {
         setIsItem1Ready(true);
-       })
+      });
 
-       layer2?.addEventListener('layersready', () => {
+      layer2?.addEventListener('layersready', () => {
         setIsItem2Ready(true);
-       })
-      
+      });
     };
 
     setLayers().then();
@@ -153,7 +151,6 @@ export const useComparisonModeImageLayers = () => {
       }
     };
   }, [map, comparisonItems, comparisonModeEnabled, createLayer, removeLayerFromMap, addLayerToMap, t]);
-
 
   useEffect(() => {
     if (!isItem1Ready || !isItem2Ready) {
@@ -169,7 +166,7 @@ export const useComparisonModeImageLayers = () => {
   return useMemo(() => {
     return {
       item1,
-      item2
+      item2,
     };
   }, [item1, item2]);
 };

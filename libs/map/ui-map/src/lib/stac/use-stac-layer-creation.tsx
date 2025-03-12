@@ -121,7 +121,7 @@ export const useStacLayerCreation = () => {
       });
 
       newStacLayer.addEventListener('layersready', () => {
-        if(fitToZoom){
+        if (fitToZoom) {
           zoomToLayer(newStacLayer);
         }
       });
