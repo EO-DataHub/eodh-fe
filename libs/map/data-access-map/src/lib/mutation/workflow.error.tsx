@@ -1,8 +1,8 @@
 import { createDateString, formatDate } from '@ukri/shared/utils/date';
+import { displayNotification } from '@ukri/shared/utils/notifications';
 import { AxiosError } from 'axios';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
-import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
 
 type TCollectionName =
@@ -169,7 +169,6 @@ const useErrorMessage = () => {
 };
 
 export const useWorkflowMessage = () => {
-  const { enqueueSnackbar } = useSnackbar();
   const translateMessage = useErrorMessage();
 
   return {
@@ -180,7 +179,7 @@ export const useWorkflowMessage = () => {
         !error.response?.data?.detail?.length
       ) {
         const message = translateMessage(error);
-        enqueueSnackbar(message, { variant: 'error', persist: true });
+        message && displayNotification(message, 'error');
         return;
       }
 
@@ -191,7 +190,7 @@ export const useWorkflowMessage = () => {
         return;
       }
 
-      enqueueSnackbar(message, { variant: 'error', persist: true });
+      displayNotification(message, 'error');
     },
   };
 };

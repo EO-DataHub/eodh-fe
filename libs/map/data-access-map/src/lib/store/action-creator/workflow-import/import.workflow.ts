@@ -1,8 +1,7 @@
-import { displaySnackbar } from '@ukri/shared/design-system';
+import { displayNotification } from '@ukri/shared/utils/notifications';
 import { t } from 'i18next';
 import isString from 'lodash/isString';
 import { nanoid } from 'nanoid';
-import { enqueueSnackbar } from 'notistack';
 
 import { createShape } from '../../../geometry/geometry';
 import { clearWorkflowCache } from '../../../mutation/workflow.mutation';
@@ -152,8 +151,8 @@ export const importWorkflow = async () => {
     const fileContent = await selectFile();
     const workflow = nodeImportSchema.parse(fileContent);
     loadWorkflow(workflow.nodes);
-    displaySnackbar(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.SUCCESS'), 'success');
+    displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.SUCCESS'), 'success');
   } catch (e) {
-    displaySnackbar(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE'), 'error');
+    displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE'), 'error');
   }
 };

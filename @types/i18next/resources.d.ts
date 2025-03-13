@@ -86,6 +86,7 @@ interface Resources {
         };
         WORKFLOW_IMPORT: {
           WRONG_FILE: 'Wrong file format. Only JSON files with valid schemas can be imported.';
+          SUCCESS: 'Workflow configuration file uploaded successfully.';
         };
       };
       NAVIGATION: {
