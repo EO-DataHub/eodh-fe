@@ -1,3 +1,4 @@
+import { displaySnackbar } from '@ukri/shared/design-system';
 import { t } from 'i18next';
 import isString from 'lodash/isString';
 import { nanoid } from 'nanoid';
@@ -151,7 +152,8 @@ export const importWorkflow = async () => {
     const fileContent = await selectFile();
     const workflow = nodeImportSchema.parse(fileContent);
     loadWorkflow(workflow.nodes);
+    displaySnackbar(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.SUCCESS'), 'success');
   } catch (e) {
-    enqueueSnackbar(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE'), { variant: 'error', persist: true });
+    displaySnackbar(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE'), 'error');
   }
 };
