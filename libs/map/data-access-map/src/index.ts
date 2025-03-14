@@ -70,3 +70,4 @@ export type {
 export { useComparisonMode } from './lib/store/comparison-mode/comparison-tool.store';
 export type { TUid, TComparisonItem } from './lib/store/comparison-mode/comparison-tool.store';
 export type { IHighlightedItem } from './lib/store/footprint/footprint.model';
+export { transformCoordinatesFrom3857to4326 } from './lib/store/proj4';
