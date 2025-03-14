@@ -1,5 +1,5 @@
 import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
-import { displayNotification } from '@ukri/shared/utils/notifications';
+import { displayNotification } from '@ukri/shared/utils/notification';
 import isArray from 'lodash/isArray';
 import { Coordinate } from 'ol/coordinate';
 import { boundingExtent, intersects } from 'ol/extent';

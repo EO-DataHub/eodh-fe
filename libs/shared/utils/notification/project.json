@@ -1,7 +1,7 @@
 {
-  "name": "notifications",
+  "name": "notification",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/shared/utils/notifications/src",
+  "sourceRoot": "libs/shared/utils/notification/src",
   "projectType": "library",
   "tags": ["type:shared/utils", "scope:shared"],
   "targets": {
@@ -12,7 +12,7 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "../../../../coverage/libs/shared/utils/notifications"
+        "reportsDirectory": "../../../../coverage/libs/shared/utils/notification"
       }
     }
   }

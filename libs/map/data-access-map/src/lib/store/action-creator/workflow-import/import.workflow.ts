@@ -1,4 +1,4 @@
-import { displayNotification } from '@ukri/shared/utils/notifications';
+import { displayNotification } from '@ukri/shared/utils/notification';
 import { t } from 'i18next';
 import isString from 'lodash/isString';
 import { nanoid } from 'nanoid';

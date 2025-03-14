@@ -16,10 +16,10 @@ export default defineConfig({
   test: {
     watch: false,
     globals: true,
-    cache: { dir: '../../../../node_modules/.vitest/libs/shared/utils/notifications' },
+    cache: { dir: '../../../../node_modules/.vitest/libs/shared/utils/notification' },
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
-    coverage: { reportsDirectory: '../../../../coverage/libs/shared/utils/notifications', provider: 'v8' },
+    coverage: { reportsDirectory: '../../../../coverage/libs/shared/utils/notification', provider: 'v8' },
   },
 });

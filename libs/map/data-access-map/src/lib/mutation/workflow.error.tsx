@@ -1,5 +1,5 @@
 import { createDateString, formatDate } from '@ukri/shared/utils/date';
-import { displayNotification } from '@ukri/shared/utils/notifications';
+import { displayNotification } from '@ukri/shared/utils/notification';
 import { AxiosError } from 'axios';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
