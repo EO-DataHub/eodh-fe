@@ -1,5 +1,6 @@
 import { TAsset, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { saveAs } from 'file-saver';
+import isString from 'lodash/isString';
 
 type TDownloadableAsset = {
   name: string;
@@ -69,14 +70,29 @@ const calculateSize = (
   }
 };
 
+const downloadFile = (file: string | Blob, fileName: string) => {
+  const a: HTMLAnchorElement = document.createElementNS('http://www.w3.org/1999/xhtml', 'a') as HTMLAnchorElement;
+  a.download = fileName;
+  a.href = isString(file) ? file : URL.createObjectURL(file);
+  a.rel = 'noopener';
+  a.target = '_blank';
+
+  if (!isString(file)) {
+    setTimeout(() => URL.revokeObjectURL(a.href), 40000);
+  }
+
+  try {
+    a.dispatchEvent(new MouseEvent('click'));
+  } catch (e) {
+    const evt = document.createEvent('MouseEvents');
+    evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
+    a.dispatchEvent(evt);
+  }
+};
+
 const downloadAssetsInNewTab = (assets: TDownloadableAsset[]) => {
   assets.forEach((asset) => {
-    const a = document.createElement('a');
-    a.download = getFileNameFromAsset(asset);
-    a.href = asset.href;
-    a.rel = 'noopener';
-    a.target = '_blank';
-    a.dispatchEvent(new MouseEvent('click'));
+    downloadFile(asset.href, getFileNameFromAsset(asset));
   });
 };
 
@@ -100,7 +116,7 @@ const downloadMetadata = (feature: TFeature) => {
   const fileName = 'metadata';
   const ext = 'json';
 
-  saveAs(blob, getFileName(feature.id, fileName, ext));
+  downloadFile(blob, getFileName(feature.id, fileName, ext));
 };
 
 export const downloadFiles = (feature: TFeature) => {
