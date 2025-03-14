@@ -7,8 +7,6 @@ import {
   getWorkflowCatalogueUrl,
 } from './url.config';
 
-type TFeatureFlag = 'true' | 'false' | boolean;
-
 declare const config: {
   baseUrl: string;
   apiUrl: string;
@@ -31,9 +29,7 @@ declare const config: {
       EODH_WORKFLOW_CATALOGUE_API_URL: string;
     };
   };
-  feature: {
-    downloadAsset: TFeatureFlag;
-  };
+  feature: NonNullable<unknown>;
 };
 
 interface IEnvConfig {
@@ -60,9 +56,7 @@ interface IEnvConfig {
         EODH_WORKFLOW_CATALOGUE_API_URL: string;
       };
     };
-    feature: {
-      downloadAsset: TFeatureFlag;
-    };
+    feature: NonNullable<unknown>;
   };
 }
 
@@ -98,13 +92,7 @@ export const getEnvConfig = (): IEnvConfig => ({
         EODH_WORKFLOW_CATALOGUE_API_URL: getWorkflowCatalogueUrl(config.http.proxyConfig),
       },
     },
-    feature: {
-      downloadAsset: getValue<TFeatureFlag>(
-        import.meta.env.VITE_FEATURE_FLAG_DOWNLOAD_ASSET,
-        config?.feature.downloadAsset,
-        'false'
-      ),
-    },
+    feature: {},
   },
 });
 

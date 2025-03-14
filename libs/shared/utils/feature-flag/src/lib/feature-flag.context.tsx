@@ -1,12 +1,8 @@
 import { createContext, PropsWithChildren } from 'react';
 
-export type TFeatureFlag = {
-  downloadAsset: 'true' | 'false' | boolean;
-};
+export type TFeatureFlag = NonNullable<unknown>;
 
-const defaultValues: TFeatureFlag = {
-  downloadAsset: 'false',
-};
+const defaultValues: TFeatureFlag = {};
 
 export const FeatureFlagContext = createContext<TFeatureFlag>(defaultValues);
 
