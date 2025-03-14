@@ -1,6 +1,6 @@
 import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
+import { displayNotification } from '@ukri/shared/utils/notification';
 import isArray from 'lodash/isArray';
-import { enqueueSnackbar } from 'notistack';
 import { Coordinate } from 'ol/coordinate';
 import { boundingExtent, intersects } from 'ol/extent';
 import GroupLayer from 'ol/layer/Group';
@@ -123,8 +123,7 @@ export const useComparisonModeImageLayers = () => {
       setItem1(groupLayer1);
       setItem2(groupLayer2);
 
-      !isIntersection &&
-        enqueueSnackbar(t('MAP.COMPARISON_TOOL.NO_INTERSECTION'), { variant: 'warning', persist: false });
+      !isIntersection && displayNotification(t('MAP.COMPARISON_TOOL.NO_INTERSECTION'), 'warning');
 
       setTimeout(() => {
         map.getView().fit(combinedExtent, {
