@@ -9,7 +9,7 @@
 
 # Available Feature Flags
 
-- `download asset functionality` - `APP_FEATURE_FLAG_DOWNLOAD_ASSET`
+No FF are available.
 
 # Enabling/disabling Feature Flags
 
