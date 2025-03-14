@@ -1,5 +1,5 @@
 {
-  "name": "notification",
+  "name": "shared-utils-notification",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/utils/notification/src",
   "projectType": "library",
