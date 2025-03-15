@@ -16,11 +16,15 @@ import { useStacLayerCreation } from './../../stac/use-stac-layer-creation';
 export type TComparisonLayer = {
   item1: GroupLayer | undefined;
   item2: GroupLayer | undefined;
+  isItem1Visible: boolean;
+  isItem2Visible: boolean;
 };
 
 const defaultValues: TComparisonLayer = {
   item1: undefined,
   item2: undefined,
+  isItem1Visible: false,
+  isItem2Visible: false,
 };
 
 export const ComparisonContext = createContext<TComparisonLayer>(defaultValues);
@@ -50,8 +54,8 @@ export const useComparisonModeImageLayers = () => {
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
   const [item1, setItem1] = useState<GroupLayer | undefined>(undefined);
   const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
-  const [isItem1Ready, setIsItem1Ready] = useState(false);
-  const [isItem2Ready, setIsItem2Ready] = useState(false);
+  const [isItem1Visible, setIsItem1Visible] = useState<boolean>(false);
+  const [isItem2Visible, setIsItem2Visible] = useState<boolean>(false);
   const [combinedExtent, setCombinedExtent] = useState<number[]>([]);
 
   const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
@@ -80,6 +84,9 @@ export const useComparisonModeImageLayers = () => {
     if (!map || comparisonItems.items.length <= 1 || !comparisonModeEnabled) {
       setItem1(undefined);
       setItem2(undefined);
+      setIsItem1Visible(false);
+      setIsItem2Visible(false);
+
       if (groupLayer1) {
         removeLayerFromMap(groupLayer1);
       }
@@ -110,19 +117,32 @@ export const useComparisonModeImageLayers = () => {
 
     const setLayers = async () => {
       layer1 = await createLayer(firstItem, 1);
-
       layer2 = await createLayer(secondItem, 2);
 
       if (layer1) {
         groupLayer1 = new GroupLayer({
           layers: [layer1],
+          visible: false,
         });
+
+        layer1.addEventListener('layersready', () => {
+          groupLayer1?.setVisible(true);
+          setIsItem1Visible(true);
+        });
+
         addLayerToMap(groupLayer1);
       }
       if (layer2) {
         groupLayer2 = new GroupLayer({
           layers: [layer2],
+          visible: false,
         });
+
+        layer2.addEventListener('layersready', () => {
+          groupLayer2?.setVisible(true);
+          setIsItem2Visible(true);
+        });
+
         addLayerToMap(groupLayer2);
       }
       setItem1(groupLayer1);
@@ -130,14 +150,6 @@ export const useComparisonModeImageLayers = () => {
 
       !isIntersection &&
         enqueueSnackbar(t('MAP.COMPARISON_TOOL.NO_INTERSECTION'), { variant: 'warning', persist: false });
-
-      layer1?.addEventListener('layersready', () => {
-        setIsItem1Ready(true);
-      });
-
-      layer2?.addEventListener('layersready', () => {
-        setIsItem2Ready(true);
-      });
     };
 
     setLayers().then();
@@ -146,6 +158,7 @@ export const useComparisonModeImageLayers = () => {
       if (groupLayer1) {
         removeLayerFromMap(groupLayer1);
       }
+
       if (groupLayer2) {
         removeLayerFromMap(groupLayer2);
       }
@@ -153,20 +166,23 @@ export const useComparisonModeImageLayers = () => {
   }, [map, comparisonItems, comparisonModeEnabled, createLayer, removeLayerFromMap, addLayerToMap, t]);
 
   useEffect(() => {
-    if (!isItem1Ready || !isItem2Ready) {
+    if (!comparisonModeEnabled || !isItem1Visible || !isItem2Visible) {
       return;
     }
+
     map.getView().fit(combinedExtent, {
       size: map.getSize(),
       padding: [15, 15, 15, 15],
       maxZoom: 16,
     });
-  }, [isItem1Ready, isItem2Ready, combinedExtent, map]);
+  }, [combinedExtent, comparisonModeEnabled, isItem1Visible, isItem2Visible, map]);
 
   return useMemo(() => {
     return {
       item1,
       item2,
+      isItem1Visible,
+      isItem2Visible,
     };
-  }, [item1, item2]);
+  }, [item1, item2, isItem1Visible, isItem2Visible]);
 };

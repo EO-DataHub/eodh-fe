@@ -14,7 +14,7 @@ interface IComparisonToolSliderProps {
 export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const map = useContext(MapContext);
-  const { item1, item2 } = useContext(ComparisonContext);
+  const { item1, item2, isItem1Visible, isItem2Visible } = useContext(ComparisonContext);
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
 
   const updateSliderPosition = useCallback(
@@ -38,19 +38,28 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
 
   useEffect(() => {
     let currZoom = map.getView().getZoom();
-    const func = () => {
+
+    const updateZoomAndSliderPosition = () => {
       const newZoom = map.getView().getZoom();
       if (currZoom !== newZoom) {
-        currZoom = newZoom;
         updateSliderPosition(defaultSliderPosition);
+        currZoom = newZoom;
       }
     };
-    map.on('moveend', func);
+    map.on('moveend', updateZoomAndSliderPosition);
 
     return () => {
-      map.un('moveend', func);
+      map.un('moveend', updateZoomAndSliderPosition);
     };
   }, [updateSliderPosition, map]);
+
+  useEffect(() => {
+    if (!comparisonModeEnabled || !isItem1Visible || !isItem2Visible) {
+      return;
+    }
+
+    updateSliderPosition(defaultSliderPosition);
+  }, [comparisonModeEnabled, isItem1Visible, isItem2Visible, updateSliderPosition]);
 
   const updateStyles = useCallback((newSliderPosition: number) => {
     const slider = sliderRef.current;
