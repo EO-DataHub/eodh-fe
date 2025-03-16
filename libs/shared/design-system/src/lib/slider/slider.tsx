@@ -27,6 +27,7 @@ export const Slider = forwardRef(
   ({ name, max = 100, onChange, onBlur, disabled }: ISliderProps, ref: ForwardedRef<HTMLInputElement | undefined>) => {
     const innerRef = useRef<HTMLInputElement>(null);
     const [sliderValue, setSliderValue] = useState(innerRef?.current ? parseInt(innerRef.current.value) : 0);
+    const throttledRef = useRef(throttle((cb: () => void) => cb(), 1000));
 
     useImperativeHandle(ref, () => (innerRef.current ? innerRef.current : undefined));
 
@@ -43,8 +44,7 @@ export const Slider = forwardRef(
       (event: ChangeEvent<HTMLInputElement>) => {
         const value = Number(event.target.value);
         setSliderValue(value);
-
-        return throttle((event: ChangeEvent<HTMLInputElement>) => onChange(event), 100);
+        throttledRef.current(() => onChange(event));
       },
       [onChange]
     );
