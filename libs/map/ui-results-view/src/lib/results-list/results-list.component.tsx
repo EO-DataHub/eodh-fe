@@ -6,7 +6,8 @@ import { ResultItem } from './result-item/result-item.component';
 import { SingleItemActionButtons } from './result-item/single-item-action-buttons.component';
 import { useResult } from './use-result.hook';
 
-const hasManyIndices = (feature: TFeature) => Object.keys(feature.assets).length > 1;
+const hasManyIndices = (feature: TFeature) =>
+  Object.entries(feature.assets).filter(([assetName]) => assetName !== 'thumbnail').length > 1;
 
 interface IActionButtons {
   feature: TFeature;
