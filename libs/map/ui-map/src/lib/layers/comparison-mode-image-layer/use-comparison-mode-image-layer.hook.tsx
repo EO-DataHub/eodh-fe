@@ -149,7 +149,6 @@ export const useComparisonModeImageLayers = () => {
       setItem2(groupLayer2);
 
       !isIntersection && displayNotification(t('MAP.COMPARISON_TOOL.NO_INTERSECTION'), 'warning');
-
     };
 
     setLayers().then();
