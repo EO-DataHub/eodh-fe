@@ -4,21 +4,22 @@ import isEqual from 'lodash/isEqual';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { defaultValues, IDateStore, TDateStoreState } from './date.model';
+import { getDefaultValues, IDateStore, TDateStoreState, TSchema } from './date.model';
 
 export const useDateStore = create<IDateStore>()(
   devtools((set) => ({
-    ...defaultValues,
+    ...getDefaultValues('search'),
     updateDate: (date) =>
       set((state) => {
         return isEqual(date, state.date) ? state : { date: { from: date?.from || null, to: date?.to || null } };
       }),
-    reset: () => set(() => cloneDeep(defaultValues)),
+    reset: (schema: TSchema) => set(() => cloneDeep(getDefaultValues(schema))),
     changeState: (state) => set(() => ({ state })),
   }))
 );
 
 export const getDateStoreState = (): TDateStoreState => ({
+  schema: useDateStore.getState().schema,
   date: useDateStore.getState().date,
   state: useDateStore.getState().state,
 });
