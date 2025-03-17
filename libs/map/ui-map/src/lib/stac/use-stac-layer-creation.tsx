@@ -55,7 +55,7 @@ export const useStacLayerCreation = () => {
   );
 
   const createStacLayerWithSentinel2ArdFix = useCallback(
-    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string) => {
+    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string, fitToZoom = true) => {
       const data = await getHttpClient().get<StacItem>(url);
       const hasCogAsset = !!data?.assets['cog'];
       const shouldFixCogAsset = hasCogAsset && !data?.assets['cog'].type;
@@ -91,10 +91,11 @@ export const useStacLayerCreation = () => {
         httpRequestFn: (url: string) => getHttpClient().get(url),
       });
 
-      // todo remove after rewriting ol-stac library
-      setTimeout(() => {
-        zoomToLayer(newStacLayer);
-      }, 1000);
+      newStacLayer.addEventListener('layersready', () => {
+        if (fitToZoom) {
+          zoomToLayer(newStacLayer);
+        }
+      });
 
       return newStacLayer;
     },
@@ -102,7 +103,7 @@ export const useStacLayerCreation = () => {
   );
 
   const createStacLayerWithSupportForAllCollection = useCallback(
-    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string) => {
+    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string, fitToZoom = true) => {
       const newStacLayer = new STACWithColorMap({
         url,
         zIndex,
@@ -119,8 +120,10 @@ export const useStacLayerCreation = () => {
         httpRequestFn: (url: string) => getHttpClient().get(url),
       });
 
-      newStacLayer.addEventListener('sourceready', () => {
-        zoomToLayer(newStacLayer);
+      newStacLayer.addEventListener('layersready', () => {
+        if (fitToZoom) {
+          zoomToLayer(newStacLayer);
+        }
       });
 
       return newStacLayer;
@@ -134,16 +137,18 @@ export const useStacLayerCreation = () => {
       zIndex,
       collection,
       assetNameWhichShouldBeDisplayed,
+      fitToZoom = true,
     }: {
       url: string;
       zIndex: number;
       collection?: string;
       assetNameWhichShouldBeDisplayed?: string;
+      fitToZoom?: boolean;
     }) => {
       const newStacLayer =
         collection === 'sentinel2_ard'
-          ? await createStacLayerWithSentinel2ArdFix(url, zIndex, assetNameWhichShouldBeDisplayed)
-          : createStacLayerWithSupportForAllCollection(url, zIndex, assetNameWhichShouldBeDisplayed);
+          ? await createStacLayerWithSentinel2ArdFix(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom)
+          : createStacLayerWithSupportForAllCollection(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom);
       return newStacLayer;
     },
     [createStacLayerWithSupportForAllCollection, createStacLayerWithSentinel2ArdFix]
