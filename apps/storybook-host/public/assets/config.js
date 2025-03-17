@@ -19,9 +19,7 @@ const config = (() => ({
     clientId: '',
     scopes: [],
   },
-  feature: {
-    downloadAsset: false,
-  },
+  feature: {},
   versionId: '',
   buildId: '',
 }))();
