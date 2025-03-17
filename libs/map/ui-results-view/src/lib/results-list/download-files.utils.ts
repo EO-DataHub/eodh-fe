@@ -9,6 +9,7 @@ type TDownloadableAsset = {
 
 const s3ProtocolPrefix = 's3:/';
 const separator = '___';
+const downloadingAssetsTimeout = 500;
 
 const getFileName = (collectionId: string, fileName: string, ext: string | undefined) => {
   collectionId = collectionId ? `${collectionId}${separator}` : '';
@@ -91,8 +92,14 @@ const downloadFile = (file: string | Blob, fileName: string) => {
 };
 
 const downloadAssetsInNewTab = (assets: TDownloadableAsset[]) => {
+  let timeout = 0;
+
   assets.forEach((asset) => {
-    downloadFile(asset.href, getFileNameFromAsset(asset));
+    setTimeout(() => {
+      downloadFile(asset.href, getFileNameFromAsset(asset));
+    }, timeout);
+
+    timeout += downloadingAssetsTimeout;
   });
 };
 
@@ -102,9 +109,16 @@ const downloadAssets = (feature: TFeature) => {
   const oneGb = 1000;
 
   if (size.valid && size.size <= oneGb) {
+    let timeout = 0;
+
     assets.forEach((asset) => {
-      saveAs(asset.href, getFileNameFromAsset(asset));
+      setTimeout(() => {
+        saveAs(asset.href, getFileNameFromAsset(asset));
+      }, timeout);
+
+      timeout += downloadingAssetsTimeout;
     });
+
     return;
   }
 
