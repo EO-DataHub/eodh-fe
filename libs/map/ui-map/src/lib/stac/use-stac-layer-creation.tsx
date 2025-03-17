@@ -54,6 +54,48 @@ export const useStacLayerCreation = () => {
     [map]
   );
 
+  const createStacLayerWithSentinel1Fix = useCallback(
+    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string, fitToZoom = true) => {
+      const data = await getHttpClient().get<StacItem>(url);
+      const hasThumbnailAsset = !!data?.assets['thumbnail'];
+      const shouldFixThumbnailAsset = hasThumbnailAsset && !data?.assets['thumbnail'].type;
+      const assetToBeDisplayed = assetNameWhichShouldBeDisplayed ? [assetNameWhichShouldBeDisplayed] : undefined;
+
+      if (shouldFixThumbnailAsset) {
+        data.assets['thumbnail'] = {
+          ...data.assets['thumbnail'],
+          type: data.assets['thumbnail'].href.endsWith('.png') ? 'image/png' : 'image/jpeg',
+        };
+      }
+
+      const newStacLayer = new STACWithColorMap({
+        data,
+        zIndex,
+        displayPreview: true,
+        assets: assetToBeDisplayed,
+        getSourceOptions: (type, options) => {
+          const token = authClient.getToken().token;
+          (options as { sourceOptions?: object }).sourceOptions =
+            (options as { sourceOptions?: object }).sourceOptions || {};
+          (options as { sourceOptions: { headers: object } }).sourceOptions.headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          return options;
+        },
+        httpRequestFn: (url: string) => getHttpClient().get(url),
+      });
+
+      newStacLayer.addEventListener('layersready', () => {
+        if (fitToZoom) {
+          zoomToLayer(newStacLayer);
+        }
+      });
+
+      return newStacLayer;
+    },
+    [authClient, zoomToLayer]
+  );
+
   const createStacLayerWithSentinel2ArdFix = useCallback(
     async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string, fitToZoom = true) => {
       const data = await getHttpClient().get<StacItem>(url);
@@ -76,9 +118,10 @@ export const useStacLayerCreation = () => {
 
       const newStacLayer = new STACWithColorMap({
         data,
-        bands: hasCogAsset ? cogAssetBands : undefined,
-        assets: assetToBeDisplayed,
         zIndex,
+        displayPreview: true,
+        assets: assetToBeDisplayed,
+        bands: hasCogAsset ? cogAssetBands : undefined,
         getSourceOptions: (type, options) => {
           const token = authClient.getToken().token;
           (options as { sourceOptions?: object }).sourceOptions =
@@ -107,6 +150,7 @@ export const useStacLayerCreation = () => {
       const newStacLayer = new STACWithColorMap({
         url,
         zIndex,
+        displayPreview: true,
         assets: assetNameWhichShouldBeDisplayed ? [assetNameWhichShouldBeDisplayed] : undefined,
         getSourceOptions: (type, options) => {
           const token = authClient.getToken().token;
@@ -145,13 +189,21 @@ export const useStacLayerCreation = () => {
       assetNameWhichShouldBeDisplayed?: string;
       fitToZoom?: boolean;
     }) => {
-      const newStacLayer =
-        collection === 'sentinel2_ard'
-          ? await createStacLayerWithSentinel2ArdFix(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom)
-          : createStacLayerWithSupportForAllCollection(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom);
-      return newStacLayer;
+      switch (collection) {
+        case 'sentinel1': {
+          return await createStacLayerWithSentinel1Fix(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom);
+        }
+
+        case 'sentinel2_ard': {
+          return await createStacLayerWithSentinel2ArdFix(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom);
+        }
+
+        default: {
+          return createStacLayerWithSupportForAllCollection(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom);
+        }
+      }
     },
-    [createStacLayerWithSupportForAllCollection, createStacLayerWithSentinel2ArdFix]
+    [createStacLayerWithSentinel1Fix, createStacLayerWithSentinel2ArdFix, createStacLayerWithSupportForAllCollection]
   );
 
   return useMemo(
