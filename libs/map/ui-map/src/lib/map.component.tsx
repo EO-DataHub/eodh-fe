@@ -80,7 +80,7 @@ export const MapWrapper = ({ children, zoom = 8, centerCoordinates = londonCoord
         center: centerCoordinates,
         zoom: zoom,
       }),
-    });
+    }) as IMap;
 
     setMap(olMap);
   }, [centerCoordinates, zoom]);
