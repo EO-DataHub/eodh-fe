@@ -1,5 +1,5 @@
 import { useFootprintCollection, useFootprintLayerVisible, useFootprints } from '@ukri/map/data-access-map';
-import { TCollection } from '@ukri/map/data-access-stac-catalog';
+import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { createDate } from '@ukri/shared/utils/date';
 import { Feature, MapBrowserEvent } from 'ol';
 import { click } from 'ol/events/condition';
@@ -58,7 +58,7 @@ type TSortBy = {
   direction: 'desc' | 'asc';
 };
 
-const sortFeatures = (features: TCollection['features'], sortBy: TSortBy): TCollection['features'] => {
+const sortFeatures = (features: TFeature[], sortBy: TSortBy): TFeature[] => {
   if (sortBy.field === 'properties.datetime') {
     return features.sort((feature1, feature2) => {
       const date1 = createDate(feature1.properties.datetime)?.getTime() || 0;

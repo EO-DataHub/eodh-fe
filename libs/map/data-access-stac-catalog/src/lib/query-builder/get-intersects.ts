@@ -1,7 +1,7 @@
 import { Circle, Geometry, Polygon } from 'ol/geom';
 import { fromCircle } from 'ol/geom/Polygon';
 
-import { TGeometry } from '../stac.model';
+import { TGeometry } from '../stac-model/geometry.schema';
 
 const isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() === 'Circle';
 

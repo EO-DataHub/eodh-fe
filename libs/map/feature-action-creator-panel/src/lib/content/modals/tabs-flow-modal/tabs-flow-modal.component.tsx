@@ -11,6 +11,7 @@ interface ITabsFlowModalProps {
   header: string;
   content: string;
   ctaText: string;
+  onClick?: () => void;
 }
 
 type TChecklistForm = {
@@ -21,7 +22,7 @@ const defaultValues: TChecklistForm = {
   permanentHidden: false,
 };
 
-export const TabsFlowModal = ({ header, content, ctaText }: ITabsFlowModalProps) => {
+export const TabsFlowModal = ({ header, content, ctaText, onClick }: ITabsFlowModalProps) => {
   const { register, watch } = useForm<TChecklistForm>({ defaultValues });
   const { isOpen } = useTabsFlowModalState();
   const { updateSearchParams } = useResults();
@@ -37,11 +38,12 @@ export const TabsFlowModal = ({ header, content, ctaText }: ITabsFlowModalProps)
     if (permanentHidden) {
       hideModalPermanently(permanentHidden);
     }
+    onClick?.();
     updateSearchParams(undefined);
     changeView('search');
     hideModal();
     reset();
-  }, [permanentHidden, updateSearchParams, changeView, hideModal, reset, hideModalPermanently]);
+  }, [permanentHidden, updateSearchParams, changeView, hideModal, reset, hideModalPermanently, onClick]);
 
   const handleNoCtaClick = useCallback(() => {
     if (permanentHidden) {
