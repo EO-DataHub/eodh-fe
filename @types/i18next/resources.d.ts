@@ -335,7 +335,7 @@ interface Resources {
                 QUESTION: 'How and when do I use clipping function?';
                 ANSWER: [
                   'The clipping function can be applied as a subsequent step after running other functions, such as NDVI or Land Cover Change analyses. When used, it limits the area covered by workflow output items to a specified Area of Interest (AOI). When an individual item is viewed on map, only the portion that falls within the AOI is displayed.',
-                  't is recommended to use the clipping function. This function is especially useful for saving space by reducing the amount of extraneous data calculated and displayed. In some cases, the clipping function is automatically applied in the background, even if the user does not explicitly select it. When this occurs, the user is informed via a toast message.'
+                  'It is recommended to use the clipping function. This function is especially useful for saving space by reducing the amount of extraneous data calculated and displayed. In some cases, the clipping function is automatically applied in the background, even if the user does not explicitly select it. When this occurs, the user is informed via a toast message.'
                 ];
               };
               WHAT_IS_THE_DIFFERENCE_BETWEEN_THE_WORKFLOW_AND_HISTORY_TABS: {
@@ -369,9 +369,9 @@ interface Resources {
                 ];
               };
               HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS: {
-                QUESTION: 'How do I download a workflow results?';
+                QUESTION: 'How do I download workflow results?';
                 ANSWER: [
-                  'After you run Action Creator and browse results in the left side menu, you will see “download” option next to each individual item. When you click on it, this will prompt download of each individual asset connected with this item. Each of these assets will start being downloaded in a separate tab of your browser. Depending on a type of browser you use, you might need to accept the download action separately for each tab..'
+                  'After you run Action Creator and browse results in the left side menu, you will see “download” option next to each individual item. When you click on it, this will prompt download of each individual asset connected with this item. Each of these assets will start being downloaded in a separate tab of your browser. Depending on a type of browser you use, you might need to accept the download action separately for each tab.'
                 ];
               };
             };

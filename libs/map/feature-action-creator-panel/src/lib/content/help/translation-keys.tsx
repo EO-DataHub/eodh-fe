@@ -24,9 +24,7 @@ export const helpContentConfig: IHelpContent = {
         {
           QUESTION_ID: 'HOW_DO_I_SELECT_WORKFLOW_FUNCTIONS',
         },
-        {
-          QUESTION_ID: 'HOW_DO_I_SELECT_AOI_AND_DATE_RANGE',
-        },
+        { QUESTION_ID: 'HOW_AND_WHEN_DO_I_USE_CLIPPING_FUNCTIONS' },
         {
           QUESTION_ID: 'WHAT_IS_THE_DIFFERENCE_BETWEEN_THE_WORKFLOW_AND_HISTORY_TABS',
         },
