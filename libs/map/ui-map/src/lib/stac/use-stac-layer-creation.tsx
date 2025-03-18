@@ -11,6 +11,37 @@ import { STACWithColorMap } from './stac-with-color-map';
 
 registerOpenLayersProjections();
 
+type TUrlStacLayerProps = {
+  data?: never;
+  url: string;
+  zIndex: number;
+  assets?: string[];
+  bands?: number[];
+  fitToZoom: boolean;
+  displayPreview: boolean;
+};
+
+type TDataStacLayerProps = {
+  data: StacItem;
+  url?: never;
+  zIndex: number;
+  assets?: string[];
+  bands?: number[];
+  fitToZoom: boolean;
+  displayPreview: boolean;
+};
+
+type TStacLayerProps = TUrlStacLayerProps | TDataStacLayerProps;
+
+type TCreateStacLayerParams = {
+  url: string;
+  zIndex: number;
+  collection?: string;
+  assetNameWhichShouldBeDisplayed?: string;
+  fitToZoom?: boolean;
+  displayPreview?: boolean;
+};
+
 export const useStacLayerCreation = () => {
   const map = useContext(MapContext);
   const { authClient } = useAuth();
@@ -54,14 +85,53 @@ export const useStacLayerCreation = () => {
     [map]
   );
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const createSTAC = useCallback(
+    ({ data, url, zIndex, displayPreview, assets, bands, fitToZoom }: TStacLayerProps) => {
+      const newStacLayer = new STACWithColorMap({
+        data,
+        url,
+        zIndex,
+        displayPreview,
+        assets,
+        bands,
+        getSourceOptions: (type, options) => {
+          const token = authClient.getToken().token;
+          (options as { sourceOptions?: object }).sourceOptions =
+            (options as { sourceOptions?: object }).sourceOptions || {};
+          (options as { sourceOptions: { headers: object } }).sourceOptions.headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          return options;
+        },
+        httpRequestFn: (url: string) => getHttpClient().get(url),
+      });
+
+      newStacLayer.addEventListener('layersready', () => {
+        if (fitToZoom) {
+          zoomToLayer(newStacLayer);
+        }
+      });
+
+      return newStacLayer;
+    },
+    [authClient, zoomToLayer]
+  );
+
   const createStacLayerWithSentinel2ArdFix = useCallback(
-    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string, fitToZoom = true) => {
+    async ({
+      url,
+      zIndex,
+      fitToZoom,
+      displayPreview,
+      assetNameWhichShouldBeDisplayed,
+    }: Required<Pick<TCreateStacLayerParams, 'fitToZoom' | 'displayPreview'>> & TCreateStacLayerParams) => {
       const data = await getHttpClient().get<StacItem>(url);
       const hasCogAsset = !!data?.assets['cog'];
       const shouldFixCogAsset = hasCogAsset && !data?.assets['cog'].type;
       const cogAssetBands = [3, 2, 1];
       const sentinel2ArdAssets = ['cog'];
-      const assetToBeDisplayed = assetNameWhichShouldBeDisplayed
+      const assets = assetNameWhichShouldBeDisplayed
         ? [assetNameWhichShouldBeDisplayed]
         : hasCogAsset
         ? sentinel2ArdAssets
@@ -74,61 +144,30 @@ export const useStacLayerCreation = () => {
         };
       }
 
-      const newStacLayer = new STACWithColorMap({
+      return createSTAC({
         data,
-        bands: hasCogAsset ? cogAssetBands : undefined,
-        assets: assetToBeDisplayed,
         zIndex,
-        getSourceOptions: (type, options) => {
-          const token = authClient.getToken().token;
-          (options as { sourceOptions?: object }).sourceOptions =
-            (options as { sourceOptions?: object }).sourceOptions || {};
-          (options as { sourceOptions: { headers: object } }).sourceOptions.headers = {
-            Authorization: `Bearer ${token}`,
-          };
-          return options;
-        },
-        httpRequestFn: (url: string) => getHttpClient().get(url),
+        assets,
+        bands: hasCogAsset ? cogAssetBands : undefined,
+        fitToZoom,
+        displayPreview,
       });
-
-      newStacLayer.addEventListener('layersready', () => {
-        if (fitToZoom) {
-          zoomToLayer(newStacLayer);
-        }
-      });
-
-      return newStacLayer;
     },
-    [authClient, zoomToLayer]
+    [createSTAC]
   );
 
   const createStacLayerWithSupportForAllCollection = useCallback(
-    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string, fitToZoom = true) => {
-      const newStacLayer = new STACWithColorMap({
-        url,
-        zIndex,
-        assets: assetNameWhichShouldBeDisplayed ? [assetNameWhichShouldBeDisplayed] : undefined,
-        getSourceOptions: (type, options) => {
-          const token = authClient.getToken().token;
-          (options as { sourceOptions?: object }).sourceOptions =
-            (options as { sourceOptions?: object }).sourceOptions || {};
-          (options as { sourceOptions: { headers: object } }).sourceOptions.headers = {
-            Authorization: `Bearer ${token}`,
-          };
-          return options;
-        },
-        httpRequestFn: (url: string) => getHttpClient().get(url),
-      });
-
-      newStacLayer.addEventListener('layersready', () => {
-        if (fitToZoom) {
-          zoomToLayer(newStacLayer);
-        }
-      });
-
-      return newStacLayer;
+    async ({
+      url,
+      zIndex,
+      fitToZoom,
+      displayPreview,
+      assetNameWhichShouldBeDisplayed,
+    }: Required<Pick<TCreateStacLayerParams, 'fitToZoom' | 'displayPreview'>> & TCreateStacLayerParams) => {
+      const assets = assetNameWhichShouldBeDisplayed ? [assetNameWhichShouldBeDisplayed] : undefined;
+      return createSTAC({ url, zIndex, assets, fitToZoom, displayPreview });
     },
-    [authClient, zoomToLayer]
+    [createSTAC]
   );
 
   const createStacLayer = useCallback(
@@ -138,20 +177,31 @@ export const useStacLayerCreation = () => {
       collection,
       assetNameWhichShouldBeDisplayed,
       fitToZoom = true,
-    }: {
-      url: string;
-      zIndex: number;
-      collection?: string;
-      assetNameWhichShouldBeDisplayed?: string;
-      fitToZoom?: boolean;
-    }) => {
-      const newStacLayer =
-        collection === 'sentinel2_ard'
-          ? await createStacLayerWithSentinel2ArdFix(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom)
-          : createStacLayerWithSupportForAllCollection(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom);
-      return newStacLayer;
+      displayPreview = true,
+    }: TCreateStacLayerParams) => {
+      switch (collection) {
+        case 'sentinel2_ard': {
+          return await createStacLayerWithSentinel2ArdFix({
+            url,
+            zIndex,
+            assetNameWhichShouldBeDisplayed,
+            fitToZoom,
+            displayPreview,
+          });
+        }
+
+        default: {
+          return createStacLayerWithSupportForAllCollection({
+            url,
+            zIndex,
+            assetNameWhichShouldBeDisplayed,
+            fitToZoom,
+            displayPreview,
+          });
+        }
+      }
     },
-    [createStacLayerWithSupportForAllCollection, createStacLayerWithSentinel2ArdFix]
+    [createStacLayerWithSentinel2ArdFix, createStacLayerWithSupportForAllCollection]
   );
 
   return useMemo(

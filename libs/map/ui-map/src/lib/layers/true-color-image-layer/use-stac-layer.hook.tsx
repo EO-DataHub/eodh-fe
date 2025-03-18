@@ -8,9 +8,7 @@ import { useStacLayerCreation } from '../../stac/use-stac-layer-creation';
 
 export const useStacLayer = () => {
   const { stacUrl, feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
-
   const { comparisonModeEnabled } = useComparisonMode();
-
   const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
 
   useEffect(() => {
