@@ -213,6 +213,7 @@ interface Resources {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
             AOI_MISSING: 'Area of Interest is missing.';
             INVALID_DATE_RANGE: 'End date cannot be before start date.';
+            NO_DATE_SELECTED: 'Please select a valid date';
             NO_DATA_IN_SELECTED_DATE_RANGE: {
               WITH_DATE_RANGE: 'Invalid date range for selected STAC collection: {{collection}}. Valid range is between {{dateFrom}} and {{dateTo}}';
               WITH_DATE_START: 'Invalid start date for selected STAC collection: {{collection}}. Valid start date begins {{dateFrom}}';
@@ -1118,6 +1119,7 @@ interface Resources {
           ONLY_ONE_FIELD_IS_REQUIRED: 'You must select only one of the following options';
           DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO: 'Invalid date. Date from should be earlier';
           DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
+          NO_DATE_SELECTED: 'Please select a valid date';
         };
         DATA_SETS: {
           INFO_BOX: {

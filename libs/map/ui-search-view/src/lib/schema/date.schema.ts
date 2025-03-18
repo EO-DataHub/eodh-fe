@@ -2,14 +2,26 @@ import { createDate, TDateString } from '@ukri/shared/utils/date';
 import { z } from 'zod';
 
 export const dateInitialSchema = z.object({
-  from: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).nullable(),
-  to: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).nullable(),
+  from: z
+    .custom<TDateString>((value) => !z.string().date().safeParse(value).error, {
+      message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
+    })
+    .nullable(),
+  to: z
+    .custom<TDateString>((value) => !z.string().date().safeParse(value).error, {
+      message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
+    })
+    .nullable(),
 });
 
 export const dateUpdateSchema = z
   .object({
-    from: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error),
-    to: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error),
+    from: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error, {
+      message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
+    }),
+    to: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error, {
+      message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
+    }),
   })
   .superRefine((schema, ctx) => {
     const dateFrom = createDate(schema.from);
