@@ -72,6 +72,7 @@ export const useComparisonModeImageLayers = () => {
         collection: item.collection,
         assetNameWhichShouldBeDisplayed: item.assetName,
         fitToZoom: false,
+        displayPreview: false,
       });
     },
     [comparisonItems, comparisonModeEnabled, createStacLayer]
