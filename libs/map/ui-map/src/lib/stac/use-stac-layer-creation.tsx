@@ -11,23 +11,36 @@ import { STACWithColorMap } from './stac-with-color-map';
 
 registerOpenLayersProjections();
 
-type TUrlStacLayer = {
+type TUrlStacLayerProps = {
   data?: never;
   url: string;
   zIndex: number;
   assets?: string[];
   bands?: number[];
   fitToZoom: boolean;
+  displayPreview: boolean;
 };
-type TDataStacLayer = {
+
+type TDataStacLayerProps = {
   data: StacItem;
   url?: never;
   zIndex: number;
   assets?: string[];
   bands?: number[];
   fitToZoom: boolean;
+  displayPreview: boolean;
 };
-type TStacLayer = TUrlStacLayer | TDataStacLayer;
+
+type TStacLayerProps = TUrlStacLayerProps | TDataStacLayerProps;
+
+type TCreateStacLayerParams = {
+  url: string;
+  zIndex: number;
+  collection?: string;
+  assetNameWhichShouldBeDisplayed?: string;
+  fitToZoom?: boolean;
+  displayPreview?: boolean;
+};
 
 export const useStacLayerCreation = () => {
   const map = useContext(MapContext);
@@ -74,14 +87,14 @@ export const useStacLayerCreation = () => {
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const createSTAC = useCallback(
-    (data: TStacLayer) => {
+    ({ data, url, zIndex, displayPreview, assets, bands, fitToZoom }: TStacLayerProps) => {
       const newStacLayer = new STACWithColorMap({
-        data: data.data,
-        url: data.url,
-        zIndex: data.zIndex,
-        displayPreview: true,
-        assets: data.assets,
-        bands: data.bands,
+        data,
+        url,
+        zIndex,
+        displayPreview,
+        assets,
+        bands,
         getSourceOptions: (type, options) => {
           const token = authClient.getToken().token;
           (options as { sourceOptions?: object }).sourceOptions =
@@ -95,7 +108,7 @@ export const useStacLayerCreation = () => {
       });
 
       newStacLayer.addEventListener('layersready', () => {
-        if (data.fitToZoom) {
+        if (fitToZoom) {
           zoomToLayer(newStacLayer);
         }
       });
@@ -106,7 +119,13 @@ export const useStacLayerCreation = () => {
   );
 
   const createStacLayerWithSentinel1Fix = useCallback(
-    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string, fitToZoom = true) => {
+    async ({
+      url,
+      zIndex,
+      fitToZoom,
+      displayPreview,
+      assetNameWhichShouldBeDisplayed,
+    }: Required<Pick<TCreateStacLayerParams, 'fitToZoom' | 'displayPreview'>> & TCreateStacLayerParams) => {
       const data = await getHttpClient().get<StacItem>(url);
       const hasThumbnailAsset = !!data?.assets['thumbnail'];
       const shouldFixThumbnailAsset = hasThumbnailAsset && !data?.assets['thumbnail'].type;
@@ -119,13 +138,19 @@ export const useStacLayerCreation = () => {
         };
       }
 
-      return createSTAC({ data, zIndex, assets, fitToZoom });
+      return createSTAC({ data, zIndex, assets, fitToZoom, displayPreview });
     },
     [createSTAC]
   );
 
   const createStacLayerWithSentinel2ArdFix = useCallback(
-    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string, fitToZoom = true) => {
+    async ({
+      url,
+      zIndex,
+      fitToZoom,
+      displayPreview,
+      assetNameWhichShouldBeDisplayed,
+    }: Required<Pick<TCreateStacLayerParams, 'fitToZoom' | 'displayPreview'>> & TCreateStacLayerParams) => {
       const data = await getHttpClient().get<StacItem>(url);
       const hasCogAsset = !!data?.assets['cog'];
       const shouldFixCogAsset = hasCogAsset && !data?.assets['cog'].type;
@@ -144,15 +169,28 @@ export const useStacLayerCreation = () => {
         };
       }
 
-      return createSTAC({ data, zIndex, assets, bands: hasCogAsset ? cogAssetBands : undefined, fitToZoom });
+      return createSTAC({
+        data,
+        zIndex,
+        assets,
+        bands: hasCogAsset ? cogAssetBands : undefined,
+        fitToZoom,
+        displayPreview,
+      });
     },
     [createSTAC]
   );
 
   const createStacLayerWithSupportForAllCollection = useCallback(
-    async (url: string, zIndex: number, assetNameWhichShouldBeDisplayed?: string, fitToZoom = true) => {
+    async ({
+      url,
+      zIndex,
+      fitToZoom,
+      displayPreview,
+      assetNameWhichShouldBeDisplayed,
+    }: Required<Pick<TCreateStacLayerParams, 'fitToZoom' | 'displayPreview'>> & TCreateStacLayerParams) => {
       const assets = assetNameWhichShouldBeDisplayed ? [assetNameWhichShouldBeDisplayed] : undefined;
-      return createSTAC({ url, zIndex, assets, fitToZoom });
+      return createSTAC({ url, zIndex, assets, fitToZoom, displayPreview });
     },
     [createSTAC]
   );
@@ -164,24 +202,37 @@ export const useStacLayerCreation = () => {
       collection,
       assetNameWhichShouldBeDisplayed,
       fitToZoom = true,
-    }: {
-      url: string;
-      zIndex: number;
-      collection?: string;
-      assetNameWhichShouldBeDisplayed?: string;
-      fitToZoom?: boolean;
-    }) => {
+      displayPreview = true,
+    }: TCreateStacLayerParams) => {
       switch (collection) {
         case 'sentinel1': {
-          return await createStacLayerWithSentinel1Fix(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom);
+          return await createStacLayerWithSentinel1Fix({
+            url,
+            zIndex,
+            assetNameWhichShouldBeDisplayed,
+            fitToZoom,
+            displayPreview,
+          });
         }
 
         case 'sentinel2_ard': {
-          return await createStacLayerWithSentinel2ArdFix(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom);
+          return await createStacLayerWithSentinel2ArdFix({
+            url,
+            zIndex,
+            assetNameWhichShouldBeDisplayed,
+            fitToZoom,
+            displayPreview,
+          });
         }
 
         default: {
-          return createStacLayerWithSupportForAllCollection(url, zIndex, assetNameWhichShouldBeDisplayed, fitToZoom);
+          return createStacLayerWithSupportForAllCollection({
+            url,
+            zIndex,
+            assetNameWhichShouldBeDisplayed,
+            fitToZoom,
+            displayPreview,
+          });
         }
       }
     },
