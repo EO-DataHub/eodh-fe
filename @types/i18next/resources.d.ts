@@ -931,7 +931,12 @@ interface Resources {
               QUESTION: 'What is EOPro?';
               ANSWER: [
                 'EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface. ',
-                'Note: Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
+                {
+                  STYLED_TEXT: [
+                    ['BOLD', 'Note: '],
+                    'Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
+                  ];
+                }
               ];
             };
             HOW_DO_I_GET_STARTED: {
@@ -973,7 +978,12 @@ interface Resources {
               QUESTION: 'How do I select a data set as part of a search?';
               ANSWER: [
                 'Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings.',
-                'Note: Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
+                {
+                  STYLED_TEXT: [
+                    ['BOLD', 'Note: '],
+                    'Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
+                  ];
+                }
               ];
             };
             HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI: {
@@ -1018,7 +1028,12 @@ interface Resources {
                   'Public data sets (e.g., Copernicus Sentinel) are freely available.',
                   'Commercial data sets (e.g., Planet) require purchase before viewing or using for workflows.'
                 ],
-                'Note: Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
+                {
+                  STYLED_TEXT: [
+                    ['BOLD', 'Note: '],
+                    'Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
+                  ];
+                }
               ];
             };
           };

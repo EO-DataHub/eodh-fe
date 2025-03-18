@@ -15,7 +15,11 @@ type TLinkItem = {
   LINK: { [key: string]: { DESCRIPTION: string } };
 };
 
-type TAnswerType = string | string[] | [string] | [string][] | TTableItem | TImageItem | TLinkItem;
+type TStyledText = {
+  STYLED_TEXT: [['BOLD', string], ['ITALIC', string], ['UNDERLINE', string], string];
+};
+
+type TAnswerType = string | string[] | [string] | [string][] | TTableItem | TImageItem | TLinkItem | TStyledText;
 
 interface ITextRendererProps {
   content: string;
@@ -85,6 +89,48 @@ const LinkRenderer = ({ linkData, answerKey, links }: ILinkRendererProps) => {
   ));
 };
 
+interface IStyledTextRendererProps {
+  styledTextData: TStyledText['STYLED_TEXT'];
+  answerKey: string;
+}
+
+const StyledTextRenderer = ({ styledTextData, answerKey }: IStyledTextRendererProps) => {
+  return (
+    <p key={answerKey} className='mb-2'>
+      {styledTextData.map((text, key) => {
+        switch (text[0]) {
+          case 'BOLD':
+            return <Text content={text[1]} fontSize='medium' fontWeight='bold' key={key} type='span' />;
+          case 'ITALIC':
+            return (
+              <Text
+                content={text[1]}
+                fontSize='medium'
+                fontWeight='semibold'
+                key={key}
+                type='span'
+                className='italic'
+              />
+            );
+          case 'UNDERLINE':
+            return (
+              <Text
+                content={text[1]}
+                fontSize='medium'
+                fontWeight='semibold'
+                key={key}
+                type='span'
+                className='underline'
+              />
+            );
+          default:
+            return <Text content={text as string} fontSize='medium' fontWeight='regular' key={key} type='span' />;
+        }
+      })}
+    </p>
+  );
+};
+
 interface IContentRendererProps {
   item: TAnswerType;
   answerKey: string;
@@ -102,6 +148,8 @@ const ContentRenderer = ({ item, answerKey, arrayIndex, imagePath, links }: ICon
     return <ImageRenderer imageData={item.IMAGE} answerKey={`${answerKey}_${arrayIndex}`} imagePath={imagePath} />;
   } else if (typeof item === 'object' && item !== null && 'LINK' in item) {
     return <LinkRenderer linkData={item.LINK} answerKey={`${answerKey}_${arrayIndex}`} links={links} />;
+  } else if (typeof item === 'object' && item !== null && 'STYLED_TEXT' in item) {
+    return <StyledTextRenderer styledTextData={item.STYLED_TEXT} answerKey={`${answerKey}_${arrayIndex}`} />;
   }
   return null;
 };
