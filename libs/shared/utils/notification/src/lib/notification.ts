@@ -14,5 +14,5 @@ const calculateDisplayTime = (message: string) => {
 
 export const displayNotification = (message: string, variant: 'success' | 'error' | 'warning' | 'info') => {
   const displayTime = calculateDisplayTime(message);
-  enqueueSnackbar(message, { variant, persist: false, autoHideDuration: displayTime });
+  enqueueSnackbar(message, { variant, persist: false, autoHideDuration: displayTime, disableWindowBlurListener: true });
 };
