@@ -118,31 +118,6 @@ export const useStacLayerCreation = () => {
     [authClient, zoomToLayer]
   );
 
-  const createStacLayerWithSentinel1Fix = useCallback(
-    async ({
-      url,
-      zIndex,
-      fitToZoom,
-      displayPreview,
-      assetNameWhichShouldBeDisplayed,
-    }: Required<Pick<TCreateStacLayerParams, 'fitToZoom' | 'displayPreview'>> & TCreateStacLayerParams) => {
-      const data = await getHttpClient().get<StacItem>(url);
-      const hasThumbnailAsset = !!data?.assets['thumbnail'];
-      const shouldFixThumbnailAsset = hasThumbnailAsset && !data?.assets['thumbnail'].type;
-      const assets = assetNameWhichShouldBeDisplayed ? [assetNameWhichShouldBeDisplayed] : undefined;
-
-      if (shouldFixThumbnailAsset) {
-        data.assets['thumbnail'] = {
-          ...data.assets['thumbnail'],
-          type: data.assets['thumbnail'].href.endsWith('.png') ? 'image/png' : 'image/jpeg',
-        };
-      }
-
-      return createSTAC({ data, zIndex, assets, fitToZoom, displayPreview });
-    },
-    [createSTAC]
-  );
-
   const createStacLayerWithSentinel2ArdFix = useCallback(
     async ({
       url,
@@ -205,16 +180,6 @@ export const useStacLayerCreation = () => {
       displayPreview = true,
     }: TCreateStacLayerParams) => {
       switch (collection) {
-        case 'sentinel1': {
-          return await createStacLayerWithSentinel1Fix({
-            url,
-            zIndex,
-            assetNameWhichShouldBeDisplayed,
-            fitToZoom,
-            displayPreview,
-          });
-        }
-
         case 'sentinel2_ard': {
           return await createStacLayerWithSentinel2ArdFix({
             url,
@@ -236,7 +201,7 @@ export const useStacLayerCreation = () => {
         }
       }
     },
-    [createStacLayerWithSentinel1Fix, createStacLayerWithSentinel2ArdFix, createStacLayerWithSupportForAllCollection]
+    [createStacLayerWithSentinel2ArdFix, createStacLayerWithSupportForAllCollection]
   );
 
   return useMemo(
