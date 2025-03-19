@@ -28,12 +28,12 @@ export const formatUnit = (area: number, unit: TBaseUnit, t: TFunction) => {
   switch (value.unit.type) {
     case 'km2':
     case 'miles2': {
-      return `${value.value.toLocaleString("en-US")} ${t(value.unit.displayedValueTranslation)}<sup>2</sup>`;
+      return `${value.value.toLocaleString('en-US')} ${t(value.unit.displayedValueTranslation)}<sup>2</sup>`;
     }
 
     case 'km':
     case 'miles': {
-      return `${value.value.toLocaleString("en-US")} ${t(value.unit.displayedValueTranslation)}`;
+      return `${value.value.toLocaleString('en-US')} ${t(value.unit.displayedValueTranslation)}`;
     }
   }
 };
