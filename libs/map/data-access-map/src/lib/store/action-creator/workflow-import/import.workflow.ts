@@ -138,7 +138,7 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
   if (dateRangeImportedNode) {
     useDateStore.getState().updateDate(dateRangeImportedNode?.value || undefined);
   } else {
-    useDateStore.getState().reset();
+    useDateStore.getState().reset('action-creator');
   }
 
   useDataSetsStore.getState().changeState('readonly');

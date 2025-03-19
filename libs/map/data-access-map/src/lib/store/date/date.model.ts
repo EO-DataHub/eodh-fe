@@ -1,6 +1,7 @@
 import { createDateString, formatDate, TDateString } from '@ukri/shared/utils/date';
 
 export type TDateState = 'readonly' | 'edit';
+export type TSchema = 'search' | 'action-creator';
 
 export type TDateValues = {
   date: {
@@ -10,9 +11,10 @@ export type TDateValues = {
 };
 
 export interface IDateStore extends TDateValues {
+  schema: TSchema;
   state: TDateState;
   updateDate: (date: Partial<TDateValues['date']> | undefined) => void;
-  reset: () => void;
+  reset: (schema: TSchema) => void;
   changeState: (state: TDateState) => void;
 }
 
@@ -26,10 +28,29 @@ const oneMonthAgo = () => {
   return oneMonthAgo;
 };
 
-export const defaultValues: TDateStoreState = {
-  state: 'edit',
-  date: {
-    from: formatDate(createDateString(oneMonthAgo())),
-    to: formatDate(createDateString(new Date())),
-  },
+export const getDefaultValues = (schema: TSchema): TDateStoreState => {
+  switch (schema) {
+    case 'action-creator': {
+      return {
+        schema,
+        state: 'edit',
+        date: {
+          from: null,
+          to: null,
+        },
+      };
+    }
+
+    case 'search':
+    default: {
+      return {
+        schema,
+        state: 'edit',
+        date: {
+          from: formatDate(createDateString(oneMonthAgo())),
+          to: formatDate(createDateString(new Date())),
+        },
+      };
+    }
+  }
 };
