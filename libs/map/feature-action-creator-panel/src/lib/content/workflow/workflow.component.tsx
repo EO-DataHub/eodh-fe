@@ -62,9 +62,17 @@ export const Workflow = () => {
   const { aoiLimit } = useSettings();
   const { comparisonModeEnabled } = useComparisonMode();
   const {
-    context: { resetOnboarding },
+    context: { completeOnboarding, resetOnboarding, hideOnboardingTooltip },
   } = useOnboarding();
 
+  const importWorkflowFile = useCallback(() => {
+    console.log('importWorkflowFile');
+    // completeOnboarding();
+    hideOnboardingTooltip();
+    resetOnboarding();
+    importWorkflow();      
+  }, [importWorkflow, resetOnboarding, hideOnboardingTooltip]);
+  
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
     const dataSetNode = getNodesByType<TDataSetsNode>('dataSet').pop();
@@ -156,7 +164,7 @@ export const Workflow = () => {
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
             size='large'
             disabled={isOpen || !enabled || comparisonModeEnabled || status === 'pending'}
-            onClick={importWorkflow}
+            onClick={importWorkflowFile}
           />
           <Button
             className='w-full'
