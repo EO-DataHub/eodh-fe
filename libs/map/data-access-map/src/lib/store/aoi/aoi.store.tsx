@@ -1,4 +1,5 @@
 import type {} from '@redux-devtools/extension';
+import isFunction from 'lodash/isFunction';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -18,8 +19,9 @@ export const useAoiStore = create<IAoiStore>()(
         coordinates: getCoordinates(shape),
         fitToAoi: fitToAoi !== undefined ? fitToAoi : undefined,
       })),
-    updateShape: (shape) =>
+    updateShape: (shapeOrFunction) =>
       set((state) => {
+        const shape = isFunction(shapeOrFunction) ? shapeOrFunction(state.shape) : shapeOrFunction;
         if (!shape || !state.shape?.type) {
           return {
             shape: undefined,
