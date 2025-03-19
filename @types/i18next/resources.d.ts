@@ -1120,6 +1120,7 @@ interface Resources {
           DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO: 'Invalid date. Date from should be earlier';
           DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
           NO_DATE_SELECTED: 'Please select a valid date';
+          DATE_SHOULD_BE_EARLIER_THAN_TODAY: "Date cannot be later than today's date";
         };
         DATA_SETS: {
           INFO_BOX: {

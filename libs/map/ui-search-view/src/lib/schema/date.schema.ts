@@ -26,9 +26,18 @@ export const dateUpdateSchema = z
   .superRefine((schema, ctx) => {
     const dateFrom = createDate(schema.from);
     const dateTo = createDate(schema.to);
+    const isLaterThanToday = z.date().max(new Date());
 
     if (dateFrom) {
       const checkDateTo = z.date().min(dateFrom);
+
+      if (isLaterThanToday.safeParse(dateFrom).error) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_SHOULD_BE_EARLIER_THAN_TODAY',
+          path: ['from'],
+        });
+      }
 
       if (checkDateTo.safeParse(dateTo).error) {
         ctx.addIssue({
@@ -46,9 +55,17 @@ export const dateUpdateSchema = z
     }
 
     if (dateTo) {
-      const checkDateFrom = z.date().max(dateTo);
+      const checkDateTo = z.date().max(dateTo);
 
-      if (checkDateFrom.safeParse(dateFrom).error) {
+      if (isLaterThanToday.safeParse(dateTo).error) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_SHOULD_BE_EARLIER_THAN_TODAY',
+          path: ['to'],
+        });
+      }
+
+      if (checkDateTo.safeParse(dateFrom).error) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO',
