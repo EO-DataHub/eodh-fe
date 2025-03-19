@@ -4,7 +4,8 @@ export type TBaseUnit = 'km' | 'miles';
 export const useSettings = () => {
   const aoiLimit = 10000000000;
   const measurementUnit: TBaseUnit = 'km';
-  return { aoiLimit, measurementUnit };
+  const numberFormatting = 'en-US';
+  return { aoiLimit, measurementUnit, numberFormatting };
 };
 
 export const convertBaseUnitToAreaUnit = (unit: 'km' | 'miles'): TAreaUnit => {
