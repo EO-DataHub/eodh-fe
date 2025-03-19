@@ -38,7 +38,13 @@ export const formatUnit = (area: number, unit: TBaseUnit, t: TFunction, numberFo
   }
 };
 
-const formatArea = function (text: string, value: TAreaNode['value'], unit: TBaseUnit, t: TFunction, numberFormatting: string) {
+const formatArea = function (
+  text: string,
+  value: TAreaNode['value'],
+  unit: TBaseUnit,
+  t: TFunction,
+  numberFormatting: string
+) {
   const area = getArea(value);
   const output = formatUnit(area, unit, t, numberFormatting);
 
@@ -78,7 +84,13 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
     <Node
       type={node.type}
       active={true}
-      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, measurementUnit, t, numberFormatting)}
+      text={formatArea(
+        t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'),
+        node.value,
+        measurementUnit,
+        t,
+        numberFormatting
+      )}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
