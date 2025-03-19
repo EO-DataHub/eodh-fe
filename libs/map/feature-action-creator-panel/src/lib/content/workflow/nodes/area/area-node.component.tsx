@@ -15,7 +15,7 @@ type TNodeProps = {
 
 const Node = ({ node, onClearButtonClick }: TNodeProps) => {
   const { t } = useTranslation();
-  const { aoiLimit, measurementUnit } = useSettings();
+  const { aoiLimit, measurementUnit, numberFormatting } = useSettings();
 
   return useMemo(() => {
     switch (node.state) {
@@ -37,7 +37,7 @@ const Node = ({ node, onClearButtonClick }: TNodeProps) => {
             <ActiveNode
               node={node}
               text={t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.INSTRUCTIONS', {
-                maxSize: formatUnit(aoiLimit, measurementUnit, t),
+                maxSize: formatUnit(aoiLimit, measurementUnit, t, numberFormatting),
               })}
             />
           );
@@ -46,7 +46,7 @@ const Node = ({ node, onClearButtonClick }: TNodeProps) => {
         return <ValueNode node={node} onClearButtonClick={onClearButtonClick} />;
       }
     }
-  }, [node, onClearButtonClick, t, aoiLimit, measurementUnit]);
+  }, [node, onClearButtonClick, t, aoiLimit, measurementUnit, numberFormatting]);
 };
 
 type TAreaNodeNodeProps = { node: TAreaNode };
