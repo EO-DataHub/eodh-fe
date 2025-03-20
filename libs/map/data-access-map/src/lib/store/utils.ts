@@ -122,6 +122,12 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   }));
   const shape = createShape(aoi, aoi?.type);
   const availableDatasets = functionNodes.map((node) => node.value?.supportedDataSets || []).flat();
+  const isAreaNodeActive = nodes.find((node) => node?.type === 'area' && node?.state === 'active');
+  const isDataSetsNodeActive = nodes.find((node) => node?.type === 'dataSet' && node?.state === 'active');
+  const isDateNodeActive = nodes.find((node) => node?.type === 'dateRange' && node?.state === 'active');
+  const areaState = isAreaNodeActive ? 'edit' : 'readonly';
+  const dataSetState = isDataSetsNodeActive ? 'edit' : 'readonly';
+  const dateState = isDateNodeActive ? 'edit' : 'readonly';
 
   clearWorkflowCache();
   useDataSetsStore.getState().setDataSet(dataSet);
@@ -140,6 +146,10 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   } else {
     useDateStore.getState().reset('action-creator');
   }
+
+  useAoiStore.getState().changeState(areaState);
+  useDataSetsStore.getState().changeState(dataSetState);
+  useDateStore.getState().changeState(dateState);
 };
 
 export const enableDataSet = (dataSet?: (TDataSetValue | string)[] | undefined) => {
