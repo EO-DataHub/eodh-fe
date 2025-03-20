@@ -17,7 +17,7 @@ export const MeasureDistancePanel = ({ className }: IMeasureDistancePanelProps) 
   }
 
   return (
-    <div className={`absolute left-10 top-5 ${className}`}>
+    <div className={`absolute left-10 top-2 ${className}`}>
       <div className='bg-bright-main rounded-lg border-[1px] border-bright-dark p-4 flex flex-row'>
         <Icon name='Straighten' width={24} height={24} className='text-neutral-light pr-2' />
         <Distance className='px-1' />
