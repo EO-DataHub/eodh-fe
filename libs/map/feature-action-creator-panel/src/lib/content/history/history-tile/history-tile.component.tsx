@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { DeleteConfirmation } from './delete-item-form.component';
 import { historyTileStyles } from './history-tile.styles';
 import { Tag } from './tag.component';
 import { ToggleWorkflowButton } from './toggle-workflow-button.component';
@@ -64,7 +65,7 @@ export const HistoryTile = ({
       </div>
       <div className={historyTileStyles.section}>
         {deleteInProgress ? (
-          <Text content={t('MAP.ACTION_CREATOR_PANEL.HISTORY.DELETING')} fontSize='medium' fontWeight='regular' />
+          <DeleteConfirmation />
         ) : (
           <>
             {status && <Tag status={status} />}
