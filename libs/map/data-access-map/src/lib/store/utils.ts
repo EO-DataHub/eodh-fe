@@ -63,7 +63,7 @@ export const reset = () => {
   useDataSetsStore.getState().updateDataSets(undefined, 'search');
   useDataSetsStore.getState().updateDataSets(undefined, 'action-creator');
   useDataSetsStore.getState().enable();
-  useDateStore.getState().reset();
+  useDateStore.getState().reset('action-creator');
 };
 
 type TFunction = {
@@ -138,7 +138,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   if (dateRange) {
     useDateStore.getState().updateDate(dateRange);
   } else {
-    useDateStore.getState().reset();
+    useDateStore.getState().reset('action-creator');
   }
 };
 

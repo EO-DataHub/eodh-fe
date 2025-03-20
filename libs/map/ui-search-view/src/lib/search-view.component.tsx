@@ -60,7 +60,7 @@ export const SearchView = ({
       form.reset({ dataSets: data.dataSets, date: data.date, aoi: shape?.shape });
 
       if (shouldTriggerDataSetsValidation && !isEqual(new TreeBuilder(treeModel).getValues(), dataSets)) {
-        form.trigger();
+        form.trigger('dataSets');
       } else {
         form.clearErrors();
       }
