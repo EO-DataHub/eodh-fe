@@ -146,13 +146,15 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
   useDateStore.getState().changeState('readonly');
 };
 
-export const importWorkflow = async () => {
+export const importWorkflow: () => Promise<{ status: 'error' | 'success' }> = async () => {
   try {
     const fileContent = await selectFile();
     const workflow = nodeImportSchema.parse(fileContent);
     loadWorkflow(workflow.nodes);
     displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.SUCCESS'), 'success');
+    return { status: 'success' };
   } catch (e) {
     displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE'), 'error');
+    return { status: 'error' };
   }
 };

@@ -62,8 +62,15 @@ export const Workflow = () => {
   const { aoiLimit } = useSettings();
   const { comparisonModeEnabled } = useComparisonMode();
   const {
-    context: { resetOnboarding },
+    context: { completeOnboarding, resetOnboarding },
   } = useOnboarding();
+
+  const importWorkflowFile = useCallback(async () => {
+    const statusOfImport = await importWorkflow();
+    if (statusOfImport.status === 'success') {
+      completeOnboarding();
+    }
+  }, [importWorkflow, completeOnboarding]);
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
@@ -156,7 +163,7 @@ export const Workflow = () => {
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
             size='large'
             disabled={isOpen || !enabled || comparisonModeEnabled || status === 'pending'}
-            onClick={importWorkflow}
+            onClick={importWorkflowFile}
           />
           <Button
             className='w-full'
