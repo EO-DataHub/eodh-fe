@@ -65,7 +65,7 @@ export const HistoryTile = ({
       </div>
       <div className={historyTileStyles.section}>
         {deleteInProgress ? (
-          <DeleteConfirmation />
+          <DeleteConfirmation onNoClick={() => setDeleteInProgress(false)}/>
         ) : (
           <>
             {status && <Tag status={status} />}

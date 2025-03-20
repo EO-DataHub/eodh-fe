@@ -1,6 +1,7 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { Icon, TIconNames } from '../icon/icon';
+import { twMerge } from '../merge.tailwind';
 import { notificationStyles } from './notification.styles';
 
 interface INotificationProps {
@@ -29,7 +30,7 @@ export const Notification = ({
   }
 
   return (
-    <div className={`${notificationStyles.container} ${notificationStyles.type[type]} ${className}`}>
+    <div className={twMerge(notificationStyles.container,notificationStyles.type[type], className)}>
       <Icon name={iconName} />
       <div className={notificationStyles.content}>{children}</div>
       {closeButtonVisible && (
