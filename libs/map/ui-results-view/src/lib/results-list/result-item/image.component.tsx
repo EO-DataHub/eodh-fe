@@ -1,6 +1,6 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { fetchImage } from '@ukri/map/data-access-map';
-import { Icon } from '@ukri/shared/design-system';
+import { Icon, LoadingSpinner } from '@ukri/shared/design-system';
 import { useCallback, useEffect, useState } from 'react';
 
 interface IImageProps {
@@ -58,6 +58,14 @@ export const Image = ({ imageUrl, onToggle, disabled = false }: IImageProps) => 
     return (
       <div className='flex justify-center items-center w-[132px] min-w-[132px] min-h-[132px] h-[132px] bg-bright-dark'>
         <Icon name='HideImage' />
+      </div>
+    );
+  }
+
+  if (!imageSrc) {
+    return (
+      <div className='w-[132px] h-[132px] min-w-[132px] min-h-[132px] flex items-center justify-center'>
+        <LoadingSpinner />
       </div>
     );
   }
