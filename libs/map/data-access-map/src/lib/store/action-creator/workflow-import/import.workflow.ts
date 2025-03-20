@@ -152,9 +152,9 @@ export const importWorkflow = async () => {
     const workflow = nodeImportSchema.parse(fileContent);
     loadWorkflow(workflow.nodes);
     displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.SUCCESS'), 'success');
-    return "success";
+    return 'success';
   } catch (e) {
     displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE'), 'error');
-    return "error";
+    return 'error';
   }
 };

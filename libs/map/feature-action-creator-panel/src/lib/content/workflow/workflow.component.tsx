@@ -65,13 +65,13 @@ export const Workflow = () => {
     context: { completeOnboarding, resetOnboarding },
   } = useOnboarding();
 
-  const importWorkflowFile = useCallback(async() => {
+  const importWorkflowFile = useCallback(async () => {
     const statusOfImport = await importWorkflow();
     if (statusOfImport === 'success') {
       completeOnboarding();
     }
   }, [importWorkflow, completeOnboarding]);
-  
+
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
     const dataSetNode = getNodesByType<TDataSetsNode>('dataSet').pop();
