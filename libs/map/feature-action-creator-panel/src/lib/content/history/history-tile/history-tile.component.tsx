@@ -8,13 +8,6 @@ import { historyTileStyles } from './history-tile.styles';
 import { Tag } from './tag.component';
 import { ToggleWorkflowButton } from './toggle-workflow-button.component';
 
-const truncateString = (str: string, maxLength: number) => {
-  if (str.length > maxLength) {
-    return str.slice(0, maxLength) + '...';
-  }
-  return str;
-};
-
 export interface IHistoryTileProps {
   jobId: string;
   workflowId: string;
@@ -50,7 +43,7 @@ export const HistoryTile = ({
         <div className={historyTileStyles.textContainer}>
           <Text content={workflowId} fontSize='medium' fontWeight='semibold' />
           <Text
-            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.ID')}: ${truncateString(jobId, 25)}`}
+            content={`${t('MAP.ACTION_CREATOR_PANEL.HISTORY.ID')}: ${jobId}`}
             fontSize='small'
             fontWeight='regular'
             className={historyTileStyles.jobId}

@@ -1,13 +1,13 @@
-import { TCollection, TFeature } from '@ukri/map/data-access-stac-catalog';
+import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { Button, LoadingSpinner } from '@ukri/shared/design-system';
-import { useFeatureFlag } from '@ukri/shared/utils/feature-flag';
 
 import { MultipleItemsActionButtons } from './result-item/multiple-items-action-buttons/multiple-items-action-buttons.component';
 import { ResultItem } from './result-item/result-item.component';
 import { SingleItemActionButtons } from './result-item/single-item-action-buttons.component';
 import { useResult } from './use-result.hook';
 
-const hasManyIndices = (feature: TFeature) => Object.keys(feature.assets).length > 1;
+const hasManyIndices = (feature: TFeature) =>
+  Object.entries(feature.assets).filter(([assetName]) => assetName !== 'thumbnail').length > 1;
 
 interface IActionButtons {
   feature: TFeature;
@@ -32,8 +32,7 @@ const ActionButtons = ({
   onCompareItemToggle,
   onToggleSelectedItem,
 }: IActionButtons) => {
-  const downloadingAssetsEnabled = useFeatureFlag('downloadAsset');
-  const canShowDownloadButton = downloadingAssetsEnabled && mode === 'action-creator';
+  const canShowDownloadButton = mode === 'action-creator';
 
   if (mode === 'action-creator' && hasManyIndices(feature)) {
     return <MultipleItemsActionButtons feature={feature} canDownload={canShowDownloadButton} />;
@@ -85,7 +84,7 @@ const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
 };
 
 export interface IResultsListProps {
-  features: TCollection['features'];
+  features: TFeature[];
   hasNextPage: boolean;
   isFetching: boolean;
   onLoadMore: () => void;
@@ -115,8 +114,8 @@ export const ResultsList = ({ isFetching, features, hasNextPage, onLoadMore }: I
           id={feature.id}
           highlightedItem={highlightedItem}
           imageUrl={feature.assets.thumbnail?.href || ''}
-          gridCode={feature.properties['grid:code']}
-          cloudCoverage={feature.properties['eo:cloud_cover']}
+          gridCode={feature.properties.gridCode}
+          cloudCoverage={feature.properties.cloudCoverage}
           collectionName={feature.collection}
           dateTime={feature.properties.datetime}
           hasManyIndices={hasManyIndices(feature)}

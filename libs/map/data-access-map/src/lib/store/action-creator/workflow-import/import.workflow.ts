@@ -1,7 +1,7 @@
+import { displayNotification } from '@ukri/shared/utils/notification';
 import { t } from 'i18next';
 import isString from 'lodash/isString';
 import { nanoid } from 'nanoid';
-import { enqueueSnackbar } from 'notistack';
 
 import { createShape } from '../../../geometry/geometry';
 import { clearWorkflowCache } from '../../../mutation/workflow.mutation';
@@ -138,7 +138,7 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
   if (dateRangeImportedNode) {
     useDateStore.getState().updateDate(dateRangeImportedNode?.value || undefined);
   } else {
-    useDateStore.getState().reset();
+    useDateStore.getState().reset('action-creator');
   }
 
   useDataSetsStore.getState().changeState('readonly');
@@ -151,7 +151,8 @@ export const importWorkflow = async () => {
     const fileContent = await selectFile();
     const workflow = nodeImportSchema.parse(fileContent);
     loadWorkflow(workflow.nodes);
+    displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.SUCCESS'), 'success');
   } catch (e) {
-    enqueueSnackbar(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE'), { variant: 'error', persist: true });
+    displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE'), 'error');
   }
 };

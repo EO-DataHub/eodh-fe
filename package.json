@@ -1,6 +1,6 @@
 {
   "name": "@ukri/fe",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "license": "MIT",
   "scripts": {
     "prepare": "npx husky install",
@@ -47,7 +47,7 @@
     "jwt-decode": "4.0.0",
     "keycloak-js": "25.0.2",
     "nanoid": "5.0.8",
-    "notistack": "3.0.1",
+    "notistack": "3.0.2",
     "ol": "9.2.4",
     "ol-stac": "1.0.0-rc.8",
     "proj4": "2.12.0",

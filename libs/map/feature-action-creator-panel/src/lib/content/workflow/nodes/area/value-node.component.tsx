@@ -23,24 +23,30 @@ const getIconFromShape = (value: TAreaNode['value']): 'Polygon' | 'Circle' | 'Sq
   }
 };
 
-export const formatUnit = (area: number, unit: TBaseUnit, t: TFunction) => {
+export const formatUnit = (area: number, unit: TBaseUnit, t: TFunction, numberFormatting: string) => {
   const value = convertUnits(area, convertBaseUnitToAreaUnit(unit));
   switch (value.unit.type) {
     case 'km2':
     case 'miles2': {
-      return `${value.value} ${t(value.unit.displayedValueTranslation)}<sup>2</sup>`;
+      return `${value.value.toLocaleString(numberFormatting)} ${t(value.unit.displayedValueTranslation)}<sup>2</sup>`;
     }
 
     case 'km':
     case 'miles': {
-      return `${value.value} ${t(value.unit.displayedValueTranslation)}`;
+      return `${value.value.toLocaleString(numberFormatting)} ${t(value.unit.displayedValueTranslation)}`;
     }
   }
 };
 
-const formatArea = function (text: string, value: TAreaNode['value'], unit: TBaseUnit, t: TFunction) {
+const formatArea = function (
+  text: string,
+  value: TAreaNode['value'],
+  unit: TBaseUnit,
+  t: TFunction,
+  numberFormatting: string
+) {
   const area = getArea(value);
-  const output = formatUnit(area, unit, t);
+  const output = formatUnit(area, unit, t, numberFormatting);
 
   return `${text.trim()} ${output}`;
 };
@@ -53,13 +59,13 @@ type TValueNodeProps = {
 export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
   const { t } = useTranslation();
   const { canActivateNode, isLast } = useActionCreator();
-  const { aoiLimit, measurementUnit } = useSettings();
+  const { aoiLimit, measurementUnit, numberFormatting } = useSettings();
   const aoiLimitInfo = useMemo(
     () =>
       t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.ALLOWED_SIZE', {
-        maxSize: formatUnit(aoiLimit, measurementUnit, t),
+        maxSize: formatUnit(aoiLimit, measurementUnit, t, numberFormatting),
       }),
-    [t, aoiLimit, measurementUnit]
+    [t, aoiLimit, measurementUnit, numberFormatting]
   );
 
   const getErrorMessage = useMemo(() => {
@@ -78,7 +84,13 @@ export const ValueNode = ({ node, onClearButtonClick }: TValueNodeProps) => {
     <Node
       type={node.type}
       active={true}
-      text={formatArea(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'), node.value, measurementUnit, t)}
+      text={formatArea(
+        t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.NODE.AREA.DESCRIPTION'),
+        node.value,
+        measurementUnit,
+        t,
+        numberFormatting
+      )}
       clickable={canActivateNode(node)}
       selected={node.state === 'active'}
       hasNextNode={!isLast(node)}
