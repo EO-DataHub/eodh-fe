@@ -137,7 +137,7 @@ type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive' | 'addNode' | '
   canAddNextNode: (node: TNode, functions?: TBaseFunction[] | undefined) => boolean;
   editable: (node: TNode) => boolean;
   canExportWorkflow: boolean;
-  importWorkflow: () => Promise<'success' | 'error'>;
+  importWorkflow: () => Promise<{ status: 'success' | 'error' }>;
   exportWorkflow: () => void;
 };
 

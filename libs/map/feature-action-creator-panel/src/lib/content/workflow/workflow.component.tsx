@@ -67,7 +67,7 @@ export const Workflow = () => {
 
   const importWorkflowFile = useCallback(async () => {
     const statusOfImport = await importWorkflow();
-    if (statusOfImport === 'success') {
+    if (statusOfImport.status === 'success') {
       completeOnboarding();
     }
   }, [importWorkflow, completeOnboarding]);
