@@ -82,7 +82,7 @@ const landCoverChangesAssetSchema = z.object({
   statistics: z.never().optional(),
   'classification:classes': z.array(
     z.object({
-      'color-hint': z.string().transform((color) => (color.startsWith('#') ? color : `#${color}`)),
+      'color-hint': z.string().transform((color) => (color.startsWith('#') ? color : `#${color}`).substring(0, 7)),
       description: z.string(),
       value: z.number().nullable(),
     })
