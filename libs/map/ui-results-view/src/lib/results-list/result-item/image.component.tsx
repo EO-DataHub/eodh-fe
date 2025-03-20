@@ -1,7 +1,16 @@
 import { useMode } from '@ukri/map/data-access-map';
 import { fetchImage } from '@ukri/map/data-access-map';
 import { Icon, LoadingSpinner } from '@ukri/shared/design-system';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+const imageStyles = {
+  base: (loaded: boolean) => (loaded ? 'object-cover rounded-md' : 'invisible'),
+  disabled: ({ disabled, loaded }: { disabled: boolean; loaded: boolean }) =>
+    !loaded ? '' : disabled ? '' : 'cursor-pointer',
+  width: (loaded: boolean) => (loaded ? 'w-[132px] h-[132px] min-w-[132px] min-h-[132px]' : 'w-0 h-0'),
+};
+
+type TImageStatus = 'loading' | 'error' | 'loaded';
 
 interface IImageProps {
   imageUrl: string;
@@ -11,14 +20,15 @@ interface IImageProps {
 
 export const Image = ({ imageUrl, onToggle, disabled = false }: IImageProps) => {
   const { mode } = useMode();
-  const [displayError, setDislayError] = useState(false);
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
+  const [status, setStatus] = useState<TImageStatus>('loading');
+  const isLoading = useMemo(() => status === 'loading' || !imageSrc, [status, imageSrc]);
+  const loaded = useMemo(() => status === 'loaded', [status]);
 
   const getAssetImage = useCallback(
     async (imageUrl: string): Promise<Blob | string> => {
       if (mode === 'action-creator') {
-        const response = await fetchImage(imageUrl);
-        return response;
+        return await fetchImage(imageUrl);
       } else if (mode === 'search') {
         return imageUrl;
       }
@@ -28,7 +38,11 @@ export const Image = ({ imageUrl, onToggle, disabled = false }: IImageProps) => 
   );
 
   const showError = useCallback(() => {
-    setDislayError(true);
+    setStatus('error');
+  }, []);
+
+  const showImage = useCallback(() => {
+    setStatus('loaded');
   }, []);
 
   const onImageClick = useCallback(() => {
@@ -54,7 +68,7 @@ export const Image = ({ imageUrl, onToggle, disabled = false }: IImageProps) => 
     fetchImage();
   }, [imageUrl, getAssetImage, showError]);
 
-  if (displayError) {
+  if (status === 'error') {
     return (
       <div className='flex justify-center items-center w-[132px] min-w-[132px] min-h-[132px] h-[132px] bg-bright-dark'>
         <Icon name='HideImage' />
@@ -62,23 +76,20 @@ export const Image = ({ imageUrl, onToggle, disabled = false }: IImageProps) => 
     );
   }
 
-  if (!imageSrc) {
-    return (
-      <div className='w-[132px] h-[132px] min-w-[132px] min-h-[132px] flex items-center justify-center'>
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
   return (
-    <img
-      src={imageSrc}
-      alt='ResultItem'
-      className={`w-[132px] h-[132px] min-w-[132px] min-h-[132px] object-cover rounded-md ${
-        disabled ? '' : 'cursor-pointer'
-      }`}
-      onClick={onImageClick}
-      onError={showError}
-    />
+    <div className='w-[132px] h-[132px] min-w-[132px] min-h-[132px] flex items-center justify-center'>
+      {isLoading && <LoadingSpinner />}
+      <img
+        src={imageSrc}
+        alt='ResultItem'
+        className={`${imageStyles.base(loaded)} ${imageStyles.width(loaded)} ${imageStyles.disabled({
+          loaded,
+          disabled,
+        })}`}
+        onClick={onImageClick}
+        onError={showError}
+        onLoad={showImage}
+      />
+    </div>
   );
 };
