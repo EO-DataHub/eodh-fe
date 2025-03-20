@@ -62,16 +62,15 @@ export const Workflow = () => {
   const { aoiLimit } = useSettings();
   const { comparisonModeEnabled } = useComparisonMode();
   const {
-    context: { completeOnboarding, resetOnboarding, hideOnboardingTooltip },
+    context: { completeOnboarding, resetOnboarding },
   } = useOnboarding();
 
-  const importWorkflowFile = useCallback(() => {
-    console.log('importWorkflowFile');
-    // completeOnboarding();
-    hideOnboardingTooltip();
-    resetOnboarding();
-    importWorkflow();      
-  }, [importWorkflow, resetOnboarding, hideOnboardingTooltip]);
+  const importWorkflowFile = useCallback(async() => {
+    const statusOfImport = await importWorkflow();
+    if (statusOfImport === 'success') {
+      completeOnboarding();
+    }
+  }, [importWorkflow, completeOnboarding]);
   
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
