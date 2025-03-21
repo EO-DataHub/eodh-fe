@@ -4,6 +4,7 @@ import { Icon, LoadingSpinner } from '@ukri/shared/design-system';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const imageStyles = {
+  container: 'w-[132px] h-[132px] min-w-[132px] min-h-[132px]',
   base: (loaded: boolean) => (loaded ? 'object-cover rounded-md' : 'invisible'),
   disabled: ({ disabled, loaded }: { disabled: boolean; loaded: boolean }) =>
     !loaded ? '' : disabled ? '' : 'cursor-pointer',
@@ -70,14 +71,14 @@ export const Image = ({ imageUrl, onToggle, disabled = false }: IImageProps) => 
 
   if (status === 'error') {
     return (
-      <div className='flex justify-center items-center w-[132px] min-w-[132px] min-h-[132px] h-[132px] bg-bright-dark'>
+      <div className={`${imageStyles.container} flex justify-center items-center bg-bright-dark`}>
         <Icon name='HideImage' />
       </div>
     );
   }
 
   return (
-    <div className='w-[132px] h-[132px] min-w-[132px] min-h-[132px] flex items-center justify-center'>
+    <div className={`${imageStyles.container} flex items-center justify-center`}>
       {isLoading && <LoadingSpinner />}
       <img
         src={imageSrc}
