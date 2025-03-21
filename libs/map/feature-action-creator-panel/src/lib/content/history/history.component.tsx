@@ -5,7 +5,6 @@ import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-
 import { styles } from './history.styles';
 import { HistoryTile } from './history-tile/history-tile.component';
 import { SortFilter } from './sort-filter/sort-filter.component';
-import { ToggleWorkflowButton } from './toggle-workflow-button.component';
 import { useHistoryData } from './use-history-data.hook';
 import { useLoadHistoryResults } from './use-load-history-results.hook';
 
@@ -39,7 +38,7 @@ const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
         size='large'
         className={styles.button}
       >
-        <LoadingSpinner size='xs' className='ml-2' />
+        <LoadingSpinner size='xs' classNameContainer='ml-2' />
       </Button>
     );
   }
@@ -123,17 +122,11 @@ export const History = () => {
               workflowId={workflow.workflowId}
               submittedAtDate={workflow.submittedAtDate}
               status={workflow.status}
-              selected={selectedResult === workflow.jobId}
-            >
-              <ToggleWorkflowButton
-                selected={selectedResult === workflow.jobId}
-                selectedJobId={selectedResult}
-                loadResultsStatus={status}
-                workflowStatus={workflow.status}
-                onHide={hideResults}
-                onShow={() => showResults(workflow.jobId, workflow.workflowId)}
-              />
-            </HistoryTile>
+              selectedResult={selectedResult}
+              loadResultsStatus={status}
+              onHide={hideResults}
+              onShow={() => showResults(workflow.jobId, workflow.workflowId)}
+            />
           ))}
 
           {hasNextPage && (

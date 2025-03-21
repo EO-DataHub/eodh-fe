@@ -31,7 +31,13 @@ const colors = {
   error: {
     DEFAULT: '#FF0000',
     main: '#FF0000',
+    light: '#F5CFCF',
     contrastText: '#FFFFFF',
+  },
+  errorLight: {
+    DEFAULT: '#F5CFCF',
+    main: '#F5CFCF',
+    contrastText: '#FF0000',
   },
   warning: {
     DEFAULT: '#FFD15B',

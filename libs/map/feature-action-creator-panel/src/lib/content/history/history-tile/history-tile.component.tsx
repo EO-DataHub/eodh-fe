@@ -1,36 +1,25 @@
-import { Text } from '@ukri/shared/design-system';
+import { useDeleteHistoryItem } from '@ukri/map/data-access-map';
+import { Button, Text } from '@ukri/shared/design-system';
 import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
-import { PropsWithChildren, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { DeleteConfirmation } from './delete-item-form.component';
 import { historyTileStyles } from './history-tile.styles';
-
-const Tag = ({ status }: { status: 'READY' | 'PROCESSING' | 'FAILED' }) => {
-  const tagStyles = {
-    READY: 'bg-success text-success-contrastText',
-    PROCESSING: 'bg-warning text-bright',
-    FAILED: 'bg-error text-error-contrastText',
-  };
-  return (
-    <div className={clsx('rounded h-5 flex items-center', tagStyles[status])}>
-      <Text
-        content={`MAP.ACTION_CREATOR_PANEL.HISTORY.STATUS.${status}`}
-        fontSize='small'
-        fontWeight='bold'
-        className='mx-1.5 my-[3px] uppercase'
-      />
-    </div>
-  );
-};
+import { Tag } from './tag.component';
+import { ToggleWorkflowButton } from './toggle-workflow-button.component';
 
 export interface IHistoryTileProps {
   jobId: string;
   workflowId: string;
   submittedAtDate: string;
   status?: 'READY' | 'PROCESSING' | 'FAILED';
-  selected: boolean;
   className?: string;
+  selectedResult: string | null;
+  loadResultsStatus: 'pending' | 'error' | 'success';
+  onHide: () => void;
+  onShow: () => void;
 }
 
 export const HistoryTile = ({
@@ -39,15 +28,27 @@ export const HistoryTile = ({
   submittedAtDate,
   status,
   className,
-  selected,
-  children,
-}: PropsWithChildren<IHistoryTileProps>) => {
+  selectedResult,
+  loadResultsStatus,
+  onHide,
+  onShow,
+}: IHistoryTileProps) => {
+  const [deleteInProgress, setDeleteInProgress] = useState(false);
   const { t } = useTranslation();
   const submittedHour = useMemo(() => formatHour(createDateString(submittedAtDate)), [submittedAtDate]);
   const submittedDate = useMemo(() => formatDate(createDateString(submittedAtDate), 'DD-MM-YY'), [submittedAtDate]);
+  const selected = useMemo(() => selectedResult === jobId, [selectedResult, jobId]);
+  const { mutate: deleteHistoryItem, isPending, isError, isSuccess: itemDeleted } = useDeleteHistoryItem();
+
+  useEffect(() => {
+    if (selectedResult === jobId && itemDeleted) {
+      onHide();
+    }
+  }, [itemDeleted, selectedResult, jobId, onHide]);
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
+      {itemDeleted && <div className={historyTileStyles.deletedItemOverlay}></div>}
       <div className={historyTileStyles.section}>
         <div className={historyTileStyles.textContainer}>
           <Text content={workflowId} fontSize='medium' fontWeight='semibold' />
@@ -72,8 +73,36 @@ export const HistoryTile = ({
         </div>
       </div>
       <div className={historyTileStyles.section}>
-        {status && <Tag status={status} />}
-        {children}
+        {deleteInProgress ? (
+          <DeleteConfirmation
+            onNoClick={() => setDeleteInProgress(false)}
+            deleteHistoryItem={() => deleteHistoryItem({ workflowId: jobId })}
+            isPending={isPending}
+            isError={isError}
+            isSuccess={itemDeleted}
+          />
+        ) : (
+          <>
+            {status && <Tag status={status} />}
+            <div className='flex space-x-2'>
+              <Button
+                text={t('MAP.ACTION_CREATOR_PANEL.HISTORY.DELETE')}
+                size='medium'
+                appearance='text'
+                onClick={() => setDeleteInProgress(true)}
+                disabled={deleteInProgress}
+              />
+              <ToggleWorkflowButton
+                selected={selected}
+                selectedJobId={selectedResult}
+                loadResultsStatus={loadResultsStatus}
+                workflowStatus={status}
+                onHide={onHide}
+                onShow={onShow}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

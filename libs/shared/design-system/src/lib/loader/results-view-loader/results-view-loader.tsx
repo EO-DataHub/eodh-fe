@@ -4,7 +4,7 @@ import { LoadingSpinner } from '../loading-spinner';
 export const ResultsViewLoader = () => {
   return (
     <div className='text-text text-center mx-4 mt-28'>
-      <LoadingSpinner className='mx-auto' />
+      <LoadingSpinner classNameContainer='mx-auto' />
       <Text
         type='h1'
         fontSize='large'
