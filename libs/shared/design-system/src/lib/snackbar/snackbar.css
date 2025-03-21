@@ -78,3 +78,18 @@
   svg {
   @apply text-information-contrastText;
 }
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-default {
+  @apply bg-bright-light text-bright-contrastText;
+}
+
+.notistack-SnackbarContainer
+  .notistack-CollapseWrapper
+  .notistack-Snackbar
+  .notistack-MuiContent.notistack-MuiContent-default
+  svg {
+  @apply text-bright-contrastText;
+}

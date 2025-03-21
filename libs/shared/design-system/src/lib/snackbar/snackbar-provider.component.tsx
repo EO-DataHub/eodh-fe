@@ -9,6 +9,7 @@ export const SnackbarProvider = ({ children }: PropsWithChildren) => {
   return (
     <NotistackProvider
       iconVariant={{
+        default: <Icon name='Info' className='text-success-contrastText' width={28} height={28} />,
         success: <Icon name='Success' className='text-success-contrastText' width={28} height={28} />,
         error: <Icon name='Report' className='text-success-contrastText' width={28} height={28} />,
         warning: <Icon name='Warning' className='text-success-contrastText' width={28} height={28} />,

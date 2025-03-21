@@ -12,7 +12,7 @@ const calculateDisplayTime = (message: string) => {
   return Math.round(delayTime + wordsTime + bonusTime);
 };
 
-export const displayNotification = (message: string, variant: 'success' | 'error' | 'warning' | 'info') => {
+export const displayNotification = (message: string, variant: 'success' | 'error' | 'warning' | 'info' | 'default') => {
   const displayTime = calculateDisplayTime(message);
   enqueueSnackbar(message, { variant, persist: false, autoHideDuration: displayTime, disableWindowBlurListener: true });
 };

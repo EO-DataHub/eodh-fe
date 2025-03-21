@@ -15,8 +15,10 @@ import {
 } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
+import { displayNotification } from '@ukri/shared/utils/notification';
 import { useSettings } from '@ukri/shared/utils/settings';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
@@ -64,6 +66,7 @@ export const Workflow = () => {
   const {
     context: { completeOnboarding, resetOnboarding },
   } = useOnboarding();
+  const { t } = useTranslation();
 
   const importWorkflowFile = useCallback(async () => {
     const statusOfImport = await importWorkflow();
@@ -90,16 +93,23 @@ export const Workflow = () => {
     }
 
     clearWorkflowCache();
-    mutate({
-      nodes: {
-        aoi: aoiNode,
-        dataSet: dataSetNode,
-        dateRange: dateRangeNode,
-        functions: functionNodes,
+    mutate(
+      {
+        nodes: {
+          aoi: aoiNode,
+          dataSet: dataSetNode,
+          dateRange: dateRangeNode,
+          functions: functionNodes,
+        },
+        functions: data,
       },
-      functions: data,
-    });
-  }, [data, getNodesByType, mutate]);
+      {
+        onSuccess: () => {
+          displayNotification(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.INFO.CLIPPING_NOTIFICATION'), 'default');
+        },
+      }
+    );
+  }, [data, getNodesByType, mutate, t]);
 
   useEffect(() => {
     if (!enabled || !isFunctionsLoaded) {
