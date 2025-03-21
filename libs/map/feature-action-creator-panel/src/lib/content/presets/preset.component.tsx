@@ -1,4 +1,4 @@
-import { Button, Icon, Text } from '@ukri/shared/design-system';
+import { Button, Icon, LoadingSpinner, Text } from '@ukri/shared/design-system';
 import clsx from 'clsx';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,18 +15,26 @@ const ComingSoonNote = () => {
   );
 };
 
+type TImageStatus = 'loading' | 'error' | 'loaded';
+
 interface IImageProps {
   imageUrl: string | undefined;
 }
 
 const Image = ({ imageUrl }: IImageProps) => {
-  const [displayError, setDislayError] = useState(false);
+  const [status, setStatus] = useState<TImageStatus>('loading');
+  const isLoading = useMemo(() => status === 'loading' || !imageUrl?.length, [status, imageUrl]);
+  const loaded = useMemo(() => status === 'loaded', [status]);
 
   const showError = useCallback(() => {
-    setDislayError(true);
+    setStatus('error');
   }, []);
 
-  if (!imageUrl || displayError) {
+  const showImage = useCallback(() => {
+    setStatus('loaded');
+  }, []);
+
+  if (!imageUrl || status === 'error') {
     return (
       <div className={presetStyles.errorContainer}>
         <Icon name='HideImage' />
@@ -36,7 +44,8 @@ const Image = ({ imageUrl }: IImageProps) => {
 
   return (
     <div className={presetStyles.imageContainer}>
-      <img src={imageUrl} alt='Preset' className={presetStyles.image} onError={showError} />
+      {isLoading && <LoadingSpinner />}
+      <img src={imageUrl} alt='Preset' className={presetStyles.image(loaded)} onError={showError} onLoad={showImage} />
     </div>
   );
 };
