@@ -14,7 +14,7 @@ const imageStyles = {
 type TImageStatus = 'loading' | 'error' | 'loaded';
 
 interface IImageProps {
-  imageUrl: string;
+  imageUrl: string | null | undefined;
   onToggle?: () => void;
   disabled?: boolean;
 }
@@ -53,20 +53,25 @@ export const Image = ({ imageUrl, onToggle, disabled = false }: IImageProps) => 
   }, [onToggle, disabled]);
 
   useEffect(() => {
-    const fetchImage = async () => {
+    const fetchImage = async (url: string) => {
       try {
-        const image = await getAssetImage(imageUrl);
+        const image = await getAssetImage(url);
         if (typeof image === 'string') {
           setImageSrc(image);
         } else {
-          setImageSrc(imageUrl);
+          setImageSrc(url);
         }
       } catch (error) {
         showError();
       }
     };
 
-    fetchImage();
+    if (!imageUrl || !imageUrl.length) {
+      showError();
+      return;
+    }
+
+    fetchImage(imageUrl);
   }, [imageUrl, getAssetImage, showError]);
 
   if (status === 'error') {
