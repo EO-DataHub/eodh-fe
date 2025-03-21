@@ -1,7 +1,7 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import z from 'zod';
 
-import { assetSchema } from './asset.schema';
+import { thumbnailAssetSchema } from './asset.schema';
 import { featureGenericSchema } from './feature-generic.schema';
 
 const propertySchema = z
@@ -62,7 +62,7 @@ const waterQualityAssetSchema = z.object({
 export const waterQualitySchema = featureGenericSchema.extend({
   properties: propertySchema,
   assets: z.object({
-    thumbnail: assetSchema.optional(),
+    thumbnail: thumbnailAssetSchema.optional(),
     data: waterQualityAssetSchema.optional(),
     cdom: waterQualityAssetSchema.optional(),
     cya_cells: waterQualityAssetSchema.optional(),
@@ -107,7 +107,7 @@ export const landCoverChangesSchema = featureGenericSchema.extend({
       polarizations: data.polarizations as never,
     })),
   assets: z.object({
-    thumbnail: assetSchema.optional(),
+    thumbnail: thumbnailAssetSchema.optional(),
     data: landCoverChangesAssetSchema,
     cdom: z.never().optional(),
     cya_cells: z.never().optional(),

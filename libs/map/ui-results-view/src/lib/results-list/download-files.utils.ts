@@ -2,10 +2,12 @@ import { TAsset, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { saveAs } from 'file-saver';
 import isString from 'lodash/isString';
 
+type TAssetWithHref = NonNullable<TAsset> & { href: string };
+
 type TDownloadableAsset = {
   name: string;
   featureId: TFeature['id'];
-} & TAsset;
+} & TAssetWithHref;
 
 const s3ProtocolPrefix = 's3:/';
 const separator = '___';
@@ -25,7 +27,7 @@ const getFileNameFromAsset = (asset: TDownloadableAsset, defaultFileName = 'down
 
 const getAssets = (feature: TFeature): TDownloadableAsset[] => {
   return Object.entries(feature.assets)
-    .filter((item): item is [string, NonNullable<TAsset>] => !!item[1])
+    .filter((item): item is [string, TAssetWithHref] => !!item[1] && !!item[1]?.href?.length)
     .filter(([, asset]) => asset.roles?.includes('data'))
     .filter(([, asset]) => !asset.href.startsWith(s3ProtocolPrefix))
     .filter(([, asset]) => !asset.href.endsWith('.xml'))
