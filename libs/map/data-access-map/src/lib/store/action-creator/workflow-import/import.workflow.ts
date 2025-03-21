@@ -123,6 +123,12 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
   }));
   const shape = createShape(aoiImportedNode?.value || undefined, aoiImportedNode?.value?.type);
   const availableDatasets = functionNodes.map((node) => node.value?.supportedDataSets || []).flat();
+  const isAreaNodeActive = nodes.find((node) => node?.type === 'area' && node?.state === 'active');
+  const isDataSetsNodeActive = nodes.find((node) => node?.type === 'dataSet' && node?.state === 'active');
+  const isDateNodeActive = nodes.find((node) => node?.type === 'dateRange' && node?.state === 'active');
+  const areaState = isAreaNodeActive ? 'edit' : 'readonly';
+  const dataSetState = isDataSetsNodeActive ? 'edit' : 'readonly';
+  const dateState = isDateNodeActive ? 'edit' : 'readonly';
 
   clearWorkflowCache();
   useDataSetsStore.getState().setDataSet(dataSetImportedNode?.value || undefined);
@@ -141,9 +147,9 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
     useDateStore.getState().reset('action-creator');
   }
 
-  useDataSetsStore.getState().changeState('readonly');
-  useAoiStore.getState().changeState('readonly');
-  useDateStore.getState().changeState('readonly');
+  useAoiStore.getState().changeState(areaState);
+  useDataSetsStore.getState().changeState(dataSetState);
+  useDateStore.getState().changeState(dateState);
 };
 
 export const importWorkflow: () => Promise<{ status: 'error' | 'success' }> = async () => {

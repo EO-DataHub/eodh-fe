@@ -145,7 +145,8 @@ export const useActionCreator = (): TActionCreatorProps => {
   return useActionCreatorStore((state) => ({
     ...state,
     enable: () => {
-      const node = state.nodes.find((node) => node.state === 'active');
+      const nodes = useActionCreatorStore.getState().nodes;
+      const node = nodes.find((node) => node.state === 'active');
       activatePanel(node);
     },
     disable: () => {

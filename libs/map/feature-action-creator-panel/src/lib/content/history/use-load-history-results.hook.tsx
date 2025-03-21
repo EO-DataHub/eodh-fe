@@ -2,15 +2,16 @@ import { useAoi, useCollectionInfo, useMode, useResults, useWorkflow } from '@uk
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TIdentityClaims, useAuth } from '@ukri/shared/utils/authorization';
 import { createDateString, formatDate, type TDateString } from '@ukri/shared/utils/date';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 export const useLoadHistoryResults = () => {
   const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
   const { searchParams, updateSearchParams } = useResults();
   const { status } = useCatalogSearch({ params: searchParams });
-  const { changeState } = useAoi();
+  const { shape, changeState, updateShape, setShape } = useAoi();
   const { changeView } = useMode();
   const { markAsRead } = useWorkflow();
+  const [currentAoi, setCurrentAoi] = useState<typeof shape>(shape);
 
   const { mutateAsync } = useCollectionInfo();
 
@@ -32,6 +33,10 @@ export const useLoadHistoryResults = () => {
         ) as NonNullable<TDateString>;
         const dateTo = formatDate(createDateString(collectionInfo?.collectionInterval.to)) as NonNullable<TDateString>;
 
+        updateShape((shape) => {
+          setCurrentAoi(shape);
+          return undefined;
+        });
         updateSearchParams({
           id: jobId,
           jobId,
@@ -56,14 +61,18 @@ export const useLoadHistoryResults = () => {
       }
       changeView('results');
     },
-    [authClient, changeView, markAsRead, mutateAsync, updateSearchParams]
+    [authClient, changeView, markAsRead, mutateAsync, updateSearchParams, updateShape]
   );
 
   const hideResults = useCallback(() => {
     updateSearchParams(undefined);
     changeState('readonly');
     changeView('search');
-  }, [changeState, changeView, updateSearchParams]);
+
+    if (currentAoi) {
+      setShape(currentAoi);
+    }
+  }, [changeState, changeView, currentAoi, updateSearchParams, setShape]);
 
   return {
     status,
