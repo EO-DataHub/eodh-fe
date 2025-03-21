@@ -5,7 +5,6 @@ const eodhProApiVersionToken = '{apiVersion}';
 
 export interface IProxyConfig {
   EODH_PRO_API_URL: string;
-  EODH_CHARTS_API_URL: string;
   EODH_COLLECTION_INFO_API_URL: string;
   EODH_ELEMENT_84_CATALOGUE_API_URL: string;
   EODH_CEDA_CATALOGUE_API_URL: string;
@@ -65,9 +64,4 @@ export const getWorkflowCatalogueUrl = (config: IProxyConfig | undefined) => {
     ''
   );
   return removeTrailingSlashes(url);
-};
-
-export const getChartsUrl = (config: IProxyConfig | undefined) => {
-  const url = getValue<string>(import.meta.env.VITE_EODH_CHARTS_API_URL, config?.EODH_CHARTS_API_URL, '');
-  return removeTrailingSlashes(url).replace(eodhProApiVersionToken, eodhProApiVersion);
 };

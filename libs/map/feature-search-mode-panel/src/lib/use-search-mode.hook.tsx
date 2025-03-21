@@ -7,7 +7,7 @@ import {
   useResults,
   useTrueColorImage,
 } from '@ukri/map/data-access-map';
-import { TCollection, useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
+import { getAllPages, useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search-view';
 import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -19,7 +19,14 @@ export const useSearchMode = () => {
   const { state: dataSetsState, schema, treeModel, dataSets, updateDataSets } = useDataSets();
   const { state: dateRangeState, date, updateDate } = useDate();
   const { view: currentView, changeView: setCurrentView } = useMode();
-  const { data, status, error, isFetching, hasNextPage, fetchNextPage } = useCatalogSearch({ params: searchParams });
+  const {
+    data,
+    status,
+    error,
+    isFetching,
+    hasNextPage,
+    fetchNextPage: fetchNextSearchPage,
+  } = useCatalogSearch({ params: searchParams });
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
   const { setFeature } = useTrueColorImage();
@@ -83,17 +90,12 @@ export const useSearchMode = () => {
     [changeView, updateSearchParams]
   );
 
+  const fetchNextPage = useCallback(() => {
+    fetchNextSearchPage();
+  }, [fetchNextSearchPage]);
+
   useEffect(() => {
-    const collection = data?.pages.reduce(
-      (acc, val) => ({
-        ...acc,
-        type: acc.type ? acc.type : val.type,
-        features: [...acc.features, ...val.features],
-        links: [...acc.links, ...val.links],
-      }),
-      { type: undefined, features: [], links: [] } as unknown as TCollection
-    );
-    setFootprints(collection);
+    setFootprints(getAllPages(data));
   }, [data, setFootprints]);
 
   useEffect(() => {
@@ -105,7 +107,7 @@ export const useSearchMode = () => {
 
   return useMemo(
     () => ({
-      results: data?.pages.map((item) => item.features).flat() || [],
+      results: getAllPages(data)?.features || [],
       state,
       status,
       error,

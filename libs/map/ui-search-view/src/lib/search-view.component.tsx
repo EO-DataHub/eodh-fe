@@ -55,10 +55,12 @@ export const SearchView = ({
     if (defaultValues && !isEqual(rest, defaultValues)) {
       const { status, ...dataSets } = defaultValues.dataSets;
       const data = cloneDeep(defaultValues);
+      const shouldTriggerDataSetsValidation = state === 'edit' || state === 'edit/data-sets';
+
       form.reset({ dataSets: data.dataSets, date: data.date, aoi: shape?.shape });
 
-      if (state === 'edit' && !isEqual(new TreeBuilder(treeModel).getValues(), dataSets)) {
-        form.trigger();
+      if (shouldTriggerDataSetsValidation && !isEqual(new TreeBuilder(treeModel).getValues(), dataSets)) {
+        form.trigger('dataSets');
       } else {
         form.clearErrors();
       }

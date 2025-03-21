@@ -86,6 +86,7 @@ interface Resources {
         };
         WORKFLOW_IMPORT: {
           WRONG_FILE: 'Wrong file format. Only JSON files with valid schemas can be imported.';
+          SUCCESS: 'Workflow configuration file uploaded successfully.';
         };
       };
       NAVIGATION: {
@@ -212,6 +213,7 @@ interface Resources {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
             AOI_MISSING: 'Area of Interest is missing.';
             INVALID_DATE_RANGE: 'End date cannot be before start date.';
+            NO_DATE_SELECTED: 'Please select a valid date';
             NO_DATA_IN_SELECTED_DATE_RANGE: {
               WITH_DATE_RANGE: 'Invalid date range for selected STAC collection: {{collection}}. Valid range is between {{dateFrom}} and {{dateTo}}';
               WITH_DATE_START: 'Invalid start date for selected STAC collection: {{collection}}. Valid start date begins {{dateFrom}}';
@@ -330,6 +332,13 @@ interface Resources {
                   ]
                 ];
               };
+              HOW_AND_WHEN_DO_I_USE_CLIPPING_FUNCTIONS: {
+                QUESTION: 'How and when do I use the clipping function?';
+                ANSWER: [
+                  'The clipping function can be applied as a subsequent step after running other functions, such as NDVI or Land Cover Change analyses. When used, it limits the area covered by workflow output items to a specified Area of Interest (AOI). When an individual item is viewed on map, only the portion that falls within the AOI is displayed.',
+                  'It is recommended to use the clipping function. This function is especially useful for saving space by reducing the amount of extraneous data calculated and displayed. In some cases, the clipping function is automatically applied in the background, even if the user does not explicitly select it. When this occurs, the user is informed via a toast message.'
+                ];
+              };
               WHAT_IS_THE_DIFFERENCE_BETWEEN_THE_WORKFLOW_AND_HISTORY_TABS: {
                 QUESTION: 'What is the difference between the Workflow and History tabs?';
                 ANSWER: [
@@ -361,9 +370,9 @@ interface Resources {
                 ];
               };
               HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS: {
-                QUESTION: 'How do I download a workflow results?';
+                QUESTION: 'How do I download workflow results?';
                 ANSWER: [
-                  'Click the "Download" button next to a result in Action Creator. A respective files for a particular item will be downloaded.'
+                  'After you run Action Creator and browse results in the left side menu, you will see “download” option next to each individual item. When you click on it, this will prompt download of each individual file connected with this item. Each of these files will start being downloaded in a separate tab of your browser. Depending on a type of browser you use, you might need to accept the download action separately for each tab.'
                 ];
               };
             };
@@ -922,7 +931,13 @@ interface Resources {
             WHAT_IS_EOPRO: {
               QUESTION: 'What is EOPro?';
               ANSWER: [
-                'EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface. '
+                'EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface. ',
+                {
+                  STYLED_TEXT: [
+                    ['BOLD', 'Note: '],
+                    'Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
+                  ];
+                }
               ];
             };
             HOW_DO_I_GET_STARTED: {
@@ -963,7 +978,13 @@ interface Resources {
             HOW_DO_I_SELECT_A_DATA_SET_AS_PART_OF_A_SEARCH: {
               QUESTION: 'How do I select a data set as part of a search?';
               ANSWER: [
-                'Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings.'
+                'Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings.',
+                {
+                  STYLED_TEXT: [
+                    ['BOLD', 'Note: '],
+                    'Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
+                  ];
+                }
               ];
             };
             HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI: {
@@ -1007,7 +1028,13 @@ interface Resources {
                 [
                   'Public data sets (e.g., Copernicus Sentinel) are freely available.',
                   'Commercial data sets (e.g., Planet) require purchase before viewing or using for workflows.'
-                ]
+                ],
+                {
+                  STYLED_TEXT: [
+                    ['BOLD', 'Note: '],
+                    'Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
+                  ];
+                }
               ];
             };
           };
@@ -1092,6 +1119,8 @@ interface Resources {
           ONLY_ONE_FIELD_IS_REQUIRED: 'You must select only one of the following options';
           DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO: 'Invalid date. Date from should be earlier';
           DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
+          NO_DATE_SELECTED: 'Please select a valid date';
+          DATE_SHOULD_BE_EARLIER_THAN_TODAY: "Date cannot be later than today's date";
         };
         DATA_SETS: {
           INFO_BOX: {

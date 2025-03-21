@@ -38,3 +38,4 @@ export { default as Add } from './add';
 export { default as DragIndicator } from './drag-indicator';
 export { default as CompareArrows } from './compare-arrows';
 export { default as Straighten } from './straighten';
+export { default as Success } from './success';

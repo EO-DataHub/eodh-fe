@@ -30,8 +30,16 @@ export const dataSetValueSchema = z.union([
 ]);
 
 export const dateRangeValueSchema = z.object({
-  from: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).nullable(),
-  to: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).nullable(),
+  from: z
+    .custom<TDateString>((value) => !z.string().date().safeParse(value).error, {
+      message: 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.NO_DATE_SELECTED',
+    })
+    .nullable(),
+  to: z
+    .custom<TDateString>((value) => !z.string().date().safeParse(value).error, {
+      message: 'MAP.ACTION_CREATOR_PANEL.WORKFLOW.ERROR.NO_DATE_SELECTED',
+    })
+    .nullable(),
 });
 
 export const functionValueSchema = z.object({

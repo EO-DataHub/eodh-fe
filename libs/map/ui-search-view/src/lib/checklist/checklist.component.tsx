@@ -1,3 +1,4 @@
+import { useMode } from '@ukri/map/data-access-map';
 import { Checkbox, Icon, Text } from '@ukri/shared/design-system';
 import { ParseKeys } from 'i18next';
 import { useCallback, useEffect } from 'react';
@@ -37,6 +38,7 @@ const defaultValues: TChecklistForm = {
 };
 
 export const Checklist = () => {
+  const { mode, view } = useMode();
   const { open, isAoiValid, isDataSetsValid, isDateRangeValid, isDateRangeUpdated } = useChecklistState();
   const { toggle: toggleVisibility } = useChecklist();
   const { register, handleSubmit, reset } = useForm<TChecklistForm>({ defaultValues });
@@ -52,7 +54,7 @@ export const Checklist = () => {
     reset();
   }, [open, reset]);
 
-  if (!open) {
+  if (!open || mode === 'action-creator' || view === 'results') {
     return;
   }
 

@@ -1,13 +1,17 @@
 import { TAsset, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { saveAs } from 'file-saver';
+import isString from 'lodash/isString';
+
+type TAssetWithHref = NonNullable<TAsset> & { href: string };
 
 type TDownloadableAsset = {
   name: string;
   featureId: TFeature['id'];
-} & TAsset;
+} & TAssetWithHref;
 
 const s3ProtocolPrefix = 's3:/';
 const separator = '___';
+const downloadingAssetsTimeout = 500;
 
 const getFileName = (collectionId: string, fileName: string, ext: string | undefined) => {
   collectionId = collectionId ? `${collectionId}${separator}` : '';
@@ -23,7 +27,7 @@ const getFileNameFromAsset = (asset: TDownloadableAsset, defaultFileName = 'down
 
 const getAssets = (feature: TFeature): TDownloadableAsset[] => {
   return Object.entries(feature.assets)
-    .filter((item): item is [string, NonNullable<TAsset>] => !!item[1])
+    .filter((item): item is [string, TAssetWithHref] => !!item[1] && !!item[1]?.href?.length)
     .filter(([, asset]) => asset.roles?.includes('data'))
     .filter(([, asset]) => !asset.href.startsWith(s3ProtocolPrefix))
     .filter(([, asset]) => !asset.href.endsWith('.xml'))
@@ -69,14 +73,35 @@ const calculateSize = (
   }
 };
 
-const downloadAssetsInNewTab = (assets: TDownloadableAsset[]) => {
-  assets.forEach((asset) => {
-    const a = document.createElement('a');
-    a.download = getFileNameFromAsset(asset);
-    a.href = asset.href;
-    a.rel = 'noopener';
-    a.target = '_blank';
+const downloadFile = (file: string | Blob, fileName: string) => {
+  const a: HTMLAnchorElement = document.createElementNS('http://www.w3.org/1999/xhtml', 'a') as HTMLAnchorElement;
+  a.download = fileName;
+  a.href = isString(file) ? file : URL.createObjectURL(file);
+  a.rel = 'noopener';
+  a.target = '_blank';
+
+  if (!isString(file)) {
+    setTimeout(() => URL.revokeObjectURL(a.href), 40000);
+  }
+
+  try {
     a.dispatchEvent(new MouseEvent('click'));
+  } catch (e) {
+    const evt = document.createEvent('MouseEvents');
+    evt.initMouseEvent('click', true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
+    a.dispatchEvent(evt);
+  }
+};
+
+const downloadAssetsInNewTab = (assets: TDownloadableAsset[]) => {
+  let timeout = 0;
+
+  assets.forEach((asset) => {
+    setTimeout(() => {
+      downloadFile(asset.href, getFileNameFromAsset(asset));
+    }, timeout);
+
+    timeout += downloadingAssetsTimeout;
   });
 };
 
@@ -86,9 +111,16 @@ const downloadAssets = (feature: TFeature) => {
   const oneGb = 1000;
 
   if (size.valid && size.size <= oneGb) {
+    let timeout = 0;
+
     assets.forEach((asset) => {
-      saveAs(asset.href, getFileNameFromAsset(asset));
+      setTimeout(() => {
+        saveAs(asset.href, getFileNameFromAsset(asset));
+      }, timeout);
+
+      timeout += downloadingAssetsTimeout;
     });
+
     return;
   }
 
@@ -100,7 +132,7 @@ const downloadMetadata = (feature: TFeature) => {
   const fileName = 'metadata';
   const ext = 'json';
 
-  saveAs(blob, getFileName(feature.id, fileName, ext));
+  downloadFile(blob, getFileName(feature.id, fileName, ext));
 };
 
 export const downloadFiles = (feature: TFeature) => {

@@ -41,11 +41,11 @@ export const Tooltip = ({
   return (
     isTooltipOpen && (
       <div className={clsx(tooltip.getTooltipStyles(tipLocation), className)} style={tooltipPosition || undefined}>
-        <div id='aaaaa'>
+        <div>
           <Text content={content} type='p' fontSize='medium' fontWeight='semibold' />
           <div className='mt-1'>{children}</div>
         </div>
-        <button className='ml-2' onClick={handleClose}>
+        <button className='ml-2 mb-auto' onClick={handleClose}>
           <Icon name='Close' />
         </button>
       </div>

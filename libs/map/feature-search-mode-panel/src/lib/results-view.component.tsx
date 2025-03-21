@@ -1,5 +1,5 @@
 import { useComparisonMode } from '@ukri/map/data-access-map';
-import { NoWorkflowResultsFoundError, TCollection } from '@ukri/map/data-access-stac-catalog';
+import { NoWorkflowResultsFoundError, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { ResultsView as UIResultsView } from '@ukri/map/ui-results-view';
 import { Icon, Text } from '@ukri/shared/design-system';
 
@@ -7,7 +7,7 @@ import { Header } from './header.component';
 
 type TResultsViewProps = {
   searchType: 'catalogue' | 'workflow' | undefined;
-  data: TCollection['features'] | undefined;
+  data: TFeature[] | undefined;
   status: 'error' | 'success' | 'pending';
   error: Error | NoWorkflowResultsFoundError | null;
   isFetching: boolean;

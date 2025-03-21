@@ -48,6 +48,7 @@ const useOnboardingStore = create<IAcOnboardingStore>()(
         reset: () =>
           set(() => ({
             status: 'initial',
+            visible: true,
           })),
       }),
       {
@@ -68,6 +69,6 @@ export const useAcOnboarding = () => {
     enable: state.enable,
     disable: state.disable,
     complete: state.complete,
-    reset: state.complete,
+    reset: state.reset,
   }));
 };

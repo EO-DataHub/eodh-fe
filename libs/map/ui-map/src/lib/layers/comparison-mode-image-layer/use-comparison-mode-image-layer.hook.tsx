@@ -1,6 +1,6 @@
 import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
+import { displayNotification } from '@ukri/shared/utils/notification';
 import isArray from 'lodash/isArray';
-import { enqueueSnackbar } from 'notistack';
 import { Coordinate } from 'ol/coordinate';
 import { boundingExtent, intersects } from 'ol/extent';
 import GroupLayer from 'ol/layer/Group';
@@ -16,11 +16,15 @@ import { useStacLayerCreation } from './../../stac/use-stac-layer-creation';
 export type TComparisonLayer = {
   item1: GroupLayer | undefined;
   item2: GroupLayer | undefined;
+  isItem1Visible: boolean;
+  isItem2Visible: boolean;
 };
 
 const defaultValues: TComparisonLayer = {
   item1: undefined,
   item2: undefined,
+  isItem1Visible: false,
+  isItem2Visible: false,
 };
 
 export const ComparisonContext = createContext<TComparisonLayer>(defaultValues);
@@ -50,6 +54,9 @@ export const useComparisonModeImageLayers = () => {
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
   const [item1, setItem1] = useState<GroupLayer | undefined>(undefined);
   const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
+  const [isItem1Visible, setIsItem1Visible] = useState<boolean>(false);
+  const [isItem2Visible, setIsItem2Visible] = useState<boolean>(false);
+  const [combinedExtent, setCombinedExtent] = useState<number[]>([]);
 
   const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
 
@@ -64,6 +71,8 @@ export const useComparisonModeImageLayers = () => {
         zIndex: stacLayerZindex + index,
         collection: item.collection,
         assetNameWhichShouldBeDisplayed: item.assetName,
+        fitToZoom: false,
+        displayPreview: false,
       });
     },
     [comparisonItems, comparisonModeEnabled, createStacLayer]
@@ -76,6 +85,9 @@ export const useComparisonModeImageLayers = () => {
     if (!map || comparisonItems.items.length <= 1 || !comparisonModeEnabled) {
       setItem1(undefined);
       setItem2(undefined);
+      setIsItem1Visible(false);
+      setIsItem2Visible(false);
+
       if (groupLayer1) {
         removeLayerFromMap(groupLayer1);
       }
@@ -102,7 +114,7 @@ export const useComparisonModeImageLayers = () => {
     const secondExtent = boundingExtent(secondExtentCoords);
 
     const isIntersection = intersects(firstExtent, secondExtent);
-    const combinedExtent = boundingExtent([...firstExtentCoords, ...secondExtentCoords]);
+    setCombinedExtent(boundingExtent([...firstExtentCoords, ...secondExtentCoords]));
 
     const setLayers = async () => {
       layer1 = await createLayer(firstItem, 1);
@@ -111,28 +123,33 @@ export const useComparisonModeImageLayers = () => {
       if (layer1) {
         groupLayer1 = new GroupLayer({
           layers: [layer1],
+          visible: false,
         });
+
+        layer1.addEventListener('layersready', () => {
+          groupLayer1?.setVisible(true);
+          setIsItem1Visible(true);
+        });
+
         addLayerToMap(groupLayer1);
       }
       if (layer2) {
         groupLayer2 = new GroupLayer({
           layers: [layer2],
+          visible: false,
         });
+
+        layer2.addEventListener('layersready', () => {
+          groupLayer2?.setVisible(true);
+          setIsItem2Visible(true);
+        });
+
         addLayerToMap(groupLayer2);
       }
       setItem1(groupLayer1);
       setItem2(groupLayer2);
 
-      !isIntersection &&
-        enqueueSnackbar(t('MAP.COMPARISON_TOOL.NO_INTERSECTION'), { variant: 'warning', persist: false });
-
-      setTimeout(() => {
-        map.getView().fit(combinedExtent, {
-          size: map.getSize(),
-          padding: [15, 15, 15, 15],
-          maxZoom: 16,
-        });
-      }, 1500);
+      !isIntersection && displayNotification(t('MAP.COMPARISON_TOOL.NO_INTERSECTION'), 'warning');
     };
 
     setLayers().then();
@@ -141,16 +158,31 @@ export const useComparisonModeImageLayers = () => {
       if (groupLayer1) {
         removeLayerFromMap(groupLayer1);
       }
+
       if (groupLayer2) {
         removeLayerFromMap(groupLayer2);
       }
     };
   }, [map, comparisonItems, comparisonModeEnabled, createLayer, removeLayerFromMap, addLayerToMap, t]);
 
+  useEffect(() => {
+    if (!comparisonModeEnabled || !isItem1Visible || !isItem2Visible) {
+      return;
+    }
+
+    map.getView().fit(combinedExtent, {
+      size: map.getSize(),
+      padding: [15, 15, 15, 15],
+      maxZoom: 16,
+    });
+  }, [combinedExtent, comparisonModeEnabled, isItem1Visible, isItem2Visible, map]);
+
   return useMemo(() => {
     return {
       item1,
       item2,
+      isItem1Visible,
+      isItem2Visible,
     };
-  }, [item1, item2]);
+  }, [item1, item2, isItem1Visible, isItem2Visible]);
 };
