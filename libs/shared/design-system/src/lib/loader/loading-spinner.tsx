@@ -1,7 +1,8 @@
 type TSize = 'xs' | 'lg';
 
 interface ILoadingSpinnerProps {
-  className?: string;
+  classNameContainer?: string;
+  classNameSpinner?: string;
   size?: TSize;
 }
 
@@ -16,9 +17,9 @@ const sizes: { [key in TSize]: { container: string; element: string } } = {
   },
 };
 
-export const LoadingSpinner = ({ className, size = 'lg' }: ILoadingSpinnerProps) => {
-  const containerClassName = `flex relative *:animate-spin-cubic-bezier ${sizes[size].container} ${className}`;
-  const elementClassName = `absolute box-border block rounded-full border-t-primary border-b-transparent border-x-transparent ${sizes[size].element}`;
+export const LoadingSpinner = ({ classNameContainer, classNameSpinner, size = 'lg' }: ILoadingSpinnerProps) => {
+  const containerClassName = `flex relative *:animate-spin-cubic-bezier ${sizes[size].container} ${classNameContainer}`;
+  const elementClassName = `absolute box-border block rounded-full border-t-primary border-b-transparent border-x-transparent ${sizes[size].element} ${classNameSpinner}`;
 
   return (
     <div className={containerClassName}>

@@ -1,7 +1,8 @@
+import { useDeleteHistoryItem } from '@ukri/map/data-access-map';
 import { Button, Text } from '@ukri/shared/design-system';
 import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
-import { useMemo, useState } from 'react';
+import { useEffect,useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { DeleteConfirmation } from './delete-item-form.component';
@@ -37,9 +38,17 @@ export const HistoryTile = ({
   const submittedHour = useMemo(() => formatHour(createDateString(submittedAtDate)), [submittedAtDate]);
   const submittedDate = useMemo(() => formatDate(createDateString(submittedAtDate), 'DD-MM-YY'), [submittedAtDate]);
   const selected = useMemo(() => selectedResult === jobId, [selectedResult, jobId]);
+  const { mutate: deleteHistoryItem, isPending, isError, isSuccess: itemDeleted } = useDeleteHistoryItem();
+
+  useEffect(() => {
+    if( selectedResult === jobId && itemDeleted ) {
+      onHide();
+    }
+  }, [itemDeleted, selectedResult, jobId, onHide]);
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
+      {itemDeleted && <div className={historyTileStyles.deletedItemOverlay}></div>}
       <div className={historyTileStyles.section}>
         <div className={historyTileStyles.textContainer}>
           <Text content={workflowId} fontSize='medium' fontWeight='semibold' />
@@ -65,7 +74,7 @@ export const HistoryTile = ({
       </div>
       <div className={historyTileStyles.section}>
         {deleteInProgress ? (
-          <DeleteConfirmation onNoClick={() => setDeleteInProgress(false)}/>
+          <DeleteConfirmation onNoClick={() => setDeleteInProgress(false)} deleteHistoryItem={() => deleteHistoryItem({workflowId: jobId})} isPending={isPending} isError={isError} isSuccess={itemDeleted}/>
         ) : (
           <>
             {status && <Tag status={status} />}

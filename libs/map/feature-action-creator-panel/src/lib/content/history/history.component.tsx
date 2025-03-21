@@ -38,7 +38,7 @@ const LoadMoreButton = ({ isFetching, onClick }: ILoadMoreButtonProps) => {
         size='large'
         className={styles.button}
       >
-        <LoadingSpinner size='xs' className='ml-2' />
+        <LoadingSpinner size='xs' classNameContainer='ml-2' />
       </Button>
     );
   }
