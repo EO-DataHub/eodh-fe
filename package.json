@@ -1,6 +1,6 @@
 {
   "name": "@ukri/fe",
-  "version": "0.15.2",
+  "version": "0.15.4",
   "license": "MIT",
   "scripts": {
     "prepare": "npx husky install",
