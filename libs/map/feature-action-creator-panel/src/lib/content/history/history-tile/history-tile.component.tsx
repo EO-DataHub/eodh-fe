@@ -2,7 +2,7 @@ import { useDeleteHistoryItem } from '@ukri/map/data-access-map';
 import { Button, Text } from '@ukri/shared/design-system';
 import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
-import { useEffect,useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { DeleteConfirmation } from './delete-item-form.component';
@@ -41,7 +41,7 @@ export const HistoryTile = ({
   const { mutate: deleteHistoryItem, isPending, isError, isSuccess: itemDeleted } = useDeleteHistoryItem();
 
   useEffect(() => {
-    if( selectedResult === jobId && itemDeleted ) {
+    if (selectedResult === jobId && itemDeleted) {
       onHide();
     }
   }, [itemDeleted, selectedResult, jobId, onHide]);
@@ -74,7 +74,13 @@ export const HistoryTile = ({
       </div>
       <div className={historyTileStyles.section}>
         {deleteInProgress ? (
-          <DeleteConfirmation onNoClick={() => setDeleteInProgress(false)} deleteHistoryItem={() => deleteHistoryItem({workflowId: jobId})} isPending={isPending} isError={isError} isSuccess={itemDeleted}/>
+          <DeleteConfirmation
+            onNoClick={() => setDeleteInProgress(false)}
+            deleteHistoryItem={() => deleteHistoryItem({ workflowId: jobId })}
+            isPending={isPending}
+            isError={isError}
+            isSuccess={itemDeleted}
+          />
         ) : (
           <>
             {status && <Tag status={status} />}

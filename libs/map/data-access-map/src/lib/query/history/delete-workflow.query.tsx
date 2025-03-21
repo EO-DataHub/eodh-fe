@@ -12,12 +12,11 @@
 // const deleteWorkflow = async ({
 //   workflowId,
 // }: IDeleteWorkflowParams): Promise<unknown> => {
-  
+
 //   const response = await getHttpClient().delete(`${paths.WORKFLOW}/${workflowId}`);
 //     return response;
 // };
 // //   return historySchema.parse(response);
-
 
 // type TUseGetHistoryOptions = {
 //   params: IDeleteWorkflowParams;
@@ -28,9 +27,8 @@
 //   return useQuery({
 //     queryKey: queryKey.DELETE_WORKFLOW({ ...params }),
 //     queryFn: () => deleteWorkflow({ ...params })
-//   }); 
+//   });
 // };
-
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getHttpClient } from '@ukri/shared/utils/react-query';

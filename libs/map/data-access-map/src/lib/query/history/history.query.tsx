@@ -18,7 +18,6 @@ const getHistoryResults = async ({
   pageParam = 1,
   perPage = 25,
 }: IHistoryParams): Promise<THistory> => {
-  
   const response = await getHttpClient().get(paths.WORKFLOW, {
     params: {
       order_by: orderBy,

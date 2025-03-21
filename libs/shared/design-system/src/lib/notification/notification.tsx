@@ -30,7 +30,7 @@ export const Notification = ({
   }
 
   return (
-    <div className={twMerge(notificationStyles.container,notificationStyles.type[type], className)}>
+    <div className={twMerge(notificationStyles.container, notificationStyles.type[type], className)}>
       <Icon name={iconName} />
       <div className={notificationStyles.content}>{children}</div>
       {closeButtonVisible && (
