@@ -1,7 +1,7 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import z from 'zod';
 
-import { assetSchema } from './asset.schema';
+import { assetSchema, thumbnailAssetSchema } from './asset.schema';
 import { featureGenericSchema } from './feature-generic.schema';
 
 const propertySchema = z
@@ -83,7 +83,7 @@ const sentinel1CedaPropertySchema = z
 export const featureSearchSchema = featureGenericSchema.extend({
   properties: z.union([propertySchema, sentinel1Element84PropertySchema, sentinel1CedaPropertySchema]),
   assets: z.object({
-    thumbnail: assetSchema.optional(),
+    thumbnail: thumbnailAssetSchema.optional(),
     cog: assetSchema.optional(),
     visual: assetSchema.optional(),
   }),
