@@ -17,5 +17,6 @@ export const useFunctions = ({ enabled = true }: TQueryConfig<typeof getFunction
     queryFn: () => getFunctions(),
     enabled: enabled,
     staleTime: 60 * 1000,
+    retry: 3,
   });
 };

@@ -1,4 +1,4 @@
-import { getHttpClient, TRequestConfig } from '@ukri/shared/utils/react-query';
+import { getHttpClient, queryClient, TRequestConfig } from '@ukri/shared/utils/react-query';
 
 function arrayBufferToBase64(buffer: ArrayBuffer) {
   let binary = '';
@@ -14,8 +14,15 @@ interface IExtendedRequestConfig extends TRequestConfig {
 }
 
 export async function fetchImage(url: string): Promise<string> {
-  const response = await getHttpClient().get(url, { responseType: 'blob' } as IExtendedRequestConfig);
-  const image = await (response as Response).arrayBuffer();
+  const response = await queryClient
+    .getMutationCache()
+    .build(queryClient, {
+      mutationFn: (): Promise<Response> => getHttpClient().get(url, { responseType: 'blob' } as IExtendedRequestConfig),
+      retry: 3,
+    })
+    .execute(url);
+
+  const image = await response.arrayBuffer();
   const base64Flag = 'data:image/jpeg;base64,';
   const imageStr = arrayBufferToBase64(image);
 

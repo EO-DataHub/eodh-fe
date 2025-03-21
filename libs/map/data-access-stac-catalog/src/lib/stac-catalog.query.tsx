@@ -175,5 +175,6 @@ export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
     initialPageParam: [],
     getNextPageParam: (lastPage): TCollection['links'] | undefined =>
       lastPage.links.find((link) => link.rel === 'next') ? lastPage.links : undefined,
+    retry: 3,
   });
 };

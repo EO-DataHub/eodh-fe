@@ -21,5 +21,6 @@ export const useGetPresets = ({ enabled = true }: TGetPresetsOptions) => {
     queryFn: () => presets(),
     enabled,
     staleTime: 60 * 1000,
+    retry: 3,
   });
 };

@@ -1,5 +1,5 @@
+import { fetchAsset, fetchAssetDetails } from '@ukri/map/data-access-map';
 import { useAuth } from '@ukri/shared/utils/authorization';
-import { getHttpClient } from '@ukri/shared/utils/react-query';
 import GroupLayer from 'ol/layer/Group';
 import STAC from 'ol-stac';
 import { useCallback, useContext, useMemo } from 'react';
@@ -104,7 +104,7 @@ export const useStacLayerCreation = () => {
           };
           return options;
         },
-        httpRequestFn: (url: string) => getHttpClient().get(url),
+        httpRequestFn: (url: string) => fetchAssetDetails(url),
       });
 
       newStacLayer.addEventListener('layersready', () => {
@@ -126,7 +126,7 @@ export const useStacLayerCreation = () => {
       displayPreview,
       assetNameWhichShouldBeDisplayed,
     }: Required<Pick<TCreateStacLayerParams, 'fitToZoom' | 'displayPreview'>> & TCreateStacLayerParams) => {
-      const data = await getHttpClient().get<StacItem>(url);
+      const data = await fetchAsset<StacItem>(url);
       const hasCogAsset = !!data?.assets['cog'];
       const shouldFixCogAsset = hasCogAsset && !data?.assets['cog'].type;
       const cogAssetBands = [3, 2, 1];
@@ -164,8 +164,9 @@ export const useStacLayerCreation = () => {
       displayPreview,
       assetNameWhichShouldBeDisplayed,
     }: Required<Pick<TCreateStacLayerParams, 'fitToZoom' | 'displayPreview'>> & TCreateStacLayerParams) => {
+      const data = await fetchAsset<StacItem>(url);
       const assets = assetNameWhichShouldBeDisplayed ? [assetNameWhichShouldBeDisplayed] : undefined;
-      return createSTAC({ url, zIndex, assets, fitToZoom, displayPreview });
+      return createSTAC({ data, zIndex, assets, fitToZoom, displayPreview });
     },
     [createSTAC]
   );
