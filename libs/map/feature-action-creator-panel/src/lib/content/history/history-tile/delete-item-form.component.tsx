@@ -1,4 +1,3 @@
-// import { useDeleteHistoryItem } from '@ukri/map/data-access-map';
 import { Button, LoadingSpinner, Notification, Text } from '@ukri/shared/design-system';
 import { displayNotification } from '@ukri/shared/utils/notification';
 import { useEffect } from 'react';
