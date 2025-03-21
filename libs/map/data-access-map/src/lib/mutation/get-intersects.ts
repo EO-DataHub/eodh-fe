@@ -1,8 +1,6 @@
 import { Circle, Geometry, Polygon } from 'ol/geom';
 import { fromCircle } from 'ol/geom/Polygon';
 
-import { transformCoordinatesFrom3857to4326 } from '../store/proj4';
-
 export type TGeometry = {
   type: 'Polygon';
   coordinates: number[][][] | [number, number][][];
@@ -19,14 +17,13 @@ export const getIntersects = (aoi: Geometry | undefined): TGeometry | undefined 
   }
 
   if (isCircle(aoi)) {
-    const aoiCircleEpsg4326 = transformCoordinatesFrom3857to4326(fromCircle(aoi.clone()).getCoordinates());
-
+    const aoiCircleEpsg4326 = fromCircle(aoi.clone()).transform('EPSG:3857', 'EPSG:4326').getCoordinates();
     return {
       type: 'Polygon',
       coordinates: aoiCircleEpsg4326,
     };
   } else if (isPolygon(aoi)) {
-    const aoiPolygonEpsg4326 = transformCoordinatesFrom3857to4326(aoi.clone().getCoordinates());
+    const aoiPolygonEpsg4326 = aoi.clone().transform('EPSG:3857', 'EPSG:4326').getCoordinates();
     return {
       type: 'Polygon',
       coordinates: aoiPolygonEpsg4326,
