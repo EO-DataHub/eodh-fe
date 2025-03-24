@@ -75,6 +75,10 @@ export const Workflow = () => {
     }
   }, [importWorkflow, completeOnboarding]);
 
+  const checkIfClippingFunctionApplied = (array: TNode[]) => {
+    return array.some((obj) => obj.type === 'function' && obj.value?.identifier === 'clip');
+  };
+
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
     const dataSetNode = getNodesByType<TDataSetsNode>('dataSet').pop();
@@ -105,11 +109,13 @@ export const Workflow = () => {
       },
       {
         onSuccess: () => {
-          displayNotification(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.INFO.CLIPPING_NOTIFICATION'), 'default');
+          if (!checkIfClippingFunctionApplied(nodes)) {
+            displayNotification(t('MAP.ACTION_CREATOR_PANEL.WORKFLOW.INFO.CLIPPING_NOTIFICATION'), 'default');
+          }
         },
       }
     );
-  }, [data, getNodesByType, mutate, t]);
+  }, [data, getNodesByType, mutate, t, nodes]);
 
   useEffect(() => {
     if (!enabled || !isFunctionsLoaded) {
