@@ -5,14 +5,17 @@ import { getIntersects } from '../get-intersects';
 import { TFields, TFilterParam, TSearchParams } from '../query.model';
 
 export type TSortBy = {
-  field: 'properties.datetime';
+  field: string;
   direction: 'desc' | 'asc';
 };
 
 export type TQueryBuilderParams = {
   queryParams?: TSearchParams;
   limit: number;
-  sortBy: TSortBy;
+  sortBy: {
+    field: 'properties.datetime';
+    direction: 'desc' | 'asc';
+  };
 };
 
 export type TQueryBuilderOptions = {
@@ -50,7 +53,7 @@ export class PlanetQueryBuilder {
 
     const params: TQueryParams = {
       limit: this.params.limit,
-      sortby: [this.params.sortBy],
+      sortby: this.getSortBy(),
       'filter-lang': 'cql-json',
       datetime: this.getDatetime(),
       collections: this.getCollections(),
@@ -74,7 +77,7 @@ export class PlanetQueryBuilder {
     params: {
       collections: [],
       limit: this.params.limit,
-      sortby: [this.params.sortBy],
+      sortby: this.getSortBy(),
       'filter-lang': 'cql-json',
       filter: {},
       fields: {},
@@ -131,5 +134,14 @@ export class PlanetQueryBuilder {
     dateTo.setUTCHours(23, 59, 59, 999);
 
     return `${createIsoStringDate(createDateString(dateFrom))}/${createIsoStringDate(createDateString(dateTo))}`;
+  };
+
+  private getSortBy = (): TSortBy[] => {
+    return [
+      {
+        field: 'acquired',
+        direction: this.params.sortBy.direction,
+      },
+    ];
   };
 }

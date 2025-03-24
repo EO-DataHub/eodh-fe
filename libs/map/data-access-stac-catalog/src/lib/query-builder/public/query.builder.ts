@@ -5,14 +5,17 @@ import { getFields } from './fields/get-fields';
 import { createFilterParams } from './filter-params/create.filter-params';
 
 export type TSortBy = {
-  field: 'properties.datetime';
+  field: string;
   direction: 'desc' | 'asc';
 };
 
 export type TQueryBuilderParams = {
   queryParams?: TSearchParams;
   limit: number;
-  sortBy: TSortBy;
+  sortBy: {
+    field: 'properties.datetime';
+    direction: 'desc' | 'asc';
+  };
 };
 
 export type TQueryBuilderOptions = {

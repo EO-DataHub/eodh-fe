@@ -43,7 +43,7 @@ const sortCollectionFeatures = (features: TCollection['features'], sortBy: TSort
 };
 
 const mapResponsesToSchema = <T extends TSearchCollection | TWorkflowCollection, Type = T['type']>(
-  responses: PromiseSettledResult<T>[],
+  responses: PromiseSettledResult<{ data: T; params?: TCollection['links'][number]['body'] }>[],
   sortBy: TSortBy,
   type: Type
 ): T => {
@@ -52,11 +52,23 @@ const mapResponsesToSchema = <T extends TSearchCollection | TWorkflowCollection,
       if (response.status === 'fulfilled') {
         const schema = type === 'workflow' ? workflowCollectionSchema : searchCollectionSchema;
         const parsedData = schema.safeParse(
-          response.value ? { ...response.value, collectionType: type } : response.value
+          response.value.data ? { ...response.value.data, collectionType: type } : response.value.data
         );
 
         if (parsedData.success) {
-          return parsedData.data;
+          return {
+            ...parsedData.data,
+            links: parsedData.data.links.map((link) => {
+              if (link.rel !== 'next') {
+                return link;
+              }
+
+              return {
+                ...link,
+                body: link.body ? link.body : response.value.params,
+              };
+            }),
+          };
         }
       }
 
@@ -86,21 +98,21 @@ const mapResponsesToSchema = <T extends TSearchCollection | TWorkflowCollection,
   };
 };
 
-const getNextPageResults = async (
-  links: TCollection['links'],
-  sortBy: TSortBy,
-  type: 'workflow' | 'search'
-): Promise<TCollection> => {
+const getNextPageResults = async (links: TCollection['links'], query: TCollectionQuery): Promise<TCollection> => {
   const requests = links
     .filter((link) => link.rel === 'next')
-    .map((link) => getHttpClient().post<TCollection>(link.href, link.body));
+    .map((link) =>
+      getHttpClient()
+        .post<TCollection>(link.href, link.body)
+        .then((data) => ({ data, params: link.body }))
+    );
   const data = await Promise.allSettled(requests);
 
-  if (type === 'workflow') {
-    return workflowCollectionSchema.parse(mapResponsesToSchema(data, sortBy, type));
+  if (query.type === 'workflow') {
+    return workflowCollectionSchema.parse(mapResponsesToSchema(data, query.sortBy, query.type));
   }
 
-  return searchCollectionSchema.parse(mapResponsesToSchema(data, sortBy, type));
+  return searchCollectionSchema.parse(mapResponsesToSchema(data, query.sortBy, query.type));
 };
 
 const getSearchResults = async (query: TSearchQuery): Promise<TCollection> => {
@@ -108,7 +120,12 @@ const getSearchResults = async (query: TSearchQuery): Promise<TCollection> => {
     .filter((params) => params.enabled)
     .map((params) => {
       const url = getCollectionUrl(params.collection);
-      return getHttpClient().post<TCollection>(url, params.params);
+      return getHttpClient()
+        .post<TCollection>(url, params.params)
+        .then((data) => ({
+          data,
+          params: params.params,
+        }));
     });
   const data = await Promise.allSettled(requests);
 
@@ -132,7 +149,7 @@ const getWorkflowResults = async (query: TWorkflowQuery): Promise<TCollection> =
 
 const getResults = async (query: TCollectionQuery, links: TCollection['links']) => {
   if (links.length) {
-    return await getNextPageResults(links, query.sortBy, query.type);
+    return await getNextPageResults(links, query);
   }
 
   if (query.type === 'workflow') {
