@@ -1,11 +1,11 @@
 import { useAoi, useCollectionInfo, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
-import { TIdentityClaims, useAuth } from '@ukri/shared/utils/authorization';
+import { getWorkspace, useAuth } from '@ukri/shared/utils/authorization';
 import { createDateString, formatDate, type TDateString } from '@ukri/shared/utils/date';
 import { useCallback, useState } from 'react';
 
 export const useLoadHistoryResults = () => {
-  const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
+  const { authClient } = useAuth();
   const { searchParams, updateSearchParams } = useResults();
   const { status } = useCatalogSearch({ params: searchParams });
   const { shape, changeState, updateShape, setShape } = useAoi();
@@ -17,7 +17,7 @@ export const useLoadHistoryResults = () => {
 
   const showResults = useCallback(
     async (jobId: string, workflowId: string) => {
-      const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
+      const userWorkspace = getWorkspace(authClient.getIdentityClaims());
 
       markAsRead(jobId);
 
