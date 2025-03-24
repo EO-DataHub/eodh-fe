@@ -8,7 +8,6 @@ import {
   TWorkflowSearchParams,
 } from '../../query.model';
 import { createCopernicusParams } from './copernicus/copernicus.filter-params';
-import { createWorkflowFilterParams } from './wofkflow.filter-params';
 
 const isWorkflow = (params: TSearchParams): params is TWorkflowSearchParams => !!params.userWorkspace && !!params.jobId;
 
@@ -18,8 +17,10 @@ export const createDataFilterParams = (params: TSearchParams): TFilterParam | nu
   let filterParams: TFilterParam[] = [];
 
   if (isWorkflow(params)) {
-    filterParams = [...filterParams, ...createWorkflowFilterParams(params.jobId)];
-  } else if (isCatalogue(params)) {
+    return null;
+  }
+
+  if (isCatalogue(params)) {
     const catalogueParams = (
       Object.entries(params.dataSets.public.copernicus) as Entries<typeof params.dataSets.public.copernicus>
     )

@@ -1,7 +1,6 @@
 import { createDate, createDateString, createIsoStringDate } from '@ukri/shared/utils/date';
 
 import { TGeometry } from '../../stac-model/geometry.schema';
-import { getIntersects } from '../get-intersects';
 import { TFields, TFilterParam, TSearchParams } from '../query.model';
 
 export type TSortBy = {
@@ -35,18 +34,16 @@ export type TQuery = {
   params: TQueryParams;
 };
 
-export class PlanetQueryBuilder {
+export class WorkflowQueryBuilder {
   public constructor(
     protected readonly params: TQueryBuilderParams,
     protected readonly options: TQueryBuilderOptions = {}
   ) {}
 
   public build(): TQuery {
-    if (!this.params.queryParams) {
+    if (!this.params.queryParams || !this.isWorkflow()) {
       return this.createDefaultQuery();
     }
-
-    const intersects = getIntersects(this.params.queryParams.aoi);
 
     const params: TQueryParams = {
       limit: this.params.limit,
@@ -54,7 +51,7 @@ export class PlanetQueryBuilder {
       'filter-lang': 'cql-json',
       datetime: this.getDatetime(),
       collections: this.getCollections(),
-      intersects,
+      fields: this.getFields(),
     };
     const query: TQuery = {
       enabled: this.isEnabled(),
@@ -86,33 +83,15 @@ export class PlanetQueryBuilder {
       return false;
     }
 
-    return !!this.getCollections().length;
+    return !!this.getCollections().length && this.isWorkflow();
   };
 
   private getCollections = () => {
-    const collections: string[] = [];
-    const planet = this.params.queryParams?.dataSets?.private.planet;
-
-    if (!planet) {
-      return collections;
+    if (!this.params.queryParams?.userWorkspace?.length || !this.params.queryParams?.jobId?.length) {
+      return [];
     }
 
-    if (planet.planetScope?.enabled) {
-      collections.push('PSScene');
-    }
-
-    if (planet.skySat?.enabled) {
-      collections.push('SkySatVideo');
-      collections.push('SkySatScene');
-      collections.push('SkySatCollect');
-    }
-
-    if (planet.rapidEye?.enabled) {
-      collections.push('REScene');
-      collections.push('REOrthoTile');
-    }
-
-    return collections;
+    return [`col_${this.params.queryParams.jobId}`];
   };
 
   private getDatetime = () => {
@@ -131,5 +110,15 @@ export class PlanetQueryBuilder {
     dateTo.setUTCHours(23, 59, 59, 999);
 
     return `${createIsoStringDate(createDateString(dateFrom))}/${createIsoStringDate(createDateString(dateTo))}`;
+  };
+
+  private getFields = (): TFields => {
+    return {
+      include: ['properties.lulc_classes_percentage', 'properties.lulc_classes_m2'],
+    };
+  };
+
+  private isWorkflow = () => {
+    return !!this.params.queryParams?.userWorkspace?.length && !!this.params.queryParams?.jobId?.length;
   };
 }

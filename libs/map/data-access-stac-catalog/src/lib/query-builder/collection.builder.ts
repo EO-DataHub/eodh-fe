@@ -2,6 +2,7 @@ import { TCatalogueCollection } from './collection';
 import { PlanetQueryBuilder } from './comercial/planet.query-builder';
 import { QueryBuilder, TQuery } from './public/query.builder';
 import { TCatalogSearchParams, TSearchParams, TWorkflowSearchParams } from './query.model';
+import { WorkflowQueryBuilder } from './workflow/workflow.query-builder';
 
 export type TSortBy = {
   field: 'properties.datetime';
@@ -61,7 +62,7 @@ export class CollectionBuilder {
         jobId: queryParams.jobId,
         workflowId: queryParams.workflowId,
         sortBy: this.params.sortBy,
-        ...new QueryBuilder({ ...this.params, queryParams }, this.options).build(),
+        ...new WorkflowQueryBuilder({ ...this.params, queryParams }, this.options).build(),
       };
     } else if (isCatalogue(this.params.queryParams)) {
       const queryParams = this.params.queryParams;

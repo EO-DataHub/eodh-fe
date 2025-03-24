@@ -1,18 +1,11 @@
 import type { Entries } from 'type-fest';
 
-import { TCopernicusParams, TFields, TSearchParams, TWorkflowSearchParams } from '../../query.model';
+import { TCopernicusParams, TFields, TSearchParams } from '../../query.model';
 import { getFieldsForCopernicus } from './copernicus/copernicus.field';
 import { getDefaultFields } from './copernicus/default.field';
-import { getWorkflowDefaultFields } from './workflow.default-field';
-
-const isWorkflow = (params: TSearchParams): params is TWorkflowSearchParams => !!params.userWorkspace && !!params.jobId;
 
 export const getFields = (params: TSearchParams): TFields => {
   if (!params.dataSets?.public.copernicus) {
-    if (isWorkflow(params)) {
-      return getWorkflowDefaultFields();
-    }
-
     return {};
   }
 
@@ -30,7 +23,7 @@ export const getFields = (params: TSearchParams): TFields => {
     .map((param) => getFieldsForCopernicus(param))
     .flat();
 
-  return [getWorkflowDefaultFields(), getDefaultFields(), ...copernicusFields].reduce(
+  return [getDefaultFields(), ...copernicusFields].reduce(
     (acc, val) => ({
       include: [...new Set(val.include || []), ...new Set(acc.include || [])],
       exclude: [...new Set(val.exclude || []), ...new Set(acc.exclude || [])],
