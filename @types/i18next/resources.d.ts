@@ -209,6 +209,9 @@ interface Resources {
           };
         };
         WORKFLOW: {
+          INFO: {
+            CLIPPING_NOTIFICATION: 'Please note: due to your combination of Data Set and function, we have automatically applied clipping to optimise asset visibility.';
+          };
           ERROR: {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
             AOI_MISSING: 'Area of Interest is missing.';
