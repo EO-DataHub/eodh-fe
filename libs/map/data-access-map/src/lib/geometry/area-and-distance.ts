@@ -1,6 +1,6 @@
 import { Circle, Geometry, LineString } from 'ol/geom';
 import { fromCircle } from 'ol/geom/Polygon';
-import { getArea as getAreaFromGeometry } from 'ol/sphere';
+import { getArea as getAreaFromGeometry, getLength } from 'ol/sphere';
 
 import { createGeometry } from './geometry';
 import { TCoordinate, TUnit, TUnitType } from './shape.model';
@@ -45,7 +45,8 @@ export const getLineLength = (coordinates: TCoordinate | undefined) => {
 
     case 'line': {
       const lineString = new LineString(coordinates.coordinates);
-      return lineString.getLength();
+      const lengthInMeters = getLength(lineString);
+      return lengthInMeters;
     }
 
     default: {
