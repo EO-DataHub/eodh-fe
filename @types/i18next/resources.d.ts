@@ -794,15 +794,15 @@ interface Resources {
                       },
                       {
                         LABEL: 'Cropland, rainfed';
-                        COLOR: '#fff64';
+                        COLOR: '#ffff64';
                       },
                       {
                         LABEL: 'Herbaceous cover';
-                        COLOR: '#fff64';
+                        COLOR: '#ffff64';
                       },
                       {
                         LABEL: 'Tree or shrub cover';
-                        COLOR: '#fff00';
+                        COLOR: '#ffff00';
                       },
                       {
                         LABEL: 'Cropland, irrigated or post-flooding';
@@ -846,15 +846,15 @@ interface Resources {
                       },
                       {
                         LABEL: 'Tree cover, needleleaved, deciduous, closed to open (>15%)';
-                        COLOR: '#4005000';
+                        COLOR: '#400500';
                       },
                       {
                         LABEL: 'Tree cover, needleleaved, deciduous, closed (>40%)';
-                        COLOR: '#4005000';
+                        COLOR: '#400500';
                       },
                       {
                         LABEL: 'Tree cover, needleleaved, deciduous, open (15-40%)';
-                        COLOR: '#4006400';
+                        COLOR: '#400640';
                       },
                       {
                         LABEL: 'Tree cover, mixed leaf type (broadleaved and needleleaved)';
@@ -862,7 +862,7 @@ interface Resources {
                       },
                       {
                         LABEL: 'Mosaic tree and shrub (>50%) / herbaceous cover (<50%)';
-                        COLOR: '#1400a000';
+                        COLOR: '#1400a0';
                       },
                       {
                         LABEL: 'Mosaic herbaceous cover (>50%) / tree and shrub (<50%)';
@@ -870,7 +870,7 @@ interface Resources {
                       },
                       {
                         LABEL: 'Shrubland';
-                        COLOR: '#15006400';
+                        COLOR: '#150064';
                       },
                       {
                         LABEL: 'Shrubland evergreen';
@@ -878,7 +878,7 @@ interface Resources {
                       },
                       {
                         LABEL: 'Shrubland deciduous';
-                        COLOR: '#15006400';
+                        COLOR: '#150064';
                       },
                       {
                         LABEL: 'Grassland';
