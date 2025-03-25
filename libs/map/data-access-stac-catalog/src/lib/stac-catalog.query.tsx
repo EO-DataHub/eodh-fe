@@ -2,6 +2,8 @@ import { DefaultError, InfiniteData, QueryKey, useInfiniteQuery } from '@tanstac
 import { createDate } from '@ukri/shared/utils/date';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
 import { isAxiosError } from 'axios';
+import isObject from 'lodash/isObject';
+import merge from 'lodash/merge';
 import { useMemo } from 'react';
 
 import { paths } from './api';
@@ -25,6 +27,39 @@ import {
 } from './stac-model/collection.schema';
 import { NoWorkflowResultsFoundError } from './workflow.error';
 
+type TBodyParams = TCollection['links'][number]['body'];
+
+const isPostMethod = (link: TCollection['links'][number]) => link.type === 'post' || link.method === 'POST';
+
+const isGetMethod = (link: TCollection['links'][number]) => link.type === 'get' || link.method === 'GET';
+
+const isValidNextLink = (link: TCollection['links'][number]) => {
+  return link.rel === 'next' && ((isPostMethod(link) && !!link.body?.token) || isGetMethod(link));
+};
+
+const mergeBodyParams = ({
+  bodyParams,
+  queryParams,
+}: {
+  bodyParams: TBodyParams | undefined;
+  queryParams: TBodyParams | undefined;
+}): TBodyParams | undefined => {
+  if (!bodyParams && !queryParams) {
+    return undefined;
+  }
+  let params: TBodyParams | undefined = undefined;
+
+  if (isObject(queryParams)) {
+    params = { ...queryParams };
+  }
+
+  if (isObject(bodyParams)) {
+    params = merge(params, bodyParams);
+  }
+
+  return params;
+};
+
 const sortCollectionFeatures = (features: TCollection['features'], sortBy: TSortBy): TCollection['features'] => {
   if (sortBy.field === 'properties.datetime') {
     return features.sort((feature1, feature2) => {
@@ -43,7 +78,7 @@ const sortCollectionFeatures = (features: TCollection['features'], sortBy: TSort
 };
 
 const mapResponsesToSchema = <T extends TSearchCollection | TWorkflowCollection, Type = T['type']>(
-  responses: PromiseSettledResult<{ data: T; params?: TCollection['links'][number]['body'] }>[],
+  responses: PromiseSettledResult<{ data: T; params?: TBodyParams }>[],
   sortBy: TSortBy,
   type: Type
 ): T => {
@@ -59,13 +94,13 @@ const mapResponsesToSchema = <T extends TSearchCollection | TWorkflowCollection,
           return {
             ...parsedData.data,
             links: parsedData.data.links.map((link) => {
-              if (link.rel !== 'next') {
+              if (link.rel !== 'next' || !isPostMethod(link)) {
                 return link;
               }
 
               return {
                 ...link,
-                body: link.body ? link.body : response.value.params,
+                body: mergeBodyParams({ bodyParams: link.body, queryParams: response.value.params }),
               };
             }),
           };
@@ -101,11 +136,28 @@ const mapResponsesToSchema = <T extends TSearchCollection | TWorkflowCollection,
 const getNextPageResults = async (links: TCollection['links'], query: TCollectionQuery): Promise<TCollection> => {
   const requests = links
     .filter((link) => link.rel === 'next')
-    .map((link) =>
-      getHttpClient()
-        .post<TCollection>(link.href, link.body)
-        .then((data) => ({ data, params: link.body }))
-    );
+    .map((link) => {
+      switch (link.method) {
+        case 'POST':
+        case 'post': {
+          return getHttpClient()
+            .post<TCollection>(link.href, link.body)
+            .then((data) => ({ data, params: link.body }));
+        }
+
+        case 'GET':
+        case 'get': {
+          return getHttpClient()
+            .get<TCollection>(link.href)
+            .then((data) => ({ data, params: link.body }));
+        }
+
+        default: {
+          return undefined;
+        }
+      }
+    })
+    .filter((request): request is NonNullable<typeof request> => !!request);
   const data = await Promise.allSettled(requests);
 
   if (query.type === 'workflow') {
@@ -190,8 +242,20 @@ export const useCatalogSearch = ({ params }: TCatalogSearchProps) => {
     queryFn: ({ pageParam = [] }) => getResults(query, pageParam),
     staleTime: 200,
     initialPageParam: [],
-    getNextPageParam: (lastPage): TCollection['links'] | undefined =>
-      lastPage.links.find((link) => link.rel === 'next') ? lastPage.links : undefined,
+    getNextPageParam: (lastPage): TCollection['links'] | undefined => {
+      const nextLinks = lastPage.links.filter((link) => isValidNextLink(link));
+
+      if (!nextLinks.length) {
+        return undefined;
+      }
+
+      if (nextLinks.length > 1) {
+        const link = [...nextLinks].pop();
+        return link ? [link] : undefined;
+      }
+
+      return nextLinks;
+    },
     retry: 3,
   });
 };
