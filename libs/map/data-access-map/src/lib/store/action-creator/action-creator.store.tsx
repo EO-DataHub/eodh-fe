@@ -137,7 +137,7 @@ type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive' | 'addNode' | '
   canAddNextNode: (node: TNode, functions?: TBaseFunction[] | undefined) => boolean;
   editable: (node: TNode) => boolean;
   canExportWorkflow: boolean;
-  importWorkflow: () => Promise<void>;
+  importWorkflow: () => Promise<{ status: 'success' | 'error' }>;
   exportWorkflow: () => void;
 };
 
@@ -145,7 +145,8 @@ export const useActionCreator = (): TActionCreatorProps => {
   return useActionCreatorStore((state) => ({
     ...state,
     enable: () => {
-      const node = state.nodes.find((node) => node.state === 'active');
+      const nodes = useActionCreatorStore.getState().nodes;
+      const node = nodes.find((node) => node.state === 'active');
       activatePanel(node);
     },
     disable: () => {

@@ -26,7 +26,7 @@ jobs:
       canDeployOnDev: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isCiCdTest) }}
       canDeployOnQA: ${{ fromJSON(env.isDevelop) || fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
       canDeployOnStaging: ${{ fromJSON(env.isHotfix) || fromJSON(env.isRelease) || fromJSON(env.isMain) }}
-      canDeployOnProduction: 'false'
+      canDeployOnProduction: ${{ fromJSON(env.isMain) }}
   build:
     name: 'Build'
     uses: ./.github/workflows/build.yml

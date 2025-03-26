@@ -16,7 +16,7 @@ export interface IAoiStore {
   drawingTool?: TDrawingTool;
   shape: TShape;
   setShape: (shape: TShape | TCoordinate | undefined, fitToAoi?: boolean) => void;
-  updateShape: (shape: Geometry | undefined) => void;
+  updateShape: (shape: Geometry | undefined | ((oldShape: TShape | undefined) => Geometry | undefined)) => void;
   visible: boolean;
   toggleVisibility: () => void;
   show: () => void;

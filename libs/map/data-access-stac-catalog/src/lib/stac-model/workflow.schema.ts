@@ -1,7 +1,7 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import z from 'zod';
 
-import { assetSchema } from './asset.schema';
+import { thumbnailAssetSchema } from './asset.schema';
 import { featureGenericSchema } from './feature-generic.schema';
 
 const propertySchema = z
@@ -62,7 +62,7 @@ const waterQualityAssetSchema = z.object({
 export const waterQualitySchema = featureGenericSchema.extend({
   properties: propertySchema,
   assets: z.object({
-    thumbnail: assetSchema.optional(),
+    thumbnail: thumbnailAssetSchema.optional(),
     data: waterQualityAssetSchema.optional(),
     cdom: waterQualityAssetSchema.optional(),
     cya_cells: waterQualityAssetSchema.optional(),
@@ -82,7 +82,12 @@ const landCoverChangesAssetSchema = z.object({
   statistics: z.never().optional(),
   'classification:classes': z.array(
     z.object({
-      'color-hint': z.string().transform((color) => (color.startsWith('#') ? color : `#${color}`)),
+      'color-hint': z.string().transform((color) => {
+        const numberOfColors = color.length;
+        const fillItems = 6 - numberOfColors;
+        const fullColor = fillItems > 0 ? color.padEnd(fillItems, '0') : color;
+        return (fullColor.startsWith('#') ? fullColor : `#${fullColor}`).substring(0, 7);
+      }),
       description: z.string(),
       value: z.number().nullable(),
     })
@@ -107,7 +112,7 @@ export const landCoverChangesSchema = featureGenericSchema.extend({
       polarizations: data.polarizations as never,
     })),
   assets: z.object({
-    thumbnail: assetSchema.optional(),
+    thumbnail: thumbnailAssetSchema.optional(),
     data: landCoverChangesAssetSchema,
     cdom: z.never().optional(),
     cya_cells: z.never().optional(),

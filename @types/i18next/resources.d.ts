@@ -219,6 +219,9 @@ interface Resources {
           };
         };
         WORKFLOW: {
+          INFO: {
+            CLIPPING_NOTIFICATION: 'Please note: due to your combination of Data Set and function, we have automatically applied clipping to optimise asset visibility.';
+          };
           ERROR: {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
             AOI_MISSING: 'Area of Interest is missing.';
@@ -343,7 +346,7 @@ interface Resources {
                 ];
               };
               HOW_AND_WHEN_DO_I_USE_CLIPPING_FUNCTIONS: {
-                QUESTION: 'How and when do I use clipping function?';
+                QUESTION: 'How and when do I use the clipping function?';
                 ANSWER: [
                   'The clipping function can be applied as a subsequent step after running other functions, such as NDVI or Land Cover Change analyses. When used, it limits the area covered by workflow output items to a specified Area of Interest (AOI). When an individual item is viewed on map, only the portion that falls within the AOI is displayed.',
                   'It is recommended to use the clipping function. This function is especially useful for saving space by reducing the amount of extraneous data calculated and displayed. In some cases, the clipping function is automatically applied in the background, even if the user does not explicitly select it. When this occurs, the user is informed via a toast message.'
@@ -382,7 +385,7 @@ interface Resources {
               HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS: {
                 QUESTION: 'How do I download workflow results?';
                 ANSWER: [
-                  'After you run Action Creator and browse results in the left side menu, you will see “download” option next to each individual item. When you click on it, this will prompt download of each individual asset connected with this item. Each of these assets will start being downloaded in a separate tab of your browser. Depending on a type of browser you use, you might need to accept the download action separately for each tab.'
+                  'After you run Action Creator and browse results in the left side menu, you will see “download” option next to each individual item. When you click on it, this will prompt download of each individual file connected with this item. Each of these files will start being downloaded in a separate tab of your browser. Depending on a type of browser you use, you might need to accept the download action separately for each tab.'
                 ];
               };
             };
@@ -598,6 +601,7 @@ interface Resources {
                 QUESTION: 'What is the colour coding for Land Cover Change classes?';
                 ANSWER: [
                   'Land cover classes displayed on the Land Cover Changes graph use the following colour coding:',
+                  ['For CORINE:'],
                   {
                     TABLE: [
                       {
@@ -774,6 +778,176 @@ interface Resources {
                       },
                       {
                         LABEL: 'NODATA';
+                        COLOR: '#ffffff';
+                      }
+                    ];
+                  },
+                  ['For WATERBODIES:'],
+                  {
+                    TABLE: [
+                      {
+                        LABEL: 'Water body';
+                        COLOR: '#0000ff';
+                      },
+                      {
+                        LABEL: 'Not water body';
+                        COLOR: '#ffffff';
+                      }
+                    ];
+                  },
+                  ['For GLOBAL:'],
+                  {
+                    TABLE: [
+                      {
+                        LABEL: 'No data';
+                        COLOR: '#000000';
+                      },
+                      {
+                        LABEL: 'Cropland, rainfed';
+                        COLOR: '#ffff64';
+                      },
+                      {
+                        LABEL: 'Herbaceous cover';
+                        COLOR: '#ffff64';
+                      },
+                      {
+                        LABEL: 'Tree or shrub cover';
+                        COLOR: '#ffff00';
+                      },
+                      {
+                        LABEL: 'Cropland, irrigated or post-flooding';
+                        COLOR: '#aaf0f0';
+                      },
+                      {
+                        LABEL: 'Mosaic cropland (>50%) / natural vegetation (tree, shrub, herbaceous cover) (<50%)';
+                        COLOR: '#dbf064';
+                      },
+                      {
+                        LABEL: 'Mosaic natural vegetation (tree, shrub, herbaceous cover) (>50%) / cropland (<50%)';
+                        COLOR: '#c8c864';
+                      },
+                      {
+                        LABEL: 'Tree cover, broadleaved, evergreen, closed to open (>15%)';
+                        COLOR: '#006400';
+                      },
+                      {
+                        LABEL: 'Tree cover, broadleaved, deciduous, closed to open (>15%)';
+                        COLOR: '#00a000';
+                      },
+                      {
+                        LABEL: 'Tree cover, broadleaved, deciduous, closed (>40%)';
+                        COLOR: '#00a000';
+                      },
+                      {
+                        LABEL: 'Tree cover, broadleaved, deciduous, open (15-40%)';
+                        COLOR: '#aac800';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, evergreen, closed to open (>15%)';
+                        COLOR: '#003c00';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, evergreen, closed (>40%)';
+                        COLOR: '#003c00';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, evergreen, open (15-40%)';
+                        COLOR: '#005000';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, deciduous, closed to open (>15%)';
+                        COLOR: '#400500';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, deciduous, closed (>40%)';
+                        COLOR: '#400500';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, deciduous, open (15-40%)';
+                        COLOR: '#400640';
+                      },
+                      {
+                        LABEL: 'Tree cover, mixed leaf type (broadleaved and needleleaved)';
+                        COLOR: '#788200';
+                      },
+                      {
+                        LABEL: 'Mosaic tree and shrub (>50%) / herbaceous cover (<50%)';
+                        COLOR: '#1400a0';
+                      },
+                      {
+                        LABEL: 'Mosaic herbaceous cover (>50%) / tree and shrub (<50%)';
+                        COLOR: '#be9500';
+                      },
+                      {
+                        LABEL: 'Shrubland';
+                        COLOR: '#150064';
+                      },
+                      {
+                        LABEL: 'Shrubland evergreen';
+                        COLOR: '#784c00';
+                      },
+                      {
+                        LABEL: 'Shrubland deciduous';
+                        COLOR: '#150064';
+                      },
+                      {
+                        LABEL: 'Grassland';
+                        COLOR: '#ffb432';
+                      },
+                      {
+                        LABEL: 'Lichens and mosses';
+                        COLOR: '#ffdcd2';
+                      },
+                      {
+                        LABEL: 'Sparse vegetation (tree, shrub, herbaceous cover) (<15%)';
+                        COLOR: '#ffebaf';
+                      },
+                      {
+                        LABEL: 'Sparse tree (<15%)';
+                        COLOR: '#ffc964';
+                      },
+                      {
+                        LABEL: 'Sparse shrub (<15%)';
+                        COLOR: '#ffd278';
+                      },
+                      {
+                        LABEL: 'Sparse herbaceous cover (<15%)';
+                        COLOR: '#ffebaf';
+                      },
+                      {
+                        LABEL: 'Tree cover, flooded, fresh or brakish water';
+                        COLOR: '#00785a';
+                      },
+                      {
+                        LABEL: 'Tree cover, flooded, saline water';
+                        COLOR: '#009678';
+                      },
+                      {
+                        LABEL: 'Shrub or herbaceous cover, flooded, fresh/saline/brakish water';
+                        COLOR: '#00dc80';
+                      },
+                      {
+                        LABEL: 'Urban areas';
+                        COLOR: '#c31300';
+                      },
+                      {
+                        LABEL: 'Bare areas';
+                        COLOR: '#fff5d7';
+                      },
+                      {
+                        LABEL: 'Consolidated bare areas';
+                        COLOR: '#dcdcdc';
+                      },
+                      {
+                        LABEL: 'Unconsolidated bare areas';
+                        COLOR: '#fff5d7';
+                      },
+                      {
+                        LABEL: 'Water bodies';
+                        COLOR: '#0046c8';
+                      },
+                      {
+                        LABEL: 'Permanent snow and ice';
                         COLOR: '#ffffff';
                       }
                     ];

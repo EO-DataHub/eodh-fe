@@ -8,7 +8,7 @@ import { ResultItemInfo } from './result-info.component';
 
 export interface IResultItemProps {
   className?: string;
-  imageUrl: string;
+  imageUrl: string | null | undefined;
   id: string;
   highlightedItem: IHighlightedItem | undefined;
   gridCode?: string;
