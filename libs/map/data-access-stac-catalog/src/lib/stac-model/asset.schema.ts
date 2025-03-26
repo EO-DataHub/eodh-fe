@@ -1,16 +1,19 @@
 import z from 'zod';
 
+export const noDataSchema = z.union([z.number(), z.string()]).nullish();
+
 export const assetSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
+  title: z.string().nullish(),
+  description: z.string().nullish(),
   href: z.string(),
-  type: z.string().optional(),
+  type: z.string().nullish(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
+  nodata: noDataSchema,
   'raster:bands': z
     .array(
       z.object({
-        nodata: z.number().nullable(),
+        nodata: noDataSchema,
         unit: z.string(),
       })
     )
@@ -18,16 +21,17 @@ export const assetSchema = z.object({
 });
 
 export const thumbnailAssetSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
+  title: z.string().nullish(),
+  description: z.string().nullish(),
   href: z.string().nullish().optional(),
-  type: z.string().optional(),
+  type: z.string().nullish(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
+  nodata: noDataSchema,
   'raster:bands': z
     .array(
       z.object({
-        nodata: z.number().nullable(),
+        nodata: noDataSchema,
         unit: z.string(),
       })
     )

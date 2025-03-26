@@ -14,7 +14,7 @@ export const linkSchema = z.object({
     z.literal('next').optional(),
   ]),
   type: z.string().optional(),
-  title: z.string().optional(),
+  title: z.string().nullish(),
   merge: z.boolean().optional(),
   method: z.string().optional(),
   body: z.object({}).passthrough().optional(),

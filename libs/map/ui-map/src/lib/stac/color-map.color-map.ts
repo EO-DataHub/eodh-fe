@@ -101,16 +101,21 @@ export const getColorMapStyles = (asset: IAsset): Record<string, unknown> | unde
 
   return {
     color: [
-      'interpolate',
-      ['linear'],
-      ['band', 1],
-      ...getColorStops(
-        colorMapOptions.name,
-        colorMapOptions.min,
-        colorMapOptions.max,
-        colorMapOptions.steps,
-        colorMapOptions.reverse
-      ),
+      'case',
+      ['==', ['band', 2], 0],
+      [0, 0, 0, 0],
+      [
+        'interpolate',
+        ['linear'],
+        ['band', 1],
+        ...getColorStops(
+          colorMapOptions.name,
+          colorMapOptions.min,
+          colorMapOptions.max,
+          colorMapOptions.steps,
+          colorMapOptions.reverse
+        ),
+      ],
     ],
   };
 };

@@ -5,6 +5,7 @@ const config = (() => ({
       EODH_PRO_API_URL: '',
       EODH_ELEMENT_84_CATALOGUE_API_URL: '',
       EODH_CEDA_CATALOGUE_API_URL: '',
+      EODH_PLANET_CATALOGUE_API_URL: '',
       EODH_WORKFLOW_CATALOGUE_API_URL: '',
     },
   },

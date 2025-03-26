@@ -209,6 +209,9 @@ interface Resources {
           };
         };
         WORKFLOW: {
+          INFO: {
+            CLIPPING_NOTIFICATION: 'Please note: due to your combination of Data Set and function, we have automatically applied clipping to optimise asset visibility.';
+          };
           ERROR: {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
             AOI_MISSING: 'Area of Interest is missing.';
@@ -588,6 +591,7 @@ interface Resources {
                 QUESTION: 'What is the colour coding for Land Cover Change classes?';
                 ANSWER: [
                   'Land cover classes displayed on the Land Cover Changes graph use the following colour coding:',
+                  ['For CORINE:'],
                   {
                     TABLE: [
                       {
@@ -764,6 +768,176 @@ interface Resources {
                       },
                       {
                         LABEL: 'NODATA';
+                        COLOR: '#ffffff';
+                      }
+                    ];
+                  },
+                  ['For WATERBODIES:'],
+                  {
+                    TABLE: [
+                      {
+                        LABEL: 'Water body';
+                        COLOR: '#0000ff';
+                      },
+                      {
+                        LABEL: 'Not water body';
+                        COLOR: '#ffffff';
+                      }
+                    ];
+                  },
+                  ['For GLOBAL:'],
+                  {
+                    TABLE: [
+                      {
+                        LABEL: 'No data';
+                        COLOR: '#000000';
+                      },
+                      {
+                        LABEL: 'Cropland, rainfed';
+                        COLOR: '#ffff64';
+                      },
+                      {
+                        LABEL: 'Herbaceous cover';
+                        COLOR: '#ffff64';
+                      },
+                      {
+                        LABEL: 'Tree or shrub cover';
+                        COLOR: '#ffff00';
+                      },
+                      {
+                        LABEL: 'Cropland, irrigated or post-flooding';
+                        COLOR: '#aaf0f0';
+                      },
+                      {
+                        LABEL: 'Mosaic cropland (>50%) / natural vegetation (tree, shrub, herbaceous cover) (<50%)';
+                        COLOR: '#dbf064';
+                      },
+                      {
+                        LABEL: 'Mosaic natural vegetation (tree, shrub, herbaceous cover) (>50%) / cropland (<50%)';
+                        COLOR: '#c8c864';
+                      },
+                      {
+                        LABEL: 'Tree cover, broadleaved, evergreen, closed to open (>15%)';
+                        COLOR: '#006400';
+                      },
+                      {
+                        LABEL: 'Tree cover, broadleaved, deciduous, closed to open (>15%)';
+                        COLOR: '#00a000';
+                      },
+                      {
+                        LABEL: 'Tree cover, broadleaved, deciduous, closed (>40%)';
+                        COLOR: '#00a000';
+                      },
+                      {
+                        LABEL: 'Tree cover, broadleaved, deciduous, open (15-40%)';
+                        COLOR: '#aac800';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, evergreen, closed to open (>15%)';
+                        COLOR: '#003c00';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, evergreen, closed (>40%)';
+                        COLOR: '#003c00';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, evergreen, open (15-40%)';
+                        COLOR: '#005000';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, deciduous, closed to open (>15%)';
+                        COLOR: '#400500';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, deciduous, closed (>40%)';
+                        COLOR: '#400500';
+                      },
+                      {
+                        LABEL: 'Tree cover, needleleaved, deciduous, open (15-40%)';
+                        COLOR: '#400640';
+                      },
+                      {
+                        LABEL: 'Tree cover, mixed leaf type (broadleaved and needleleaved)';
+                        COLOR: '#788200';
+                      },
+                      {
+                        LABEL: 'Mosaic tree and shrub (>50%) / herbaceous cover (<50%)';
+                        COLOR: '#1400a0';
+                      },
+                      {
+                        LABEL: 'Mosaic herbaceous cover (>50%) / tree and shrub (<50%)';
+                        COLOR: '#be9500';
+                      },
+                      {
+                        LABEL: 'Shrubland';
+                        COLOR: '#150064';
+                      },
+                      {
+                        LABEL: 'Shrubland evergreen';
+                        COLOR: '#784c00';
+                      },
+                      {
+                        LABEL: 'Shrubland deciduous';
+                        COLOR: '#150064';
+                      },
+                      {
+                        LABEL: 'Grassland';
+                        COLOR: '#ffb432';
+                      },
+                      {
+                        LABEL: 'Lichens and mosses';
+                        COLOR: '#ffdcd2';
+                      },
+                      {
+                        LABEL: 'Sparse vegetation (tree, shrub, herbaceous cover) (<15%)';
+                        COLOR: '#ffebaf';
+                      },
+                      {
+                        LABEL: 'Sparse tree (<15%)';
+                        COLOR: '#ffc964';
+                      },
+                      {
+                        LABEL: 'Sparse shrub (<15%)';
+                        COLOR: '#ffd278';
+                      },
+                      {
+                        LABEL: 'Sparse herbaceous cover (<15%)';
+                        COLOR: '#ffebaf';
+                      },
+                      {
+                        LABEL: 'Tree cover, flooded, fresh or brakish water';
+                        COLOR: '#00785a';
+                      },
+                      {
+                        LABEL: 'Tree cover, flooded, saline water';
+                        COLOR: '#009678';
+                      },
+                      {
+                        LABEL: 'Shrub or herbaceous cover, flooded, fresh/saline/brakish water';
+                        COLOR: '#00dc80';
+                      },
+                      {
+                        LABEL: 'Urban areas';
+                        COLOR: '#c31300';
+                      },
+                      {
+                        LABEL: 'Bare areas';
+                        COLOR: '#fff5d7';
+                      },
+                      {
+                        LABEL: 'Consolidated bare areas';
+                        COLOR: '#dcdcdc';
+                      },
+                      {
+                        LABEL: 'Unconsolidated bare areas';
+                        COLOR: '#fff5d7';
+                      },
+                      {
+                        LABEL: 'Water bodies';
+                        COLOR: '#0046c8';
+                      },
+                      {
+                        LABEL: 'Permanent snow and ice';
                         COLOR: '#ffffff';
                       }
                     ];
@@ -1121,6 +1295,7 @@ interface Resources {
           DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
           NO_DATE_SELECTED: 'Please select a valid date';
           DATE_SHOULD_BE_EARLIER_THAN_TODAY: "Date cannot be later than today's date";
+          ONLY_ONE_COLLECTION_IS_REQUIRED: 'You can only select Data Sets from within the same collection. Please refine your selection and try again.';
         };
         DATA_SETS: {
           INFO_BOX: {

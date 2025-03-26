@@ -15,7 +15,7 @@ export const helpStyles = {
   helpTitle: 'text-lg leading-[18px]',
   helpIntro: 'pt-4',
   questionsList: 'pb-4',
-  table: 'mt-2',
+  table: 'mt-2 mb-5',
   tableCell: 'border border-main p-1 w-full',
   colorCell: 'min-w-12 h-4',
   image: 'object-cover',
