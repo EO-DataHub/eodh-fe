@@ -46,7 +46,18 @@ export type TCatalogSearchParams = {
   dataSets: {
     public: {
       copernicus: TCopernicusSearchParams;
-      auxiliary?: object;
+      auxiliary?: {
+        enabled?: boolean;
+        esacciGloballc?: {
+          enabled?: boolean;
+        };
+        clmsCorinelc?: {
+          enabled?: boolean;
+        };
+        clmsWaterBodies?: {
+          enabled?: boolean;
+        };
+      };
     };
     private: {
       planet?: TPlanetSearchParams;
