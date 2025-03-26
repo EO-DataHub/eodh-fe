@@ -10,12 +10,7 @@ interface IUseHistoryTileProps {
   onHide: () => void;
 }
 
-export const useHistoryTile = ({
-  jobId,
-  submittedAtDate,
-  selectedResult,
-  onHide,
-}: IUseHistoryTileProps) => {
+export const useHistoryTile = ({ jobId, submittedAtDate, selectedResult, onHide }: IUseHistoryTileProps) => {
   const [deleteInProgress, setDeleteInProgress] = useState(false);
   const { t } = useTranslation();
   const submittedHour = useMemo(() => formatHour(createDateString(submittedAtDate)), [submittedAtDate]);
@@ -39,6 +34,6 @@ export const useHistoryTile = ({
     deleteHistoryItem,
     isPending,
     isError,
-    itemDeleted
+    itemDeleted,
   };
 };
