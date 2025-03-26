@@ -1,7 +1,8 @@
 import { TDateString } from '@ukri/shared/utils/date';
+import isObject from 'lodash/isObject';
 import z from 'zod';
 
-import { thumbnailAssetSchema } from './asset.schema';
+import { noDataSchema, thumbnailAssetSchema } from './asset.schema';
 import { featureGenericSchema } from './feature-generic.schema';
 
 const propertySchema = z
@@ -30,13 +31,13 @@ const waterQualityAssetSchema = z.object({
   href: z.string(),
   size: z.number(),
   roles: z.array(z.string()),
-  nodata: z.string().optional(),
+  nodata: noDataSchema,
   'proj:epsg': z.number(),
   'proj:shape': z.array(z.number()),
   'proj:transform': z.array(z.number()),
   'raster:bands': z.array(
     z.object({
-      nodata: z.number().nullable(),
+      nodata: noDataSchema,
       unit: z.string(),
     })
   ),
@@ -71,6 +72,7 @@ export const waterQualitySchema = featureGenericSchema.extend({
     turb: waterQualityAssetSchema.optional(),
     ndwi: waterQualityAssetSchema.optional(),
   }),
+  workflowType: z.literal('waterQuality'),
 });
 
 const landCoverChangesAssetSchema = z.object({
@@ -79,7 +81,7 @@ const landCoverChangesAssetSchema = z.object({
   href: z.string(),
   size: z.number(),
   roles: z.array(z.string()),
-  nodata: z.string().optional(),
+  nodata: noDataSchema,
   colormap: z.never().optional(),
   statistics: z.never().optional(),
   'classification:classes': z.array(
@@ -122,6 +124,32 @@ export const landCoverChangesSchema = featureGenericSchema.extend({
     turb: z.never().optional(),
     ndwi: z.never().optional(),
   }),
+  workflowType: z.literal('landCoverChanges'),
 });
 
-export const featureWorkflowSchema = z.union([landCoverChangesSchema, waterQualitySchema]);
+const isLandCoverSchema = z.object({
+  properties: propertySchema.innerType().extend({
+    lulc_classes_m2: z.record(z.string().or(z.number()), z.number()),
+    lulc_classes_percentage: z.record(z.string().or(z.number()), z.number()),
+  }),
+});
+
+export const featureWorkflowSchema = z.preprocess((input) => {
+  if (!isObject(input) || input === null) {
+    return input;
+  }
+
+  const parsedData = isLandCoverSchema.safeParse(input);
+
+  if (parsedData.success) {
+    return {
+      ...input,
+      workflowType: 'landCoverChanges',
+    };
+  }
+
+  return {
+    ...input,
+    workflowType: 'waterQuality',
+  };
+}, z.discriminatedUnion('workflowType', [landCoverChangesSchema, waterQualitySchema]));
