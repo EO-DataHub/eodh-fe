@@ -7,6 +7,7 @@ export const assetSchema = z.object({
   type: z.string().nullish(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
+  nodata: z.string().optional(),
   'raster:bands': z
     .array(
       z.object({

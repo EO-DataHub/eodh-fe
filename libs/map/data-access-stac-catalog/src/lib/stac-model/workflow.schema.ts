@@ -30,6 +30,7 @@ const waterQualityAssetSchema = z.object({
   href: z.string(),
   size: z.number(),
   roles: z.array(z.string()),
+  nodata: z.string().optional(),
   'proj:epsg': z.number(),
   'proj:shape': z.array(z.number()),
   'proj:transform': z.array(z.number()),
@@ -78,6 +79,7 @@ const landCoverChangesAssetSchema = z.object({
   href: z.string(),
   size: z.number(),
   roles: z.array(z.string()),
+  nodata: z.string().optional(),
   colormap: z.never().optional(),
   statistics: z.never().optional(),
   'classification:classes': z.array(
