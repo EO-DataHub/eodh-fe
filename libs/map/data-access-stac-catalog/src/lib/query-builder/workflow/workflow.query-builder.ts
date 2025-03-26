@@ -34,6 +34,7 @@ export type TQuery = {
   params: TQueryParams;
 };
 
+// todo create BaseQueryBuilder abstract class
 export class WorkflowQueryBuilder {
   public constructor(
     protected readonly params: TQueryBuilderParams,
