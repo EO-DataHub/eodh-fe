@@ -1,5 +1,7 @@
 import z from 'zod';
 
+export const noDataSchema = z.union([z.number(), z.string()]).nullish();
+
 export const assetSchema = z.object({
   title: z.string().nullish(),
   description: z.string().nullish(),
@@ -7,10 +9,11 @@ export const assetSchema = z.object({
   type: z.string().nullish(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
+  nodata: noDataSchema,
   'raster:bands': z
     .array(
       z.object({
-        nodata: z.number().nullable(),
+        nodata: noDataSchema,
         unit: z.string(),
       })
     )
@@ -24,10 +27,11 @@ export const thumbnailAssetSchema = z.object({
   type: z.string().nullish(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
+  nodata: noDataSchema,
   'raster:bands': z
     .array(
       z.object({
-        nodata: z.number().nullable(),
+        nodata: noDataSchema,
         unit: z.string(),
       })
     )
