@@ -80,8 +80,54 @@ const sentinel1CedaPropertySchema = z
     polarizations: data.Polarisation,
   }));
 
+const skySatPropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    cloud_percent: z.number(),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    cloudCoverage: data.cloud_percent,
+    gridCode: undefined,
+  }));
+
+const rapidEyePropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    cloud_cover: z.number().transform((value) => value * 100),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    cloudCoverage: data.cloud_cover,
+    gridCode: undefined,
+  }));
+
+const planetScopePropertySchema = z
+  .object({
+    datetime: z.custom<NonNullable<TDateString>>(
+      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
+    ),
+    cloud_percent: z.number(),
+  })
+  .transform((data) => ({
+    datetime: data.datetime,
+    cloudCoverage: data.cloud_percent,
+    gridCode: undefined,
+  }));
+
 export const featureSearchSchema = featureGenericSchema.extend({
-  properties: z.union([propertySchema, sentinel1Element84PropertySchema, sentinel1CedaPropertySchema]),
+  properties: z.union([
+    propertySchema,
+    sentinel1Element84PropertySchema,
+    sentinel1CedaPropertySchema,
+    skySatPropertySchema,
+    rapidEyePropertySchema,
+    planetScopePropertySchema,
+  ]),
   assets: z.object({
     thumbnail: thumbnailAssetSchema.optional(),
     cog: assetSchema.optional(),

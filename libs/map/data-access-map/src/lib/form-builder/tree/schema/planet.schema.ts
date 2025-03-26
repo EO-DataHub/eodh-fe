@@ -9,9 +9,6 @@ const planetScopeSchema: IDynamicTreeItem = {
       type: 'checkbox',
     },
   },
-  options: {
-    disabled: true,
-  },
 };
 
 const skySatSchema: IDynamicTreeItem = {
@@ -23,9 +20,6 @@ const skySatSchema: IDynamicTreeItem = {
       type: 'checkbox',
     },
   },
-  options: {
-    disabled: true,
-  },
 };
 
 const rapidEyeSchema: IDynamicTreeItem = {
@@ -36,9 +30,6 @@ const rapidEyeSchema: IDynamicTreeItem = {
       name: 'private.planet.rapidEye.enabled',
       type: 'checkbox',
     },
-  },
-  options: {
-    disabled: true,
   },
 };
 
@@ -56,9 +47,6 @@ export const planetSearchSchema: IDynamicTreeCategory = {
       type: 'checkbox',
       value: false,
     },
-  },
-  options: {
-    disabled: true,
   },
   children: [planetScopeSchema, skySatSchema, rapidEyeSchema],
 };

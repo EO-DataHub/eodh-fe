@@ -1,10 +1,10 @@
 import z from 'zod';
 
 export const assetSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
+  title: z.string().nullish(),
+  description: z.string().nullish(),
   href: z.string(),
-  type: z.string().optional(),
+  type: z.string().nullish(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
   'raster:bands': z
@@ -18,10 +18,10 @@ export const assetSchema = z.object({
 });
 
 export const thumbnailAssetSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
+  title: z.string().nullish(),
+  description: z.string().nullish(),
   href: z.string().nullish().optional(),
-  type: z.string().optional(),
+  type: z.string().nullish(),
   size: z.number().optional(),
   roles: z.array(z.string()).optional(),
   'raster:bands': z
