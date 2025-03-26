@@ -9,7 +9,7 @@ interface IDeleteHistoryItemParams {
 }
 
 const deleteHistoryItem = async ({ workflowId }: IDeleteHistoryItemParams): Promise<void> => {
-  await getHttpClient().delete(`${paths.WORKFLOW}/${workflowId}`);
+  await getHttpClient().delete(paths.DELETE_WORKFLOW(workflowId));
 };
 
 export const useDeleteHistoryItem = () => {

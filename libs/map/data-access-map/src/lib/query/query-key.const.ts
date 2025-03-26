@@ -4,7 +4,6 @@ const QUERY_KEY = {
   COLLECTION_INFO: 'collection-info',
   WORKFLOW_HISTORY: 'workflow-history',
   WORKFLOW_STATUS: 'workflow-status',
-  DELETE_WORKFLOW: 'delete-workflow',
 };
 
 export const queryKey = {
@@ -21,6 +20,5 @@ export const queryKey = {
   }) => [QUERY_KEY.COLLECTION_INFO, userWorkspace, jobId, workflowId],
   WORKFLOW_HISTORY: ({ orderDirection }: { orderDirection?: 'asc' | 'desc' } = {}) =>
     [QUERY_KEY.WORKFLOW_HISTORY, orderDirection].filter((item) => !!item),
-  WORKFLOW_STATUS: () => [QUERY_KEY.WORKFLOW_STATUS],
-  DELETE_WORKFLOW: ({ workflowId }: { workflowId: string }) => [QUERY_KEY.DELETE_WORKFLOW, workflowId],
+  WORKFLOW_STATUS: () => [QUERY_KEY.WORKFLOW_STATUS]
 };

@@ -5,7 +5,7 @@ import { twMerge } from '../merge.tailwind';
 import { notificationStyles } from './notification.styles';
 
 interface INotificationProps {
-  type: 'error' | 'error-light' | 'warning' | 'success' | 'information' | 'general';
+  type: 'error' | 'errorLight' | 'warning' | 'success' | 'information' | 'general';
   children: ReactNode | string;
   className?: string;
   iconName?: TIconNames;

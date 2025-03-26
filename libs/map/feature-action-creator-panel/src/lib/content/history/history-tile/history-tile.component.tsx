@@ -1,14 +1,11 @@
-import { useDeleteHistoryItem } from '@ukri/map/data-access-map';
 import { Button, Text } from '@ukri/shared/design-system';
-import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
 import clsx from 'clsx';
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { DeleteConfirmation } from './delete-item-form.component';
+import { DeleteConfirmation } from './delete-item.component';
 import { historyTileStyles } from './history-tile.styles';
 import { Tag } from './tag.component';
 import { ToggleWorkflowButton } from './toggle-workflow-button.component';
+import { useHistoryTile } from './use-history-tile.hook';
 
 export interface IHistoryTileProps {
   jobId: string;
@@ -33,18 +30,23 @@ export const HistoryTile = ({
   onHide,
   onShow,
 }: IHistoryTileProps) => {
-  const [deleteInProgress, setDeleteInProgress] = useState(false);
-  const { t } = useTranslation();
-  const submittedHour = useMemo(() => formatHour(createDateString(submittedAtDate)), [submittedAtDate]);
-  const submittedDate = useMemo(() => formatDate(createDateString(submittedAtDate), 'DD-MM-YY'), [submittedAtDate]);
-  const selected = useMemo(() => selectedResult === jobId, [selectedResult, jobId]);
-  const { mutate: deleteHistoryItem, isPending, isError, isSuccess: itemDeleted } = useDeleteHistoryItem();
-
-  useEffect(() => {
-    if (selectedResult === jobId && itemDeleted) {
-      onHide();
-    }
-  }, [itemDeleted, selectedResult, jobId, onHide]);
+  const {
+    deleteInProgress,
+    setDeleteInProgress,
+    t,
+    submittedHour,
+    submittedDate,
+    selected,
+    deleteHistoryItem,
+    isPending,
+    isError,
+    itemDeleted,
+  } = useHistoryTile({
+    jobId,
+    submittedAtDate,
+    selectedResult,
+    onHide,
+  });
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>

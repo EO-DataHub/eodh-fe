@@ -7,12 +7,12 @@ const translationPath = 'MAP.ACTION_CREATOR_PANEL.HISTORY.DELETE_CONFIRMATION';
 
 interface IButtonsProps {
   onNoClick: () => void;
-  handleDelete: () => void;
+  onDelete: () => void;
   isPending: boolean;
   isSuccess: boolean;
 }
 
-const Buttons = ({ onNoClick, handleDelete, isPending, isSuccess }: IButtonsProps) => {
+const Buttons = ({ onNoClick, onDelete, isPending, isSuccess }: IButtonsProps) => {
   const { t } = useTranslation();
 
   if (isSuccess) {
@@ -32,7 +32,7 @@ const Buttons = ({ onNoClick, handleDelete, isPending, isSuccess }: IButtonsProp
             </>
           }
           className='!bg-error'
-          onClick={handleDelete}
+          onClick={onDelete}
           disabled
         />
       </>
@@ -42,7 +42,7 @@ const Buttons = ({ onNoClick, handleDelete, isPending, isSuccess }: IButtonsProp
   return (
     <>
       <Button size='medium' appearance='text' text={`${translationPath}.NO_CTA`} onClick={onNoClick} />
-      <Button size='medium' text={`${translationPath}.YES_CTA`} className='!bg-error' onClick={handleDelete} />
+      <Button size='medium' text={`${translationPath}.YES_CTA`} className='!bg-error' onClick={onDelete} />
     </>
   );
 };
@@ -70,18 +70,14 @@ export const DeleteConfirmation = ({
     }
   }, [isError, t]);
 
-  const handleDelete = () => {
-    deleteHistoryItem();
-  };
-
   return (
     <div>
-      <Notification type='error-light' className='my-4 p-4 shadow-none' closeButtonVisible={false}>
+      <Notification type='errorLight' className='my-4 p-4 shadow-none' closeButtonVisible={false}>
         <Text content={`${translationPath}.WARNING`} fontSize='medium' fontWeight='semibold' />
         <Text content={`${translationPath}.MESSAGE`} fontSize='medium' fontWeight='regular' className='font-medium' />
       </Notification>
       <div className='mt-6 flex justify-end space-x-3'>
-        <Buttons onNoClick={onNoClick} handleDelete={handleDelete} isPending={isPending} isSuccess={isSuccess} />
+        <Buttons onNoClick={onNoClick} onDelete={deleteHistoryItem} isPending={isPending} isSuccess={isSuccess} />
       </div>
     </div>
   );
