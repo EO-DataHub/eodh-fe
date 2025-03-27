@@ -20,6 +20,7 @@ export { useDeleteHistoryItem } from './lib/query/history/delete-workflow.query'
 export { useWorkflowStatus } from './lib/query/history/workflow-status.query';
 export type { IHistoryParams } from './lib/query/history/history.query';
 export type { THistory, THistoryItem } from './lib/query/history/history.model';
+export { fetchAsset, fetchAssetDetails } from './lib/query/stac-item.query';
 export { useResults } from './lib/store/results/results.store';
 export type {
   TSearchParams,

@@ -1,6 +1,8 @@
 import { TCatalogueCollection } from './collection';
-import { QueryBuilder, TQuery } from './query.builder';
+import { PlanetQueryBuilder } from './comercial/planet.query-builder';
+import { QueryBuilder, TQuery } from './public/query.builder';
 import { TCatalogSearchParams, TSearchParams, TWorkflowSearchParams } from './query.model';
+import { WorkflowQueryBuilder } from './workflow/workflow.query-builder';
 
 export type TSortBy = {
   field: 'properties.datetime';
@@ -60,7 +62,7 @@ export class CollectionBuilder {
         jobId: queryParams.jobId,
         workflowId: queryParams.workflowId,
         sortBy: this.params.sortBy,
-        ...new QueryBuilder({ ...this.params, queryParams }, this.options).build(),
+        ...new WorkflowQueryBuilder({ ...this.params, queryParams }, this.options).build(),
       };
     } else if (isCatalogue(this.params.queryParams)) {
       const queryParams = this.params.queryParams;
@@ -68,10 +70,14 @@ export class CollectionBuilder {
         ...new QueryBuilder({ ...this.params, queryParams: { ...queryParams, collection } }, this.options).build(),
         collection,
       }));
+      queries.push({
+        ...new PlanetQueryBuilder({ ...this.params, queryParams }, this.options).build(),
+        collection: 'planet',
+      });
 
       return {
         type: 'search',
-        enabled: queries.some((query) => query.params),
+        enabled: queries.some((query) => query.enabled),
         params: queries,
         sortBy: this.params.sortBy,
       };

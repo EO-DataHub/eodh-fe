@@ -8,6 +8,7 @@ export interface IProxyConfig {
   EODH_COLLECTION_INFO_API_URL: string;
   EODH_ELEMENT_84_CATALOGUE_API_URL: string;
   EODH_CEDA_CATALOGUE_API_URL: string;
+  EODH_PLANET_CATALOGUE_API_URL: string;
   EODH_WORKFLOW_CATALOGUE_API_URL: string;
 }
 
@@ -52,6 +53,15 @@ export const getCEDACatalogueUrl = (config: IProxyConfig | undefined) => {
   const url = getValue<string>(
     import.meta.env.VITE_EODH_CEDA_CATALOGUE_API_URL,
     config?.EODH_CEDA_CATALOGUE_API_URL,
+    ''
+  );
+  return removeTrailingSlashes(url);
+};
+
+export const getPlanetCatalogueUrl = (config: IProxyConfig | undefined) => {
+  const url = getValue<string>(
+    import.meta.env.VITE_EODH_PLANET_CATALOGUE_API_URL,
+    config?.EODH_PLANET_CATALOGUE_API_URL,
     ''
   );
   return removeTrailingSlashes(url);

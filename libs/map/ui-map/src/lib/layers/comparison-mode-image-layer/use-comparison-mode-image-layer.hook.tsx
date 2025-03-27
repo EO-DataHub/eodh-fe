@@ -72,7 +72,7 @@ export const useComparisonModeImageLayers = () => {
         collection: item.collection,
         assetNameWhichShouldBeDisplayed: item.assetName,
         fitToZoom: false,
-        displayPreview: false,
+        displayPreview: true,
       });
     },
     [comparisonItems, comparisonModeEnabled, createStacLayer]
@@ -123,11 +123,9 @@ export const useComparisonModeImageLayers = () => {
       if (layer1) {
         groupLayer1 = new GroupLayer({
           layers: [layer1],
-          visible: false,
         });
 
         layer1.addEventListener('layersready', () => {
-          groupLayer1?.setVisible(true);
           setIsItem1Visible(true);
         });
 
@@ -136,11 +134,9 @@ export const useComparisonModeImageLayers = () => {
       if (layer2) {
         groupLayer2 = new GroupLayer({
           layers: [layer2],
-          visible: false,
         });
 
         layer2.addEventListener('layersready', () => {
-          groupLayer2?.setVisible(true);
           setIsItem2Visible(true);
         });
 
