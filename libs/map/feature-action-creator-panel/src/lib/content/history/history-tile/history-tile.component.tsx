@@ -48,6 +48,8 @@ export const HistoryTile = ({
     onHide,
   });
 
+  const buttonName = status === 'PROCESSING' ? t('MAP.ACTION_CREATOR_PANEL.HISTORY.CANCEL') : t(`MAP.ACTION_CREATOR_PANEL.HISTORY.DELETE`);
+
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
       {itemDeleted && <div className={historyTileStyles.deletedItemOverlay}></div>}
@@ -82,13 +84,14 @@ export const HistoryTile = ({
             isPending={isPending}
             isError={isError}
             isSuccess={itemDeleted}
+            status={status}
           />
         ) : (
           <>
             {status && <Tag status={status} />}
             <div className='flex space-x-2'>
               <Button
-                text={t('MAP.ACTION_CREATOR_PANEL.HISTORY.DELETE')}
+                text={buttonName}
                 size='medium'
                 appearance='text'
                 onClick={() => setDeleteInProgress(true)}
