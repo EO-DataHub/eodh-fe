@@ -2,7 +2,7 @@ import { createDate, createDateString, createIsoStringDate } from '@ukri/shared/
 
 import { TGeometry } from '../../stac-model/geometry.schema';
 import { getIntersects } from '../get-intersects';
-import { TFields, TFilterParam, TPlanetSearchParams, TSearchParams } from '../query.model';
+import { TFields, TFilterParam, TSearchParams } from '../query.model';
 import { createPlanetFilterParams, getPlanetCollections } from './sky-sat.filter-params';
 
 export type TSortBy = {
@@ -96,9 +96,20 @@ export class PlanetQueryBuilder {
       return false;
     }
 
-    const collections = (Object.keys(planet) as (keyof TPlanetSearchParams)[])
-      .map((collection) => getPlanetCollections(collection))
-      .flat();
+    let collections: string[] = [];
+
+    if (planet.planetScope?.enabled) {
+      collections = [...collections, ...getPlanetCollections('planetScope')];
+    }
+
+    if (planet.skySat?.enabled) {
+      collections = [...collections, ...getPlanetCollections('skySat')];
+    }
+
+    if (planet.rapidEye?.enabled) {
+      collections = [...collections, ...getPlanetCollections('rapidEye')];
+    }
+
     return !!collections.length;
   };
 
