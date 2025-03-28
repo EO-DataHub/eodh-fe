@@ -26,10 +26,10 @@ const Buttons = ({ onNoClick, onDelete, isPending, isSuccess }: IButtonsProps) =
         <Button
           size='medium'
           text={
-            <>
+            <span className='flex items-center'>
               {t(`${translationPath}.DELETING`)}
               <LoadingSpinner size='xs' classNameSpinner='!border-t-bright ml-0.5' />
-            </>
+            </span>
           }
           className='!bg-error'
           onClick={onDelete}
@@ -72,7 +72,7 @@ export const DeleteConfirmation = ({
 
   return (
     <div>
-      <Notification type='errorLight' className='my-4 p-4 shadow-none' closeButtonVisible={false}>
+      <Notification type='custom' className='my-4 p-4 shadow-none bg-error-light text-error' closeButtonVisible={false}>
         <Text content={`${translationPath}.WARNING`} fontSize='medium' fontWeight='semibold' />
         <Text content={`${translationPath}.MESSAGE`} fontSize='medium' fontWeight='regular' className='font-medium' />
       </Notification>
