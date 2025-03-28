@@ -10,7 +10,7 @@ interface IButtonsProps {
   onDelete: () => void;
   isPending: boolean;
   isSuccess: boolean;
-  status?: "READY" | "PROCESSING" | "FAILED";
+  status?: 'READY' | 'PROCESSING' | 'FAILED';
 }
 
 const Buttons = ({ onNoClick, onDelete, isPending, isSuccess, status }: IButtonsProps) => {
@@ -31,17 +31,15 @@ const Buttons = ({ onNoClick, onDelete, isPending, isSuccess, status }: IButtons
         inProgress: `${translationPath}.DELETING`,
       },
     };
-    const resolvedStatus = status === "PROCESSING" ? "PROCESSING" : "DEFAULT";
+    const resolvedStatus = status === 'PROCESSING' ? 'PROCESSING' : 'DEFAULT';
     return mapping[resolvedStatus];
   }, [status]);
 
   if (isSuccess) {
-   
     return <Text content={t(getButtonText.removed)} type='span' fontSize='medium' fontWeight='semibold' />;
   }
 
   if (isPending) {
-   
     return (
       <>
         <Button size='medium' appearance='text' text={t(getButtonText.no)} onClick={onNoClick} disabled />
@@ -75,7 +73,7 @@ interface IDeleteConfirmationProps {
   isError: boolean;
   isPending: boolean;
   isSuccess: boolean;
-  status?: "READY" | "PROCESSING" | "FAILED";
+  status?: 'READY' | 'PROCESSING' | 'FAILED';
 }
 
 export const DeleteConfirmation = ({
@@ -84,7 +82,7 @@ export const DeleteConfirmation = ({
   isError,
   isPending,
   isSuccess,
-  status
+  status,
 }: IDeleteConfirmationProps) => {
   const { t } = useTranslation();
 
@@ -94,7 +92,8 @@ export const DeleteConfirmation = ({
     }
   }, [isError, t]);
 
-  const warningMessage = status === "PROCESSING" ? `${translationPath}.MESSAGE_CANCEL` : `${translationPath}.MESSAGE_DELETE`;
+  const warningMessage =
+    status === 'PROCESSING' ? `${translationPath}.MESSAGE_CANCEL` : `${translationPath}.MESSAGE_DELETE`;
 
   return (
     <div>
@@ -103,7 +102,13 @@ export const DeleteConfirmation = ({
         <Text content={warningMessage} fontSize='medium' fontWeight='regular' className='font-medium' />
       </Notification>
       <div className='mt-6 flex justify-end space-x-3'>
-        <Buttons onNoClick={onNoClick} onDelete={deleteHistoryItem} isPending={isPending} isSuccess={isSuccess} status={status}/>
+        <Buttons
+          onNoClick={onNoClick}
+          onDelete={deleteHistoryItem}
+          isPending={isPending}
+          isSuccess={isSuccess}
+          status={status}
+        />
       </div>
     </div>
   );

@@ -48,7 +48,10 @@ export const HistoryTile = ({
     onHide,
   });
 
-  const buttonName = status === 'PROCESSING' ? t('MAP.ACTION_CREATOR_PANEL.HISTORY.CANCEL') : t(`MAP.ACTION_CREATOR_PANEL.HISTORY.DELETE`);
+  const buttonName =
+    status === 'PROCESSING'
+      ? t('MAP.ACTION_CREATOR_PANEL.HISTORY.CANCEL')
+      : t(`MAP.ACTION_CREATOR_PANEL.HISTORY.DELETE`);
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
