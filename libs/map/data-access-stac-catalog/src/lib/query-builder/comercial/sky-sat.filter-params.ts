@@ -3,15 +3,15 @@ import { TFilterParam, TPlanetSearchParams } from '../query.model';
 export const getPlanetCollections = (collection: keyof TPlanetSearchParams) => {
   switch (collection) {
     case 'planetScope': {
-      return [];
+      return ['PSScene'];
     }
 
     case 'skySat': {
-      return [];
+      return ['SkySatVideo', 'SkySatScene', 'SkySatCollect'];
     }
 
     case 'rapidEye': {
-      return [];
+      return ['REScene', 'REOrthoTile'];
     }
 
     default: {
