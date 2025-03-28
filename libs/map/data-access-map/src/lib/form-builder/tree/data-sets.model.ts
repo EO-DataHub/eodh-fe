@@ -53,12 +53,18 @@ export type TDataSetsValues = {
       expanded?: boolean;
       planetScope?: {
         enabled?: boolean;
+        expanded?: boolean;
+        cloudCoverage?: number;
       };
       skySat?: {
         enabled?: boolean;
+        expanded?: boolean;
+        cloudCoverage?: number;
       };
       rapidEye?: {
         enabled?: boolean;
+        expanded?: boolean;
+        cloudCoverage?: number;
       };
     };
   };
