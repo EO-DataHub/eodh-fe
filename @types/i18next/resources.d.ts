@@ -188,6 +188,22 @@ interface Resources {
           NO_RESULTS_MESSAGE: "You haven't run any workflows yet. Start by creating a new workflow in the Workflow tab.";
           VIEW_RESULTS: 'View results';
           HIDE_RESULTS: 'Hide results';
+          DELETE: 'Delete';
+          CANCEL: 'Cancel';
+          DELETE_CONFIRMATION: {
+            WARNING: 'Warning!';
+            MESSAGE_DELETE: 'Are you sure you want to delete this workflow? This action cannot be undone.';
+            MESSAGE_CANCEL: 'Are you sure you want to cancel this workflow? This action cannot be undone.';
+            YES_CTA_DELETE: 'Yes, delete';
+            YES_CTA_CANCEL: 'Yes, cancel';
+            NO_CTA_DELETE: 'Do not delete';
+            NO_CTA_CANCEL: 'Do not cancel';
+            DELETING: 'Deleting';
+            CANCELLING: 'Cancelling';
+            DELETED: 'Item deleted';
+            CANCELLED: 'Cancelled';
+            ERROR: 'Error deleting item. Please try again later';
+          };
           SAVED_ON: 'Saved on';
           SAVED_AT: 'at';
           ID: 'ID';

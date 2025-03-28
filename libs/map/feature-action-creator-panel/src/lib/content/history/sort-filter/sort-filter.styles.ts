@@ -5,7 +5,7 @@ export const sortFilterStyles = {
   iconActive: 'text-text',
   iconInactive: 'text-neutral-light',
   dropdownMenu:
-    'absolute right-0 origin-top-right rounded-md shadow-action-creator focus:outline-none p-3.5 pr-4 bg-bright min-w-28',
+    'absolute right-0 origin-top-right rounded-md shadow-action-creator focus:outline-none p-3.5 pr-4 bg-bright min-w-28 z-10',
   dropdownButton: 'block text-sm text-text hover:text-primary',
   dropdownButtonNewest: 'pb-1',
 };
