@@ -2,7 +2,8 @@ import { createDate, createDateString, createIsoStringDate } from '@ukri/shared/
 
 import { TGeometry } from '../../stac-model/geometry.schema';
 import { getIntersects } from '../get-intersects';
-import { TFields, TFilterParam, TSearchParams } from '../query.model';
+import { TFields, TFilterParam, TPlanetSearchParams, TSearchParams } from '../query.model';
+import { createPlanetFilterParams, getPlanetCollections } from './sky-sat.filter-params';
 
 export type TSortBy = {
   field: string;
@@ -30,7 +31,7 @@ export type TQueryParams = {
   filter?: TFilterParam | object;
   fields?: TFields;
   intersects?: TGeometry;
-  collections: string[];
+  collections?: string[];
 };
 
 export type TQuery = {
@@ -57,7 +58,7 @@ export class PlanetQueryBuilder {
       sortby: this.getSortBy(),
       'filter-lang': 'cql-json',
       datetime: this.getDatetime(),
-      collections: this.getCollections(),
+      filter: this.getFilterParams(),
       intersects,
     };
     const query: TQuery = {
@@ -90,33 +91,15 @@ export class PlanetQueryBuilder {
       return false;
     }
 
-    return !!this.getCollections().length;
-  };
-
-  private getCollections = () => {
-    const collections: string[] = [];
     const planet = this.params.queryParams?.dataSets?.private.planet;
-
     if (!planet) {
-      return collections;
+      return false;
     }
 
-    if (planet.planetScope?.enabled) {
-      collections.push('PSScene');
-    }
-
-    if (planet.skySat?.enabled) {
-      collections.push('SkySatVideo');
-      collections.push('SkySatScene');
-      collections.push('SkySatCollect');
-    }
-
-    if (planet.rapidEye?.enabled) {
-      collections.push('REScene');
-      collections.push('REOrthoTile');
-    }
-
-    return collections;
+    const collections = (Object.keys(planet) as (keyof TPlanetSearchParams)[])
+      .map((collection) => getPlanetCollections(collection))
+      .flat();
+    return !!collections.length;
   };
 
   private getDatetime = () => {
@@ -144,5 +127,14 @@ export class PlanetQueryBuilder {
         direction: this.params.sortBy.direction,
       },
     ];
+  };
+
+  private getFilterParams = (): TFilterParam | object => {
+    const planet = this.params.queryParams?.dataSets?.private.planet;
+    if (!planet) {
+      return {};
+    }
+
+    return createPlanetFilterParams(planet) || {};
   };
 }
