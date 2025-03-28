@@ -1,5 +1,6 @@
 import { Button, Text } from '@ukri/shared/design-system';
 import clsx from 'clsx';
+import { useMemo } from 'react';
 
 import { DeleteConfirmation } from './delete-item.component';
 import { historyTileStyles } from './history-tile.styles';
@@ -48,10 +49,11 @@ export const HistoryTile = ({
     onHide,
   });
 
-  const buttonName =
-    status === 'PROCESSING'
+  const buttonName = useMemo(() => {
+    return status === 'PROCESSING'
       ? t('MAP.ACTION_CREATOR_PANEL.HISTORY.CANCEL')
       : t(`MAP.ACTION_CREATOR_PANEL.HISTORY.DELETE`);
+  }, [status, t]);
 
   return (
     <div className={clsx(historyTileStyles.container(selected), className)}>
