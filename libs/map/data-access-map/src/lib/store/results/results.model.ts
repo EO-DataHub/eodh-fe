@@ -32,12 +32,15 @@ type TDataSets = {
     planet?: {
       planetScope?: {
         enabled?: boolean;
+        cloudCoverage?: number;
       };
       skySat?: {
         enabled?: boolean;
+        cloudCoverage?: number;
       };
       rapidEye?: {
         enabled?: boolean;
+        cloudCoverage?: number;
       };
     };
   };
