@@ -92,8 +92,12 @@ export const DeleteConfirmation = ({
     }
   }, [isError, t]);
 
-  const warningMessage =
-    status === 'PROCESSING' ? `${translationPath}.MESSAGE_CANCEL` : `${translationPath}.MESSAGE_DELETE`;
+  const warningMessage = useMemo(() => {
+    if (status === 'PROCESSING') {
+      return t(`${translationPath}.MESSAGE_CANCEL`);
+    }
+    return t(`${translationPath}.MESSAGE_DELETE`);
+  }, [status, t]);
 
   return (
     <div>
