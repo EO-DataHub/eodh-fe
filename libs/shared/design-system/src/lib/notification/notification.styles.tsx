@@ -6,6 +6,7 @@ export const notificationStyles = {
     success: 'bg-success text-success-contrastText',
     information: 'bg-information text-information-contrastText',
     general: 'bg-bright-light text-text-primary',
+    custom: '',
   },
   content: 'ml-5',
 };

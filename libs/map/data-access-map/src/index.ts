@@ -16,6 +16,7 @@ export {
 export { useDataSets } from './lib/store/data-sets/data-sets.store';
 export { useGetPresets } from './lib/query/presets/presets.query';
 export { useGetHistory } from './lib/query/history/history.query';
+export { useDeleteHistoryItem } from './lib/query/history/delete-workflow.query';
 export { useWorkflowStatus } from './lib/query/history/workflow-status.query';
 export type { IHistoryParams } from './lib/query/history/history.query';
 export type { THistory, THistoryItem } from './lib/query/history/history.model';
