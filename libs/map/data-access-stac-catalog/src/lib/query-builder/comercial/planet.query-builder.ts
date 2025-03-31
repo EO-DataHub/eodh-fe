@@ -3,7 +3,7 @@ import { createDate, createDateString, createIsoStringDate } from '@ukri/shared/
 import { TGeometry } from '../../stac-model/geometry.schema';
 import { getIntersects } from '../get-intersects';
 import { TFields, TFilterParam, TSearchParams } from '../query.model';
-import { createPlanetFilterParams } from './sky-sat.filter-params';
+import { createPlanetFilterParams } from './planet.filter-params';
 
 export type TSortBy = {
   field: string;
