@@ -29,16 +29,14 @@ export type TCopernicusSearchParams = {
 export type TPlanetSearchParams = {
   planetScope?: {
     enabled?: boolean;
-    cloudCoverage?: number;
   };
   skySat?: {
     enabled?: boolean;
-    cloudCoverage?: number;
   };
   rapidEye?: {
     enabled?: boolean;
-    cloudCoverage?: number;
   };
+  cloudCoverage?: number;
 };
 
 export type TCatalogSearchParams = {

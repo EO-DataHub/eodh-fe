@@ -3,7 +3,7 @@ import { createDate, createDateString, createIsoStringDate } from '@ukri/shared/
 import { TGeometry } from '../../stac-model/geometry.schema';
 import { getIntersects } from '../get-intersects';
 import { TFields, TFilterParam, TSearchParams } from '../query.model';
-import { createPlanetFilterParams, getPlanetCollections } from './sky-sat.filter-params';
+import { createPlanetFilterParams } from './sky-sat.filter-params';
 
 export type TSortBy = {
   field: string;
@@ -59,6 +59,7 @@ export class PlanetQueryBuilder {
       'filter-lang': 'cql-json',
       datetime: this.getDatetime(),
       filter: this.getFilterParams(),
+      collections: this.getCollections(),
       intersects,
     };
     const query: TQuery = {
@@ -91,26 +92,33 @@ export class PlanetQueryBuilder {
       return false;
     }
 
+    return !!this.getCollections().length;
+  };
+
+  private getCollections = () => {
+    const collections: string[] = [];
     const planet = this.params.queryParams?.dataSets?.private.planet;
+
     if (!planet) {
-      return false;
+      return collections;
     }
 
-    let collections: string[] = [];
-
     if (planet.planetScope?.enabled) {
-      collections = [...collections, ...getPlanetCollections('planetScope')];
+      collections.push('PSScene');
     }
 
     if (planet.skySat?.enabled) {
-      collections = [...collections, ...getPlanetCollections('skySat')];
+      collections.push('SkySatVideo');
+      collections.push('SkySatScene');
+      collections.push('SkySatCollect');
     }
 
     if (planet.rapidEye?.enabled) {
-      collections = [...collections, ...getPlanetCollections('rapidEye')];
+      collections.push('REScene');
+      collections.push('REOrthoTile');
     }
 
-    return !!collections.length;
+    return collections;
   };
 
   private getDatetime = () => {

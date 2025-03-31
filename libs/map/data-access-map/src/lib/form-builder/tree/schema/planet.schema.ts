@@ -1,85 +1,13 @@
-import { IDynamicTreeCategory, IDynamicTreeItem } from '../tree-dynamic.model';
+import { IDynamicTreeItem } from '../tree-dynamic.model';
 
-const planetScopeSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.PLANET_SCOPE.NAME',
-  type: 'item',
-  controls: {
-    settings: {
-      name: 'private.planet.planetScope.expanded',
-      type: 'button',
-    },
-    value: {
-      name: 'private.planet.planetScope.enabled',
-      type: 'checkbox',
-    },
-  },
-  children: [
-    {
-      translationKey:
-        'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
-      type: 'slider',
-      name: 'private.planet.planetScope.cloudCoverage',
-      value: 100,
-    },
-  ],
-};
-
-const skySatSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.SKY_SAT.NAME',
-  type: 'item',
-  controls: {
-    settings: {
-      name: 'private.planet.skySat.expanded',
-      type: 'button',
-    },
-    value: {
-      name: 'private.planet.skySat.enabled',
-      type: 'checkbox',
-    },
-  },
-  children: [
-    {
-      translationKey:
-        'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
-      type: 'slider',
-      name: 'private.planet.skySat.cloudCoverage',
-      value: 100,
-    },
-  ],
-};
-
-const rapidEyeSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.RAPID_EYE.NAME',
-  type: 'item',
-  controls: {
-    settings: {
-      name: 'private.planet.rapidEye.expanded',
-      type: 'button',
-    },
-    value: {
-      name: 'private.planet.rapidEye.enabled',
-      type: 'checkbox',
-    },
-  },
-  children: [
-    {
-      translationKey:
-        'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.COPERNICUS.SENTINEL_2.SETTINGS.MAX_CLOUD_COVERAGE',
-      type: 'slider',
-      name: 'private.planet.rapidEye.cloudCoverage',
-      value: 100,
-    },
-  ],
-};
-
-export const planetSearchSchema: IDynamicTreeCategory = {
+export const planetSearchSchema: IDynamicTreeItem = {
   translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.NAME',
-  type: 'category',
+  type: 'item',
   controls: {
-    expand: {
+    settings: {
       name: 'private.planet.expanded',
-      type: 'expand',
-      value: true,
+      type: 'button',
+      value: false,
     },
     value: {
       name: 'private.planet.enabled',
@@ -87,26 +15,52 @@ export const planetSearchSchema: IDynamicTreeCategory = {
       value: false,
     },
   },
-  children: [planetScopeSchema, skySatSchema, rapidEyeSchema],
+  children: [
+    {
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.SETTINGS.PLANET_SCOPE.NAME',
+      type: 'settingItem',
+      controls: {
+        value: {
+          name: 'private.planet.planetScope.enabled',
+          type: 'checkbox',
+          value: true,
+        },
+      },
+    },
+    {
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.SETTINGS.SKY_SAT.NAME',
+      type: 'settingItem',
+      controls: {
+        value: {
+          name: 'private.planet.skySat.enabled',
+          type: 'checkbox',
+          value: true,
+        },
+      },
+    },
+    {
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.SETTINGS.RAPID_EYE.NAME',
+      type: 'settingItem',
+      controls: {
+        value: {
+          name: 'private.planet.rapidEye.enabled',
+          type: 'checkbox',
+          value: true,
+        },
+      },
+    },
+    {
+      translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.SETTINGS.MAX_CLOUD_COVERAGE',
+      type: 'slider',
+      name: 'private.planet.cloudCoverage',
+      value: 100,
+    },
+  ],
 };
 
-export const planetActionCreatorSchema: IDynamicTreeCategory = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.NAME',
-  type: 'category',
-  controls: {
-    expand: {
-      name: 'private.planet.expanded',
-      type: 'expand',
-      value: true,
-    },
-    value: {
-      name: 'private.planet.enabled',
-      type: 'checkbox',
-      value: false,
-    },
-  },
+export const planetActionCreatorSchema: IDynamicTreeItem = {
+  ...planetSearchSchema,
   options: {
     disabled: true,
   },
-  children: [planetScopeSchema, skySatSchema, rapidEyeSchema],
 };
