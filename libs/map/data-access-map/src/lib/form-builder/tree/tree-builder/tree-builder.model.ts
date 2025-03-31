@@ -92,13 +92,24 @@ export interface ITreeItemIterable extends ITreeItem {
 }
 
 export interface ITreeCategory
-  extends IBaseItem<IDynamicTreeCategory, IDynamicTreeItem | IDynamicTreeCategory, ITreeRoot> {
+  extends IBaseItem<
+    IDynamicTreeCategory,
+    IDynamicTreeItem | IDynamicTreeCategory | IDynamicTreeSettingItem | IDynamicTreeSettingGroup | IDynamicSlider,
+    ITreeRoot
+  > {
   type: 'category';
-  parent: IBaseItem<IDynamicTreeItem | IDynamicTreeCategory> | ITreeRoot;
+  parent:
+    | IBaseItem<
+        IDynamicTreeItem | IDynamicTreeCategory | IDynamicTreeSettingItem | IDynamicTreeSettingGroup | IDynamicSlider
+      >
+    | ITreeRoot;
 }
 
 export interface ITreeCategoryIterable extends ITreeCategory {
-  children: ITreeItemIterable[] | ITreeCategoryIterable[];
+  children:
+    | ITreeCategoryIterable[]
+    | ITreeItemIterable[]
+    | (ITreeSettingsItemIterable | ITreeSettingsGroupIterable | ITreeSliderIterable)[];
   toObject: (
     options?: TOption
   ) => TOmitRecursively<ITreeCategoryIterable & { parentId: string }, TBaseItemExtensionProperties>;

@@ -1,4 +1,10 @@
-import { IDynamicTreeCategory, IDynamicTreeItem } from '../tree-dynamic.model';
+import {
+  IDynamicSlider,
+  IDynamicTreeCategory,
+  IDynamicTreeItem,
+  IDynamicTreeSettingGroup,
+  IDynamicTreeSettingItem,
+} from '../tree-dynamic.model';
 import { BasicTreeItem } from './basic-tree.item';
 import { createCategoryChildren } from './create-children';
 import {
@@ -6,6 +12,9 @@ import {
   ITreeCategoryIterable,
   ITreeItemIterable,
   ITreeRoot,
+  ITreeSettingsGroupIterable,
+  ITreeSettingsItemIterable,
+  ITreeSliderIterable,
   TBaseItemExtensionProperties,
   TControlValue,
   TOmitRecursively,
@@ -14,7 +23,11 @@ import {
 import { getControlsValues, getOptions } from './utils';
 
 export class TreeCategory
-  extends BasicTreeItem<IDynamicTreeCategory, IDynamicTreeItem | IDynamicTreeCategory, ITreeRoot>
+  extends BasicTreeItem<
+    IDynamicTreeCategory,
+    IDynamicTreeItem | IDynamicTreeCategory | IDynamicTreeSettingItem | IDynamicTreeSettingGroup | IDynamicSlider,
+    ITreeRoot
+  >
   implements ITreeCategory
 {
   public type = 'category' as const;
@@ -40,7 +53,10 @@ export class TreeCategory
 }
 
 export class TreeCategoryIterable extends TreeCategory implements ITreeCategoryIterable {
-  public children: ITreeItemIterable[] | ITreeCategoryIterable[] = [];
+  public children:
+    | ITreeCategoryIterable[]
+    | ITreeItemIterable[]
+    | (ITreeSettingsItemIterable | ITreeSettingsGroupIterable | ITreeSliderIterable)[] = [];
 
   public static create = (props: IDynamicTreeCategory, parent: ITreeCategory['parent']) => {
     return new TreeCategoryIterable(undefined, props, parent);

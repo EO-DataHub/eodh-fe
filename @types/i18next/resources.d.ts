@@ -1325,18 +1325,16 @@ interface Resources {
             PUBLIC: 'Public';
             PLANET: {
               NAME: 'Planet';
-              SETTINGS: {
-                PLANET_SCOPE: {
-                  NAME: 'Planet Scope';
-                };
-                SKY_SAT: {
-                  NAME: 'SkySat';
-                };
-                RAPID_EYE: {
-                  NAME: 'RapidEye';
-                };
-                MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
+              PLANET_SCOPE: {
+                NAME: 'Planet Scope';
               };
+              SKY_SAT: {
+                NAME: 'SkySat';
+              };
+              RAPID_EYE: {
+                NAME: 'RapidEye';
+              };
+              MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
             };
             AUXILIARY: {
               NAME: 'Auxiliary';

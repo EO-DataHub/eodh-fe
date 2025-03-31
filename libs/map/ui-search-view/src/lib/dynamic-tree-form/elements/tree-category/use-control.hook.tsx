@@ -1,4 +1,9 @@
-import { TIterableTreeCategoryValues } from '@ukri/map/data-access-map';
+import {
+  TIterableTreeCategoryValues,
+  TTreeCategoryValues,
+  TTreeItemValues,
+  TTreeSettingsItemValues,
+} from '@ukri/map/data-access-map';
 import isArray from 'lodash/isArray';
 import { useEffect, useMemo } from 'react';
 import { useController, useFormContext, useWatch } from 'react-hook-form';
@@ -8,6 +13,10 @@ import { getControlName } from '../utils';
 const useChildControlNames = (item: TIterableTreeCategoryValues): string[] => {
   return useMemo(() => {
     return (item.model.children || [])
+      .filter(
+        (item): item is TTreeCategoryValues['model'] | TTreeItemValues['model'] | TTreeSettingsItemValues['model'] =>
+          item.type === 'category' || item.type === 'item' || item.type === 'settingItem'
+      )
       .filter((item) => !item.options?.disabled)
       .map((item) => item.controls?.value)
       .flat()
