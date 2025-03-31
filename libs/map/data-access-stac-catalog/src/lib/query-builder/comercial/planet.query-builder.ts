@@ -3,6 +3,7 @@ import { createDate, createDateString, createIsoStringDate } from '@ukri/shared/
 import { TGeometry } from '../../stac-model/geometry.schema';
 import { getIntersects } from '../get-intersects';
 import { TFields, TFilterParam, TSearchParams } from '../query.model';
+import { createPlanetFilterParams } from './planet.filter-params';
 
 export type TSortBy = {
   field: string;
@@ -30,7 +31,7 @@ export type TQueryParams = {
   filter?: TFilterParam | object;
   fields?: TFields;
   intersects?: TGeometry;
-  collections: string[];
+  collections?: string[];
 };
 
 export type TQuery = {
@@ -57,6 +58,7 @@ export class PlanetQueryBuilder {
       sortby: this.getSortBy(),
       'filter-lang': 'cql-json',
       datetime: this.getDatetime(),
+      filter: this.getFilterParams(),
       collections: this.getCollections(),
       intersects,
     };
@@ -144,5 +146,14 @@ export class PlanetQueryBuilder {
         direction: this.params.sortBy.direction,
       },
     ];
+  };
+
+  private getFilterParams = (): TFilterParam | object => {
+    const planet = this.params.queryParams?.dataSets?.private.planet;
+    if (!planet) {
+      return {};
+    }
+
+    return createPlanetFilterParams(planet) || {};
   };
 }

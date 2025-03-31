@@ -11,10 +11,14 @@ import {
   IBaseItem,
   ITreeCategory,
   ITreeItem,
+  ITreeItemIterable,
   ITreeRoot,
   ITreeSettingsGroup,
+  ITreeSettingsGroupIterable,
   ITreeSettingsItem,
+  ITreeSettingsItemIterable,
   ITreeSlider,
+  ITreeSliderIterable,
 } from './tree-builder.model';
 
 export const createItemChildren = <T extends ITreeItem[] | (ITreeSettingsItem | ITreeSettingsGroup | ITreeSlider)[]>(
@@ -35,8 +39,21 @@ export const createItemChildren = <T extends ITreeItem[] | (ITreeSettingsItem | 
     .filter((item): item is T[number] => !!item) as T;
 };
 
-export const createCategoryChildren = <T extends ITreeItem[] | ITreeCategory[]>(
-  children: ITreeItem[] | ITreeCategory[] | IDynamicTreeCategory[] | IDynamicTreeItem[] | undefined,
+export const createCategoryChildren = <
+  T extends
+    | ITreeCategory[]
+    | ITreeItemIterable[]
+    | (ITreeSettingsItemIterable | ITreeSettingsGroupIterable | ITreeSliderIterable)[]
+>(
+  children:
+    | ITreeItem[]
+    | ITreeCategory[]
+    | IDynamicTreeCategory[]
+    | IDynamicTreeItem[]
+    | ITreeSettingsItem[]
+    | (ITreeItem | ITreeSettingsGroup | ITreeSettingsItem | ITreeSlider)[]
+    | (IDynamicTreeItem | IDynamicTreeSettingGroup | IDynamicTreeSettingItem | IDynamicSlider)[]
+    | undefined,
   parent: IBaseItem | IBaseItem<IDynamicBaseItem, IDynamicBaseItem, ITreeRoot> | ITreeRoot
 ): T => {
   if (!children) {

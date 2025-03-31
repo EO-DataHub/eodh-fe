@@ -36,6 +36,7 @@ export type TPlanetSearchParams = {
   rapidEye?: {
     enabled?: boolean;
   };
+  cloudCoverage?: number;
 };
 
 export type TCatalogSearchParams = {

@@ -18,6 +18,7 @@ export const planetInitialSchema = z.object({
       enabled: z.boolean().optional(),
     })
     .optional(),
+  cloudCoverage: z.number().min(0).max(100).optional(),
 });
 
 export const planetUpdateSchema = z.object({
@@ -32,4 +33,5 @@ export const planetUpdateSchema = z.object({
   rapidEye: z.object({
     enabled: z.boolean(),
   }),
+  cloudCoverage: z.number().min(0).max(100).optional(),
 });

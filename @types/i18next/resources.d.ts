@@ -1334,6 +1334,7 @@ interface Resources {
               RAPID_EYE: {
                 NAME: 'RapidEye';
               };
+              MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
             };
             AUXILIARY: {
               NAME: 'Auxiliary';
@@ -1362,7 +1363,7 @@ interface Resources {
               SENTINEL_2: {
                 NAME: 'Sentinel-2';
                 SETTINGS: {
-                  L2A_ARD: 'L2A ARD';
+                  L2A_ARD: 'L2A ARD (DEFRA and JNCC)';
                   MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
                 };
               };

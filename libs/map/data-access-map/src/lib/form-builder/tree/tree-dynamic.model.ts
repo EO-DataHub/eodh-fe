@@ -74,7 +74,9 @@ export interface IDynamicTreeItem extends IDynamicBaseItem {
 export interface IDynamicTreeCategory extends IDynamicBaseItem {
   type: 'category';
   options?: IOption;
-  children?: IDynamicTreeCategory[] | IDynamicTreeItem[];
+  children?:
+    | IDynamicTreeCategory[]
+    | (IDynamicTreeItem | IDynamicTreeSettingGroup | IDynamicTreeSettingItem | IDynamicSlider)[];
   controls: {
     expand: IExpandControl;
     value?: IValueControl;

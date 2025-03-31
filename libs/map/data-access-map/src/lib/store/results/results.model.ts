@@ -39,6 +39,7 @@ type TDataSets = {
       rapidEye?: {
         enabled?: boolean;
       };
+      cloudCoverage?: number;
     };
   };
 };
