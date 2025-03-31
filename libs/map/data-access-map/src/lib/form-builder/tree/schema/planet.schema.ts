@@ -38,6 +38,9 @@ const cloudCoverage: IDynamicSlider = {
   type: 'slider',
   name: 'private.planet.cloudCoverage',
   value: 100,
+  options: {
+    disabled: true,
+  },
 };
 
 export const planetSearchSchema: IDynamicTreeCategory = {

@@ -8,6 +8,7 @@ import { devtools } from 'zustand/middleware';
 
 import { TDataSetsValues } from '../../form-builder/tree/data-sets.model';
 import { TreeBuilder } from '../../form-builder/tree/tree-builder/tree.builder';
+import { TDynamicTreeElement, TDynamicTreeModel } from '../../form-builder/tree/tree-dynamic.model';
 import {
   defaultState,
   getDefaultDataSetValues,
@@ -18,6 +19,30 @@ import {
 } from './data-sets.model';
 import { getTreeModel, getValuesForDataSet } from './utils';
 
+const updatePlanetCloudCoverageVisibility = (model: TDynamicTreeModel, enabled: boolean | undefined) => {
+  let updated = false;
+
+  const togglePlanetCloudCoverageSliderItem = (item: TDynamicTreeElement) => {
+    item.children?.forEach((item) => {
+      if (item.type === 'slider' && item.name === 'private.planet.cloudCoverage') {
+        if (item.options && item.options.disabled !== !enabled) {
+          item.options.disabled = !enabled;
+          updated = true;
+        }
+      }
+
+      togglePlanetCloudCoverageSliderItem(item);
+    });
+  };
+
+  model.forEach((item) => togglePlanetCloudCoverageSliderItem(item));
+
+  return {
+    model: cloneDeep(model),
+    updated,
+  };
+};
+
 export const useDataSetsStore = create<TDataSetsStore>()(
   devtools((set) => ({
     ...defaultState,
@@ -27,8 +52,23 @@ export const useDataSetsStore = create<TDataSetsStore>()(
           return state;
         }
 
+        const newDataSets: ReturnType<typeof getDefaultDataSetValues> = dataSets
+          ? { ...cloneDeep(dataSets), status: 'updated' }
+          : getDefaultDataSetValues(state.schema);
+        const updated = updatePlanetCloudCoverageVisibility(state.treeModel.model, dataSets?.private.planet?.enabled);
+
+        if (!updated.updated) {
+          return {
+            dataSets: newDataSets,
+          };
+        }
+
         return {
-          dataSets: dataSets ? { ...cloneDeep(dataSets), status: 'updated' } : getDefaultDataSetValues(state.schema),
+          dataSets: newDataSets,
+          treeModel: {
+            ...state.treeModel,
+            model: updated.model,
+          },
         };
       }),
     changeSchema: (schema: TSchema) =>
