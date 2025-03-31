@@ -19,6 +19,8 @@ import {
 } from './data-sets.model';
 import { getTreeModel, getValuesForDataSet } from './utils';
 
+// todo this should be rewritten. It was added because FormBuilder does not support conditional validation
+//  it should be active only when Cloud Coverage is disabled for Planet!
 const updatePlanetCloudCoverageVisibility = (model: TDynamicTreeModel, enabled: boolean | undefined) => {
   let updated = false;
 
