@@ -1176,6 +1176,12 @@
               }
             ]
           },
+          "WHAT_IS_SENTINEL_2_ARD": {
+            "QUESTION": "What is Sentinel 2 ARD (DEFRA and JNCC)?",
+            "ANSWER": [
+              "These data have been created by the Department for Environment, Food and Rural Affairs (Defra) and Joint Nature Conservation Committee (JNCC) in order to cost-effectively provide high quality, Analysis Ready Data (ARD) for a wide range of applications. The dataset contains modified Copernicus Sentinel-2 (Level 1C data processed into a surface reflectance product using ARCSI software (Level 2))."
+            ]
+          },
           "HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI": {
             "QUESTION": "How do I define an Area of Interest (AOI)?",
             "ANSWER": [
