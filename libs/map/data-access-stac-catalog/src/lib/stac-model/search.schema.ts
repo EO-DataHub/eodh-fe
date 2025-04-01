@@ -14,6 +14,8 @@ const propertySchema = z
     orbitState: z.string().optional(),
     instrumentMode: z.string().optional(),
     polarizations: z.array(z.string()).optional(),
+    cloud_cover: z.never().optional(),
+    cloud_percent: z.never().optional(),
     'eo:cloud_cover': z.never().optional(),
     'grid:code': z.never().optional(),
     'sat:orbit_state': z.never().optional(),
@@ -40,6 +42,8 @@ const sentinel1Element84PropertySchema = z
     'sat:orbit_state': z.string().optional(),
     'sar:instrument_mode': z.string().optional(),
     'sar:polarizations': z.array(z.string()).optional(),
+    cloud_cover: z.never().optional(),
+    cloud_percent: z.never().optional(),
     cloudCoverage: z.never().optional(),
     gridCode: z.never().optional(),
     orbitState: z.never().optional(),
@@ -65,6 +69,8 @@ const sentinel1CedaPropertySchema = z
     'Orbit Direction': z.string().optional(),
     instrument_mode: z.string().optional(),
     Polarisation: z.array(z.string()).optional(),
+    cloud_cover: z.never().optional(),
+    cloud_percent: z.never().optional(),
     cloudCoverage: z.never().optional(),
     gridCode: z.never().optional(),
     orbitState: z.never().optional(),
@@ -86,6 +92,11 @@ const skySatPropertySchema = z
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
     cloud_percent: z.number(),
+    cloudCoverage: z.never().optional(),
+    gridCode: z.never().optional(),
+    orbitState: z.never().optional(),
+    instrumentMode: z.never().optional(),
+    polarizations: z.never().optional(),
   })
   .transform((data) => ({
     datetime: data.datetime,
@@ -99,6 +110,11 @@ const rapidEyePropertySchema = z
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
     cloud_cover: z.number().transform((value) => value * 100),
+    cloudCoverage: z.never().optional(),
+    gridCode: z.never().optional(),
+    orbitState: z.never().optional(),
+    instrumentMode: z.never().optional(),
+    polarizations: z.never().optional(),
   })
   .transform((data) => ({
     datetime: data.datetime,
@@ -112,6 +128,11 @@ const planetScopePropertySchema = z
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
     cloud_percent: z.number(),
+    cloudCoverage: z.never().optional(),
+    gridCode: z.never().optional(),
+    orbitState: z.never().optional(),
+    instrumentMode: z.never().optional(),
+    polarizations: z.never().optional(),
   })
   .transform((data) => ({
     datetime: data.datetime,

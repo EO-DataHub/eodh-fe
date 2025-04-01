@@ -1,4 +1,4 @@
-import { IDynamicTreeCategory, IDynamicTreeItem } from '../tree-dynamic.model';
+import { IDynamicSlider, IDynamicTreeCategory, IDynamicTreeItem } from '../tree-dynamic.model';
 
 const planetScopeSchema: IDynamicTreeItem = {
   translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.PLANET_SCOPE.NAME',
@@ -33,6 +33,16 @@ const rapidEyeSchema: IDynamicTreeItem = {
   },
 };
 
+const cloudCoverage: IDynamicSlider = {
+  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.MAX_CLOUD_COVERAGE',
+  type: 'slider',
+  name: 'private.planet.cloudCoverage',
+  value: 100,
+  options: {
+    disabled: true,
+  },
+};
+
 export const planetSearchSchema: IDynamicTreeCategory = {
   translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.NAME',
   type: 'category',
@@ -48,7 +58,7 @@ export const planetSearchSchema: IDynamicTreeCategory = {
       value: false,
     },
   },
-  children: [planetScopeSchema, skySatSchema, rapidEyeSchema],
+  children: [planetScopeSchema, skySatSchema, rapidEyeSchema, cloudCoverage],
 };
 
 export const planetActionCreatorSchema: IDynamicTreeCategory = {
@@ -69,5 +79,5 @@ export const planetActionCreatorSchema: IDynamicTreeCategory = {
   options: {
     disabled: true,
   },
-  children: [planetScopeSchema, skySatSchema, rapidEyeSchema],
+  children: [planetScopeSchema, skySatSchema, rapidEyeSchema, cloudCoverage],
 };

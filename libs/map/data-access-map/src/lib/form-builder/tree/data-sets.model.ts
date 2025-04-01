@@ -60,6 +60,7 @@ export type TDataSetsValues = {
       rapidEye?: {
         enabled?: boolean;
       };
+      cloudCoverage?: number;
     };
   };
 };
