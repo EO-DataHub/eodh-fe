@@ -108,13 +108,10 @@ export class PlanetQueryBuilder {
     }
 
     if (planet.skySat?.enabled) {
-      collections.push('SkySatVideo');
       collections.push('SkySatScene');
-      collections.push('SkySatCollect');
     }
 
     if (planet.rapidEye?.enabled) {
-      collections.push('REScene');
       collections.push('REOrthoTile');
     }
 

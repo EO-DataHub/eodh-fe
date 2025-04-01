@@ -35,7 +35,7 @@ export const useSlots = (item: TIterableTreeCategoryValues, forceDisabled: boole
         setValue(controlName, value, options);
       });
 
-      field.onChange({ ...event, target: { ...event.target, checked: value } });
+      field.onChange({ ...event, target: { ...event.target, value: !value, checked: value } });
       trigger();
     },
     [childControlNames, childrenSelected, field, setValue, trigger]
