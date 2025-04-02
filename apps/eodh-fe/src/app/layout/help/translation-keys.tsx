@@ -35,6 +35,9 @@ export const helpContentConfig: IHelpContent = {
           QUESTION_ID: 'HOW_DO_I_SELECT_A_DATA_SET_AS_PART_OF_A_SEARCH',
         },
         {
+          QUESTION_ID: 'WHAT_IS_SENTINEL_2_ARD',
+        },
+        {
           QUESTION_ID: 'HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI',
         },
         {
