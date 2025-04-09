@@ -31,6 +31,9 @@ const rapidEyeSchema: IDynamicTreeItem = {
       type: 'checkbox',
     },
   },
+  options: {
+    disabled: true,
+  },
 };
 
 const cloudCoverage: IDynamicSlider = {
