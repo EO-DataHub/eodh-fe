@@ -36,9 +36,6 @@ type TDataSets = {
       skySat?: {
         enabled?: boolean;
       };
-      rapidEye?: {
-        enabled?: boolean;
-      };
       cloudCoverage?: number;
     };
   };

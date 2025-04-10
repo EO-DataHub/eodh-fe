@@ -260,8 +260,6 @@ interface Resources {
               SENTINEL_5P: 'Sentinel-5P';
               AUXILIARY: {
                 GLOBAL_LAND_COVER: 'Global Land Cover';
-                CORINE_LAND_COVER: 'CORINE Land Cover';
-                WATER_BODIES: 'Water Bodies';
               };
             };
             DATE_RANGE: {
@@ -1337,16 +1335,11 @@ interface Resources {
               SKY_SAT: {
                 NAME: 'SkySat';
               };
-              RAPID_EYE: {
-                NAME: 'RapidEye';
-              };
               MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
             };
             AUXILIARY: {
               NAME: 'Auxiliary';
               GLOBAL_LAND_COVER: 'Global Land Cover';
-              CORINE_LAND_COVER: 'CORINE Land Cover';
-              WATER_BODIES: 'Water Bodies';
             };
             COPERNICUS: {
               NAME: 'Copernicus';
