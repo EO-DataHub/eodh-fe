@@ -104,24 +104,6 @@ const skySatPropertySchema = z
     gridCode: undefined,
   }));
 
-const rapidEyePropertySchema = z
-  .object({
-    datetime: z.custom<NonNullable<TDateString>>(
-      (value) => !z.string().datetime({ offset: true }).safeParse(value).error
-    ),
-    cloud_cover: z.number().transform((value) => value * 100),
-    cloudCoverage: z.never().optional(),
-    gridCode: z.never().optional(),
-    orbitState: z.never().optional(),
-    instrumentMode: z.never().optional(),
-    polarizations: z.never().optional(),
-  })
-  .transform((data) => ({
-    datetime: data.datetime,
-    cloudCoverage: data.cloud_cover,
-    gridCode: undefined,
-  }));
-
 const planetScopePropertySchema = z
   .object({
     datetime: z.custom<NonNullable<TDateString>>(
@@ -146,7 +128,6 @@ export const featureSearchSchema = featureGenericSchema.extend({
     sentinel1Element84PropertySchema,
     sentinel1CedaPropertySchema,
     skySatPropertySchema,
-    rapidEyePropertySchema,
     planetScopePropertySchema,
   ]),
   assets: z.object({

@@ -36,14 +36,6 @@ export const useActiveDataSet = (): TUseActiveDataSet => {
     enabled.push('esacci-globallc');
   }
 
-  if (dataSets.public.auxiliary?.clmsCorinelc?.enabled) {
-    enabled.push('clms-corinelc');
-  }
-
-  if (dataSets.public.auxiliary?.clmsWaterBodies?.enabled) {
-    enabled.push('clms-water-bodies');
-  }
-
   const hasError =
     enabled.length > 1 || (enabled.length === 1 && enabled.some((item) => item === hotFixCollectionNotExistingOnBe));
 

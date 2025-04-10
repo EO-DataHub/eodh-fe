@@ -22,20 +22,6 @@ const skySatSchema: IDynamicTreeItem = {
   },
 };
 
-const rapidEyeSchema: IDynamicTreeItem = {
-  translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.RAPID_EYE.NAME',
-  type: 'item',
-  controls: {
-    value: {
-      name: 'private.planet.rapidEye.enabled',
-      type: 'checkbox',
-    },
-  },
-  options: {
-    disabled: true,
-  },
-};
-
 const cloudCoverage: IDynamicSlider = {
   translationKey: 'MAP.SEARCH_VIEW.DATA_SETS.DATA_SETS_CONFIGURATION.PLANET.MAX_CLOUD_COVERAGE',
   type: 'slider',
@@ -61,7 +47,7 @@ export const planetSearchSchema: IDynamicTreeCategory = {
       value: false,
     },
   },
-  children: [planetScopeSchema, skySatSchema, rapidEyeSchema, cloudCoverage],
+  children: [planetScopeSchema, skySatSchema, cloudCoverage],
 };
 
 export const planetActionCreatorSchema: IDynamicTreeCategory = {
@@ -82,5 +68,5 @@ export const planetActionCreatorSchema: IDynamicTreeCategory = {
   options: {
     disabled: true,
   },
-  children: [planetScopeSchema, skySatSchema, rapidEyeSchema, cloudCoverage],
+  children: [planetScopeSchema, skySatSchema, cloudCoverage],
 };

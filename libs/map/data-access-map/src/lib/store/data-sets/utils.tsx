@@ -69,26 +69,6 @@ export const getValuesForDataSet = (
 
       break;
     }
-
-    case 'clms-corinelc': {
-      if (!state.dataSets.public.auxiliary?.clmsCorinelc) {
-        return state;
-      }
-
-      set(newValues, 'public.auxiliary.clmsCorinelc.enabled', true);
-
-      break;
-    }
-
-    case 'clms-water-bodies': {
-      if (!state.dataSets.public.auxiliary?.clmsWaterBodies) {
-        return state;
-      }
-
-      set(newValues, 'public.auxiliary.clmsWaterBodies.enabled', true);
-
-      break;
-    }
   }
 
   return { dataSets: newValues };
