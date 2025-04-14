@@ -23,7 +23,7 @@ const createPolarizationFilter = (mode: TAcquisitionEwMode): TFilterParam[] => {
 
   const baseFilter: TFilterParam = {
     op: '=',
-    args: [{ property: 'properties.instrument_mode' }, 'EW'],
+    args: [{ property: 'properties.sar:instrument_mode' }, 'EW'],
   };
 
   const polarizationFilters: Record<NonNullable<TAcquisitionEwMode>, TFilterParam[]> = {
@@ -31,24 +31,24 @@ const createPolarizationFilter = (mode: TAcquisitionEwMode): TFilterParam[] => {
       {
         op: 'and',
         args: [
-          { op: 'in', args: [{ property: 'properties.Polarisation' }, ['HH']] },
-          { op: 'in', args: [{ property: 'properties.Polarisation' }, ['HV']] },
+          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HH']] },
+          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HV']] },
         ],
       },
     ],
     hh: [
-      { op: 'in', args: [{ property: 'properties.Polarisation' }, ['HH']] },
+      { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HH']] },
       {
         op: 'not',
-        args: [{ op: 'in', args: [{ property: 'properties.Polarisation' }, ['HV']] }],
+        args: [{ op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HV']] }],
       },
     ],
     hh_hv: [
       {
         op: 'or',
         args: [
-          { op: 'in', args: [{ property: 'properties.Polarisation' }, ['HH']] },
-          { op: 'in', args: [{ property: 'properties.Polarisation' }, ['HV']] },
+          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HH']] },
+          { op: 'in', args: [{ property: 'properties.sar:polarizations' }, ['HV']] },
         ],
       },
     ],
