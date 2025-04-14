@@ -2,7 +2,7 @@ import { TFields } from '../../../query.model';
 
 export const getCedaFields = (): TFields => {
   return {
-    include: ['properties.instrument_mode', 'properties.Polarisation', 'properties.Orbit Direction'],
+    include: ['properties.sar:instrument_mode', 'properties.sar:polarizations', 'properties.Orbit Direction'],
   };
 };
 

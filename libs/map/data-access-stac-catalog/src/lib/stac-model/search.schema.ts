@@ -67,8 +67,8 @@ const sentinel1CedaPropertySchema = z
     'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
     'grid:code': z.string().optional(),
     'Orbit Direction': z.string().optional(),
-    instrument_mode: z.string().optional(),
-    Polarisation: z.array(z.string()).optional(),
+    'sar:instrument_mode': z.string().optional(),
+    'sar:polarizations': z.array(z.string()).optional(),
     cloud_cover: z.never().optional(),
     cloud_percent: z.never().optional(),
     cloudCoverage: z.never().optional(),
@@ -82,8 +82,8 @@ const sentinel1CedaPropertySchema = z
     cloudCoverage: data['eo:cloud_cover'],
     gridCode: data['grid:code'],
     orbitState: data['Orbit Direction'],
-    instrumentMode: data.instrument_mode,
-    polarizations: data.Polarisation,
+    instrumentMode: data['sar:instrument_mode'],
+    polarizations: data['sar:polarizations'],
   }));
 
 const skySatPropertySchema = z
