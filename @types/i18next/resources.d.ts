@@ -260,8 +260,6 @@ interface Resources {
               SENTINEL_5P: 'Sentinel-5P';
               AUXILIARY: {
                 GLOBAL_LAND_COVER: 'Global Land Cover';
-                CORINE_LAND_COVER: 'CORINE Land Cover';
-                WATER_BODIES: 'Water Bodies';
               };
             };
             DATE_RANGE: {
@@ -501,7 +499,7 @@ interface Resources {
               WHAT_IS_LAND_COVER_CHANGE_SCENARIO: {
                 QUESTION: 'What is Land Cover Changes scenario?';
                 ANSWER: [
-                  'The Land Cover Changes preset is designed to help users monitor how different land cover classes evolve over time. By leveraging established data sets such as CORINE, ESA Global Land Cover Map (ESA GLCM), and Copernicus Land Monitoring Service (CLMS) Water Bodies, it offers quick insights into the spatial distribution and temporal changes of various land cover classes (e.g., forest, cropland, urban areas, water bodies).',
+                  'The Land Cover Changes preset is designed to help users monitor how different land cover classes evolve over time. By leveraging established ESA Global Land Cover Map (ESA GLCM) data set, it offers quick insights into the spatial distribution and temporal changes of various land cover classes (e.g., forest, cropland, urban areas, water bodies).',
                   'It can be used for:',
                   [
                     'Detecting Urban Expansion: Observe how cities grow and change land use.',
@@ -511,7 +509,7 @@ interface Resources {
                   ],
                   'Workflow explanation:',
                   [
-                    'Data Ingestion: The system takes in relevant land cover data sets—CORINE, ESA GLCM, and CLMS Water Bodies.',
+                    'Data Ingestion: The system takes in relevant land cover data set ESA GLCM.',
                     'Per-Class Area Calculation: Within the user-specified region of interest, the workflow calculates the area occupied by each land cover class for each available time period.',
                     'Storage: These aggregated results are stored as a STAC collection in the user’s workspace, ensuring easy retrieval and compatibility with EOPro tools.',
                     'Visualisation: In the front-end application, the user sees a time series bar-chart illustrating how each land cover class’s area changes over different time periods.'
@@ -1121,12 +1119,9 @@ interface Resources {
             WHAT_IS_EOPRO: {
               QUESTION: 'What is EOPro?';
               ANSWER: [
-                'EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface. ',
+                'EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface.',
                 {
-                  STYLED_TEXT: [
-                    ['BOLD', 'Note: '],
-                    'Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
-                  ];
+                  STYLED_TEXT: [['BOLD', 'Note: '], 'Commercial data is available at the moment for searching only.'];
                 }
               ];
             };
@@ -1168,13 +1163,7 @@ interface Resources {
             HOW_DO_I_SELECT_A_DATA_SET_AS_PART_OF_A_SEARCH: {
               QUESTION: 'How do I select a data set as part of a search?';
               ANSWER: [
-                'Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings.',
-                {
-                  STYLED_TEXT: [
-                    ['BOLD', 'Note: '],
-                    'Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
-                  ];
-                }
+                'Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings.'
               ];
             };
             WHAT_IS_SENTINEL_2_ARD: {
@@ -1223,14 +1212,8 @@ interface Resources {
               ANSWER: [
                 [
                   'Public data sets (e.g., Copernicus Sentinel) are freely available.',
-                  'Commercial data sets (e.g., Planet) require purchase before viewing or using for workflows.'
-                ],
-                {
-                  STYLED_TEXT: [
-                    ['BOLD', 'Note: '],
-                    'Commercial data is not available at the moment, as integration with Planet data is planned for the near future.'
-                  ];
-                }
+                  'Commercial data sets (e.g., Planet) require purchase before using for workflows.'
+                ]
               ];
             };
           };
@@ -1337,16 +1320,11 @@ interface Resources {
               SKY_SAT: {
                 NAME: 'SkySat';
               };
-              RAPID_EYE: {
-                NAME: 'RapidEye';
-              };
               MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
             };
             AUXILIARY: {
               NAME: 'Auxiliary';
               GLOBAL_LAND_COVER: 'Global Land Cover';
-              CORINE_LAND_COVER: 'CORINE Land Cover';
-              WATER_BODIES: 'Water Bodies';
             };
             COPERNICUS: {
               NAME: 'Copernicus';

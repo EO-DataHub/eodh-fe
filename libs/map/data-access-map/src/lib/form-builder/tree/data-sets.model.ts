@@ -36,14 +36,6 @@ export type TDataSetsValues = {
         enabled?: boolean;
         expanded?: boolean;
       };
-      clmsCorinelc?: {
-        enabled?: boolean;
-        expanded?: boolean;
-      };
-      clmsWaterBodies?: {
-        enabled?: boolean;
-        expanded?: boolean;
-      };
     };
   };
   private: {
@@ -55,9 +47,6 @@ export type TDataSetsValues = {
         enabled?: boolean;
       };
       skySat?: {
-        enabled?: boolean;
-      };
-      rapidEye?: {
         enabled?: boolean;
       };
       cloudCoverage?: number;

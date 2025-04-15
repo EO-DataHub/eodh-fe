@@ -111,10 +111,6 @@ export class PlanetQueryBuilder {
       collections.push('SkySatScene');
     }
 
-    if (planet.rapidEye?.enabled) {
-      collections.push('REOrthoTile');
-    }
-
     return collections;
   };
 

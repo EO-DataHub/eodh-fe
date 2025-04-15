@@ -47,10 +47,7 @@ export const dataSetsSearchUpdateSchema = z
   .superRefine((schema, ctx) => {
     const isCopernicusSatelliteEnabled =
       schema.public.copernicus.sentinel1.enabled || schema.public.copernicus.sentinel2.enabled;
-    const isPlanetSatelliteEnabled =
-      schema.private.planet.planetScope.enabled ||
-      schema.private.planet.rapidEye.enabled ||
-      schema.private.planet.skySat.enabled;
+    const isPlanetSatelliteEnabled = schema.private.planet.planetScope.enabled || schema.private.planet.skySat.enabled;
 
     if (isCopernicusSatelliteEnabled && isPlanetSatelliteEnabled) {
       ctx.addIssue({
@@ -97,8 +94,6 @@ export const dataSetsActionCreatorUpdateSchema = z.object({
       const enabledItems = [
         schema.copernicus.sentinel1.enabled,
         schema.copernicus.sentinel2.enabled,
-        schema.auxiliary.clmsCorinelc.enabled,
-        schema.auxiliary.clmsWaterBodies.enabled,
         schema.auxiliary.esacciGloballc.enabled,
       ].filter((item) => !!item);
 
@@ -119,18 +114,6 @@ export const dataSetsActionCreatorUpdateSchema = z.object({
           code: z.ZodIssueCode.custom,
           message: notDisplayedErrorMessage,
           path: ['auxiliary.esacciGloballc.enabled'],
-        });
-
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: notDisplayedErrorMessage,
-          path: ['auxiliary.clmsCorinelc.enabled'],
-        });
-
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: notDisplayedErrorMessage,
-          path: ['auxiliary.clmsWaterBodies.enabled'],
         });
       }
     }),

@@ -33,9 +33,6 @@ export type TPlanetSearchParams = {
   skySat?: {
     enabled?: boolean;
   };
-  rapidEye?: {
-    enabled?: boolean;
-  };
   cloudCoverage?: number;
 };
 
@@ -50,12 +47,6 @@ export type TCatalogSearchParams = {
       auxiliary?: {
         enabled?: boolean;
         esacciGloballc?: {
-          enabled?: boolean;
-        };
-        clmsCorinelc?: {
-          enabled?: boolean;
-        };
-        clmsWaterBodies?: {
           enabled?: boolean;
         };
       };
