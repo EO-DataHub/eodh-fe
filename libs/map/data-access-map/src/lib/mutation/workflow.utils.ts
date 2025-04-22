@@ -24,12 +24,14 @@ type TNodeParams = {
 export type TCreateWorkflowParams = {
   nodes: TNodeParams;
   functions: TFunction[];
+  workspace: string;
 };
 
 type TCreateWorkflow = {
   workflow: {
     [key in TWorkflowCreateParamsInternal['identifier']]: TWorkflowCreateParamsInternal;
   };
+  workspace: string;
 };
 
 const getFunctionInputs = (
@@ -61,7 +63,7 @@ const getFunctionInputs = (
   return result;
 };
 
-export const createWorkflowParams = ({ nodes, functions }: TCreateWorkflowParams): TCreateWorkflow => {
+export const createWorkflowParams = ({ nodes, functions, workspace }: TCreateWorkflowParams): TCreateWorkflow => {
   const functionNodes = nodes.functions.sort((node1, node2) => node1.order - node2.order);
   const workflowFunctions = functionNodes.map((node, index) => ({
     inputs: getFunctionInputs(
@@ -76,5 +78,6 @@ export const createWorkflowParams = ({ nodes, functions }: TCreateWorkflowParams
     workflow: {
       ...workflowFunctions.reduce((acc, val) => ({ ...acc, [val.identifier]: val }), {}),
     },
+    workspace,
   };
 };

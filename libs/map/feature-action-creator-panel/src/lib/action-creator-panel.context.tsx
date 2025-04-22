@@ -1,6 +1,6 @@
 import { TTab, useActionCreator, useMode, useResults, useWorkflow, useWorkflowStatus } from '@ukri/map/data-access-map';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useAuth } from '@ukri/shared/utils/authorization';
+import { useAuth, useWorkspace } from '@ukri/shared/utils/authorization';
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
@@ -49,9 +49,10 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     context: { showOnboardingTooltip, hideOnboardingTooltip, enableOnboarding, disableOnboarding },
   } = useOnboarding();
   const { isOpen: isTabsFlowModalOpen } = useTabsFlowModalState();
+  const { currentWorkspace } = useWorkspace();
   const actionCreatorEnabled = useMemo(() => mode === 'action-creator', [mode]);
 
-  useWorkflowStatus({ enabled: shouldEnableWorkflow });
+  useWorkflowStatus({ enabled: shouldEnableWorkflow, params: { workspace: currentWorkspace } });
 
   const switchView = useCallback(() => {
     if (view !== 'results') {

@@ -56,6 +56,7 @@ export const Tabs = () => {
       <HistoryTab />
       <Tab name='MAP.ACTION_CREATOR_PANEL.HEADER.TABS.PRESETS' tab='presets' />
       <Tab name='MAP.ACTION_CREATOR_PANEL.HEADER.TABS.HELP' tab='help' />
+      <Tab name='MAP.ACTION_CREATOR_PANEL.HEADER.TABS.WORKSPACES' tab='workspaces' />
     </nav>
   );
 };

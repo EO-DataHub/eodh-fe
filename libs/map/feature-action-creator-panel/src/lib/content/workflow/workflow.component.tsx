@@ -15,6 +15,7 @@ import {
 } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
+import { useWorkspace } from '@ukri/shared/utils/authorization';
 import { displayNotification } from '@ukri/shared/utils/notification';
 import { useSettings } from '@ukri/shared/utils/settings';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
@@ -23,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
 import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
+import { NoActiveWorkspaceModal } from '../modals/no-active-workspace-modal.component';
 import { useTabsFlowModalState } from '../modals/tabs-flow-modal/action-creator-tabs-flow.store';
 import { TabsFlowModal } from '../modals/tabs-flow-modal/tabs-flow-modal.component';
 import { WorkflowProcessingModal } from '../modals/workflow-processing-modal/workflow-processing-modal.component';
@@ -53,7 +55,12 @@ const renderNode = (node: TNode) => {
 
 const backgroundDot = `url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='9' cy='9' r='1' fill='%23F7F7F7'/%3E%3C/svg%3E")`;
 
+const checkIfClippingFunctionApplied = (array: TNode[]) => {
+  return array.some((obj) => obj.type === 'function' && obj.value?.identifier === 'clip');
+};
+
 export const Workflow = () => {
+  const { t } = useTranslation();
   const { enabled } = useContext(ActionCreator);
   const { nodes, isValid, canExportWorkflow, getNodesByType, importWorkflow, exportWorkflow } = useActionCreator();
   const { mutate } = useCreateWorkflow();
@@ -63,10 +70,28 @@ export const Workflow = () => {
   const { isOpen } = useTabsFlowModalState();
   const { aoiLimit } = useSettings();
   const { comparisonModeEnabled } = useComparisonMode();
+  const { currentWorkspace } = useWorkspace();
+  const isAreaIncorrect = useMemo<boolean>(() => {
+    const area = nodes.find((node) => node.type === 'area') as TAreaNode | undefined;
+    if (area) {
+      return getArea(area.value) > aoiLimit;
+    }
+    return false;
+  }, [nodes, aoiLimit]);
   const {
     context: { completeOnboarding, resetOnboarding },
   } = useOnboarding();
-  const { t } = useTranslation();
+  const runActionCreatorButtonDisabled = useMemo(
+    () =>
+      isAreaIncorrect ||
+      !isValid ||
+      !enabled ||
+      comparisonModeEnabled ||
+      status === 'pending' ||
+      status === 'success' ||
+      !currentWorkspace,
+    [comparisonModeEnabled, currentWorkspace, enabled, isAreaIncorrect, isValid, status]
+  );
 
   const importWorkflowFile = useCallback(async () => {
     const statusOfImport = await importWorkflow();
@@ -74,10 +99,6 @@ export const Workflow = () => {
       completeOnboarding();
     }
   }, [importWorkflow, completeOnboarding]);
-
-  const checkIfClippingFunctionApplied = (array: TNode[]) => {
-    return array.some((obj) => obj.type === 'function' && obj.value?.identifier === 'clip');
-  };
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();
@@ -91,7 +112,8 @@ export const Workflow = () => {
       !dateRangeNode?.value?.from ||
       !dateRangeNode?.value?.to ||
       !functionNodes.length ||
-      !data?.length
+      !data?.length ||
+      !currentWorkspace
     ) {
       return;
     }
@@ -106,6 +128,7 @@ export const Workflow = () => {
           functions: functionNodes,
         },
         functions: data,
+        workspace: currentWorkspace,
       },
       {
         onSuccess: () => {
@@ -115,7 +138,7 @@ export const Workflow = () => {
         },
       }
     );
-  }, [data, getNodesByType, mutate, t, nodes]);
+  }, [data, getNodesByType, mutate, t, nodes, currentWorkspace]);
 
   useEffect(() => {
     if (!enabled || !isFunctionsLoaded) {
@@ -128,14 +151,6 @@ export const Workflow = () => {
       .filter((item): item is string => !!item);
     setSupportedDataSets(options);
   }, [data, isFunctionsLoaded, enabled, setSupportedDataSets]);
-
-  const isAreaIncorrect = useMemo<boolean>(() => {
-    const area = nodes.find((node) => node.type === 'area') as TAreaNode | undefined;
-    if (area) {
-      return getArea(area.value) > aoiLimit;
-    }
-    return false;
-  }, [nodes, aoiLimit]);
 
   return (
     <Container>
@@ -161,6 +176,7 @@ export const Workflow = () => {
             onClick={resetOnboarding}
           />
         )}
+        <NoActiveWorkspaceModal />
         <ComparisonModeModal />
       </Content>
       <Footer>
@@ -170,7 +186,7 @@ export const Workflow = () => {
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.EXPORT'
             size='large'
-            disabled={!canExportWorkflow || !enabled || comparisonModeEnabled}
+            disabled={!canExportWorkflow || !enabled || comparisonModeEnabled || !currentWorkspace}
             onClick={exportWorkflow}
           />
           <Button
@@ -178,20 +194,13 @@ export const Workflow = () => {
             appearance='text'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.IMPORT'
             size='large'
-            disabled={isOpen || !enabled || comparisonModeEnabled || status === 'pending'}
+            disabled={isOpen || !enabled || comparisonModeEnabled || !currentWorkspace || status === 'pending'}
             onClick={importWorkflowFile}
           />
           <Button
             className='w-full'
             text='MAP.ACTION_CREATOR_PANEL.FOOTER.BUTTON.RUN_ACTION_CREATOR'
-            disabled={
-              isAreaIncorrect ||
-              !isValid ||
-              !enabled ||
-              comparisonModeEnabled ||
-              status === 'pending' ||
-              status === 'success'
-            }
+            disabled={runActionCreatorButtonDisabled}
             onClick={createWorkflow}
           />
         </div>

@@ -1,6 +1,6 @@
-import { jwtDecode } from 'jwt-decode';
 import Keycloak, { KeycloakConfig, KeycloakError, KeycloakInitOptions, KeycloakLoginOptions } from 'keycloak-js';
 
+import { getIdentityClaims } from './identity-claims';
 import { IAuthAdapter, IBaseIdentityClaims } from './types';
 
 type TCallbacks = {
@@ -117,18 +117,7 @@ export class KeycloakAdapter<T extends IBaseIdentityClaims> implements IAuthAdap
   });
 
   public getIdentityClaims(): T | null {
-    const token = this.instance.token;
-
-    if (token) {
-      try {
-        return jwtDecode<T>(token);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Error decoding token:', error);
-      }
-    }
-
-    return null;
+    return getIdentityClaims<T>(this.instance);
   }
 
   public onReady = (fn: (authenticated?: boolean) => void) => this.addEventListener('onReady', fn);

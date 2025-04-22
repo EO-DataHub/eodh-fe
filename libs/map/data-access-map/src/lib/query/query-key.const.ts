@@ -18,7 +18,7 @@ export const queryKey = {
     jobId: string;
     workflowId: string;
   }) => [QUERY_KEY.COLLECTION_INFO, userWorkspace, jobId, workflowId],
-  WORKFLOW_HISTORY: ({ orderDirection }: { orderDirection?: 'asc' | 'desc' } = {}) =>
-    [QUERY_KEY.WORKFLOW_HISTORY, orderDirection].filter((item) => !!item),
+  WORKFLOW_HISTORY: ({ workspace, orderDirection }: { workspace?: string; orderDirection?: 'asc' | 'desc' } = {}) =>
+    [QUERY_KEY.WORKFLOW_HISTORY, workspace, orderDirection].filter((item) => !!item),
   WORKFLOW_STATUS: () => [QUERY_KEY.WORKFLOW_STATUS],
 };

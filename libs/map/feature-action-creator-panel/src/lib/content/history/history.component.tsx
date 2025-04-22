@@ -1,7 +1,9 @@
 import { Button, Error, LoadingSpinner } from '@ukri/shared/design-system';
+import { useWorkspace } from '@ukri/shared/utils/authorization';
 
 import { Container, Content, Footer } from '../container.component';
 import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
+import { NoActiveWorkspaceModal } from '../modals/no-active-workspace-modal.component';
 import { styles } from './history.styles';
 import { HistoryTile } from './history-tile/history-tile.component';
 import { SortFilter } from './sort-filter/sort-filter.component';
@@ -66,9 +68,23 @@ const NoHistory = () => {
 };
 
 export const History = () => {
+  const { currentWorkspace } = useWorkspace();
   const { results, changeOrder, loadMore, error, isLoading, isFetching, refetch, orderBy, hasNextPage } =
     useHistoryData();
   const { selectedResult, showResults, hideResults, status } = useLoadHistoryResults();
+
+  if (!currentWorkspace) {
+    return (
+      <Container>
+        <Content>
+          <section className={styles.historySection}>
+            <NoActiveWorkspaceModal />
+          </section>
+        </Content>
+        <Footer></Footer>
+      </Container>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -135,6 +151,7 @@ export const History = () => {
             </div>
           )}
         </section>
+        <NoActiveWorkspaceModal />
         <ComparisonModeModal />
       </Content>
       <Footer></Footer>

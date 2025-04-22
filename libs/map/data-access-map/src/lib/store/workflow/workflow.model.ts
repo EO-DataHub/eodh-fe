@@ -1,6 +1,7 @@
 export interface IWorkflow {
   jobId: string;
   status: 'READY' | 'PROCESSING' | 'FAILED';
+  workspace?: string;
 }
 
 export interface IWorkflowStore {

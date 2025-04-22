@@ -1,3 +1,4 @@
+import { twMerge } from '../../merge.tailwind';
 import { getRadioBtnStyles, radioButtonStyles } from './radio-button.styles';
 
 interface IRadioButtonProps {
@@ -7,13 +8,14 @@ interface IRadioButtonProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   label: string;
+  className?: string;
 }
 
-export const RadioButton = ({ id, name, value, checked, onChange, label }: IRadioButtonProps) => {
+export const RadioButton = ({ id, name, value, checked, onChange, label, className }: IRadioButtonProps) => {
   const radioBtnStyles = getRadioBtnStyles(checked);
 
   return (
-    <label htmlFor={id} className={radioButtonStyles.label}>
+    <label htmlFor={id} className={twMerge(radioButtonStyles.label, className)}>
       <input
         type='radio'
         id={id}
