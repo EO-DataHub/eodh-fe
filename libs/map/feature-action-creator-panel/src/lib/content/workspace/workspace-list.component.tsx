@@ -1,3 +1,4 @@
+import { useMode, useResults } from '@ukri/map/data-access-map';
 import { Button, RadioButton, Text } from '@ukri/shared/design-system';
 import { useWorkspace } from '@ukri/shared/utils/authorization';
 import { displayNotification } from '@ukri/shared/utils/notification';
@@ -10,6 +11,8 @@ export const WorkspaceList = () => {
   const { t } = useTranslation();
   const { workspaces, currentWorkspace, setCurrentWorkspace } = useWorkspace();
   const [selectedWorkspace, setSelectedWorkspace] = useState<string | undefined>(currentWorkspace);
+  const { updateSearchParams } = useResults();
+  const { changeView } = useMode();
   const disabled = useMemo(
     () => !workspaces.length || !selectedWorkspace || currentWorkspace === selectedWorkspace,
     [currentWorkspace, selectedWorkspace, workspaces.length]
@@ -24,11 +27,13 @@ export const WorkspaceList = () => {
 
   const activateWorkspace = useCallback(() => {
     setCurrentWorkspace(selectedWorkspace);
+    updateSearchParams(undefined);
+    changeView('search');
     displayNotification(
       t('MAP.ACTION_CREATOR_PANEL.WORKSPACES.SELECT_WORKSPACE.WORKSPACE_CHANGED_SUCCESS_MESSAGE'),
       'success'
     );
-  }, [t, selectedWorkspace, setCurrentWorkspace]);
+  }, [setCurrentWorkspace, selectedWorkspace, updateSearchParams, changeView, t]);
 
   return (
     <>
