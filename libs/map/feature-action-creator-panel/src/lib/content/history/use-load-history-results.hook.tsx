@@ -12,7 +12,6 @@ export const useLoadHistoryResults = () => {
   const { markAsRead } = useWorkflow();
   const [currentAoi, setCurrentAoi] = useState<typeof shape>(shape);
   const { currentWorkspace } = useWorkspace();
-
   const { mutateAsync } = useCollectionInfo();
 
   const showResults = useCallback(
