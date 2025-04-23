@@ -141,7 +141,7 @@ export const History = () => {
               selectedResult={selectedResult}
               loadResultsStatus={status}
               onHide={hideResults}
-              onShow={() => showResults(workflow.jobId, workflow.workflowId)}
+              onShow={() => showResults(workflow.jobId, workflow.workflowId, currentWorkspace)}
             />
           ))}
 

@@ -1,6 +1,5 @@
 import { useAoi, useCollectionInfo, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
-import { useWorkspace } from '@ukri/shared/utils/authorization';
 import { createDateString, formatDate, type TDateString } from '@ukri/shared/utils/date';
 import { useCallback, useState } from 'react';
 
@@ -11,19 +10,14 @@ export const useLoadHistoryResults = () => {
   const { changeView } = useMode();
   const { markAsRead } = useWorkflow();
   const [currentAoi, setCurrentAoi] = useState<typeof shape>(shape);
-  const { currentWorkspace } = useWorkspace();
   const { mutateAsync } = useCollectionInfo();
 
   const showResults = useCallback(
-    async (jobId: string, workflowId: string) => {
+    async (jobId: string, workflowId: string, userWorkspace: string) => {
       markAsRead(jobId);
 
-      if (!currentWorkspace) {
-        return;
-      }
-
       try {
-        const collectionInfo = await mutateAsync({ jobId, userWorkspace: currentWorkspace, workflowId });
+        const collectionInfo = await mutateAsync({ jobId, userWorkspace, workflowId });
 
         const dateFrom = formatDate(
           createDateString(collectionInfo?.collectionInterval.from)
@@ -38,7 +32,7 @@ export const useLoadHistoryResults = () => {
           id: jobId,
           jobId,
           workflowId,
-          userWorkspace: currentWorkspace,
+          userWorkspace,
           timeSliderBoundaries: {
             from: dateFrom,
             to: dateTo,
@@ -53,12 +47,12 @@ export const useLoadHistoryResults = () => {
           id: jobId,
           jobId,
           workflowId,
-          userWorkspace: currentWorkspace,
+          userWorkspace,
         });
       }
       changeView('results');
     },
-    [changeView, currentWorkspace, markAsRead, mutateAsync, updateSearchParams, updateShape]
+    [changeView, markAsRead, mutateAsync, updateSearchParams, updateShape]
   );
 
   const hideResults = useCallback(() => {
