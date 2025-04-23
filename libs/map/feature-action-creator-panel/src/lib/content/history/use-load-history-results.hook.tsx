@@ -1,32 +1,30 @@
 import { useAoi, useCollectionInfo, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
-import { TIdentityClaims, useAuth } from '@ukri/shared/utils/authorization';
+import { useWorkspace } from '@ukri/shared/utils/authorization';
 import { createDateString, formatDate, type TDateString } from '@ukri/shared/utils/date';
 import { useCallback, useState } from 'react';
 
 export const useLoadHistoryResults = () => {
-  const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
   const { searchParams, updateSearchParams } = useResults();
   const { status } = useCatalogSearch({ params: searchParams });
   const { shape, changeState, updateShape, setShape } = useAoi();
   const { changeView } = useMode();
   const { markAsRead } = useWorkflow();
   const [currentAoi, setCurrentAoi] = useState<typeof shape>(shape);
+  const { currentWorkspace } = useWorkspace();
 
   const { mutateAsync } = useCollectionInfo();
 
   const showResults = useCallback(
     async (jobId: string, workflowId: string) => {
-      const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
-
       markAsRead(jobId);
 
-      if (!userWorkspace) {
+      if (!currentWorkspace) {
         return;
       }
 
       try {
-        const collectionInfo = await mutateAsync({ jobId, userWorkspace, workflowId });
+        const collectionInfo = await mutateAsync({ jobId, userWorkspace: currentWorkspace, workflowId });
 
         const dateFrom = formatDate(
           createDateString(collectionInfo?.collectionInterval.from)
@@ -41,7 +39,7 @@ export const useLoadHistoryResults = () => {
           id: jobId,
           jobId,
           workflowId,
-          userWorkspace,
+          userWorkspace: currentWorkspace,
           timeSliderBoundaries: {
             from: dateFrom,
             to: dateTo,
@@ -56,12 +54,12 @@ export const useLoadHistoryResults = () => {
           id: jobId,
           jobId,
           workflowId,
-          userWorkspace,
+          userWorkspace: currentWorkspace,
         });
       }
       changeView('results');
     },
-    [authClient, changeView, markAsRead, mutateAsync, updateSearchParams, updateShape]
+    [changeView, currentWorkspace, markAsRead, mutateAsync, updateSearchParams, updateShape]
   );
 
   const hideResults = useCallback(() => {
