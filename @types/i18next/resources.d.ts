@@ -102,6 +102,7 @@ interface Resources {
             HISTORY: 'History';
             PRESETS: 'Presets';
             HELP: 'Help';
+            WORKSPACES: 'Workspaces';
           };
         };
         FOOTER: {
@@ -178,10 +179,14 @@ interface Resources {
               CONTENT: 'Depending on the complexity of the workflow, this step can take some time to complete. Please don’t close this browser window.';
             };
           };
+          NO_ACTIVE_WORKSPACE: {
+            HEADER: 'No workspace selected';
+            CONTENT: 'You must select a Workspace to begin using the Action Creator.';
+            CTA_BUTTON: 'View Workspaces';
+          };
         };
         PRESETS: {
           BUTTON: 'Load preset';
-          COMING_SOON: 'Coming soon!';
         };
         HISTORY: {
           NO_RESULTS_TITLE: 'No items to display';
@@ -1091,6 +1096,23 @@ interface Resources {
                 ];
               };
             };
+          };
+        };
+        WORKSPACES: {
+          EMPTY_WORKSPACE: {
+            TITLE: 'You have no available Workspaces';
+            CREATE_WORKSPACE_INFO: 'Use the link below to open a new browser window and create a Workspace.';
+          };
+          SELECT_WORKSPACE: {
+            HEADER: {
+              TITLE: 'Your workspaces';
+              DESCRIPTION: 'The Action Creator works with only one active Workspace at a time. Your available Workspace options are shown below. Please select one to continue. You can switch your active Workspace at any time by revisiting this tab.';
+            };
+            FOOTNOTE_INFO: 'Please note - switching to a different Workspace may result in losing currently active Workflow data.';
+            BUTTONS: {
+              ACTIVATE_WORKSPACE: 'Activate Workspace';
+            };
+            WORKSPACE_CHANGED_SUCCESS_MESSAGE: 'Workspace successfully activated.';
           };
         };
       };

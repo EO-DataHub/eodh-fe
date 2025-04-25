@@ -32,6 +32,9 @@ declare const config: {
     };
   };
   feature: NonNullable<unknown>;
+  settings: {
+    eodhPageUrl: string;
+  };
 };
 
 interface IEnvConfig {
@@ -60,6 +63,9 @@ interface IEnvConfig {
       };
     };
     feature: NonNullable<unknown>;
+    settings: {
+      eodhPageUrl: string;
+    };
   };
 }
 
@@ -97,6 +103,9 @@ export const getEnvConfig = (): IEnvConfig => ({
       },
     },
     feature: {},
+    settings: {
+      eodhPageUrl: getValue<string>(import.meta.env.VITE_EODH_PAGE_URL, config?.settings.eodhPageUrl, ''),
+    },
   },
 });
 

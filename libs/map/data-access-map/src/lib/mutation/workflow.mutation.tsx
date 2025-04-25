@@ -15,8 +15,11 @@ const createWorkflow = async (params: TCreateWorkflowParams): Promise<TWorkflowC
   const response = await getHttpClient().post(paths.WORKFLOW, createWorkflowParams(params));
   const workflow = workflowCreatedSchema.parse(response);
 
-  useWorkflowStore.getState().addWorkflow({ jobId: workflow.jobId, status: 'PROCESSING' });
-  await queryClient.refetchQueries({ queryKey: queryKey.WORKFLOW_HISTORY(), type: 'all' });
+  useWorkflowStore.getState().addWorkflow({ jobId: workflow.jobId, status: 'PROCESSING', workspace: params.workspace });
+  await queryClient.refetchQueries({
+    queryKey: queryKey.WORKFLOW_HISTORY({ workspace: params.workspace }),
+    type: 'all',
+  });
 
   return workflow;
 };

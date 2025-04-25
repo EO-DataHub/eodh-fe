@@ -8,7 +8,7 @@ const filterWorkflowByStatuses = (workflow: IWorkflow, statuses: IWorkflow['stat
 const getWorkflowsStatuses = (workflows: IWorkflow[], statuses: IWorkflow['status'][]) =>
   workflows.some((workflow) => filterWorkflowByStatuses(workflow, statuses));
 
-const getWorkflowStatus = (workflows: IWorkflow[]): Omit<TWorkflowStoreState, 'workflows'> => {
+const getWorkflowStatus = (workflows: IWorkflow[]): Omit<TWorkflowStoreState, 'workflows' | 'reset'> => {
   const hasSuccessWorkflows = getWorkflowsStatuses(workflows, ['READY']);
   const hasProcessedWorkflows = getWorkflowsStatuses(workflows, ['READY', 'FAILED']);
   const hasWorkflowsToProcess = getWorkflowsStatuses(workflows, ['PROCESSING']);

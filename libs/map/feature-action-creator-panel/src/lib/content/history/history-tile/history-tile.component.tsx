@@ -85,7 +85,7 @@ export const HistoryTile = ({
         {deleteInProgress ? (
           <DeleteConfirmation
             onNoClick={() => setDeleteInProgress(false)}
-            deleteHistoryItem={() => deleteHistoryItem({ workflowId: jobId })}
+            deleteHistoryItem={deleteHistoryItem}
             isPending={isPending}
             isError={isError}
             isSuccess={itemDeleted}

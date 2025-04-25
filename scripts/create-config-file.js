@@ -28,6 +28,9 @@ const config = {
     scopes: process.env.VITE_AUTHORIZATION_SCOPES?.split(' ') || [],
   },
   feature: {},
+  settings: {
+    eodhPageUrl: getVariableValue(process.env.VITE_EODH_PAGE_URL),
+  },
   versionId: getVariableValue(process.env.npm_package_version),
   buildId: getVariableValue(process.env.VITE_BUILD_VERSION_NUMBER),
 };

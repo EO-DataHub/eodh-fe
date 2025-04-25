@@ -6,6 +6,7 @@ import { queryKey } from '../query-key.const';
 import { historySchema, THistory } from './history.model';
 
 export interface IHistoryParams {
+  workspace?: string;
   orderBy?: string;
   orderDirection?: 'asc' | 'desc';
   pageParam?: number;
@@ -13,18 +14,21 @@ export interface IHistoryParams {
 }
 
 const getHistoryResults = async ({
+  workspace,
   orderBy = 'submitted_at',
   orderDirection = 'desc',
   pageParam = 1,
   perPage = 25,
 }: IHistoryParams): Promise<THistory> => {
+  const defaultParams = {
+    order_by: orderBy,
+    order_direction: orderDirection,
+    page: pageParam.toString(),
+    per_page: perPage.toString(),
+  };
+
   const response = await getHttpClient().get(paths.WORKFLOW, {
-    params: {
-      order_by: orderBy,
-      order_direction: orderDirection,
-      page: pageParam.toString(),
-      per_page: perPage.toString(),
-    },
+    params: workspace ? { ...defaultParams, workspace } : defaultParams,
   });
 
   return historySchema.parse(response);
@@ -44,7 +48,7 @@ export const useGetHistory = ({ params, enabled = true }: TUseGetHistoryOptions)
     queryKey: queryKey.WORKFLOW_HISTORY({ ...getHistoryDefaultParams, ...params }),
     queryFn: ({ pageParam = 1 }) =>
       getHistoryResults({ ...getHistoryDefaultParams, pageParam: pageParam as number, ...params }),
-    enabled,
+    enabled: enabled && !!params.workspace,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.currentPage < lastPage.totalPages ? lastPage.currentPage + 1 : undefined),
   });

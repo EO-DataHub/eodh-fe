@@ -6,10 +6,11 @@ import { queryKey } from '../query-key.const';
 
 interface IDeleteHistoryItemParams {
   workflowId: string;
+  workspace: string;
 }
 
-const deleteHistoryItem = async ({ workflowId }: IDeleteHistoryItemParams): Promise<void> => {
-  await getHttpClient().delete(paths.DELETE_WORKFLOW(workflowId));
+const deleteHistoryItem = async ({ workflowId, workspace }: IDeleteHistoryItemParams): Promise<void> => {
+  await getHttpClient().delete(paths.DELETE_WORKFLOW({ workflowId, workspace }));
 };
 
 export const useDeleteHistoryItem = () => {

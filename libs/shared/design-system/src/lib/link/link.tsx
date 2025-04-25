@@ -12,6 +12,7 @@ interface ILinkProps {
   type?: 'button' | 'link';
   appearance?: 'default' | 'outlined' | 'outlined-white' | 'text';
   size?: 'small' | 'medium' | 'large';
+  target?: '_blank' | '_self' | '_parent' | '_top';
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
@@ -31,6 +32,7 @@ export const Link = ({
   onClick,
   type = 'link',
   children,
+  target,
   href,
 }: PropsWithChildren<ILinkProps>) => {
   const [visited, setVisited] = useState(false);
@@ -61,7 +63,7 @@ export const Link = ({
 
   if (type === 'link') {
     return (
-      <a className={combinedStyles} onClick={handleClick} href={href}>
+      <a className={combinedStyles} onClick={handleClick} href={href} target={target}>
         {iconName && <Icon name={iconName} width={iconWidth ?? 24} height={iconHeight ?? 24} />}
         {content}
         {children}

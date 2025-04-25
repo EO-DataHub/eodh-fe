@@ -1,6 +1,7 @@
 import { useDeleteHistoryItem } from '@ukri/map/data-access-map';
+import { useWorkspace } from '@ukri/shared/utils/authorization';
 import { createDateString, formatDate, formatHour } from '@ukri/shared/utils/date';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface IUseHistoryTileProps {
@@ -16,7 +17,16 @@ export const useHistoryTile = ({ jobId, submittedAtDate, selectedResult, onHide 
   const submittedHour = useMemo(() => formatHour(createDateString(submittedAtDate)), [submittedAtDate]);
   const submittedDate = useMemo(() => formatDate(createDateString(submittedAtDate), 'DD-MM-YY'), [submittedAtDate]);
   const selected = useMemo(() => selectedResult === jobId, [selectedResult, jobId]);
-  const { mutate: deleteHistoryItem, isPending, isError, isSuccess: itemDeleted } = useDeleteHistoryItem();
+  const { currentWorkspace } = useWorkspace();
+  const { mutate, isPending, isError, isSuccess: itemDeleted } = useDeleteHistoryItem();
+
+  const deleteHistoryItem = useCallback(() => {
+    if (!currentWorkspace) {
+      return;
+    }
+
+    mutate({ workflowId: jobId, workspace: currentWorkspace });
+  }, [currentWorkspace, jobId, mutate]);
 
   useEffect(() => {
     if (selectedResult === jobId && itemDeleted) {

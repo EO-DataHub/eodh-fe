@@ -8,11 +8,13 @@ import {
 } from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
+import { useWorkspace } from '@ukri/shared/utils/authorization';
 import { PropsWithChildren, useCallback, useContext } from 'react';
 
 import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
 import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-mode-modal.component';
+import { NoActiveWorkspaceModal } from '../modals/no-active-workspace-modal.component';
 import { TabsFlowModal } from '../modals/tabs-flow-modal/tabs-flow-modal.component';
 import { Preset } from './preset.component';
 
@@ -42,6 +44,7 @@ const PresetsContainer = ({ children }: PropsWithChildren) => {
           content='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.PRESETS.CONTENT'
           ctaText='MAP.ACTION_CREATOR_PANEL.MODALS.TABS_FLOW_MODAL.PRESETS.CTA_BUTTON'
         />
+        <NoActiveWorkspaceModal />
         <ComparisonModeModal />
       </Content>
       <Footer></Footer>
@@ -55,6 +58,7 @@ export const Presets = () => {
   const { data: functionData } = useFunctions({ enabled });
   const { loadPreset } = useActionCreator();
   const { changeView } = useMode();
+  const { currentWorkspace } = useWorkspace();
   const status = useCreateWorkflowStatus();
   const {
     context: { resetOnboarding },
@@ -108,7 +112,7 @@ export const Presets = () => {
             imageUrl={preset.imageUrl}
             title={preset.name}
             description={preset.description}
-            disabled={preset.disabled || status === 'pending'}
+            disabled={preset.disabled || status === 'pending' || !currentWorkspace}
             onLoadPresetClick={() => handleLoadPreset(preset)}
             className='mb-4'
           />

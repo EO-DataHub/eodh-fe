@@ -31,16 +31,21 @@ interface IComparisonToolStore {
   toggleComparisonMode: (comparisonModeEnabled?: boolean) => void;
   addComparisonItem: (item: TFeature, mode: TMode, assetName?: TAssetName) => void;
   removeComparisonItem: (item: TFeature, assetName?: TAssetName) => void;
+  reset: () => void;
 }
+
+const getDefaultValues = () => ({
+  comparisonItems: {
+    firsItemId: undefined,
+    secondItemId: undefined,
+    items: [],
+  },
+  comparisonModeEnabled: false,
+});
 
 const useComparisonToolStore = create<IComparisonToolStore>()(
   devtools((set) => ({
-    comparisonItems: {
-      firsItemId: undefined,
-      secondItemId: undefined,
-      items: [],
-    },
-    comparisonModeEnabled: false,
+    ...getDefaultValues(),
     toggleComparisonMode: () =>
       set((state) => ({
         ...state,
@@ -75,6 +80,7 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
             },
           };
         }
+
         return {
           ...state,
         };
@@ -83,6 +89,7 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
       set((state) => {
         const uniqueId = createUniqueItemId(item, assetName);
         const items = state.comparisonItems.items.filter((item) => item.uid !== uniqueId);
+
         return {
           ...state,
           comparisonModeEnabled: false,
@@ -96,18 +103,19 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
         };
       });
     },
+    reset: () => set(() => getDefaultValues()),
   }))
 );
 
 export const useComparisonMode = () => {
-  const { comparisonItems, comparisonModeEnabled, toggleComparisonMode, addComparisonItem, removeComparisonItem } =
-    useComparisonToolStore((state) => ({
-      comparisonItems: state.comparisonItems,
-      comparisonModeEnabled: state.comparisonModeEnabled,
-      toggleComparisonMode: state.toggleComparisonMode,
-      addComparisonItem: state.addComparisonItem,
-      removeComparisonItem: state.removeComparisonItem,
-    }));
+  const {
+    comparisonItems,
+    comparisonModeEnabled,
+    toggleComparisonMode,
+    addComparisonItem,
+    removeComparisonItem,
+    reset,
+  } = useComparisonToolStore();
 
   const itemAddedToComparisonMode = useCallback(
     (item: TFeature, assetName?: TAssetName) => {
@@ -153,6 +161,7 @@ export const useComparisonMode = () => {
       canAddAsNewItemToComparisonMode,
       toggleCompareItem,
       countItemsAddedToComparisonMode,
+      reset,
     }),
     [
       comparisonItems,
@@ -164,6 +173,7 @@ export const useComparisonMode = () => {
       canAddAsNewItemToComparisonMode,
       toggleCompareItem,
       countItemsAddedToComparisonMode,
+      reset,
     ]
   );
 };

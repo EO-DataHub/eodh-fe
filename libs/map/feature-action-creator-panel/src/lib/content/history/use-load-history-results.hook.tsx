@@ -1,29 +1,20 @@
 import { useAoi, useCollectionInfo, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
-import { TIdentityClaims, useAuth } from '@ukri/shared/utils/authorization';
 import { createDateString, formatDate, type TDateString } from '@ukri/shared/utils/date';
 import { useCallback, useState } from 'react';
 
 export const useLoadHistoryResults = () => {
-  const { authClient } = useAuth<TIdentityClaims<{ preferred_username: string }>>();
   const { searchParams, updateSearchParams } = useResults();
   const { status } = useCatalogSearch({ params: searchParams });
   const { shape, changeState, updateShape, setShape } = useAoi();
   const { changeView } = useMode();
   const { markAsRead } = useWorkflow();
   const [currentAoi, setCurrentAoi] = useState<typeof shape>(shape);
-
   const { mutateAsync } = useCollectionInfo();
 
   const showResults = useCallback(
-    async (jobId: string, workflowId: string) => {
-      const userWorkspace = authClient.getIdentityClaims()?.preferred_username;
-
+    async (jobId: string, workflowId: string, userWorkspace: string) => {
       markAsRead(jobId);
-
-      if (!userWorkspace) {
-        return;
-      }
 
       try {
         const collectionInfo = await mutateAsync({ jobId, userWorkspace, workflowId });
@@ -61,7 +52,7 @@ export const useLoadHistoryResults = () => {
       }
       changeView('results');
     },
-    [authClient, changeView, markAsRead, mutateAsync, updateSearchParams, updateShape]
+    [changeView, markAsRead, mutateAsync, updateSearchParams, updateShape]
   );
 
   const hideResults = useCallback(() => {

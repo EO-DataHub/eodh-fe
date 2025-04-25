@@ -1,6 +1,6 @@
 import { TTab, useActionCreator, useMode, useResults, useWorkflow, useWorkflowStatus } from '@ukri/map/data-access-map';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useAuth } from '@ukri/shared/utils/authorization';
+import { useAuth, useWorkspace } from '@ukri/shared/utils/authorization';
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
@@ -34,6 +34,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const [collapsed, setCollapsed] = useState(actionCreatorDefaultState.collapsed);
   const { mode, toggleMode, view, changeView, changeMode } = useMode();
   const { authenticated } = useAuth();
+  const { currentWorkspace } = useWorkspace();
   const { status: workflowStatus, hasWorkflowsToProcess } = useWorkflow();
   const { enable, disable, activeTab, setActiveTab } = useActionCreator();
   const hideModal = useCloseTabsFlowModal();
@@ -51,7 +52,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const { isOpen: isTabsFlowModalOpen } = useTabsFlowModalState();
   const actionCreatorEnabled = useMemo(() => mode === 'action-creator', [mode]);
 
-  useWorkflowStatus({ enabled: shouldEnableWorkflow });
+  useWorkflowStatus({ enabled: shouldEnableWorkflow, params: { workspace: currentWorkspace } });
 
   const switchView = useCallback(() => {
     if (view !== 'results') {
@@ -113,7 +114,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   }, [mode]);
 
   useEffect(() => {
-    if (mode === 'action-creator' && activeTab === 'workflow' && !isTabsFlowModalOpen) {
+    if (mode === 'action-creator' && activeTab === 'workflow' && !isTabsFlowModalOpen && !!currentWorkspace) {
       enableOnboarding();
     } else {
       disableOnboarding();
@@ -126,6 +127,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     isTabsFlowModalOpen,
     enableOnboarding,
     disableOnboarding,
+    currentWorkspace,
   ]);
 
   useEffect(() => {
