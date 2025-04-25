@@ -1,8 +1,23 @@
 import isString from 'lodash/isString';
-import { useMemo } from 'react';
 
 import { twMerge } from '../../merge.tailwind';
 import { getRadioBtnStyles, radioButtonStyles } from './radio-button.styles';
+
+interface ILabelProps {
+  content: string | JSX.Element;
+}
+
+const Label = ({ content }: ILabelProps) => {
+  if (!content) {
+    return null;
+  }
+
+  if (isString(content)) {
+    return <span className={radioButtonStyles.labelText}>{content}</span>;
+  }
+
+  return content;
+};
 
 interface IRadioButtonProps {
   id: string;
@@ -14,27 +29,8 @@ interface IRadioButtonProps {
   className?: string;
 }
 
-export const RadioButton = ({
-  id,
-  name,
-  value,
-  checked,
-  onChange,
-  label: labelOrLabelCmp,
-  className,
-}: IRadioButtonProps) => {
+export const RadioButton = ({ id, name, value, checked, onChange, label, className }: IRadioButtonProps) => {
   const radioBtnStyles = getRadioBtnStyles(checked);
-  const label = useMemo((): JSX.Element | null => {
-    if (!labelOrLabelCmp) {
-      return null;
-    }
-
-    if (isString(labelOrLabelCmp)) {
-      return <span className={radioButtonStyles.labelText}>{label}</span>;
-    }
-
-    return labelOrLabelCmp;
-  }, [labelOrLabelCmp]);
 
   return (
     <label htmlFor={id} className={twMerge(radioButtonStyles.label, className)}>
@@ -48,7 +44,7 @@ export const RadioButton = ({
         className={radioButtonStyles.input}
       />
       <div className={radioBtnStyles}>{checked && <div className={radioButtonStyles.indicator}></div>}</div>
-      {label}
+      <Label content={label} />
     </label>
   );
 };
