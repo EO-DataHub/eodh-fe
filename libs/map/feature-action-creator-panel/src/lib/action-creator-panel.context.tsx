@@ -34,6 +34,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const [collapsed, setCollapsed] = useState(actionCreatorDefaultState.collapsed);
   const { mode, toggleMode, view, changeView, changeMode } = useMode();
   const { authenticated } = useAuth();
+  const { currentWorkspace } = useWorkspace();
   const { status: workflowStatus, hasWorkflowsToProcess } = useWorkflow();
   const { enable, disable, activeTab, setActiveTab } = useActionCreator();
   const hideModal = useCloseTabsFlowModal();
@@ -49,7 +50,6 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     context: { showOnboardingTooltip, hideOnboardingTooltip, enableOnboarding, disableOnboarding },
   } = useOnboarding();
   const { isOpen: isTabsFlowModalOpen } = useTabsFlowModalState();
-  const { currentWorkspace } = useWorkspace();
   const actionCreatorEnabled = useMemo(() => mode === 'action-creator', [mode]);
 
   useWorkflowStatus({ enabled: shouldEnableWorkflow, params: { workspace: currentWorkspace } });
@@ -114,7 +114,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   }, [mode]);
 
   useEffect(() => {
-    if (mode === 'action-creator' && activeTab === 'workflow' && !isTabsFlowModalOpen) {
+    if (mode === 'action-creator' && activeTab === 'workflow' && !isTabsFlowModalOpen && !!currentWorkspace) {
       enableOnboarding();
     } else {
       disableOnboarding();
@@ -127,6 +127,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
     isTabsFlowModalOpen,
     enableOnboarding,
     disableOnboarding,
+    currentWorkspace,
   ]);
 
   useEffect(() => {

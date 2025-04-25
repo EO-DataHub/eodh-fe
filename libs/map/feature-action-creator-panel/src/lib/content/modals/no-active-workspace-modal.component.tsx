@@ -24,7 +24,8 @@ export const NoActiveWorkspaceModal = () => {
       ctaButtons={
         <Button
           text='MAP.ACTION_CREATOR_PANEL.MODALS.NO_ACTIVE_WORKSPACE.CTA_BUTTON'
-          size='small'
+          size='large'
+          className='!px-3 !py-2'
           onClick={switchToWorkspacesTab}
         />
       }

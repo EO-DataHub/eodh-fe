@@ -1,4 +1,4 @@
-const radioButtonBase = 'w-full justify-between flex-row-reverse [&>span]:ml-0 border-b-[1px] border-bright-mid pb-2';
+const radioButtonBase = 'w-full justify-between flex-row-reverse border-b-[1px] border-bright-mid pb-2';
 
 export const workspaceStyles = {
   workspaceContainer: 'flex flex-col p-4',

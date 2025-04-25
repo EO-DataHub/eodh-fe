@@ -1,4 +1,4 @@
-import { useMode, useResults } from '@ukri/map/data-access-map';
+import { useComparisonMode, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
 import { Button, RadioButton, Text } from '@ukri/shared/design-system';
 import { useWorkspace } from '@ukri/shared/utils/authorization';
 import { displayNotification } from '@ukri/shared/utils/notification';
@@ -13,6 +13,8 @@ export const WorkspaceList = () => {
   const [selectedWorkspace, setSelectedWorkspace] = useState<string | undefined>(currentWorkspace);
   const { updateSearchParams } = useResults();
   const { changeView } = useMode();
+  const { reset: resetWorkflowHistoryQueue } = useWorkflow();
+  const { reset: resetComparisonMode } = useComparisonMode();
   const disabled = useMemo(
     () => !workspaces.length || !selectedWorkspace || currentWorkspace === selectedWorkspace,
     [currentWorkspace, selectedWorkspace, workspaces.length]
@@ -29,11 +31,21 @@ export const WorkspaceList = () => {
     setCurrentWorkspace(selectedWorkspace);
     updateSearchParams(undefined);
     changeView('search');
+    resetWorkflowHistoryQueue();
+    resetComparisonMode();
     displayNotification(
       t('MAP.ACTION_CREATOR_PANEL.WORKSPACES.SELECT_WORKSPACE.WORKSPACE_CHANGED_SUCCESS_MESSAGE'),
       'success'
     );
-  }, [setCurrentWorkspace, selectedWorkspace, updateSearchParams, changeView, t]);
+  }, [
+    setCurrentWorkspace,
+    selectedWorkspace,
+    updateSearchParams,
+    changeView,
+    resetWorkflowHistoryQueue,
+    resetComparisonMode,
+    t,
+  ]);
 
   return (
     <>
@@ -46,7 +58,7 @@ export const WorkspaceList = () => {
             value={workspace}
             checked={selectedWorkspace === workspace}
             onChange={selectWorkspace}
-            label={workspace}
+            label={<Text type='span' content={workspace} fontWeight='semibold' fontSize='medium' fontType='body' />}
             className={workspaceStyles.activeWorkspace.radioButton.button(currentWorkspace === workspace)}
           />
         ))}

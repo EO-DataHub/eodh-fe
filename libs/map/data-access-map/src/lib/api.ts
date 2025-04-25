@@ -13,7 +13,7 @@ type TQueryKey = {
   FUNCTIONS: TPath;
   WORKFLOW: TPath;
   COLLECTION_INFO: TPath;
-  DELETE_WORKFLOW: (workflowId: string) => string;
+  DELETE_WORKFLOW: ({ workflowId, workspace }: { workflowId: string; workspace: string }) => string;
 };
 
 export const paths: TQueryKey = {
@@ -21,5 +21,6 @@ export const paths: TQueryKey = {
   FUNCTIONS: `${eodhProApiUrl}${functions}`,
   WORKFLOW: `${eodhProApiUrl}${history}`,
   COLLECTION_INFO: 'EODH_COLLECTION_INFO_API_URL',
-  DELETE_WORKFLOW: (workflowId: string) => `${eodhProApiUrl}${history}/${workflowId}`,
+  DELETE_WORKFLOW: ({ workflowId, workspace }: { workflowId: string; workspace: string }) =>
+    `${eodhProApiUrl}${history}/${workflowId}?workspace=${workspace}`,
 };
