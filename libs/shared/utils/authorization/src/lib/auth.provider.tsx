@@ -1,9 +1,11 @@
 import { KeycloakError, KeycloakInitOptions } from 'keycloak-js';
-import { Context, memo, PropsWithChildren } from 'react';
+import { Context, memo, PropsWithChildren, useCallback, useState } from 'react';
 
 import { AuthContext, TAuthContextProps } from './auth.context';
+import { getWorkspaces } from './identity-claims';
 import { IAuthAdapter, IBaseIdentityClaims, TAuthClientEvent, TAuthClientTokens } from './types';
 import { useAuthClient } from './use-auth-client.hook';
+import { WorkspaceProvider } from './workspaces/workspace.provider';
 
 type TAuthProvider<T extends IBaseIdentityClaims> = PropsWithChildren<{
   LoadingComponent?: JSX.Element;
@@ -24,10 +26,23 @@ export const AuthProvider = memo(
     adapter,
     autoRefreshToken = true,
   }: TAuthProvider<T>) => {
+    const [workspaces, setWorkspaces] = useState<string[]>([]);
+
+    const setWorkspaceAndUpdateTokens = useCallback(
+      (tokens: TAuthClientTokens) => {
+        setWorkspaces(getWorkspaces(tokens));
+
+        if (onTokens) {
+          onTokens(tokens);
+        }
+      },
+      [onTokens, setWorkspaces]
+    );
+
     const { initialized, isLoading, isAuthenticated } = useAuthClient({
       authClient: adapter,
       onEvent,
-      onTokens,
+      onTokens: setWorkspaceAndUpdateTokens,
       initOptions,
       autoRefreshToken,
     });
@@ -39,7 +54,7 @@ export const AuthProvider = memo(
 
     return (
       <TypedAuthContext.Provider value={{ initialized, authClient: adapter, authenticated: isAuthenticated }}>
-        {children}
+        <WorkspaceProvider workspaces={workspaces}>{children}</WorkspaceProvider>
       </TypedAuthContext.Provider>
     );
   }

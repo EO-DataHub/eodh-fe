@@ -1,4 +1,5 @@
 import { IHistoryParams, THistory, THistoryItem, useGetHistory } from '@ukri/map/data-access-map';
+import { useWorkspace } from '@ukri/shared/utils/authorization';
 import { useCallback, useContext, useMemo, useState } from 'react';
 
 import { ActionCreator } from '../../action-creator-panel.context';
@@ -34,9 +35,14 @@ interface IUseHistoryData {
 
 export const useHistoryData = (): IUseHistoryData => {
   const [orderBy, setOrderBy] = useState<TOrderBy>('default');
-  const params: IHistoryParams = {
-    orderDirection: getSortOrder(orderBy),
-  };
+  const { currentWorkspace } = useWorkspace();
+  const params: IHistoryParams = useMemo(
+    () => ({
+      orderDirection: getSortOrder(orderBy),
+      workspace: currentWorkspace,
+    }),
+    [currentWorkspace, orderBy]
+  );
   const { enabled } = useContext(ActionCreator);
   const { data, error, isLoading, isFetching, refetch, hasNextPage, fetchNextPage } = useGetHistory({
     params,

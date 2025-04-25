@@ -20,6 +20,9 @@ const config = (() => ({
     clientId: '',
     scopes: [],
   },
+  settings: {
+    eodhPageUrl: '',
+  },
   feature: {},
   versionId: '',
   buildId: '',

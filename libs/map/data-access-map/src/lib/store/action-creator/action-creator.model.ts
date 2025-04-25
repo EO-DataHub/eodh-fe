@@ -26,6 +26,7 @@ const tabs = {
   HISTORY: 'history',
   PRESETS: 'presets',
   HELP: 'help',
+  WORKSPACE: 'workspaces',
 } as const;
 
 export type TTab = typeof tabs[keyof typeof tabs];

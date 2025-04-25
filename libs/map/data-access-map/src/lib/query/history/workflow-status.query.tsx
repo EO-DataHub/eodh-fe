@@ -7,16 +7,23 @@ import { historyAllItemsSchema } from './history.model';
 import { updateWorkflowHistory } from './update-workflow-history';
 
 interface IHistoryParams {
+  workspace?: string;
   orderBy?: string;
   orderDirection?: 'asc' | 'desc';
 }
 
-const getAllHistoryResults = async ({ orderBy = 'submitted_at', orderDirection = 'desc' }: IHistoryParams = {}) => {
+const getAllHistoryResults = async ({
+  workspace,
+  orderBy = 'submitted_at',
+  orderDirection = 'desc',
+}: IHistoryParams = {}) => {
+  const defaultParams = {
+    order_by: orderBy,
+    order_direction: orderDirection,
+  };
+
   const response = await getHttpClient().get(paths.WORKFLOW, {
-    params: {
-      order_by: orderBy,
-      order_direction: orderDirection,
-    },
+    params: workspace ? { ...defaultParams, workspace } : defaultParams,
   });
   const result = historyAllItemsSchema.parse(response);
   await updateWorkflowHistory(result.results);
@@ -25,15 +32,18 @@ const getAllHistoryResults = async ({ orderBy = 'submitted_at', orderDirection =
 };
 
 type TUseWorkflowStatusOptions = {
+  params?: {
+    workspace?: string;
+  };
   config?: TQueryConfig<typeof getAllHistoryResults>;
   enabled?: boolean;
 };
 
-export const useWorkflowStatus = ({ config, enabled }: TUseWorkflowStatusOptions) => {
+export const useWorkflowStatus = ({ config, enabled, params }: TUseWorkflowStatusOptions) => {
   return useQuery<TExtractFnReturnType<typeof getAllHistoryResults>>({
     queryKey: queryKey.WORKFLOW_STATUS(),
-    queryFn: () => getAllHistoryResults(),
-    enabled,
+    queryFn: () => getAllHistoryResults({ workspace: params?.workspace }),
+    enabled: enabled && !!params?.workspace,
     refetchInterval: 10000,
     refetchOnWindowFocus: true,
     ...config,
