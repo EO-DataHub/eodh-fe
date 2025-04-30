@@ -308,8 +308,8 @@ interface Resources {
                 QUESTION: 'How do I select or switch between workspaces in EOPro?';
                 ANSWER: [
                   [
-                    'Selecting a Workspace - Upon your initial login, you will be prompted to select one of the available workspaces from the Workspaces tab.',
-                    'Switching Workspaces - At any time, you can switch between available workspaces by revisiting the Workspaces tab and selecting a different workspace.'
+                    'Selecting a Workspace. Upon your initial login, you will be prompted to select one of the available workspaces from the Workspaces tab.',
+                    'Switching Workspaces. At any time, you can switch between available workspaces by revisiting the Workspaces tab and selecting a different workspace.'
                   ]
                 ];
               };
