@@ -13,6 +13,12 @@ export const helpContentConfig: IHelpContent = {
           QUESTION_ID: 'WHAT_IS_THE_AC',
         },
         {
+          QUESTION_ID: 'WHAT_IS_USER_WORKSPACE',
+        },
+        {
+          QUESTION_ID: 'HOW_TO_SWITCH_BETWEEN_WORKSPACES',
+        },
+        {
           QUESTION_ID: 'HOW_TO_CREATE_WORKFLOW_IN_THE_AC',
         },
         {
@@ -39,10 +45,6 @@ export const helpContentConfig: IHelpContent = {
     {
       SECTION_ID: 'MANAGING_DATASETS_AND_FUNCTIONS_IN_AC',
       CONTENT: [
-        // to be hidden for now
-        // {
-        //   QUESTION_ID: 'HOW_TO_ADD_COMERCIAL_DATASETS',
-        // },
         {
           QUESTION_ID: 'HOW_TO_USE_MULTIPLE_FUNCTIONS',
         },

@@ -297,6 +297,21 @@
                 "The Action Creator is a no code a workflow builder that allows users to define workflow processing steps using data sets, AOI, date ranges, and functions."
               ]
             },
+            "WHAT_IS_USER_WORKSPACE": {
+              "QUESTION": "What is User Workspace?",
+              "ANSWER": [
+                "User workspace is a storage that is managed by the user in EODH. Conceptually you can treat it as a folder on your drive. It is mainly used as a storage for the user's workflow results, but can also allow user to store workflows and data. It provides the facility for users to analyze data, process datasets, make commercial orders and generate value-added outputs within the hosted Hub environment. User can create more than one workspace."
+              ]
+            },
+            "HOW_TO_SWITCH_BETWEEN_WORKSPACES": {
+              "QUESTION": "How do I select or switch between workspaces in EOPro?",
+              "ANSWER": [
+                [
+                  "Selecting a Workspace. Upon your initial login, you will be prompted to select one of the available workspaces from the Workspaces tab.",
+                  "Switching Workspaces. At any time, you can switch between available workspaces by revisiting the Workspaces tab and selecting a different workspace."
+                ]
+              ]
+            },
             "HOW_TO_CREATE_WORKFLOW_IN_THE_AC": {
               "QUESTION": "How do I create a workflow in Action Creator?",
               "ANSWER": [
@@ -399,33 +414,6 @@
           },
           "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {
             "SUBTITLE": "Managing Data Sets & Functions in Action Creator",
-            "HOW_TO_ADD_COMERCIAL_DATASETS": {
-              "QUESTION": "How do I add commercial data sets (e.g., Planet items) to Action Creator workflows?",
-              "ANSWER": [
-                "To use commercial data sets in the Action Creator, the data set’s item must first be purchased and available in My Items:",
-                [
-                  "Purchase the data set:",
-                  [
-                    "Run a search with a commercial data set.",
-                    "Click \"Purchase\" next to an item.",
-                    "Complete the transaction on the TPZ portal.",
-                    "After purchase, the item appears in My Items (left panel)."
-                  ],
-                  "Use the data set’s item in Action Creator:",
-                  [
-                    "Open Action Creator and click on the \"Dataset\" block.",
-                    "In the left-side menu, go to \"My Items\".",
-                    "Select the purchased item.",
-                    "The data set item’s name appears in the Dataset block."
-                  ],
-                  "Proceed with workflow configuration:",
-                  [
-                    "Select a Date Range and Function(s).",
-                    "Click Run to execute the workflow using the commercial dat set’s item."
-                  ]
-                ]
-              ]
-            },
             "HOW_TO_USE_MULTIPLE_FUNCTIONS": {
               "QUESTION": "How do I use multiple functions in a single workflow?",
               "ANSWER": [
