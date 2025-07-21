@@ -1150,14 +1150,7 @@
           "HOW_DO_I_LOG_IN": {
             "QUESTION": "How do I log in?",
             "ANSWER": [
-              "In order to log in, you need to first register your Github account with EODH. Please see more details here:",
-              {
-                "LINK": {
-                  "ACCOUNT_SETUP": {
-                    "DESCRIPTION": "Account Setup"
-                  }
-                }
-              }
+              "In order to log in, you need to first register your Github or Google account with EODH.\n\nThe user has to request a billing account and then the user will need to create a workspace on the Hub after the account has been approved. Finally, the user will have to select the workspace on EOPro.\n\nPlease see more details here: <Link href=\"https://eodatahub.org.uk/docs/account-setup/\">Account Setup</Link>."
             ]
           }
         },
