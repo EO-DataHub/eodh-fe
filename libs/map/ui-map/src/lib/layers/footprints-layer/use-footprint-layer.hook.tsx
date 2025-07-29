@@ -3,13 +3,14 @@ import { TFeature } from '@ukri/map/data-access-stac-catalog';
 import { createDate } from '@ukri/shared/utils/date';
 import { Feature, MapBrowserEvent } from 'ol';
 import { click } from 'ol/events/condition';
+import { Extent } from 'ol/extent';
 import GeoJSON from 'ol/format/GeoJSON';
 import Geometry from 'ol/geom/Geometry';
 import Select from 'ol/interaction/Select';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Fill, Stroke, Style } from 'ol/style';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { footprintsLayerZindex } from '../../consts';
 import { MapContext } from '../../map.component';
@@ -82,6 +83,23 @@ export const useFootprintLayer = (id?: string) => {
   const { highlightedItems, highlightItem: highlightFootprint } = useFootprints();
   const [layer, setLayer] = useState<VectorLayer<Feature<Geometry>> | null>(null);
 
+  const zoomToExtent = useCallback(
+    (extent: Extent | undefined) => {
+      if (!map || !extent) {
+        return;
+      }
+
+      const view = map.getView();
+      view.fit(extent);
+      const zoom = view.getZoom();
+
+      if (zoom) {
+        view.setZoom(zoom - 1);
+      }
+    },
+    [map]
+  );
+
   useEffect(() => {
     if (!map || !collection) {
       return;
@@ -113,15 +131,11 @@ export const useFootprintLayer = (id?: string) => {
       visible: false,
     });
 
-    map.addLayer(newVectorLayer);
-
     const selectClick = new Select({
       condition: click,
       style: highlightStyle,
       layers: [newVectorLayer],
     });
-
-    map.addInteraction(selectClick);
 
     const highlightItem = (event: MapBrowserEvent<UIEvent>) => {
       let featureId: string | undefined;
@@ -134,10 +148,16 @@ export const useFootprintLayer = (id?: string) => {
       highlightFootprint(featureId ? { featureId, eventType, eventSource: 'map' } : undefined);
     };
 
+    newVectorLayer.addEventListener('sourceready', () => {
+      zoomToExtent(vectorSource.getExtent());
+    });
+
     map.on('click', highlightItem);
     map.on('pointermove', highlightItem);
 
     setLayer(newVectorLayer);
+    map.addInteraction(selectClick);
+    map.addLayer(newVectorLayer);
 
     return () => {
       map.removeLayer(newVectorLayer);
@@ -145,7 +165,7 @@ export const useFootprintLayer = (id?: string) => {
       map.un('click', highlightItem);
       map.un('pointermove', highlightItem);
     };
-  }, [map, collection, highlightFootprint]);
+  }, [map, collection, highlightFootprint, zoomToExtent]);
 
   useEffect(() => {
     if (!layer) {
