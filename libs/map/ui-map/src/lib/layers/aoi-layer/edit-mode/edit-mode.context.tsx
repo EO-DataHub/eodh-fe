@@ -3,7 +3,7 @@ import { createContext, PropsWithChildren } from 'react';
 import { useEdit } from './use-edit.hook';
 
 export type TEditMode = {
-  editMode: 'simple' | 'resize';
+  editMode: 'simple' | 'rectangle';
   setEditMode: (editMode: TEditMode['editMode']) => void;
 };
 
