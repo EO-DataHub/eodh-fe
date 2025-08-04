@@ -55,6 +55,12 @@ export const useAoiLayer = () => {
   }, [map]);
 
   useEffect(() => {
+    if (!source) {
+      return;
+    }
+
+    source.clear();
+
     if (!shape?.shape) {
       return;
     }
@@ -62,12 +68,15 @@ export const useAoiLayer = () => {
     const feature = new Feature();
     feature.setGeometry(shape.shape);
     source?.addFeature(feature);
-    fitToLayer(shape.shape.getExtent());
+
+    if (fitToAoi) {
+      fitToLayer(shape.shape.getExtent());
+    }
 
     return () => {
       source?.removeFeature(feature);
     };
-  }, [shape?.shape, source, fitToLayer]);
+  }, [shape?.shape, source, fitToAoi, fitToLayer]);
 
   useEffect(() => {
     if (!draw?.draw) {
@@ -92,7 +101,7 @@ export const useAoiLayer = () => {
     return () => {
       map.removeInteraction(draw.draw);
     };
-  }, [map, draw, setShape, setDraw, drawingTool, setDrawingTool]);
+  }, [map, draw, setShape, setDrawingTool]);
 
   useEffect(() => {
     switch (drawingTool?.type) {
