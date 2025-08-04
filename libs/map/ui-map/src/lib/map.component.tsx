@@ -19,10 +19,16 @@ interface IMap {
   addInteraction(interaction: Interaction): void;
   removeInteraction(interaction: Interaction): Interaction | undefined;
   removeLayer(layer: BaseLayer): BaseLayer | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  on(event: 'dblclick' | 'click' | 'pointermove' | 'moveend', callback: (event: MapBrowserEvent<any>) => void): void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  un(event: 'dblclick' | 'click' | 'pointermove' | 'moveend', callback: (event: MapBrowserEvent<any>) => void): void;
+  on(
+    event: 'dblclick' | 'click' | 'pointermove' | 'moveend' | 'pointerdrag',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    callback: (event: MapBrowserEvent<any>) => void
+  ): void;
+  un(
+    event: 'dblclick' | 'click' | 'pointermove' | 'moveend' | 'pointerdrag',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    callback: (event: MapBrowserEvent<any>) => void
+  ): void;
   getView(): OlView;
   getSize(): number[] | undefined;
   getLayers(): { getArray(): BaseLayer[] };

@@ -1,114 +1,114 @@
 import { useAoi } from '@ukri/map/data-access-map';
-import { EventsKey } from 'ol/events';
-import BaseEvent from 'ol/events/Event';
+import { MapBrowserEvent } from 'ol';
+import Feature from 'ol/Feature';
 import { Geometry, Polygon } from 'ol/geom';
+import { fromExtent } from 'ol/geom/Polygon';
 import { Modify } from 'ol/interaction.js';
 import { ModifyEvent } from 'ol/interaction/Modify';
-import { unByKey } from 'ol/Observable';
-import { useCallback, useContext, useEffect, useRef } from 'react';
+import { squaredDistance } from 'ol/math';
+import { useContext, useEffect, useRef } from 'react';
 
 import { MapContext } from '../../../map.component';
 import { AoiLayerContext } from '../aoi-layer.component';
 
 const isPolygon = (geometry: Geometry): geometry is Polygon => geometry.getType() === 'Polygon';
+const isFeaturePolygon = (feature: Feature<Geometry>): feature is Feature<Polygon> =>
+  feature.getGeometry()?.getType() === 'Polygon';
 
 export const useRectangleResizeEdit = (enabled: boolean) => {
   const map = useContext(MapContext);
   const { source, layer } = useContext(AoiLayerContext);
-  const { state, updateShape } = useAoi();
+  const { state, updateShape, shape } = useAoi();
   const isUpdatingRef = useRef(false);
-  const originalCoordinatesRef = useRef<number[][][] | undefined>(undefined);
-  const dragOperationStateRef = useRef<{ draggedCornerIndex: number; anchorCornerIndex: number } | null>(null);
-
-  const resizeGeometry = useCallback((event: BaseEvent) => {
-    const modifiedGeometry = event.target as Polygon;
-    const originalCoordinates = originalCoordinatesRef.current;
-    let dragOperationState = dragOperationStateRef.current;
-
-    if (isUpdatingRef.current || !originalCoordinates || !isPolygon(modifiedGeometry)) {
-      return;
-    }
-
-    const newCoords = modifiedGeometry.getCoordinates()[0];
-
-    if (!dragOperationState) {
-      let changedVertexIndex = -1;
-      for (let i = 0; i < 4; i++) {
-        if (newCoords[i][0] !== originalCoordinates[0][i][0] || newCoords[i][1] !== originalCoordinates[0][i][1]) {
-          changedVertexIndex = i;
-          break;
-        }
-      }
-      if (changedVertexIndex !== -1) {
-        dragOperationState = {
-          draggedCornerIndex: changedVertexIndex,
-          anchorCornerIndex: (changedVertexIndex + 2) % 4,
-        };
-        dragOperationStateRef.current = dragOperationState;
-      }
-    }
-
-    if (dragOperationState) {
-      const fixedCorner = originalCoordinates[0][dragOperationState.anchorCornerIndex];
-      const draggedCorner = newCoords[dragOperationState.draggedCornerIndex];
-
-      const minX = Math.min(draggedCorner[0], fixedCorner[0]);
-      const minY = Math.min(draggedCorner[1], fixedCorner[1]);
-      const maxX = Math.max(draggedCorner[0], fixedCorner[0]);
-      const maxY = Math.max(draggedCorner[1], fixedCorner[1]);
-
-      const newRectCoords = [[[minX, minY], [maxX, minY], [maxX, maxY], [minX, maxY], [minX, minY]]];
-
-      isUpdatingRef.current = true;
-      modifiedGeometry.setCoordinates(newRectCoords);
-      isUpdatingRef.current = false;
-    }
-  }, []);
+  const dragState = useRef<{
+    feature: Feature<Polygon>;
+    anchorCorner: number[];
+  } | null>(null);
 
   useEffect(() => {
-    if (!enabled || !source || !layer || state !== 'edit') {
+    if (!enabled || !source || !layer || state !== 'edit' || shape?.type !== 'rectangle') {
       return;
     }
 
     const modify = new Modify({ source });
 
-    let geometryChangeListenerKey: EventsKey | undefined;
-
     const modifyStartListener = (event: ModifyEvent) => {
-      const geometry = event.features.getArray()[0]?.getGeometry();
+      const feature = [...event.features.getArray()].pop();
 
+      if (dragState.current || !feature || !isFeaturePolygon(feature)) {
+        return;
+      }
+
+      const geometry = feature.getGeometry();
       if (!geometry || !isPolygon(geometry)) {
         return;
       }
 
-      originalCoordinatesRef.current = geometry.getCoordinates();
-      dragOperationStateRef.current = null;
-      geometryChangeListenerKey = geometry.on('change', resizeGeometry);
-    };
+      const corners = geometry.getCoordinates()[0];
+      const clickCoordinate = event.mapBrowserEvent.coordinate;
 
-    const modifyEndListener = (event: ModifyEvent) => {
-      if (geometryChangeListenerKey) {
-        unByKey(geometryChangeListenerKey);
-        geometryChangeListenerKey = undefined;
+      let closestCornerIndex = -1;
+      let minDistance = Infinity;
+      corners.slice(0, 4).forEach((corner, index) => {
+        const distance = squaredDistance(clickCoordinate[0], clickCoordinate[1], corner[0], corner[1]);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestCornerIndex = index;
+        }
+      });
+
+      if (closestCornerIndex === -1) {
+        return;
       }
 
-      originalCoordinatesRef.current = undefined;
-      dragOperationStateRef.current = null;
-      updateShape(event.features.getArray()[0]?.getGeometry());
+      const anchorCorner = corners[(closestCornerIndex + 2) % 4];
+
+      dragState.current = {
+        feature,
+        anchorCorner,
+      };
+
+      map.on('pointerdrag', pointerDragListener);
+    };
+
+    const pointerDragListener = (event: MapBrowserEvent<UIEvent>) => {
+      if (!dragState.current || isUpdatingRef.current) {
+        return;
+      }
+
+      const { feature, anchorCorner } = dragState.current;
+      const draggedCoordinate = event.coordinate;
+      const newExtent = [
+        Math.min(anchorCorner[0], draggedCoordinate[0]),
+        Math.min(anchorCorner[1], draggedCoordinate[1]),
+        Math.max(anchorCorner[0], draggedCoordinate[0]),
+        Math.max(anchorCorner[1], draggedCoordinate[1]),
+      ];
+
+      const newRect = fromExtent(newExtent);
+
+      isUpdatingRef.current = true;
+      feature.setGeometry(newRect);
+      isUpdatingRef.current = false;
+    };
+
+    const modifyEndListener = () => {
+      map.un('pointerdrag', pointerDragListener);
+
+      if (dragState.current?.feature) {
+        updateShape(dragState.current.feature.getGeometry());
+      }
+
+      dragState.current = null;
     };
 
     modify.on('modifystart', modifyStartListener);
     modify.on('modifyend', modifyEndListener);
-
     map.addInteraction(modify);
 
     return () => {
-      modify.un('modifystart', modifyStartListener);
-      modify.un('modifyend', modifyEndListener);
-      if (geometryChangeListenerKey) {
-        unByKey(geometryChangeListenerKey);
-      }
+      map.un('pointerdrag', pointerDragListener);
       map.removeInteraction(modify);
     };
-  }, [enabled, layer, map, source, state, updateShape, resizeGeometry]);
+  }, [enabled, layer, map, source, state, updateShape, shape, dragState]);
 };
