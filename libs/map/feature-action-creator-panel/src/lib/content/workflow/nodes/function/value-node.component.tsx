@@ -32,7 +32,11 @@ export const ValueNode = ({ node, options, functions, errorType, onChange }: TVa
       return undefined;
     }
 
-    return { value: node.value.identifier, supportedDataSets: node.value.supportedDataSets };
+    return {
+      value: node.value.identifier,
+      supportedDataSets: node.value.supportedDataSets,
+      verified: node.value.verified,
+    };
   }, [node]);
 
   return (

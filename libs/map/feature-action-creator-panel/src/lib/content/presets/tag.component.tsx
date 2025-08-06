@@ -12,7 +12,7 @@ export const Tag = ({ status, title }: { status?: 'VERIFIED'; title: string }) =
 
   return (
     <div className={clsx('rounded h-5 flex items-center', tagStyles[status])}>
-      <Text content={title} fontSize='small' fontWeight='bold' className='mx-1.5 my-[3px] uppercase' />
+      <Text content={title} fontSize='small' fontWeight='regular' className='mx-1.5 my-[3px] uppercase' />
     </div>
   );
 };

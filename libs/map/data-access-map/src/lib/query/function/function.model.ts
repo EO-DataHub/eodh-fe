@@ -32,6 +32,8 @@ const polygonSchema = z.object({
   default: geometrySchema.nullish(),
 });
 
+export const isVerified = (identifier: string) => identifier !== 'water-quality';
+
 export const functionSchema = z
   .object({
     identifier: z.union([
@@ -67,6 +69,7 @@ export const functionSchema = z
       identifier: data.identifier,
       standalone: data.standalone,
       visible: data.visible,
+      verified: isVerified(data.identifier),
       inputs: {
         ...rest,
         aoi: data.inputs.aoi,

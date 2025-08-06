@@ -8,8 +8,9 @@ import {
   useFunctions,
 } from '@ukri/map/data-access-map';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
-import { useCallback, useContext, useMemo, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { displayNotification } from '@ukri/shared/utils/notification';
+import { FC, PropsWithChildren, useCallback, useContext, useMemo, useRef } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { ActionCreator } from '../../../../action-creator-panel.context';
 import { useActiveDataSet } from '../data-set/use-active-dataset.hook';
@@ -56,6 +57,7 @@ const useOptions = (dataSet: TDataSetValue | undefined, hasError: boolean) => {
     getValidFunctions(node, data).map((item) => ({
       value: {
         value: item.identifier,
+        verified: item.verified,
         supportedDataSets: item.inputs.stacCollection?.options.map((option) => option.value) || [],
       },
       label: t(getFunctionTranslationKey(item.identifier, item.name) || ''),
@@ -65,6 +67,14 @@ const useOptions = (dataSet: TDataSetValue | undefined, hasError: boolean) => {
         hasError
       ),
     }));
+};
+
+const Link: FC<PropsWithChildren<{ href?: string }>> = ({ href, children }) => {
+  return (
+    <a href={href} target='_blank' className='underline' rel='noreferrer'>
+      {children}
+    </a>
+  );
 };
 
 type TNodeProps = {
@@ -137,9 +147,21 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
     (value: TValue | undefined | null) => {
       if (node.state === 'active') {
         const newValue = value?.value
-          ? { identifier: value.value, supportedDataSets: value.supportedDataSets }
+          ? { identifier: value.value, supportedDataSets: value.supportedDataSets, verified: value.verified }
           : undefined;
         setValue(node, newValue);
+        if (newValue && !newValue?.verified) {
+          displayNotification(
+            <Trans
+              i18nKey='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WARNING.WATER_QUALITY_NOT_VERIFIED'
+              components={{
+                Link: <Link />,
+              }}
+            />,
+            'warning',
+            { key: 'water-quality-not-verified', preventDuplicate: true }
+          );
+        }
       }
     },
     [node, setValue]

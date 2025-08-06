@@ -123,7 +123,7 @@ export const createNode = <Node extends TNode, Type extends TNode['type'] = Node
   }
 };
 
-export type TBaseFunction = Pick<TFunction, 'name' | 'identifier' | 'standalone' | 'inputs'>;
+export type TBaseFunction = Pick<TFunction, 'name' | 'identifier' | 'standalone' | 'inputs' | 'verified'>;
 
 export const getValidFunctions = (
   allNodes: TNode[],

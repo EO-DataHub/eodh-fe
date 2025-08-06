@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 
 export type TValue = {
   value: string;
+  verified: boolean;
   supportedDataSets: string[];
 };
 
