@@ -1,11 +1,11 @@
 import { useAoi } from '@ukri/map/data-access-map';
 import { MapBrowserEvent } from 'ol';
+import { Extent } from 'ol/extent';
 import Feature from 'ol/Feature';
-import { Geometry, Polygon } from 'ol/geom';
+import { Geometry, Point, Polygon } from 'ol/geom';
 import { fromExtent } from 'ol/geom/Polygon';
 import { Modify } from 'ol/interaction.js';
 import { ModifyEvent } from 'ol/interaction/Modify';
-import { squaredDistance } from 'ol/math';
 import { useContext, useEffect, useRef } from 'react';
 
 import { MapContext } from '../../../map.component';
@@ -22,7 +22,10 @@ export const useRectangleResizeEdit = (enabled: boolean) => {
   const isUpdatingRef = useRef(false);
   const dragState = useRef<{
     feature: Feature<Polygon>;
-    anchorCorner: number[];
+    mode: 'corner' | 'edge';
+    anchorCorner?: number[];
+    originalExtent?: Extent;
+    edge?: 'top' | 'bottom' | 'left' | 'right';
   } | null>(null);
 
   useEffect(() => {
@@ -44,56 +47,126 @@ export const useRectangleResizeEdit = (enabled: boolean) => {
         return;
       }
 
-      const corners = geometry.getCoordinates()[0];
+      const modifyInstance = event.target as { vertexFeature_: Feature<Point> | undefined } | undefined;
+
+      const draggedVertex = modifyInstance?.vertexFeature_;
+      const originalExtent = geometry.getExtent();
       const clickCoordinate = event.mapBrowserEvent.coordinate;
 
-      let closestCornerIndex = -1;
-      let minDistance = Infinity;
-      corners.slice(0, 4).forEach((corner, index) => {
-        const distance = squaredDistance(clickCoordinate[0], clickCoordinate[1], corner[0], corner[1]);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestCornerIndex = index;
-        }
-      });
+      const draggedCoord = draggedVertex?.getGeometry()?.getCoordinates();
+      const originalCorners = geometry.getCoordinates()[0];
+      let cornerIndex = -1;
 
-      if (closestCornerIndex === -1) {
-        return;
+      if (draggedCoord) {
+        cornerIndex = originalCorners.findIndex((c) => c[0] === draggedCoord[0] && c[1] === draggedCoord[1]);
       }
 
-      const anchorCorner = corners[(closestCornerIndex + 2) % 4];
+      if (cornerIndex !== -1) {
+        dragState.current = {
+          feature,
+          mode: 'corner',
+          anchorCorner: originalCorners[(cornerIndex + 2) % 4],
+        };
+      } else {
+        const [minX, minY, maxX, maxY] = originalExtent;
+        const distToTop = Math.abs(clickCoordinate[1] - maxY);
+        const distToBottom = Math.abs(clickCoordinate[1] - minY);
+        const distToLeft = Math.abs(clickCoordinate[0] - minX);
+        const distToRight = Math.abs(clickCoordinate[0] - maxX);
+        const minEdgeDist = Math.min(distToTop, distToBottom, distToLeft, distToRight);
 
-      dragState.current = {
-        feature,
-        anchorCorner,
-      };
+        let edge: 'top' | 'bottom' | 'left' | 'right' = 'top';
+        switch (minEdgeDist) {
+          case distToTop: {
+            edge = 'top';
 
-      map.on('pointerdrag', pointerDragListener);
+            break;
+          }
+          case distToBottom: {
+            edge = 'bottom';
+
+            break;
+          }
+          case distToLeft: {
+            edge = 'left';
+
+            break;
+          }
+          case distToRight: {
+            edge = 'right';
+
+            break;
+          }
+          // No default
+        }
+
+        dragState.current = {
+          feature,
+          mode: 'edge',
+          originalExtent,
+          edge,
+        };
+      }
+
+      map.on('pointermove', pointerMoveListener);
     };
 
-    const pointerDragListener = (event: MapBrowserEvent<UIEvent>) => {
+    const pointerMoveListener = (event: MapBrowserEvent<UIEvent>) => {
       if (!dragState.current || isUpdatingRef.current) {
         return;
       }
 
-      const { feature, anchorCorner } = dragState.current;
-      const draggedCoordinate = event.coordinate;
-      const newExtent = [
-        Math.min(anchorCorner[0], draggedCoordinate[0]),
-        Math.min(anchorCorner[1], draggedCoordinate[1]),
-        Math.max(anchorCorner[0], draggedCoordinate[0]),
-        Math.max(anchorCorner[1], draggedCoordinate[1]),
-      ];
+      const { feature, mode } = dragState.current;
+      const currentCoordinate = event.coordinate;
+      let newExtent: Extent | null = null;
 
-      const newRect = fromExtent(newExtent);
+      if (mode === 'corner' && dragState.current.anchorCorner) {
+        const { anchorCorner } = dragState.current;
+        newExtent = [
+          Math.min(anchorCorner[0], currentCoordinate[0]),
+          Math.min(anchorCorner[1], currentCoordinate[1]),
+          Math.max(anchorCorner[0], currentCoordinate[0]),
+          Math.max(anchorCorner[1], currentCoordinate[1]),
+        ];
+      } else if (mode === 'edge' && dragState.current.originalExtent && dragState.current.edge) {
+        const { edge, originalExtent } = dragState.current;
+        const [minX, minY, maxX, maxY] = originalExtent;
+        switch (edge) {
+          case 'top':
+            newExtent = [minX, minY, maxX, currentCoordinate[1]];
+            break;
+          case 'bottom':
+            newExtent = [minX, currentCoordinate[1], maxX, maxY];
+            break;
+          case 'left':
+            newExtent = [currentCoordinate[0], minY, maxX, maxY];
+            break;
+          case 'right':
+            newExtent = [minX, minY, currentCoordinate[0], maxY];
+            break;
+        }
 
-      isUpdatingRef.current = true;
-      feature.setGeometry(newRect);
-      isUpdatingRef.current = false;
+        if (newExtent) {
+          if (newExtent[0] > newExtent[2]) {
+            [newExtent[0], newExtent[2]] = [newExtent[2], newExtent[0]];
+          }
+          if (newExtent[1] > newExtent[3]) {
+            [newExtent[1], newExtent[3]] = [newExtent[3], newExtent[1]];
+          }
+        }
+      }
+
+      if (newExtent) {
+        const newRect = fromExtent(newExtent);
+
+        isUpdatingRef.current = true;
+        feature.setGeometry(newRect);
+        isUpdatingRef.current = false;
+      }
     };
 
     const modifyEndListener = () => {
-      map.un('pointerdrag', pointerDragListener);
+      map.un('pointermove', pointerMoveListener);
 
       if (dragState.current?.feature) {
         updateShape(dragState.current.feature.getGeometry());
@@ -107,8 +180,8 @@ export const useRectangleResizeEdit = (enabled: boolean) => {
     map.addInteraction(modify);
 
     return () => {
-      map.un('pointerdrag', pointerDragListener);
+      map.un('pointermove', pointerMoveListener);
       map.removeInteraction(modify);
     };
-  }, [enabled, layer, map, source, state, updateShape, shape, dragState]);
+  }, [enabled, layer, map, source, state, updateShape, shape]);
 };
