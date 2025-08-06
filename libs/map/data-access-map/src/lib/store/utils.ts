@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { createShape } from '../geometry/geometry';
 import { TCoordinate } from '../geometry/shape.model';
 import { clearWorkflowCache } from '../mutation/workflow.mutation';
+import { isVerified } from '../query/function/function.model';
 import { defaultNodes, TFunctionNode, TNode } from './action-creator/action-creator.model';
 import { useActionCreatorStore } from './action-creator/action-creator.store';
 import { createNode, isFunctionNode } from './action-creator/node.utils';
@@ -118,6 +119,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
     value: {
       identifier,
       supportedDataSets: inputs.stacCollection?.options.map((item) => item.value) || [],
+      verified: isVerified(identifier),
     },
   }));
   const shape = createShape(aoi, aoi?.type);

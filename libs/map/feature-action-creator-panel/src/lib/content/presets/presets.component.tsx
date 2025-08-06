@@ -9,9 +9,7 @@ import {
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useWorkspace } from '@ukri/shared/utils/authorization';
-import { displayNotification } from '@ukri/shared/utils/notification';
-import { FC, PropsWithChildren, useCallback, useContext } from 'react';
-import { Trans } from 'react-i18next';
+import { PropsWithChildren, useCallback, useContext } from 'react';
 
 import { ActionCreator } from '../../action-creator-panel.context';
 import { Container, Content, Footer } from '../container.component';
@@ -19,14 +17,6 @@ import { ComparisonModeModal } from '../modals/comparison-mode-modal/comparison-
 import { NoActiveWorkspaceModal } from '../modals/no-active-workspace-modal.component';
 import { TabsFlowModal } from '../modals/tabs-flow-modal/tabs-flow-modal.component';
 import { Preset } from './preset.component';
-
-const Link: FC<PropsWithChildren<{ href?: string }>> = ({ href, children }) => {
-  return (
-    <a href={href} target='_blank' className='underline' rel='noreferrer'>
-      {children}
-    </a>
-  );
-};
 
 interface IErrorMessageProps {
   refetch: () => void;
@@ -88,18 +78,6 @@ export const Presets = () => {
         aoi: preset.defaultValues.aoi,
         dateRange: preset.defaultValues.dateRange,
       });
-
-      if (!preset.verified && preset.identifier === 'water-quality') {
-        displayNotification(
-          <Trans
-            i18nKey='MAP.ACTION_CREATOR_PANEL.PRESETS.MESSAGE.WATER_QUALITY_WARNING'
-            components={{
-              Link: <Link />,
-            }}
-          />,
-          'warning'
-        );
-      }
 
       changeView('search');
       changeTab('workflow');

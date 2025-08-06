@@ -24,13 +24,16 @@ const Message: FC<{ message: string | ReactNode }> = ({ message }) => {
 
 export const displayNotification = (
   message: string | ReactNode,
-  variant: 'success' | 'error' | 'warning' | 'info' | 'default'
+  variant: 'success' | 'error' | 'warning' | 'info' | 'default',
+  options?: { key?: string; preventDuplicate?: boolean }
 ) => {
   const displayTime = isString(message) ? calculateDisplayTime(message) : undefined;
   enqueueSnackbar(<Message message={message} />, {
     variant,
+    key: options?.key,
     persist: false,
     autoHideDuration: displayTime,
     disableWindowBlurListener: true,
+    preventDuplicate: options?.preventDuplicate,
   });
 };

@@ -191,9 +191,6 @@ interface Resources {
             VERIFIED: 'Quality assured output';
           };
           UNVERIFIED_MESSAGE: 'While this provides useful initial insights and can be used for learning purposes, results should not be used for scientific publications, decisions, or research conclusions.';
-          MESSAGE: {
-            WATER_QUALITY_WARNING: 'Please note: you have selected the Water Quality Analysis function. This feature is still under review. While it provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.\n\nFor more information, documentation is available <Link href="https://eodatahub.org.uk/about/applications/applications/qa-for-eo-pro/docs/">here</Link>.';
-          };
         };
         HISTORY: {
           NO_RESULTS_TITLE: 'No items to display';
@@ -239,6 +236,9 @@ interface Resources {
         WORKFLOW: {
           INFO: {
             CLIPPING_NOTIFICATION: 'Please note: due to your combination of Data Set and function, we have automatically applied clipping to optimise asset visibility.';
+          };
+          WARNING: {
+            WATER_QUALITY_NOT_VERIFIED: 'Please note: you have selected the Water Quality Analysis function. This feature is still under review. While it provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.\n\nFor more information, documentation is available <Link href="https://eodatahub.org.uk/about/applications/applications/qa-for-eo-pro/docs/">here</Link>.';
           };
           ERROR: {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
@@ -527,6 +527,7 @@ interface Resources {
                 QUESTION: 'What is Water Quality Analysis scenario?';
                 ANSWER: [
                   'The Water Quality Analysis preset leverages Sentinel-2 imagery (Level-2A and Analysis Ready Data) to derive crucial water quality indicators. It calculates various spectral indices related to water health and composition, helping stakeholders assess conditions such as turbidity, potential for harmful algal blooms, and other factors critical for water resource management.',
+                  '<strong>Please note: While the Water Quality Analysis preset provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.</strong>',
                   'It can be used for:',
                   [
                     'Monitoring Algal Blooms: Track and predict cyanobacteria growth in lakes and reservoirs.',

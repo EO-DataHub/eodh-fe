@@ -44,6 +44,7 @@ export const dateRangeValueSchema = z.object({
 
 export const functionValueSchema = z.object({
   identifier: z.string(),
+  verified: z.boolean(),
   supportedDataSets: z.array(z.string()),
 });
 
