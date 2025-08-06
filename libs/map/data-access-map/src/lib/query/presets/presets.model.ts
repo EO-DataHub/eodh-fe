@@ -69,6 +69,7 @@ const landCoverSchema = presetBaseSchema
       description: data.description,
       disabled: data.disabled,
       imageUrl: data.thumbnail_b64 ? `data:image/jpeg;base64,${data.thumbnail_b64}` : undefined,
+      verified: true,
       defaultValues: {
         aoi: data.workflow?.['land-cover-change-detection'].inputs.aoi,
         dateRange,
@@ -112,6 +113,7 @@ const waterQualitySchema = presetBaseSchema
       description: data.description,
       disabled: data.disabled,
       imageUrl: data.thumbnail_b64 ? `data:image/jpeg;base64,${data.thumbnail_b64}` : undefined,
+      verified: false,
       defaultValues: {
         aoi: data.workflow?.['water-quality'].inputs.aoi,
         dateRange,
