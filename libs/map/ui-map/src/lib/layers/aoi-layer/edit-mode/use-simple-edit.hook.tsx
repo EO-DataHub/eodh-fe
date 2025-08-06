@@ -11,7 +11,7 @@ export const useSimpleEdit = (enabled: boolean) => {
   const { state, updateShape } = useAoi();
 
   useEffect(() => {
-    if (!enabled || !source || !layer || state !== 'edit') {
+    if (!enabled || !source || !layer) {
       return;
     }
 

@@ -13,6 +13,10 @@ export const useAoiStore = create<IAoiStore>()(
     drawingTool: undefined,
     coordinates: undefined,
     fitToAoi: false,
+    setFitToAoi: (fitToAoi: boolean) =>
+      set(() => ({
+        fitToAoi: fitToAoi !== undefined ? fitToAoi : undefined,
+      })),
     setShape: (shape, fitToAoi?: boolean) =>
       set(() => ({
         shape: createShape(getCoordinates(shape), shape?.type),
@@ -77,5 +81,6 @@ export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
     drawingTool: state.drawingTool,
     toggleDrawingToolShape: state.toggleDrawingToolShape,
     setDrawingTool: state.setDrawingTool,
+    setFitToAoi: state.setFitToAoi,
   }));
 };
