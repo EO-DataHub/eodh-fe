@@ -16,7 +16,8 @@ export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
 export const useAoiLayer = () => {
   const map = useContext(MapContext);
-  const { visible, shape, fitToAoi, setShape, toggleDrawingToolShape, setDrawingTool, drawingTool } = useAoi();
+  const { visible, shape, fitToAoi, setShape, toggleDrawingToolShape, setDrawingTool, drawingTool, setFitToAoi } =
+    useAoi();
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
@@ -34,8 +35,10 @@ export const useAoiLayer = () => {
       if (zoom) {
         view.setZoom(zoom - 1);
       }
+
+      setFitToAoi(false);
     },
-    [fitToAoi, layer, map]
+    [fitToAoi, layer, map, setFitToAoi]
   );
 
   useEffect(() => {

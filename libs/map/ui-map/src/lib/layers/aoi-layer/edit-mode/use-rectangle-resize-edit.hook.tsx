@@ -29,7 +29,7 @@ export const useRectangleResizeEdit = (enabled: boolean) => {
   } | null>(null);
 
   useEffect(() => {
-    if (!enabled || !source || !layer || state !== 'edit' || shape?.type !== 'rectangle') {
+    if (!enabled || !source || !layer || shape?.type !== 'rectangle') {
       return;
     }
 
@@ -97,7 +97,6 @@ export const useRectangleResizeEdit = (enabled: boolean) => {
 
             break;
           }
-          // No default
         }
 
         dragState.current = {
