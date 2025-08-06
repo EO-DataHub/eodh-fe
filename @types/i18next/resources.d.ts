@@ -187,6 +187,13 @@ interface Resources {
         };
         PRESETS: {
           BUTTON: 'Load preset';
+          STATUS: {
+            VERIFIED: 'Quality assured output';
+          };
+          UNVERIFIED_MESSAGE: 'While this provides useful initial insights and can be used for learning purposes, results should not be used for scientific publications, decisions, or research conclusions.';
+          MESSAGE: {
+            WATER_QUALITY_WARNING: 'Please note: you have selected the Water Quality Analysis function. This feature is still under review. While it provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.\n\nFor more information, documentation is available <Link href="https://eodatahub.org.uk/about/applications/applications/qa-for-eo-pro/docs/">here</Link>.';
+          };
         };
         HISTORY: {
           NO_RESULTS_TITLE: 'No items to display';
@@ -1151,14 +1158,7 @@ interface Resources {
             HOW_DO_I_LOG_IN: {
               QUESTION: 'How do I log in?';
               ANSWER: [
-                'In order to log in, you need to first register your Github account with EODH. Please see more details here:',
-                {
-                  LINK: {
-                    ACCOUNT_SETUP: {
-                      DESCRIPTION: 'Account Setup';
-                    };
-                  };
-                }
+                'In order to log in, you need to first register your Github or Google account with EODH.\n\nThe user has to request a billing account and then the user will need to create a workspace on the Hub after the account has been approved. Finally, the user will have to select the workspace on EOPro.\n\nPlease see more details here: <Link href="https://eodatahub.org.uk/docs/account-setup/">Account Setup</Link>.'
               ];
             };
           };
