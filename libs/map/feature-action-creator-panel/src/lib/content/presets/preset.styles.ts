@@ -5,6 +5,6 @@ export const presetStyles = {
   presetContainer: 'flex bg-background-main p-4 rounded-md min-h-28 w-full flex-col',
   contentContainer: 'ml-4 text-text flex flex-col h-auto',
   title: 'mb-1.5',
-  buttonContainer: ({ verified }: { verified: boolean }) =>
-    verified ? 'flex justify-between mt-4' : 'flex justify-end mt-4',
+  buttonContainer: ({ verified }: { verified?: boolean }) =>
+    verified !== undefined ? 'flex justify-between mt-4' : 'flex justify-end mt-4',
 };

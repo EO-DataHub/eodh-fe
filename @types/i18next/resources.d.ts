@@ -189,6 +189,7 @@ interface Resources {
           BUTTON: 'Load preset';
           STATUS: {
             VERIFIED: 'Quality assured output';
+            UNVERIFIED: 'Not quality assured output';
           };
           UNVERIFIED_MESSAGE: 'While this provides useful initial insights and can be used for learning purposes, results should not be used for scientific publications, decisions, or research conclusions.';
         };

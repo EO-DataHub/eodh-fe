@@ -59,8 +59,7 @@ export const Preset = ({
   onLoadPresetClick,
   className,
 }: IResultItemProps) => {
-  const status = verified ? 'VERIFIED' : undefined;
-  const statusTitle = verified ? `MAP.ACTION_CREATOR_PANEL.PRESETS.STATUS.${status}` : '';
+  const status = verified ? 'VERIFIED' : 'UNVERIFIED';
 
   return (
     <div className={clsx(presetStyles.presetContainer, className)}>
@@ -82,7 +81,7 @@ export const Preset = ({
         </div>
       </div>
       <div className={presetStyles.buttonContainer({ verified })}>
-        <Tag status={status} title={statusTitle} />
+        <Tag status={status} />
         <Button
           text={'MAP.ACTION_CREATOR_PANEL.PRESETS.BUTTON'}
           size='medium'
