@@ -1,11 +1,12 @@
 import uniq from 'lodash/uniq';
 import { z } from 'zod';
 
+import { isVerified } from '../../../query/function/function.model';
 import {
   areaValueSchema,
   dataSetValueSchema,
   dateRangeValueSchema,
-  functionValueSchema,
+  functionValueSchema as actionCreatorFunctionValueSchema,
 } from '../action-creator.schema';
 
 export const isAreaImportNode = (node: TNodeImport): node is TAreaNodeImport => node.type === 'area';
@@ -32,6 +33,15 @@ export const dateRangeNodeSchema = baseNodeSchema.extend({
   type: z.literal('dateRange'),
   value: dateRangeValueSchema.optional(),
 });
+
+const functionValueSchema = actionCreatorFunctionValueSchema
+  .extend({
+    verified: z.boolean().optional(),
+  })
+  .transform((data) => ({
+    ...data,
+    verified: isVerified(data.identifier),
+  }));
 
 const functionNodeSchema = baseNodeSchema.extend({
   type: z.literal('function'),
