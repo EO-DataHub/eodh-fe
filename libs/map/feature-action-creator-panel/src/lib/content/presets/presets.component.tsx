@@ -78,6 +78,7 @@ export const Presets = () => {
         aoi: preset.defaultValues.aoi,
         dateRange: preset.defaultValues.dateRange,
       });
+
       changeView('search');
       changeTab('workflow');
       return;
@@ -112,6 +113,7 @@ export const Presets = () => {
             imageUrl={preset.imageUrl}
             title={preset.name}
             description={preset.description}
+            verified={preset.verified}
             disabled={preset.disabled || status === 'pending' || !currentWorkspace}
             onLoadPresetClick={() => handleLoadPreset(preset)}
             className='mb-4'

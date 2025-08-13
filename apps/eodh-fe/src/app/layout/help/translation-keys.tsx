@@ -19,9 +19,6 @@ export const helpContentConfig: IHelpContent = {
         },
         {
           QUESTION_ID: 'HOW_DO_I_LOG_IN',
-          LINKS: {
-            ACCOUNT_SETUP: 'https://staging.eodatahub.org.uk/docs/account-setup/',
-          },
         },
       ],
     },

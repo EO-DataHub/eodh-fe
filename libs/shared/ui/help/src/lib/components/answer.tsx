@@ -1,5 +1,6 @@
 import { Button, Text } from '@ukri/shared/design-system';
-import { useCallback } from 'react';
+import { FC, PropsWithChildren, useCallback } from 'react';
+import { Trans } from 'react-i18next';
 
 import { helpStyles } from './help.styles';
 
@@ -26,9 +27,32 @@ interface ITextRendererProps {
   uniqueId: string;
 }
 
-const TextRenderer = ({ content, uniqueId }: ITextRendererProps) => (
-  <Text content={content} fontSize='medium' fontWeight='regular' key={uniqueId} className='mb-2' />
-);
+const Link: FC<PropsWithChildren<{ href?: string }>> = ({ href, children }) => {
+  return (
+    <a href={href} target='_blank' className='text-primary-main underline' rel='noreferrer'>
+      {children}
+    </a>
+  );
+};
+
+const TextRenderer = ({ content, uniqueId }: ITextRendererProps) => {
+  return (
+    <Text
+      content={
+        <Trans
+          i18nKey={content}
+          components={{
+            Link: <Link />,
+          }}
+        />
+      }
+      fontSize='medium'
+      fontWeight='regular'
+      key={uniqueId}
+      className='mb-2 whitespace-pre-line'
+    />
+  );
+};
 
 interface ITableRendererProps {
   tableData: TTableItem['TABLE'];

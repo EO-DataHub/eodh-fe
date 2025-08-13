@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { useCallback, useMemo, useState } from 'react';
 
 import { presetStyles } from './preset.styles';
+import { Tag } from './tag.component';
 
 type TImageStatus = 'loading' | 'error' | 'loaded';
 
@@ -43,6 +44,7 @@ export interface IResultItemProps {
   imageUrl: string | undefined;
   title: string;
   description?: string;
+  verified: boolean;
   disabled?: boolean;
   onLoadPresetClick: () => void;
   className?: string;
@@ -52,26 +54,40 @@ export const Preset = ({
   imageUrl,
   title,
   description,
+  verified,
   disabled = false,
   onLoadPresetClick,
   className,
 }: IResultItemProps) => {
+  const status = verified ? 'VERIFIED' : 'UNVERIFIED';
+
   return (
     <div className={clsx(presetStyles.presetContainer, className)}>
-      <Image imageUrl={imageUrl} />
-      <div className={presetStyles.contentContainer}>
-        <div className='flex-grow'>
-          <Text content={title} fontSize='large' fontWeight='regular' className={presetStyles.title} />
-          {description && <Text content={description} fontSize='medium' fontWeight='regular' />}
+      <div className='flex flex-row'>
+        <Image imageUrl={imageUrl} />
+        <div className={presetStyles.contentContainer}>
+          <div className='flex-grow'>
+            <Text content={title} fontSize='large' fontWeight='regular' className={presetStyles.title} />
+            {description && <Text content={description} fontSize='medium' fontWeight='regular' />}
+            {!verified && (
+              <Text
+                content='MAP.ACTION_CREATOR_PANEL.PRESETS.UNVERIFIED_MESSAGE'
+                fontSize='medium'
+                fontWeight='regular'
+                className='italic mt-2'
+              />
+            )}
+          </div>
         </div>
-        <div className={presetStyles.buttonContainer}>
-          <Button
-            text={'MAP.ACTION_CREATOR_PANEL.PRESETS.BUTTON'}
-            size='medium'
-            onClick={onLoadPresetClick}
-            disabled={disabled}
-          />
-        </div>
+      </div>
+      <div className={presetStyles.buttonContainer({ verified })}>
+        <Tag status={status} />
+        <Button
+          text={'MAP.ACTION_CREATOR_PANEL.PRESETS.BUTTON'}
+          size='medium'
+          onClick={onLoadPresetClick}
+          disabled={disabled}
+        />
       </div>
     </div>
   );
