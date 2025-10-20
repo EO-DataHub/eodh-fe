@@ -51,7 +51,7 @@ const colorMapSchema = z.object({
   min: z.number(),
   max: z.number(),
   steps: z.number(),
-  reverse: z.boolean().optional().default(false),
+  reversed: z.boolean().optional().default(false),
 });
 
 type TColorMapOptions = z.infer<typeof colorMapSchema>;
@@ -113,7 +113,7 @@ export const getColorMapStyles = (asset: IAsset): Record<string, unknown> | unde
           colorMapOptions.min,
           colorMapOptions.max,
           colorMapOptions.steps,
-          colorMapOptions.reverse
+          colorMapOptions.reversed
         ),
       ],
     ],
