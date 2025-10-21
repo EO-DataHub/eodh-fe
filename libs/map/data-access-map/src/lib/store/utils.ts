@@ -144,7 +144,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   }
 
   if (dateRange) {
-    useDateStore.getState().updateDate(dateRange);
+    useDateStore.getState().updateDate({ ...dateRange, min: dateRange.from, max: dateRange.to });
   } else {
     useDateStore.getState().reset('action-creator');
   }
@@ -156,4 +156,8 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
 
 export const enableDataSet = (dataSet?: (TDataSetValue | string)[] | undefined) => {
   useDataSetsStore.getState().enable(dataSet);
+};
+
+export const resetMinMaxDates = () => {
+  useDateStore.getState().updateDate({ ...useDateStore.getState().date, min: undefined, max: undefined });
 };

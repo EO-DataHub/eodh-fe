@@ -7,6 +7,8 @@ export type TDateValues = {
   date: {
     from: NonNullable<TDateString> | null;
     to: NonNullable<TDateString> | null;
+    min?: NonNullable<TDateString> | null;
+    max?: NonNullable<TDateString> | null;
   };
 };
 
@@ -28,6 +30,13 @@ const oneMonthAgo = () => {
   return oneMonthAgo;
 };
 
+export const updateDate = (date: Partial<TDateValues['date']> | undefined) => ({
+  from: date?.from || null,
+  to: date?.to || null,
+  min: date?.min || undefined,
+  max: date?.max || undefined,
+});
+
 export const getDefaultValues = (schema: TSchema): TDateStoreState => {
   switch (schema) {
     case 'action-creator': {
@@ -37,6 +46,8 @@ export const getDefaultValues = (schema: TSchema): TDateStoreState => {
         date: {
           from: null,
           to: null,
+          min: undefined,
+          max: undefined,
         },
       };
     }
@@ -49,6 +60,8 @@ export const getDefaultValues = (schema: TSchema): TDateStoreState => {
         date: {
           from: formatDate(createDateString(oneMonthAgo())),
           to: formatDate(createDateString(new Date())),
+          min: undefined,
+          max: undefined,
         },
       };
     }

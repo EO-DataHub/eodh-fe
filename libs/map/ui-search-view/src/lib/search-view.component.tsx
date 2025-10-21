@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TDynamicTreeModel, TreeBuilder, useAoi } from '@ukri/map/data-access-map';
 import { useComparisonMode } from '@ukri/map/data-access-map';
+import { createDate } from '@ukri/shared/utils/date';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
@@ -15,8 +16,8 @@ import { SearchViewProvider, TSearchViewState } from './search-view.context';
 import { SubmitButton } from './submit-button.component';
 import { useFormUpdate } from './use-form-update.component';
 
-const minDate = new Date('1972-01-01');
-const today = new Date();
+const defaultMinDate = new Date('1972-01-01');
+const defaultMaxDate = new Date();
 
 type TSearchPanelProps = {
   state: TSearchViewState | undefined;
@@ -45,6 +46,8 @@ export const SearchView = ({
   });
   const { shape } = useAoi();
   const { comparisonModeEnabled } = useComparisonMode();
+  const [minDate, setMinDate] = useState<Date>(defaultMinDate);
+  const [maxDate, setMaxDate] = useState<Date>(defaultMaxDate);
 
   useFormUpdate(form, schema, onChange);
   useSyncChecklistState(form, schema, state);
@@ -71,6 +74,16 @@ export const SearchView = ({
     }
   }, [form, defaultValues, shape?.shape, state, treeModel, schema, dataModel, setDataModel]);
 
+  useEffect(() => {
+    const newMinDate = defaultValues?.date.min ? createDate(defaultValues?.date.min) : undefined;
+    setMinDate(newMinDate || defaultMinDate);
+  }, [defaultValues?.date.min]);
+
+  useEffect(() => {
+    const newMaxDate = defaultValues?.date.max ? createDate(defaultValues?.date.max) : undefined;
+    setMaxDate(newMaxDate || defaultMaxDate);
+  }, [defaultValues?.date?.max]);
+
   const disabled = useMemo(
     () => comparisonModeEnabled || !form.formState.isValid,
     [comparisonModeEnabled, form.formState.isValid]
@@ -86,7 +99,7 @@ export const SearchView = ({
             <DynamicTreeForm tree={dataModel.treeModel} />
           </div>
           <div className='mt-auto shadow-date-range-picker p-4'>
-            <DateRangePicker dateMin={minDate} dateMax={today} />
+            <DateRangePicker dateMin={minDate} dateMax={maxDate} />
             <SubmitButton state={state} disabled={disabled} />
           </div>
         </form>
