@@ -10,7 +10,7 @@ const propertySchema = z
     datetime: z.custom<NonNullable<TDateString>>(
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
-    cloudCoverage: z.never().optional(),
+    cloudCoverage: z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
     gridCode: z.never().optional(),
     orbitState: z.never().optional(),
     instrumentMode: z.never().optional(),
@@ -18,7 +18,7 @@ const propertySchema = z
   })
   .transform((data) => ({
     datetime: data.datetime,
-    cloudCoverage: data.cloudCoverage as never,
+    cloudCoverage: data.cloudCoverage,
     gridCode: data.gridCode as never,
     orbitState: data.orbitState as never,
     instrumentMode: data.instrumentMode as never,
@@ -109,7 +109,7 @@ export const landCoverChangesSchema = featureGenericSchema.extend({
       datetime: data.datetime,
       lulc_classes_m2: data.lulc_classes_m2,
       lulc_classes_percentage: data.lulc_classes_percentage,
-      cloudCoverage: data.cloudCoverage as never,
+      cloudCoverage: data.cloudCoverage,
       gridCode: data.gridCode as never,
       orbitState: data.orbitState as never,
       instrumentMode: data.instrumentMode as never,
