@@ -15,7 +15,9 @@ export type TDateValues = {
 export interface IDateStore extends TDateValues {
   schema: TSchema;
   state: TDateState;
-  updateDate: (date: Partial<TDateValues['date']> | undefined) => void;
+  updateDate: (
+    date: Partial<TDateValues['date']> | ((date: TDateValues['date']) => TDateValues['date']) | undefined
+  ) => void;
   reset: (schema: TSchema) => void;
   changeState: (state: TDateState) => void;
 }

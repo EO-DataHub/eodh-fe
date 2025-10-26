@@ -12,8 +12,8 @@ export const dateInitialSchema = z.object({
       message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
     })
     .nullable(),
-  min: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).optional(),
-  max: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).optional(),
+  min: z.custom<TDateString>((value) => !z.string().datetime().optional().safeParse(value).error).optional(),
+  max: z.custom<TDateString>((value) => !z.string().datetime().optional().safeParse(value).error).optional(),
 });
 
 export const dateUpdateSchema = z
@@ -24,8 +24,8 @@ export const dateUpdateSchema = z
     to: z.custom<NonNullable<TDateString>>((value) => !z.string().date().safeParse(value).error, {
       message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
     }),
-    min: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).optional(),
-    max: z.custom<TDateString>((value) => !z.string().date().safeParse(value).error).optional(),
+    min: z.custom<TDateString>((value) => !z.string().datetime().optional().safeParse(value).error).optional(),
+    max: z.custom<TDateString>((value) => !z.string().datetime().optional().safeParse(value).error).optional(),
   })
   .superRefine((schema, ctx) => {
     const dateFrom = createDate(schema.from);

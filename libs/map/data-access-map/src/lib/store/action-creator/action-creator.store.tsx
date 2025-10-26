@@ -87,10 +87,6 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
           };
         }
 
-        if (nodeToUpdate?.state === 'active' && isDataSetNode(node)) {
-          resetMinMaxDates();
-        }
-
         return {
           nodes,
         };

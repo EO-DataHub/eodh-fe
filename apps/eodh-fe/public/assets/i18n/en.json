@@ -1369,7 +1369,10 @@
         "TITLE": "Date range",
         "SEARCH_FROM": "Search from:",
         "SEARCH_TO": "Search to:",
-        "SEARCH": "Search"
+        "SEARCH": "Search",
+        "ERROR": {
+          "FAILED_TO_LOAD": "We couldn't load date ranges for selected data sets."
+        }
       },
       "CHECKLIST": {
         "HEADING": "Getting started checklist",

@@ -15,9 +15,18 @@ const dateToFieldName = 'date.to';
 interface IDateRangePickerProps {
   dateMin: Date;
   dateMax: Date;
+  dateRangeState: {
+    state: 'pending' | 'error' | 'success';
+    error:
+      | {
+          collectionIds: string[];
+          message?: string;
+        }
+      | undefined;
+  };
 }
 
-export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => {
+export const DateRangePicker = ({ dateMin, dateMax, dateRangeState }: IDateRangePickerProps) => {
   const {
     formState: { errors },
     register,
@@ -81,46 +90,58 @@ export const DateRangePicker = ({ dateMin, dateMax }: IDateRangePickerProps) => 
           <Icon name='ArrowDown' width={24} height={24} className={styles.icon(isOpen)} />
         </div>
         {isOpen && (
-          <div className={styles.content}>
-            <div className={`${styles.row} ${styles.rowMarginFrom}`}>
-              <Text
-                content='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.SEARCH_FROM'
-                type='h3'
-                fontSize='medium'
-                fontWeight='regular'
-                className={styles.textLabel}
-              />
-              <DateInput
-                className={styles.dateInput}
-                minDate={dateMin}
-                maxDate={dateTo || dateMax}
-                {...register(dateFromFieldName, {
-                  onChange: triggerDateFromValidation,
-                })}
-                error={dateFromError?.message}
-                disabled={disabled}
-              />
+          <>
+            {dateRangeState.state === 'error' && dateRangeState.error && (
+              <div className='mt-2 p-2 bg-error-light text-error-dark rounded text-sm'>
+                <Text
+                  content='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.ERROR.FAILED_TO_LOAD'
+                  type='p'
+                  fontSize='small'
+                  fontWeight='regular'
+                />
+              </div>
+            )}
+            <div className={styles.content}>
+              <div className={`${styles.row} ${styles.rowMarginFrom}`}>
+                <Text
+                  content='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.SEARCH_FROM'
+                  type='h3'
+                  fontSize='medium'
+                  fontWeight='regular'
+                  className={styles.textLabel}
+                />
+                <DateInput
+                  className={styles.dateInput}
+                  minDate={dateMin}
+                  maxDate={dateTo || dateMax}
+                  {...register(dateFromFieldName, {
+                    onChange: triggerDateFromValidation,
+                  })}
+                  error={dateFromError?.message}
+                  disabled={disabled || dateRangeState.state === 'pending'}
+                />
+              </div>
+              <div className={styles.row}>
+                <Text
+                  content='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.SEARCH_TO'
+                  type='h3'
+                  fontSize='medium'
+                  fontWeight='regular'
+                  className={styles.textLabel}
+                />
+                <DateInput
+                  className={styles.dateInput}
+                  minDate={dateFrom || dateMin}
+                  maxDate={dateMax}
+                  {...register(dateToFieldName, {
+                    onChange: triggerDateToValidation,
+                  })}
+                  error={dateToError?.message}
+                  disabled={disabled || dateRangeState.state === 'pending'}
+                />
+              </div>
             </div>
-            <div className={styles.row}>
-              <Text
-                content='MAP.SEARCH_VIEW.DATE_RANGE_PICKER.SEARCH_TO'
-                type='h3'
-                fontSize='medium'
-                fontWeight='regular'
-                className={styles.textLabel}
-              />
-              <DateInput
-                className={styles.dateInput}
-                minDate={dateFrom || dateMin}
-                maxDate={dateMax}
-                {...register(dateToFieldName, {
-                  onChange: triggerDateToValidation,
-                })}
-                error={dateToError?.message}
-                disabled={disabled}
-              />
-            </div>
-          </div>
+          </>
         )}
       </div>
     </OnboardingTooltip>

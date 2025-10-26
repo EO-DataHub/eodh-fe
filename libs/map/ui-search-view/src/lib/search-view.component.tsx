@@ -26,6 +26,15 @@ type TSearchPanelProps = {
   treeModel: TDynamicTreeModel;
   onSubmit: (data: TUpdateForm) => unknown | Promise<unknown>;
   onChange?: (data: TInitialForm, schema: TSchema) => unknown | Promise<unknown>;
+  dateRangeState: {
+    state: 'pending' | 'error' | 'success';
+    error:
+      | {
+          collectionIds: string[];
+          message?: string;
+        }
+      | undefined;
+  };
 };
 
 export const SearchView = ({
@@ -36,6 +45,7 @@ export const SearchView = ({
   defaultValues,
   treeModel,
   children,
+  dateRangeState,
 }: PropsWithChildren<TSearchPanelProps>) => {
   const [dataModel, setDataModel] = useState({ schema, treeModel });
   const [initialValues] = useState(defaultValues);
@@ -99,7 +109,7 @@ export const SearchView = ({
             <DynamicTreeForm tree={dataModel.treeModel} />
           </div>
           <div className='mt-auto shadow-date-range-picker p-4'>
-            <DateRangePicker dateMin={minDate} dateMax={maxDate} />
+            <DateRangePicker dateMin={minDate} dateMax={maxDate} dateRangeState={dateRangeState} />
             <SubmitButton state={state} disabled={disabled} />
           </div>
         </form>

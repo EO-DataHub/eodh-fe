@@ -7,7 +7,7 @@ export type TCatalogueCollection = typeof collections[number];
 export const getCollectionUrl = (collection: TCatalogueCollection | undefined) => {
   switch (collection) {
     case 'EarthSearchElement84': {
-      return paths.STAC_ELEMENT_64_CATALOGUE;
+      return paths.STAC_ELEMENT_84_CATALOGUE;
     }
 
     case 'CEDA': {
@@ -19,7 +19,7 @@ export const getCollectionUrl = (collection: TCatalogueCollection | undefined) =
     }
 
     default: {
-      return paths.STAC_ELEMENT_64_CATALOGUE;
+      return paths.STAC_ELEMENT_84_CATALOGUE;
     }
   }
 };

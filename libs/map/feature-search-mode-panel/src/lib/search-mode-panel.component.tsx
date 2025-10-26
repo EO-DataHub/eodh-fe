@@ -23,6 +23,7 @@ export const SearchModePanel = () => {
     changeToSearchView,
     search,
     searchType,
+    dateRangeState,
   } = useSearchMode();
 
   switch (view) {
@@ -50,6 +51,7 @@ export const SearchModePanel = () => {
           schema={schema}
           onChange={updateState}
           onSubmit={search}
+          dateRangeState={dateRangeState}
         >
           <Header>
             <Text
@@ -75,6 +77,7 @@ export const SearchModePanel = () => {
           schema={schema}
           onChange={updateState}
           onSubmit={search}
+          dateRangeState={dateRangeState}
         >
           <Header>
             <Text
