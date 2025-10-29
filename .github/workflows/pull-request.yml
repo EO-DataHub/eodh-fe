@@ -4,6 +4,10 @@ on:
       - 'develop'
       - 'main'
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     name: 'Build'
@@ -16,7 +20,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     needs: [build]
     with:
-      canDeployOnDev: ${{ fromJSON('true') }}
+      canDeployOnDev: ${{ true }}
       canDeployOnQA: ${{ fromJSON(needs.prepare.outputs.canDeployOnQA) }}
       canDeployOnStaging: ${{ fromJSON(needs.prepare.outputs.canDeployOnStaging) }}
       canDeployOnProduction: ${{ fromJSON(needs.prepare.outputs.canDeployOnProduction) }}
