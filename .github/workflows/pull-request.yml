@@ -11,3 +11,13 @@ jobs:
   buildStorybook:
     name: 'Build Storybook'
     uses: ./.github/workflows/storybook-build.yml
+  deploy:
+    name: 'Deploy'
+    uses: ./.github/workflows/deploy.yml
+    needs: [ build ]
+    with:
+      canDeployOnDev: ${{ true }}
+      canDeployOnQA: ${{ fromJSON(needs.prepare.outputs.canDeployOnQA) }}
+      canDeployOnStaging: ${{ fromJSON(needs.prepare.outputs.canDeployOnStaging) }}
+      canDeployOnProduction: ${{ fromJSON(needs.prepare.outputs.canDeployOnProduction) }}
+    secrets: inherit
