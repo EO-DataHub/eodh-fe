@@ -20,8 +20,8 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     needs: [build]
     with:
-      canDeployOnDev: ${{ fromJSON('true') }}
-      canDeployOnQA: ${{ fromJSON(needs.prepare.outputs.canDeployOnQA) }}
-      canDeployOnStaging: ${{ fromJSON(needs.prepare.outputs.canDeployOnStaging) }}
-      canDeployOnProduction: ${{ fromJSON(needs.prepare.outputs.canDeployOnProduction) }}
+      canDeployOnDev: true
+      canDeployOnQA: false
+      canDeployOnStaging: false
+      canDeployOnProduction: false
     secrets: inherit
