@@ -14,7 +14,7 @@ jobs:
   deploy:
     name: 'Deploy'
     uses: ./.github/workflows/deploy.yml
-    needs: [ build ]
+    needs: [build]
     with:
       canDeployOnDev: ${{ true }}
       canDeployOnQA: ${{ fromJSON(needs.prepare.outputs.canDeployOnQA) }}
