@@ -20,7 +20,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     needs: [build]
     with:
-      canDeployOnDev: true
+      canDeployOnDev: ${{ fromJSON('true') }}
       canDeployOnQA: ${{ fromJSON(needs.prepare.outputs.canDeployOnQA) }}
       canDeployOnStaging: ${{ fromJSON(needs.prepare.outputs.canDeployOnStaging) }}
       canDeployOnProduction: ${{ fromJSON(needs.prepare.outputs.canDeployOnProduction) }}
