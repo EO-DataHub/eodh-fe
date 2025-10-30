@@ -10,7 +10,6 @@ const propertySchema = z
     datetime: z.custom<NonNullable<TDateString>>(
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
-    'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
     gridCode: z.never().optional(),
     orbitState: z.never().optional(),
     instrumentMode: z.never().optional(),
@@ -18,7 +17,6 @@ const propertySchema = z
   })
   .transform((data) => ({
     datetime: data.datetime,
-    cloudCoverage: data['eo:cloud_cover'],
     gridCode: data.gridCode as never,
     orbitState: data.orbitState as never,
     instrumentMode: data.instrumentMode as never,
@@ -62,7 +60,19 @@ const waterQualityAssetSchema = z.object({
 });
 
 export const waterQualitySchema = featureGenericSchema.extend({
-  properties: propertySchema,
+  properties: propertySchema
+    .innerType()
+    .extend({
+      'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
+    })
+    .transform((data) => ({
+      datetime: data.datetime,
+      cloudCoverage: data['eo:cloud_cover'],
+      gridCode: data.gridCode as never,
+      orbitState: data.orbitState as never,
+      instrumentMode: data.instrumentMode as never,
+      polarizations: data.polarizations as never,
+    })),
   assets: z.object({
     thumbnail: thumbnailAssetSchema.optional(),
     data: waterQualityAssetSchema.optional(),
@@ -104,12 +114,13 @@ export const landCoverChangesSchema = featureGenericSchema.extend({
     .extend({
       lulc_classes_m2: z.record(z.string().or(z.number()), z.number()),
       lulc_classes_percentage: z.record(z.string().or(z.number()), z.number()),
+      cloudCoverage: z.never().optional(),
     })
     .transform((data) => ({
       datetime: data.datetime,
       lulc_classes_m2: data.lulc_classes_m2,
       lulc_classes_percentage: data.lulc_classes_percentage,
-      cloudCoverage: data['eo:cloud_cover'],
+      cloudCoverage: data.cloudCoverage as never,
       gridCode: data.gridCode as never,
       orbitState: data.orbitState as never,
       instrumentMode: data.instrumentMode as never,
