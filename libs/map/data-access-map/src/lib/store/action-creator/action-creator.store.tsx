@@ -5,6 +5,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { clearWorkflowCache } from '../../mutation/workflow.mutation';
+import { useDateStore } from '../date/date.store';
 import { activatePanel, enableDataSet, loadPreset, reset, resetMinMaxDates, TLoadPresetProps } from '../utils';
 import {
   defaultNodes,
@@ -76,7 +77,7 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
             .map((node) => node.value?.supportedDataSets || [])
             .flat();
 
-          if (nodeToUpdate?.state === 'active') {
+          if (nodeToUpdate?.value !== undefined) {
             resetMinMaxDates();
           }
 
@@ -136,7 +137,7 @@ type TActionCreatorProps = Omit<IActionCreatorStore, 'setActive' | 'addNode' | '
   setActiveNode: (node?: TNode) => void;
   enable: () => void;
   disable: () => void;
-  isValid: boolean;
+  isValid: () => boolean;
   isWorkflowStarted: boolean;
   getNodesByType: <T extends TNode>(type: T['type']) => T[];
   reset: () => void;
@@ -170,7 +171,12 @@ export const useActionCreator = (): TActionCreatorProps => {
     canActivateNode: (node: TNode) => canActivate(state.nodes, node),
     isWorkflowStarted: state.nodes.some((node) => node.state !== 'initial'),
     canExportWorkflow: state.nodes.some((node) => nodeHasValue(node) && node.state !== 'initial'),
-    isValid: state.nodes.filter((node) => !isLastFunctionNodeWithNoValue(node, state.nodes)).every(nodeHasValue),
+    isValid: () => {
+      return (
+        state.nodes.filter((node) => !isLastFunctionNodeWithNoValue(node, state.nodes)).every(nodeHasValue) &&
+        useDateStore.getState().isValid()
+      );
+    },
     getNodesByType: <T extends TNode>(type: T['type']) => getNodes<T>(state.nodes, type),
     reset: () => {
       state.setNodes();

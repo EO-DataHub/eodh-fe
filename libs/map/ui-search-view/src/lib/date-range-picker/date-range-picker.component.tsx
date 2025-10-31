@@ -1,6 +1,7 @@
 import { useComparisonMode } from '@ukri/map/data-access-map';
 import { DateInput, Icon, Text } from '@ukri/shared/design-system';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
+import { createDate } from '@ukri/shared/utils/date';
 import get from 'lodash/get';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -11,10 +12,10 @@ import { styles } from './date-range-picker.styles';
 
 const dateFromFieldName = 'date.from';
 const dateToFieldName = 'date.to';
+const dateMinFieldName = 'date.min';
+const dateMaxFieldName = 'date.max';
 
 interface IDateRangePickerProps {
-  dateMin: Date;
-  dateMax: Date;
   dateRangeState: {
     state: 'pending' | 'error' | 'success';
     error:
@@ -26,7 +27,7 @@ interface IDateRangePickerProps {
   };
 }
 
-export const DateRangePicker = ({ dateMin, dateMax, dateRangeState }: IDateRangePickerProps) => {
+export const DateRangePicker = ({ dateRangeState }: IDateRangePickerProps) => {
   const {
     formState: { errors },
     register,
@@ -41,6 +42,8 @@ export const DateRangePicker = ({ dateMin, dateMax, dateRangeState }: IDateRange
   const [isOpen, setIsOpen] = useState(true);
   const dateFrom = getValues('date.from');
   const dateTo = getValues('date.to');
+  const dateMin = getValues('date.min');
+  const dateMax = getValues('date.max');
   const dateFromError = get(errors, 'date.from');
   const dateToError = get(errors, 'date.to');
   const dateRangePickerDisabled = isDisabled(false, 'date-range');
@@ -78,6 +81,9 @@ export const DateRangePicker = ({ dateMin, dateMax, dateRangeState }: IDateRange
       content={onboardingSteps.DATE_RANGE_PICKER.tooltip_content}
       elementRef={datePickerRef}
     >
+      <input type='hidden' {...register(dateMinFieldName)} />
+      <input type='hidden' {...register(dateMaxFieldName)} />
+
       <div className={styles.container} ref={datePickerRef}>
         <div className={styles.header} onClick={toggleOpen}>
           <Text
@@ -112,8 +118,8 @@ export const DateRangePicker = ({ dateMin, dateMax, dateRangeState }: IDateRange
                 />
                 <DateInput
                   className={styles.dateInput}
-                  minDate={dateMin}
-                  maxDate={dateTo || dateMax}
+                  minDate={createDate(dateMin) || undefined}
+                  maxDate={createDate(dateTo) || createDate(dateMax) || undefined}
                   {...register(dateFromFieldName, {
                     onChange: triggerDateFromValidation,
                   })}
@@ -131,8 +137,8 @@ export const DateRangePicker = ({ dateMin, dateMax, dateRangeState }: IDateRange
                 />
                 <DateInput
                   className={styles.dateInput}
-                  minDate={dateFrom || dateMin}
-                  maxDate={dateMax}
+                  minDate={createDate(dateFrom) || createDate(dateMin) || undefined}
+                  maxDate={createDate(dateMax) || undefined}
                   {...register(dateToFieldName, {
                     onChange: triggerDateToValidation,
                   })}

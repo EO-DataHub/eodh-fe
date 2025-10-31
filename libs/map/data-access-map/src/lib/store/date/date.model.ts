@@ -19,10 +19,11 @@ export interface IDateStore extends TDateValues {
     date: Partial<TDateValues['date']> | ((date: TDateValues['date']) => TDateValues['date']) | undefined
   ) => void;
   reset: (schema: TSchema) => void;
+  isValid: () => boolean;
   changeState: (state: TDateState) => void;
 }
 
-export type TDateStoreState = Omit<IDateStore, 'updateDate' | 'changeState' | 'reset'>;
+export type TDateStoreState = Omit<IDateStore, 'updateDate' | 'changeState' | 'reset' | 'isValid'>;
 
 const oneMonthAgo = () => {
   const today = new Date();

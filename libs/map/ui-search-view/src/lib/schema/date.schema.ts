@@ -30,10 +30,28 @@ export const dateUpdateSchema = z
   .superRefine((schema, ctx) => {
     const dateFrom = createDate(schema.from);
     const dateTo = createDate(schema.to);
+    const dateMin = schema.min ? createDate(schema.min) : null;
+    const dateMax = schema.max ? createDate(schema.max) : null;
     const isLaterThanToday = z.date().max(new Date());
 
     if (dateFrom) {
       const checkDateTo = z.date().min(dateFrom);
+
+      if (dateMin && dateFrom < dateMin) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_FROM_SHOULD_BE_AFTER_MIN',
+          path: ['from'],
+        });
+      }
+
+      if (dateMax && dateFrom > dateMax) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_FROM_SHOULD_BE_BEFORE_MAX',
+          path: ['from'],
+        });
+      }
 
       if (isLaterThanToday.safeParse(dateFrom).error) {
         ctx.addIssue({
@@ -60,6 +78,22 @@ export const dateUpdateSchema = z
 
     if (dateTo) {
       const checkDateTo = z.date().max(dateTo);
+
+      if (dateMin && dateTo < dateMin) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_TO_SHOULD_BE_AFTER_MIN',
+          path: ['to'],
+        });
+      }
+
+      if (dateMax && dateTo > dateMax) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_TO_SHOULD_BE_BEFORE_MAX',
+          path: ['to'],
+        });
+      }
 
       if (isLaterThanToday.safeParse(dateTo).error) {
         ctx.addIssue({

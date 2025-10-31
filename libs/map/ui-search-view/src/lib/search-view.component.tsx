@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TDynamicTreeModel, TreeBuilder, useAoi } from '@ukri/map/data-access-map';
 import { useComparisonMode } from '@ukri/map/data-access-map';
-import { createDate } from '@ukri/shared/utils/date';
+import { createDate, createDateString } from '@ukri/shared/utils/date';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
@@ -56,8 +56,6 @@ export const SearchView = ({
   });
   const { shape } = useAoi();
   const { comparisonModeEnabled } = useComparisonMode();
-  const [minDate, setMinDate] = useState<Date>(defaultMinDate);
-  const [maxDate, setMaxDate] = useState<Date>(defaultMaxDate);
 
   useFormUpdate(form, schema, onChange);
   useSyncChecklistState(form, schema, state);
@@ -69,8 +67,13 @@ export const SearchView = ({
       const { status, ...dataSets } = defaultValues.dataSets;
       const data = cloneDeep(defaultValues);
       const shouldTriggerDataSetsValidation = state === 'edit' || state === 'edit/data-sets';
+      const date = {
+        ...data.date,
+        min: data.date.min || createDateString(defaultMinDate),
+        max: data.date.max || createDateString(defaultMaxDate),
+      };
 
-      form.reset({ dataSets: data.dataSets, date: data.date, aoi: shape?.shape });
+      form.reset({ dataSets: data.dataSets, date, aoi: shape?.shape });
 
       if (shouldTriggerDataSetsValidation && !isEqual(new TreeBuilder(treeModel).getValues(), dataSets)) {
         form.trigger('dataSets');
@@ -79,20 +82,25 @@ export const SearchView = ({
       }
     }
 
+    if (defaultValues) {
+      const dateFrom = createDate(defaultValues.date.from);
+      const dateTo = createDate(defaultValues.date.to);
+      const dateMin = createDate(defaultValues.date.min);
+      const dateMax = createDate(defaultValues.date.max);
+
+      if ((dateFrom && dateMin && dateFrom < dateMin) || (dateFrom && dateMax && dateFrom > dateMax)) {
+        form.trigger(['date.from']);
+      }
+
+      if ((dateTo && dateMin && dateTo < dateMin) || (dateTo && dateMax && dateTo > dateMax)) {
+        form.trigger(['date.to']);
+      }
+    }
+
     if (!isEqual(treeModel, dataModel.treeModel) || schema !== dataModel.schema) {
       setDataModel({ schema, treeModel });
     }
   }, [form, defaultValues, shape?.shape, state, treeModel, schema, dataModel, setDataModel]);
-
-  useEffect(() => {
-    const newMinDate = defaultValues?.date.min ? createDate(defaultValues?.date.min) : undefined;
-    setMinDate(newMinDate || defaultMinDate);
-  }, [defaultValues?.date.min]);
-
-  useEffect(() => {
-    const newMaxDate = defaultValues?.date.max ? createDate(defaultValues?.date.max) : undefined;
-    setMaxDate(newMaxDate || defaultMaxDate);
-  }, [defaultValues?.date?.max]);
 
   const disabled = useMemo(
     () => comparisonModeEnabled || !form.formState.isValid,
@@ -109,7 +117,7 @@ export const SearchView = ({
             <DynamicTreeForm tree={dataModel.treeModel} />
           </div>
           <div className='mt-auto shadow-date-range-picker p-4'>
-            <DateRangePicker dateMin={minDate} dateMax={maxDate} dateRangeState={dateRangeState} />
+            <DateRangePicker dateRangeState={dateRangeState} />
             <SubmitButton state={state} disabled={disabled} />
           </div>
         </form>
