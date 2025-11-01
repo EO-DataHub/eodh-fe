@@ -1,5 +1,5 @@
 import type {} from '@redux-devtools/extension';
-import { createDate } from '@ukri/shared/utils/date';
+import { isAfter, isBefore } from '@ukri/shared/utils/date';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import isFunction from 'lodash/isFunction';
@@ -18,16 +18,12 @@ export const useDateStore = create<IDateStore>()(
       }),
     isValid: () => {
       const state = get();
-      const dateFrom = createDate(state.date.from);
-      const dateTo = createDate(state.date.to);
-      const dateMin = createDate(state.date.min);
-      const dateMax = createDate(state.date.max);
 
-      if ((dateFrom && dateMin && dateFrom < dateMin) || (dateFrom && dateMax && dateFrom > dateMax)) {
+      if (isBefore(state.date.from, state.date.min) || isAfter(state.date.from, state.date.max)) {
         return false;
       }
 
-      if ((dateTo && dateMin && dateTo < dateMin) || (dateTo && dateMax && dateTo > dateMax)) {
+      if (isBefore(state.date.to, state.date.min) || isAfter(state.date.to, state.date.max)) {
         return false;
       }
 

@@ -9,6 +9,8 @@ export {
   getEndYear,
   returnMinDate,
   returnMaxDate,
+  isBefore,
+  isAfter,
   type TDateTimeString,
   type TDateString,
 } from './lib/date.utils';

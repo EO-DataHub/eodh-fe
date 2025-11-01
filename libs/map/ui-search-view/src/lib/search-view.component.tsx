@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TDynamicTreeModel, TreeBuilder, useAoi } from '@ukri/map/data-access-map';
 import { useComparisonMode } from '@ukri/map/data-access-map';
-import { createDate, createDateString } from '@ukri/shared/utils/date';
+import { createDateString, isAfter,isBefore } from '@ukri/shared/utils/date';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
@@ -30,9 +30,9 @@ type TSearchPanelProps = {
     state: 'pending' | 'error' | 'success';
     error:
       | {
-          collectionIds: string[];
-          message?: string;
-        }
+      collectionIds: string[];
+      message?: string;
+    }
       | undefined;
   };
 };
@@ -83,16 +83,11 @@ export const SearchView = ({
     }
 
     if (defaultValues) {
-      const dateFrom = createDate(defaultValues.date.from);
-      const dateTo = createDate(defaultValues.date.to);
-      const dateMin = createDate(defaultValues.date.min);
-      const dateMax = createDate(defaultValues.date.max);
-
-      if ((dateFrom && dateMin && dateFrom < dateMin) || (dateFrom && dateMax && dateFrom > dateMax)) {
+      if (isBefore(defaultValues.date.from, defaultValues.date.min) || isAfter(defaultValues.date.from, defaultValues.date.max)) {
         form.trigger(['date.from']);
       }
 
-      if ((dateTo && dateMin && dateTo < dateMin) || (dateTo && dateMax && dateTo > dateMax)) {
+      if (isBefore(defaultValues.date.to, defaultValues.date.min) || isAfter(defaultValues.date.to, defaultValues.date.max)) {
         form.trigger(['date.to']);
       }
     }

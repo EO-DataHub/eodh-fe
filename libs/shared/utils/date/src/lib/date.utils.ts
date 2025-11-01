@@ -1,3 +1,4 @@
+import { isAfter as isAfterDateFns, isBefore as isBeforeDateFns, startOfDay } from 'date-fns';
 import isNil from 'lodash/isNil';
 import isString from 'lodash/isString';
 
@@ -224,4 +225,26 @@ export const returnMinDate = (minDate: TDateString, newSelectedMinDate: TDateStr
     return newSelectedMinDate;
   }
   return minDate;
+};
+
+export const isBefore = (date: TDateTimeString | TDateString, dateToCompare: TDateTimeString | TDateString | undefined): boolean => {
+  const dateObj = createDate(date);
+  const dateToCompareObj = createDate(dateToCompare);
+
+  if (!dateObj || !dateToCompareObj) {
+    return false;
+  }
+
+  return isBeforeDateFns(startOfDay(dateObj), startOfDay(dateToCompareObj));
+};
+
+export const isAfter = (date: TDateTimeString | TDateString, dateToCompare: TDateTimeString | TDateString | undefined): boolean => {
+  const dateObj = createDate(date);
+  const dateToCompareObj = createDate(dateToCompare);
+
+  if (!dateObj || !dateToCompareObj) {
+    return false;
+  }
+
+  return isAfterDateFns(startOfDay(dateObj), startOfDay(dateToCompareObj));
 };

@@ -3,6 +3,7 @@ import { createDate } from '@ukri/shared/utils/date';
 import { getHttpClient } from '@ukri/shared/utils/react-query';
 
 import { ALL_COLLECTION_IDS, COLLECTION_INFO_ENDPOINTS, TCollectionId } from '../api';
+import { queryKey } from '../query-key.const';
 import { collectionInfoSchema } from './collection-info.schema';
 import { DateRangeNotFetchedError } from './extent.error';
 
@@ -29,7 +30,7 @@ const fetchCollectionExtent = async (collectionId: TCollectionId): Promise<TExte
 
 export const useCollectionsExtent = () => {
   return useQuery({
-    queryKey: ['collections-extent', 'all'],
+    queryKey: queryKey.CATALOG_INFO(),
     queryFn: async () => {
       const results = await Promise.allSettled(ALL_COLLECTION_IDS.map((id) => fetchCollectionExtent(id)));
 

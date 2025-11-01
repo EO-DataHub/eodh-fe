@@ -1,4 +1,4 @@
-import { createDate, TDateString } from '@ukri/shared/utils/date';
+import { createDate, isAfter, isBefore, TDateString } from '@ukri/shared/utils/date';
 import { z } from 'zod';
 
 export const dateInitialSchema = z.object({
@@ -30,14 +30,12 @@ export const dateUpdateSchema = z
   .superRefine((schema, ctx) => {
     const dateFrom = createDate(schema.from);
     const dateTo = createDate(schema.to);
-    const dateMin = schema.min ? createDate(schema.min) : null;
-    const dateMax = schema.max ? createDate(schema.max) : null;
     const isLaterThanToday = z.date().max(new Date());
 
     if (dateFrom) {
       const checkDateTo = z.date().min(dateFrom);
 
-      if (dateMin && dateFrom < dateMin) {
+      if (isBefore(schema.from, schema.min)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_FROM_SHOULD_BE_AFTER_MIN',
@@ -45,7 +43,7 @@ export const dateUpdateSchema = z
         });
       }
 
-      if (dateMax && dateFrom > dateMax) {
+      if (isAfter(schema.from, schema.max)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_FROM_SHOULD_BE_BEFORE_MAX',
@@ -79,7 +77,7 @@ export const dateUpdateSchema = z
     if (dateTo) {
       const checkDateTo = z.date().max(dateTo);
 
-      if (dateMin && dateTo < dateMin) {
+      if (isBefore(schema.to, schema.min)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_TO_SHOULD_BE_AFTER_MIN',
@@ -87,7 +85,7 @@ export const dateUpdateSchema = z
         });
       }
 
-      if (dateMax && dateTo > dateMax) {
+      if (isAfter(schema.to, schema.max)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'MAP.SEARCH_VIEW.VALIDATION.DATE_TO_SHOULD_BE_BEFORE_MAX',
