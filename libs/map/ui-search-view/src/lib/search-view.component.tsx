@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TDynamicTreeModel, TreeBuilder, useAoi } from '@ukri/map/data-access-map';
 import { useComparisonMode } from '@ukri/map/data-access-map';
-import { createDateString, isAfter,isBefore } from '@ukri/shared/utils/date';
+import { createDateString, isAfter, isBefore } from '@ukri/shared/utils/date';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
@@ -19,6 +19,28 @@ import { useFormUpdate } from './use-form-update.component';
 const defaultMinDate = new Date('1972-01-01');
 const defaultMaxDate = new Date();
 
+const getValidatedDateRange = (dateRange: TInitialForm['date']): TInitialForm['date'] => {
+  const min = dateRange.min || createDateString(defaultMinDate);
+  const max = dateRange.max || createDateString(defaultMaxDate);
+  let from = dateRange.from;
+  let to = dateRange.to;
+
+  if (from && (isBefore(from, min) || isAfter(from, max))) {
+    from = null;
+  }
+
+  if (to && (isBefore(to, min) || isAfter(to, max))) {
+    to = null;
+  }
+
+  return {
+    from,
+    to,
+    min,
+    max,
+  };
+};
+
 type TSearchPanelProps = {
   state: TSearchViewState | undefined;
   schema: TSchema;
@@ -30,9 +52,9 @@ type TSearchPanelProps = {
     state: 'pending' | 'error' | 'success';
     error:
       | {
-      collectionIds: string[];
-      message?: string;
-    }
+          collectionIds: string[];
+          message?: string;
+        }
       | undefined;
   };
 };
@@ -67,13 +89,8 @@ export const SearchView = ({
       const { status, ...dataSets } = defaultValues.dataSets;
       const data = cloneDeep(defaultValues);
       const shouldTriggerDataSetsValidation = state === 'edit' || state === 'edit/data-sets';
-      const date = {
-        ...data.date,
-        min: data.date.min || createDateString(defaultMinDate),
-        max: data.date.max || createDateString(defaultMaxDate),
-      };
 
-      form.reset({ dataSets: data.dataSets, date, aoi: shape?.shape });
+      form.reset({ dataSets: data.dataSets, date: getValidatedDateRange(data.date), aoi: shape?.shape });
 
       if (shouldTriggerDataSetsValidation && !isEqual(new TreeBuilder(treeModel).getValues(), dataSets)) {
         form.trigger('dataSets');
@@ -83,11 +100,17 @@ export const SearchView = ({
     }
 
     if (defaultValues) {
-      if (isBefore(defaultValues.date.from, defaultValues.date.min) || isAfter(defaultValues.date.from, defaultValues.date.max)) {
+      if (
+        isBefore(defaultValues.date.from, defaultValues.date.min) ||
+        isAfter(defaultValues.date.from, defaultValues.date.max)
+      ) {
         form.trigger(['date.from']);
       }
 
-      if (isBefore(defaultValues.date.to, defaultValues.date.min) || isAfter(defaultValues.date.to, defaultValues.date.max)) {
+      if (
+        isBefore(defaultValues.date.to, defaultValues.date.min) ||
+        isAfter(defaultValues.date.to, defaultValues.date.max)
+      ) {
         form.trigger(['date.to']);
       }
     }

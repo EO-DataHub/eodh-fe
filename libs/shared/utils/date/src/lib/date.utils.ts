@@ -227,7 +227,10 @@ export const returnMinDate = (minDate: TDateString, newSelectedMinDate: TDateStr
   return minDate;
 };
 
-export const isBefore = (date: TDateTimeString | TDateString, dateToCompare: TDateTimeString | TDateString | undefined): boolean => {
+export const isBefore = (
+  date: TDateTimeString | TDateString,
+  dateToCompare: TDateTimeString | TDateString | undefined
+): boolean => {
   const dateObj = createDate(date);
   const dateToCompareObj = createDate(dateToCompare);
 
@@ -238,7 +241,10 @@ export const isBefore = (date: TDateTimeString | TDateString, dateToCompare: TDa
   return isBeforeDateFns(startOfDay(dateObj), startOfDay(dateToCompareObj));
 };
 
-export const isAfter = (date: TDateTimeString | TDateString, dateToCompare: TDateTimeString | TDateString | undefined): boolean => {
+export const isAfter = (
+  date: TDateTimeString | TDateString,
+  dateToCompare: TDateTimeString | TDateString | undefined
+): boolean => {
   const dateObj = createDate(date);
   const dateToCompareObj = createDate(dateToCompare);
 

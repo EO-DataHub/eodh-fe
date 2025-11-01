@@ -6,7 +6,7 @@ import { devtools } from 'zustand/middleware';
 
 import { clearWorkflowCache } from '../../mutation/workflow.mutation';
 import { useDateStore } from '../date/date.store';
-import { activatePanel, enableDataSet, loadPreset, reset, resetMinMaxDates, TLoadPresetProps } from '../utils';
+import { activatePanel, enableDataSet, loadPreset, reset, TLoadPresetProps } from '../utils';
 import {
   defaultNodes,
   defaultValues,
@@ -20,7 +20,6 @@ import {
   createNode,
   getNodes,
   getValidFunctions,
-  isDataSetNode,
   isFunctionNode,
   isLastFunctionNodeWithNoValue,
   nodeHasValue,
@@ -77,10 +76,6 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
             .map((node) => node.value?.supportedDataSets || [])
             .flat();
 
-          if (nodeToUpdate?.value !== undefined) {
-            resetMinMaxDates();
-          }
-
           enableDataSet(hasFunctionNodesWithValue ? dataSets : undefined);
 
           return {
@@ -97,15 +92,9 @@ export const useActionCreatorStore = create<IActionCreatorStore>()(
         nodes: [...state.nodes, node],
       })),
     removeNode: (node) =>
-      set((state) => {
-        if (isFunctionNode(node) || isDataSetNode(node)) {
-          resetMinMaxDates();
-        }
-
-        return {
-          nodes: state.nodes.filter((item) => item.id !== node.id),
-        };
-      }),
+      set((state) => ({
+        nodes: state.nodes.filter((item) => item.id !== node.id),
+      })),
     setNodes: (nodes) =>
       set(() => ({
         nodes: nodes ? nodes : defaultNodes,
