@@ -1,5 +1,7 @@
 import { TDateString } from '@ukri/shared/utils/date';
+import isNil from 'lodash/isNil';
 import isObject from 'lodash/isObject';
+import isString from 'lodash/isString';
 import z from 'zod';
 
 import { noDataSchema, thumbnailAssetSchema } from './asset.schema';
@@ -10,7 +12,6 @@ const propertySchema = z
     datetime: z.custom<NonNullable<TDateString>>(
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
-    cloudCoverage: z.never().optional(),
     gridCode: z.never().optional(),
     orbitState: z.never().optional(),
     instrumentMode: z.never().optional(),
@@ -18,51 +19,86 @@ const propertySchema = z
   })
   .transform((data) => ({
     datetime: data.datetime,
-    cloudCoverage: data.cloudCoverage as never,
     gridCode: data.gridCode as never,
     orbitState: data.orbitState as never,
     instrumentMode: data.instrumentMode as never,
     polarizations: data.polarizations as never,
   }));
 
-const waterQualityAssetSchema = z.object({
-  title: z.string(),
-  type: z.string(),
-  href: z.string(),
-  size: z.number(),
-  roles: z.array(z.string()),
-  nodata: noDataSchema,
-  'proj:epsg': z.number(),
-  'proj:shape': z.array(z.number()),
-  'proj:transform': z.array(z.number()),
-  'raster:bands': z.array(
-    z.object({
-      nodata: noDataSchema,
-      unit: z.string(),
-    })
-  ),
-  colormap: z.object({
-    max: z.number(),
-    min: z.number().nullable(),
-    mpl_equivalent_cmap: z.string(),
-    name: z.string(),
-    reversed: z.boolean(),
-    steps: z.number(),
-    units: z.string(),
-  }),
-  statistics: z.object({
-    maximum: z.number().nullable(),
-    mean: z.number().nullable(),
-    median: z.number().nullable(),
-    minimum: z.number().nullable(),
-    stddev: z.number().nullable(),
-    valid_percent: z.number().nullable(),
-  }),
-  'classification:classes': z.never().optional(),
-});
+const waterQualityAssetSchema = z.preprocess(
+  (input) => {
+    if (!isObject(input)) {
+      return input;
+    }
+
+    const data = input as Record<string, unknown>;
+    let projEpsg = data['proj:epsg'];
+
+    if (isNil(projEpsg) && !isNil(data['proj:code'])) {
+      projEpsg = data['proj:code'];
+
+      if (isString(projEpsg)) {
+        const match = projEpsg.split(':').pop();
+        projEpsg = match !== undefined ? parseInt(match, 10) : projEpsg;
+      }
+    }
+
+    return {
+      ...data,
+      'proj:epsg': projEpsg,
+    };
+  },
+  z.object({
+    title: z.string(),
+    type: z.string(),
+    href: z.string(),
+    size: z.number(),
+    roles: z.array(z.string()),
+    nodata: noDataSchema,
+    'proj:epsg': z.number(),
+    'proj:shape': z.array(z.number()),
+    'proj:transform': z.array(z.number()),
+    'raster:bands': z.array(
+      z.object({
+        nodata: noDataSchema,
+        unit: z.string(),
+      })
+    ),
+    colormap: z.object({
+      max: z.number(),
+      min: z.number().nullable(),
+      mpl_equivalent_cmap: z.string(),
+      name: z.string(),
+      reversed: z.boolean(),
+      steps: z.number(),
+      units: z.string(),
+    }),
+    statistics: z.object({
+      maximum: z.number().nullable(),
+      mean: z.number().nullable(),
+      median: z.number().nullable(),
+      minimum: z.number().nullable(),
+      stddev: z.number().nullable(),
+      valid_percent: z.number().nullable(),
+    }),
+    'classification:classes': z.never().optional(),
+  })
+);
 
 export const waterQualitySchema = featureGenericSchema.extend({
-  properties: propertySchema,
+  properties: propertySchema
+    .innerType()
+    .extend({
+      'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
+    })
+    .transform((data) => ({
+      datetime: data.datetime,
+      cloudCoverage: data['eo:cloud_cover'],
+      gridCode: data.gridCode as never,
+      orbitState: data.orbitState as never,
+      instrumentMode: data.instrumentMode as never,
+      polarizations: data.polarizations as never,
+    })),
   assets: z.object({
     thumbnail: thumbnailAssetSchema.optional(),
     data: waterQualityAssetSchema.optional(),
@@ -104,6 +140,7 @@ export const landCoverChangesSchema = featureGenericSchema.extend({
     .extend({
       lulc_classes_m2: z.record(z.string().or(z.number()), z.number()),
       lulc_classes_percentage: z.record(z.string().or(z.number()), z.number()),
+      cloudCoverage: z.never().optional(),
     })
     .transform((data) => ({
       datetime: data.datetime,

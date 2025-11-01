@@ -115,7 +115,7 @@ export class WorkflowQueryBuilder {
 
   private getFields = (): TFields => {
     return {
-      include: ['properties.lulc_classes_percentage', 'properties.lulc_classes_m2'],
+      include: ['properties.lulc_classes_percentage', 'properties.lulc_classes_m2', 'properties.eo:cloud_cover'],
     };
   };
 
