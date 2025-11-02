@@ -85,7 +85,10 @@
       },
       "WORKFLOW_IMPORT": {
         "WRONG_FILE": "Wrong file format. Only JSON files with valid schemas can be imported.",
-        "SUCCESS": "Workflow configuration file uploaded successfully."
+        "SUCCESS": "Workflow configuration file uploaded successfully.",
+        "DATE_RANGE_ERROR": "Invalid date range. Valid range is between {{dateMin}} and {{dateMax}}",
+        "DATE_MIN_ERROR": "Invalid date. Date from should be later",
+        "DATE_MAX_ERROR": "Invalid date. Date to should be earlier"
       }
     },
     "NAVIGATION": {
