@@ -1,16 +1,35 @@
 import { createDate, isAfter, isBefore, TDateString } from '@ukri/shared/utils/date';
+import isString from 'lodash/isString';
 import { z } from 'zod';
 
 export const dateInitialSchema = z.object({
   from: z
-    .custom<TDateString>((value) => !z.string().date().safeParse(value).error, {
-      message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
-    })
+    .custom<TDateString>(
+      (value) => {
+        if (isString(value) && !value.length) {
+          return true;
+        }
+        return !z.string().date().safeParse(value).error;
+      },
+      {
+        message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
+      }
+    )
+    .transform((value) => (isString(value) && !value.length ? null : value))
     .nullable(),
   to: z
-    .custom<TDateString>((value) => !z.string().date().safeParse(value).error, {
-      message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
-    })
+    .custom<TDateString>(
+      (value) => {
+        if (isString(value) && !value.length) {
+          return true;
+        }
+        return !z.string().date().safeParse(value).error;
+      },
+      {
+        message: 'MAP.SEARCH_VIEW.VALIDATION.NO_DATE_SELECTED',
+      }
+    )
+    .transform((value) => (isString(value) && !value.length ? null : value))
     .nullable(),
   min: z.custom<TDateString>((value) => !z.string().datetime().optional().safeParse(value).error).optional(),
   max: z.custom<TDateString>((value) => !z.string().datetime().optional().safeParse(value).error).optional(),
@@ -28,8 +47,8 @@ export const dateUpdateSchema = z
     max: z.custom<TDateString>((value) => !z.string().datetime().optional().safeParse(value).error).optional(),
   })
   .superRefine((schema, ctx) => {
-    const dateFrom = createDate(schema.from);
-    const dateTo = createDate(schema.to);
+    const dateFrom = schema.from ? createDate(schema.from) : undefined;
+    const dateTo = schema.to ? createDate(schema.to) : undefined;
     const isLaterThanToday = z.date().max(new Date());
 
     if (dateFrom) {

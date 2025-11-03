@@ -43,20 +43,20 @@ export const useSearchMode = () => {
   );
 
   useEffect(() => {
-    if (extentStatus !== 'success' || !extentData) {
+    if (extentStatus !== 'success' || !extentData || schema === 'search') {
       return;
     }
 
     const enabledCollectionIds = extractEnabledCollections(dataSets);
     const extent = aggregateExtents(extentData.extents, enabledCollectionIds);
-    const minDate = extent ? createDateString(extent.min) : undefined;
-    const maxDate = extent ? createDateString(extent.max) : undefined;
+    const minDate = extent?.min ? createDateString(extent.min) : undefined;
+    const maxDate = extent?.max ? createDateString(extent.max) : undefined;
     updateDate((currentDate) => ({
       ...currentDate,
       min: minDate || undefined,
       max: maxDate || undefined,
     }));
-  }, [dataSets, extentData, extentStatus, updateDate]);
+  }, [dataSets, extentData, extentStatus, schema, updateDate]);
 
   const state: TSearchViewState | undefined = useMemo(() => {
     if (dataSetsState === 'edit' && dateRangeState === 'edit') {
@@ -105,11 +105,12 @@ export const useSearchMode = () => {
     (formData: TInitialForm, schema: TSchema) => {
       updateDataSets(formData.dataSets, schema);
       const enabledCollectionIds = extractEnabledCollections(formData.dataSets);
+
       updateDate((currentDate) => ({
         ...currentDate,
         ...formData.date,
-        min: enabledCollectionIds.length ? currentDate.min : undefined,
-        max: enabledCollectionIds.length ? currentDate.max : undefined,
+        min: enabledCollectionIds.length && schema === 'action-creator' ? currentDate.min : undefined,
+        max: enabledCollectionIds.length && schema === 'action-creator' ? currentDate.max : undefined,
       }));
     },
     [updateDataSets, updateDate]

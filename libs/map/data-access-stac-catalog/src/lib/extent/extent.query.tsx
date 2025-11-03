@@ -22,8 +22,8 @@ const fetchCollectionExtent = async (collectionId: TCollectionId): Promise<TExte
   }
 
   const [startStr, endStr] = parsed.data.extent.temporal.interval[0];
-  const min = createDate(startStr);
-  const max = createDate(endStr);
+  const min = startStr ? createDate(startStr) : null;
+  const max = endStr ? createDate(endStr) : null;
 
   return { min, max };
 };

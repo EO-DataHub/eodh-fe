@@ -1,7 +1,6 @@
 import type {} from '@redux-devtools/extension';
-import { isAfter, isBefore } from '@ukri/shared/utils/date';
+import { areDateObjectsEqual, isAfter, isBefore } from '@ukri/shared/utils/date';
 import cloneDeep from 'lodash/cloneDeep';
-import isEqual from 'lodash/isEqual';
 import isFunction from 'lodash/isFunction';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -13,8 +12,9 @@ export const useDateStore = create<IDateStore>()(
     ...getDefaultValues('search'),
     updateDate: (dateOrFunction) =>
       set((state) => {
-        const date = isFunction(dateOrFunction) ? dateOrFunction(state.date) : dateOrFunction;
-        return isEqual(date, state.date) ? state : { date: updateDate(date) };
+        const newDate = isFunction(dateOrFunction) ? dateOrFunction(state.date) : dateOrFunction;
+        const updatedDate = updateDate(newDate);
+        return areDateObjectsEqual(updatedDate, state.date) ? state : { date: updatedDate };
       }),
     isValid: () => {
       const state = get();

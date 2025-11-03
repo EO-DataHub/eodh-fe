@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TDynamicTreeModel, TreeBuilder, useAoi } from '@ukri/map/data-access-map';
 import { useComparisonMode } from '@ukri/map/data-access-map';
-import { createDateString, isAfter, isBefore } from '@ukri/shared/utils/date';
+import { areDatesEqual, createDateString, isAfter, isBefore } from '@ukri/shared/utils/date';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
@@ -102,14 +102,18 @@ export const SearchView = ({
     if (defaultValues) {
       if (
         isBefore(defaultValues.date.from, defaultValues.date.min) ||
-        isAfter(defaultValues.date.from, defaultValues.date.max)
+        isAfter(defaultValues.date.from, defaultValues.date.max) ||
+        !areDatesEqual(defaultValues.date.from, rest.date.from) ||
+        !areDatesEqual(defaultValues.date.min, rest.date.min)
       ) {
         form.trigger(['date.from']);
       }
 
       if (
         isBefore(defaultValues.date.to, defaultValues.date.min) ||
-        isAfter(defaultValues.date.to, defaultValues.date.max)
+        isAfter(defaultValues.date.to, defaultValues.date.max) ||
+        !areDatesEqual(defaultValues.date.to, rest.date.to) ||
+        !areDatesEqual(defaultValues.date.max, rest.date.max)
       ) {
         form.trigger(['date.to']);
       }
