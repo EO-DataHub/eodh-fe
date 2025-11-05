@@ -110,7 +110,11 @@ export const SearchView = ({
           !areDatesEqual(defaultValues.date.from, rest.date.from) ||
           !areDatesEqual(defaultValues.date.min, rest.date.min))
       ) {
-        form.trigger(['date.from']);
+        if (schema === 'action-creator' && !defaultValues.date.from) {
+          form.clearErrors('date.from');
+        } else {
+          form.trigger(['date.from']);
+        }
       }
 
       if (
@@ -121,7 +125,11 @@ export const SearchView = ({
           !areDatesEqual(defaultValues.date.to, rest.date.to) ||
           !areDatesEqual(defaultValues.date.max, rest.date.max))
       ) {
-        form.trigger(['date.to']);
+        if (schema === 'action-creator' && !defaultValues.date.to) {
+          form.clearErrors('date.to');
+        } else {
+          form.trigger(['date.to']);
+        }
       }
     }
 

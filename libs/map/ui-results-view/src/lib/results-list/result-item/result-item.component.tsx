@@ -73,7 +73,7 @@ export const ResultItem = ({
           <ResultItemInfo value={collectionName} iconName='Satellite' />
           <ResultItemInfo value={date ?? ''} iconName='Calendar' />
           <ResultItemInfo value={time ?? ''} iconName='Schedule' />
-          {cloudCoverageValue && <ResultItemInfo value={cloudCoverageValue} iconName='Cloud' />}
+          {<ResultItemInfo value={cloudCoverageValue} iconName='Cloud' />}
           {gridCode && <ResultItemInfo value={gridCode} iconName='Map' />}
         </div>
       </div>
