@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TDynamicTreeModel, TreeBuilder, useAoi } from '@ukri/map/data-access-map';
 import { useComparisonMode } from '@ukri/map/data-access-map';
-import { areDatesEqual, createDateString, isAfter, isBefore } from '@ukri/shared/utils/date';
+import { areDateObjectsEqual, areDatesEqual, createDateString, isAfter, isBefore } from '@ukri/shared/utils/date';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
@@ -89,8 +89,10 @@ export const SearchView = ({
       const { status, ...dataSets } = defaultValues.dataSets;
       const data = cloneDeep(defaultValues);
       const shouldTriggerDataSetsValidation = state === 'edit' || state === 'edit/data-sets';
+      const validatedDate = getValidatedDateRange(data.date);
+      const newDate = areDateObjectsEqual(validatedDate, rest.date) ? rest.date : validatedDate;
 
-      form.reset({ dataSets: data.dataSets, date: getValidatedDateRange(data.date), aoi: shape?.shape });
+      form.reset({ dataSets: data.dataSets, date: newDate, aoi: shape?.shape }, { keepTouched: true, keepDirty: true });
 
       if (shouldTriggerDataSetsValidation && !isEqual(new TreeBuilder(treeModel).getValues(), dataSets)) {
         form.trigger('dataSets');
@@ -101,19 +103,23 @@ export const SearchView = ({
 
     if (defaultValues) {
       if (
-        isBefore(defaultValues.date.from, defaultValues.date.min) ||
-        isAfter(defaultValues.date.from, defaultValues.date.max) ||
-        !areDatesEqual(defaultValues.date.from, rest.date.from) ||
-        !areDatesEqual(defaultValues.date.min, rest.date.min)
+        (form.formState.touchedFields.date?.from || form.formState.touchedFields.date?.to) &&
+        (!defaultValues.date.from ||
+          isBefore(defaultValues.date.from, defaultValues.date.min) ||
+          isAfter(defaultValues.date.from, defaultValues.date.max) ||
+          !areDatesEqual(defaultValues.date.from, rest.date.from) ||
+          !areDatesEqual(defaultValues.date.min, rest.date.min))
       ) {
         form.trigger(['date.from']);
       }
 
       if (
-        isBefore(defaultValues.date.to, defaultValues.date.min) ||
-        isAfter(defaultValues.date.to, defaultValues.date.max) ||
-        !areDatesEqual(defaultValues.date.to, rest.date.to) ||
-        !areDatesEqual(defaultValues.date.max, rest.date.max)
+        (form.formState.touchedFields.date?.from || form.formState.touchedFields.date?.to) &&
+        (!defaultValues.date.to ||
+          isBefore(defaultValues.date.to, defaultValues.date.min) ||
+          isAfter(defaultValues.date.to, defaultValues.date.max) ||
+          !areDatesEqual(defaultValues.date.to, rest.date.to) ||
+          !areDatesEqual(defaultValues.date.max, rest.date.max))
       ) {
         form.trigger(['date.to']);
       }

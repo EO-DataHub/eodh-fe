@@ -1,6 +1,27 @@
-import { TDataSetsValues } from '../../form-builder/tree/data-sets.model';
+import isString from 'lodash/isString';
 
-export const extractEnabledCollections = (dataSets: TDataSetsValues): string[] => {
+import { TDataSetsValues } from '../../form-builder/tree/data-sets.model';
+import { TDataSetValue } from '../action-creator/action-creator.schema';
+
+const extractCollectionsFromActionCreator = (dataSet: TDataSetValue) => {
+  const collectionIds: string[] = [];
+
+  switch (dataSet) {
+    case 'sentinel-1': {
+      collectionIds.push('sentinel1');
+      break;
+    }
+
+    case 'sentinel-2': {
+      collectionIds.push('sentinel2_ard');
+      break;
+    }
+  }
+
+  return collectionIds;
+};
+
+const extractCollectionsFromDataSets = (dataSets: TDataSetsValues) => {
   const collectionIds: string[] = [];
 
   if (dataSets.public?.copernicus?.sentinel1?.enabled) {
@@ -25,3 +46,17 @@ export const extractEnabledCollections = (dataSets: TDataSetsValues): string[] =
 
   return collectionIds;
 };
+
+export function extractEnabledCollections(dataSets: TDataSetValue | undefined): string[];
+export function extractEnabledCollections(dataSets: TDataSetsValues | undefined): string[];
+export function extractEnabledCollections(dataSets: TDataSetsValues | TDataSetValue | undefined): string[] {
+  if (dataSets === undefined) {
+    return [];
+  }
+
+  if (isString(dataSets)) {
+    return extractCollectionsFromActionCreator(dataSets);
+  }
+
+  return extractCollectionsFromDataSets(dataSets);
+}
