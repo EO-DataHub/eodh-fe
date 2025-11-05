@@ -1,5 +1,6 @@
 import { TDateString } from '@ukri/shared/utils/date';
 import isNil from 'lodash/isNil';
+import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isString from 'lodash/isString';
 import z from 'zod';
@@ -89,7 +90,19 @@ export const waterQualitySchema = featureGenericSchema.extend({
   properties: propertySchema
     .innerType()
     .extend({
-      'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
+      'eo:cloud_cover': z
+        .union([
+          z.number(),
+          z.string().transform((data) => {
+            const value = parseFloat(data);
+            if (isNumber(value) && !isNaN(value)) {
+              return value;
+            }
+
+            return undefined;
+          }),
+        ])
+        .optional(),
     })
     .transform((data) => ({
       datetime: data.datetime,
