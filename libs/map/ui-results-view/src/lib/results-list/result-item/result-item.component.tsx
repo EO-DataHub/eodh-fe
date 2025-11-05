@@ -43,7 +43,10 @@ export const ResultItem = ({
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
   const cloudCoverageValue = useMemo(
-    () => (isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage),
+    () =>
+      cloudCoverage !== undefined && isNumber(cloudCoverage) && !isNaN(cloudCoverage)
+        ? `${cloudCoverage.toFixed(2)}%`
+        : cloudCoverage?.toString(),
     [cloudCoverage]
   );
   const imageDisabled = useMemo(() => mode === 'action-creator' && hasManyIndices, [hasManyIndices, mode]);
