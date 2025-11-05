@@ -1321,6 +1321,7 @@
         "ONLY_ONE_COLLECTION_IS_REQUIRED": "You can only select Data Sets from within the same collection. Please refine your selection and try again."
       },
       "DATA_SETS": {
+        "N_A": "N/A",
         "INFO_BOX": {
           "SOME_OPTIONS_ARE_INCOMPATIBLE": "Some menu options may be incompatible with your selections in the Action Creator",
           "BUTTON": {
