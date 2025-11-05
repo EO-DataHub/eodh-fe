@@ -144,7 +144,7 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   }
 
   if (dateRange) {
-    useDateStore.getState().updateDate(dateRange);
+    useDateStore.getState().updateDate({ ...dateRange });
   } else {
     useDateStore.getState().reset('action-creator');
   }

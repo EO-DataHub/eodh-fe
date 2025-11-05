@@ -7,18 +7,23 @@ export type TDateValues = {
   date: {
     from: NonNullable<TDateString> | null;
     to: NonNullable<TDateString> | null;
+    min?: NonNullable<TDateString> | null;
+    max?: NonNullable<TDateString> | null;
   };
 };
 
 export interface IDateStore extends TDateValues {
   schema: TSchema;
   state: TDateState;
-  updateDate: (date: Partial<TDateValues['date']> | undefined) => void;
+  updateDate: (
+    date: Partial<TDateValues['date']> | ((date: TDateValues['date']) => TDateValues['date']) | undefined
+  ) => void;
   reset: (schema: TSchema) => void;
+  isValid: () => boolean;
   changeState: (state: TDateState) => void;
 }
 
-export type TDateStoreState = Omit<IDateStore, 'updateDate' | 'changeState' | 'reset'>;
+export type TDateStoreState = Omit<IDateStore, 'updateDate' | 'changeState' | 'reset' | 'isValid'>;
 
 const oneMonthAgo = () => {
   const today = new Date();
@@ -27,6 +32,13 @@ const oneMonthAgo = () => {
 
   return oneMonthAgo;
 };
+
+export const updateDate = (date: Partial<TDateValues['date']> | undefined) => ({
+  from: date?.from || null,
+  to: date?.to || null,
+  min: date?.min || undefined,
+  max: date?.max || undefined,
+});
 
 export const getDefaultValues = (schema: TSchema): TDateStoreState => {
   switch (schema) {
@@ -37,6 +49,8 @@ export const getDefaultValues = (schema: TSchema): TDateStoreState => {
         date: {
           from: null,
           to: null,
+          min: undefined,
+          max: undefined,
         },
       };
     }
@@ -49,6 +63,8 @@ export const getDefaultValues = (schema: TSchema): TDateStoreState => {
         date: {
           from: formatDate(createDateString(oneMonthAgo())),
           to: formatDate(createDateString(new Date())),
+          min: undefined,
+          max: undefined,
         },
       };
     }

@@ -84,7 +84,7 @@ export const Workflow = () => {
   const runActionCreatorButtonDisabled = useMemo(
     () =>
       isAreaIncorrect ||
-      !isValid ||
+      !isValid() ||
       !enabled ||
       comparisonModeEnabled ||
       status === 'pending' ||

@@ -1,3 +1,4 @@
+import { isAfter as isAfterDateFns, isBefore as isBeforeDateFns, isSameDay, startOfDay } from 'date-fns';
 import isNil from 'lodash/isNil';
 import isString from 'lodash/isString';
 
@@ -78,13 +79,15 @@ export const getBeginingOfYear = (date: TDateString): number | null => {
   return result;
 };
 
-export const createDate = (date?: TDateTimeString | TDateString) => {
+export function createDate(date: undefined): null;
+export function createDate(date: TDateTimeString | TDateString): Date;
+export function createDate(date?: TDateTimeString | TDateString): Date | null {
   if (!date) {
     return null;
   }
 
   return new Date(date);
-};
+}
 
 export const createIsoStringDate = (date?: TDateTimeString) => {
   if (!date) {
@@ -224,4 +227,68 @@ export const returnMinDate = (minDate: TDateString, newSelectedMinDate: TDateStr
     return newSelectedMinDate;
   }
   return minDate;
+};
+
+export const isBefore = (
+  date: TDateTimeString | TDateString,
+  dateToCompare: TDateTimeString | TDateString | undefined
+): boolean => {
+  const dateObj = createDate(date);
+  const dateToCompareObj = dateToCompare ? createDate(dateToCompare) : undefined;
+
+  if (!dateObj || !dateToCompareObj) {
+    return false;
+  }
+
+  return isBeforeDateFns(startOfDay(dateObj), startOfDay(dateToCompareObj));
+};
+
+export const isAfter = (
+  date: TDateTimeString | TDateString,
+  dateToCompare: TDateTimeString | TDateString | undefined
+): boolean => {
+  const dateObj = createDate(date);
+  const dateToCompareObj = dateToCompare ? createDate(dateToCompare) : undefined;
+
+  if (!dateObj || !dateToCompareObj) {
+    return false;
+  }
+
+  return isAfterDateFns(startOfDay(dateObj), startOfDay(dateToCompareObj));
+};
+
+export const areDatesEqual = (
+  date1: TDateString | null | undefined,
+  date2: TDateString | null | undefined
+): boolean => {
+  if ((date1 === null || date1 === undefined) && (date2 === null || date2 === undefined)) {
+    return true;
+  }
+
+  if (date1 === null || date1 === undefined || date2 === null || date2 === undefined) {
+    return false;
+  }
+
+  return isSameDay(createDate(date1), createDate(date2));
+};
+
+type TDateValues = {
+  date: {
+    from: NonNullable<TDateString> | null;
+    to: NonNullable<TDateString> | null;
+    min?: NonNullable<TDateString> | null;
+    max?: NonNullable<TDateString> | null;
+  };
+};
+
+export const areDateObjectsEqual = (
+  date1: Partial<TDateValues['date']> | undefined,
+  date2: TDateValues['date']
+): boolean => {
+  return (
+    areDatesEqual(date1?.from, date2.from) &&
+    areDatesEqual(date1?.to, date2.to) &&
+    areDatesEqual(date1?.min, date2.min) &&
+    areDatesEqual(date1?.max, date2.max)
+  );
 };
