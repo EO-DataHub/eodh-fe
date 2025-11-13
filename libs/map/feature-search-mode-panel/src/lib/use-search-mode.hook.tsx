@@ -7,8 +7,11 @@ import {
   useResults,
   useTrueColorImage,
 } from '@ukri/map/data-access-map';
-import { getAllPages, useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
+import { aggregateExtents, extractEnabledCollections } from '@ukri/map/data-access-map';
+import { getAllPages, useCatalogSearch, useCollectionsExtent } from '@ukri/map/data-access-stac-catalog';
+import { DateRangeNotFetchedError } from '@ukri/map/data-access-stac-catalog';
 import { TInitialForm, TSearchViewState, TUpdateForm } from '@ukri/map/ui-search-view';
+import { createDateString } from '@ukri/shared/utils/date';
 import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useMemo } from 'react';
 
@@ -30,6 +33,30 @@ export const useSearchMode = () => {
   const { changeState } = useAoi();
   const setFootprints = useFootprintCollectionMutation();
   const { setFeature } = useTrueColorImage();
+  const { data: extentData, status: extentStatus, error: extentError } = useCollectionsExtent();
+  const dateRangeQueryState = useMemo(
+    () => ({
+      state: extentStatus,
+      error: extentError instanceof DateRangeNotFetchedError ? extentError : undefined,
+    }),
+    [extentStatus, extentError]
+  );
+
+  useEffect(() => {
+    if (extentStatus !== 'success' || !extentData || schema === 'search') {
+      return;
+    }
+
+    const enabledCollectionIds = extractEnabledCollections(dataSets);
+    const extent = aggregateExtents(extentData.extents, enabledCollectionIds);
+    const minDate = extent?.min ? createDateString(extent.min) : undefined;
+    const maxDate = extent?.max ? createDateString(extent.max) : undefined;
+    updateDate((currentDate) => ({
+      ...currentDate,
+      min: minDate || undefined,
+      max: maxDate || undefined,
+    }));
+  }, [dataSets, extentData, extentStatus, schema, updateDate]);
 
   const state: TSearchViewState | undefined = useMemo(() => {
     if (dataSetsState === 'edit' && dateRangeState === 'edit') {
@@ -77,7 +104,14 @@ export const useSearchMode = () => {
   const updateState = useCallback(
     (formData: TInitialForm, schema: TSchema) => {
       updateDataSets(formData.dataSets, schema);
-      updateDate(formData.date);
+      const enabledCollectionIds = extractEnabledCollections(formData.dataSets);
+
+      updateDate((currentDate) => ({
+        ...currentDate,
+        ...formData.date,
+        min: enabledCollectionIds.length && schema === 'action-creator' ? currentDate.min : undefined,
+        max: enabledCollectionIds.length && schema === 'action-creator' ? currentDate.max : undefined,
+      }));
     },
     [updateDataSets, updateDate]
   );
@@ -123,6 +157,7 @@ export const useSearchMode = () => {
       searchType,
       updateState,
       updateDataSets,
+      dateRangeState: dateRangeQueryState,
     }),
     [
       data,
@@ -141,6 +176,7 @@ export const useSearchMode = () => {
       searchType,
       updateState,
       updateDataSets,
+      dateRangeQueryState,
     ]
   );
 };

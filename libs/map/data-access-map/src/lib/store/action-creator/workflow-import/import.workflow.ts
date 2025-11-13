@@ -150,14 +150,51 @@ const loadWorkflow = (importedNodes: TWorkflowImport['nodes']) => {
   useAoiStore.getState().changeState(areaState);
   useDataSetsStore.getState().changeState(dataSetState);
   useDateStore.getState().changeState(dateState);
+
+  if (useDateStore.getState().isValid()) {
+    return {
+      status: 'success',
+      error: null,
+    };
+  }
+
+  const dateMin = useDateStore.getState().date.min;
+  const dateMax = useDateStore.getState().date.max;
+  let errorMessage: string | undefined = undefined;
+
+  if (dateMin && dateMax) {
+    errorMessage = t('GLOBAL.ERRORS.WORKFLOW_IMPORT.DATE_RANGE_ERROR', {
+      dateMin: useDateStore.getState().date.min,
+      dateMax: useDateStore.getState().date.max,
+    });
+  } else if (dateMin) {
+    errorMessage = t('GLOBAL.ERRORS.WORKFLOW_IMPORT.DATE_MIN_ERROR');
+  } else if (dateMax) {
+    errorMessage = t('GLOBAL.ERRORS.WORKFLOW_IMPORT.DATE_MAX_ERROR');
+  }
+
+  return {
+    status: 'partial',
+    error: {
+      error: 'date-range',
+      message: errorMessage,
+    },
+  };
 };
 
 export const importWorkflow: () => Promise<{ status: 'error' | 'success' }> = async () => {
   try {
     const fileContent = await selectFile();
     const workflow = nodeImportSchema.parse(fileContent);
-    loadWorkflow(workflow.nodes);
-    displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.SUCCESS'), 'success');
+    const result = loadWorkflow(workflow.nodes);
+
+    if (result.status === 'success') {
+      displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.SUCCESS'), 'success');
+    } else {
+      const message = result.error?.message ? result.error?.message : t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE');
+      displayNotification(message, 'error');
+    }
+
     return { status: 'success' };
   } catch (e) {
     displayNotification(t('GLOBAL.ERRORS.WORKFLOW_IMPORT.WRONG_FILE'), 'error');

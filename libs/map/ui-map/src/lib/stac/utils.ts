@@ -10,11 +10,15 @@ export async function getProjection(
   let projection = defaultProjection;
   if (isRegistered()) {
     const epsgCode = reference.getMetadata('proj:epsg') as number | undefined;
-    if (epsgCode) {
+    const projCode = reference.getMetadata('proj:code') as string | undefined;
+    const match = projCode?.split(':').pop() || undefined;
+    const projEpsg = match !== undefined ? parseInt(match, 10) : epsgCode;
+
+    if (projEpsg) {
       try {
-        projection = await fromEPSGCode(epsgCode);
+        projection = await fromEPSGCode(projEpsg);
       } catch (_) {
-        // pass
+        /* empty */
       }
     }
   }

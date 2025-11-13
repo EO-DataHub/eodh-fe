@@ -43,7 +43,10 @@ export const ResultItem = ({
   const time = useMemo(() => `${formatHourInUtc(dateTime as TDateTimeString)} UTC`, [dateTime]);
   const date = useMemo(() => formatDate(dateTime as TDateTimeString, 'YYYY-MM-DD'), [dateTime]);
   const cloudCoverageValue = useMemo(
-    () => (isNumber(cloudCoverage) ? `${cloudCoverage.toFixed(2)}%` : cloudCoverage),
+    () =>
+      cloudCoverage !== undefined && isNumber(cloudCoverage) && !isNaN(cloudCoverage)
+        ? `${cloudCoverage.toFixed(2)}%`
+        : cloudCoverage?.toString(),
     [cloudCoverage]
   );
   const imageDisabled = useMemo(() => mode === 'action-creator' && hasManyIndices, [hasManyIndices, mode]);
@@ -70,7 +73,7 @@ export const ResultItem = ({
           <ResultItemInfo value={collectionName} iconName='Satellite' />
           <ResultItemInfo value={date ?? ''} iconName='Calendar' />
           <ResultItemInfo value={time ?? ''} iconName='Schedule' />
-          {cloudCoverageValue && <ResultItemInfo value={cloudCoverageValue} iconName='Cloud' />}
+          {<ResultItemInfo value={cloudCoverageValue} iconName='Cloud' />}
           {gridCode && <ResultItemInfo value={gridCode} iconName='Map' />}
         </div>
       </div>

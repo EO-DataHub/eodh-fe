@@ -5,3 +5,5 @@ export type { TGeometry } from './lib/stac-model/geometry.schema';
 export type { TRangeAreaWithLine, TStackBar } from './lib/stac-model/graph.model';
 export { isRangeAreaWithLineSchema, isStackBarSchema } from './lib/stac-model/graph.model';
 export { NoWorkflowResultsFoundError } from './lib/workflow.error';
+export { DateRangeNotFetchedError } from './lib/extent/extent.error';
+export { useCollectionsExtent } from './lib/extent/extent.query';

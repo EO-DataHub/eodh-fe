@@ -1,18 +1,34 @@
 import type {} from '@redux-devtools/extension';
+import { areDateObjectsEqual, isAfter, isBefore } from '@ukri/shared/utils/date';
 import cloneDeep from 'lodash/cloneDeep';
-import isEqual from 'lodash/isEqual';
+import isFunction from 'lodash/isFunction';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { getDefaultValues, IDateStore, TDateStoreState, TSchema } from './date.model';
+import { getDefaultValues, IDateStore, TDateStoreState, TSchema, updateDate } from './date.model';
 
 export const useDateStore = create<IDateStore>()(
-  devtools((set) => ({
+  devtools((set, get) => ({
     ...getDefaultValues('search'),
-    updateDate: (date) =>
+    updateDate: (dateOrFunction) =>
       set((state) => {
-        return isEqual(date, state.date) ? state : { date: { from: date?.from || null, to: date?.to || null } };
+        const newDate = isFunction(dateOrFunction) ? dateOrFunction(state.date) : dateOrFunction;
+        const updatedDate = updateDate(newDate);
+        return areDateObjectsEqual(updatedDate, state.date) ? state : { date: updatedDate };
       }),
+    isValid: () => {
+      const state = get();
+
+      if (isBefore(state.date.from, state.date.min) || isAfter(state.date.from, state.date.max)) {
+        return false;
+      }
+
+      if (isBefore(state.date.to, state.date.min) || isAfter(state.date.to, state.date.max)) {
+        return false;
+      }
+
+      return true;
+    },
     reset: (schema: TSchema) => set(() => cloneDeep(getDefaultValues(schema))),
     changeState: (state) => set(() => ({ state })),
   }))

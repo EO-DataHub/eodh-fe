@@ -14,6 +14,9 @@ export {
   useFootprintCollectionMutation,
 } from './lib/store/footprint/footprint.store';
 export { useDataSets } from './lib/store/data-sets/data-sets.store';
+export { aggregateExtents } from './lib/store/data-sets/aggregate-extents.util';
+export { useUpdateExtent } from './lib/store/data-sets/use-update-extent';
+export { extractEnabledCollections } from './lib/store/data-sets/extract-enabled-collections.util';
 export { useGetPresets } from './lib/query/presets/presets.query';
 export { useGetHistory } from './lib/query/history/history.query';
 export { useDeleteHistoryItem } from './lib/query/history/delete-workflow.query';
