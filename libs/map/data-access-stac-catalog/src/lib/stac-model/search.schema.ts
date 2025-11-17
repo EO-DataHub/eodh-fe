@@ -9,7 +9,9 @@ const propertySchema = z
     datetime: z.custom<NonNullable<TDateString>>(
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
-    cloudCoverage: z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
+    cloudCoverage: z
+      .union([z.number(), z.string().transform((data) => (data ? parseFloat(data) : undefined))])
+      .optional(),
     gridCode: z.string().optional(),
     orbitState: z.string().optional(),
     instrumentMode: z.string().optional(),
@@ -37,7 +39,9 @@ const sentinel1Element84PropertySchema = z
     datetime: z.custom<NonNullable<TDateString>>(
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
-    'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
+    'eo:cloud_cover': z
+      .union([z.number(), z.string().transform((data) => (data ? parseFloat(data) : undefined))])
+      .optional(),
     'grid:code': z.string().optional(),
     'sat:orbit_state': z.string().optional(),
     'sar:instrument_mode': z.string().optional(),
@@ -64,7 +68,9 @@ const sentinel1CedaPropertySchema = z
     datetime: z.custom<NonNullable<TDateString>>(
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
-    'eo:cloud_cover': z.union([z.number(), z.string().transform((data) => parseFloat(data))]).optional(),
+    'eo:cloud_cover': z
+      .union([z.number(), z.string().transform((data) => (data ? parseFloat(data) : undefined))])
+      .optional(),
     'grid:code': z.string().optional(),
     'Orbit Direction': z.string().optional(),
     'sar:instrument_mode': z.string().optional(),
@@ -91,7 +97,9 @@ const skySatPropertySchema = z
     datetime: z.custom<NonNullable<TDateString>>(
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
-    cloud_percent: z.number(),
+    cloud_percent: z
+      .union([z.number(), z.string().transform((data) => (data ? parseFloat(data) : undefined))])
+      .optional(),
     cloudCoverage: z.never().optional(),
     gridCode: z.never().optional(),
     orbitState: z.never().optional(),
@@ -109,7 +117,9 @@ const planetScopePropertySchema = z
     datetime: z.custom<NonNullable<TDateString>>(
       (value) => !z.string().datetime({ offset: true }).safeParse(value).error
     ),
-    cloud_percent: z.number(),
+    cloud_percent: z
+      .union([z.number(), z.string().transform((data) => (data ? parseFloat(data) : undefined))])
+      .optional(),
     cloudCoverage: z.never().optional(),
     gridCode: z.never().optional(),
     orbitState: z.never().optional(),
