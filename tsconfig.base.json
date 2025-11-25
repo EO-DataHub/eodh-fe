@@ -31,6 +31,7 @@
       "@ukri/shared/ui/ac-workflow-onboarding": ["libs/shared/ui/ac-workflow-onboarding/src/index.ts"],
       "@ukri/shared/ui/help": ["libs/shared/ui/help/src/index.ts"],
       "@ukri/shared/ui/time-slider": ["libs/shared/ui/time-slider/src/index.ts"],
+      "@ukri/shared/ui/upload-file": ["libs/shared/ui/upload-file/src/index.ts"],
       "@ukri/shared/utils/authorization": ["libs/shared/utils/authorization/src/index.ts"],
       "@ukri/shared/utils/date": ["libs/shared/utils/date/src/index.ts"],
       "@ukri/shared/utils/feature-flag": ["libs/shared/utils/feature-flag/src/index.ts"],
