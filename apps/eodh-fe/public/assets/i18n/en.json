@@ -96,6 +96,27 @@
     }
   },
   "MAP": {
+    "UPLOAD_AOI": {
+      "TITLE": "Upload an area of interest (AOI) file",
+      "INFO_MESSAGE": "Currently EOPro only accepts valid GEOJSON formatted files for uploaded AOI areas. Please select or drag and drop a file using the box below to add your file.",
+      "INFO_BOX": {
+        "DESCRIPTION": "Drag and drop file here",
+        "SUPPORTED_MESSAGE": "OR",
+        "MAX_SIZE": "Maximum file size: {{size}}"
+      },
+      "ERROR": {
+        "NO_FILE": "Please select a file to upload",
+        "PARSE_FAILED": "Failed to parse GeoJSON file",
+        "UPLOAD_FAILED": "Failed to upload file",
+        "UNSUPPORTED_GEOMETRY": "Unsupported geometry type. Only Polygon and MultiPolygon are supported.",
+        "INVALID_JSON": "Invalid JSON file",
+        "MAX_SIZE": "File {{fileName}} ({{fileSize}}) exceeds maximum size of {{maxSize}}"
+      },
+      "BUTTON": {
+        "CANCEL": "Cancel",
+        "CONFIRM": "Confirm"
+      }
+    },
     "ACTION_CREATOR_PANEL": {
       "HEADER": {
         "ACTION_CREATOR": "Action Creator",
