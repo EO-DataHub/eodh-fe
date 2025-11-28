@@ -9,6 +9,7 @@ import {
   DrawRectangleButton,
   MeasureDistanceButton,
   ToggleLayerButton,
+  UploadButton,
 } from '@ukri/map/ui-map';
 import { OnboardingTooltip, useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useMemo, useRef } from 'react';
@@ -49,6 +50,7 @@ export const TopBar = () => {
             <DrawPolygonButton disabled={disabled} />
           </div>
         </OnboardingTooltip>
+        <UploadButton disabled={disabled} />
         <ClearButton />
         <MeasureDistanceButton />
         <ToggleLayerButton />

@@ -1,0 +1,19 @@
+{
+  "name": "shared-ui-upload-file",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/ui/upload-file/src",
+  "projectType": "library",
+  "tags": ["type:shared/ui", "scope:shared"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../../coverage/libs/shared/ui/upload-file"
+      }
+    }
+  }
+}

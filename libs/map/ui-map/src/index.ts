@@ -4,6 +4,7 @@ export { DrawCircleButton } from './lib/layers/aoi-layer/draw-circle-button.comp
 export { DrawPolygonButton } from './lib/layers/aoi-layer/draw-polygon-button.component';
 export { DrawRectangleButton } from './lib/layers/aoi-layer/draw-rectangle-button.component';
 export { ToggleLayerButton } from './lib/layers/aoi-layer/toggle-layer-button.component';
+export { UploadButton } from './lib/layers/aoi-layer/upload-aoi/upload-button.component';
 export { ClearButton } from './lib/layers/aoi-layer/clear-button.component';
 export { FootprintLayer } from './lib/layers/footprints-layer/footprint.layer';
 export { TrueColorImageLayer } from './lib/layers/true-color-image-layer/true-color-image-layer.component';
