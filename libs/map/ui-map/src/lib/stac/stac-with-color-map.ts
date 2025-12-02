@@ -5,6 +5,7 @@ import SourceType from 'ol-stac/source/type';
 
 import { getClassificationStyles, hasClassificationOptions } from './classification.color-map';
 import { getColorMapStyles, hasColorMapOptions } from './color-map.color-map';
+import { getCustomColorMapStyles, hasCustomColorMapOptions } from './custom-color-map.color-map';
 import { IAsset, IOptions, ISTACWithColorMap } from './stac.model';
 import { getGeoTiffSourceInfoFromAsset, getProjection } from './utils';
 
@@ -59,7 +60,7 @@ export class STACWithColorMap extends STAC {
   }
 
   protected hasColorMap = (asset: IAsset): boolean | undefined => {
-    return hasClassificationOptions(asset) || hasColorMapOptions(asset);
+    return hasClassificationOptions(asset) || hasColorMapOptions(asset) || hasCustomColorMapOptions(asset);
   };
 
   protected getColorMapStyles = (asset: IAsset): Record<string, unknown> | undefined => {
@@ -69,6 +70,10 @@ export class STACWithColorMap extends STAC {
 
     if (hasClassificationOptions(asset)) {
       return getClassificationStyles(asset);
+    }
+
+    if (hasCustomColorMapOptions(asset)) {
+      return getCustomColorMapStyles(asset);
     }
 
     if (hasColorMapOptions(asset)) {
