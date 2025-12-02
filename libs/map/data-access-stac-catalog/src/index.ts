@@ -7,3 +7,4 @@ export { isRangeAreaWithLineSchema, isStackBarSchema } from './lib/stac-model/gr
 export { NoWorkflowResultsFoundError } from './lib/workflow.error';
 export { DateRangeNotFetchedError } from './lib/extent/extent.error';
 export { useCollectionsExtent } from './lib/extent/extent.query';
+export type { TColormap, TCustomColormap, TNamedColormap, TColorMappingEntry } from './lib/stac-model/colormap.schema';

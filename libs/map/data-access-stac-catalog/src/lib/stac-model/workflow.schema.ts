@@ -6,6 +6,7 @@ import isString from 'lodash/isString';
 import z from 'zod';
 
 import { noDataSchema, thumbnailAssetSchema } from './asset.schema';
+import { colormapSchema } from './colormap.schema';
 import { featureGenericSchema } from './feature-generic.schema';
 
 const propertySchema = z
@@ -65,15 +66,7 @@ const waterQualityAssetSchema = z.preprocess(
         unit: z.string(),
       })
     ),
-    colormap: z.object({
-      max: z.number(),
-      min: z.number().nullable(),
-      mpl_equivalent_cmap: z.string(),
-      name: z.string(),
-      reversed: z.boolean(),
-      steps: z.number(),
-      units: z.string(),
-    }),
+    colormap: colormapSchema,
     statistics: z.object({
       maximum: z.number().nullable(),
       mean: z.number().nullable(),
