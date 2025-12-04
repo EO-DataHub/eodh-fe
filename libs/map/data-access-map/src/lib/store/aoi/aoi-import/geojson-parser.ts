@@ -1,5 +1,6 @@
 import { TAreaValue } from '../../action-creator/action-creator.schema';
-import { IGeoJSONFeature, TGeoJSON } from './geojson.types';
+import { detectCoordinateSystem, TCoordinateSystem } from './coordinate-validator';
+import { IGeoJSONFeature, TGeoJSON, TGeoJSONGeometry } from './geojson.types';
 import { validateGeoJSON, validateGeometryType } from './geojson-validator';
 import { transformGeometryToAreaValue } from './shape-detector';
 
@@ -7,7 +8,20 @@ export interface IParseResult {
   success: boolean;
   areaValue?: TAreaValue;
   error?: string;
+  detectedCRS?: TCoordinateSystem;
 }
+
+const extractCoordinates = (geometry: TGeoJSONGeometry): number[][] => {
+  if (geometry.type === 'Polygon') {
+    return geometry.coordinates[0];
+  }
+
+  if (geometry.type === 'MultiPolygon') {
+    return geometry.coordinates[0][0];
+  }
+
+  return [];
+};
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const parseGeoJSONFile = async (file: File): Promise<IParseResult> => {
@@ -38,11 +52,22 @@ export const parseGeoJSONFile = async (file: File): Promise<IParseResult> => {
       };
     }
 
+    const coordinates = extractCoordinates(feature.geometry);
+    const coordinateDetection = detectCoordinateSystem(coordinates);
+
+    if (!coordinateDetection.valid) {
+      return {
+        success: false,
+        error: coordinateDetection.error,
+      };
+    }
+
     const areaValue = transformGeometryToAreaValue(feature.geometry);
 
     return {
       success: true,
       areaValue,
+      detectedCRS: coordinateDetection.detectedProjection,
     };
   } catch (error) {
     return {
