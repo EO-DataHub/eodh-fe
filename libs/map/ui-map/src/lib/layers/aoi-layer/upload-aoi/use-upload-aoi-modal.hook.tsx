@@ -1,4 +1,4 @@
-import { parseGeoJSONFile, useAoi } from '@ukri/map/data-access-map';
+import { parseGeoJSONFile, transformAreaValueCoordinates, useAoi } from '@ukri/map/data-access-map';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,13 +31,14 @@ export const useUploadAoiModal = ({ onClose }: IUploadAoiModalProps) => {
     try {
       const result = await parseGeoJSONFile(file);
 
-      if (!result.success || !result.areaValue) {
+      if (!result.success || !result.areaValue || !result.detectedCRS) {
         setError(result.error || t('MAP.UPLOAD_AOI.ERROR.PARSE_FAILED'));
         setIsUploading(false);
         return;
       }
 
-      setShape(result.areaValue, true);
+      const transformedAreaValue = transformAreaValueCoordinates(result.areaValue, result.detectedCRS);
+      setShape(transformedAreaValue, true);
 
       setFile(undefined);
       setError(undefined);

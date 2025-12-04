@@ -1,6 +1,6 @@
 import isPlainObject from 'lodash/isPlainObject';
 
-import { IGeoJSONGeometry } from './geojson.types';
+import { TGeoJSONGeometry } from './geojson.types';
 
 interface IValidationResult {
   valid: boolean;
@@ -57,7 +57,7 @@ export const validateGeoJSON = (data: TGeojson | null | undefined): IValidationR
   return { valid: true, errors: [] };
 };
 
-export const validateGeometryType = (geometry: IGeoJSONGeometry): IValidationResult => {
+export const validateGeometryType = (geometry: TGeoJSONGeometry): IValidationResult => {
   const supportedTypes = ['Polygon', 'MultiPolygon'];
 
   if (!supportedTypes.includes(geometry.type)) {
