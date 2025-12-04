@@ -1,5 +1,6 @@
 export { useAoi } from './lib/store/aoi/aoi.store';
 export { parseGeoJSONFile } from './lib/store/aoi/aoi-import/geojson-parser';
+export { transformAreaValueCoordinates } from './lib/store/aoi/aoi-import/coordinate-transformer';
 export { useMeasureDistance } from './lib/store/measure-distance/measure-distance.store';
 export { createGeometry, getCoordinates } from './lib/geometry/geometry';
 export type { TUnit, TUnitType, TShapeType } from './lib/geometry/shape.model';

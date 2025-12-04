@@ -1,5 +1,5 @@
 import { TAreaValue } from '../../action-creator/action-creator.schema';
-import { IGeoJSONGeometry } from './geojson.types';
+import { TGeoJSONGeometry } from './geojson.types';
 
 const isRectangle = (coordinates: number[][][]): boolean => {
   if (coordinates.length !== 1) {
@@ -74,9 +74,9 @@ const getCircleProperties = (coordinates: number[][][]): { center: number[]; rad
   };
 };
 
-export const transformGeometryToAreaValue = (geometry: IGeoJSONGeometry): TAreaValue => {
+export const transformGeometryToAreaValue = (geometry: TGeoJSONGeometry): TAreaValue => {
   if (geometry.type === 'Polygon') {
-    const coordinates = geometry.coordinates as number[][][];
+    const coordinates = geometry.coordinates;
 
     if (isRectangle(coordinates)) {
       return {
@@ -101,7 +101,7 @@ export const transformGeometryToAreaValue = (geometry: IGeoJSONGeometry): TAreaV
   }
 
   if (geometry.type === 'MultiPolygon') {
-    const coordinates = (geometry.coordinates as number[][][][])[0];
+    const coordinates = geometry.coordinates[0];
 
     return {
       type: 'polygon',
