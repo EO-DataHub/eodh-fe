@@ -12,6 +12,7 @@ export const LegendPanel = ({
   onPositionChange,
   isExpanded,
   onToggleExpand,
+  onResetPosition,
   onClose,
   children,
   className,
@@ -30,6 +31,10 @@ export const LegendPanel = ({
     onToggleExpand();
   }, [onToggleExpand]);
 
+  const handleResetPositionClick = useCallback(() => {
+    onResetPosition?.();
+  }, [onResetPosition]);
+
   const handleCloseClick = useCallback(() => {
     onClose();
   }, [onClose]);
@@ -46,6 +51,16 @@ export const LegendPanel = ({
       <div className={legendPanelStyles.header} {...dragHandleProps}>
         <span className={legendPanelStyles.headerTitle}>{title}</span>
         <div className={legendPanelStyles.headerButtons}>
+          {onResetPosition && (
+            <button
+              type='button'
+              className={legendPanelStyles.headerButton}
+              onClick={handleResetPositionClick}
+              aria-label='Reset position'
+            >
+              <Icon name='Erase' />
+            </button>
+          )}
           <button
             type='button'
             className={legendPanelStyles.headerButton}

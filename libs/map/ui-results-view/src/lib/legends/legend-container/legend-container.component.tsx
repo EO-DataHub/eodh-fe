@@ -1,5 +1,4 @@
-import { useLegendStore } from '@ukri/map/data-access-map';
-import { IActiveLegend } from '@ukri/map/data-access-map';
+import { IActiveLegend, useLegendStore } from '@ukri/map/data-access-map';
 import { CategoricalLegend, ImageLegend, LegendPanel } from '@ukri/shared/ui/legend';
 import { useCallback } from 'react';
 
@@ -49,7 +48,7 @@ const LandCoverLegendContent = ({ landCoverType }: ILandCoverLegendContentProps)
 };
 
 export const LegendContainer = () => {
-  const { legends, updatePosition, toggleExpanded, removeLegend } = useLegendStore();
+  const { legends, updatePosition, toggleExpanded, resetPosition, removeLegend } = useLegendStore();
 
   const handlePositionChange = useCallback(
     (id: string) => (position: { x: number; y: number }) => {
@@ -63,6 +62,13 @@ export const LegendContainer = () => {
       toggleExpanded(id);
     },
     [toggleExpanded]
+  );
+
+  const handleResetPosition = useCallback(
+    (id: string) => () => {
+      resetPosition(id);
+    },
+    [resetPosition]
   );
 
   const handleClose = useCallback(
@@ -86,6 +92,7 @@ export const LegendContainer = () => {
           onPositionChange={handlePositionChange(legend.id)}
           isExpanded={legend.isExpanded}
           onToggleExpand={handleToggleExpand(legend.id)}
+          onResetPosition={handleResetPosition(legend.id)}
           onClose={handleClose(legend.id)}
           maxHeight={MAX_LEGEND_HEIGHT}
         >

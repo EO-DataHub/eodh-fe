@@ -27,7 +27,7 @@ const isWorkflowFeature = (feature: unknown): feature is IWorkflowFeature => {
 };
 
 export const useLegendIntegration = () => {
-  const { replaceLegendForFeature, removeLegendByFeatureId, clearAllLegends, addLegend } = useLegendStore();
+  const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend } = useLegendStore();
   const { comparisonModeEnabled, comparisonItems } = useComparisonMode();
   const prevComparisonModeEnabled = useRef(comparisonModeEnabled);
 
@@ -40,14 +40,14 @@ export const useLegendIntegration = () => {
       const landCoverType: TLandCoverType | undefined =
         feature.workflowType === 'landCoverChanges' ? detectLandCoverType(feature) : undefined;
 
-      replaceLegendForFeature({
+      setActiveLegend({
         featureId: feature.id,
         assetName,
         workflowType: feature.workflowType,
         landCoverType,
       });
     },
-    [replaceLegendForFeature]
+    [setActiveLegend]
   );
 
   const onAssetUnload = useCallback(

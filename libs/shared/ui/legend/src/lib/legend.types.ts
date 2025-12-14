@@ -11,6 +11,7 @@ export interface ILegendPanelProps {
   readonly onPositionChange: (position: IPosition) => void;
   readonly isExpanded: boolean;
   readonly onToggleExpand: () => void;
+  readonly onResetPosition?: () => void;
   readonly onClose: () => void;
   readonly children: ReactNode;
   readonly className?: string;
