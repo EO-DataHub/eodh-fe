@@ -21,10 +21,13 @@ export interface ILegendState {
   readonly legends: IActiveLegend[];
 }
 
+export type TAddLegendData = Omit<IActiveLegend, 'id' | 'isExpanded' | 'position'>;
+
 export interface ILegendActions {
-  addLegend: (legend: Omit<IActiveLegend, 'id' | 'isExpanded' | 'position'>) => void;
+  addLegend: (legend: TAddLegendData) => void;
   removeLegend: (id: string) => void;
   removeLegendByFeatureId: (featureId: string) => void;
+  replaceLegendForFeature: (legend: TAddLegendData) => void;
   updatePosition: (id: string, position: IPosition) => void;
   toggleExpanded: (id: string) => void;
   clearAllLegends: () => void;

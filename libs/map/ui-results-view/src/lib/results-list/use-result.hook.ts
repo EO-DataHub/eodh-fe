@@ -67,7 +67,7 @@ export const useResult = () => {
         clearHighlight();
         if ('workflowType' in item && item.workflowType) {
           onAssetLoad(
-            item as unknown as { id: string; workflowType: 'waterQuality' | 'landCoverChanges' },
+            item as unknown as { id: string; workflowType: 'waterQuality' | 'landCoverChanges'; collection?: string },
             key || 'data'
           );
         }

@@ -84,6 +84,7 @@ export type {
   ILegendActions,
   ILegendState,
   IPosition,
+  TAddLegendData,
   TLandCoverType,
   TLegendStore,
   TWorkflowType,
