@@ -2,6 +2,7 @@ import { useComparisonMode, useFootprints, useMode, useTrueColorImage } from '@u
 import { TAssetName, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useMemo } from 'react';
 
+import { useLegendIntegration } from '../legends/hooks/use-legend-integration.hook';
 import { downloadFiles } from './download-files.utils';
 
 export const useResult = () => {
@@ -15,6 +16,8 @@ export const useResult = () => {
     toggleCompareItem,
     countItemsAddedToComparisonMode,
   } = useComparisonMode();
+  const { onAssetLoad, onAssetUnload } = useLegendIntegration();
+
   const highlightedItem = useMemo(
     () => highlightedItems.find((item) => item.eventType === 'click'),
     [highlightedItems]
@@ -62,9 +65,17 @@ export const useResult = () => {
 
       if (feature) {
         clearHighlight();
+        if ('workflowType' in item && item.workflowType) {
+          onAssetLoad(
+            item as unknown as { id: string; workflowType: 'waterQuality' | 'landCoverChanges' },
+            key || 'data'
+          );
+        }
+      } else {
+        onAssetUnload(item.id);
       }
     },
-    [visibleFeature, assetNameWhichShouldBeDisplayed, setFeature, clearHighlight]
+    [visibleFeature, assetNameWhichShouldBeDisplayed, setFeature, clearHighlight, onAssetLoad, onAssetUnload]
   );
 
   const handleToggleCompareItem = useCallback(

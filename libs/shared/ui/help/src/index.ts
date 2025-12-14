@@ -1,2 +1,16 @@
-export { Help } from './lib/help.component';
-export { type IHelpContent } from './lib/components/help-content';
+export { Help } from './lib/help-v2.component';
+export type {
+  IHelpConfig,
+  IHelpSection,
+  IHelpQuestion,
+  THelpElement,
+  ITextElement,
+  IListElement,
+  INestedListElement,
+  IImageElement,
+  IImageGroupElement,
+  ITableElement,
+  ILinkElement,
+  ILinksGroupElement,
+  IStyledTextElement,
+} from './lib/types/help-config.types';

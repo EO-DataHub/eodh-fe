@@ -8,6 +8,7 @@ import {
   MeasureDistancePanel,
   TrueColorImageLayer,
 } from '@ukri/map/ui-map';
+import { LegendContainer } from '@ukri/map/ui-results-view';
 import { Checklist } from '@ukri/map/ui-search-view';
 
 import { BottomPanel } from './bottom-panel.component';
@@ -24,6 +25,7 @@ export const DefaultLayout = () => {
             <LeftMenu />
             <div className='flex w-full h-full flex-col'>
               <Map className='flex w-full h-full'>
+                <LegendContainer />
                 <TrueColorImageLayer />
                 <FootprintLayer />
                 <ComparisonModeLayer />
