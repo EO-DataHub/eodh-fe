@@ -16,7 +16,7 @@ export const InfoBox = () => {
         appearance='outlined'
         type='link'
         text={t('MAP.UPLOAD_AOI.INFO_BOX.BROWSE_COMPUTER_BUTTON')}
-        className='hover:outline-[0px] focus:outline-[0px] hover:border-primary'
+        className='hover:!outline-[0px] focus:!outline-[0px] hover:!border-primary'
       />
       {maxSize && <p className='text-sm text-text-light'>{t('MAP.UPLOAD_AOI.INFO_BOX.MAX_SIZE', { size: maxSize })}</p>}
     </div>
