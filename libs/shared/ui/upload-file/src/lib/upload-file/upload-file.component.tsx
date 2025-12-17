@@ -67,7 +67,7 @@ const getBackgroundColor = (isDragAccept?: boolean, isDragReject?: boolean): str
     return 'bg-error/20';
   }
 
-  return 'bg-background-main';
+  return 'bg-bright-light';
 };
 
 export const UploadFile: FC<TUploadFileProps> = ({
