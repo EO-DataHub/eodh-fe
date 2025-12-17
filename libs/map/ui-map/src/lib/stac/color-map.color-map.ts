@@ -1,6 +1,7 @@
 import colormap from 'colormap';
 import z from 'zod';
 
+import { INamedColorMapOptions } from './color-map.model';
 import { IAsset } from './stac.model';
 
 const colorMapSchema = z.object({
@@ -54,9 +55,13 @@ const colorMapSchema = z.object({
   reversed: z.boolean().optional().default(false),
 });
 
-type TColorMapOptions = z.infer<typeof colorMapSchema>;
-
-const getColorStops = (name: TColorMapOptions['name'], min: number, max: number, steps: number, reverse = false) => {
+const getColorStops = (
+  name: INamedColorMapOptions['name'],
+  min: number,
+  max: number,
+  steps: number,
+  reverse = false
+) => {
   const delta = (max - min) / (steps - 1);
   const stops = new Array(steps * 2);
   const colors = colormap({ colormap: name, nshades: steps, format: 'rgba' });
@@ -73,7 +78,7 @@ const getColorStops = (name: TColorMapOptions['name'], min: number, max: number,
   return stops;
 };
 
-const getColorMapOptions = (asset: IAsset): TColorMapOptions | undefined => {
+const getColorMapOptions = (asset: IAsset): INamedColorMapOptions | undefined => {
   const metadata = asset.getMetadata('colormap');
   if (!metadata) {
     return undefined;
