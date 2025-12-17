@@ -1,4 +1,4 @@
-import { useComparisonMode, useLegendStore } from '@ukri/map/data-access-map';
+import { useComparisonMode, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
 import { useCallback, useEffect, useRef } from 'react';
 
 import { TLandCoverType } from '../types/legend.types';
@@ -29,6 +29,7 @@ const isWorkflowFeature = (feature: unknown): feature is IWorkflowFeature => {
 export const useLegendIntegration = () => {
   const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend } = useLegendStore();
   const { comparisonModeEnabled, comparisonItems } = useComparisonMode();
+  const { feature } = useTrueColorImage();
   const prevComparisonModeEnabled = useRef(comparisonModeEnabled);
 
   const onAssetLoad = useCallback(
@@ -61,6 +62,14 @@ export const useLegendIntegration = () => {
     clearAllLegends();
   }, [clearAllLegends]);
 
+  // Safety net: clear legends when no feature and not in comparison mode
+  useEffect(() => {
+    if (!feature && !comparisonModeEnabled) {
+      clearAllLegends();
+    }
+  }, [feature, comparisonModeEnabled, clearAllLegends]);
+
+  // Handle comparison mode transitions
   useEffect(() => {
     const wasEnabled = prevComparisonModeEnabled.current;
     const isEnabled = comparisonModeEnabled;

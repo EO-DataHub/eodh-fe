@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { IActiveLegend, IPosition, TAddLegendData, TLegendStore } from './legend.model';
+import { IActiveLegend, IPosition, TLegendStore } from './legend.model';
 
 const getDefaultPosition = (index: number): IPosition => {
   const baseX = 350;

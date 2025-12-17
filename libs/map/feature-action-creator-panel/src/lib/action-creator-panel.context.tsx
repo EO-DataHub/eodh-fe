@@ -1,4 +1,12 @@
-import { TTab, useActionCreator, useMode, useResults, useWorkflow, useWorkflowStatus } from '@ukri/map/data-access-map';
+import {
+  TTab,
+  useActionCreator,
+  useLegendStore,
+  useMode,
+  useResults,
+  useWorkflow,
+  useWorkflowStatus,
+} from '@ukri/map/data-access-map';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
 import { useAuth, useWorkspace } from '@ukri/shared/utils/authorization';
 import { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
@@ -42,6 +50,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const setTabsFlowModalOpen = useOpenTabsFlowModal();
   const { updateSearchParams } = useResults();
   const { markAsRead } = useWorkflow();
+  const { clearAllLegends } = useLegendStore();
   const shouldEnableWorkflow = useMemo(
     () => authenticated && (hasWorkflowsToProcess || workflowStatus === 'initial'),
     [authenticated, hasWorkflowsToProcess, workflowStatus]
@@ -65,10 +74,11 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
       return;
     }
 
+    clearAllLegends();
     hideModal();
     updateSearchParams(undefined);
     changeView('search');
-  }, [changeView, hideModal, permanentHidden, setTabsFlowModalOpen, updateSearchParams, view]);
+  }, [clearAllLegends, changeView, hideModal, permanentHidden, setTabsFlowModalOpen, updateSearchParams, view]);
 
   const toggleActionCreatorState = useCallback(
     (newTab: TTab) => {
@@ -102,8 +112,9 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   );
 
   const toggle = useCallback(() => {
+    clearAllLegends();
     toggleMode();
-  }, [toggleMode]);
+  }, [clearAllLegends, toggleMode]);
 
   const collapse = useCallback(() => {
     setCollapsed((value) => !value);

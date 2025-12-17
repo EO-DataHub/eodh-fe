@@ -4,6 +4,7 @@ import {
   useCreateWorkflowStatus,
   useFunctions,
   useGetPresets,
+  useLegendStore,
   useMode,
 } from '@ukri/map/data-access-map';
 import { Error, LoadingSpinner } from '@ukri/shared/design-system';
@@ -60,12 +61,14 @@ export const Presets = () => {
   const { changeView } = useMode();
   const { currentWorkspace } = useWorkspace();
   const status = useCreateWorkflowStatus();
+  const { clearAllLegends } = useLegendStore();
   const {
     context: { resetOnboarding },
   } = useOnboarding();
 
   const handleLoadPreset = useCallback(
     (preset: TPreset) => {
+      clearAllLegends();
       resetOnboarding();
       loadPreset({
         dataSet: preset.defaultValues.dataSet,
@@ -83,7 +86,7 @@ export const Presets = () => {
       changeTab('workflow');
       return;
     },
-    [functionData, changeView, loadPreset, changeTab, resetOnboarding]
+    [clearAllLegends, functionData, changeView, loadPreset, changeTab, resetOnboarding]
   );
 
   if (isLoading) {

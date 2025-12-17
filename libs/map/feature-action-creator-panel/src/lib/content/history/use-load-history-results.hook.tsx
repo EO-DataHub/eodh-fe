@@ -1,4 +1,4 @@
-import { useAoi, useCollectionInfo, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
+import { useAoi, useCollectionInfo, useLegendStore, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
 import { useCatalogSearch } from '@ukri/map/data-access-stac-catalog';
 import { createDateString, formatDate, type TDateString } from '@ukri/shared/utils/date';
 import { useCallback, useState } from 'react';
@@ -11,9 +11,11 @@ export const useLoadHistoryResults = () => {
   const { markAsRead } = useWorkflow();
   const [currentAoi, setCurrentAoi] = useState<typeof shape>(shape);
   const { mutateAsync } = useCollectionInfo();
+  const { clearAllLegends } = useLegendStore();
 
   const showResults = useCallback(
     async (jobId: string, workflowId: string, userWorkspace: string) => {
+      clearAllLegends();
       markAsRead(jobId);
 
       try {
@@ -52,10 +54,11 @@ export const useLoadHistoryResults = () => {
       }
       changeView('results');
     },
-    [changeView, markAsRead, mutateAsync, updateSearchParams, updateShape]
+    [clearAllLegends, changeView, markAsRead, mutateAsync, updateSearchParams, updateShape]
   );
 
   const hideResults = useCallback(() => {
+    clearAllLegends();
     updateSearchParams(undefined);
     changeState('readonly');
     changeView('search');
@@ -63,7 +66,7 @@ export const useLoadHistoryResults = () => {
     if (currentAoi) {
       setShape(currentAoi);
     }
-  }, [changeState, changeView, currentAoi, updateSearchParams, setShape]);
+  }, [clearAllLegends, changeState, changeView, currentAoi, updateSearchParams, setShape]);
 
   return {
     status,
