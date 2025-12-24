@@ -48,7 +48,7 @@ const LandCoverLegendContent = ({ landCoverType }: ILandCoverLegendContentProps)
 };
 
 export const LegendContainer = () => {
-  const { legends, updatePosition, toggleExpanded, resetPosition, removeLegend } = useLegendStore();
+  const { legends, updatePosition, toggleExpanded, resetPosition } = useLegendStore();
 
   const handlePositionChange = useCallback(
     (id: string) => (position: { x: number; y: number }) => {
@@ -71,13 +71,6 @@ export const LegendContainer = () => {
     [resetPosition]
   );
 
-  const handleClose = useCallback(
-    (id: string) => () => {
-      removeLegend(id);
-    },
-    [removeLegend]
-  );
-
   if (legends.length === 0) {
     return null;
   }
@@ -93,7 +86,6 @@ export const LegendContainer = () => {
           isExpanded={legend.isExpanded}
           onToggleExpand={handleToggleExpand(legend.id)}
           onResetPosition={handleResetPosition(legend.id)}
-          onClose={handleClose(legend.id)}
           maxHeight={MAX_LEGEND_HEIGHT}
         >
           {legend.workflowType === 'waterQuality' && <WaterQualityLegendContent assetName={legend.assetName} />}

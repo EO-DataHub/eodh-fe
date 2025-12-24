@@ -1,5 +1,4 @@
-import { Icon } from '@ukri/shared/design-system';
-import clsx from 'clsx';
+import { Icon, twMerge } from '@ukri/shared/design-system';
 import { useCallback, useRef } from 'react';
 
 import { ILegendPanelProps } from '../legend.types';
@@ -13,7 +12,6 @@ export const LegendPanel = ({
   isExpanded,
   onToggleExpand,
   onResetPosition,
-  onClose,
   children,
   className,
   maxHeight,
@@ -35,14 +33,10 @@ export const LegendPanel = ({
     onResetPosition?.();
   }, [onResetPosition]);
 
-  const handleCloseClick = useCallback(() => {
-    onClose();
-  }, [onClose]);
-
   return (
     <div
       ref={elementRef}
-      className={clsx(legendPanelStyles.container, className)}
+      className={twMerge(legendPanelStyles.container, className)}
       style={{
         left: currentPosition.x,
         top: currentPosition.y,
@@ -58,34 +52,22 @@ export const LegendPanel = ({
               onClick={handleResetPositionClick}
               aria-label='Reset position'
             >
-              <Icon name='Erase' />
+              <Icon name='ResetFocus' />
             </button>
           )}
           <button
             type='button'
             className={legendPanelStyles.headerButton}
             onClick={handleToggleClick}
-            aria-label={isExpanded ? 'Collapse' : 'Expand'}
+            aria-label={isExpanded ? 'CollapseContent' : 'ExpandContent'}
           >
-            <Icon name={isExpanded ? 'ArrowUpward' : 'ArrowDown'} />
-          </button>
-          <button
-            type='button'
-            className={legendPanelStyles.headerButton}
-            onClick={handleCloseClick}
-            aria-label='Close'
-          >
-            <Icon name='Close' />
+            <Icon name={isExpanded ? 'CollapseContent' : 'ExpandContent'} />
           </button>
         </div>
       </div>
 
       <div
-        className={clsx(
-          legendPanelStyles.content,
-          legendPanelStyles.contentPadding,
-          !isExpanded && legendPanelStyles.collapsed
-        )}
+        className={twMerge(legendPanelStyles.content, !isExpanded && legendPanelStyles.collapsed)}
         style={maxHeight ? { maxHeight } : undefined}
       >
         {children}
