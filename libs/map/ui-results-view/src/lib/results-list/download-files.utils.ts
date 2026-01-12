@@ -10,7 +10,7 @@ type TDownloadableAsset = {
 } & TAssetWithHref;
 
 const s3ProtocolPrefix = 's3:/';
-const separator = '___';
+const separator = '_';
 const downloadingAssetsTimeout = 500;
 
 const getFileName = (collectionId: string, fileName: string, ext: string | undefined) => {
