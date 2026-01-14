@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { IActiveLegend, IPosition, TLegendStore } from './legend.model';
+import { getStoredPosition, savePosition } from './legend-position-storage.utils';
 
 const getDefaultPosition = (index: number): IPosition => {
   const baseX = 350;
@@ -31,11 +32,16 @@ export const useLegendStore = create<TLegendStore>()(
         return;
       }
 
+      const storedPosition = getStoredPosition(legendData.featureId);
+      const position = storedPosition?.position ?? getDefaultPosition(legends.length);
+      const isExpanded = storedPosition?.isExpanded ?? true;
+
       const newLegend: IActiveLegend = {
         ...legendData,
         id: nanoid(),
-        isExpanded: true,
-        position: getDefaultPosition(legends.length),
+        isExpanded,
+        position,
+        isFocused: false,
       };
 
       set({ legends: [...legends, newLegend] });
@@ -63,12 +69,14 @@ export const useLegendStore = create<TLegendStore>()(
       }
 
       const previousLegend = legends[0];
+      const storedPosition = getStoredPosition(legendData.featureId);
 
       const newLegend: IActiveLegend = {
         ...legendData,
         id: nanoid(),
-        isExpanded: previousLegend?.isExpanded ?? true,
-        position: previousLegend?.position ?? getDefaultPosition(0),
+        isExpanded: storedPosition?.isExpanded ?? previousLegend?.isExpanded ?? true,
+        position: storedPosition?.position ?? previousLegend?.position ?? getDefaultPosition(0),
+        isFocused: false,
       };
 
       set({ legends: [newLegend] });
@@ -76,6 +84,12 @@ export const useLegendStore = create<TLegendStore>()(
 
     updatePosition: (id, position) => {
       const { legends } = get();
+      const legend = legends.find((l) => l.id === id);
+
+      if (legend) {
+        savePosition(legend.featureId, position, legend.isExpanded);
+      }
+
       set({
         legends: legends.map((legend) => (legend.id === id ? { ...legend, position } : legend)),
       });
@@ -89,15 +103,26 @@ export const useLegendStore = create<TLegendStore>()(
         return;
       }
 
+      const legend = legends[index];
+      const newPosition = getDefaultPosition(index);
+
+      if (legend) {
+        savePosition(legend.featureId, newPosition, legend.isExpanded);
+      }
+
       set({
-        legends: legends.map((legend, i) =>
-          legend.id === id ? { ...legend, position: getDefaultPosition(i) } : legend
-        ),
+        legends: legends.map((legend) => (legend.id === id ? { ...legend, position: newPosition } : legend)),
       });
     },
 
     toggleExpanded: (id) => {
       const { legends } = get();
+      const legend = legends.find((l) => l.id === id);
+
+      if (legend) {
+        savePosition(legend.featureId, legend.position, !legend.isExpanded);
+      }
+
       set({
         legends: legends.map((legend) => (legend.id === id ? { ...legend, isExpanded: !legend.isExpanded } : legend)),
       });
@@ -105,6 +130,29 @@ export const useLegendStore = create<TLegendStore>()(
 
     clearAllLegends: () => {
       set({ legends: [] });
+    },
+
+    focusLegend: (featureId) => {
+      const { legends } = get();
+      const legendIndex = legends.findIndex((l) => l.featureId === featureId);
+
+      if (legendIndex === -1) {
+        return;
+      }
+
+      const legend = legends[legendIndex];
+      const otherLegends = legends.filter((l) => l.featureId !== featureId).map((l) => ({ ...l, isFocused: false }));
+
+      set({
+        legends: [...otherLegends, { ...legend, isFocused: true }],
+      });
+    },
+
+    clearFocus: () => {
+      const { legends } = get();
+      set({
+        legends: legends.map((legend) => ({ ...legend, isFocused: false })),
+      });
     },
   }))
 );

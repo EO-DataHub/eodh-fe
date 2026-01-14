@@ -1,8 +1,7 @@
-import { TLegendConfig } from '../types/legend.types';
+import { TLegendConfig, TWorkflowType } from '../types/legend.types';
+import { isVegetationIndexAsset } from './detect-vegetation-index';
 import { detectLandCoverType, getLandCoverLegend } from './get-land-cover-legend';
 import { getWaterQualityLegend } from './get-water-quality-legend';
-
-type TWorkflowType = 'waterQuality' | 'landCoverChanges';
 
 interface IGetLegendForAssetParams {
   readonly workflowType: TWorkflowType;
@@ -16,7 +15,7 @@ export const getLegendForAsset = ({
   feature,
 }: IGetLegendForAssetParams): TLegendConfig | null => {
   if (workflowType === 'waterQuality') {
-    return getWaterQualityLegend(assetName);
+    return getWaterQualityLegend(assetName, feature);
   }
 
   if (workflowType === 'landCoverChanges') {
@@ -27,9 +26,13 @@ export const getLegendForAsset = ({
   return null;
 };
 
-export const shouldShowLegend = (workflowType: TWorkflowType, assetName: string): boolean => {
+export const shouldShowLegend = (workflowType: TWorkflowType, assetName: string, feature?: unknown): boolean => {
   if (assetName === 'thumbnail') {
     return false;
+  }
+
+  if (feature && isVegetationIndexAsset(feature, assetName)) {
+    return true;
   }
 
   return workflowType === 'waterQuality' || workflowType === 'landCoverChanges';

@@ -88,4 +88,5 @@ export type {
   TLandCoverType,
   TLegendStore,
   TWorkflowType,
+  TVegetationIndexType,
 } from './lib/store/legend/legend.model';

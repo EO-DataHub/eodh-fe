@@ -1,11 +1,10 @@
 import { useComparisonMode, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
 import { useCallback, useEffect, useRef } from 'react';
 
-import { TLandCoverType } from '../types/legend.types';
+import { TLandCoverType, TWorkflowType } from '../types/legend.types';
+import { detectVegetationIndexFromAsset } from '../utils/detect-vegetation-index';
 import { detectLandCoverType } from '../utils/get-land-cover-legend';
 import { shouldShowLegend } from '../utils/get-legend-for-asset';
-
-type TWorkflowType = 'waterQuality' | 'landCoverChanges';
 
 interface IWorkflowFeature {
   readonly id: string;
@@ -27,28 +26,36 @@ const isWorkflowFeature = (feature: unknown): feature is IWorkflowFeature => {
 };
 
 export const useLegendIntegration = () => {
-  const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend } = useLegendStore();
+  const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend, focusLegend, clearFocus } =
+    useLegendStore();
   const { comparisonModeEnabled, comparisonItems } = useComparisonMode();
   const { feature } = useTrueColorImage();
   const prevComparisonModeEnabled = useRef(comparisonModeEnabled);
 
   const onAssetLoad = useCallback(
-    (feature: IWorkflowFeature, assetName: string) => {
-      if (!shouldShowLegend(feature.workflowType, assetName)) {
+    (feature: IWorkflowFeature, assetName: string, featureData?: unknown) => {
+      const featureForDetection = featureData ?? feature;
+
+      if (!shouldShowLegend(feature.workflowType, assetName, featureForDetection)) {
         return;
       }
 
       const landCoverType: TLandCoverType | undefined =
         feature.workflowType === 'landCoverChanges' ? detectLandCoverType(feature) : undefined;
 
+      const vegetationIndexType = detectVegetationIndexFromAsset(featureForDetection, assetName);
+
       setActiveLegend({
         featureId: feature.id,
         assetName,
         workflowType: feature.workflowType,
         landCoverType,
+        vegetationIndexType,
       });
+
+      focusLegend(feature.id);
     },
-    [setActiveLegend]
+    [setActiveLegend, focusLegend]
   );
 
   const onAssetUnload = useCallback(
@@ -62,14 +69,12 @@ export const useLegendIntegration = () => {
     clearAllLegends();
   }, [clearAllLegends]);
 
-  // Safety net: clear legends when no feature and not in comparison mode
   useEffect(() => {
     if (!feature && !comparisonModeEnabled) {
       clearAllLegends();
     }
   }, [feature, comparisonModeEnabled, clearAllLegends]);
 
-  // Handle comparison mode transitions
   useEffect(() => {
     const wasEnabled = prevComparisonModeEnabled.current;
     const isEnabled = comparisonModeEnabled;
@@ -85,18 +90,21 @@ export const useLegendIntegration = () => {
 
         const assetName = item.assetName || 'data';
 
-        if (!shouldShowLegend(item.workflowType, assetName)) {
+        if (!shouldShowLegend(item.workflowType, assetName, item)) {
           return;
         }
 
         const landCoverType: TLandCoverType | undefined =
           item.workflowType === 'landCoverChanges' ? detectLandCoverType(item) : undefined;
 
+        const vegetationIndexType = detectVegetationIndexFromAsset(item, assetName);
+
         addLegend({
           featureId: `${item.id}-comparison-${index}`,
           assetName,
           workflowType: item.workflowType,
           landCoverType,
+          vegetationIndexType,
         });
       });
     }
@@ -112,5 +120,7 @@ export const useLegendIntegration = () => {
     onAssetLoad,
     onAssetUnload,
     onClearAll,
+    focusLegend,
+    clearFocus,
   };
 };

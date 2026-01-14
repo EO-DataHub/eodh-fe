@@ -15,6 +15,8 @@ export const LegendPanel = ({
   children,
   className,
   maxHeight,
+  isFocused = false,
+  onMouseDown,
 }: ILegendPanelProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -33,14 +35,20 @@ export const LegendPanel = ({
     onResetPosition?.();
   }, [onResetPosition]);
 
+  const handleContainerMouseDown = useCallback(() => {
+    onMouseDown?.();
+  }, [onMouseDown]);
+
   return (
     <div
       ref={elementRef}
-      className={twMerge(legendPanelStyles.container, className)}
+      className={twMerge(legendPanelStyles.container, isFocused && legendPanelStyles.containerFocused, className)}
       style={{
         left: currentPosition.x,
         top: currentPosition.y,
+        zIndex: isFocused ? 60 : 50,
       }}
+      onMouseDown={handleContainerMouseDown}
     >
       <div className={legendPanelStyles.header} {...dragHandleProps}>
         <span className={legendPanelStyles.headerTitle}>{title}</span>

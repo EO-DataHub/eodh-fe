@@ -7,21 +7,25 @@ export type TWorkflowType = 'waterQuality' | 'landCoverChanges';
 
 export type TLandCoverType = 'corine' | 'global' | 'waterbodies';
 
+export type TVegetationIndexType = 'ndvi' | 'evi' | 'savi' | 'ndwi';
+
 export interface IActiveLegend {
   readonly id: string;
   readonly featureId: string;
   readonly assetName: string;
   readonly workflowType: TWorkflowType;
   readonly landCoverType?: TLandCoverType;
+  readonly vegetationIndexType?: TVegetationIndexType;
   readonly isExpanded: boolean;
   readonly position: IPosition;
+  readonly isFocused: boolean;
 }
 
 export interface ILegendState {
   readonly legends: IActiveLegend[];
 }
 
-export type TAddLegendData = Omit<IActiveLegend, 'id' | 'isExpanded' | 'position'>;
+export type TAddLegendData = Omit<IActiveLegend, 'id' | 'isExpanded' | 'position' | 'isFocused'>;
 
 export interface ILegendActions {
   addLegend: (legend: TAddLegendData) => void;
@@ -32,6 +36,16 @@ export interface ILegendActions {
   resetPosition: (id: string) => void;
   toggleExpanded: (id: string) => void;
   clearAllLegends: () => void;
+  focusLegend: (featureId: string) => void;
+  clearFocus: () => void;
 }
 
 export type TLegendStore = ILegendState & ILegendActions;
+
+export const LEGEND_POSITIONS_STORAGE_KEY = 'eopro-legend-positions';
+
+export interface IStoredLegendPosition {
+  readonly featureId: string;
+  readonly position: IPosition;
+  readonly isExpanded: boolean;
+}

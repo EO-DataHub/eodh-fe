@@ -6,6 +6,8 @@ export type TWaterQualityAssetName = 'cdom' | 'cya_cells' | 'doc' | 'turb' | 'nd
 
 export type TLandCoverType = 'corine' | 'global' | 'waterbodies';
 
+export type TWorkflowType = 'waterQuality' | 'landCoverChanges';
+
 export interface IImageLegendConfig {
   readonly type: 'image';
   readonly title: string;

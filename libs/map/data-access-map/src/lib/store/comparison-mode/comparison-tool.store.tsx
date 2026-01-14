@@ -14,11 +14,14 @@ type TId = string;
 type TCollection = string;
 export type TUid = `${TCollection}_${TId}` | `${TCollection}_${TId}_KEY_${TAssetName}`;
 
+type TWorkflowType = 'waterQuality' | 'landCoverChanges';
+
 export type TComparisonItem = TFeature & {
   uid: TUid;
   mode: TMode;
   stacUrl?: string;
   assetName?: TAssetName;
+  workflowType?: TWorkflowType;
 };
 
 interface IComparisonToolStore {
@@ -54,12 +57,14 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
     addComparisonItem: (item: TFeature, mode: TMode, assetName?: TAssetName) =>
       set((state) => {
         const uniqueId = createUniqueItemId(item, assetName);
-        const newItem = {
+        const workflowType = 'workflowType' in item ? (item.workflowType as TWorkflowType) : undefined;
+        const newItem: TComparisonItem = {
           ...item,
           uid: uniqueId,
           mode: mode,
           stacUrl: item?.links.find((link) => link.rel === 'self')?.href,
           assetName,
+          workflowType,
         };
         if (state.comparisonItems.firsItemId === undefined) {
           return {

@@ -15,6 +15,8 @@ export interface ILegendPanelProps {
   readonly children: ReactNode;
   readonly className?: string;
   readonly maxHeight?: number;
+  readonly isFocused?: boolean;
+  readonly onMouseDown?: () => void;
 }
 
 export interface ICategoricalLegendCategory {

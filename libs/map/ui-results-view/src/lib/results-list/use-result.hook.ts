@@ -5,6 +5,14 @@ import { useCallback, useMemo } from 'react';
 import { useLegendIntegration } from '../legends/hooks/use-legend-integration.hook';
 import { downloadFiles } from './download-files.utils';
 
+type TWorkflowType = 'waterQuality' | 'landCoverChanges';
+
+interface IWorkflowFeature {
+  readonly id: string;
+  readonly workflowType: TWorkflowType;
+  readonly collection?: string;
+}
+
 export const useResult = () => {
   const { feature: visibleFeature, assetNameWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
   const { highlightedItems, highlightItem, clearHighlight } = useFootprints();
@@ -66,10 +74,7 @@ export const useResult = () => {
       if (feature) {
         clearHighlight();
         if ('workflowType' in item && item.workflowType) {
-          onAssetLoad(
-            item as unknown as { id: string; workflowType: 'waterQuality' | 'landCoverChanges'; collection?: string },
-            key || 'data'
-          );
+          onAssetLoad(item as unknown as IWorkflowFeature, key || 'data', item);
         }
       } else {
         onAssetUnload(item.id);

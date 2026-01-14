@@ -1,5 +1,6 @@
 export const legendPanelStyles = {
-  container: 'absolute overflow-hidden bg-bright-main rounded-2xl shadow-lg z-50 min-w-[250px] max-w-[350px]',
+  container: 'absolute overflow-hidden bg-bright-main rounded-2xl shadow-lg min-w-[250px] max-w-[350px]',
+  containerFocused: 'ring-2 ring-primary z-[60]',
   header: 'bg-background-main flex items-center justify-between p-3 border-b border-bright-dark select-none',
   headerTitle: 'font-semibold text-sm truncate flex-1 mr-2 text-text-primary',
   headerButtons: 'flex items-center gap-1',
