@@ -14,7 +14,13 @@ interface IComparisonToolSliderProps {
 export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const map = useContext(MapContext);
-  const { item1, item2, isItem1Visible, isItem2Visible } = useContext(ComparisonContext);
+  const {
+    item1,
+    item2,
+    isItem1Visible,
+    isItem2Visible,
+    updateSliderPosition: notifySliderPosition,
+  } = useContext(ComparisonContext);
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
 
   const updateSliderPosition = useCallback(
@@ -32,8 +38,10 @@ export const ComparisonToolSlider = ({ className }: IComparisonToolSliderProps) 
       item1.setExtent([minX, minY, splitX, maxY]);
       item2.setExtent([splitX, minY, maxX, maxY]);
       map.render();
+
+      notifySliderPosition(newSliderPosition);
     },
-    [item1, item2, map]
+    [item1, item2, map, notifySliderPosition]
   );
 
   useEffect(() => {

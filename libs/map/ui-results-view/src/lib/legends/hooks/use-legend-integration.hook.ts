@@ -1,4 +1,4 @@
-import { useComparisonMode, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
+import { useComparisonMode, useFootprints, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
 import { useCallback, useEffect, useRef } from 'react';
 
 import { TLandCoverType, TWorkflowType } from '../types/legend.types';
@@ -25,12 +25,29 @@ const isWorkflowFeature = (feature: unknown): feature is IWorkflowFeature => {
   );
 };
 
+const extractBaseFeatureId = (legendFeatureId: string): string => {
+  const comparisonSuffix = '-comparison-';
+  const suffixIndex = legendFeatureId.indexOf(comparisonSuffix);
+
+  if (suffixIndex === -1) {
+    return legendFeatureId;
+  }
+
+  return legendFeatureId.substring(0, suffixIndex);
+};
+
 export const useLegendIntegration = () => {
-  const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend, focusLegend, clearFocus } =
+  const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend, focusLegend, clearFocus, legends } =
     useLegendStore();
   const { comparisonModeEnabled, comparisonItems } = useComparisonMode();
   const { feature } = useTrueColorImage();
+  const { highlightedItems } = useFootprints();
   const prevComparisonModeEnabled = useRef(comparisonModeEnabled);
+  const legendsRef = useRef(legends);
+
+  useEffect(() => {
+    legendsRef.current = legends;
+  }, [legends]);
 
   const onAssetLoad = useCallback(
     (feature: IWorkflowFeature, assetName: string, featureData?: unknown) => {
@@ -74,6 +91,31 @@ export const useLegendIntegration = () => {
       clearAllLegends();
     }
   }, [feature, comparisonModeEnabled, clearAllLegends]);
+
+  useEffect(() => {
+    const clickedItem = highlightedItems.find((item) => item.eventType === 'click');
+
+    if (!clickedItem) {
+      return;
+    }
+
+    const currentLegends = legendsRef.current;
+
+    if (currentLegends.length === 0) {
+      return;
+    }
+
+    const clickedFeatureId = clickedItem.featureId;
+
+    const matchingLegend = currentLegends.find((legend) => {
+      const baseId = extractBaseFeatureId(legend.featureId);
+      return baseId === clickedFeatureId || legend.featureId === clickedFeatureId;
+    });
+
+    if (matchingLegend) {
+      focusLegend(matchingLegend.featureId);
+    }
+  }, [highlightedItems, focusLegend]);
 
   useEffect(() => {
     const wasEnabled = prevComparisonModeEnabled.current;

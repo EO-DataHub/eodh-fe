@@ -1,33 +1,35 @@
-import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
+import { type TComparisonItem, useComparisonMode, useLegendStore } from '@ukri/map/data-access-map';
 import { displayNotification } from '@ukri/shared/utils/notification';
 import isArray from 'lodash/isArray';
 import { Coordinate } from 'ol/coordinate';
 import { boundingExtent, intersects } from 'ol/extent';
 import GroupLayer from 'ol/layer/Group';
+import MapBrowserEvent from 'ol/MapBrowserEvent';
 import { transform } from 'ol/proj';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { stacLayerZindex } from '../../consts';
+import { useMapClick } from '../../hooks/use-map-click.hook';
 import { MapContext } from '../../map.component';
 import { STACWithColorMap } from '../../stac/stac-with-color-map';
-import { useStacLayerCreation } from './../../stac/use-stac-layer-creation';
+import { useStacLayerCreation } from '../../stac/use-stac-layer-creation';
 
-export type TComparisonLayer = {
+interface IComparisonContext {
   item1: GroupLayer | undefined;
   item2: GroupLayer | undefined;
   isItem1Visible: boolean;
   isItem2Visible: boolean;
-};
+  updateSliderPosition: (position: number) => void;
+}
 
-const defaultValues: TComparisonLayer = {
+export const ComparisonContext = createContext<IComparisonContext>({
   item1: undefined,
   item2: undefined,
   isItem1Visible: false,
   isItem2Visible: false,
-};
-
-export const ComparisonContext = createContext<TComparisonLayer>(defaultValues);
+  updateSliderPosition: () => {},
+});
 
 type TCoordinates =
   | TComparisonItem['geometry']['coordinates']
@@ -52,13 +54,58 @@ export const useComparisonModeImageLayers = () => {
   const map = useContext(MapContext);
   const { t } = useTranslation();
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
+  const { focusLegend } = useLegendStore();
   const [item1, setItem1] = useState<GroupLayer | undefined>(undefined);
   const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
   const [isItem1Visible, setIsItem1Visible] = useState<boolean>(false);
   const [isItem2Visible, setIsItem2Visible] = useState<boolean>(false);
   const [combinedExtent, setCombinedExtent] = useState<number[]>([]);
+  const sliderPositionRef = useRef(0.5);
 
   const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
+
+  const updateSliderPosition = useCallback((position: number) => {
+    sliderPositionRef.current = position;
+  }, []);
+
+  const handleMapClick = useCallback(
+    (event: MapBrowserEvent<UIEvent>, eventType: 'click' | 'pointermove' | undefined) => {
+      if (eventType !== 'click') {
+        return;
+      }
+
+      const items = comparisonItems.items;
+
+      if (items.length < 2) {
+        return;
+      }
+
+      const mapElement = map.getTargetElement();
+
+      if (!mapElement) {
+        return;
+      }
+
+      const rect = mapElement.getBoundingClientRect();
+      const mouseEvent = event.originalEvent as MouseEvent;
+      const clickX = mouseEvent.clientX - rect.left;
+      const clickPositionRatio = clickX / rect.width;
+
+      const sliderPosition = sliderPositionRef.current;
+      const isLeftSide = clickPositionRatio < sliderPosition;
+
+      const targetIndex = isLeftSide ? 0 : 1;
+      const targetItem = items[targetIndex];
+
+      if (targetItem) {
+        const legendId = `${targetItem.id}-comparison-${targetIndex}`;
+        focusLegend(legendId);
+      }
+    },
+    [map, comparisonItems.items, focusLegend]
+  );
+
+  useMapClick(handleMapClick, { enabled: comparisonModeEnabled });
 
   const createLayer = useCallback(
     async (item: TComparisonItem, index: number): Promise<STACWithColorMap | undefined> => {
@@ -179,6 +226,7 @@ export const useComparisonModeImageLayers = () => {
       item2,
       isItem1Visible,
       isItem2Visible,
+      updateSliderPosition,
     };
-  }, [item1, item2, isItem1Visible, isItem2Visible]);
+  }, [item1, item2, isItem1Visible, isItem2Visible, updateSliderPosition]);
 };
