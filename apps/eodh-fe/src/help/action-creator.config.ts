@@ -3,7 +3,7 @@ import { IHelpConfig } from '@ukri/shared/ui/help';
 import landCoverImage from './shared/images/WHAT_IS_LAND_COVER_CHANGES_SCENARIO.png';
 import waterQualityImage from './shared/images/WHAT_IS_WATER_QUALITY_ANALYSIS_SCENARIO.png';
 import { landCoverConfigs } from './shared/land-cover.config';
-import { vegetationIndexConfigs, waterQualityConfigs } from './shared/water-quality.config';
+import { vegetationIndexImages, waterQualityImages } from './shared/water-quality.config';
 
 const T = 'APP.HELP.ACTION_CREATOR';
 const T_Q = `${T}.QUESTIONS`;
@@ -484,24 +484,24 @@ export const actionCreatorConfig: IHelpConfig = {
               type: 'image-group',
               images: [
                 {
-                  src: waterQualityConfigs.ndwi.element.src,
-                  alt: waterQualityConfigs.ndwi.element.alt,
-                  descriptionAbove: waterQualityConfigs.ndwi.title,
+                  src: waterQualityImages.ndwi.src,
+                  alt: waterQualityImages.ndwi.alt,
+                  descriptionAbove: waterQualityImages.ndwi.title,
                 },
                 {
-                  src: waterQualityConfigs.doc.element.src,
-                  alt: waterQualityConfigs.doc.element.alt,
-                  descriptionAbove: waterQualityConfigs.doc.title,
+                  src: waterQualityImages.doc.src,
+                  alt: waterQualityImages.doc.alt,
+                  descriptionAbove: waterQualityImages.doc.title,
                 },
                 {
-                  src: waterQualityConfigs.cdom.element.src,
-                  alt: waterQualityConfigs.cdom.element.alt,
-                  descriptionAbove: waterQualityConfigs.cdom.title,
+                  src: waterQualityImages.cdom.src,
+                  alt: waterQualityImages.cdom.alt,
+                  descriptionAbove: waterQualityImages.cdom.title,
                 },
                 {
-                  src: waterQualityConfigs.cya_cells.element.src,
-                  alt: waterQualityConfigs.cya_cells.element.alt,
-                  descriptionAbove: waterQualityConfigs.cya_cells.title,
+                  src: waterQualityImages.cya_cells.src,
+                  alt: waterQualityImages.cya_cells.alt,
+                  descriptionAbove: waterQualityImages.cya_cells.title,
                 },
               ],
             },
@@ -513,8 +513,8 @@ export const actionCreatorConfig: IHelpConfig = {
           answer: [
             {
               type: 'image',
-              src: vegetationIndexConfigs.ndvi.element.src,
-              alt: vegetationIndexConfigs.ndvi.element.alt,
+              src: vegetationIndexImages.ndvi.src,
+              alt: vegetationIndexImages.ndvi.alt,
             },
           ],
         },
@@ -522,7 +522,11 @@ export const actionCreatorConfig: IHelpConfig = {
           id: 'WHAT_IS_THE_COLOUR_CODING_FOR_EVI',
           question: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_THE_COLOUR_CODING_FOR_EVI.QUESTION`,
           answer: [
-            { type: 'image', src: vegetationIndexConfigs.evi.element.src, alt: vegetationIndexConfigs.evi.element.alt },
+            {
+              type: 'image',
+              src: vegetationIndexImages.evi.src,
+              alt: vegetationIndexImages.evi.alt,
+            },
           ],
         },
         {
@@ -531,8 +535,8 @@ export const actionCreatorConfig: IHelpConfig = {
           answer: [
             {
               type: 'image',
-              src: vegetationIndexConfigs.savi.element.src,
-              alt: vegetationIndexConfigs.savi.element.alt,
+              src: vegetationIndexImages.savi.src,
+              alt: vegetationIndexImages.savi.alt,
             },
           ],
         },
