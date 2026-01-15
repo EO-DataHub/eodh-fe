@@ -7,6 +7,7 @@ import eviImage from './images/EVI.png';
 import ndviImage from './images/NDVI.png';
 import ndwiImage from './images/NDWI.png';
 import saviImage from './images/SAVI.png';
+import { IHelpElementConfig } from './shared.types';
 
 const T_WQ = 'APP.HELP.SHARED.ASSET.WATER_QUALITY';
 const T_VI = 'APP.HELP.SHARED.ASSET.VEGETATION_INDEX';
@@ -17,7 +18,7 @@ const createImageElement = (src: string, altKey: string): IImageElement => ({
   alt: altKey,
 });
 
-export const waterQualityConfigs = {
+export const waterQualityConfigs: Record<string, IHelpElementConfig> = {
   cdom: {
     title: `${T_WQ}.CDOM.TITLE`,
     element: createImageElement(cdomImage, `${T_WQ}.CDOM.ALT`),
@@ -30,12 +31,20 @@ export const waterQualityConfigs = {
     title: `${T_WQ}.DOC.TITLE`,
     element: createImageElement(docImage, `${T_WQ}.DOC.ALT`),
   },
+  turb: {
+    title: `${T_WQ}.TURB.TITLE`,
+    element: createImageElement(ndwiImage, `${T_WQ}.TURB.ALT`), // Use NDWI image as fallback
+  },
   ndwi: {
     title: `${T_WQ}.NDWI.TITLE`,
     element: createImageElement(ndwiImage, `${T_WQ}.NDWI.ALT`),
   },
+  data: {
+    title: `${T_WQ}.DATA.TITLE`,
+    element: createImageElement(ndwiImage, `${T_WQ}.DATA.ALT`), // Generic fallback
+  },
 };
-
+//APP.HELP.SHARED.ASSET.VEGETATION_INDEX.EVI.TITLE
 export const vegetationIndexConfigs = {
   ndvi: {
     title: `${T_VI}.NDVI.TITLE`,

@@ -1,5 +1,6 @@
 import { Icon, twMerge } from '@ukri/shared/design-system';
 import { useCallback, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ILegendPanelProps } from '../legend.types';
 import { legendPanelStyles } from './legend-panel.styles';
@@ -18,6 +19,7 @@ export const LegendPanel = ({
   isFocused = false,
   onMouseDown,
 }: ILegendPanelProps) => {
+  const { t } = useTranslation();
   const elementRef = useRef<HTMLDivElement>(null);
 
   const { position: currentPosition, dragHandleProps } = useDraggable({
@@ -51,7 +53,7 @@ export const LegendPanel = ({
       onMouseDown={handleContainerMouseDown}
     >
       <div className={legendPanelStyles.header} {...dragHandleProps}>
-        <span className={legendPanelStyles.headerTitle}>{title}</span>
+        <span className={legendPanelStyles.headerTitle}>{t(title)}</span>
         <div className={legendPanelStyles.headerButtons}>
           {onResetPosition && (
             <button

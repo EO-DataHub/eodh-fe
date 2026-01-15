@@ -7,13 +7,14 @@ import { IActiveLegend, IPosition, TLegendStore } from './legend.model';
 import { getStoredPosition, savePosition } from './legend-position-storage.utils';
 
 const getDefaultPosition = (index: number): IPosition => {
-  const baseX = 350;
-  const baseY = 620;
-  const stackOffset = 60;
+  const baseX = 16;
+  const baseY = 60;
+  const legendHeight = 140;
+  const gap = 16;
 
   return {
     x: baseX,
-    y: baseY + index * stackOffset,
+    y: baseY + index * (legendHeight + gap),
   };
 };
 

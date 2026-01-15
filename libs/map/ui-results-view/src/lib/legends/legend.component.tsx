@@ -95,7 +95,7 @@ export const Legend = ({ config }: ILegendProps) => {
             isFocused={legend.isFocused}
             onMouseDown={handleMouseDown}
           >
-            <HelpElement element={legendElementConfig.element} />
+            <HelpElement element={legendElementConfig.element} className='px-3 pb-3' />
           </LegendPanel>
         );
       })}
