@@ -1,36 +1,4 @@
-import { LAND_COVER_CORINE_TITLE, landCoverCorineCategories } from '../data/land-cover-corine.data';
-import { LAND_COVER_GLOBAL_TITLE, landCoverGlobalCategories } from '../data/land-cover-global.data';
-import { LAND_COVER_WATERBODIES_TITLE, landCoverWaterbodiesCategories } from '../data/land-cover-waterbodies.data';
-import { ICategoricalLegendConfig, TLandCoverType } from '../types/legend.types';
-
-export const getLandCoverLegend = (landCoverType: TLandCoverType): ICategoricalLegendConfig => {
-  switch (landCoverType) {
-    case 'corine':
-      return {
-        type: 'categorical',
-        title: LAND_COVER_CORINE_TITLE,
-        categories: landCoverCorineCategories,
-      };
-    case 'global':
-      return {
-        type: 'categorical',
-        title: LAND_COVER_GLOBAL_TITLE,
-        categories: landCoverGlobalCategories,
-      };
-    case 'waterbodies':
-      return {
-        type: 'categorical',
-        title: LAND_COVER_WATERBODIES_TITLE,
-        categories: landCoverWaterbodiesCategories,
-      };
-    default:
-      return {
-        type: 'categorical',
-        title: LAND_COVER_CORINE_TITLE,
-        categories: landCoverCorineCategories,
-      };
-  }
-};
+import { TLandCoverType } from '../types/legend.types';
 
 export const detectLandCoverType = (feature: unknown): TLandCoverType => {
   if (!feature || typeof feature !== 'object') {

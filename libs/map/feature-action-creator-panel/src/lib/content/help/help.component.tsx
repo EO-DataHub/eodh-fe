@@ -1,13 +1,16 @@
-import { Help as HelpContent } from '@ukri/shared/ui/help';
+import { Help as HelpContent, IHelpConfig } from '@ukri/shared/ui/help';
 
 import { Container, Content, Footer } from '../container.component';
-import { actionCreatorHelpConfig } from './action-creator-help.config';
 
-export const Help = () => {
+interface IHelpProps {
+  readonly config: IHelpConfig;
+}
+
+export const Help = ({ config }: IHelpProps) => {
   return (
     <Container>
       <Content>
-        <HelpContent config={actionCreatorHelpConfig} className='p-4' />
+        <HelpContent config={config} className='p-4' />
       </Content>
       <Footer></Footer>
     </Container>

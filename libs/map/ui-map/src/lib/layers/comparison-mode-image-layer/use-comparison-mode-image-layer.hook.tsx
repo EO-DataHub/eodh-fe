@@ -28,6 +28,7 @@ export const ComparisonContext = createContext<IComparisonContext>({
   item2: undefined,
   isItem1Visible: false,
   isItem2Visible: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   updateSliderPosition: () => {},
 });
 

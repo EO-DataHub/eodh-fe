@@ -1,4 +1,5 @@
 export { Help } from './lib/help-v2.component';
+export { HelpElement } from './lib/help-element.component';
 export type {
   IHelpConfig,
   IHelpSection,

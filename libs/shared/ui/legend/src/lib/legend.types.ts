@@ -19,23 +19,6 @@ export interface ILegendPanelProps {
   readonly onMouseDown?: () => void;
 }
 
-export interface ICategoricalLegendCategory {
-  readonly label: string;
-  readonly color: string;
-}
-
-export interface ICategoricalLegendProps {
-  readonly categories: readonly ICategoricalLegendCategory[];
-  readonly maxHeight?: number;
-  readonly className?: string;
-}
-
-export interface IImageLegendProps {
-  readonly src: string;
-  readonly alt: string;
-  readonly className?: string;
-}
-
 export interface IUseDraggableOptions {
   readonly initialPosition: IPosition;
   readonly onPositionChange: (position: IPosition) => void;
