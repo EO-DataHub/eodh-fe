@@ -60,7 +60,7 @@ const polygonSchema = z
       message: 'Invalid AOI geometry',
     }
   )
-  .transform((value) => {
+  .transform((value): TCoordinate | undefined => {
     const geometry = getGeometryFromUnknown(value);
 
     if (!geometry) {
@@ -72,25 +72,8 @@ const polygonSchema = z
       return undefined;
     }
 
-    const transformedAreaValue = transformAreaValueCoordinates(parsedGeoJson.areaValue, parsedGeoJson.detectedCRS);
-
-    if (transformedAreaValue.type === 'rectangle') {
-      return {
-        type: transformedAreaValue.type,
-        coordinates: transformedAreaValue.coordinates,
-      };
-    }
-    if (transformedAreaValue.type === 'circle') {
-      return {
-        type: transformedAreaValue.type,
-        center: transformedAreaValue.center,
-        radius: transformedAreaValue.radius,
-      };
-    }
-    return {
-      type: transformedAreaValue.type,
-      coordinates: transformedAreaValue.coordinates,
-    };
+    // Return the transformed value directly since transformAreaValueCoordinates already returns TCoordinate
+    return transformAreaValueCoordinates(parsedGeoJson.areaValue, parsedGeoJson.detectedCRS);
   });
 
 const dateTimeStringSchema = z
