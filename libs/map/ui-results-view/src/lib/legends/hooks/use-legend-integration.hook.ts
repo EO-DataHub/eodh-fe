@@ -10,6 +10,7 @@ interface IWorkflowFeature {
   readonly id: string;
   readonly workflowType: TWorkflowType;
   readonly collection?: string;
+  readonly assetName?: string;
 }
 
 const isWorkflowFeature = (feature: unknown): feature is IWorkflowFeature => {
@@ -36,11 +37,15 @@ const extractBaseFeatureId = (legendFeatureId: string): string => {
   return legendFeatureId.substring(0, suffixIndex);
 };
 
+const getAssetName = (feature: IWorkflowFeature, assetNameWhichShouldBeDisplayed: string | undefined): string => {
+  return assetNameWhichShouldBeDisplayed || feature.assetName || 'data';
+};
+
 export const useLegendIntegration = () => {
   const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend, focusLegend, clearFocus, legends } =
     useLegendStore();
   const { comparisonModeEnabled, comparisonItems } = useComparisonMode();
-  const { feature } = useTrueColorImage();
+  const { feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
   const { highlightedItems } = useFootprints();
   const prevComparisonModeEnabled = useRef(comparisonModeEnabled);
   const legendsRef = useRef(legends);
@@ -153,10 +158,40 @@ export const useLegendIntegration = () => {
 
     if (wasEnabled && !isEnabled) {
       clearAllLegends();
+
+      if (feature && isWorkflowFeature(feature)) {
+        const assetName = getAssetName(feature, assetNameWhichShouldBeDisplayed);
+
+        if (shouldShowLegend(feature.workflowType, assetName, feature)) {
+          const landCoverType: TLandCoverType | undefined =
+            feature.workflowType === 'landCoverChanges' ? detectLandCoverType(feature) : undefined;
+
+          const vegetationIndexType = detectVegetationIndexFromAsset(feature, assetName);
+
+          setActiveLegend({
+            featureId: feature.id,
+            assetName,
+            workflowType: feature.workflowType,
+            landCoverType,
+            vegetationIndexType,
+          });
+
+          focusLegend(feature.id);
+        }
+      }
     }
 
     prevComparisonModeEnabled.current = isEnabled;
-  }, [comparisonModeEnabled, comparisonItems.items, clearAllLegends, addLegend]);
+  }, [
+    comparisonModeEnabled,
+    comparisonItems.items,
+    clearAllLegends,
+    addLegend,
+    feature,
+    assetNameWhichShouldBeDisplayed,
+    setActiveLegend,
+    focusLegend,
+  ]);
 
   return {
     onAssetLoad,
