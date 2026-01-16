@@ -1,6 +1,6 @@
 import { IHelpConfig } from '@ukri/shared/ui/help';
 
-const T = 'MAP.GENERAL_HELP_MODAL';
+const T = 'APP.HELP.GENERAL_HELP';
 
 export const generalHelpConfig: IHelpConfig = {
   id: 'general-help',

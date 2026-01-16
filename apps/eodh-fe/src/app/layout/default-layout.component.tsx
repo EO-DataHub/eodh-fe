@@ -11,8 +11,8 @@ import {
 import { Legend } from '@ukri/map/ui-results-view';
 import { Checklist } from '@ukri/map/ui-search-view';
 
-import { actionCreatorConfig } from '../../help/action-creator.config';
-import { legendConfig } from '../../help/legend.config';
+import { actionCreatorConfig } from '../help/action-creator.config';
+import { legendConfig } from '../help/legend.config';
 import { BottomPanel } from './bottom-panel.component';
 import { LeftMenu } from './left-menu.component';
 import { TopBar } from './top-bar.component';

@@ -476,6 +476,121 @@
             }
           }
         }
+      },
+      "GENERAL_HELP": {
+        "TITLE": "General Help topics",
+        "INTRO": "Click on one of the questions below to see more detailed explanations.",
+        "BACK_BTN": "Back to Top",
+        "QUESTIONS": {
+          "GENERAL_FUNCIONALITY": {
+            "SUBTITLE": "General Functionality",
+            "WHAT_IS_EOPRO": {
+              "QUESTION": "What is EOPro?",
+              "ANSWER_TEXT_1": "EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface.",
+              "ANSWER_NOTE_BOLD": "Note: ",
+              "ANSWER_NOTE_TEXT": "Commercial data is available at the moment for searching only."
+            },
+            "HOW_DO_I_GET_STARTED": {
+              "QUESTION": "How do I get started?",
+              "ANSWER_TEXT_1": "To begin accessing the imaging data, you can use the Search Module from the left menu, draw an area of interest using the drawing tools at the top of the screen, and define a date range near the search button bottom-left. Once you've configured all these options, clicking the search button will return results (or let you know if you need to refine your search parameters in any way) that you can view on the map.",
+              "ANSWER_TEXT_2": "If you'd like to take your search further, you can log in using the button at the top-right of the screen to take advantage of the Action Creator. "
+            },
+            "DO_I_NEED_ACCOUNT": {
+              "QUESTION": "Do I need to create an account?",
+              "ANSWER_TEXT": "No, but if you want to get the most out of the imaging data EOPro has access to, we would recommend logging in. This way you can also use all the features of the Action Creator."
+            },
+            "HOW_DO_I_LOG_IN": {
+              "QUESTION": "How do I log in?",
+              "ANSWER_TEXT": "In order to log in, you need to first register your Github or Google account with EODH.\n\nThe user has to request a billing account and then the user will need to create a workspace on the Hub after the account has been approved. Finally, the user will have to select the workspace on EOPro.\n\nPlease see more details here: <Link href=\"https://eodatahub.org.uk/docs/account-setup/\">Account Setup</Link>."
+            }
+          },
+          "SEARCH_MODULE_FUNCIONALITY": {
+            "SUBTITLE": "Search Module Functionality",
+            "WHAT_IS_THE_SEARCH_MODULE": {
+              "QUESTION": "What is the search module and how does it work?",
+              "ANSWER_TEXT": "The Search Module allows users to find satellite imagery based on a specified Area of Interest (AOI), date range, and selected data set(s). Once a search is performed, the system displays results as thumbnails in the left panel and footprints on the map for geographic reference."
+            },
+            "HOW_DO_I_SELECT_A_DATA_SET_AS_PART_OF_A_SEARCH": {
+              "QUESTION": "How do I select a data set as part of a search?",
+              "ANSWER_TEXT": "Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings."
+            },
+            "WHAT_IS_SENTINEL_2_ARD": {
+              "QUESTION": "What is Sentinel 2 ARD (DEFRA and JNCC)?",
+              "ANSWER_TEXT": "These data have been created by the Department for Environment, Food and Rural Affairs (Defra) and Joint Nature Conservation Committee (JNCC) in order to cost-effectively provide high quality, Analysis Ready Data (ARD) for a wide range of applications. The dataset contains modified Copernicus Sentinel-2 (Level 1C data processed into a surface reflectance product using ARCSI software (Level 2))."
+            },
+            "HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI": {
+              "QUESTION": "How do I define an Area of Interest (AOI)?",
+              "ANSWER_TEXT": "Click on the AOI drawing tool in the top menu. Choose a shape type. Draw the shape on the map to define your search area."
+            },
+            "HOW_DO_I_SET_A_DATE_RANGE_FOR_MY_SEARCH": {
+              "QUESTION": "How do I set a date range for my search?",
+              "ANSWER_TEXT": "Click on the Date Range Picker in the search panel. Select a \"From\" and \"To\" date. The \"To\" date must be the same or later than the \"From\" date."
+            },
+            "WHAT_HAPPENS_WHEN_I_RUN_A_SEARCH": {
+              "QUESTION": "What happens when I run a search?",
+              "ANSWER_TEXT": "The system processes your data set, AOI, and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results."
+            },
+            "HOW_DO_I_REFINE_OR_MODIFY_MY_SEARCH_PARAMETERS": {
+              "QUESTION": "How do I refine or modify my search parameters?",
+              "ITEM_1": "Modify AOI: Click on the drawing tool and redraw the area.",
+              "ITEM_2": "Change Data Set: Click on the data set selector and choose a new data set.",
+              "ITEM_3": "Adjust Date Range: Modify the date range using the picker or time slider.",
+              "ITEM_4": "Click Search again to refresh results, unless you used only time slider to refine your search results."
+            },
+            "HOW_DO_I_USE_ADVANCED_SEARCH_OPTIONS_FOR_DATASETS": {
+              "QUESTION": "How do I use advanced search options for data sets?",
+              "ANSWER_TEXT": "For data sets like Sentinel-1, toggle Advanced Search in the data set panel. Configure acquisition modes, orbit direction, polarisation settings, etc. These settings affect search results based on data set-specific filtering."
+            },
+            "WHAT_IS_THE_DIFFERENCE_BETWEEN_PUBLIC_AND_COMMERCIAL_DATASETS": {
+              "QUESTION": "What is the difference between public and commercial data sets?",
+              "ITEM_1": "Public data sets (e.g., Copernicus Sentinel) are freely available.",
+              "ITEM_2": "Commercial data sets (e.g., Planet) require purchase before using for workflows."
+            }
+          },
+          "INTERPRETING_SEARCH_RESULTS": {
+            "SUBTITLE": "Interpreting Search Results",
+            "WHAT_ARE_FOOTPRINTS_ON_THE_MAP": {
+              "QUESTION": "What are footprints on the map, and how do they relate to search results?",
+              "ANSWER_TEXT": "Footprints represent the geographic coverage of an asset. Each search result (item) corresponds to a footprint on the map."
+            }
+          },
+          "VIEWING_AND_PURCHASING_SEARCH_RESULTS": {
+            "SUBTITLE": "Viewing Search Results",
+            "HOW_DO_I_VIEW_AN_ITEM_FROM_THE_SEARCH_RESULTS": {
+              "QUESTION": "How do I view an item from the search results?",
+              "ANSWER_TEXT": "Click the \"View\" button next to a search result. The asset will load as an overlay on the map."
+            },
+            "HOW_DO_I_PURCHASE_COMMERCIAL_DATA": {
+              "QUESTION": "How do I purchase commercial data (e.g., Planet data)?",
+              "ANSWER_TEXT": "Click \"Purchase\" next to a commercial data set. You will be redirected to the TPZ portal to accept terms and complete the transaction. After purchase, the item appears in My Items."
+            },
+            "HOW_DO_I_DISPLAY_PURCHASED_ITEMS_ON_THE_MAP": {
+              "QUESTION": "How do I display purchased items on the map?",
+              "ANSWER_TEXT": "In \"My Items\", click \"View\" to load the purchased asset on the map."
+            }
+          },
+          "TIME_MANAGEMENT_IN_SEARCH": {
+            "SUBTITLE": "Time Management in Search",
+            "HOW_DOES_THE_TIME_SLIDER_AFFECT_SEARCH_RESULTS": {
+              "QUESTION": "How does the time slider affect search results?",
+              "ANSWER_TEXT": "The time slider allows you to filter results dynamically by narrowing the displayed time range. Moving the slider updates results in real-time."
+            }
+          },
+          "COMPARISON_AND_EXPORTING": {
+            "SUBTITLE": "Comparison & Exporting",
+            "HOW_DO_I_ADD_SEARCH_RESULTS_TO_THE_COMPARISON_TOOL": {
+              "QUESTION": "How do I add search results to the comparison tool?",
+              "ANSWER_TEXT": "Click \"Add to Compare\" on a search result. Add a second asset to enable the comparison tool. Open top menu and click on \"Compare\" button to activate comparison mode.  Use the comparison swipe to analyse differences."
+            }
+          },
+          "GENERAL_FEATURES_USER_SETTINGS": {
+            "SUBTITLE": "General Features & User Settings",
+            "HOW_DO_I_HIDE_FOOTPRINTS_OR_AOI_TO_BETTER_SEE_MY_SELECTED_IMAGERY": {
+              "QUESTION": "How do I hide footprints or AOI to better see my selected imagery?",
+              "ANSWER_TEXT": "Click the Eye icon in the top menu. This hides both the AOI boundary and footprints without affecting the imagery. Click the Eye icon again to restore visibility."
+            }
+          }
+        }
       }
     },
     "SEARCH_MODE_PANEL": {
@@ -866,121 +981,6 @@
         "END_COMPARE": "End compare"
       },
       "NO_INTERSECTION": "Selected data have no intersection"
-    },
-    "GENERAL_HELP_MODAL": {
-      "TITLE": "General Help topics",
-      "INTRO": "Click on one of the questions below to see more detailed explanations.",
-      "BACK_BTN": "Back to Top",
-      "QUESTIONS": {
-        "GENERAL_FUNCIONALITY": {
-          "SUBTITLE": "General Functionality",
-          "WHAT_IS_EOPRO": {
-            "QUESTION": "What is EOPro?",
-            "ANSWER_TEXT_1": "EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface.",
-            "ANSWER_NOTE_BOLD": "Note: ",
-            "ANSWER_NOTE_TEXT": "Commercial data is available at the moment for searching only."
-          },
-          "HOW_DO_I_GET_STARTED": {
-            "QUESTION": "How do I get started?",
-            "ANSWER_TEXT_1": "To begin accessing the imaging data, you can use the Search Module from the left menu, draw an area of interest using the drawing tools at the top of the screen, and define a date range near the search button bottom-left. Once you've configured all these options, clicking the search button will return results (or let you know if you need to refine your search parameters in any way) that you can view on the map.",
-            "ANSWER_TEXT_2": "If you'd like to take your search further, you can log in using the button at the top-right of the screen to take advantage of the Action Creator. "
-          },
-          "DO_I_NEED_ACCOUNT": {
-            "QUESTION": "Do I need to create an account?",
-            "ANSWER_TEXT": "No, but if you want to get the most out of the imaging data EOPro has access to, we would recommend logging in. This way you can also use all the features of the Action Creator."
-          },
-          "HOW_DO_I_LOG_IN": {
-            "QUESTION": "How do I log in?",
-            "ANSWER_TEXT": "In order to log in, you need to first register your Github or Google account with EODH.\n\nThe user has to request a billing account and then the user will need to create a workspace on the Hub after the account has been approved. Finally, the user will have to select the workspace on EOPro.\n\nPlease see more details here: <Link href=\"https://eodatahub.org.uk/docs/account-setup/\">Account Setup</Link>."
-          }
-        },
-        "SEARCH_MODULE_FUNCIONALITY": {
-          "SUBTITLE": "Search Module Functionality",
-          "WHAT_IS_THE_SEARCH_MODULE": {
-            "QUESTION": "What is the search module and how does it work?",
-            "ANSWER_TEXT": "The Search Module allows users to find satellite imagery based on a specified Area of Interest (AOI), date range, and selected data set(s). Once a search is performed, the system displays results as thumbnails in the left panel and footprints on the map for geographic reference."
-          },
-          "HOW_DO_I_SELECT_A_DATA_SET_AS_PART_OF_A_SEARCH": {
-            "QUESTION": "How do I select a data set as part of a search?",
-            "ANSWER_TEXT": "Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings."
-          },
-          "WHAT_IS_SENTINEL_2_ARD": {
-            "QUESTION": "What is Sentinel 2 ARD (DEFRA and JNCC)?",
-            "ANSWER_TEXT": "These data have been created by the Department for Environment, Food and Rural Affairs (Defra) and Joint Nature Conservation Committee (JNCC) in order to cost-effectively provide high quality, Analysis Ready Data (ARD) for a wide range of applications. The dataset contains modified Copernicus Sentinel-2 (Level 1C data processed into a surface reflectance product using ARCSI software (Level 2))."
-          },
-          "HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI": {
-            "QUESTION": "How do I define an Area of Interest (AOI)?",
-            "ANSWER_TEXT": "Click on the AOI drawing tool in the top menu. Choose a shape type. Draw the shape on the map to define your search area."
-          },
-          "HOW_DO_I_SET_A_DATE_RANGE_FOR_MY_SEARCH": {
-            "QUESTION": "How do I set a date range for my search?",
-            "ANSWER_TEXT": "Click on the Date Range Picker in the search panel. Select a \"From\" and \"To\" date. The \"To\" date must be the same or later than the \"From\" date."
-          },
-          "WHAT_HAPPENS_WHEN_I_RUN_A_SEARCH": {
-            "QUESTION": "What happens when I run a search?",
-            "ANSWER_TEXT": "The system processes your data set, AOI, and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results."
-          },
-          "HOW_DO_I_REFINE_OR_MODIFY_MY_SEARCH_PARAMETERS": {
-            "QUESTION": "How do I refine or modify my search parameters?",
-            "ITEM_1": "Modify AOI: Click on the drawing tool and redraw the area.",
-            "ITEM_2": "Change Data Set: Click on the data set selector and choose a new data set.",
-            "ITEM_3": "Adjust Date Range: Modify the date range using the picker or time slider.",
-            "ITEM_4": "Click Search again to refresh results, unless you used only time slider to refine your search results."
-          },
-          "HOW_DO_I_USE_ADVANCED_SEARCH_OPTIONS_FOR_DATASETS": {
-            "QUESTION": "How do I use advanced search options for data sets?",
-            "ANSWER_TEXT": "For data sets like Sentinel-1, toggle Advanced Search in the data set panel. Configure acquisition modes, orbit direction, polarisation settings, etc. These settings affect search results based on data set-specific filtering."
-          },
-          "WHAT_IS_THE_DIFFERENCE_BETWEEN_PUBLIC_AND_COMMERCIAL_DATASETS": {
-            "QUESTION": "What is the difference between public and commercial data sets?",
-            "ITEM_1": "Public data sets (e.g., Copernicus Sentinel) are freely available.",
-            "ITEM_2": "Commercial data sets (e.g., Planet) require purchase before using for workflows."
-          }
-        },
-        "INTERPRETING_SEARCH_RESULTS": {
-          "SUBTITLE": "Interpreting Search Results",
-          "WHAT_ARE_FOOTPRINTS_ON_THE_MAP": {
-            "QUESTION": "What are footprints on the map, and how do they relate to search results?",
-            "ANSWER_TEXT": "Footprints represent the geographic coverage of an asset. Each search result (item) corresponds to a footprint on the map."
-          }
-        },
-        "VIEWING_AND_PURCHASING_SEARCH_RESULTS": {
-          "SUBTITLE": "Viewing Search Results",
-          "HOW_DO_I_VIEW_AN_ITEM_FROM_THE_SEARCH_RESULTS": {
-            "QUESTION": "How do I view an item from the search results?",
-            "ANSWER_TEXT": "Click the \"View\" button next to a search result. The asset will load as an overlay on the map."
-          },
-          "HOW_DO_I_PURCHASE_COMMERCIAL_DATA": {
-            "QUESTION": "How do I purchase commercial data (e.g., Planet data)?",
-            "ANSWER_TEXT": "Click \"Purchase\" next to a commercial data set. You will be redirected to the TPZ portal to accept terms and complete the transaction. After purchase, the item appears in My Items."
-          },
-          "HOW_DO_I_DISPLAY_PURCHASED_ITEMS_ON_THE_MAP": {
-            "QUESTION": "How do I display purchased items on the map?",
-            "ANSWER_TEXT": "In \"My Items\", click \"View\" to load the purchased asset on the map."
-          }
-        },
-        "TIME_MANAGEMENT_IN_SEARCH": {
-          "SUBTITLE": "Time Management in Search",
-          "HOW_DOES_THE_TIME_SLIDER_AFFECT_SEARCH_RESULTS": {
-            "QUESTION": "How does the time slider affect search results?",
-            "ANSWER_TEXT": "The time slider allows you to filter results dynamically by narrowing the displayed time range. Moving the slider updates results in real-time."
-          }
-        },
-        "COMPARISON_AND_EXPORTING": {
-          "SUBTITLE": "Comparison & Exporting",
-          "HOW_DO_I_ADD_SEARCH_RESULTS_TO_THE_COMPARISON_TOOL": {
-            "QUESTION": "How do I add search results to the comparison tool?",
-            "ANSWER_TEXT": "Click \"Add to Compare\" on a search result. Add a second asset to enable the comparison tool. Open top menu and click on \"Compare\" button to activate comparison mode.  Use the comparison swipe to analyse differences."
-          }
-        },
-        "GENERAL_FEATURES_USER_SETTINGS": {
-          "SUBTITLE": "General Features & User Settings",
-          "HOW_DO_I_HIDE_FOOTPRINTS_OR_AOI_TO_BETTER_SEE_MY_SELECTED_IMAGERY": {
-            "QUESTION": "How do I hide footprints or AOI to better see my selected imagery?",
-            "ANSWER_TEXT": "Click the Eye icon in the top menu. This hides both the AOI boundary and footprints without affecting the imagery. Click the Eye icon again to restore visibility."
-          }
-        }
-      }
     },
     "SEARCH_MODE_PANEL": {
       "HEADER": {

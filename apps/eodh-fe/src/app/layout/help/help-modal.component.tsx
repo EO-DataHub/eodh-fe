@@ -1,7 +1,7 @@
 import { Icon, Text } from '@ukri/shared/design-system';
 import { Help } from '@ukri/shared/ui/help';
 
-import { generalHelpConfig } from './general-help.config';
+import { generalHelpConfig } from '../../help/general-help.config';
 import { styles } from './help-modal.styles';
 
 interface IModalProps {
@@ -15,7 +15,7 @@ export const HelpModal = ({ onClose }: IModalProps) => {
         <div className={styles.topContainer}>
           <Text
             type='h1'
-            content='MAP.GENERAL_HELP_MODAL.TITLE'
+            content='APP.GENERAL_HELP.TITLE'
             fontSize='large'
             fontWeight='bold'
             className={styles.helpTitle}
