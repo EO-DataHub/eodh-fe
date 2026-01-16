@@ -2,24 +2,12 @@ import { formatDate, TDateTimeString } from '@ukri/shared/utils/date';
 import isObject from 'lodash/isObject';
 import z from 'zod';
 
-import { parseGeoJson } from '../../geometry/geo-json/geo-json';
+import { extractCoordinates, parseGeoJson } from '../../geometry/geo-json/geo-json';
 import { TCoordinate } from '../../geometry/shape.model';
 import { transformAreaValueCoordinates } from '../../store/aoi/aoi-import/coordinate-transformer';
 import { detectCoordinateSystem } from '../../store/aoi/aoi-import/coordinate-validator';
 import { TGeoJSONGeometry } from '../../store/aoi/aoi-import/geojson.types';
 import { validateGeometryType } from '../../store/aoi/aoi-import/geojson-validator';
-
-const extractCoordinates = (geometry: TGeoJSONGeometry): number[][] => {
-  if (geometry.type === 'Polygon') {
-    return geometry.coordinates[0];
-  }
-
-  if (geometry.type === 'MultiPolygon') {
-    return geometry.coordinates[0][0];
-  }
-
-  return [];
-};
 
 function getGeometryFromUnknown(data: unknown): TGeoJSONGeometry | undefined {
   if (!isObject(data)) {

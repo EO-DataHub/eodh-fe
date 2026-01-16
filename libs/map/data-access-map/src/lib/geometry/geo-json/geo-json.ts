@@ -11,7 +11,7 @@ export interface IParseResult {
   detectedCRS?: TCoordinateSystem;
 }
 
-const extractCoordinates = (geometry: TGeoJSONGeometry): number[][] => {
+export const extractCoordinates = (geometry: TGeoJSONGeometry): number[][] => {
   if (geometry.type === 'Polygon') {
     return geometry.coordinates[0];
   }
