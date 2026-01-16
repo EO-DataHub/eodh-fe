@@ -30,6 +30,13 @@ const getAssetName = (feature: IWorkflowFeature, assetNameWhichShouldBeDisplayed
   return assetNameWhichShouldBeDisplayed || feature.assetName || 'data';
 };
 
+const cloneLegends = (legends: IActiveLegend[]): IActiveLegend[] => {
+  return legends.map((legend) => ({
+    ...legend,
+    position: { ...legend.position },
+  }));
+};
+
 export const useLegendIntegration = () => {
   const {
     legends,
@@ -102,7 +109,7 @@ export const useLegendIntegration = () => {
     }
 
     if (!wasEnabled && isEnabled && items.length === 2) {
-      preComparisonLegends.current = [...legends];
+      preComparisonLegends.current = cloneLegends(legends);
 
       resetAllPositions();
       clearAllLegends();
@@ -135,7 +142,7 @@ export const useLegendIntegration = () => {
 
     if (wasEnabled && !isEnabled) {
       if (preComparisonLegends.current.length > 0) {
-        setLegends(preComparisonLegends.current);
+        setLegends(cloneLegends(preComparisonLegends.current));
         preComparisonLegends.current = [];
       } else {
         clearAllLegends();
