@@ -78,6 +78,10 @@ export const useLegendStore = create<TLegendStore>()(
       set({ legends: [newLegend] });
     },
 
+    setLegends: (legends) => {
+      set({ legends });
+    },
+
     updatePosition: (id, position) => {
       const { legends } = get();
       const legend = legends.find((l) => l.id === id);
@@ -129,7 +133,6 @@ export const useLegendStore = create<TLegendStore>()(
     },
 
     clearAllLegends: () => {
-      console.log('[legend.store] clearAllLegends called', new Error().stack);
       set({ legends: [] });
     },
 

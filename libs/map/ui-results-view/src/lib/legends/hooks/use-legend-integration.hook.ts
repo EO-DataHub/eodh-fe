@@ -1,4 +1,4 @@
-import { useComparisonMode, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
+import { IActiveLegend, useComparisonMode, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
 import { useCallback, useEffect, useRef } from 'react';
 
 import { TLandCoverType, TWorkflowType } from '../types/legend.types';
@@ -32,7 +32,9 @@ const getAssetName = (feature: IWorkflowFeature, assetNameWhichShouldBeDisplayed
 
 export const useLegendIntegration = () => {
   const {
+    legends,
     setActiveLegend,
+    setLegends,
     removeLegendByFeatureId,
     clearAllLegends,
     addLegend,
@@ -44,6 +46,7 @@ export const useLegendIntegration = () => {
   const { feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
   const prevComparisonModeEnabled = useRef(comparisonModeEnabled);
   const prevItemsCount = useRef(comparisonItems.items.length);
+  const preComparisonLegends = useRef<IActiveLegend[]>([]);
 
   const onAssetLoad = useCallback(
     (feature: IWorkflowFeature, assetName: string, featureData?: unknown) => {
@@ -87,8 +90,10 @@ export const useLegendIntegration = () => {
     const items = comparisonItems.items;
     const prevCount = prevItemsCount.current;
 
+    // Update refs for items count
     prevItemsCount.current = items.length;
 
+    // Only act when comparison mode state actually changes OR items count changes to 2
     const comparisonStateChanged = wasEnabled !== isEnabled;
     const justGot2Items = !wasEnabled && prevCount < 2 && items.length === 2;
 
@@ -97,6 +102,8 @@ export const useLegendIntegration = () => {
     }
 
     if (!wasEnabled && isEnabled && items.length === 2) {
+      preComparisonLegends.current = [...legends];
+
       resetAllPositions();
       clearAllLegends();
 
@@ -127,24 +134,29 @@ export const useLegendIntegration = () => {
     }
 
     if (wasEnabled && !isEnabled) {
-      clearAllLegends();
+      if (preComparisonLegends.current.length > 0) {
+        setLegends(preComparisonLegends.current);
+        preComparisonLegends.current = [];
+      } else {
+        clearAllLegends();
 
-      if (feature && isWorkflowFeature(feature)) {
-        const assetName = getAssetName(feature, assetNameWhichShouldBeDisplayed);
+        if (feature && isWorkflowFeature(feature)) {
+          const assetName = getAssetName(feature, assetNameWhichShouldBeDisplayed);
 
-        if (shouldShowLegend(feature.workflowType, assetName, feature)) {
-          const landCoverType: TLandCoverType | undefined =
-            feature.workflowType === 'landCoverChanges' ? detectLandCoverType(feature) : undefined;
+          if (shouldShowLegend(feature.workflowType, assetName, feature)) {
+            const landCoverType: TLandCoverType | undefined =
+              feature.workflowType === 'landCoverChanges' ? detectLandCoverType(feature) : undefined;
 
-          const vegetationIndexType = detectVegetationIndexFromAsset(feature, assetName);
+            const vegetationIndexType = detectVegetationIndexFromAsset(feature, assetName);
 
-          setActiveLegend({
-            featureId: feature.id,
-            assetName,
-            workflowType: feature.workflowType,
-            landCoverType,
-            vegetationIndexType,
-          });
+            setActiveLegend({
+              featureId: feature.id,
+              assetName,
+              workflowType: feature.workflowType,
+              landCoverType,
+              vegetationIndexType,
+            });
+          }
         }
       }
     }
@@ -155,10 +167,12 @@ export const useLegendIntegration = () => {
     comparisonItems.items,
     clearAllLegends,
     addLegend,
+    legends,
+    setLegends,
+    resetAllPositions,
     feature,
     assetNameWhichShouldBeDisplayed,
     setActiveLegend,
-    resetAllPositions,
   ]);
 
   return {

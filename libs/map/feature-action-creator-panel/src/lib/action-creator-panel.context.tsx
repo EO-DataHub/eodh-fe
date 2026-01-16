@@ -126,12 +126,8 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   );
 
   const toggle = useCallback(() => {
-    if (!comparisonModeEnabled) {
-      clearAllLegends();
-    }
-
     toggleMode();
-  }, [clearAllLegends, comparisonModeEnabled, toggleMode]);
+  }, [toggleMode]);
 
   const collapse = useCallback(() => {
     setCollapsed((value) => !value);

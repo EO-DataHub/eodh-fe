@@ -32,6 +32,7 @@ export interface ILegendActions {
   removeLegend: (id: string) => void;
   removeLegendByFeatureId: (featureId: string) => void;
   setActiveLegend: (legend: TAddLegendData) => void;
+  setLegends: (legends: IActiveLegend[]) => void;
   updatePosition: (id: string, position: IPosition) => void;
   resetPosition: (id: string) => void;
   resetAllPositions: () => void;
