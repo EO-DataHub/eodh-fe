@@ -112,6 +112,10 @@ const useComparisonToolStore = create<IComparisonToolStore>()(
   }))
 );
 
+export const getComparisonModeEnabled = (): boolean => {
+  return useComparisonToolStore.getState().comparisonModeEnabled;
+};
+
 export const useComparisonMode = () => {
   const {
     comparisonItems,

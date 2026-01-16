@@ -34,6 +34,7 @@ export interface ILegendActions {
   setActiveLegend: (legend: TAddLegendData) => void;
   updatePosition: (id: string, position: IPosition) => void;
   resetPosition: (id: string) => void;
+  resetAllPositions: () => void;
   toggleExpanded: (id: string) => void;
   clearAllLegends: () => void;
   focusLegend: (featureId: string, assetName: string) => void;

@@ -4,12 +4,15 @@ import { TIActionCreatorStoreState } from './action-creator/action-creator.model
 import { getActionCreatorStoreState, useActionCreatorStore } from './action-creator/action-creator.store';
 import { IAoiStore } from './aoi/aoi.model';
 import { getAoiStoreState, useAoiStore } from './aoi/aoi.store';
+import { getComparisonModeEnabled } from './comparison-mode/comparison-tool.store';
 import { TDataSetsStore } from './data-sets/data-sets.model';
 import { getDataSetsStoreState, useDataSetsStore } from './data-sets/data-sets.store';
 import { TDateStoreState } from './date/date.model';
 import { getDateStoreState, useDateStore } from './date/date.store';
 import { TFootprintStoreState } from './footprint/footprint.model';
 import { getFootprintStoreState, useFootprintStore } from './footprint/footprint.store';
+import { ILegendState } from './legend/legend.model';
+import { getLegendStoreState, useLegendStore } from './legend/legend.store';
 import { clearStoredPositions } from './legend/legend-position-storage.utils';
 import { IModeStore, TMode } from './mode.model';
 import { getModeStoreState, useModeStore } from './mode.store';
@@ -27,6 +30,7 @@ const storeKeys = {
   FOOTPRINT: (mode: TMode) => `${mode}-footprint`,
   TRUE_COLOR_IMAGE: (mode: TMode) => `${mode}-true-color-image`,
   ACTION_CREATOR: (mode: TMode) => `${mode}-action-creator`,
+  LEGEND: (mode: TMode) => `${mode}-legend`,
 };
 
 const setItemInLocalStorage = (key: string, value: object) => {
@@ -153,6 +157,31 @@ const restoreActionCreatorStoreState = (mode: TMode) => {
   useActionCreatorStore.setState(currentState);
 };
 
+const restoreLegendStoreState = (mode: TMode) => {
+  const isComparisonEnabled = getComparisonModeEnabled();
+
+  if (isComparisonEnabled) {
+    return;
+  }
+
+  const currentState = getItemFromLocalStorage<ILegendState>(storeKeys.LEGEND(mode));
+
+  if (!currentState) {
+    useLegendStore.getState().clearAllLegends();
+    return;
+  }
+
+  useLegendStore.setState({ legends: currentState.legends });
+};
+
+const saveLegendStoreState = (mode: TMode) => {
+  if (getComparisonModeEnabled()) {
+    return;
+  }
+
+  setItemInLocalStorage(storeKeys.LEGEND(mode), getLegendStoreState());
+};
+
 const restoreStateFromLocalStorage = (mode: TMode) => {
   restoreModeStoreState(mode);
   restoreAoiStoreState(mode);
@@ -162,6 +191,7 @@ const restoreStateFromLocalStorage = (mode: TMode) => {
   restoreFootprintStoreState(mode);
   restoreTrueColorImageStoreState(mode);
   restoreActionCreatorStoreState(mode);
+  restoreLegendStoreState(mode);
 };
 
 const saveStateInLocalStorage = (mode: TMode) => {
@@ -173,6 +203,7 @@ const saveStateInLocalStorage = (mode: TMode) => {
   setItemInLocalStorage(storeKeys.FOOTPRINT(mode), getFootprintStoreState());
   setItemInLocalStorage(storeKeys.TRUE_COLOR_IMAGE(mode), getTrueColorImageStoreState());
   setItemInLocalStorage(storeKeys.ACTION_CREATOR(mode), getActionCreatorStoreState());
+  saveLegendStoreState(mode);
 };
 
 const resetLocalStorage = (mode: TMode) => {
@@ -184,6 +215,7 @@ const resetLocalStorage = (mode: TMode) => {
   localStorage.removeItem(storeKeys.FOOTPRINT(mode));
   localStorage.removeItem(storeKeys.TRUE_COLOR_IMAGE(mode));
   localStorage.removeItem(storeKeys.ACTION_CREATOR(mode));
+  localStorage.removeItem(storeKeys.LEGEND(mode));
 };
 
 export const toggleMode = (currentMode: TMode): TMode => {

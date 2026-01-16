@@ -1,5 +1,4 @@
-import { useComparisonMode, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
-import { boundingExtent } from 'ol/extent';
+import { useComparisonMode, useTrueColorImage } from '@ukri/map/data-access-map';
 import MapBrowserEvent from 'ol/MapBrowserEvent';
 import { fromLonLat } from 'ol/proj';
 import { useCallback, useContext, useEffect } from 'react';
@@ -17,8 +16,7 @@ const convertCoordinates = (geometry: { type: string; coordinates: number[][][] 
 
 export const useStacLayerClick = () => {
   const map = useContext(MapContext);
-  const { feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
-  const { legends, focusLegend } = useLegendStore();
+  const { feature } = useTrueColorImage();
   const { comparisonModeEnabled } = useComparisonMode();
 
   const handleMapClick = useCallback(
@@ -27,51 +25,29 @@ export const useStacLayerClick = () => {
         return;
       }
 
-      if (!feature || !map || legends.length === 0) {
-        return;
-      }
-
-      const featureId = feature.id;
-      const assetName = assetNameWhichShouldBeDisplayed || 'data';
-      const hasMatchingLegend = legends.some(
-        (legend) => legend.featureId === featureId && legend.assetName === assetName
-      );
-
-      if (!hasMatchingLegend) {
+      if (!feature || !map) {
         return;
       }
 
       const geometry = feature.geometry as { type: string; coordinates: number[][][] } | undefined;
 
       if (!geometry) {
-        focusLegend(featureId, assetName);
         return;
       }
 
       const coords = convertCoordinates(geometry);
 
       if (coords.length === 0) {
-        focusLegend(featureId, assetName);
         return;
       }
 
-      const extent = boundingExtent(coords);
       const coordinate = event.coordinate;
 
       if (!coordinate) {
         return;
       }
-
-      const [x, y] = coordinate;
-      const [minX, minY, maxX, maxY] = extent;
-
-      const isWithinExtent = x >= minX && x <= maxX && y >= minY && y <= maxY;
-
-      if (isWithinExtent) {
-        focusLegend(featureId, assetName);
-      }
     },
-    [feature, assetNameWhichShouldBeDisplayed, map, legends, focusLegend, comparisonModeEnabled]
+    [feature, map, comparisonModeEnabled]
   );
 
   useEffect(() => {

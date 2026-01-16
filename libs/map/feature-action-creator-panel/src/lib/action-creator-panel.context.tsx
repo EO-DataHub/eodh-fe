@@ -1,6 +1,7 @@
 import {
   TTab,
   useActionCreator,
+  useComparisonMode,
   useLegendStore,
   useMode,
   useResults,
@@ -51,6 +52,7 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   const { updateSearchParams } = useResults();
   const { markAsRead } = useWorkflow();
   const { clearAllLegends } = useLegendStore();
+  const { comparisonModeEnabled } = useComparisonMode();
   const shouldEnableWorkflow = useMemo(
     () => authenticated && (hasWorkflowsToProcess || workflowStatus === 'initial'),
     [authenticated, hasWorkflowsToProcess, workflowStatus]
@@ -74,11 +76,23 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
       return;
     }
 
-    clearAllLegends();
+    if (!comparisonModeEnabled) {
+      clearAllLegends();
+    }
+
     hideModal();
     updateSearchParams(undefined);
     changeView('search');
-  }, [clearAllLegends, changeView, hideModal, permanentHidden, setTabsFlowModalOpen, updateSearchParams, view]);
+  }, [
+    clearAllLegends,
+    changeView,
+    comparisonModeEnabled,
+    hideModal,
+    permanentHidden,
+    setTabsFlowModalOpen,
+    updateSearchParams,
+    view,
+  ]);
 
   const toggleActionCreatorState = useCallback(
     (newTab: TTab) => {
@@ -112,9 +126,12 @@ export const ActionCreatorProvider = ({ children }: PropsWithChildren) => {
   );
 
   const toggle = useCallback(() => {
-    clearAllLegends();
+    if (!comparisonModeEnabled) {
+      clearAllLegends();
+    }
+
     toggleMode();
-  }, [clearAllLegends, toggleMode]);
+  }, [clearAllLegends, comparisonModeEnabled, toggleMode]);
 
   const collapse = useCallback(() => {
     setCollapsed((value) => !value);

@@ -31,11 +31,19 @@ const getAssetName = (feature: IWorkflowFeature, assetNameWhichShouldBeDisplayed
 };
 
 export const useLegendIntegration = () => {
-  const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend, focusLegend, clearFocus } =
-    useLegendStore();
+  const {
+    setActiveLegend,
+    removeLegendByFeatureId,
+    clearAllLegends,
+    addLegend,
+    focusLegend,
+    clearFocus,
+    resetAllPositions,
+  } = useLegendStore();
   const { comparisonModeEnabled, comparisonItems } = useComparisonMode();
   const { feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
   const prevComparisonModeEnabled = useRef(comparisonModeEnabled);
+  const prevItemsCount = useRef(comparisonItems.items.length);
 
   const onAssetLoad = useCallback(
     (feature: IWorkflowFeature, assetName: string, featureData?: unknown) => {
@@ -50,6 +58,7 @@ export const useLegendIntegration = () => {
 
       const vegetationIndexType = detectVegetationIndexFromAsset(featureForDetection, assetName);
 
+      resetAllPositions();
       setActiveLegend({
         featureId: feature.id,
         assetName,
@@ -57,10 +66,8 @@ export const useLegendIntegration = () => {
         landCoverType,
         vegetationIndexType,
       });
-
-      focusLegend(feature.id, assetName);
     },
-    [setActiveLegend, focusLegend]
+    [setActiveLegend, resetAllPositions]
   );
 
   const onAssetUnload = useCallback(
@@ -75,17 +82,22 @@ export const useLegendIntegration = () => {
   }, [clearAllLegends]);
 
   useEffect(() => {
-    if (!feature && !comparisonModeEnabled) {
-      clearAllLegends();
-    }
-  }, [feature, comparisonModeEnabled, clearAllLegends]);
-
-  useEffect(() => {
     const wasEnabled = prevComparisonModeEnabled.current;
     const isEnabled = comparisonModeEnabled;
     const items = comparisonItems.items;
+    const prevCount = prevItemsCount.current;
 
-    if (isEnabled && items.length === 2) {
+    prevItemsCount.current = items.length;
+
+    const comparisonStateChanged = wasEnabled !== isEnabled;
+    const justGot2Items = !wasEnabled && prevCount < 2 && items.length === 2;
+
+    if (!comparisonStateChanged && !justGot2Items) {
+      return;
+    }
+
+    if (!wasEnabled && isEnabled && items.length === 2) {
+      resetAllPositions();
       clearAllLegends();
 
       items.forEach((item) => {
@@ -133,8 +145,6 @@ export const useLegendIntegration = () => {
             landCoverType,
             vegetationIndexType,
           });
-
-          focusLegend(feature.id, assetName);
         }
       }
     }
@@ -148,7 +158,7 @@ export const useLegendIntegration = () => {
     feature,
     assetNameWhichShouldBeDisplayed,
     setActiveLegend,
-    focusLegend,
+    resetAllPositions,
   ]);
 
   return {

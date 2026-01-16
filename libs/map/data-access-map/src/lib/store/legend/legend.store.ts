@@ -2,8 +2,8 @@ import type {} from '@redux-devtools/extension';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { createLegendId, IActiveLegend, IPosition, TLegendStore } from './legend.model';
-import { getStoredPosition, savePosition } from './legend-position-storage.utils';
+import { createLegendId, IActiveLegend, ILegendState, IPosition, TLegendStore } from './legend.model';
+import { clearStoredPositions, getStoredPosition, savePosition } from './legend-position-storage.utils';
 
 const getDefaultPosition = (index: number): IPosition => {
   const baseX = 16;
@@ -111,6 +111,10 @@ export const useLegendStore = create<TLegendStore>()(
       });
     },
 
+    resetAllPositions: () => {
+      clearStoredPositions();
+    },
+
     toggleExpanded: (id) => {
       const { legends } = get();
       const legend = legends.find((l) => l.id === id);
@@ -125,6 +129,7 @@ export const useLegendStore = create<TLegendStore>()(
     },
 
     clearAllLegends: () => {
+      console.log('[legend.store] clearAllLegends called', new Error().stack);
       set({ legends: [] });
     },
 
@@ -153,3 +158,8 @@ export const useLegendStore = create<TLegendStore>()(
     },
   }))
 );
+
+export const getLegendStoreState = (): ILegendState => {
+  const { legends } = useLegendStore.getState();
+  return { legends };
+};

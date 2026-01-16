@@ -3,6 +3,8 @@ import { HelpElement, THelpElement } from '@ukri/shared/ui/help';
 import { LegendPanel } from '@ukri/shared/ui/legend';
 import { useCallback } from 'react';
 
+import { useLegendIntegration } from './hooks/use-legend-integration.hook';
+
 const MAX_LEGEND_HEIGHT = 300;
 
 interface ILegendElementConfig {
@@ -42,6 +44,8 @@ const getLegendElementConfig = (legend: IActiveLegend, config: ILegendProps['con
 };
 
 export const Legend = ({ config }: ILegendProps) => {
+  useLegendIntegration();
+
   const { legends, updatePosition, toggleExpanded, resetPosition, clearFocus } = useLegendStore();
 
   const handlePositionChange = useCallback(
