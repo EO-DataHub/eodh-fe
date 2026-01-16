@@ -1,12 +1,109 @@
 import { formatDate, TDateTimeString } from '@ukri/shared/utils/date';
+import isObject from 'lodash/isObject';
 import z from 'zod';
 
-const coordinateSchema = z.tuple([z.number(), z.number()]);
+import { parseGeoJson } from '../../geometry/geo-json/geo-json';
+import { TCoordinate } from '../../geometry/shape.model';
+import { transformAreaValueCoordinates } from '../../store/aoi/aoi-import/coordinate-transformer';
+import { detectCoordinateSystem } from '../../store/aoi/aoi-import/coordinate-validator';
+import { TGeoJSONGeometry } from '../../store/aoi/aoi-import/geojson.types';
+import { validateGeometryType } from '../../store/aoi/aoi-import/geojson-validator';
 
-const polygonSchema = z.object({
-  type: z.literal('Polygon').transform(() => 'polygon' as const),
-  coordinates: z.union([z.array(z.array(z.array(z.number()))), z.array(z.array(coordinateSchema))]),
-});
+const extractCoordinates = (geometry: TGeoJSONGeometry): number[][] => {
+  if (geometry.type === 'Polygon') {
+    return geometry.coordinates[0];
+  }
+
+  if (geometry.type === 'MultiPolygon') {
+    return geometry.coordinates[0][0];
+  }
+
+  return [];
+};
+
+function getGeometryFromUnknown(data: unknown): TGeoJSONGeometry | undefined {
+  if (!isObject(data)) {
+    return undefined;
+  }
+
+  const type = (data as { type?: unknown }).type;
+
+  // FeatureCollection -> take first feature's geometry if present
+  if (type === 'FeatureCollection') {
+    const features = (data as { features?: Array<{ geometry?: TGeoJSONGeometry }> }).features;
+    return features?.[0]?.geometry;
+  }
+
+  // Feature -> geometry field
+  if (type === 'Feature') {
+    return (data as { geometry?: TGeoJSONGeometry }).geometry;
+  }
+
+  // Raw geometry (Polygon/MultiPolygon)
+  if (type === 'Polygon' || type === 'MultiPolygon') {
+    return data as TGeoJSONGeometry;
+  }
+
+  return undefined;
+}
+
+const polygonSchema = z
+  .custom<TCoordinate>(
+    (value) => {
+      if (!isObject(value)) {
+        return false;
+      }
+
+      const geometry = getGeometryFromUnknown(value);
+      if (!geometry) {
+        return false;
+      }
+
+      const geometryValidation = validateGeometryType(geometry);
+      if (!geometryValidation.valid) {
+        return false;
+      }
+
+      const coordinates = extractCoordinates(geometry);
+      const coordinateDetection = detectCoordinateSystem(coordinates);
+      return Boolean(coordinateDetection.valid);
+    },
+    {
+      message: 'Invalid AOI geometry',
+    }
+  )
+  .transform((value) => {
+    const geometry = getGeometryFromUnknown(value);
+
+    if (!geometry) {
+      return undefined;
+    }
+
+    const parsedGeoJson = parseGeoJson(geometry);
+    if (!parsedGeoJson.success || !parsedGeoJson.areaValue || !parsedGeoJson.detectedCRS) {
+      return undefined;
+    }
+
+    const transformedAreaValue = transformAreaValueCoordinates(parsedGeoJson.areaValue, parsedGeoJson.detectedCRS);
+
+    if (transformedAreaValue.type === 'rectangle') {
+      return {
+        type: transformedAreaValue.type,
+        coordinates: transformedAreaValue.coordinates,
+      };
+    }
+    if (transformedAreaValue.type === 'circle') {
+      return {
+        type: transformedAreaValue.type,
+        center: transformedAreaValue.center,
+        radius: transformedAreaValue.radius,
+      };
+    }
+    return {
+      type: transformedAreaValue.type,
+      coordinates: transformedAreaValue.coordinates,
+    };
+  });
 
 const dateTimeStringSchema = z
   .custom<NonNullable<TDateTimeString>>((value) => !z.string().datetime().safeParse(value).error)

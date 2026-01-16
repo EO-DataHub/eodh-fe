@@ -1,6 +1,5 @@
 import { Circle, Geometry, LineString, Polygon } from 'ol/geom';
 
-import { transformGeometryToAreaValue } from '../store/aoi/aoi-import/shape-detector';
 import { TCoordinate, TShape, TShapeType } from './shape.model';
 
 const isCircle = (geometry: Geometry): geometry is Circle => geometry.getType() === 'Circle';
@@ -108,42 +107,9 @@ export const createShape = (
   coordinate: TCoordinate | undefined,
   type: TShapeType | undefined
 ): { type: TShapeType; shape: Geometry | undefined } | undefined => {
-  if (!coordinate || !type) {
-    return undefined;
-  }
-
-  if ((type === 'polygon' || type === 'rectangle') && 'coordinates' in coordinate) {
-    try {
-      const detectedShape = transformGeometryToAreaValue({
-        type: 'Polygon',
-        coordinates: coordinate.coordinates as number[][][],
-      });
-
-      const geometry = createGeometry(detectedShape);
-
-      if (!geometry) {
-        return undefined;
-      }
-
-      return {
-        type: detectedShape.type,
-        shape: geometry,
-      };
-    } catch (error) {
-      const shape = createGeometry(coordinate);
-      if (!shape) {
-        return undefined;
-      }
-      return {
-        type,
-        shape,
-      };
-    }
-  }
-
   const shape = createGeometry(coordinate);
 
-  if (!shape) {
+  if (!shape || !type) {
     return undefined;
   }
 

@@ -109,5 +109,8 @@ export const transformGeometryToAreaValue = (geometry: TGeoJSONGeometry): TAreaV
     };
   }
 
-  throw new Error('Unsupported geometry type');
+  return {
+    type: 'polygon',
+    coordinates: [[[0, 0]]],
+  };
 };
