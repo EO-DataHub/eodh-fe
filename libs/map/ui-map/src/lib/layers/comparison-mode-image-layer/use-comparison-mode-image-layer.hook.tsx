@@ -2,7 +2,7 @@ import { type TComparisonItem, useComparisonMode, useLegendStore } from '@ukri/m
 import { displayNotification } from '@ukri/shared/utils/notification';
 import isArray from 'lodash/isArray';
 import { Coordinate } from 'ol/coordinate';
-import { boundingExtent, intersects } from 'ol/extent';
+import { boundingExtent, containsCoordinate, intersects } from 'ol/extent';
 import GroupLayer from 'ol/layer/Group';
 import MapBrowserEvent from 'ol/MapBrowserEvent';
 import { transform } from 'ol/proj';
@@ -13,24 +13,26 @@ import { stacLayerZindex } from '../../consts';
 import { useMapClick } from '../../hooks/use-map-click.hook';
 import { MapContext } from '../../map.component';
 import { STACWithColorMap } from '../../stac/stac-with-color-map';
-import { useStacLayerCreation } from '../../stac/use-stac-layer-creation';
+import { useStacLayerCreation } from './../../stac/use-stac-layer-creation';
 
-interface IComparisonContext {
+export type TComparisonLayer = {
   item1: GroupLayer | undefined;
   item2: GroupLayer | undefined;
   isItem1Visible: boolean;
   isItem2Visible: boolean;
   updateSliderPosition: (position: number) => void;
-}
+};
 
-export const ComparisonContext = createContext<IComparisonContext>({
+const defaultValues: TComparisonLayer = {
   item1: undefined,
   item2: undefined,
   isItem1Visible: false,
   isItem2Visible: false,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   updateSliderPosition: () => {},
-});
+};
+
+export const ComparisonContext = createContext<TComparisonLayer>(defaultValues);
 
 type TCoordinates =
   | TComparisonItem['geometry']['coordinates']
@@ -49,6 +51,11 @@ const flattenCoordinates = (coordinates: TCoordinates): Coordinate[] => {
 
 const convertCoordinates = (geometry: TComparisonItem['geometry']): Coordinate[] => {
   return flattenCoordinates(geometry.coordinates).map((coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:3857'));
+};
+
+const getExtentFromGeometry = (geometry: TComparisonItem['geometry']): number[] => {
+  const coords = convertCoordinates(geometry);
+  return boundingExtent(coords);
 };
 
 export const useComparisonModeImageLayers = () => {
@@ -81,6 +88,22 @@ export const useComparisonModeImageLayers = () => {
         return;
       }
 
+      const coordinate = event.coordinate;
+
+      if (!coordinate) {
+        return;
+      }
+
+      const extent1 = getExtentFromGeometry(items[0].geometry);
+      const extent2 = getExtentFromGeometry(items[1].geometry);
+
+      const isWithinExtent1 = containsCoordinate(extent1, coordinate);
+      const isWithinExtent2 = containsCoordinate(extent2, coordinate);
+
+      if (!isWithinExtent1 && !isWithinExtent2) {
+        return;
+      }
+
       const mapElement = map.getTargetElement();
 
       if (!mapElement) {
@@ -97,10 +120,11 @@ export const useComparisonModeImageLayers = () => {
 
       const targetIndex = isLeftSide ? 0 : 1;
       const targetItem = items[targetIndex];
+      const isWithinTargetExtent = isLeftSide ? isWithinExtent1 : isWithinExtent2;
 
-      if (targetItem) {
-        const legendId = `${targetItem.id}-comparison-${targetIndex}`;
-        focusLegend(legendId);
+      if (targetItem && isWithinTargetExtent) {
+        const assetName = targetItem.assetName || 'data';
+        focusLegend(targetItem.id, assetName);
       }
     },
     [map, comparisonItems.items, focusLegend]

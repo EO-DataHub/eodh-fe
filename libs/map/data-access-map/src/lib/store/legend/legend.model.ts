@@ -36,7 +36,7 @@ export interface ILegendActions {
   resetPosition: (id: string) => void;
   toggleExpanded: (id: string) => void;
   clearAllLegends: () => void;
-  focusLegend: (featureId: string) => void;
+  focusLegend: (featureId: string, assetName: string) => void;
   clearFocus: () => void;
 }
 
@@ -45,7 +45,11 @@ export type TLegendStore = ILegendState & ILegendActions;
 export const LEGEND_POSITIONS_STORAGE_KEY = 'eopro-legend-positions';
 
 export interface IStoredLegendPosition {
-  readonly featureId: string;
+  readonly id: string;
   readonly position: IPosition;
   readonly isExpanded: boolean;
 }
+
+export const createLegendId = (featureId: string, assetName: string): string => {
+  return `${featureId}_${assetName}`;
+};

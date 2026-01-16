@@ -17,7 +17,7 @@ const convertCoordinates = (geometry: { type: string; coordinates: number[][][] 
 
 export const useStacLayerClick = () => {
   const map = useContext(MapContext);
-  const { feature } = useTrueColorImage();
+  const { feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
   const { legends, focusLegend } = useLegendStore();
 
   const handleMapClick = useCallback(
@@ -27,25 +27,26 @@ export const useStacLayerClick = () => {
       }
 
       const featureId = feature.id;
-      const matchingLegend = legends.find(
-        (legend) => legend.featureId === featureId || legend.featureId.startsWith(`${featureId}-comparison`)
+      const assetName = assetNameWhichShouldBeDisplayed || 'data';
+      const hasMatchingLegend = legends.some(
+        (legend) => legend.featureId === featureId && legend.assetName === assetName
       );
 
-      if (!matchingLegend) {
+      if (!hasMatchingLegend) {
         return;
       }
 
       const geometry = feature.geometry as { type: string; coordinates: number[][][] } | undefined;
 
       if (!geometry) {
-        focusLegend(matchingLegend.featureId);
+        focusLegend(featureId, assetName);
         return;
       }
 
       const coords = convertCoordinates(geometry);
 
       if (coords.length === 0) {
-        focusLegend(matchingLegend.featureId);
+        focusLegend(featureId, assetName);
         return;
       }
 
@@ -62,10 +63,10 @@ export const useStacLayerClick = () => {
       const isWithinExtent = x >= minX && x <= maxX && y >= minY && y <= maxY;
 
       if (isWithinExtent) {
-        focusLegend(matchingLegend.featureId);
+        focusLegend(featureId, assetName);
       }
     },
-    [feature, map, legends, focusLegend]
+    [feature, assetNameWhichShouldBeDisplayed, map, legends, focusLegend]
   );
 
   useEffect(() => {

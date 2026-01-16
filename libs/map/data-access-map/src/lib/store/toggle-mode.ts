@@ -10,6 +10,7 @@ import { TDateStoreState } from './date/date.model';
 import { getDateStoreState, useDateStore } from './date/date.store';
 import { TFootprintStoreState } from './footprint/footprint.model';
 import { getFootprintStoreState, useFootprintStore } from './footprint/footprint.store';
+import { clearStoredPositions } from './legend/legend-position-storage.utils';
 import { IModeStore, TMode } from './mode.model';
 import { getModeStoreState, useModeStore } from './mode.store';
 import { TResultsStore } from './results/results.model';
@@ -196,3 +197,4 @@ export const toggleMode = (currentMode: TMode): TMode => {
 
 resetLocalStorage('search');
 resetLocalStorage('action-creator');
+clearStoredPositions();

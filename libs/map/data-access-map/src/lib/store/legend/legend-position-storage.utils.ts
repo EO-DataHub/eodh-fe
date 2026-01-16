@@ -6,41 +6,34 @@ export const loadStoredPositions = (): Record<string, IStoredLegendPosition> => 
     if (!stored) {
       return {};
     }
+
     return JSON.parse(stored) as Record<string, IStoredLegendPosition>;
   } catch {
     return {};
   }
 };
 
-export const savePosition = (featureId: string, position: IPosition, isExpanded: boolean): void => {
-  try {
-    const stored = loadStoredPositions();
-    stored[featureId] = { featureId, position, isExpanded };
-    localStorage.setItem(LEGEND_POSITIONS_STORAGE_KEY, JSON.stringify(stored));
-  } catch {
-    return;
-  }
-};
-
-export const getStoredPosition = (featureId: string): IStoredLegendPosition | undefined => {
+export const savePosition = (id: string, position: IPosition, isExpanded: boolean): void => {
   const stored = loadStoredPositions();
-  return stored[featureId];
+  stored[id] = { id, position, isExpanded };
+  localStorage.setItem(LEGEND_POSITIONS_STORAGE_KEY, JSON.stringify(stored));
 };
 
-export const removeStoredPosition = (featureId: string): void => {
-  try {
-    const stored = loadStoredPositions();
-    delete stored[featureId];
-    localStorage.setItem(LEGEND_POSITIONS_STORAGE_KEY, JSON.stringify(stored));
-  } catch {
-    return;
-  }
+export const getStoredPosition = (id: string): IStoredLegendPosition | undefined => {
+  const stored = loadStoredPositions();
+  return stored[id];
 };
 
-export const clearAllStoredPositions = (): void => {
+export const removeStoredPosition = (id: string): void => {
+  const stored = loadStoredPositions();
+  delete stored[id];
+  localStorage.setItem(LEGEND_POSITIONS_STORAGE_KEY, JSON.stringify(stored));
+};
+
+export const clearStoredPositions = (): void => {
   try {
     localStorage.removeItem(LEGEND_POSITIONS_STORAGE_KEY);
   } catch {
-    return;
+    // Ignore errors
   }
 };

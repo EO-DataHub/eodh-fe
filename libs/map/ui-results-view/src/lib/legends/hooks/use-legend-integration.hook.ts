@@ -1,4 +1,4 @@
-import { useComparisonMode, useFootprints, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
+import { useComparisonMode, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
 import { useCallback, useEffect, useRef } from 'react';
 
 import { TLandCoverType, TWorkflowType } from '../types/legend.types';
@@ -26,33 +26,16 @@ const isWorkflowFeature = (feature: unknown): feature is IWorkflowFeature => {
   );
 };
 
-const extractBaseFeatureId = (legendFeatureId: string): string => {
-  const comparisonSuffix = '-comparison-';
-  const suffixIndex = legendFeatureId.indexOf(comparisonSuffix);
-
-  if (suffixIndex === -1) {
-    return legendFeatureId;
-  }
-
-  return legendFeatureId.substring(0, suffixIndex);
-};
-
 const getAssetName = (feature: IWorkflowFeature, assetNameWhichShouldBeDisplayed: string | undefined): string => {
   return assetNameWhichShouldBeDisplayed || feature.assetName || 'data';
 };
 
 export const useLegendIntegration = () => {
-  const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend, focusLegend, clearFocus, legends } =
+  const { setActiveLegend, removeLegendByFeatureId, clearAllLegends, addLegend, focusLegend, clearFocus } =
     useLegendStore();
   const { comparisonModeEnabled, comparisonItems } = useComparisonMode();
   const { feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
-  const { highlightedItems } = useFootprints();
   const prevComparisonModeEnabled = useRef(comparisonModeEnabled);
-  const legendsRef = useRef(legends);
-
-  useEffect(() => {
-    legendsRef.current = legends;
-  }, [legends]);
 
   const onAssetLoad = useCallback(
     (feature: IWorkflowFeature, assetName: string, featureData?: unknown) => {
@@ -75,7 +58,7 @@ export const useLegendIntegration = () => {
         vegetationIndexType,
       });
 
-      focusLegend(feature.id);
+      focusLegend(feature.id, assetName);
     },
     [setActiveLegend, focusLegend]
   );
@@ -98,31 +81,6 @@ export const useLegendIntegration = () => {
   }, [feature, comparisonModeEnabled, clearAllLegends]);
 
   useEffect(() => {
-    const clickedItem = highlightedItems.find((item) => item.eventType === 'click');
-
-    if (!clickedItem) {
-      return;
-    }
-
-    const currentLegends = legendsRef.current;
-
-    if (currentLegends.length === 0) {
-      return;
-    }
-
-    const clickedFeatureId = clickedItem.featureId;
-
-    const matchingLegend = currentLegends.find((legend) => {
-      const baseId = extractBaseFeatureId(legend.featureId);
-      return baseId === clickedFeatureId || legend.featureId === clickedFeatureId;
-    });
-
-    if (matchingLegend) {
-      focusLegend(matchingLegend.featureId);
-    }
-  }, [highlightedItems, focusLegend]);
-
-  useEffect(() => {
     const wasEnabled = prevComparisonModeEnabled.current;
     const isEnabled = comparisonModeEnabled;
     const items = comparisonItems.items;
@@ -130,7 +88,7 @@ export const useLegendIntegration = () => {
     if (isEnabled && items.length === 2) {
       clearAllLegends();
 
-      items.forEach((item, index) => {
+      items.forEach((item) => {
         if (!isWorkflowFeature(item)) {
           return;
         }
@@ -147,7 +105,7 @@ export const useLegendIntegration = () => {
         const vegetationIndexType = detectVegetationIndexFromAsset(item, assetName);
 
         addLegend({
-          featureId: `${item.id}-comparison-${index}`,
+          featureId: item.id,
           assetName,
           workflowType: item.workflowType,
           landCoverType,
@@ -176,7 +134,7 @@ export const useLegendIntegration = () => {
             vegetationIndexType,
           });
 
-          focusLegend(feature.id);
+          focusLegend(feature.id, assetName);
         }
       }
     }

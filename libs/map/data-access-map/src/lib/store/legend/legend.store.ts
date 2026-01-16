@@ -1,9 +1,8 @@
 import type {} from '@redux-devtools/extension';
-import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-import { IActiveLegend, IPosition, TLegendStore } from './legend.model';
+import { createLegendId, IActiveLegend, IPosition, TLegendStore } from './legend.model';
 import { getStoredPosition, savePosition } from './legend-position-storage.utils';
 
 const getDefaultPosition = (index: number): IPosition => {
@@ -24,22 +23,20 @@ export const useLegendStore = create<TLegendStore>()(
 
     addLegend: (legendData) => {
       const { legends } = get();
-
-      const exists = legends.some(
-        (legend) => legend.featureId === legendData.featureId && legend.assetName === legendData.assetName
-      );
+      const id = createLegendId(legendData.featureId, legendData.assetName);
+      const exists = legends.some((legend) => legend.id === id);
 
       if (exists) {
         return;
       }
 
-      const storedPosition = getStoredPosition(legendData.featureId);
+      const storedPosition = getStoredPosition(id);
       const position = storedPosition?.position ?? getDefaultPosition(legends.length);
       const isExpanded = storedPosition?.isExpanded ?? true;
 
       const newLegend: IActiveLegend = {
         ...legendData,
-        id: nanoid(),
+        id,
         isExpanded,
         position,
         isFocused: false,
@@ -60,21 +57,19 @@ export const useLegendStore = create<TLegendStore>()(
 
     setActiveLegend: (legendData) => {
       const { legends } = get();
-
-      const existingSameLegend = legends.find(
-        (legend) => legend.featureId === legendData.featureId && legend.assetName === legendData.assetName
-      );
+      const id = createLegendId(legendData.featureId, legendData.assetName);
+      const existingSameLegend = legends.find((legend) => legend.id === id);
 
       if (existingSameLegend) {
         return;
       }
 
       const previousLegend = legends[0];
-      const storedPosition = getStoredPosition(legendData.featureId);
+      const storedPosition = getStoredPosition(id);
 
       const newLegend: IActiveLegend = {
         ...legendData,
-        id: nanoid(),
+        id,
         isExpanded: storedPosition?.isExpanded ?? previousLegend?.isExpanded ?? true,
         position: storedPosition?.position ?? previousLegend?.position ?? getDefaultPosition(0),
         isFocused: false,
@@ -88,7 +83,7 @@ export const useLegendStore = create<TLegendStore>()(
       const legend = legends.find((l) => l.id === id);
 
       if (legend) {
-        savePosition(legend.featureId, position, legend.isExpanded);
+        savePosition(id, position, legend.isExpanded);
       }
 
       set({
@@ -108,7 +103,7 @@ export const useLegendStore = create<TLegendStore>()(
       const newPosition = getDefaultPosition(index);
 
       if (legend) {
-        savePosition(legend.featureId, newPosition, legend.isExpanded);
+        savePosition(id, newPosition, legend.isExpanded);
       }
 
       set({
@@ -121,7 +116,7 @@ export const useLegendStore = create<TLegendStore>()(
       const legend = legends.find((l) => l.id === id);
 
       if (legend) {
-        savePosition(legend.featureId, legend.position, !legend.isExpanded);
+        savePosition(id, legend.position, !legend.isExpanded);
       }
 
       set({
@@ -133,16 +128,17 @@ export const useLegendStore = create<TLegendStore>()(
       set({ legends: [] });
     },
 
-    focusLegend: (featureId) => {
+    focusLegend: (featureId, assetName) => {
       const { legends } = get();
-      const legendIndex = legends.findIndex((l) => l.featureId === featureId);
+      const id = createLegendId(featureId, assetName);
+      const legendIndex = legends.findIndex((l) => l.id === id);
 
       if (legendIndex === -1) {
         return;
       }
 
       const legend = legends[legendIndex];
-      const otherLegends = legends.filter((l) => l.featureId !== featureId).map((l) => ({ ...l, isFocused: false }));
+      const otherLegends = legends.filter((l) => l.id !== id).map((l) => ({ ...l, isFocused: false }));
 
       set({
         legends: [...otherLegends, { ...legend, isFocused: true }],
