@@ -1,4 +1,4 @@
-import { useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
+import { useComparisonMode, useLegendStore, useTrueColorImage } from '@ukri/map/data-access-map';
 import { boundingExtent } from 'ol/extent';
 import MapBrowserEvent from 'ol/MapBrowserEvent';
 import { fromLonLat } from 'ol/proj';
@@ -19,9 +19,14 @@ export const useStacLayerClick = () => {
   const map = useContext(MapContext);
   const { feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
   const { legends, focusLegend } = useLegendStore();
+  const { comparisonModeEnabled } = useComparisonMode();
 
   const handleMapClick = useCallback(
     (event: MapBrowserEvent<UIEvent>) => {
+      if (comparisonModeEnabled) {
+        return;
+      }
+
       if (!feature || !map || legends.length === 0) {
         return;
       }
@@ -66,7 +71,7 @@ export const useStacLayerClick = () => {
         focusLegend(featureId, assetName);
       }
     },
-    [feature, assetNameWhichShouldBeDisplayed, map, legends, focusLegend]
+    [feature, assetNameWhichShouldBeDisplayed, map, legends, focusLegend, comparisonModeEnabled]
   );
 
   useEffect(() => {
