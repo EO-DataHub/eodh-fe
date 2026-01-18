@@ -37,9 +37,11 @@ const cloneLegends = (legends: IActiveLegend[]): IActiveLegend[] => {
   }));
 };
 
+let preComparisonLegends: IActiveLegend[] = [];
+let hasEnteredComparison = false;
+
 export const useLegendIntegration = () => {
   const {
-    legends,
     setActiveLegend,
     setLegends,
     removeLegendByFeatureId,
@@ -52,8 +54,6 @@ export const useLegendIntegration = () => {
   const { comparisonModeEnabled, comparisonItems } = useComparisonMode();
   const { feature, assetNameWhichShouldBeDisplayed } = useTrueColorImage();
   const prevComparisonModeEnabled = useRef(comparisonModeEnabled);
-  const prevItemsCount = useRef(comparisonItems.items.length);
-  const preComparisonLegends = useRef<IActiveLegend[]>([]);
 
   const onAssetLoad = useCallback(
     (feature: IWorkflowFeature, assetName: string, featureData?: unknown) => {
@@ -94,22 +94,25 @@ export const useLegendIntegration = () => {
   useEffect(() => {
     const wasEnabled = prevComparisonModeEnabled.current;
     const isEnabled = comparisonModeEnabled;
-    const items = comparisonItems.items;
-    const prevCount = prevItemsCount.current;
+    prevComparisonModeEnabled.current = isEnabled;
 
-    // Update refs for items count
-    prevItemsCount.current = items.length;
-
-    // Only act when comparison mode state actually changes OR items count changes to 2
-    const comparisonStateChanged = wasEnabled !== isEnabled;
-    const justGot2Items = !wasEnabled && prevCount < 2 && items.length === 2;
-
-    if (!comparisonStateChanged && !justGot2Items) {
+    if (wasEnabled === isEnabled) {
       return;
     }
 
-    if (!wasEnabled && isEnabled && items.length === 2) {
-      preComparisonLegends.current = cloneLegends(legends);
+    if (!wasEnabled && isEnabled) {
+      const items = comparisonItems.items;
+
+      if (items.length !== 2) {
+        return;
+      }
+
+      if (!hasEnteredComparison) {
+        hasEnteredComparison = true;
+
+        const currentLegends = useLegendStore.getState().legends;
+        preComparisonLegends = cloneLegends(currentLegends);
+      }
 
       resetAllPositions();
       clearAllLegends();
@@ -141,12 +144,17 @@ export const useLegendIntegration = () => {
     }
 
     if (wasEnabled && !isEnabled) {
-      if (preComparisonLegends.current.length > 0) {
-        setLegends(cloneLegends(preComparisonLegends.current));
-        preComparisonLegends.current = [];
-      } else {
-        clearAllLegends();
+      if (!hasEnteredComparison) {
+        return;
+      }
 
+      hasEnteredComparison = false;
+      clearAllLegends();
+
+      if (preComparisonLegends.length > 0) {
+        setLegends(cloneLegends(preComparisonLegends));
+        preComparisonLegends = [];
+      } else {
         if (feature && isWorkflowFeature(feature)) {
           const assetName = getAssetName(feature, assetNameWhichShouldBeDisplayed);
 
@@ -167,14 +175,11 @@ export const useLegendIntegration = () => {
         }
       }
     }
-
-    prevComparisonModeEnabled.current = isEnabled;
   }, [
     comparisonModeEnabled,
     comparisonItems.items,
     clearAllLegends,
     addLegend,
-    legends,
     setLegends,
     resetAllPositions,
     feature,

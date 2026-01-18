@@ -64,14 +64,13 @@ export const useLegendStore = create<TLegendStore>()(
         return;
       }
 
-      const previousLegend = legends[0];
       const storedPosition = getStoredPosition(id);
 
       const newLegend: IActiveLegend = {
         ...legendData,
         id,
-        isExpanded: storedPosition?.isExpanded ?? previousLegend?.isExpanded ?? true,
-        position: storedPosition?.position ?? previousLegend?.position ?? getDefaultPosition(0),
+        isExpanded: storedPosition?.isExpanded ?? true,
+        position: storedPosition?.position ?? getDefaultPosition(0),
         isFocused: false,
       };
 
