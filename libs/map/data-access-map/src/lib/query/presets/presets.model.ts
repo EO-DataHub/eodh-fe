@@ -31,45 +31,42 @@ function getGeometryFromUnknown(data: unknown): TGeoJSONGeometry | undefined {
   }
 }
 
-const polygonSchema = z
-  .custom<TCoordinate>(
-    (value) => {
-      if (!isObject(value)) {
-        return false;
-      }
-
-      const geometry = getGeometryFromUnknown(value);
-      if (!geometry) {
-        return false;
-      }
-
-      const geometryValidation = validateGeometryType(geometry);
-      if (!geometryValidation.valid) {
-        return false;
-      }
-
-      const coordinates = extractCoordinates(geometry);
-      const coordinateDetection = detectCoordinateSystem(coordinates);
-      return coordinateDetection.valid;
-    },
-    {
+const polygonSchema = z.unknown().transform((value, ctx): TCoordinate => {
+  const addError = () => {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
       message: 'Invalid AOI geometry',
-    }
-  )
-  .transform((value): TCoordinate | undefined => {
-    const geometry = getGeometryFromUnknown(value);
+    });
+    return z.NEVER;
+  };
 
-    if (!geometry) {
-      return undefined;
-    }
+  if (!isObject(value)) {
+    return addError();
+  }
 
-    const parsedGeoJson = parseGeoJson(geometry);
-    if (!parsedGeoJson.success || !parsedGeoJson.areaValue || !parsedGeoJson.detectedCRS) {
-      return undefined;
-    }
+  const geometry = getGeometryFromUnknown(value);
+  if (!geometry) {
+    return addError();
+  }
 
-    return transformAreaValueCoordinates(parsedGeoJson.areaValue, parsedGeoJson.detectedCRS);
-  });
+  const geometryValidation = validateGeometryType(geometry);
+  if (!geometryValidation.valid) {
+    return addError();
+  }
+
+  const coordinates = extractCoordinates(geometry);
+  const coordinateDetection = detectCoordinateSystem(coordinates);
+  if (!coordinateDetection.valid) {
+    return addError();
+  }
+
+  const parsedGeoJson = parseGeoJson(geometry);
+  if (!parsedGeoJson.success || !parsedGeoJson.areaValue || !parsedGeoJson.detectedCRS) {
+    return addError();
+  }
+
+  return transformAreaValueCoordinates(parsedGeoJson.areaValue, parsedGeoJson.detectedCRS);
+});
 
 const dateTimeStringSchema = z
   .custom<NonNullable<TDateTimeString>>((value) => !z.string().datetime().safeParse(value).error)
