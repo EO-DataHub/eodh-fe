@@ -14,25 +14,21 @@ function getGeometryFromUnknown(data: unknown): TGeoJSONGeometry | undefined {
     return undefined;
   }
 
-  const type = (data as { type?: unknown }).type;
+  const type = (data as { type?: 'FeatureCollection' | 'Feature' | 'Polygon' | 'MultiPolygon' }).type;
 
-  // FeatureCollection -> take first feature's geometry if present
-  if (type === 'FeatureCollection') {
-    const features = (data as { features?: Array<{ geometry?: TGeoJSONGeometry }> }).features;
-    return features?.[0]?.geometry;
+  switch (type) {
+    case 'FeatureCollection': {
+      const features = (data as { features?: Array<{ geometry?: TGeoJSONGeometry }> }).features;
+      return features?.[0]?.geometry;
+    }
+    case 'Feature':
+      return (data as { geometry?: TGeoJSONGeometry }).geometry;
+    case 'Polygon':
+    case 'MultiPolygon':
+      return data as TGeoJSONGeometry;
+    default:
+      return undefined;
   }
-
-  // Feature -> geometry field
-  if (type === 'Feature') {
-    return (data as { geometry?: TGeoJSONGeometry }).geometry;
-  }
-
-  // Raw geometry (Polygon/MultiPolygon)
-  if (type === 'Polygon' || type === 'MultiPolygon') {
-    return data as TGeoJSONGeometry;
-  }
-
-  return undefined;
 }
 
 const polygonSchema = z
@@ -54,7 +50,7 @@ const polygonSchema = z
 
       const coordinates = extractCoordinates(geometry);
       const coordinateDetection = detectCoordinateSystem(coordinates);
-      return Boolean(coordinateDetection.valid);
+      return coordinateDetection.valid;
     },
     {
       message: 'Invalid AOI geometry',
@@ -72,7 +68,6 @@ const polygonSchema = z
       return undefined;
     }
 
-    // Return the transformed value directly since transformAreaValueCoordinates already returns TCoordinate
     return transformAreaValueCoordinates(parsedGeoJson.areaValue, parsedGeoJson.detectedCRS);
   });
 

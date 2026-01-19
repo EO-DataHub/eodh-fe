@@ -111,6 +111,6 @@ export const transformGeometryToAreaValue = (geometry: TGeoJSONGeometry): TAreaV
 
   return {
     type: 'polygon',
-    coordinates: [[[0, 0]]],
+    coordinates: [],
   };
 };
