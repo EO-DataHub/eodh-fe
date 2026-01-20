@@ -11,13 +11,15 @@ const styles = {
   table: 'mt-2 mb-5',
   tableCell: 'border border-main p-1 w-full',
   colorCell: 'min-w-12 h-4',
+  listItem: 'relative before:content-["•"] before:absolute before:left-[-12px] before:top-[-3px] ml-4',
 };
 
 export const TableElement = ({ element }: ITableElementProps) => {
   const { t } = useTranslation();
+  const isListItem = element.display === 'list-item';
 
   return (
-    <div>
+    <div className={isListItem ? styles.listItem : undefined}>
       {element.title && <Text content={t(element.title)} fontSize='medium' fontWeight='semibold' className='mb-2' />}
       <table className={styles.table}>
         <tbody>

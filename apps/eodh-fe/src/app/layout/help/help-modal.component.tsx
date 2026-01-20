@@ -15,7 +15,7 @@ export const HelpModal = ({ onClose }: IModalProps) => {
         <div className={styles.topContainer}>
           <Text
             type='h1'
-            content='APP.GENERAL_HELP.TITLE'
+            content='APP.HELP.GENERAL_HELP.TITLE'
             fontSize='large'
             fontWeight='bold'
             className={styles.helpTitle}

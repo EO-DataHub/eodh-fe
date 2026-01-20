@@ -5,6 +5,7 @@ export type {
   IHelpSection,
   IHelpQuestion,
   THelpElement,
+  TDisplayVariant,
   ITextElement,
   IListElement,
   INestedListElement,

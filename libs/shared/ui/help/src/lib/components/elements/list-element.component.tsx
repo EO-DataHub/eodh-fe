@@ -20,9 +20,11 @@ export const ListElement = ({ element }: IListElementProps) => {
   return (
     <ListTag className={isNumbered ? 'list-decimal ml-4' : ''}>
       {element.items.map((item, index) => (
-        <li key={index} className={isNumbered ? styles.numberedItem : styles.listItem}>
-          <Text content={t(item)} fontSize='medium' fontWeight='regular' />
-        </li>
+        <div key={index}>
+          <div className={isNumbered ? styles.numberedItem : styles.listItem}>
+            <Text content={t(item)} fontSize='medium' fontWeight='regular' className='mb-2 whitespace-pre-line' />
+          </div>
+        </div>
       ))}
     </ListTag>
   );

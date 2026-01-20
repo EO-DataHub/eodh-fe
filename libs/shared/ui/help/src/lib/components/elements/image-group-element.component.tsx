@@ -1,20 +1,44 @@
+import { Text } from '@ukri/shared/design-system';
+import { useTranslation } from 'react-i18next';
+
 import { IImageGroupElement } from '../../types/help-config.types';
-import { ImageElement } from './image-element.component';
 
 interface IImageGroupElementProps {
   readonly element: IImageGroupElement;
   readonly pathToImages?: string;
 }
 
+const styles = {
+  listItem: 'relative before:content-["•"] before:absolute before:left-[-12px] before:top-[-3px] ml-4',
+};
+
 export const ImageGroupElement = ({ element, pathToImages }: IImageGroupElementProps) => {
-  const isVertical = element.layout === 'vertical';
-  const containerClass = isVertical ? 'flex flex-col gap-4' : 'flex flex-row flex-wrap gap-4';
+  const { t } = useTranslation();
 
   return (
-    <div className={containerClass}>
-      {element.images.map((image, index) => (
-        <ImageElement key={index} element={{ type: 'image', ...image }} pathToImages={pathToImages} />
-      ))}
-    </div>
+    <ul>
+      {element.images.map((image, index) => {
+        const imageSrc = pathToImages ? `${pathToImages}/${image.src}` : image.src;
+        const isListItem = image.display === 'list-item';
+
+        return (
+          <div key={index}>
+            <div className={isListItem ? styles.listItem : undefined}>
+              <div className='my-3'>
+                {image.descriptionAbove && (
+                  <Text
+                    content={t(image.descriptionAbove)}
+                    fontSize='medium'
+                    fontWeight='regular'
+                    className='mb-2 whitespace-pre-line'
+                  />
+                )}
+                <img src={imageSrc} alt={t(image.alt)} className='object-cover' />
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </ul>
   );
 };

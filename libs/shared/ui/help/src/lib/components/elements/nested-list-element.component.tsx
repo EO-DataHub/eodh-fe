@@ -1,4 +1,5 @@
 import { Text } from '@ukri/shared/design-system';
+import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { INestedListElement } from '../../types/help-config.types';
@@ -19,18 +20,34 @@ export const NestedListElement = ({ element }: INestedListElementProps) => {
   return (
     <ul>
       {element.items.map((item, index) => (
-        <li key={index} className={styles.listItem}>
-          <Text content={t(item.content)} fontSize='medium' fontWeight='regular' />
+        <Fragment key={index}>
+          <div>
+            <div className={styles.listItem}>
+              <Text
+                content={t(item.content)}
+                fontSize='medium'
+                fontWeight='regular'
+                className='mb-2 whitespace-pre-line'
+              />
+            </div>
+          </div>
           {item.subItems && item.subItems.length > 0 && (
-            <ul>
-              {item.subItems.map((subItem, subIndex) => (
-                <li key={subIndex} className={styles.nestedListItem}>
-                  <Text content={t(subItem)} fontSize='medium' fontWeight='regular' />
-                </li>
-              ))}
-            </ul>
+            <div>
+              <ul>
+                {item.subItems.map((subItem, subIndex) => (
+                  <div key={subIndex} className={styles.nestedListItem}>
+                    <Text
+                      content={t(subItem)}
+                      fontSize='medium'
+                      fontWeight='regular'
+                      className='mb-2 whitespace-pre-line'
+                    />
+                  </div>
+                ))}
+              </ul>
+            </div>
           )}
-        </li>
+        </Fragment>
       ))}
     </ul>
   );

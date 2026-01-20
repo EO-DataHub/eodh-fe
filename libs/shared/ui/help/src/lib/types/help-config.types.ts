@@ -1,6 +1,9 @@
+export type TDisplayVariant = 'list-item' | 'block';
+
 export interface ITextElement {
   type: 'text';
   content: string;
+  display?: TDisplayVariant;
 }
 
 export interface IListElement {
@@ -24,6 +27,7 @@ export interface IImageElement {
   alt: string;
   descriptionAbove?: string;
   caption?: string;
+  display?: TDisplayVariant;
 }
 
 export interface IImageGroupElement {
@@ -35,6 +39,7 @@ export interface IImageGroupElement {
 export interface ITableElement {
   type: 'table';
   title?: string;
+  display?: TDisplayVariant;
   rows: Array<{
     label: string;
     color: string;

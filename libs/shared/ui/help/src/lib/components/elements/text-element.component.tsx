@@ -7,6 +7,10 @@ interface ITextElementProps {
   readonly element: ITextElement;
 }
 
+const styles = {
+  listItem: 'relative before:content-["•"] before:absolute before:left-[-12px] before:top-[-3px] ml-4',
+};
+
 const Link = ({ href, children }: { href?: string; children?: React.ReactNode }) => {
   return (
     <a href={href} target='_blank' className='text-primary-main underline' rel='noreferrer'>
@@ -16,7 +20,9 @@ const Link = ({ href, children }: { href?: string; children?: React.ReactNode })
 };
 
 export const TextElement = ({ element }: ITextElementProps) => {
-  return (
+  const isListItem = element.display === 'list-item';
+
+  const content = (
     <Text
       content={
         <Trans
@@ -32,4 +38,10 @@ export const TextElement = ({ element }: ITextElementProps) => {
       className='mb-2 whitespace-pre-line'
     />
   );
+
+  if (isListItem) {
+    return <div className={styles.listItem}>{content}</div>;
+  }
+
+  return content;
 };
