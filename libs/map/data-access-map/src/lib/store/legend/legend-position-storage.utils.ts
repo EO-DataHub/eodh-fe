@@ -24,16 +24,10 @@ export const getStoredPosition = (id: string): IStoredLegendPosition | undefined
   return stored[id];
 };
 
-export const removeStoredPosition = (id: string): void => {
-  const stored = loadStoredPositions();
-  delete stored[id];
-  localStorage.setItem(LEGEND_POSITIONS_STORAGE_KEY, JSON.stringify(stored));
-};
-
 export const clearStoredPositions = (): void => {
   try {
     localStorage.removeItem(LEGEND_POSITIONS_STORAGE_KEY);
   } catch {
-    // Ignore errors
+    /* empty */
   }
 };
