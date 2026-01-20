@@ -1,6 +1,6 @@
 import { Text } from '@ukri/shared/design-system';
 
-import { IHelpSection } from '../types/help-config.types';
+import { IHelpSection } from '../help-config.types';
 import { HelpQuestion } from './help-question.component';
 
 interface IHelpSectionProps {

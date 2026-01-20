@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { MouseEvent as ReactMouseEvent, RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
-import { IPosition, IUseDraggableOptions, IUseDraggableReturn } from '../legend.types';
+import { IPosition, IUseDraggableOptions, IUseDraggableReturn } from './legend.types';
 
-const getContainerBounds = (elementRef?: React.RefObject<HTMLElement | null>) => {
+const getContainerBounds = (elementRef?: RefObject<HTMLElement | null>) => {
   const element = elementRef?.current;
   if (!element) {
     return {
@@ -98,7 +98,7 @@ export const useDraggable = ({
   }, [constrainToViewport, handleResize]);
 
   const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
+    (e: ReactMouseEvent) => {
       e.preventDefault();
 
       const bounds = getContainerBounds(elementRef);

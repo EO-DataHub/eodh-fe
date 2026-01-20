@@ -1,5 +1,5 @@
 import { ElementRenderer } from './components/elements/element-renderer.component';
-import { THelpElement } from './types/help-config.types';
+import { THelpElement } from './help-config.types';
 
 interface IHelpElementProps {
   readonly element: THelpElement;

@@ -2,7 +2,7 @@ import { Icon, twMerge } from '@ukri/shared/design-system';
 import { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ILegendPanelProps } from '../legend.types';
+import { ILegendPanelProps } from './legend.types';
 import { legendPanelStyles } from './legend-panel.styles';
 import { useDraggable } from './use-draggable.hook';
 

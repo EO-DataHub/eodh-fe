@@ -2,8 +2,8 @@ import { Text } from '@ukri/shared/design-system';
 import clsx from 'clsx';
 
 import { HelpSection } from './components/help-section.component';
-import { TableOfContentsV2 } from './components/table-of-contents-v2.component';
-import { IHelpConfig } from './types/help-config.types';
+import { TableOfContentsV2 } from './components/table-of-contents.component';
+import { IHelpConfig } from './help-config.types';
 
 interface IHelpProps {
   readonly config: IHelpConfig;

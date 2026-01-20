@@ -1,7 +1,7 @@
 import { Text } from '@ukri/shared/design-system';
 import { useTranslation } from 'react-i18next';
 
-import { IImageElement } from '../../types/help-config.types';
+import { IImageElement } from '../../help-config.types';
 
 interface IImageElementProps {
   readonly element: IImageElement;

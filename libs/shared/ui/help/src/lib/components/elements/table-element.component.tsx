@@ -1,7 +1,7 @@
 import { Text } from '@ukri/shared/design-system';
 import { useTranslation } from 'react-i18next';
 
-import { ITableElement } from '../../types/help-config.types';
+import { ITableElement } from '../../help-config.types';
 
 interface ITableElementProps {
   readonly element: ITableElement;

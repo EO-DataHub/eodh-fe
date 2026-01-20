@@ -1,4 +1,4 @@
-export { Help } from './lib/help-v2.component';
+export { Help } from './lib/help.component';
 export { HelpElement } from './lib/help-element.component';
 export type {
   IHelpConfig,
@@ -15,4 +15,4 @@ export type {
   ILinkElement,
   ILinksGroupElement,
   IStyledTextElement,
-} from './lib/types/help-config.types';
+} from './lib/help-config.types';

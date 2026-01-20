@@ -2,7 +2,7 @@ import { Text } from '@ukri/shared/design-system';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { INestedListElement } from '../../types/help-config.types';
+import { INestedListElement } from '../../help-config.types';
 
 interface INestedListElementProps {
   readonly element: INestedListElement;

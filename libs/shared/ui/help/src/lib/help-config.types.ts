@@ -15,10 +15,10 @@ export interface IListElement {
 export interface INestedListElement {
   type: 'nested-list';
   variant?: 'bullet' | 'numbered';
-  items: Array<{
+  items: {
     content: string;
     subItems?: string[];
-  }>;
+  }[];
 }
 
 export interface IImageElement {
@@ -33,17 +33,17 @@ export interface IImageElement {
 export interface IImageGroupElement {
   type: 'image-group';
   layout?: 'horizontal' | 'vertical';
-  images: Array<Omit<IImageElement, 'type'>>;
+  images: Omit<IImageElement, 'type'>[];
 }
 
 export interface ITableElement {
   type: 'table';
   title?: string;
   display?: TDisplayVariant;
-  rows: Array<{
+  rows: {
     label: string;
     color: string;
-  }>;
+  }[];
 }
 
 export interface ILinkElement {
@@ -55,15 +55,15 @@ export interface ILinkElement {
 export interface ILinksGroupElement {
   type: 'links-group';
   title?: string;
-  links: Array<Omit<ILinkElement, 'type'>>;
+  links: Omit<ILinkElement, 'type'>[];
 }
 
 export interface IStyledTextElement {
   type: 'styled-text';
-  segments: Array<{
+  segments: {
     text: string;
     style?: 'bold' | 'italic' | 'underline';
-  }>;
+  }[];
 }
 
 export type THelpElement =

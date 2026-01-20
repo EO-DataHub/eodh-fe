@@ -1,7 +1,8 @@
 import { Text } from '@ukri/shared/design-system';
+import { ReactNode } from 'react';
 import { Trans } from 'react-i18next';
 
-import { ITextElement } from '../../types/help-config.types';
+import { ITextElement } from '../../help-config.types';
 
 interface ITextElementProps {
   readonly element: ITextElement;
@@ -11,7 +12,7 @@ const styles = {
   listItem: 'relative before:content-["•"] before:absolute before:left-[-12px] before:top-[-3px] ml-4',
 };
 
-const Link = ({ href, children }: { href?: string; children?: React.ReactNode }) => {
+const Link = ({ href, children }: { href?: string; children?: ReactNode }) => {
   return (
     <a href={href} target='_blank' className='text-primary-main underline' rel='noreferrer'>
       {children}

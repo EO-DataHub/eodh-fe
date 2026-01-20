@@ -1,7 +1,7 @@
 import { Button, Text } from '@ukri/shared/design-system';
 import { useCallback } from 'react';
 
-import { IHelpQuestion } from '../types/help-config.types';
+import { IHelpQuestion } from '../help-config.types';
 import { ElementRenderer } from './elements/element-renderer.component';
 
 interface IHelpQuestionProps {

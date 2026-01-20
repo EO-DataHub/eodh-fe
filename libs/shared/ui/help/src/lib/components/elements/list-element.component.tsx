@@ -1,7 +1,7 @@
 import { Text } from '@ukri/shared/design-system';
 import { useTranslation } from 'react-i18next';
 
-import { IListElement } from '../../types/help-config.types';
+import { IListElement } from '../../help-config.types';
 
 interface IListElementProps {
   readonly element: IListElement;

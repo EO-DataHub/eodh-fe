@@ -1,7 +1,7 @@
 import { Text } from '@ukri/shared/design-system';
 import { useTranslation } from 'react-i18next';
 
-import { ILinksGroupElement } from '../../types/help-config.types';
+import { ILinksGroupElement } from '../../help-config.types';
 
 interface ILinksGroupElementProps {
   readonly element: ILinksGroupElement;

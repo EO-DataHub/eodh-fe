@@ -1,7 +1,7 @@
 import { Text } from '@ukri/shared/design-system';
-import { useCallback } from 'react';
+import { MouseEvent as ReactMouseEvent, useCallback } from 'react';
 
-import { IHelpConfig } from '../types/help-config.types';
+import { IHelpConfig } from '../help-config.types';
 
 interface IQuestionLinkProps {
   readonly question: string;
@@ -19,7 +19,7 @@ const styles = {
 
 const QuestionLink = ({ question, questionId, answerId }: IQuestionLinkProps) => {
   const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    (event: ReactMouseEvent<HTMLAnchorElement, MouseEvent>) => {
       event.preventDefault();
       const element = document.getElementById(answerId);
       if (element) {

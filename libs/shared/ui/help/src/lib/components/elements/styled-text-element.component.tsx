@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { IStyledTextElement } from '../../types/help-config.types';
+import { IStyledTextElement } from '../../help-config.types';
 
 interface IStyledTextElementProps {
   readonly element: IStyledTextElement;
@@ -17,22 +17,29 @@ export const StyledTextElement = ({ element }: IStyledTextElementProps) => {
         {element.segments.map((segment, index) => {
           const content = t(segment.text);
           switch (segment.style) {
-            case 'bold':
+            case 'bold': {
               return (
                 <span key={index} className='text-medium-bold'>
                   {content}
                 </span>
               );
-            case 'italic':
+            }
+
+            case 'italic': {
               return <em key={index}>{content}</em>;
-            case 'underline':
+            }
+
+            case 'underline': {
               return <u key={index}>{content}</u>;
-            default:
+            }
+
+            default: {
               return (
                 <span key={index} className='text-medium-regular'>
                   {content}
                 </span>
               );
+            }
           }
         })}
       </p>
@@ -44,14 +51,21 @@ export const StyledTextElement = ({ element }: IStyledTextElementProps) => {
       {element.segments.map((segment, index) => {
         const content = t(segment.text);
         switch (segment.style) {
-          case 'bold':
+          case 'bold': {
             return <strong key={index}>{content}</strong>;
-          case 'italic':
+          }
+
+          case 'italic': {
             return <em key={index}>{content}</em>;
-          case 'underline':
+          }
+
+          case 'underline': {
             return <u key={index}>{content}</u>;
-          default:
+          }
+
+          default: {
             return <span key={index}>{content}</span>;
+          }
         }
       })}
     </p>

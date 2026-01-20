@@ -1,5 +1,5 @@
-export { LegendPanel } from './lib/legend-panel/legend-panel.component';
-export { useDraggable } from './lib/legend-panel/use-draggable.hook';
+export { LegendPanel } from './lib/legend-panel.component';
+export { useDraggable } from './lib/use-draggable.hook';
 
 export type {
   ILegendPanelProps,
