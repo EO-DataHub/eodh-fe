@@ -1,4 +1,4 @@
-import { useComparisonMode, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
+import { useComparisonMode, useLegendStore, useMode, useResults, useWorkflow } from '@ukri/map/data-access-map';
 import { Button, RadioButton, Text } from '@ukri/shared/design-system';
 import { useWorkspace } from '@ukri/shared/utils/authorization';
 import { displayNotification } from '@ukri/shared/utils/notification';
@@ -15,6 +15,7 @@ export const WorkspaceList = () => {
   const { changeView } = useMode();
   const { reset: resetWorkflowHistoryQueue } = useWorkflow();
   const { reset: resetComparisonMode } = useComparisonMode();
+  const { clearAllLegends } = useLegendStore();
   const disabled = useMemo(
     () => !workspaces.length || !selectedWorkspace || currentWorkspace === selectedWorkspace,
     [currentWorkspace, selectedWorkspace, workspaces.length]
@@ -28,6 +29,7 @@ export const WorkspaceList = () => {
   );
 
   const activateWorkspace = useCallback(() => {
+    clearAllLegends();
     setCurrentWorkspace(selectedWorkspace);
     updateSearchParams(undefined);
     changeView('search');
@@ -38,6 +40,7 @@ export const WorkspaceList = () => {
       'success'
     );
   }, [
+    clearAllLegends,
     setCurrentWorkspace,
     selectedWorkspace,
     updateSearchParams,

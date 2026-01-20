@@ -2,7 +2,16 @@ import { useComparisonMode, useFootprints, useMode, useTrueColorImage } from '@u
 import { TAssetName, TFeature } from '@ukri/map/data-access-stac-catalog';
 import { useCallback, useMemo } from 'react';
 
+import { useLegendIntegration } from '../legends/hooks/use-legend-integration.hook';
 import { downloadFiles } from './download-files.utils';
+
+type TWorkflowType = 'waterQuality' | 'landCoverChanges';
+
+interface IWorkflowFeature {
+  readonly id: string;
+  readonly workflowType: TWorkflowType;
+  readonly collection?: string;
+}
 
 export const useResult = () => {
   const { feature: visibleFeature, assetNameWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
@@ -15,6 +24,8 @@ export const useResult = () => {
     toggleCompareItem,
     countItemsAddedToComparisonMode,
   } = useComparisonMode();
+  const { onAssetLoad, onAssetUnload } = useLegendIntegration();
+
   const highlightedItem = useMemo(
     () => highlightedItems.find((item) => item.eventType === 'click'),
     [highlightedItems]
@@ -62,9 +73,14 @@ export const useResult = () => {
 
       if (feature) {
         clearHighlight();
+        if ('workflowType' in item && item.workflowType) {
+          onAssetLoad(item as unknown as IWorkflowFeature, key || 'data', item);
+        }
+      } else {
+        onAssetUnload(item.id);
       }
     },
-    [visibleFeature, assetNameWhichShouldBeDisplayed, setFeature, clearHighlight]
+    [visibleFeature, assetNameWhichShouldBeDisplayed, setFeature, clearHighlight, onAssetLoad, onAssetUnload]
   );
 
   const handleToggleCompareItem = useCallback(

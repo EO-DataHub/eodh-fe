@@ -1,4 +1,4 @@
-import { useActionCreator, useMode, useResults } from '@ukri/map/data-access-map';
+import { useActionCreator, useLegendStore, useMode, useResults } from '@ukri/map/data-access-map';
 import { Button, Checkbox } from '@ukri/shared/design-system';
 import { useCallback, useContext } from 'react';
 import { useForm } from 'react-hook-form';
@@ -31,10 +31,12 @@ export const TabsFlowModal = ({ header, content, ctaText, onClick }: ITabsFlowMo
   const hideModalPermanently = useDoNotShowAgain();
   const { changeTab } = useContext(ActionCreator);
   const { reset } = useActionCreator();
+  const { clearAllLegends } = useLegendStore();
 
   const permanentHidden = watch('permanentHidden');
 
   const handleYesCtaClick = useCallback(() => {
+    clearAllLegends();
     if (permanentHidden) {
       hideModalPermanently(permanentHidden);
     }
@@ -43,7 +45,16 @@ export const TabsFlowModal = ({ header, content, ctaText, onClick }: ITabsFlowMo
     changeView('search');
     hideModal();
     reset();
-  }, [permanentHidden, updateSearchParams, changeView, hideModal, reset, hideModalPermanently, onClick]);
+  }, [
+    clearAllLegends,
+    permanentHidden,
+    updateSearchParams,
+    changeView,
+    hideModal,
+    reset,
+    hideModalPermanently,
+    onClick,
+  ]);
 
   const handleNoCtaClick = useCallback(() => {
     if (permanentHidden) {

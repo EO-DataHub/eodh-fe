@@ -1,4 +1,5 @@
 import { useActionCreator } from '@ukri/map/data-access-map';
+import { IHelpConfig } from '@ukri/shared/ui/help';
 import { useContext } from 'react';
 
 import { ActionCreator } from '../action-creator-panel.context';
@@ -8,7 +9,11 @@ import { Presets } from './presets/presets.component';
 import { Workflow } from './workflow/workflow.component';
 import { Workspace } from './workspace/workspace.component';
 
-export const Content = () => {
+interface IContentProps {
+  readonly helpConfig: IHelpConfig;
+}
+
+export const Content = ({ helpConfig }: IContentProps) => {
   const { collapsed } = useContext(ActionCreator);
   const { activeTab } = useActionCreator();
 
@@ -26,7 +31,7 @@ export const Content = () => {
     }
 
     case 'help': {
-      return <Help />;
+      return <Help config={helpConfig} />;
     }
 
     case 'workspaces': {

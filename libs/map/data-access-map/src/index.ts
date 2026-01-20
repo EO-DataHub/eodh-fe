@@ -77,3 +77,16 @@ export type {
 export { useComparisonMode } from './lib/store/comparison-mode/comparison-tool.store';
 export type { TUid, TComparisonItem } from './lib/store/comparison-mode/comparison-tool.store';
 export type { IHighlightedItem } from './lib/store/footprint/footprint.model';
+
+export { useLegendStore } from './lib/store/legend/legend.store';
+export type {
+  IActiveLegend,
+  ILegendActions,
+  ILegendState,
+  IPosition,
+  TAddLegendData,
+  TLandCoverType,
+  TLegendStore,
+  TWorkflowType,
+  TVegetationIndexType,
+} from './lib/store/legend/legend.model';

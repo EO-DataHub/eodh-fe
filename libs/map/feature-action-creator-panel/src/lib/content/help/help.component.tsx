@@ -1,15 +1,16 @@
-import { Help as HelpContent } from '@ukri/shared/ui/help';
+import { Help as HelpContent, IHelpConfig } from '@ukri/shared/ui/help';
 
 import { Container, Content, Footer } from '../container.component';
-import { getHelpContent } from './translation-keys';
 
-const pathToImages = '/assets/images';
+interface IHelpProps {
+  readonly config: IHelpConfig;
+}
 
-export const Help = () => {
+export const Help = ({ config }: IHelpProps) => {
   return (
     <Container>
       <Content>
-        <HelpContent helpContentConfig={getHelpContent()} className='p-4' pathToImages={pathToImages} />
+        <HelpContent config={config} className='p-4' />
       </Content>
       <Footer></Footer>
     </Container>
