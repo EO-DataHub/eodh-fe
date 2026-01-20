@@ -4,7 +4,7 @@ import { Draw } from 'ol/interaction';
 import { useCallback, useContext, useEffect } from 'react';
 
 import { SquareButton } from '../../components/square-button/square-button.component';
-import { createPolygonStyles, measureDistanceDrawingInProgressStyles } from './measure-distance.styles';
+import { createLineStyles, createPolygonStyles } from './measure-distance.styles';
 import { MeasureDistanceLayerContext } from './measure-distance-layer.component';
 
 const createDraw = (drawType: 'polygon' | 'line') => {
@@ -19,7 +19,7 @@ const createDraw = (drawType: 'polygon' | 'line') => {
   return new Draw({
     geometryName: 'LineString',
     type: 'LineString',
-    style: measureDistanceDrawingInProgressStyles,
+    style: createLineStyles,
   });
 };
 
