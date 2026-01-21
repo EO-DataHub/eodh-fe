@@ -1,11 +1,71 @@
 import { formatDate, TDateTimeString } from '@ukri/shared/utils/date';
+import isObject from 'lodash/isObject';
 import z from 'zod';
 
-const coordinateSchema = z.tuple([z.number(), z.number()]);
+import { extractCoordinates, parseGeoJson } from '../../geometry/geo-json/geo-json';
+import { TCoordinate } from '../../geometry/shape.model';
+import { transformAreaValueCoordinates } from '../../store/aoi/aoi-import/coordinate-transformer';
+import { detectCoordinateSystem } from '../../store/aoi/aoi-import/coordinate-validator';
+import { TGeoJSONGeometry } from '../../store/aoi/aoi-import/geojson.types';
+import { validateGeometryType } from '../../store/aoi/aoi-import/geojson-validator';
 
-const polygonSchema = z.object({
-  type: z.literal('Polygon').transform(() => 'polygon' as const),
-  coordinates: z.union([z.array(z.array(z.array(z.number()))), z.array(z.array(coordinateSchema))]),
+function getGeometryFromUnknown(data: unknown): TGeoJSONGeometry | undefined {
+  if (!isObject(data)) {
+    return undefined;
+  }
+
+  const type = (data as { type?: 'FeatureCollection' | 'Feature' | 'Polygon' | 'MultiPolygon' }).type;
+
+  switch (type) {
+    case 'FeatureCollection': {
+      const features = (data as { features?: Array<{ geometry?: TGeoJSONGeometry }> }).features;
+      return features?.[0]?.geometry;
+    }
+    case 'Feature':
+      return (data as { geometry?: TGeoJSONGeometry }).geometry;
+    case 'Polygon':
+    case 'MultiPolygon':
+      return data as TGeoJSONGeometry;
+    default:
+      return undefined;
+  }
+}
+
+const polygonSchema = z.unknown().transform((value, ctx): TCoordinate => {
+  const addError = () => {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Invalid AOI geometry',
+    });
+    return z.NEVER;
+  };
+
+  if (!isObject(value)) {
+    return addError();
+  }
+
+  const geometry = getGeometryFromUnknown(value);
+  if (!geometry) {
+    return addError();
+  }
+
+  const geometryValidation = validateGeometryType(geometry);
+  if (!geometryValidation.valid) {
+    return addError();
+  }
+
+  const coordinates = extractCoordinates(geometry);
+  const coordinateDetection = detectCoordinateSystem(coordinates);
+  if (!coordinateDetection.valid) {
+    return addError();
+  }
+
+  const parsedGeoJson = parseGeoJson(geometry);
+  if (!parsedGeoJson.success || !parsedGeoJson.areaValue || !parsedGeoJson.detectedCRS) {
+    return addError();
+  }
+
+  return transformAreaValueCoordinates(parsedGeoJson.areaValue, parsedGeoJson.detectedCRS);
 });
 
 const dateTimeStringSchema = z

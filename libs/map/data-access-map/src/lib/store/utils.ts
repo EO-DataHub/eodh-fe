@@ -137,7 +137,6 @@ export const loadPreset = ({ dataSet, functions, dateRange, aoi }: TLoadPresetPr
   useActionCreatorStore.getState().setNodes([...nodes, ...functionNodes] as TNode[]);
 
   if (shape) {
-    shape.shape = shape?.shape?.clone().transform('EPSG:4326', 'EPSG:3857');
     useAoiStore.getState().setShape(shape, true);
   } else {
     useAoiStore.getState().setShape(undefined);
