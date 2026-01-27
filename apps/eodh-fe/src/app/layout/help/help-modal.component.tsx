@@ -1,10 +1,11 @@
 import { Icon, Text } from '@ukri/shared/design-system';
 import { Help } from '@ukri/shared/ui/help';
 
+import { generalHelpConfig } from '../../help/general-help.config';
 import { styles } from './help-modal.styles';
-import { helpContentConfig, translationPath } from './translation-keys';
+
 interface IModalProps {
-  onClose: () => void;
+  readonly onClose: () => void;
 }
 
 export const HelpModal = ({ onClose }: IModalProps) => {
@@ -14,7 +15,7 @@ export const HelpModal = ({ onClose }: IModalProps) => {
         <div className={styles.topContainer}>
           <Text
             type='h1'
-            content={`${translationPath}.TITLE`}
+            content='APP.HELP.GENERAL_HELP.TITLE'
             fontSize='large'
             fontWeight='bold'
             className={styles.helpTitle}
@@ -24,7 +25,7 @@ export const HelpModal = ({ onClose }: IModalProps) => {
           </button>
         </div>
         <div className={styles.content}>
-          <Help helpContentConfig={helpContentConfig} className={styles.helpContent} />
+          <Help config={generalHelpConfig} className={styles.helpContent} />
         </div>
       </div>
     </div>

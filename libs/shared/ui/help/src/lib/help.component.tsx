@@ -1,47 +1,37 @@
 import { Text } from '@ukri/shared/design-system';
 import clsx from 'clsx';
-import { useMemo } from 'react';
 
-import { Answers } from './components/answers';
-import { helpStyles } from './components/help.styles';
-import { helpContentWithTranslations, IHelpContent } from './components/help-content';
-import { TableOfContent } from './components/table-of-content';
+import { HelpSection } from './components/help-section.component';
+import { TableOfContentsV2 } from './components/table-of-contents.component';
+import { IHelpConfig } from './help-config.types';
 
 interface IHelpProps {
-  helpContentConfig: IHelpContent;
-  className?: string;
-  pathToImages?: string;
+  readonly config: IHelpConfig;
+  readonly className?: string;
 }
 
-export const Help = ({ helpContentConfig, pathToImages, className }: IHelpProps) => {
-  const memoizedTitleTranslation = useMemo(() => {
-    return helpContentConfig.TITLE && helpContentWithTranslations(helpContentConfig).TITLE;
-  }, [helpContentConfig]);
+const styles = {
+  helpSection: 'text-text-primary h-full overflow-x-visible overflow-y-scroll',
+  helpTitle: 'text-lg leading-[18px]',
+  helpIntro: 'pt-4',
+};
 
-  const memoizedIntroTranslation = useMemo(() => {
-    return helpContentWithTranslations(helpContentConfig).INTRO;
-  }, [helpContentConfig]);
-
+export const Help = ({ config, className }: IHelpProps) => {
   return (
-    <section className={clsx(helpStyles.helpSection, className)}>
-      {memoizedTitleTranslation && (
-        <Text
-          type='h1'
-          content={memoizedTitleTranslation}
-          fontSize='large'
-          fontWeight='bold'
-          className={helpStyles.helpTitle}
-        />
+    <section className={clsx(styles.helpSection, className)}>
+      {config.title && (
+        <Text type='h1' content={config.title} fontSize='large' fontWeight='bold' className={styles.helpTitle} />
       )}
-      <Text
-        type='p'
-        content={memoizedIntroTranslation}
-        fontSize='medium'
-        fontWeight='regular'
-        className={helpStyles.helpIntro}
-      />
-      <TableOfContent helpContentConfig={helpContentConfig} />
-      <Answers helpContentConfig={helpContentConfig} pathToImages={pathToImages} />
+      <Text type='p' content={config.intro} fontSize='medium' fontWeight='regular' className={styles.helpIntro} />
+      <TableOfContentsV2 config={config} />
+      {config.sections.map((section) => (
+        <HelpSection
+          key={section.id}
+          section={section}
+          pathToImages={config.pathToImages}
+          backButtonText={config.backButtonText}
+        />
+      ))}
     </section>
   );
 };

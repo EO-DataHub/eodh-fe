@@ -13,6 +13,7 @@ import { Fill, Stroke, Style } from 'ol/style';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { footprintsLayerZindex } from '../../consts';
+import { getEventType } from '../../hooks/use-map-click.hook';
 import { MapContext } from '../../map.component';
 
 const defaultStyle = new Style({
@@ -39,20 +40,6 @@ const highlightStyle = new Style({
   }),
   zIndex: 2,
 });
-
-const getEventType = (event: MapBrowserEvent<UIEvent>) => {
-  switch (event.type) {
-    case 'pointermove': {
-      return 'pointermove';
-    }
-
-    case 'click': {
-      return 'click';
-    }
-  }
-
-  return undefined;
-};
 
 type TSortBy = {
   field: 'properties.datetime';

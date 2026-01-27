@@ -12,6 +12,7 @@ import {
   useCreateWorkflowStatus,
   useDataSets,
   useFunctions,
+  useLegendStore,
 } from '@ukri/map/data-access-map';
 import { Button } from '@ukri/shared/design-system';
 import { useOnboarding } from '@ukri/shared/ui/ac-workflow-onboarding';
@@ -71,6 +72,7 @@ export const Workflow = () => {
   const { aoiLimit } = useSettings();
   const { comparisonModeEnabled } = useComparisonMode();
   const { currentWorkspace } = useWorkspace();
+  const { clearAllLegends } = useLegendStore();
   const isAreaIncorrect = useMemo<boolean>(() => {
     const area = nodes.find((node) => node.type === 'area') as TAreaNode | undefined;
     if (area) {
@@ -94,11 +96,12 @@ export const Workflow = () => {
   );
 
   const importWorkflowFile = useCallback(async () => {
+    clearAllLegends();
     const statusOfImport = await importWorkflow();
     if (statusOfImport.status === 'success') {
       completeOnboarding();
     }
-  }, [importWorkflow, completeOnboarding]);
+  }, [clearAllLegends, importWorkflow, completeOnboarding]);
 
   const createWorkflow = useCallback(() => {
     const aoiNode = getNodesByType<TAreaNode>('area').pop();

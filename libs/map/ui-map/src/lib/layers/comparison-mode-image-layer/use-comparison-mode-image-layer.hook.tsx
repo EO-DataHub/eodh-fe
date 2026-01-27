@@ -1,14 +1,16 @@
-import { type TComparisonItem, useComparisonMode } from '@ukri/map/data-access-map';
+import { type TComparisonItem, useComparisonMode, useLegendStore } from '@ukri/map/data-access-map';
 import { displayNotification } from '@ukri/shared/utils/notification';
 import isArray from 'lodash/isArray';
 import { Coordinate } from 'ol/coordinate';
-import { boundingExtent, intersects } from 'ol/extent';
+import { boundingExtent, containsCoordinate, intersects } from 'ol/extent';
 import GroupLayer from 'ol/layer/Group';
+import MapBrowserEvent from 'ol/MapBrowserEvent';
 import { transform } from 'ol/proj';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { stacLayerZindex } from '../../consts';
+import { useMapClick } from '../../hooks/use-map-click.hook';
 import { MapContext } from '../../map.component';
 import { STACWithColorMap } from '../../stac/stac-with-color-map';
 import { useStacLayerCreation } from './../../stac/use-stac-layer-creation';
@@ -18,6 +20,7 @@ export type TComparisonLayer = {
   item2: GroupLayer | undefined;
   isItem1Visible: boolean;
   isItem2Visible: boolean;
+  updateSliderPosition: (position: number) => void;
 };
 
 const defaultValues: TComparisonLayer = {
@@ -25,6 +28,8 @@ const defaultValues: TComparisonLayer = {
   item2: undefined,
   isItem1Visible: false,
   isItem2Visible: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  updateSliderPosition: () => {},
 };
 
 export const ComparisonContext = createContext<TComparisonLayer>(defaultValues);
@@ -48,17 +53,84 @@ const convertCoordinates = (geometry: TComparisonItem['geometry']): Coordinate[]
   return flattenCoordinates(geometry.coordinates).map((coordinate) => transform(coordinate, 'EPSG:4326', 'EPSG:3857'));
 };
 
+const getExtentFromGeometry = (geometry: TComparisonItem['geometry']): number[] => {
+  const coords = convertCoordinates(geometry);
+  return boundingExtent(coords);
+};
+
 export const useComparisonModeImageLayers = () => {
   const map = useContext(MapContext);
   const { t } = useTranslation();
   const { comparisonItems, comparisonModeEnabled } = useComparisonMode();
+  const { focusLegend } = useLegendStore();
   const [item1, setItem1] = useState<GroupLayer | undefined>(undefined);
   const [item2, setItem2] = useState<GroupLayer | undefined>(undefined);
   const [isItem1Visible, setIsItem1Visible] = useState<boolean>(false);
   const [isItem2Visible, setIsItem2Visible] = useState<boolean>(false);
   const [combinedExtent, setCombinedExtent] = useState<number[]>([]);
+  const sliderPositionRef = useRef(0.5);
 
   const { createStacLayer, removeLayerFromMap, addLayerToMap } = useStacLayerCreation();
+
+  const updateSliderPosition = useCallback((position: number) => {
+    sliderPositionRef.current = position;
+  }, []);
+
+  const handleMapClick = useCallback(
+    (event: MapBrowserEvent<UIEvent>, eventType: 'click' | 'pointermove' | undefined) => {
+      if (eventType !== 'click') {
+        return;
+      }
+
+      const items = comparisonItems.items;
+
+      if (items.length < 2) {
+        return;
+      }
+
+      const coordinate = event.coordinate;
+
+      if (!coordinate) {
+        return;
+      }
+
+      const extent1 = getExtentFromGeometry(items[0].geometry);
+      const extent2 = getExtentFromGeometry(items[1].geometry);
+
+      const isWithinExtent1 = containsCoordinate(extent1, coordinate);
+      const isWithinExtent2 = containsCoordinate(extent2, coordinate);
+
+      if (!isWithinExtent1 && !isWithinExtent2) {
+        return;
+      }
+
+      const mapElement = map.getTargetElement();
+
+      if (!mapElement) {
+        return;
+      }
+
+      const rect = mapElement.getBoundingClientRect();
+      const mouseEvent = event.originalEvent as MouseEvent;
+      const clickX = mouseEvent.clientX - rect.left;
+      const clickPositionRatio = clickX / rect.width;
+
+      const sliderPosition = sliderPositionRef.current;
+      const isLeftSide = clickPositionRatio < sliderPosition;
+
+      const targetIndex = isLeftSide ? 0 : 1;
+      const targetItem = items[targetIndex];
+      const isWithinTargetExtent = isLeftSide ? isWithinExtent1 : isWithinExtent2;
+
+      if (targetItem && isWithinTargetExtent) {
+        const assetName = targetItem.assetName || 'data';
+        focusLegend(targetItem.id, assetName);
+      }
+    },
+    [map, comparisonItems.items, focusLegend]
+  );
+
+  useMapClick(handleMapClick, { enabled: comparisonModeEnabled });
 
   const createLayer = useCallback(
     async (item: TComparisonItem, index: number): Promise<STACWithColorMap | undefined> => {
@@ -179,6 +251,7 @@ export const useComparisonModeImageLayers = () => {
       item2,
       isItem1Visible,
       isItem2Visible,
+      updateSliderPosition,
     };
-  }, [item1, item2, isItem1Visible, isItem2Visible]);
+  }, [item1, item2, isItem1Visible, isItem2Visible, updateSliderPosition]);
 };
