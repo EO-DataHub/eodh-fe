@@ -6,11 +6,12 @@ import { DrawEvent } from 'ol/interaction/Draw';
 import { createBox } from 'ol/interaction/Draw.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { aoiLayerZindex } from '../../consts';
 import { MapContext } from '../../map.component';
 import { TVectorLayer } from './aoi-layer.component';
+import { useCoordinateLabels } from './use-coordinate-labels.hook';
 
 export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 
@@ -21,6 +22,8 @@ export const useAoiLayer = () => {
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
+  const { updateLabels, clearLabels } = useCoordinateLabels(map);
+  const geometryChangeListenerRef = useRef<(() => void) | null>(null);
 
   const fitToLayer = useCallback(
     (extent: Extent) => {
@@ -93,18 +96,58 @@ export const useAoiLayer = () => {
       return;
     }
 
-    draw.draw.on('drawstart', () => setShape(undefined));
-    draw.draw.on('drawend', (event: DrawEvent) => {
+    const handleDrawStart = (event: DrawEvent) => {
+      setShape(undefined);
+      clearLabels();
+
+      // Clean up previous listener if exists
+      if (geometryChangeListenerRef.current) {
+        geometryChangeListenerRef.current();
+        geometryChangeListenerRef.current = null;
+      }
+
+      const geometry = event.feature.getGeometry();
+      if (geometry) {
+        // Update labels immediately and on every geometry change
+        updateLabels(geometry);
+
+        const changeKey = geometry.on('change', () => {
+          updateLabels(geometry);
+        });
+
+        geometryChangeListenerRef.current = () => {
+          geometry.un('change', changeKey.listener);
+        };
+      }
+    };
+
+    const handleDrawEnd = (event: DrawEvent) => {
+      // Clean up geometry change listener
+      if (geometryChangeListenerRef.current) {
+        geometryChangeListenerRef.current();
+        geometryChangeListenerRef.current = null;
+      }
+
+      clearLabels();
       map.removeInteraction(draw.draw);
       setShape({ type: draw.type, shape: event.feature.getGeometry() });
       setDrawingTool(undefined);
-    });
+    };
+
+    draw.draw.on('drawstart', handleDrawStart);
+    draw.draw.on('drawend', handleDrawEnd);
     map.addInteraction(draw.draw);
 
     return () => {
+      // Clean up geometry change listener on unmount
+      if (geometryChangeListenerRef.current) {
+        geometryChangeListenerRef.current();
+        geometryChangeListenerRef.current = null;
+      }
+      clearLabels();
       map.removeInteraction(draw.draw);
     };
-  }, [map, draw, setShape, setDrawingTool]);
+  }, [map, draw, setShape, setDrawingTool, updateLabels, clearLabels]);
 
   useEffect(() => {
     switch (drawingTool?.type) {

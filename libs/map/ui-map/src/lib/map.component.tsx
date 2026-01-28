@@ -6,6 +6,7 @@ import type BaseLayer from 'ol/layer/Base';
 import TileLayer from 'ol/layer/Tile';
 import OlMap from 'ol/Map.js';
 import MapBrowserEvent from 'ol/MapBrowserEvent';
+import Overlay from 'ol/Overlay';
 import { fromLonLat } from 'ol/proj';
 import OSM from 'ol/source/OSM';
 import OlView from 'ol/View.js';
@@ -13,12 +14,14 @@ import { createContext, PropsWithChildren, useContext, useEffect, useRef, useSta
 
 import { mainMapLayerZindex } from './consts';
 
-interface IMap {
+export interface IMap {
   addLayer(layer: BaseLayer): void;
   setTarget(target?: string | HTMLElement | undefined): void;
   addInteraction(interaction: Interaction): void;
   removeInteraction(interaction: Interaction): Interaction | undefined;
   removeLayer(layer: BaseLayer): BaseLayer | undefined;
+  addOverlay(overlay: Overlay): void;
+  removeOverlay(overlay: Overlay): Overlay | undefined;
   on(
     event: 'dblclick' | 'click' | 'pointermove' | 'moveend' | 'pointerdrag',
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,6 +50,9 @@ const defaultMap = {
   addInteraction() {},
   removeInteraction: () => undefined,
   removeLayer: () => undefined,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  addOverlay() {},
+  removeOverlay: () => undefined,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   on() {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
