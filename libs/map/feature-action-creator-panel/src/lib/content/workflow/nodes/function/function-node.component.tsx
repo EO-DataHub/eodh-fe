@@ -77,6 +77,32 @@ const Link: FC<PropsWithChildren<{ href?: string }>> = ({ href, children }) => {
   );
 };
 
+const displayFunctionNotification = (identifier: string, verified: boolean): void => {
+  switch (identifier) {
+    case 'water-quality':
+      if (!verified) {
+        displayNotification(
+          <Trans
+            i18nKey='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WARNING.WATER_QUALITY_NOT_VERIFIED'
+            components={{
+              Link: <Link />,
+            }}
+          />,
+          'warning',
+          { key: 'water-quality-not-verified', preventDuplicate: true }
+        );
+      }
+      break;
+    case 'clip':
+      displayNotification(
+        <Trans i18nKey='MAP.ACTION_CREATOR_PANEL.WORKFLOW.INFO.CLIP_SELECTED_INFO_NOTIFICATION' />,
+        'info',
+        { key: 'clip-not-verified', preventDuplicate: true }
+      );
+      break;
+  }
+};
+
 type TNodeProps = {
   node: TFunctionNode;
   data: TFunction[] | undefined;
@@ -150,18 +176,10 @@ export const NodeFunction = ({ node }: IFunctionNodeProps) => {
           ? { identifier: value.value, supportedDataSets: value.supportedDataSets, verified: value.verified }
           : undefined;
         setValue(node, newValue);
-        if (newValue && !newValue?.verified) {
-          displayNotification(
-            <Trans
-              i18nKey='MAP.ACTION_CREATOR_PANEL.WORKFLOW.WARNING.WATER_QUALITY_NOT_VERIFIED'
-              components={{
-                Link: <Link />,
-              }}
-            />,
-            'warning',
-            { key: 'water-quality-not-verified', preventDuplicate: true }
-          );
+        if (!newValue) {
+          return;
         }
+        displayFunctionNotification(newValue.identifier, newValue.verified);
       }
     },
     [node, setValue]
