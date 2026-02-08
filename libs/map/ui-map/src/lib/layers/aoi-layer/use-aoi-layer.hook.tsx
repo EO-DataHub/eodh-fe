@@ -24,6 +24,7 @@ export const useAoiLayer = () => {
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
   const { updateLabels, clearLabels } = useCoordinateLabels(map);
   const geometryChangeListenerRef = useRef<(() => void) | null>(null);
+  const shouldPersistLabelsRef = useRef<boolean>(false);
 
   const fitToLayer = useCallback(
     (extent: Extent) => {
@@ -68,12 +69,22 @@ export const useAoiLayer = () => {
     source.clear();
 
     if (!shape?.shape) {
+      clearLabels();
+      shouldPersistLabelsRef.current = false;
       return;
     }
 
     const feature = new Feature();
     feature.setGeometry(shape.shape);
     source?.addFeature(feature);
+
+    if (shape.type === 'polygon') {
+      updateLabels(shape.shape);
+      shouldPersistLabelsRef.current = true;
+    } else {
+      clearLabels();
+      shouldPersistLabelsRef.current = false;
+    }
 
     if (fitToAoi) {
       fitToLayer(shape.shape.getExtent());
@@ -82,7 +93,7 @@ export const useAoiLayer = () => {
     return () => {
       source?.removeFeature(feature);
     };
-  }, [shape?.shape, source, fitToAoi, fitToLayer]);
+  }, [shape?.shape, shape?.type, source, fitToAoi, fitToLayer, updateLabels, clearLabels]);
 
   useEffect(() => {
     if (!draw?.draw) {
@@ -99,16 +110,19 @@ export const useAoiLayer = () => {
     const handleDrawStart = (event: DrawEvent) => {
       setShape(undefined);
       clearLabels();
+      shouldPersistLabelsRef.current = false;
 
-      // Clean up previous listener if exists
       if (geometryChangeListenerRef.current) {
         geometryChangeListenerRef.current();
         geometryChangeListenerRef.current = null;
       }
 
+      if (draw.type !== 'polygon') {
+        return;
+      }
+
       const geometry = event.feature.getGeometry();
       if (geometry) {
-        // Update labels immediately and on every geometry change
         updateLabels(geometry);
 
         const changeKey = geometry.on('change', () => {
@@ -122,15 +136,23 @@ export const useAoiLayer = () => {
     };
 
     const handleDrawEnd = (event: DrawEvent) => {
-      // Clean up geometry change listener
       if (geometryChangeListenerRef.current) {
         geometryChangeListenerRef.current();
         geometryChangeListenerRef.current = null;
       }
 
-      clearLabels();
+      const geometry = event.feature.getGeometry();
+
+      if (draw.type === 'polygon' && geometry) {
+        updateLabels(geometry);
+        shouldPersistLabelsRef.current = true;
+      } else {
+        clearLabels();
+        shouldPersistLabelsRef.current = false;
+      }
+
       map.removeInteraction(draw.draw);
-      setShape({ type: draw.type, shape: event.feature.getGeometry() });
+      setShape({ type: draw.type, shape: geometry });
       setDrawingTool(undefined);
     };
 
@@ -139,12 +161,13 @@ export const useAoiLayer = () => {
     map.addInteraction(draw.draw);
 
     return () => {
-      // Clean up geometry change listener on unmount
       if (geometryChangeListenerRef.current) {
         geometryChangeListenerRef.current();
         geometryChangeListenerRef.current = null;
       }
-      clearLabels();
+      if (!shouldPersistLabelsRef.current) {
+        clearLabels();
+      }
       map.removeInteraction(draw.draw);
     };
   }, [map, draw, setShape, setDrawingTool, updateLabels, clearLabels]);
