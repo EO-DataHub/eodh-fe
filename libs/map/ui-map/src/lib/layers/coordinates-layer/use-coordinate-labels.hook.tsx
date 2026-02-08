@@ -30,7 +30,7 @@ const createLabelStyle = (text: string): Style => {
       text: text,
       font: 'bold',
       fill: new Fill({ color: '#000' }),
-      stroke: new Stroke({ color: '#fff', width: 5 }),
+      stroke: new Stroke({ color: '#fff', width: 8 }),
       backgroundFill: new Fill({ color: 'transparent' }),
       padding: [4, 8, 4, 8],
       offsetY: -24,
@@ -56,7 +56,13 @@ const getPolygonCoordinates = (geometry: Geometry): Coordinate[] => {
 export const useCoordinateLabels = (map: IMap) => {
   const sourceRef = useRef<VectorSource>(new VectorSource({ wrapX: false }));
   const layerRef = useRef<VectorLayer<Feature<Geometry>> | null>(null);
-  const { setCoordinates, clearCoordinates: clearStoreCoordinates, visible, toggleVisibility } = useCoordinates();
+  const {
+    setCoordinates,
+    clearCoordinates: clearStoreCoordinates,
+    visible,
+    toggleVisibility,
+    setDrawingCompleted,
+  } = useCoordinates();
 
   useEffect(() => {
     if (!visible) {
@@ -87,10 +93,11 @@ export const useCoordinateLabels = (map: IMap) => {
   const clearLabels = useCallback(() => {
     sourceRef.current.clear();
     clearStoreCoordinates();
-  }, [clearStoreCoordinates]);
+    setDrawingCompleted(false);
+  }, [clearStoreCoordinates, setDrawingCompleted]);
 
   const updateLabels = useCallback(
-    (geometry: Geometry | undefined) => {
+    (geometry: Geometry | undefined, isCompleted = false) => {
       clearLabels();
 
       if (!geometry) {
@@ -114,8 +121,9 @@ export const useCoordinateLabels = (map: IMap) => {
         });
       });
       setCoordinates(coordinateLabels);
+      setDrawingCompleted(isCompleted);
     },
-    [clearLabels, setCoordinates]
+    [clearLabels, setCoordinates, setDrawingCompleted]
   );
 
   return {

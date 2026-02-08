@@ -79,7 +79,7 @@ export const useAoiLayer = () => {
     source?.addFeature(feature);
 
     if (shape.type === 'polygon') {
-      updateLabels(shape.shape);
+      updateLabels(shape.shape, true);
       shouldPersistLabelsRef.current = true;
     } else {
       clearLabels();
@@ -142,7 +142,7 @@ export const useAoiLayer = () => {
       const geometry = event.feature.getGeometry();
 
       if (draw.type === 'polygon' && geometry) {
-        updateLabels(geometry);
+        updateLabels(geometry, true);
         shouldPersistLabelsRef.current = true;
       } else {
         clearLabels();

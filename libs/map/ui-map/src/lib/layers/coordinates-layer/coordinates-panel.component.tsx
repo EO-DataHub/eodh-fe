@@ -16,8 +16,8 @@ export const CoordinatesPanel = ({ className }: ICoordinatesPanelProps) => {
 
   return (
     <div className={`absolute left-10 top-2 ${className}`}>
-      <div className='bg-bright-main rounded-lg border-[1px] border-bright-dark p-4 flex flex-row items-start justify-between w-70 gap-2'>
-        <Icon name='Polyline' width={24} height={24} className='text-neutral-light' />
+      <div className='bg-bright-main rounded-lg border-[1px] border-bright-dark p-4 flex flex-row items-start justify-between min-w-[250px] gap-2'>
+        <Icon name='Polygon' width={24} height={24} className='text-neutral-light' />
         <Coordinates />
         <Icon
           onClick={toggleVisibility}

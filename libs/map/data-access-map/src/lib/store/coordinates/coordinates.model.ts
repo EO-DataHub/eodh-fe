@@ -8,8 +8,10 @@ export interface ICoordinateLabel {
 
 export interface ICoordinatesStore {
   coordinates: ICoordinateLabel[];
+  visible: boolean;
+  drawingCompleted: boolean;
   setCoordinates: (coordinates: ICoordinateLabel[]) => void;
   clearCoordinates: () => void;
-  visible: boolean;
   toggleVisibility: () => void;
+  setDrawingCompleted: (completed: boolean) => void;
 }

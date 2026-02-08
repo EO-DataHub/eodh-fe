@@ -9,8 +9,10 @@ export const useCoordinatesStore = create<ICoordinatesStore>()(
       coordinates: [] as ICoordinateLabel[],
       setCoordinates: (coordinates) => set(() => ({ coordinates })),
       clearCoordinates: () => set(() => ({ coordinates: [] as ICoordinateLabel[] })),
-      visible: true,
+      visible: true as boolean,
       toggleVisibility: () => set((state) => ({ visible: !state.visible })),
+      drawingCompleted: false as boolean,
+      setDrawingCompleted: (completed) => set(() => ({ drawingCompleted: completed })),
     };
   })
 );
@@ -22,5 +24,7 @@ export const useCoordinates = () => {
     clearCoordinates: state.clearCoordinates,
     visible: state.visible,
     toggleVisibility: state.toggleVisibility,
+    drawingCompleted: state.drawingCompleted,
+    setDrawingCompleted: state.setDrawingCompleted,
   }));
 };
