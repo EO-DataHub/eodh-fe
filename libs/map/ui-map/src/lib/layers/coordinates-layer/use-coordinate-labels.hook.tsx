@@ -20,15 +20,15 @@ const formatCoordinate = (coord: Coordinate): string => {
   return `${latitude.toFixed(COORDINATE_PRECISION)}°, ${longitude.toFixed(COORDINATE_PRECISION)}°`;
 };
 
-const createLabelStyle = (index: number, text: string): Style => {
+const createLabelStyle = (text: string): Style => {
   return new Style({
     image: new CircleStyle({
       radius: 3,
       fill: new Fill({ color: '#3b82f6' }),
     }),
     text: new Text({
-      text: `${index + 1}  ${text}`,
-      font: 'bold 11px monospace',
+      text: text,
+      font: 'bold',
       fill: new Fill({ color: '#000' }),
       stroke: new Stroke({ color: '#fff', width: 5 }),
       backgroundFill: new Fill({ color: 'transparent' }),
@@ -56,9 +56,12 @@ const getPolygonCoordinates = (geometry: Geometry): Coordinate[] => {
 export const useCoordinateLabels = (map: IMap) => {
   const sourceRef = useRef<VectorSource>(new VectorSource({ wrapX: false }));
   const layerRef = useRef<VectorLayer<Feature<Geometry>> | null>(null);
-  const { setCoordinates, clearCoordinates: clearStoreCoordinates } = useCoordinates();
+  const { setCoordinates, clearCoordinates: clearStoreCoordinates, visible, toggleVisibility } = useCoordinates();
 
   useEffect(() => {
+    if (!visible) {
+      toggleVisibility();
+    }
     const layer = new VectorLayer({
       source: sourceRef.current,
     });
@@ -70,7 +73,16 @@ export const useCoordinateLabels = (map: IMap) => {
       map.removeLayer(layer);
       layerRef.current = null;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
+
+  useEffect(() => {
+    if (layerRef.current && !visible) {
+      layerRef.current.setVisible(false);
+    } else {
+      layerRef.current?.setVisible(true);
+    }
+  }, [visible]);
 
   const clearLabels = useCallback(() => {
     sourceRef.current.clear();
@@ -93,17 +105,14 @@ export const useCoordinateLabels = (map: IMap) => {
         const pointFeature = new Feature({
           geometry: new Point(coord),
         });
-
-        pointFeature.setStyle(createLabelStyle(index, formattedCoord));
+        pointFeature.setStyle(createLabelStyle(formattedCoord));
         sourceRef.current.addFeature(pointFeature);
-
         coordinateLabels.push({
           index,
           coordinate: coord,
           formatted: formattedCoord,
         });
       });
-
       setCoordinates(coordinateLabels);
     },
     [clearLabels, setCoordinates]

@@ -1,3 +1,4 @@
+import { useCoordinates } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 
 import { Coordinates } from './coordinates.component';
@@ -7,14 +8,24 @@ interface ICoordinatesPanelProps {
 }
 
 export const CoordinatesPanel = ({ className }: ICoordinatesPanelProps) => {
+  const { coordinates, toggleVisibility, visible } = useCoordinates();
+
+  if (coordinates.length === 0) {
+    return null;
+  }
+
   return (
     <div className={`absolute left-10 top-2 ${className}`}>
-      <div className='bg-bright-main rounded-lg border-[1px] border-bright-dark p-4 flex flex-col max-w-xs'>
-        <div className='flex flex-row items-center mb-2 pb-2 border-b border-bright-dark'>
-          <Icon name='Map' width={24} height={24} className='text-neutral-light pr-2' />
-          <span className='text-sm font-semibold'>Coordinates</span>
-        </div>
+      <div className='bg-bright-main rounded-lg border-[1px] border-bright-dark p-4 flex flex-row items-start justify-between w-70 gap-2'>
+        <Icon name='Polyline' width={24} height={24} className='text-neutral-light' />
         <Coordinates />
+        <Icon
+          onClick={toggleVisibility}
+          name={visible ? 'Visibility' : 'VisibilityOff'}
+          width={24}
+          height={24}
+          className={`cursor-pointer ${visible ? 'text-primary-main' : 'text-neutral-light'}`}
+        />
       </div>
     </div>
   );

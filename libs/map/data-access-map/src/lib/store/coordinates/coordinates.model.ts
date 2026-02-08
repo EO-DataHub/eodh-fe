@@ -10,4 +10,6 @@ export interface ICoordinatesStore {
   coordinates: ICoordinateLabel[];
   setCoordinates: (coordinates: ICoordinateLabel[]) => void;
   clearCoordinates: () => void;
+  visible: boolean;
+  toggleVisibility: () => void;
 }
