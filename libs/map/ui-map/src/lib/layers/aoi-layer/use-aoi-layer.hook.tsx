@@ -117,21 +117,19 @@ export const useAoiLayer = () => {
         geometryChangeListenerRef.current = null;
       }
 
-      if (draw.type !== 'polygon') {
-        return;
-      }
-
-      const geometry = event.feature.getGeometry();
-      if (geometry) {
-        updateLabels(geometry);
-
-        const changeKey = geometry.on('change', () => {
+      if (draw.type === 'polygon') {
+        const geometry = event.feature.getGeometry();
+        if (geometry) {
           updateLabels(geometry);
-        });
 
-        geometryChangeListenerRef.current = () => {
-          geometry.un('change', changeKey.listener);
-        };
+          const changeKey = geometry.on('change', () => {
+            updateLabels(geometry);
+          });
+
+          geometryChangeListenerRef.current = () => {
+            geometry.un('change', changeKey.listener);
+          };
+        }
       }
     };
 
