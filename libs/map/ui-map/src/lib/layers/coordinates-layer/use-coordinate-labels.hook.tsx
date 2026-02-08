@@ -28,7 +28,7 @@ const createLabelStyle = (text: string): Style => {
     }),
     text: new Text({
       text: text,
-      font: 'bold',
+      font: 'bold 12px poppins',
       fill: new Fill({ color: '#000' }),
       stroke: new Stroke({ color: '#fff', width: 8 }),
       backgroundFill: new Fill({ color: 'transparent' }),
