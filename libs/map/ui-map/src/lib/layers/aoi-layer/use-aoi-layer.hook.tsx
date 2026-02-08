@@ -10,8 +10,8 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'r
 
 import { aoiLayerZindex } from '../../consts';
 import { MapContext } from '../../map.component';
+import { useCoordinateLabels } from '../coordinates-layer/use-coordinate-labels.hook';
 import { TVectorLayer } from './aoi-layer.component';
-import { useCoordinateLabels } from './use-coordinate-labels.hook';
 
 export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
 

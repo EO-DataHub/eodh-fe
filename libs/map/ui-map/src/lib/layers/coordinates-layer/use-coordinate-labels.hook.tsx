@@ -1,3 +1,4 @@
+import { ICoordinateLabel, useCoordinates } from '@ukri/map/data-access-map';
 import { Coordinate } from 'ol/coordinate';
 import Feature from 'ol/Feature';
 import { Circle as OlCircle, Geometry, Point, Polygon } from 'ol/geom';
@@ -55,6 +56,7 @@ const getPolygonCoordinates = (geometry: Geometry): Coordinate[] => {
 export const useCoordinateLabels = (map: IMap) => {
   const sourceRef = useRef<VectorSource>(new VectorSource({ wrapX: false }));
   const layerRef = useRef<VectorLayer<Feature<Geometry>> | null>(null);
+  const { setCoordinates, clearCoordinates: clearStoreCoordinates } = useCoordinates();
 
   useEffect(() => {
     const layer = new VectorLayer({
@@ -72,7 +74,8 @@ export const useCoordinateLabels = (map: IMap) => {
 
   const clearLabels = useCallback(() => {
     sourceRef.current.clear();
-  }, []);
+    clearStoreCoordinates();
+  }, [clearStoreCoordinates]);
 
   const updateLabels = useCallback(
     (geometry: Geometry | undefined) => {
@@ -83,6 +86,7 @@ export const useCoordinateLabels = (map: IMap) => {
       }
 
       const coordinates = getPolygonCoordinates(geometry);
+      const coordinateLabels: ICoordinateLabel[] = [];
 
       coordinates.forEach((coord, index) => {
         const formattedCoord = formatCoordinate(coord);
@@ -92,9 +96,17 @@ export const useCoordinateLabels = (map: IMap) => {
 
         pointFeature.setStyle(createLabelStyle(index, formattedCoord));
         sourceRef.current.addFeature(pointFeature);
+
+        coordinateLabels.push({
+          index,
+          coordinate: coord,
+          formatted: formattedCoord,
+        });
       });
+
+      setCoordinates(coordinateLabels);
     },
-    [clearLabels]
+    [clearLabels, setCoordinates]
   );
 
   return {
