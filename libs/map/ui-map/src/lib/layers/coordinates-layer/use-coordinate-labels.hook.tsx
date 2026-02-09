@@ -1,24 +1,14 @@
 import { ICoordinateLabel, useCoordinates } from '@ukri/map/data-access-map';
-import { Coordinate } from 'ol/coordinate';
 import Feature from 'ol/Feature';
-import { Circle as OlCircle, Geometry, Point, Polygon } from 'ol/geom';
+import { Geometry, Point } from 'ol/geom';
 import VectorLayer from 'ol/layer/Vector';
-import { transform } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import { Fill, Stroke, Style, Text } from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 
-import { IMap } from '../../map.component';
-
-const SOURCE_PROJECTION = 'EPSG:3857';
-const TARGET_PROJECTION = 'EPSG:4326';
-const COORDINATE_PRECISION = 5;
-
-const formatCoordinate = (coord: Coordinate): string => {
-  const [longitude, latitude] = transform(coord, SOURCE_PROJECTION, TARGET_PROJECTION);
-  return `${latitude.toFixed(COORDINATE_PRECISION)}°, ${longitude.toFixed(COORDINATE_PRECISION)}°`;
-};
+import { MapContext } from '../../map.component';
+import { formatCoordinate, getPolygonCoordinates } from './utils';
 
 const createLabelStyle = (text: string): Style => {
   return new Style({
@@ -40,20 +30,8 @@ const createLabelStyle = (text: string): Style => {
   });
 };
 
-const getPolygonCoordinates = (geometry: Geometry): Coordinate[] => {
-  if (geometry instanceof Polygon) {
-    const coords = geometry.getCoordinates()[0];
-    return coords.slice(0, -1);
-  }
-
-  if (geometry instanceof OlCircle) {
-    return [geometry.getCenter()];
-  }
-
-  return [];
-};
-
-export const useCoordinateLabels = (map: IMap) => {
+export const useCoordinateLabels = () => {
+  const map = useContext(MapContext);
   const sourceRef = useRef<VectorSource>(new VectorSource({ wrapX: false }));
   const layerRef = useRef<VectorLayer<Feature<Geometry>> | null>(null);
   const {

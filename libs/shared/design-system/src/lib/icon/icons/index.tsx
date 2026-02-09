@@ -41,4 +41,3 @@ export { default as Straighten } from './straighten';
 export { default as Success } from './success';
 export { default as OpenInNew } from './open-in-new';
 export { default as ResetFocus } from './reset-focus';
-export { default as Polyline } from './polyline';
