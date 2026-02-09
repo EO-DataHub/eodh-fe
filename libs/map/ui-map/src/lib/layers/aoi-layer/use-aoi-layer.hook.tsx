@@ -102,22 +102,22 @@ export const useAoiLayer = () => {
     draw.draw.setActive(!!drawingTool?.enabled);
   }, [draw?.draw, drawingTool?.enabled]);
 
-  useEffect(() => {
-    if (!draw?.draw) {
-      return;
+  const cleanupGeometryChangeListener = useCallback(() => {
+    if (geometryChangeListenerRef.current) {
+      geometryChangeListenerRef.current();
+      geometryChangeListenerRef.current = null;
     }
+  }, []);
 
-    const handleDrawStart = (event: DrawEvent) => {
+  const handleDrawStart = useCallback(
+    (event: DrawEvent) => {
       setShape(undefined);
       clearLabels();
       shouldPersistLabelsRef.current = false;
 
-      if (geometryChangeListenerRef.current) {
-        geometryChangeListenerRef.current();
-        geometryChangeListenerRef.current = null;
-      }
+      cleanupGeometryChangeListener();
 
-      if (draw.type === 'polygon') {
+      if (draw?.type === 'polygon') {
         const geometry = event.feature.getGeometry();
         if (geometry) {
           updateLabels(geometry);
@@ -131,17 +131,17 @@ export const useAoiLayer = () => {
           };
         }
       }
-    };
+    },
+    [setShape, clearLabels, draw?.type, updateLabels, cleanupGeometryChangeListener]
+  );
 
-    const handleDrawEnd = (event: DrawEvent) => {
-      if (geometryChangeListenerRef.current) {
-        geometryChangeListenerRef.current();
-        geometryChangeListenerRef.current = null;
-      }
+  const handleDrawEnd = useCallback(
+    (event: DrawEvent) => {
+      cleanupGeometryChangeListener();
 
       const geometry = event.feature.getGeometry();
 
-      if (draw.type === 'polygon' && geometry) {
+      if (draw?.type === 'polygon' && geometry) {
         updateLabels(geometry, true);
         shouldPersistLabelsRef.current = true;
       } else {
@@ -149,26 +149,35 @@ export const useAoiLayer = () => {
         shouldPersistLabelsRef.current = false;
       }
 
-      map.removeInteraction(draw.draw);
-      setShape({ type: draw.type, shape: geometry });
+      if (draw?.draw) {
+        map.removeInteraction(draw.draw);
+      }
+
+      if (draw?.type) {
+        setShape({ type: draw.type, shape: geometry });
+      }
       setDrawingTool(undefined);
-    };
+    },
+    [draw?.type, draw?.draw, updateLabels, clearLabels, map, setShape, setDrawingTool, cleanupGeometryChangeListener]
+  );
+
+  useEffect(() => {
+    if (!draw?.draw) {
+      return;
+    }
 
     draw.draw.on('drawstart', handleDrawStart);
     draw.draw.on('drawend', handleDrawEnd);
     map.addInteraction(draw.draw);
 
     return () => {
-      if (geometryChangeListenerRef.current) {
-        geometryChangeListenerRef.current();
-        geometryChangeListenerRef.current = null;
-      }
+      cleanupGeometryChangeListener();
       if (!shouldPersistLabelsRef.current) {
         clearLabels();
       }
       map.removeInteraction(draw.draw);
     };
-  }, [map, draw, setShape, setDrawingTool, updateLabels, clearLabels]);
+  }, [map, draw?.draw, handleDrawStart, handleDrawEnd, clearLabels, cleanupGeometryChangeListener]);
 
   useEffect(() => {
     switch (drawingTool?.type) {
