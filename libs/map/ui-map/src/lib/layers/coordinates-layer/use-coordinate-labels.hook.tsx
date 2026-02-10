@@ -7,23 +7,23 @@ import { Fill, Stroke, Style, Text } from 'ol/style';
 import CircleStyle from 'ol/style/Circle';
 import { useCallback, useContext, useEffect, useRef } from 'react';
 
+import { coordinatesLayerZindex } from '../../consts';
 import { MapContext } from '../../map.component';
 import { formatCoordinate, getPolygonCoordinates } from './utils';
 
 const createLabelStyle = (text: string): Style => {
   return new Style({
     image: new CircleStyle({
-      radius: 3,
+      radius: 2,
       fill: new Fill({ color: '#3b82f6' }),
     }),
     text: new Text({
       text: text,
       font: 'bold 12px poppins',
       fill: new Fill({ color: '#000' }),
-      stroke: new Stroke({ color: '#fff', width: 8 }),
+      stroke: new Stroke({ color: '#fff', width: 4 }),
       backgroundFill: new Fill({ color: 'transparent' }),
       padding: [4, 8, 4, 8],
-      offsetY: -24,
       textAlign: 'center',
       textBaseline: 'bottom',
     }),
@@ -48,6 +48,7 @@ export const useCoordinateLabels = () => {
     }
     const layer = new VectorLayer({
       source: sourceRef.current,
+      zIndex: coordinatesLayerZindex,
     });
 
     map.addLayer(layer);

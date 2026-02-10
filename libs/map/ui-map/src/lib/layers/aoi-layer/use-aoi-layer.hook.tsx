@@ -22,7 +22,7 @@ export const useAoiLayer = () => {
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
-  const { updateLabels, clearLabels } = useCoordinateLabels(map);
+  const { updateLabels, clearLabels } = useCoordinateLabels();
   const geometryChangeListenerRef = useRef<(() => void) | null>(null);
   const shouldPersistLabelsRef = useRef<boolean>(false);
 

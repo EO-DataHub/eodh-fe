@@ -19,3 +19,8 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+.ol-zoom button:not(.ol-disabled) {
+  width: 27.5px;
+  height: 27.5px;
+}
