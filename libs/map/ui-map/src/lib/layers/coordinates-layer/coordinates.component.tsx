@@ -1,8 +1,8 @@
 import { useAoi } from '@ukri/map/data-access-map';
 
 export const Coordinates = () => {
-  const { coordinates, drawingCompleted } = useAoi();
-  const displayCoordinate = drawingCompleted ? coordinates[0] : coordinates[coordinates.length - 1];
+  const { coordinateLabels, drawingCompleted } = useAoi();
+  const displayCoordinate = drawingCompleted ? coordinateLabels[0] : coordinateLabels[coordinateLabels.length - 1];
 
   if (!displayCoordinate) {
     return null;

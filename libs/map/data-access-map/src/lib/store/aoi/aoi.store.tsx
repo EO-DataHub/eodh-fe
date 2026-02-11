@@ -13,7 +13,6 @@ export const useAoiStore = create<IAoiStore>()(
     drawingTool: undefined,
     coordinates: undefined,
     fitToAoi: false,
-    // Coordinate labels state
     coordinateLabels: [] as ICoordinateLabel[],
     coordinateLabelsVisible: true,
     drawingCompleted: false,
@@ -76,11 +75,7 @@ export const getAoiStoreState = (): TAoiStoreState => {
   return { ...rest };
 };
 
-export const useAoi = (): Omit<IAoiStore, 'coordinates'> & {
-  coordinates: ICoordinateLabel[];
-  setCoordinates: (coordinates: ICoordinateLabel[]) => void;
-  clearCoordinates: () => void;
-} => {
+export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
   return useAoiStore((state) => ({
     fitToAoi: state.fitToAoi,
     state: state.state,
@@ -103,9 +98,5 @@ export const useAoi = (): Omit<IAoiStore, 'coordinates'> & {
     clearCoordinateLabels: state.clearCoordinateLabels,
     toggleCoordinateLabelsVisibility: state.toggleCoordinateLabelsVisibility,
     setDrawingCompleted: state.setDrawingCompleted,
-    // Aliases for backward compatibility
-    coordinates: state.coordinateLabels,
-    setCoordinates: state.setCoordinateLabels,
-    clearCoordinates: state.clearCoordinateLabels,
   }));
 };

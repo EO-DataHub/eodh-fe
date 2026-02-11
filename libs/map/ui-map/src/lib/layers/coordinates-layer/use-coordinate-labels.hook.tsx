@@ -35,8 +35,8 @@ export const useCoordinateLabels = () => {
   const sourceRef = useRef<VectorSource>(new VectorSource({ wrapX: false }));
   const layerRef = useRef<VectorLayer<Feature<Geometry>> | null>(null);
   const {
-    setCoordinates,
-    clearCoordinates: clearStoreCoordinates,
+    setCoordinateLabels,
+    clearCoordinateLabels: clearStoreCoordinateLabels,
     coordinateLabelsVisible,
     toggleCoordinateLabelsVisibility,
     setDrawingCompleted,
@@ -71,9 +71,9 @@ export const useCoordinateLabels = () => {
 
   const clearLabels = useCallback(() => {
     sourceRef.current.clear();
-    clearStoreCoordinates();
+    clearStoreCoordinateLabels();
     setDrawingCompleted(false);
-  }, [clearStoreCoordinates, setDrawingCompleted]);
+  }, [clearStoreCoordinateLabels, setDrawingCompleted]);
 
   const updateLabels = useCallback(
     (geometry: Geometry | undefined, isCompleted = false) => {
@@ -99,10 +99,10 @@ export const useCoordinateLabels = () => {
           formatted: formattedCoord,
         });
       });
-      setCoordinates(coordinateLabels);
+      setCoordinateLabels(coordinateLabels);
       setDrawingCompleted(isCompleted);
     },
-    [clearLabels, setCoordinates, setDrawingCompleted]
+    [clearLabels, setCoordinateLabels, setDrawingCompleted]
   );
 
   return {
