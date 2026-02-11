@@ -34,11 +34,7 @@ export const useCoordinateLabels = () => {
   const map = useContext(MapContext);
   const sourceRef = useRef<VectorSource>(new VectorSource({ wrapX: false }));
   const layerRef = useRef<VectorLayer<Feature<Geometry>> | null>(null);
-  const {
-    coordinateLabelsVisible,
-    setDrawingCompleted,
-    setCurrentDrawingCoordinates,
-  } = useAoi();
+  const { coordinateLabelsVisible, setDrawingCompleted, setCurrentDrawingCoordinates } = useAoi();
 
   useEffect(() => {
     const layer = new VectorLayer({
