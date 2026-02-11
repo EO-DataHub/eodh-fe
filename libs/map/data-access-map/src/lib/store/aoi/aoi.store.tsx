@@ -4,18 +4,18 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { createShape, getCoordinates } from '../../geometry/geometry';
-import { IAoiStore, ICoordinateLabel, TAoiState, TAoiStoreState, TDrawingTool } from './aoi.model';
+import { IAoiStore, TAoiState, TAoiStoreState, TDrawingTool } from './aoi.model';
 
 export const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
-    state: 'edit',
+    state: 'edit' as TAoiState,
     shape: undefined,
     drawingTool: undefined,
     coordinates: undefined,
     fitToAoi: false,
-    coordinateLabels: [] as ICoordinateLabel[],
     coordinateLabelsVisible: true,
     drawingCompleted: false,
+    visible: true,
     setFitToAoi: (fitToAoi: boolean) =>
       set(() => ({
         fitToAoi: fitToAoi !== undefined ? fitToAoi : undefined,
@@ -41,7 +41,6 @@ export const useAoiStore = create<IAoiStore>()(
           coordinates: getCoordinates({ type: state.shape.type, shape }),
         };
       }),
-    visible: true,
     toggleVisibility: () => set((state) => ({ visible: !state.visible })),
     show: () => set(() => ({ visible: true })),
     hide: () => set(() => ({ visible: false })),
@@ -59,8 +58,6 @@ export const useAoiStore = create<IAoiStore>()(
           },
         };
       }),
-    setCoordinateLabels: (coordinateLabels) => set(() => ({ coordinateLabels })),
-    clearCoordinateLabels: () => set(() => ({ coordinateLabels: [], drawingCompleted: false })),
     toggleCoordinateLabelsVisibility: () =>
       set((state) => ({ coordinateLabelsVisible: !state.coordinateLabelsVisible })),
     setDrawingCompleted: (drawingCompleted) => set(() => ({ drawingCompleted })),
@@ -90,11 +87,8 @@ export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
     toggleDrawingToolShape: state.toggleDrawingToolShape,
     setDrawingTool: state.setDrawingTool,
     setFitToAoi: state.setFitToAoi,
-    coordinateLabels: state.coordinateLabels,
     coordinateLabelsVisible: state.coordinateLabelsVisible,
     drawingCompleted: state.drawingCompleted,
-    setCoordinateLabels: state.setCoordinateLabels,
-    clearCoordinateLabels: state.clearCoordinateLabels,
     toggleCoordinateLabelsVisibility: state.toggleCoordinateLabelsVisibility,
     setDrawingCompleted: state.setDrawingCompleted,
   }));

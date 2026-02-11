@@ -32,12 +32,9 @@ export interface IAoiStore {
   changeState: (state: TAoiState) => void;
   toggleDrawingToolShape: (shape: TDrawingTool['type']) => void;
   setDrawingTool: (drawingTool?: TDrawingTool) => void;
-  coordinateLabels: ICoordinateLabel[];
   coordinateLabelsVisible: boolean;
-  drawingCompleted: boolean;
-  setCoordinateLabels: (coordinates: ICoordinateLabel[]) => void;
-  clearCoordinateLabels: () => void;
   toggleCoordinateLabelsVisibility: () => void;
+  drawingCompleted: boolean;
   setDrawingCompleted: (completed: boolean) => void;
 }
 

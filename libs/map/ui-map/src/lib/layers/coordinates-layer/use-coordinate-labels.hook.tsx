@@ -1,4 +1,4 @@
-import { ICoordinateLabel, useAoi } from '@ukri/map/data-access-map';
+import { useAoi } from '@ukri/map/data-access-map';
 import Feature from 'ol/Feature';
 import { Geometry, Point } from 'ol/geom';
 import VectorLayer from 'ol/layer/Vector';
@@ -35,8 +35,6 @@ export const useCoordinateLabels = () => {
   const sourceRef = useRef<VectorSource>(new VectorSource({ wrapX: false }));
   const layerRef = useRef<VectorLayer<Feature<Geometry>> | null>(null);
   const {
-    setCoordinateLabels,
-    clearCoordinateLabels: clearStoreCoordinateLabels,
     coordinateLabelsVisible,
     toggleCoordinateLabelsVisibility,
     setDrawingCompleted,
@@ -71,9 +69,8 @@ export const useCoordinateLabels = () => {
 
   const clearLabels = useCallback(() => {
     sourceRef.current.clear();
-    clearStoreCoordinateLabels();
     setDrawingCompleted(false);
-  }, [clearStoreCoordinateLabels, setDrawingCompleted]);
+  }, [setDrawingCompleted]);
 
   const updateLabels = useCallback(
     (geometry: Geometry | undefined, isCompleted = false) => {
@@ -84,25 +81,19 @@ export const useCoordinateLabels = () => {
       }
 
       const coordinates = getPolygonCoordinates(geometry);
-      const coordinateLabels: ICoordinateLabel[] = [];
 
-      coordinates.forEach((coord, index) => {
+      coordinates.forEach((coord) => {
         const formattedCoord = formatCoordinate(coord);
         const pointFeature = new Feature({
           geometry: new Point(coord),
         });
         pointFeature.setStyle(createLabelStyle(formattedCoord));
         sourceRef.current.addFeature(pointFeature);
-        coordinateLabels.push({
-          index,
-          coordinate: coord,
-          formatted: formattedCoord,
-        });
       });
-      setCoordinateLabels(coordinateLabels);
+
       setDrawingCompleted(isCompleted);
     },
-    [clearLabels, setCoordinateLabels, setDrawingCompleted]
+    [clearLabels, setDrawingCompleted]
   );
 
   return {

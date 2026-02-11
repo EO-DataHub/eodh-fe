@@ -8,9 +8,9 @@ interface ICoordinatesPanelProps {
 }
 
 export const CoordinatesPanel = ({ className }: ICoordinatesPanelProps) => {
-  const { coordinateLabels, toggleCoordinateLabelsVisibility, coordinateLabelsVisible } = useAoi();
+  const { shape, toggleCoordinateLabelsVisibility, coordinateLabelsVisible } = useAoi();
 
-  if (coordinateLabels.length === 0) {
+  if (!shape?.shape) {
     return null;
   }
 
