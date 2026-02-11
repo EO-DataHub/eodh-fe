@@ -1,7 +1,7 @@
-import { useCoordinates } from '@ukri/map/data-access-map';
+import { useAoi } from '@ukri/map/data-access-map';
 
 export const Coordinates = () => {
-  const { coordinates, drawingCompleted } = useCoordinates();
+  const { coordinates, drawingCompleted } = useAoi();
   const displayCoordinate = drawingCompleted ? coordinates[0] : coordinates[coordinates.length - 1];
 
   if (!displayCoordinate) {

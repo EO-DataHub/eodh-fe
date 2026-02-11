@@ -1,3 +1,4 @@
+import { Coordinate } from 'ol/coordinate';
 import { Geometry } from 'ol/geom';
 
 import { TCoordinate, TShape, TShapeType } from '../../geometry/shape.model';
@@ -8,6 +9,12 @@ export type TDrawingTool = {
   enabled: boolean;
   type: TShapeType;
 };
+
+export interface ICoordinateLabel {
+  index: number;
+  coordinate: Coordinate;
+  formatted: string;
+}
 
 export interface IAoiStore {
   state: TAoiState;
@@ -25,6 +32,14 @@ export interface IAoiStore {
   changeState: (state: TAoiState) => void;
   toggleDrawingToolShape: (shape: TDrawingTool['type']) => void;
   setDrawingTool: (drawingTool?: TDrawingTool) => void;
+  // Coordinate labels functionality
+  coordinateLabels: ICoordinateLabel[];
+  coordinateLabelsVisible: boolean;
+  drawingCompleted: boolean;
+  setCoordinateLabels: (coordinates: ICoordinateLabel[]) => void;
+  clearCoordinateLabels: () => void;
+  toggleCoordinateLabelsVisibility: () => void;
+  setDrawingCompleted: (completed: boolean) => void;
 }
 
 export type TAoiStoreState = Omit<

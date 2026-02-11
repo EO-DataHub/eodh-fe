@@ -1,9 +1,8 @@
 export { useAoi } from './lib/store/aoi/aoi.store';
+export type { ICoordinateLabel } from './lib/store/aoi/aoi.model';
 export { parseGeoJSONFile } from './lib/store/aoi/aoi-import/geojson-parser';
 export { transformAreaValueCoordinates } from './lib/store/aoi/aoi-import/coordinate-transformer';
 export { useMeasureDistance } from './lib/store/measure-distance/measure-distance.store';
-export { useCoordinates } from './lib/store/coordinates/coordinates.store';
-export type { ICoordinateLabel } from './lib/store/coordinates/coordinates.model';
 export { createGeometry, getCoordinates } from './lib/geometry/geometry';
 export type { TUnit, TUnitType, TShapeType } from './lib/geometry/shape.model';
 export { getArea, convertUnits, getLineLength } from './lib/geometry/area-and-distance';

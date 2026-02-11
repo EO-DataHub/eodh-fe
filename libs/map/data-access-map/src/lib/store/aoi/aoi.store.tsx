@@ -4,15 +4,19 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 import { createShape, getCoordinates } from '../../geometry/geometry';
-import { IAoiStore, TAoiState, TAoiStoreState, TDrawingTool } from './aoi.model';
+import { IAoiStore, ICoordinateLabel, TAoiState, TAoiStoreState, TDrawingTool } from './aoi.model';
 
 export const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
-    state: 'edit',
+    state: 'edit' as TAoiState,
     shape: undefined,
     drawingTool: undefined,
     coordinates: undefined,
     fitToAoi: false,
+    // Coordinate labels state
+    coordinateLabels: [] as ICoordinateLabel[],
+    coordinateLabelsVisible: true,
+    drawingCompleted: false,
     setFitToAoi: (fitToAoi: boolean) =>
       set(() => ({
         fitToAoi: fitToAoi !== undefined ? fitToAoi : undefined,
@@ -56,6 +60,12 @@ export const useAoiStore = create<IAoiStore>()(
           },
         };
       }),
+    // Coordinate labels actions
+    setCoordinateLabels: (coordinateLabels) => set(() => ({ coordinateLabels })),
+    clearCoordinateLabels: () => set(() => ({ coordinateLabels: [], drawingCompleted: false })),
+    toggleCoordinateLabelsVisibility: () =>
+      set((state) => ({ coordinateLabelsVisible: !state.coordinateLabelsVisible })),
+    setDrawingCompleted: (drawingCompleted) => set(() => ({ drawingCompleted })),
   }))
 );
 
@@ -66,7 +76,11 @@ export const getAoiStoreState = (): TAoiStoreState => {
   return { ...rest };
 };
 
-export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
+export const useAoi = (): Omit<IAoiStore, 'coordinates'> & {
+  coordinates: ICoordinateLabel[];
+  setCoordinates: (coordinates: ICoordinateLabel[]) => void;
+  clearCoordinates: () => void;
+} => {
   return useAoiStore((state) => ({
     fitToAoi: state.fitToAoi,
     state: state.state,
@@ -82,5 +96,16 @@ export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
     toggleDrawingToolShape: state.toggleDrawingToolShape,
     setDrawingTool: state.setDrawingTool,
     setFitToAoi: state.setFitToAoi,
+    coordinateLabels: state.coordinateLabels,
+    coordinateLabelsVisible: state.coordinateLabelsVisible,
+    drawingCompleted: state.drawingCompleted,
+    setCoordinateLabels: state.setCoordinateLabels,
+    clearCoordinateLabels: state.clearCoordinateLabels,
+    toggleCoordinateLabelsVisibility: state.toggleCoordinateLabelsVisibility,
+    setDrawingCompleted: state.setDrawingCompleted,
+    // Aliases for backward compatibility
+    coordinates: state.coordinateLabels,
+    setCoordinates: state.setCoordinateLabels,
+    clearCoordinates: state.clearCoordinateLabels,
   }));
 };

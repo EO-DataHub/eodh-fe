@@ -1,4 +1,4 @@
-import { ICoordinateLabel, useCoordinates } from '@ukri/map/data-access-map';
+import { ICoordinateLabel, useAoi } from '@ukri/map/data-access-map';
 import Feature from 'ol/Feature';
 import { Geometry, Point } from 'ol/geom';
 import VectorLayer from 'ol/layer/Vector';
@@ -37,14 +37,14 @@ export const useCoordinateLabels = () => {
   const {
     setCoordinates,
     clearCoordinates: clearStoreCoordinates,
-    visible,
-    toggleVisibility,
+    coordinateLabelsVisible,
+    toggleCoordinateLabelsVisibility,
     setDrawingCompleted,
-  } = useCoordinates();
+  } = useAoi();
 
   useEffect(() => {
-    if (!visible) {
-      toggleVisibility();
+    if (!coordinateLabelsVisible) {
+      toggleCoordinateLabelsVisibility();
     }
     const layer = new VectorLayer({
       source: sourceRef.current,
@@ -62,12 +62,12 @@ export const useCoordinateLabels = () => {
   }, [map]);
 
   useEffect(() => {
-    if (layerRef.current && !visible) {
+    if (layerRef.current && !coordinateLabelsVisible) {
       layerRef.current.setVisible(false);
     } else {
       layerRef.current?.setVisible(true);
     }
-  }, [visible]);
+  }, [coordinateLabelsVisible]);
 
   const clearLabels = useCallback(() => {
     sourceRef.current.clear();

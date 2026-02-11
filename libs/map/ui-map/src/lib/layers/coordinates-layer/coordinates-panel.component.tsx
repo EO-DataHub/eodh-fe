@@ -1,4 +1,4 @@
-import { useCoordinates } from '@ukri/map/data-access-map';
+import { useAoi } from '@ukri/map/data-access-map';
 import { Icon } from '@ukri/shared/design-system';
 
 import { Coordinates } from './coordinates.component';
@@ -8,7 +8,7 @@ interface ICoordinatesPanelProps {
 }
 
 export const CoordinatesPanel = ({ className }: ICoordinatesPanelProps) => {
-  const { coordinates, toggleVisibility, visible } = useCoordinates();
+  const { coordinates, toggleCoordinateLabelsVisibility, coordinateLabelsVisible } = useAoi();
 
   if (coordinates.length === 0) {
     return null;
@@ -20,11 +20,11 @@ export const CoordinatesPanel = ({ className }: ICoordinatesPanelProps) => {
         <Icon name='Polygon' width={24} height={24} className='text-neutral-light' />
         <Coordinates />
         <Icon
-          onClick={toggleVisibility}
-          name={visible ? 'Visibility' : 'VisibilityOff'}
+          onClick={toggleCoordinateLabelsVisibility}
+          name={coordinateLabelsVisible ? 'Visibility' : 'VisibilityOff'}
           width={24}
           height={24}
-          className={`cursor-pointer ${visible ? 'text-primary-main' : 'text-neutral-light'}`}
+          className={`cursor-pointer ${coordinateLabelsVisible ? 'text-primary-main' : 'text-neutral-light'}`}
         />
       </div>
     </div>
