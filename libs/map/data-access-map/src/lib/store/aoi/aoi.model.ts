@@ -10,12 +10,6 @@ export type TDrawingTool = {
   type: TShapeType;
 };
 
-export interface ICoordinateLabel {
-  index: number;
-  coordinate: Coordinate;
-  formatted: string;
-}
-
 export interface IAoiStore {
   state: TAoiState;
   coordinates: TCoordinate | undefined;

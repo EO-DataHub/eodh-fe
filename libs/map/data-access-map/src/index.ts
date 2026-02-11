@@ -1,5 +1,4 @@
 export { useAoi } from './lib/store/aoi/aoi.store';
-export type { ICoordinateLabel } from './lib/store/aoi/aoi.model';
 export { parseGeoJSONFile } from './lib/store/aoi/aoi-import/geojson-parser';
 export { transformAreaValueCoordinates } from './lib/store/aoi/aoi-import/coordinate-transformer';
 export { useMeasureDistance } from './lib/store/measure-distance/measure-distance.store';
