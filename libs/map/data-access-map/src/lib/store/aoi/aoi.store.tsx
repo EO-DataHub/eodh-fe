@@ -1,5 +1,6 @@
 import type {} from '@redux-devtools/extension';
 import isFunction from 'lodash/isFunction';
+import { Coordinate } from 'ol/coordinate';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -8,13 +9,14 @@ import { IAoiStore, TAoiState, TAoiStoreState, TDrawingTool } from './aoi.model'
 
 export const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
-    state: 'edit' as TAoiState,
+    state: 'edit',
     shape: undefined,
     drawingTool: undefined,
     coordinates: undefined,
     fitToAoi: false,
     coordinateLabelsVisible: true,
     drawingCompleted: false,
+    currentDrawingCoordinates: [] as Coordinate[],
     visible: true,
     setFitToAoi: (fitToAoi: boolean) =>
       set(() => ({
@@ -61,6 +63,7 @@ export const useAoiStore = create<IAoiStore>()(
     toggleCoordinateLabelsVisibility: () =>
       set((state) => ({ coordinateLabelsVisible: !state.coordinateLabelsVisible })),
     setDrawingCompleted: (drawingCompleted) => set(() => ({ drawingCompleted })),
+    setCurrentDrawingCoordinates: (currentDrawingCoordinates) => set(() => ({ currentDrawingCoordinates })),
   }))
 );
 
@@ -89,7 +92,9 @@ export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
     setFitToAoi: state.setFitToAoi,
     coordinateLabelsVisible: state.coordinateLabelsVisible,
     drawingCompleted: state.drawingCompleted,
+    currentDrawingCoordinates: state.currentDrawingCoordinates,
     toggleCoordinateLabelsVisibility: state.toggleCoordinateLabelsVisibility,
     setDrawingCompleted: state.setDrawingCompleted,
+    setCurrentDrawingCoordinates: state.setCurrentDrawingCoordinates,
   }));
 };

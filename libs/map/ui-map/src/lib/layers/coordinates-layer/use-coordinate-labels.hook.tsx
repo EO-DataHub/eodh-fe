@@ -36,17 +36,15 @@ export const useCoordinateLabels = () => {
   const layerRef = useRef<VectorLayer<Feature<Geometry>> | null>(null);
   const {
     coordinateLabelsVisible,
-    toggleCoordinateLabelsVisibility,
     setDrawingCompleted,
+    setCurrentDrawingCoordinates,
   } = useAoi();
 
   useEffect(() => {
-    if (!coordinateLabelsVisible) {
-      toggleCoordinateLabelsVisibility();
-    }
     const layer = new VectorLayer({
       source: sourceRef.current,
       zIndex: coordinatesLayerZindex,
+      visible: coordinateLabelsVisible,
     });
 
     map.addLayer(layer);
@@ -56,8 +54,7 @@ export const useCoordinateLabels = () => {
       map.removeLayer(layer);
       layerRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map]);
+  }, [map, coordinateLabelsVisible]);
 
   useEffect(() => {
     if (layerRef.current && !coordinateLabelsVisible) {
@@ -70,7 +67,8 @@ export const useCoordinateLabels = () => {
   const clearLabels = useCallback(() => {
     sourceRef.current.clear();
     setDrawingCompleted(false);
-  }, [setDrawingCompleted]);
+    setCurrentDrawingCoordinates([]);
+  }, [setDrawingCompleted, setCurrentDrawingCoordinates]);
 
   const updateLabels = useCallback(
     (geometry: Geometry | undefined, isCompleted = false) => {
@@ -92,8 +90,9 @@ export const useCoordinateLabels = () => {
       });
 
       setDrawingCompleted(isCompleted);
+      setCurrentDrawingCoordinates(coordinates);
     },
-    [clearLabels, setDrawingCompleted]
+    [clearLabels, setDrawingCompleted, setCurrentDrawingCoordinates]
   );
 
   return {

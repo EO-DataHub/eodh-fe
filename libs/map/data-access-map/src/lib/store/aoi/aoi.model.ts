@@ -36,6 +36,8 @@ export interface IAoiStore {
   toggleCoordinateLabelsVisibility: () => void;
   drawingCompleted: boolean;
   setDrawingCompleted: (completed: boolean) => void;
+  currentDrawingCoordinates: Coordinate[];
+  setCurrentDrawingCoordinates: (coordinates: Coordinate[]) => void;
 }
 
 export type TAoiStoreState = Omit<

@@ -1,19 +1,14 @@
 import { useAoi } from '@ukri/map/data-access-map';
+import { Coordinate } from 'ol/coordinate';
 
-import { formatCoordinate, getPolygonCoordinates } from './utils';
+import { formatCoordinate } from './utils';
 
-export const Coordinates = () => {
-  const { shape, drawingCompleted } = useAoi();
+interface ICoordinates {
+  coordinates: Coordinate[];
+}
 
-  if (!shape?.shape) {
-    return null;
-  }
-
-  const coordinates = getPolygonCoordinates(shape.shape);
-
-  if (coordinates.length === 0) {
-    return null;
-  }
+export const Coordinates = ({ coordinates }: ICoordinates) => {
+  const { drawingCompleted } = useAoi();
 
   const displayCoordinate = drawingCompleted ? coordinates[0] : coordinates[coordinates.length - 1];
   const formattedCoordinate = formatCoordinate(displayCoordinate);
