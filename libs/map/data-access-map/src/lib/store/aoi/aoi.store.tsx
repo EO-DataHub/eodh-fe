@@ -8,7 +8,7 @@ import { IAoiStore, ICoordinateLabel, TAoiState, TAoiStoreState, TDrawingTool } 
 
 export const useAoiStore = create<IAoiStore>()(
   devtools((set) => ({
-    state: 'edit' as TAoiState,
+    state: 'edit',
     shape: undefined,
     drawingTool: undefined,
     coordinates: undefined,
@@ -59,7 +59,6 @@ export const useAoiStore = create<IAoiStore>()(
           },
         };
       }),
-    // Coordinate labels actions
     setCoordinateLabels: (coordinateLabels) => set(() => ({ coordinateLabels })),
     clearCoordinateLabels: () => set(() => ({ coordinateLabels: [], drawingCompleted: false })),
     toggleCoordinateLabelsVisibility: () =>
