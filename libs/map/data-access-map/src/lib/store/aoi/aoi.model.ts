@@ -30,6 +30,7 @@ export interface IAoiStore {
   toggleCoordinateLabelsVisibility: () => void;
   drawingCompleted: boolean;
   setDrawingCompleted: (completed: boolean) => void;
+  // TODO: Handle coordinates via OpenLayers, this will be removed in the future
   currentDrawingCoordinates: Coordinate[];
   setCurrentDrawingCoordinates: (coordinates: Coordinate[]) => void;
 }
