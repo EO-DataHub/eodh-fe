@@ -1,6 +1,7 @@
 import { ActionCreatorPanel } from '@ukri/map/feature-action-creator-panel';
 import {
   ComparisonModeLayer,
+  CoordinatesPanel,
   FootprintLayer,
   Map,
   MapWrapper,
@@ -27,6 +28,7 @@ export const DefaultLayout = () => {
             <LeftMenu />
             <div className='flex w-full h-full flex-col'>
               <Map className='flex w-full h-full'>
+                <CoordinatesPanel className='z-30' />
                 <Legend config={legendConfig} />
                 <TrueColorImageLayer />
                 <FootprintLayer />

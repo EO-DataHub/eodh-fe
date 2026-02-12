@@ -1,5 +1,6 @@
 import type {} from '@redux-devtools/extension';
 import isFunction from 'lodash/isFunction';
+import { Coordinate } from 'ol/coordinate';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
@@ -13,6 +14,10 @@ export const useAoiStore = create<IAoiStore>()(
     drawingTool: undefined,
     coordinates: undefined,
     fitToAoi: false,
+    coordinateLabelsVisible: true,
+    drawingCompleted: false,
+    currentDrawingCoordinates: [] as Coordinate[],
+    visible: true,
     setFitToAoi: (fitToAoi: boolean) =>
       set(() => ({
         fitToAoi: fitToAoi !== undefined ? fitToAoi : undefined,
@@ -38,7 +43,6 @@ export const useAoiStore = create<IAoiStore>()(
           coordinates: getCoordinates({ type: state.shape.type, shape }),
         };
       }),
-    visible: true,
     toggleVisibility: () => set((state) => ({ visible: !state.visible })),
     show: () => set(() => ({ visible: true })),
     hide: () => set(() => ({ visible: false })),
@@ -56,6 +60,10 @@ export const useAoiStore = create<IAoiStore>()(
           },
         };
       }),
+    toggleCoordinateLabelsVisibility: () =>
+      set((state) => ({ coordinateLabelsVisible: !state.coordinateLabelsVisible })),
+    setDrawingCompleted: (drawingCompleted) => set(() => ({ drawingCompleted })),
+    setCurrentDrawingCoordinates: (currentDrawingCoordinates) => set(() => ({ currentDrawingCoordinates })),
   }))
 );
 
@@ -82,5 +90,11 @@ export const useAoi = (): Omit<IAoiStore, 'coordinates'> => {
     toggleDrawingToolShape: state.toggleDrawingToolShape,
     setDrawingTool: state.setDrawingTool,
     setFitToAoi: state.setFitToAoi,
+    coordinateLabelsVisible: state.coordinateLabelsVisible,
+    drawingCompleted: state.drawingCompleted,
+    currentDrawingCoordinates: state.currentDrawingCoordinates,
+    toggleCoordinateLabelsVisibility: state.toggleCoordinateLabelsVisibility,
+    setDrawingCompleted: state.setDrawingCompleted,
+    setCurrentDrawingCoordinates: state.setCurrentDrawingCoordinates,
   }));
 };

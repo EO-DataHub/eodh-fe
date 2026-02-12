@@ -1,3 +1,4 @@
+import { Coordinate } from 'ol/coordinate';
 import { Geometry } from 'ol/geom';
 
 import { TCoordinate, TShape, TShapeType } from '../../geometry/shape.model';
@@ -25,6 +26,12 @@ export interface IAoiStore {
   changeState: (state: TAoiState) => void;
   toggleDrawingToolShape: (shape: TDrawingTool['type']) => void;
   setDrawingTool: (drawingTool?: TDrawingTool) => void;
+  coordinateLabelsVisible: boolean;
+  toggleCoordinateLabelsVisibility: () => void;
+  drawingCompleted: boolean;
+  setDrawingCompleted: (completed: boolean) => void;
+  currentDrawingCoordinates: Coordinate[];
+  setCurrentDrawingCoordinates: (coordinates: Coordinate[]) => void;
 }
 
 export type TAoiStoreState = Omit<

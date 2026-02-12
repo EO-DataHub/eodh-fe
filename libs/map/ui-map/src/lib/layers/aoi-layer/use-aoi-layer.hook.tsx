@@ -6,10 +6,11 @@ import { DrawEvent } from 'ol/interaction/Draw';
 import { createBox } from 'ol/interaction/Draw.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { aoiLayerZindex } from '../../consts';
 import { MapContext } from '../../map.component';
+import { useCoordinateLabels } from '../coordinates-layer/use-coordinate-labels.hook';
 import { TVectorLayer } from './aoi-layer.component';
 
 export type TDraw = { draw: Draw; type: 'rectangle' | 'polygon' | 'circle' };
@@ -21,6 +22,9 @@ export const useAoiLayer = () => {
   const [draw, setDraw] = useState<TDraw | undefined>(undefined);
   const [layer, setLayer] = useState<TVectorLayer | undefined>(undefined);
   const [source, setSource] = useState<VectorSource | undefined>(undefined);
+  const { updateLabels, clearLabels } = useCoordinateLabels();
+  const geometryChangeListenerRef = useRef<(() => void) | null>(null);
+  const shouldPersistLabelsRef = useRef<boolean>(false);
 
   const fitToLayer = useCallback(
     (extent: Extent) => {
@@ -65,12 +69,22 @@ export const useAoiLayer = () => {
     source.clear();
 
     if (!shape?.shape) {
+      clearLabels();
+      shouldPersistLabelsRef.current = false;
       return;
     }
 
     const feature = new Feature();
     feature.setGeometry(shape.shape);
     source?.addFeature(feature);
+
+    if (shape.type === 'polygon') {
+      updateLabels(shape.shape, true);
+      shouldPersistLabelsRef.current = true;
+    } else {
+      clearLabels();
+      shouldPersistLabelsRef.current = false;
+    }
 
     if (fitToAoi) {
       fitToLayer(shape.shape.getExtent());
@@ -79,7 +93,7 @@ export const useAoiLayer = () => {
     return () => {
       source?.removeFeature(feature);
     };
-  }, [shape?.shape, source, fitToAoi, fitToLayer]);
+  }, [shape?.shape, shape?.type, source, fitToAoi, fitToLayer, updateLabels, clearLabels]);
 
   useEffect(() => {
     if (!draw?.draw) {
@@ -88,23 +102,82 @@ export const useAoiLayer = () => {
     draw.draw.setActive(!!drawingTool?.enabled);
   }, [draw?.draw, drawingTool?.enabled]);
 
+  const cleanupGeometryChangeListener = useCallback(() => {
+    if (geometryChangeListenerRef.current) {
+      geometryChangeListenerRef.current();
+      geometryChangeListenerRef.current = null;
+    }
+  }, []);
+
+  const handleDrawStart = useCallback(
+    (event: DrawEvent) => {
+      setShape(undefined);
+      clearLabels();
+      shouldPersistLabelsRef.current = false;
+
+      cleanupGeometryChangeListener();
+
+      if (draw?.type === 'polygon') {
+        const geometry = event.feature.getGeometry();
+        if (geometry) {
+          updateLabels(geometry);
+
+          const changeKey = geometry.on('change', () => {
+            updateLabels(geometry);
+          });
+
+          geometryChangeListenerRef.current = () => {
+            geometry.un('change', changeKey.listener);
+          };
+        }
+      }
+    },
+    [setShape, clearLabels, draw?.type, updateLabels, cleanupGeometryChangeListener]
+  );
+
+  const handleDrawEnd = useCallback(
+    (event: DrawEvent) => {
+      cleanupGeometryChangeListener();
+
+      const geometry = event.feature.getGeometry();
+
+      if (draw?.type === 'polygon' && geometry) {
+        updateLabels(geometry, true);
+        shouldPersistLabelsRef.current = true;
+      } else {
+        clearLabels();
+        shouldPersistLabelsRef.current = false;
+      }
+
+      if (draw?.draw) {
+        map.removeInteraction(draw.draw);
+      }
+
+      if (draw?.type) {
+        setShape({ type: draw.type, shape: geometry });
+      }
+      setDrawingTool(undefined);
+    },
+    [draw?.type, draw?.draw, updateLabels, clearLabels, map, setShape, setDrawingTool, cleanupGeometryChangeListener]
+  );
+
   useEffect(() => {
     if (!draw?.draw) {
       return;
     }
 
-    draw.draw.on('drawstart', () => setShape(undefined));
-    draw.draw.on('drawend', (event: DrawEvent) => {
-      map.removeInteraction(draw.draw);
-      setShape({ type: draw.type, shape: event.feature.getGeometry() });
-      setDrawingTool(undefined);
-    });
+    draw.draw.on('drawstart', handleDrawStart);
+    draw.draw.on('drawend', handleDrawEnd);
     map.addInteraction(draw.draw);
 
     return () => {
+      cleanupGeometryChangeListener();
+      if (!shouldPersistLabelsRef.current) {
+        clearLabels();
+      }
       map.removeInteraction(draw.draw);
     };
-  }, [map, draw, setShape, setDrawingTool]);
+  }, [map, draw?.draw, handleDrawStart, handleDrawEnd, clearLabels, cleanupGeometryChangeListener]);
 
   useEffect(() => {
     switch (drawingTool?.type) {
