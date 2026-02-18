@@ -206,6 +206,16 @@ export const actionCreatorConfig: IHelpConfig = {
             },
           ],
         },
+        {
+          id: 'HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI',
+          question: `${T_Q}.GETTING_STARTED_WITH_AC.HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI.QUESTION`,
+          answer: [
+            {
+              type: 'text',
+              content: `${T_Q}.GETTING_STARTED_WITH_AC.HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI.ANSWER_TEXT`,
+            },
+          ],
+        },
       ],
     },
     {
