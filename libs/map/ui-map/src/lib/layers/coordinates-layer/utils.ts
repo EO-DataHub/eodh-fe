@@ -4,11 +4,18 @@ import { transform } from 'ol/proj';
 
 const SOURCE_PROJECTION = 'EPSG:3857';
 const TARGET_PROJECTION = 'EPSG:4326';
-const COORDINATE_PRECISION = 5;
+const COORDINATE_PRECISION = 4;
 
 export const formatCoordinate = (coord: Coordinate): string => {
   const [longitude, latitude] = transform(coord, SOURCE_PROJECTION, TARGET_PROJECTION);
-  return `${latitude.toFixed(COORDINATE_PRECISION)}°, ${longitude.toFixed(COORDINATE_PRECISION)}°`;
+
+  const latDir = latitude >= 0 ? 'N' : 'S';
+  const absLat = Math.abs(latitude);
+
+  const lonDir = longitude >= 0 ? 'E' : 'W';
+  const absLon = Math.abs(longitude);
+
+  return `${absLat.toFixed(COORDINATE_PRECISION)}° ${latDir}, ${absLon.toFixed(COORDINATE_PRECISION)}° ${lonDir}`;
 };
 
 export const getPolygonCoordinates = (geometry: Geometry): Coordinate[] => {

@@ -25,15 +25,15 @@ export const CoordinatesPanel = ({ className }: ICoordinatesPanelProps) => {
 
   return (
     <div className={`absolute left-16 top-2 ${className}`}>
-      <div className='bg-bright-main rounded-lg border-[1px] border-bright-dark p-4 flex flex-row items-start justify-between min-w-[250px] gap-2'>
-        <Icon name='Polygon' width={24} height={24} className='text-neutral-light' />
+      <div className='bg-bright-main rounded-lg border-[1px] border-bright-dark p-4 flex flex-row items-start justify-between gap-2 w-56 h-[52px]'>
+        <Icon name='Polygon' width={20} height={20} className='text-neutral-light' />
         <Coordinates coordinates={coordinates} />
         <Icon
           onClick={toggleCoordinateLabelsVisibility}
           name={coordinateLabelsVisible ? 'Visibility' : 'VisibilityOff'}
-          width={24}
-          height={24}
-          className={`cursor-pointer ${coordinateLabelsVisible ? 'text-primary-main' : 'text-neutral-light'}`}
+          width={20}
+          height={20}
+          className={`cursor-pointer text-primary-main`}
         />
       </div>
     </div>

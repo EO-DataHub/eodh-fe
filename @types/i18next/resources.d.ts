@@ -87,13 +87,678 @@ interface Resources {
         WORKFLOW_IMPORT: {
           WRONG_FILE: 'Wrong file format. Only JSON files with valid schemas can be imported.';
           SUCCESS: 'Workflow configuration file uploaded successfully.';
+          DATE_RANGE_ERROR: 'Invalid date range. Valid range is between {{dateMin}} and {{dateMax}}';
+          DATE_MIN_ERROR: 'Invalid date. Date from should be later';
+          DATE_MAX_ERROR: 'Invalid date. Date to should be earlier';
         };
       };
       NAVIGATION: {
         RETURN_TO_SEARCH: 'Return to the search menu';
       };
     };
+    APP: {
+      HELP: {
+        SHARED: {
+          ASSET: {
+            LAND_COVER: {
+              CORINE: {
+                TITLE: 'CORINE Land Cover';
+                CONTINUOUS_URBAN_FABRIC: 'Continuous urban fabric';
+                DISCONTINUOUS_URBAN_FABRIC: 'Discontinuous urban fabric';
+                INDUSTRIAL_OR_COMMERCIAL_UNITS: 'Industrial or commercial units';
+                ROAD_AND_RAIL_NETWORKS: 'Road and rail networks and associated land';
+                PORT_AREAS: 'Port areas';
+                AIRPORTS: 'Airports';
+                MINERAL_EXTRACTION_SITES: 'Mineral extraction sites';
+                DUMP_SITES: 'Dump sites';
+                CONSTRUCTION_SITES: 'Construction sites';
+                GREEN_URBAN_AREAS: 'Green urban areas';
+                SPORT_AND_LEISURE_FACILITIES: 'Sport and leisure facilities';
+                NON_IRRIGATED_ARABLE_LAND: 'Non-irrigated arable land';
+                PERMANENTLY_IRRIGATED_LAND: 'Permanently irrigated land';
+                RICE_FIELDS: 'Rice fields';
+                VINEYARDS: 'Vineyards';
+                FRUIT_TREES_AND_BERRY_PLANTATIONS: 'Fruit trees and berry plantations';
+                OLIVE_GROVES: 'Olive groves';
+                PASTURES: 'Pastures';
+                ANNUAL_CROPS_WITH_PERMANENT_CROPS: 'Annual crops associated with permanent crops';
+                COMPLEX_CULTIVATION_PATTERNS: 'Complex cultivation patterns';
+                AGRO_FORESTRY_AREAS: 'Agro-forestry areas';
+                BROAD_LEAVED_FOREST: 'Broad-leaved forest';
+                CONIFEROUS_FOREST: 'Coniferous forest';
+                MIXED_FOREST: 'Mixed forest';
+                NATURAL_GRASSLANDS: 'Natural grasslands';
+                MOORS_AND_HEATHLAND: 'Moors and heathland';
+                SCLEROPHYLLOUS_VEGETATION: 'Sclerophyllous vegetation';
+                TRANSITIONAL_WOODLAND_SHRUB: 'Transitional woodland-shrub';
+                BEACHES_DUNES_SANDS: 'Beaches - dunes - sands';
+                BARE_ROCKS: 'Bare rocks';
+                SPARSELY_VEGETATED_AREAS: 'Sparsely vegetated areas';
+                BURNT_AREAS: 'Burnt areas';
+                GLACIERS_AND_PERPETUAL_SNOW: 'Glaciers and perpetual snow';
+                INLAND_MARSHES: 'Inland marshes';
+                PEAT_BOGS: 'Peat bogs';
+                SALT_MARSHES: 'Salt marshes';
+                SALINES: 'Salines';
+                INTERTIDAL_FLATS: 'Intertidal flats';
+                WATER_COURSES: 'Water courses';
+                WATER_BODIES: 'Water bodies';
+                COASTAL_LAGOONS: 'Coastal lagoons';
+                ESTUARIES: 'Estuaries';
+                SEA_AND_OCEAN: 'Sea and ocean';
+                NODATA: 'NODATA';
+              };
+              GLOBAL: {
+                TITLE: 'Global Land Cover';
+                NO_DATA: 'No data';
+                CROPLAND_RAINFED: 'Cropland, rainfed';
+                HERBACEOUS_COVER: 'Herbaceous cover';
+                TREE_OR_SHRUB_COVER: 'Tree or shrub cover';
+                CROPLAND_IRRIGATED: 'Cropland, irrigated or post-flooding';
+                MOSAIC_CROPLAND_NATURAL_VEGETATION: 'Mosaic cropland (>50%) / natural vegetation (tree, shrub, herbaceous cover) (<50%)';
+                MOSAIC_NATURAL_VEGETATION_CROPLAND: 'Mosaic natural vegetation (tree, shrub, herbaceous cover) (>50%) / cropland (<50%)';
+                TREE_COVER_BROADLEAVED_EVERGREEN: 'Tree cover, broadleaved, evergreen, closed to open (>15%)';
+                TREE_COVER_BROADLEAVED_DECIDUOUS_CLOSED_OPEN: 'Tree cover, broadleaved, deciduous, closed to open (>15%)';
+                TREE_COVER_BROADLEAVED_DECIDUOUS_CLOSED: 'Tree cover, broadleaved, deciduous, closed (>40%)';
+                TREE_COVER_BROADLEAVED_DECIDUOUS_OPEN: 'Tree cover, broadleaved, deciduous, open (15-40%)';
+                TREE_COVER_NEEDLELEAVED_EVERGREEN_CLOSED_OPEN: 'Tree cover, needleleaved, evergreen, closed to open (>15%)';
+                TREE_COVER_NEEDLELEAVED_EVERGREEN_CLOSED: 'Tree cover, needleleaved, evergreen, closed (>40%)';
+                TREE_COVER_NEEDLELEAVED_EVERGREEN_OPEN: 'Tree cover, needleleaved, evergreen, open (15-40%)';
+                TREE_COVER_NEEDLELEAVED_DECIDUOUS_CLOSED_OPEN: 'Tree cover, needleleaved, deciduous, closed to open (>15%)';
+                TREE_COVER_NEEDLELEAVED_DECIDUOUS_CLOSED: 'Tree cover, needleleaved, deciduous, closed (>40%)';
+                TREE_COVER_NEEDLELEAVED_DECIDUOUS_OPEN: 'Tree cover, needleleaved, deciduous, open (15-40%)';
+                TREE_COVER_MIXED_LEAF_TYPE: 'Tree cover, mixed leaf type (broadleaved and needleleaved)';
+                MOSAIC_TREE_SHRUB_HERBACEOUS: 'Mosaic tree and shrub (>50%) / herbaceous cover (<50%)';
+                MOSAIC_HERBACEOUS_TREE_SHRUB: 'Mosaic herbaceous cover (>50%) / tree and shrub (<50%)';
+                SHRUBLAND: 'Shrubland';
+                SHRUBLAND_EVERGREEN: 'Shrubland evergreen';
+                SHRUBLAND_DECIDUOUS: 'Shrubland deciduous';
+                GRASSLAND: 'Grassland';
+                LICHENS_AND_MOSSES: 'Lichens and mosses';
+                SPARSE_VEGETATION: 'Sparse vegetation (tree, shrub, herbaceous cover) (<15%)';
+                SPARSE_TREE: 'Sparse tree (<15%)';
+                SPARSE_SHRUB: 'Sparse shrub (<15%)';
+                SPARSE_HERBACEOUS_COVER: 'Sparse herbaceous cover (<15%)';
+                TREE_COVER_FLOODED_FRESH: 'Tree cover, flooded, fresh or brakish water';
+                TREE_COVER_FLOODED_SALINE: 'Tree cover, flooded, saline water';
+                SHRUB_HERBACEOUS_FLOODED: 'Shrub or herbaceous cover, flooded, fresh/saline/brakish water';
+                URBAN_AREAS: 'Urban areas';
+                BARE_AREAS: 'Bare areas';
+                CONSOLIDATED_BARE_AREAS: 'Consolidated bare areas';
+                UNCONSOLIDATED_BARE_AREAS: 'Unconsolidated bare areas';
+                WATER_BODIES: 'Water bodies';
+                PERMANENT_SNOW_AND_ICE: 'Permanent snow and ice';
+              };
+              WATERBODIES: {
+                TITLE: 'Waterbodies';
+                WATER_BODY: 'Water body';
+                NOT_WATER_BODY: 'Not water body';
+              };
+            };
+            WATER_QUALITY: {
+              CDOM: {
+                TITLE: 'CDOM';
+                ALT: 'CDOM (Coloured Dissolved Organic Matter) color scale';
+              };
+              CYA: {
+                TITLE: 'CYA';
+                ALT: 'CYA (Cyanobacteria) color scale';
+              };
+              DOC: {
+                TITLE: 'DOC';
+                ALT: 'DOC (Dissolved Organic Carbon) color scale';
+              };
+              TURB: {
+                TITLE: 'Turbidity';
+                ALT: 'Turbidity color scale';
+              };
+              NDWI: {
+                TITLE: 'NDWI';
+                ALT: 'NDWI (Normalised Difference Water Index) color scale';
+              };
+            };
+            VEGETATION_INDEX: {
+              NDVI: {
+                TITLE: 'NDVI';
+                ALT: 'NDVI (Normalised Difference Vegetation Index) color scale';
+              };
+              EVI: {
+                TITLE: 'EVI';
+                ALT: 'EVI (Enhanced Vegetation Index) color scale';
+              };
+              SAVI: {
+                TITLE: 'SAVI';
+                ALT: 'SAVI (Soil Adjusted Vegetation Index) color scale';
+              };
+            };
+          };
+        };
+        LEGEND: {
+          DEFAULT_TITLE: 'Legend';
+        };
+        ACTION_CREATOR: {
+          TITLE: 'Action Creator help topics';
+          INTRO: 'Click on one of the questions below to see more detailed explanations.';
+          BACK_BTN: 'Back to Top';
+          QUESTIONS: {
+            GETTING_STARTED_WITH_AC: {
+              SUBTITLE: 'Getting Started with the Action Creator';
+              WHAT_IS_THE_AC: {
+                QUESTION: 'What is the Action Creator?';
+                ANSWER_TEXT: 'The Action Creator is a no code a workflow builder that allows users to define workflow processing steps using data sets, AOI, date ranges, and functions.';
+              };
+              WHAT_IS_USER_WORKSPACE: {
+                QUESTION: 'What is User Workspace?';
+                ANSWER_TEXT: "User workspace is a storage that is managed by the user in EODH. Conceptually you can treat it as a folder on your drive. It is mainly used as a storage for the user's workflow results, but can also allow user to store workflows and data. It provides the facility for users to analyze data, process datasets, make commercial orders and generate value-added outputs within the hosted Hub environment. User can create more than one workspace.";
+              };
+              HOW_TO_SWITCH_BETWEEN_WORKSPACES: {
+                QUESTION: 'How do I select or switch between workspaces in EOPro?';
+                ANSWER_ITEM_1: 'Selecting a Workspace. Upon your initial login, you will be prompted to select one of the available workspaces from the Workspaces tab.';
+                ANSWER_ITEM_2: 'Switching Workspaces. At any time, you can switch between available workspaces by revisiting the Workspaces tab and selecting a different workspace.';
+              };
+              HOW_TO_CREATE_WORKFLOW_IN_THE_AC: {
+                QUESTION: 'How do I create a workflow in Action Creator?';
+                ANSWER_ITEM_1: 'Click on the Workflow tab.';
+                ANSWER_ITEM_2: 'Add an AOI, Data Set, Date Range, and Function(s).';
+                ANSWER_ITEM_3: 'Click Run to execute the workflow.';
+                ANSWER_ITEM_3_NOTE: 'Note: Run button will become active only if all nodes are filled in correctly and there are no validation errors.';
+              };
+              WHAT_ARE_THE_DIFFERENT_WORKFLOW_BLOCKS: {
+                QUESTION: 'What are the different workflow blocks (nodes) and how do they work?';
+                ANSWER_TEXT_1: 'Workflow blocks (also called nodes) represent different stages in the Action Creator workflow. Each block must be filled in before running the workflow. These blocks are:';
+                ANSWER_ITEM_1: 'Area (AOI) – Defines the geographic region for analysis.';
+                ANSWER_ITEM_2: 'Data Set – Selects the data set to be used in the workflow.';
+                ANSWER_ITEM_3: 'Date Range – Specifies the time period for data selection. The system automatically adjusts the selectable date range depending on the chosen data set and data availability, ensuring only valid dates can be selected.';
+                ANSWER_ITEM_4: 'Function – Applies a data processing function (e.g., NDVI calculation, water quality analysis). The list of available functions is automatically adjusted based on the selected data set, so only functions compatible with the chosen data source can be selected.';
+                ANSWER_ITEM_5: 'Additional Function Blocks – Users can add consecutive functions to process data in multiple steps.';
+                ANSWER_TEXT_2: 'Each block must be filled in order, and the workflow cannot run until all required blocks are set.';
+              };
+              HOW_DO_I_SELECT_A_DATASET_FOR_MY_WORKFLOW: {
+                QUESTION: 'How do I select a data set for my workflow?';
+                ANSWER_ITEM_1: 'Click on the "Data Set" block in the Action Creator panel.';
+                ANSWER_ITEM_1_NOTE: 'Note: the block is clickable if node before is already filled in.';
+                ANSWER_ITEM_2: 'The left-side menu will display available data sets.';
+                ANSWER_ITEM_3: 'Choose a data set (e.g., Sentinel-1).';
+                ANSWER_ITEM_4: 'If the data set has advanced settings (e.g., cloud coverage), configure them if needed.';
+                ANSWER_ITEM_5: 'The selected data set name will appear inside the Data Set block.';
+              };
+              HOW_DO_I_SELECT_WORKFLOW_FUNCTIONS: {
+                QUESTION: 'How do I select workflow functions?';
+                ANSWER_ITEM_1: 'Click on the "Function" block in Action Creator.';
+                ANSWER_ITEM_1_NOTE: 'Note: the block is clickable if node before is already filled in.';
+                ANSWER_ITEM_2: 'A dropdown menu appears with available functions (e.g., NDVI, Land Cover Change, Water Quality Analysis).';
+                ANSWER_ITEM_3: 'Select a function that is compatible with your data set.';
+                ANSWER_ITEM_3_NOTE: 'Note: some functions are disabled due to incompatibility with selected data set. In order to use such function, you need first to select a compatible data set';
+                ANSWER_ITEM_4: 'The "Function" block will now display the selected function.';
+                ANSWER_ITEM_5: 'You can click "+" below the "Function" block to add additional compatible functions.';
+              };
+              HOW_AND_WHEN_DO_I_USE_CLIPPING_FUNCTIONS: {
+                QUESTION: 'How and when do I use the clipping function?';
+                ANSWER_TEXT_1: 'The clipping function can be applied as a subsequent step after running other functions, such as NDVI or Land Cover Change analyses. When used, it limits the area covered by workflow output items to a specified Area of Interest (AOI). When an individual item is viewed on map, only the portion that falls within the AOI is displayed.';
+                ANSWER_TEXT_2: 'It is recommended to use the clipping function. This function is especially useful for saving space by reducing the amount of extraneous data calculated and displayed. In some cases, the clipping function is automatically applied in the background, even if the user does not explicitly select it. When this occurs, the user is informed via a toast message.';
+              };
+              WHAT_IS_THE_DIFFERENCE_BETWEEN_THE_WORKFLOW_AND_HISTORY_TABS: {
+                QUESTION: 'What is the difference between the Workflow and History tabs?';
+                ANSWER_ITEM_1: 'Workflow Tab – Allows users to design and run new workflows by selecting AOI, data set, date range, and function(s). This is the active workflow builder.';
+                ANSWER_ITEM_2: 'History Tab – Shows previously run workflows along with their status:';
+                ANSWER_ITEM_2_SUB_1: 'Processing – Workflow is still running.';
+                ANSWER_ITEM_2_SUB_2: 'Ready – Workflow has completed and results can be viewed.';
+                ANSWER_ITEM_2_SUB_3: 'Failed – Workflow encountered an error.';
+              };
+              WHAT_ARE_WORKFLOW_PRESETS_AND_HOW_DO_I_USE_THEM: {
+                QUESTION: 'What are workflow presets, and how do I use them?';
+                ANSWER_TEXT_1: 'Workflow presets are predefined workflows that users can load instead of manually configuring every step. They are useful for common analyses like:';
+                PRESET_1: 'Land Cover Change';
+                PRESET_2: 'Water Quality Analysis';
+                ANSWER_TEXT_2: 'To use a preset:';
+                STEP_1: 'Click on the "Presets" tab in Action Creator.';
+                STEP_2: 'A list of available presets will appear with descriptions.';
+                STEP_3: 'Click "Load Preset" on the desired workflow.';
+                STEP_4: 'The "Data Set" and "Function" blocks will be pre-filled, and the user can define the AOI and Date Range.';
+                STEP_5: 'Click Run to execute the preset workflow.';
+                ANSWER_TEXT_3: 'Detailed description of presets can be found the "Working with Actions (Presets and Functions)" section.';
+              };
+              HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS: {
+                QUESTION: 'How do I download workflow results?';
+                ANSWER_TEXT: 'After you run Action Creator and browse results in the left side menu, you will see "download" option next to each individual item. When you click on it, this will prompt download of each individual file connected with this item. Each of these files will start being downloaded in a separate tab of your browser. Depending on a type of browser you use, you might need to accept the download action separately for each tab.';
+              };
+              HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI: {
+                QUESTION: 'How do I define an Area of Interest (AOI)?';
+                ANSWER_TEXT: 'Selecting the AOI workflow node allows you to define an Area of Interest either by drawing it on the map or by importing it from a file. Use the rectangle, polygon, or circle drawing tools in the top menu to draw an AOI, or click the Upload AOI button to select or drag & drop a file. The AOI must be provided in the supported JSON format. Once defined, the AOI is displayed on the map and used as the Area of Interest. After finalizing the AOI, the coordinates of its vertices are displayed and can be shown or hidden as needed.';
+              };
+            };
+            MANAGING_DATASETS_AND_FUNCTIONS_IN_AC: {
+              SUBTITLE: 'Managing Data Sets & Functions in Action Creator';
+              HOW_TO_USE_MULTIPLE_FUNCTIONS: {
+                QUESTION: 'How do I use multiple functions in a single workflow?';
+                ANSWER_ITEM_1: 'Click on the "Function" block in the Action Creator panel.';
+                ANSWER_ITEM_2: 'Click the "+" button below the block to add another function.';
+                ANSWER_TEXT: 'Functions execute sequentially from top to bottom. You cannot remove or modify a function in the middle—only the last function can be deleted first. Parallel functions are not yet supported';
+              };
+            };
+            EXECUTING_AND_TRACKING_WORKFLOWS: {
+              SUBTITLE: 'Executing & Tracking Workflows';
+              HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS: {
+                QUESTION: 'How do I view workflow execution results?';
+                ANSWER_TEXT: 'Open the History tab in Action Creator to see past workflows. Click "View Results" to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click "View" to load the result as a map layer. When results are displayed on the map, a color map is shown to explain the color coding and index values of the resulting areas.';
+              };
+              HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER: {
+                QUESTION: 'How do I filter workflow results by time using the time slider?';
+                ANSWER_TEXT: 'After running a workflow, the time slider appears below the search/workflow panel. Drag the slider handles to adjust the displayed time range without re-running the workflow. Narrowing the range filters results to selected timestamps. Expanding the range shows more results but cannot exceed the original workflow date range. The workflow execution remains unchanged—only the displayed results update dynamically.';
+              };
+              HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW: {
+                QUESTION: 'How do I track the execution progress of my workflow?';
+                ANSWER_TEXT: 'Open the History tab in Action Creator. Workflow status indicators:';
+                STATUS_1: 'Processing – Workflow is still running.';
+                STATUS_2: 'Ready – Workflow is completed and results are available.';
+                STATUS_3: 'Failed – Workflow encountered an error.';
+              };
+              HOW_DO_I_VIEW_WORKFLOW_EXECUTION_NOTIFICATIONS: {
+                QUESTION: 'How do I view workflow execution notifications?';
+                ANSWER_TEXT: 'A green dot appears next to the History tab when a workflow finishes. Click on the History tab to view execution details.';
+              };
+              WHAT_HAPPENS_IF_I_SWITCH_TO_ACTION_CREATOR_WHILE_HAVING_A_SEARCH_SESSION_ACTIVE: {
+                QUESTION: 'What happens if I switch to Action Creator while having a search session active?';
+                ANSWER_TEXT: 'Your search selections (AOI, date range, data set) are not transferred to Action Creator. You must redefine your AOI, data set, and date range in Action Creator. Switching does not delete previous search results—they remain in the Search module.';
+              };
+              CAN_I_SAVE_MY_WORKFLOW_FOR_FUTURE_USE: {
+                QUESTION: 'Can I save my workflow for future use?';
+                ANSWER_TEXT: 'Yes – Workflows can be exported and reloaded later. Click "Export" to save the workflow as a JSON file. To reuse, go to "Import" and upload the saved workflow.';
+              };
+              WHAT_HAPPENS_IF_I_RUN_MULTIPLE_WORKFLOWS_AT_THE_SAME_TIME: {
+                QUESTION: 'What happens if I run multiple workflows at the same time?';
+                ANSWER_TEXT: 'You can run multiple workflows simultaneously. Each workflow runs independently and appears in the History tab. Results are processed in parallel, and you can start a new workflow while others are still running.';
+              };
+              HOW_DO_I_CANCEL_A_RUNNING_WORKFLOW: {
+                QUESTION: 'How do I cancel a running workflow?';
+                ANSWER_TEXT: 'Currently, running workflows cannot be cancelled.';
+              };
+              HOW_DO_I_ACCESS_MY_SAVED_WORKFLOW_RESULTS_OR_CONFIGURATION: {
+                QUESTION: 'How do I access my saved workflow results or configuration?';
+                ANSWER_TEXT_1: 'In order to access saved workflow results, go to History tab and click on View Results button next to a desired workflow.';
+                ANSWER_TEXT_2: 'Past workflow configurations have to be exported first and then imported in order to resume them. They are not saved automatically.';
+              };
+            };
+            WORKING_WITH_ACTIONS: {
+              SUBTITLE: 'Working with Actions (Presets and Functions)';
+              WHAT_IS_LAND_COVER_CHANGE_SCENARIO: {
+                QUESTION: 'What is Land Cover Changes scenario?';
+                ANSWER_TEXT_1: 'The Land Cover Changes preset is designed to help users monitor how different land cover classes evolve over time. By leveraging established ESA Global Land Cover Map (ESA GLCM) data set, it offers quick insights into the spatial distribution and temporal changes of various land cover classes (e.g., forest, cropland, urban areas, water bodies).';
+                ANSWER_TEXT_2: 'It can be used for:';
+                USE_CASE_1: 'Detecting Urban Expansion: Observe how cities grow and change land use.';
+                USE_CASE_2: 'Measuring Deforestation/Reforestation: Track increases or decreases in forested areas.';
+                USE_CASE_3: 'Agricultural Management: Understand the shift and scale of farmland, pasture, or crop types over time.';
+                USE_CASE_4: 'Environmental Monitoring: Identify changes in wetlands, grasslands, or other habitats sensitive to climate or human impact.';
+                ANSWER_TEXT_3: 'Workflow explanation:';
+                WORKFLOW_STEP_1: 'Data Ingestion: The system takes in relevant land cover data set ESA GLCM.';
+                WORKFLOW_STEP_2: 'Per-Class Area Calculation: Within the user-specified region of interest, the workflow calculates the area occupied by each land cover class for each available time period.';
+                WORKFLOW_STEP_3: "Storage: These aggregated results are stored as a STAC collection in the user's workspace, ensuring easy retrieval and compatibility with EOPro tools.";
+                WORKFLOW_STEP_4: "Visualisation: In the front-end application, the user sees a time series bar-chart illustrating how each land cover class's area changes over different time periods.";
+                IMAGE_ALT: 'Land Cover Changes';
+              };
+              WHAT_IS_WATER_QUALITY_SCENARIO: {
+                QUESTION: 'What is Water Quality Analysis scenario?';
+                ANSWER_TEXT_1: 'The Water Quality Analysis preset leverages Sentinel-2 imagery (Level-2A and Analysis Ready Data) to derive crucial water quality indicators. It calculates various spectral indices related to water health and composition, helping stakeholders assess conditions such as turbidity, potential for harmful algal blooms, and other factors critical for water resource management.';
+                WARNING_NOTE: 'Please note: While the Water Quality Analysis preset provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.';
+                ANSWER_TEXT_2: 'It can be used for:';
+                USE_CASE_1: 'Monitoring Algal Blooms: Track and predict cyanobacteria growth in lakes and reservoirs.';
+                USE_CASE_2: 'Drinking Water Safety: Detect high turbidity or dissolved organic matter levels that might indicate contamination.';
+                USE_CASE_3: 'Ecosystem Health: Gauge the clarity and overall health of rivers, lakes, and coastal waters.';
+                USE_CASE_4: 'Aquaculture & Fisheries: Evaluate suitable environments for fish farming and maintain healthy aquatic habitats.';
+                ANSWER_TEXT_3: 'Workflow explanation:';
+                WORKFLOW_STEP_1: 'Data Ingestion: The preset retrieves Sentinel-2 L2A or Analysis Ready Data (ARD) for the water bodies of interest.';
+                WORKFLOW_STEP_2: 'Spectral Indices Calculation: A suite of indices is generated, including but not limited to:';
+                INDEX_CYA: 'Cyanobacteria Density: Helps indicate the presence and concentration of harmful algal blooms.';
+                INDEX_TURB: 'Turbidity: Measures water clarity; higher values can signal suspended sediment or pollution.';
+                INDEX_DOC: 'Dissolved Organic Carbon (DOC): Estimates organic carbon content, critical for water chemistry and quality.';
+                INDEX_CDOM: 'Coloured Dissolved Organic Matter (CDOM): Evaluates the amount of organic material that affects water colour and light penetration.';
+                INDEX_NDWI: 'Normalised Difference Water Index (NDWI): Delineates water bodies and tracks water content in vegetation.';
+                WORKFLOW_STEP_3: "Result Storage & Visualisation: The output data and derived indices are saved in the user's workspace as STAC collections for easy access. Graphical tools and dashboards within EOPro can be used to visualise trends over time, allowing for early detection of deteriorating water conditions.";
+                IMAGE_ALT: 'Water Quality Analysis';
+                REFERENCES_TITLE: 'References and further reading:';
+                REFERENCES: {
+                  POTES_CYA: 'Potes et al. 2018 - CYA';
+                  SENTINEL_2_WATER_MASK: 'Sentinel 2 Water Mask';
+                  ZHAN_TURB: 'Zhan et al. 2022 - TURB';
+                  SORIA_PERPINYA_CDOM: 'Soria-Perpinya et al. 2021 - CDOM';
+                  POTES_DOC: 'Potes et al. 2018 - DOC';
+                  NDWI: 'Sentinel 2 NDWI';
+                };
+              };
+              WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES: {
+                QUESTION: 'What is the colour coding for Land Cover Change classes?';
+                ANSWER_TEXT: 'Land cover classes displayed on the Land Cover Changes graph use the following colour coding:';
+                CORINE_INTRO: 'For CORINE:';
+                WATERBODIES_INTRO: 'For WATERBODIES:';
+                GLOBAL_INTRO: 'For GLOBAL:';
+              };
+              WHAT_IS_THE_COLOUR_CODING_FOR_WATER_QUALITY_ANALYSIS: {
+                QUESTION: 'What is the colour coding for Water Quality Analysis?';
+              };
+              WHAT_IS_THE_COLOUR_CODING_FOR_NDVI: {
+                QUESTION: 'What is the colour coding for NDVI?';
+              };
+              WHAT_IS_THE_COLOUR_CODING_FOR_EVI: {
+                QUESTION: 'What is the colour coding for EVI?';
+              };
+              WHAT_IS_THE_COLOUR_CODING_FOR_SAVI: {
+                QUESTION: 'What is the colour coding for SAVI?';
+              };
+            };
+            WORKING_WITH_GRAPHS: {
+              SUBTITLE: 'Working with Graphs';
+              HOW_DO_I_VIEW_GRAPHS_FOR_MY_DATA: {
+                QUESTION: 'How do I view graphs for my data?';
+                ANSWER_TEXT: 'Graphs are displayed automatically for applicable workflows. They show results as per used functions, for example NDVI values or Land Cover classes.';
+              };
+              WHAT_TYPES_OF_GRAPHS_ARE_AVAILABLE_AND_WHAT_DO_THEY_REPRESENT: {
+                QUESTION: 'What types of graphs are available, and what do they represent?';
+                LINE_CHART: 'Line Chart: Used for NDVI, SAVI, EVI, and Water Quality Analysis.';
+                LINE_CHART_SUB_1: 'Min, max, and median values are plotted for each timestamp.';
+                LINE_CHART_SUB_2: 'Min and max create a shaded range, with the median inside.';
+                STACKED_BAR: 'Stacked Bar Chart: Used for Land Cover Change analysis.';
+                STACKED_BAR_SUB_1: 'Each bar represents land cover percentages for different classes (e.g., wetlands, grasslands).';
+                STACKED_BAR_SUB_2: 'Clicking a legend item allows filtering to a single land cover class.';
+                GRAPH_NOTE: 'Graph types are predefined by metadata and cannot be changed manually.';
+              };
+              HOW_DO_I_ADJUST_THE_TIME_RANGE_DISPLAYED_ON_GRAPHS: {
+                QUESTION: 'How do I adjust the time range displayed on graphs?';
+                ANSWER_TEXT: "Use the time slider to filter the displayed data range. Drag the start and end handles to narrow or expand the time window. Narrowing the range hides data outside the selected period. Expanding the range restores hidden timestamps (within the workflow's original date range). This data manipulation is reflected automatically on a respective graph.";
+              };
+            };
+            MEASUREMENT_AOI_MANAGEMENT: {
+              SUBTITLE: 'Measurement & AOI Management';
+              HOW_DO_I_MEASURE_DISTANCES_AND_AREAS_ON_THE_MAP: {
+                QUESTION: 'How do I measure distances and areas on the map?';
+                ANSWER_TEXT: 'Click the Measurement Tool in the top menu. Click on the map to place points and measure distances. For measuring areas, click the switch to enter area measurement mode and add at least three points to enclose a shape. You can also change measurement units.';
+              };
+            };
+            COMPARISON_AND_LAYER_MANAGEMENT: {
+              SUBTITLE: 'Comparison & Layer Management';
+              HOW_DO_I_USE_THE_COMPARISON_TOOL: {
+                QUESTION: 'How do I use the comparison tool?';
+                ANSWER_TEXT: 'Click "Add to Compare" for an item from Search or Action Creator. Select a second item to enable the comparison tool. Open top menu and click on "Compare" button to activate comparison mode. The comparison tool provides a swipe bar to compare images. You cannot run Search or Action Creator while actively using the comparison tool—exit the comparison mode to resume other tasks.';
+              };
+            };
+          };
+        };
+        GENERAL_HELP: {
+          TITLE: 'General Help topics';
+          INTRO: 'Click on one of the questions below to see more detailed explanations.';
+          BACK_BTN: 'Back to Top';
+          QUESTIONS: {
+            GENERAL_FUNCIONALITY: {
+              SUBTITLE: 'General Functionality';
+              WHAT_IS_EOPRO: {
+                QUESTION: 'What is EOPro?';
+                ANSWER_TEXT_1: 'EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface.';
+                ANSWER_NOTE_BOLD: 'Note: ';
+                ANSWER_NOTE_TEXT: 'Commercial data is available at the moment for searching only.';
+              };
+              HOW_DO_I_GET_STARTED: {
+                QUESTION: 'How do I get started?';
+                ANSWER_TEXT_1: "To begin accessing the imaging data, you can use the Search Module from the left menu, draw an area of interest using the drawing tools at the top of the screen, and define a date range near the search button bottom-left. Once you've configured all these options, clicking the search button will return results (or let you know if you need to refine your search parameters in any way) that you can view on the map.";
+                ANSWER_TEXT_2: "If you'd like to take your search further, you can log in using the button at the top-right of the screen to take advantage of the Action Creator. ";
+              };
+              DO_I_NEED_ACCOUNT: {
+                QUESTION: 'Do I need to create an account?';
+                ANSWER_TEXT: 'No, but if you want to get the most out of the imaging data EOPro has access to, we would recommend logging in. This way you can also use all the features of the Action Creator.';
+              };
+              HOW_DO_I_LOG_IN: {
+                QUESTION: 'How do I log in?';
+                ANSWER_TEXT: 'In order to log in, you need to first register your Github or Google account with EODH.\n\nThe user has to request a billing account and then the user will need to create a workspace on the Hub after the account has been approved. Finally, the user will have to select the workspace on EOPro.\n\nPlease see more details here: <Link href="https://eodatahub.org.uk/docs/account-setup/">Account Setup</Link>.';
+              };
+            };
+            SEARCH_MODULE_FUNCIONALITY: {
+              SUBTITLE: 'Search Module Functionality';
+              WHAT_IS_THE_SEARCH_MODULE: {
+                QUESTION: 'What is the search module and how does it work?';
+                ANSWER_TEXT: 'The Search Module allows users to find satellite imagery based on a specified Area of Interest (AOI), date range, and selected data set(s). Once a search is performed, the system displays results as thumbnails in the left panel and footprints on the map for geographic reference.';
+              };
+              HOW_DO_I_SELECT_A_DATA_SET_AS_PART_OF_A_SEARCH: {
+                QUESTION: 'How do I select a data set as part of a search?';
+                ANSWER_TEXT: 'Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings.';
+              };
+              WHAT_IS_SENTINEL_2_ARD: {
+                QUESTION: 'What is Sentinel 2 ARD (DEFRA and JNCC)?';
+                ANSWER_TEXT: 'These data have been created by the Department for Environment, Food and Rural Affairs (Defra) and Joint Nature Conservation Committee (JNCC) in order to cost-effectively provide high quality, Analysis Ready Data (ARD) for a wide range of applications. The dataset contains modified Copernicus Sentinel-2 (Level 1C data processed into a surface reflectance product using ARCSI software (Level 2)).';
+              };
+              HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI: {
+                QUESTION: 'How do I define an Area of Interest (AOI)?';
+                ANSWER_TEXT: 'You can define an Area of Interest either by drawing it on the map or by importing it from a file. Use the rectangle, polygon, or circle drawing tools in the top menu to draw an AOI, or click the Upload AOI button to select or drag & drop a file. The AOI must be provided in the supported JSON format. Once defined, the AOI is displayed on the map and used as the Area of Interest. After finalizing the AOI, the coordinates of its vertices are displayed and can be shown or hidden as needed.';
+              };
+              HOW_DO_I_UPLOAD_AOI_FROM_FILE: {
+                QUESTION: 'How do I upload an Area of Interest (AOI) from a file?';
+                ANSWER_TEXT: 'Click the Upload AOI button in the top menu, then select a file or drag & drop it into the window. The AOI must be provided in the supported JSON format. Once uploaded, the AOI is automatically displayed on the map and used as the Area of Interest.';
+              };
+              HOW_DO_I_SET_A_DATE_RANGE_FOR_MY_SEARCH: {
+                QUESTION: 'How do I set a date range for my search?';
+                ANSWER_TEXT: 'Click on the Date Range Picker in the search panel. Select a "From" and "To" date. The "To" date must be the same or later than the "From" date.';
+              };
+              WHAT_HAPPENS_WHEN_I_RUN_A_SEARCH: {
+                QUESTION: 'What happens when I run a search?';
+                ANSWER_TEXT: 'The system processes your data set, AOI, and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results.';
+              };
+              HOW_DO_I_REFINE_OR_MODIFY_MY_SEARCH_PARAMETERS: {
+                QUESTION: 'How do I refine or modify my search parameters?';
+                ITEM_1: 'Modify AOI: Click on the drawing tool and redraw the area.';
+                ITEM_2: 'Change Data Set: Click on the data set selector and choose a new data set.';
+                ITEM_3: 'Adjust Date Range: Modify the date range using the picker or time slider.';
+                ITEM_4: 'Click Search again to refresh results, unless you used only time slider to refine your search results.';
+              };
+              HOW_DO_I_USE_ADVANCED_SEARCH_OPTIONS_FOR_DATASETS: {
+                QUESTION: 'How do I use advanced search options for data sets?';
+                ANSWER_TEXT: 'For data sets like Sentinel-1, toggle Advanced Search in the data set panel. Configure acquisition modes, orbit direction, polarisation settings, etc. These settings affect search results based on data set-specific filtering.';
+              };
+              WHAT_IS_THE_DIFFERENCE_BETWEEN_PUBLIC_AND_COMMERCIAL_DATASETS: {
+                QUESTION: 'What is the difference between public and commercial data sets?';
+                ITEM_1: 'Public data sets (e.g., Copernicus Sentinel) are freely available.';
+                ITEM_2: 'Commercial data sets (e.g., Planet) require purchase before using for workflows.';
+              };
+            };
+            INTERPRETING_SEARCH_RESULTS: {
+              SUBTITLE: 'Interpreting Search Results';
+              WHAT_ARE_FOOTPRINTS_ON_THE_MAP: {
+                QUESTION: 'What are footprints on the map, and how do they relate to search results?';
+                ANSWER_TEXT: 'Footprints represent the geographic coverage of an asset. Each search result (item) corresponds to a footprint on the map.';
+              };
+            };
+            VIEWING_AND_PURCHASING_SEARCH_RESULTS: {
+              SUBTITLE: 'Viewing Search Results';
+              HOW_DO_I_VIEW_AN_ITEM_FROM_THE_SEARCH_RESULTS: {
+                QUESTION: 'How do I view an item from the search results?';
+                ANSWER_TEXT: 'Click the "View" button next to a search result. The asset will load as an overlay on the map.';
+              };
+              HOW_DO_I_PURCHASE_COMMERCIAL_DATA: {
+                QUESTION: 'How do I purchase commercial data (e.g., Planet data)?';
+                ANSWER_TEXT: 'Click "Purchase" next to a commercial data set. You will be redirected to the TPZ portal to accept terms and complete the transaction. After purchase, the item appears in My Items.';
+              };
+              HOW_DO_I_DISPLAY_PURCHASED_ITEMS_ON_THE_MAP: {
+                QUESTION: 'How do I display purchased items on the map?';
+                ANSWER_TEXT: 'In "My Items", click "View" to load the purchased asset on the map.';
+              };
+            };
+            TIME_MANAGEMENT_IN_SEARCH: {
+              SUBTITLE: 'Time Management in Search';
+              HOW_DOES_THE_TIME_SLIDER_AFFECT_SEARCH_RESULTS: {
+                QUESTION: 'How does the time slider affect search results?';
+                ANSWER_TEXT: 'The time slider allows you to filter results dynamically by narrowing the displayed time range. Moving the slider updates results in real-time.';
+              };
+            };
+            COMPARISON_AND_EXPORTING: {
+              SUBTITLE: 'Comparison & Exporting';
+              HOW_DO_I_ADD_SEARCH_RESULTS_TO_THE_COMPARISON_TOOL: {
+                QUESTION: 'How do I add search results to the comparison tool?';
+                ANSWER_TEXT: 'Click "Add to Compare" on a search result. Add a second asset to enable the comparison tool. Open top menu and click on "Compare" button to activate comparison mode.  Use the comparison swipe to analyse differences.';
+              };
+            };
+            GENERAL_FEATURES_USER_SETTINGS: {
+              SUBTITLE: 'General Features & User Settings';
+              HOW_DO_I_HIDE_FOOTPRINTS_OR_AOI_TO_BETTER_SEE_MY_SELECTED_IMAGERY: {
+                QUESTION: 'How do I hide footprints or AOI to better see my selected imagery?';
+                ANSWER_TEXT: 'Click the Eye icon in the top menu. This hides both the AOI boundary and footprints without affecting the imagery. Click the Eye icon again to restore visibility.';
+              };
+            };
+          };
+        };
+      };
+      SEARCH_MODE_PANEL: {
+        HEADER: {
+          BROWSE_DATA_SETS: 'Browsing data sets';
+          BACK_TO_DATA_SETS: 'Back to data sets';
+        };
+      };
+      SEARCH_VIEW: {
+        ERROR: {
+          WORKFLOW: {
+            NO_RESULTS: {
+              TITLE: 'Sorry, there was no data to process.';
+              MESSAGE: 'Please refine your workflow criteria. Try a broader date range, adjust Data Set settings or consider choosing different Data Set.';
+            };
+            SERVER_ERROR: {
+              TITLE: 'Server error';
+              MESSAGE: 'There was a problem retrieving your workflow results from the server, please try again.';
+            };
+          };
+        };
+        VALIDATION: {
+          ONE_OF_FIELDS_REQUIRED: 'You must select at least one of the following options';
+          ONLY_ONE_FIELD_IS_REQUIRED: 'You must select only one of the following options';
+          DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO: 'Invalid date. Date from should be earlier';
+          DATE_FROM_SHOULD_BE_AFTER_MIN: 'Invalid date. Date from should be later';
+          DATE_FROM_SHOULD_BE_BEFORE_MAX: 'Invalid date. Date from should be earlier';
+          DATE_TO_SHOULD_BE_AFTER_MIN: 'Invalid date. Date to should be later';
+          DATE_TO_SHOULD_BE_BEFORE_MAX: 'Invalid date. Date to should be earlier';
+          DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
+          NO_DATE_SELECTED: 'Please select a valid date';
+          DATE_SHOULD_BE_EARLIER_THAN_TODAY: "Date cannot be later than today's date";
+          ONLY_ONE_COLLECTION_IS_REQUIRED: 'You can only select Data Sets from within the same collection. Please refine your selection and try again.';
+        };
+        DATA_SETS: {
+          N_A: 'N/A';
+          INFO_BOX: {
+            SOME_OPTIONS_ARE_INCOMPATIBLE: 'Some menu options may be incompatible with your selections in the Action Creator';
+            BUTTON: {
+              DISMISS: 'Dismiss';
+            };
+          };
+          DATA_SETS_CONFIGURATION: {
+            COMMERCIAL: 'Commercial';
+            PUBLIC: 'Public';
+            PLANET: {
+              NAME: 'Planet';
+              PLANET_SCOPE: {
+                NAME: 'Planet Scope';
+              };
+              SKY_SAT: {
+                NAME: 'SkySat';
+              };
+              MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
+            };
+            AUXILIARY: {
+              NAME: 'Auxiliary';
+              GLOBAL_LAND_COVER: 'Global Land Cover';
+            };
+            COPERNICUS: {
+              NAME: 'Copernicus';
+              SENTINEL_1: {
+                NAME: 'Sentinel-1';
+                SETTINGS: {
+                  ACQUISITION_MODE: 'Acquisition mode:';
+                  EW: 'EW - Extra-Wide Swath 40m x 40m';
+                  POLARIZATION: 'Polarization:';
+                  HH: 'HH';
+                  HH_HV: 'HH+HV';
+                  IW: 'IW - Interferometric Wide Swath 10m x 10m';
+                  VV: 'VV';
+                  VV_VH: 'VV+VH';
+                  ORBIT_DIRECTION: 'Orbit direction:';
+                  ASCENDING: 'Ascending';
+                  DESCENDING: 'Descending';
+                };
+              };
+              SENTINEL_2: {
+                NAME: 'Sentinel-2';
+                SETTINGS: {
+                  L2A_ARD: 'L2A ARD (DEFRA and JNCC)';
+                  MAX_CLOUD_COVERAGE: 'Max cloud coverage:';
+                };
+              };
+            };
+          };
+        };
+        DATE_RANGE_PICKER: {
+          TITLE: 'Date range';
+          SEARCH_FROM: 'Search from:';
+          SEARCH_TO: 'Search to:';
+          SEARCH: 'Search';
+          ERROR: {
+            FAILED_TO_LOAD: "We couldn't load date ranges for selected data sets.";
+          };
+        };
+        CHECKLIST: {
+          HEADING: 'Getting started checklist';
+          AREA_OF_INTERESTS: 'Use the drawing tools to define an area of interest.';
+          DATA_SETS: 'Select one or more Data Sets.';
+          DATE_RANGE: 'Update date range.';
+          DONT_SHOW_IT_AGAIN: "Don't show again";
+        };
+      };
+      TIMELINE_ANALYTICS_DASHBOARD: {
+        CHARTS: {
+          ERRORS: {
+            NO_RESULTS: {
+              TITLE: 'No graph data available';
+              MESSAGE: 'Please refine your search criteria. Try a broader date range, adjust Data Set settings or consider choosing multiple Data Sets.';
+            };
+          };
+          RANGE_AREA: {
+            TOOLTIP: {
+              MEDIAN: 'Median';
+              MIN: 'Minimum';
+              MAX: 'Maximum';
+              DATE: 'Date';
+            };
+          };
+          STACK_BAR: {
+            TOOLTIP: {
+              VALUE: 'Value';
+              PERCENTAGE: 'Percentage';
+              DATE: 'Date';
+            };
+          };
+          BAR: {
+            TOOLTIP: {
+              VALUE: 'Value';
+              DATE: 'Date';
+            };
+          };
+        };
+      };
+    };
     MAP: {
+      UPLOAD_AOI: {
+        TITLE: 'Upload an area of interest (AOI) file';
+        INFO_MESSAGE: 'Currently EOPro only accepts valid GEOJSON formatted files for uploaded AOI areas. Please select or drag and drop a file using the box below to add your file.';
+        INFO_BOX: {
+          DESCRIPTION: 'Drag and drop file here';
+          SUPPORTED_MESSAGE: 'OR';
+          BROWSE_COMPUTER_BUTTON: 'Browse computer';
+          MAX_SIZE: 'Maximum file size: {{size}}';
+        };
+        ERROR: {
+          NO_FILE: 'Please select a file to upload';
+          PARSE_FAILED: 'Failed to parse GeoJSON file';
+          UPLOAD_FAILED: 'Failed to upload file';
+          UNSUPPORTED_GEOMETRY: 'Unsupported geometry type. Only Polygon and MultiPolygon are supported.';
+          INVALID_JSON: 'Invalid JSON file';
+          MAX_SIZE: 'File {{fileName}} ({{fileSize}}) exceeds maximum size of {{maxSize}}';
+        };
+        BUTTON: {
+          CANCEL: 'Cancel';
+          CONFIRM: 'Confirm';
+        };
+      };
       ACTION_CREATOR_PANEL: {
         HEADER: {
           ACTION_CREATOR: 'Action Creator';
@@ -240,7 +905,7 @@ interface Resources {
             CLIP_SELECTED_INFO_NOTIFICATION: 'Clipping limits the output to the selected area of interest.\n\nWhen enabled, only pixels inside the boundary are kept; when disabled, the workflow runs on the full image extent.';
           };
           WARNING: {
-            WATER_QUALITY_NOT_VERIFIED: 'Please note: you have selected the Water Quality Analysis function. This feature is still under review. While it provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.\n\nFor more information, documentation is available <Link href="https://eodatahub.org.uk/about/applications/applications/qa-for-eo-pro/docs/">here</Link>. xd';
+            WATER_QUALITY_NOT_VERIFIED: 'Please note: you have selected the Water Quality Analysis function. This feature is still under review. While it provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.\n\nFor more information, documentation is available <Link href="https://eodatahub.org.uk/about/applications/applications/qa-for-eo-pro/docs/">here</Link>.';
           };
           ERROR: {
             AOI_TOO_BIG: 'Area exceeds {{maxSize}} square kilometers.';
@@ -294,808 +959,6 @@ interface Resources {
             };
           };
         };
-        HELP: {
-          TITLE: 'Action Creator help topics';
-          INTRO: 'Click on one of the questions below to see more detailed explanations.';
-          BACK_BTN: 'Back to Top';
-          QUESTIONS: {
-            GETTING_STARTED_WITH_AC: {
-              SUBTITLE: 'Getting Started with the Action Creator';
-              WHAT_IS_THE_AC: {
-                QUESTION: 'What is the Action Creator?';
-                ANSWER: [
-                  'The Action Creator is a no code a workflow builder that allows users to define workflow processing steps using data sets, AOI, date ranges, and functions.'
-                ];
-              };
-              WHAT_IS_USER_WORKSPACE: {
-                QUESTION: 'What is User Workspace?';
-                ANSWER: [
-                  "User workspace is a storage that is managed by the user in EODH. Conceptually you can treat it as a folder on your drive. It is mainly used as a storage for the user's workflow results, but can also allow user to store workflows and data. It provides the facility for users to analyze data, process datasets, make commercial orders and generate value-added outputs within the hosted Hub environment. User can create more than one workspace."
-                ];
-              };
-              HOW_TO_SWITCH_BETWEEN_WORKSPACES: {
-                QUESTION: 'How do I select or switch between workspaces in EOPro?';
-                ANSWER: [
-                  [
-                    'Selecting a Workspace. Upon your initial login, you will be prompted to select one of the available workspaces from the Workspaces tab.',
-                    'Switching Workspaces. At any time, you can switch between available workspaces by revisiting the Workspaces tab and selecting a different workspace.'
-                  ]
-                ];
-              };
-              HOW_TO_CREATE_WORKFLOW_IN_THE_AC: {
-                QUESTION: 'How do I create a workflow in Action Creator?';
-                ANSWER: [
-                  [
-                    'Click on the Workflow tab.',
-                    'Add an AOI, Data Set, Date Range, and Function(s).',
-                    'Click Run to execute the workflow.',
-                    [
-                      'Note: Run button will become active only if all nodes are filled in correctly and there are no validation errors.'
-                    ]
-                  ]
-                ];
-              };
-              WHAT_ARE_THE_DIFFERENT_WORKFLOW_BLOCKS: {
-                QUESTION: 'What are the different workflow blocks (nodes) and how do they work?';
-                ANSWER: [
-                  'Workflow blocks (also called nodes) represent different stages in the Action Creator workflow. Each block must be filled in before running the workflow. These blocks are:',
-                  [
-                    'Area (AOI) – Defines the geographic region for analysis.',
-                    'Data Set – Selects the data set to be used in the workflow.',
-                    'Date Range – Specifies the time period for data selection.',
-                    'Function – Applies a data processing function (e.g., NDVI calculation, water quality analysis).',
-                    'Additional Function Blocks – Users can add consecutive functions to process data in multiple steps.'
-                  ],
-                  'Each block must be filled in order, and the workflow cannot run until all required blocks are set.'
-                ];
-              };
-              HOW_DO_I_SELECT_A_DATASET_FOR_MY_WORKFLOW: {
-                QUESTION: 'How do I select a data set for my workflow?';
-                ANSWER: [
-                  [
-                    'Click on the "Data Set" block in the Action Creator panel.',
-                    ['Note: the block is clickable if node before is already filled in.'],
-                    'The left-side menu will display available data sets.',
-                    'Choose a data set (e.g., Sentinel-1).',
-                    'If the data set has advanced settings (e.g., cloud coverage), configure them if needed.',
-                    'The selected data set name will appear inside the Data Set block.'
-                  ]
-                ];
-              };
-              HOW_DO_I_SELECT_WORKFLOW_FUNCTIONS: {
-                QUESTION: 'How do I select workflow functions?';
-                ANSWER: [
-                  [
-                    'Click on the "Function" block in Action Creator.',
-                    ['Note: the block is clickable if node before is already filled in.'],
-                    'A dropdown menu appears with available functions (e.g., NDVI, Land Cover Change, Water Quality Analysis).',
-                    'Select a function that is compatible with your data set.',
-                    [
-                      'Note: some functions are disabled due to incompatibility with selected data set. In order to use such function, you need first to select a compatible data set'
-                    ],
-                    'The "Function" block will now display the selected function.',
-                    'You can click "+" below the "Function" block to add additional compatible functions.'
-                  ]
-                ];
-              };
-              HOW_AND_WHEN_DO_I_USE_CLIPPING_FUNCTIONS: {
-                QUESTION: 'How and when do I use the clipping function?';
-                ANSWER: [
-                  'The clipping function can be applied as a subsequent step after running other functions, such as NDVI or Land Cover Change analyses. When used, it limits the area covered by workflow output items to a specified Area of Interest (AOI). When an individual item is viewed on map, only the portion that falls within the AOI is displayed.',
-                  'It is recommended to use the clipping function. This function is especially useful for saving space by reducing the amount of extraneous data calculated and displayed. In some cases, the clipping function is automatically applied in the background, even if the user does not explicitly select it. When this occurs, the user is informed via a toast message.'
-                ];
-              };
-              WHAT_IS_THE_DIFFERENCE_BETWEEN_THE_WORKFLOW_AND_HISTORY_TABS: {
-                QUESTION: 'What is the difference between the Workflow and History tabs?';
-                ANSWER: [
-                  [
-                    'Workflow Tab – Allows users to design and run new workflows by selecting AOI, data set, date range, and function(s). This is the active workflow builder.',
-                    'History Tab – Shows previously run workflows along with their status:',
-                    [
-                      'Processing – Workflow is still running.',
-                      'Ready – Workflow has completed and results can be viewed.',
-                      'Failed – Workflow encountered an error.'
-                    ]
-                  ]
-                ];
-              };
-              WHAT_ARE_WORKFLOW_PRESETS_AND_HOW_DO_I_USE_THEM: {
-                QUESTION: 'What are workflow presets, and how do I use them?';
-                ANSWER: [
-                  'Workflow presets are predefined workflows that users can load instead of manually configuring every step. They are useful for common analyses like:',
-                  ['Land Cover Change', 'Water Quality Analysis'],
-                  'To use a preset:',
-                  [
-                    'Click on the "Presets" tab in Action Creator.',
-                    'A list of available presets will appear with descriptions.',
-                    'Click "Load Preset" on the desired workflow.',
-                    'The "Data Set" and "Function" blocks will be pre-filled, and the user can define the AOI and Date Range.',
-                    'Click Run to execute the preset workflow.'
-                  ],
-                  'Detailed description of presets can be found the “Working with Actions (Presets and Functions)” section.'
-                ];
-              };
-              HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS: {
-                QUESTION: 'How do I download workflow results?';
-                ANSWER: [
-                  'After you run Action Creator and browse results in the left side menu, you will see “download” option next to each individual item. When you click on it, this will prompt download of each individual file connected with this item. Each of these files will start being downloaded in a separate tab of your browser. Depending on a type of browser you use, you might need to accept the download action separately for each tab.'
-                ];
-              };
-            };
-            MANAGING_DATASETS_AND_FUNCTIONS_IN_AC: {
-              SUBTITLE: 'Managing Data Sets & Functions in Action Creator';
-              HOW_TO_USE_MULTIPLE_FUNCTIONS: {
-                QUESTION: 'How do I use multiple functions in a single workflow?';
-                ANSWER: [
-                  [
-                    'Click on the "Function" block in the Action Creator panel.',
-                    'Click the "+" button below the block to add another function.'
-                  ],
-                  'Functions execute sequentially from top to bottom. You cannot remove or modify a function in the middle—only the last function can be deleted first. Parallel functions are not yet supported'
-                ];
-              };
-            };
-            EXECUTING_AND_TRACKING_WORKFLOWS: {
-              SUBTITLE: 'Executing & Tracking Workflows';
-              HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS: {
-                QUESTION: 'How do I view workflow execution results?';
-                ANSWER: [
-                  'Open the History tab in Action Creator to see past workflows. Click "View Results" to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click "View" to load the result as a map layer.'
-                ];
-              };
-              HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER: {
-                QUESTION: 'How do I filter workflow results by time using the time slider?';
-                ANSWER: [
-                  'After running a workflow, the time slider appears below the search/workflow panel. Drag the slider handles to adjust the displayed time range without re-running the workflow. Narrowing the range filters results to selected timestamps. Expanding the range shows more results but cannot exceed the original workflow date range. The workflow execution remains unchanged—only the displayed results update dynamically.'
-                ];
-              };
-              HOW_DO_I_TRACK_THE_EXECUTION_PROGRESS_OF_MY_WORKFLOW: {
-                QUESTION: 'How do I track the execution progress of my workflow?';
-                ANSWER: [
-                  'Open the History tab in Action Creator. Workflow status indicators:',
-                  [
-                    'Processing – Workflow is still running.',
-                    'Ready – Workflow is completed and results are available.',
-                    'Failed – Workflow encountered an error.'
-                  ]
-                ];
-              };
-              HOW_DO_I_VIEW_WORKFLOW_EXECUTION_NOTIFICATIONS: {
-                QUESTION: 'How do I view workflow execution notifications?';
-                ANSWER: [
-                  'A green dot appears next to the History tab when a workflow finishes. Click on the History tab to view execution details.'
-                ];
-              };
-              WHAT_HAPPENS_IF_I_SWITCH_TO_ACTION_CREATOR_WHILE_HAVING_A_SEARCH_SESSION_ACTIVE: {
-                QUESTION: 'What happens if I switch to Action Creator while having a search session active?';
-                ANSWER: [
-                  'Your search selections (AOI, date range, data set) are not transferred to Action Creator. You must redefine your AOI, data set, and date range in Action Creator. Switching does not delete previous search results—they remain in the Search module.'
-                ];
-              };
-              CAN_I_SAVE_MY_WORKFLOW_FOR_FUTURE_USE: {
-                QUESTION: 'Can I save my workflow for future use?';
-                ANSWER: [
-                  'Yes – Workflows can be exported and reloaded later. Click "Export" to save the workflow as a JSON file. To reuse, go to "Import" and upload the saved workflow.'
-                ];
-              };
-              WHAT_HAPPENS_IF_I_RUN_MULTIPLE_WORKFLOWS_AT_THE_SAME_TIME: {
-                QUESTION: 'What happens if I run multiple workflows at the same time?';
-                ANSWER: [
-                  'You can run multiple workflows simultaneously. Each workflow runs independently and appears in the History tab. Results are processed in parallel, and you can start a new workflow while others are still running.'
-                ];
-              };
-              HOW_DO_I_CANCEL_A_RUNNING_WORKFLOW: {
-                QUESTION: 'How do I cancel a running workflow?';
-                ANSWER: ['Currently, running workflows cannot be cancelled.'];
-              };
-              HOW_DO_I_ACCESS_MY_SAVED_WORKFLOW_RESULTS_OR_CONFIGURATION: {
-                QUESTION: 'How do I access my saved workflow results or configuration?';
-                ANSWER: [
-                  'In order to access saved workflow results, go to History tab and click on View Results button next to a desired workflow.',
-                  'Past workflow configurations have to be exported first and then imported in order to resume them. They are not saved automatically.'
-                ];
-              };
-            };
-            WORKING_WITH_ACTIONS: {
-              SUBTITLE: 'Working with Actions (Presets and Functions)';
-              WHAT_IS_LAND_COVER_CHANGE_SCENARIO: {
-                QUESTION: 'What is Land Cover Changes scenario?';
-                ANSWER: [
-                  'The Land Cover Changes preset is designed to help users monitor how different land cover classes evolve over time. By leveraging established ESA Global Land Cover Map (ESA GLCM) data set, it offers quick insights into the spatial distribution and temporal changes of various land cover classes (e.g., forest, cropland, urban areas, water bodies).',
-                  'It can be used for:',
-                  [
-                    'Detecting Urban Expansion: Observe how cities grow and change land use.',
-                    'Measuring Deforestation/Reforestation: Track increases or decreases in forested areas.',
-                    'Agricultural Management: Understand the shift and scale of farmland, pasture, or crop types over time.',
-                    'Environmental Monitoring: Identify changes in wetlands, grasslands, or other habitats sensitive to climate or human impact.'
-                  ],
-                  'Workflow explanation:',
-                  [
-                    'Data Ingestion: The system takes in relevant land cover data set ESA GLCM.',
-                    'Per-Class Area Calculation: Within the user-specified region of interest, the workflow calculates the area occupied by each land cover class for each available time period.',
-                    'Storage: These aggregated results are stored as a STAC collection in the user’s workspace, ensuring easy retrieval and compatibility with EOPro tools.',
-                    'Visualisation: In the front-end application, the user sees a time series bar-chart illustrating how each land cover class’s area changes over different time periods.'
-                  ],
-                  {
-                    IMAGE: {
-                      WHAT_IS_LAND_COVER_CHANGES_SCENARIO: {
-                        ALT: 'Land Cover Changes';
-                      };
-                    };
-                  }
-                ];
-              };
-              WHAT_IS_WATER_QUALITY_SCENARIO: {
-                QUESTION: 'What is Water Quality Analysis scenario?';
-                ANSWER: [
-                  'The Water Quality Analysis preset leverages Sentinel-2 imagery (Level-2A and Analysis Ready Data) to derive crucial water quality indicators. It calculates various spectral indices related to water health and composition, helping stakeholders assess conditions such as turbidity, potential for harmful algal blooms, and other factors critical for water resource management.',
-                  '<strong>Please note: While the Water Quality Analysis preset provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.</strong>',
-                  'It can be used for:',
-                  [
-                    'Monitoring Algal Blooms: Track and predict cyanobacteria growth in lakes and reservoirs.',
-                    'Drinking Water Safety: Detect high turbidity or dissolved organic matter levels that might indicate contamination.',
-                    'Ecosystem Health: Gauge the clarity and overall health of rivers, lakes, and coastal waters.',
-                    'Aquaculture & Fisheries: Evaluate suitable environments for fish farming and maintain healthy aquatic habitats.'
-                  ],
-                  'Workflow explanation:',
-                  [
-                    'Data Ingestion: The preset retrieves Sentinel-2 L2A or Analysis Ready Data (ARD) for the water bodies of interest.',
-                    'Spectral Indices Calculation: A suite of indices is generated, including but not limited to:',
-                    [
-                      'Cyanobacteria Density: Helps indicate the presence and concentration of harmful algal blooms.',
-                      'Turbidity: Measures water clarity; higher values can signal suspended sediment or pollution.',
-                      'Dissolved Organic Carbon (DOC): Estimates organic carbon content, critical for water chemistry and quality.',
-                      'Coloured Dissolved Organic Matter (CDOM): Evaluates the amount of organic material that affects water colour and light penetration.',
-                      'Normalised Difference Water Index (NDWI): Delineates water bodies and tracks water content in vegetation.'
-                    ],
-                    'Result Storage & Visualisation: The output data and derived indices are saved in the user’s workspace as STAC collections for easy access. Graphical tools and dashboards within EOPro can be used to visualise trends over time, allowing for early detection of deteriorating water conditions.'
-                  ],
-                  {
-                    IMAGE: {
-                      WHAT_IS_WATER_QUALITY_ANALYSIS_SCENARIO: {
-                        ALT: 'Water Quality Analysis';
-                      };
-                    };
-                  },
-                  'References and further reading:',
-                  [
-                    {
-                      LINK: {
-                        POTES_CYA: {
-                          DESCRIPTION: 'Potes et al. 2018 - CYA';
-                        };
-                      };
-                    },
-                    {
-                      LINK: {
-                        SENTINEL_2_WATER_MASK: {
-                          DESCRIPTION: 'Sentinel 2 Water Mask';
-                        };
-                      };
-                    },
-                    {
-                      LINK: {
-                        ZHAN_TURB: {
-                          DESCRIPTION: 'Zhan et al. 2022 - TURB';
-                        };
-                      };
-                    },
-                    {
-                      LINK: {
-                        SORIA_PERPINYA_CDOM: {
-                          DESCRIPTION: 'Soria-Perpinya et al. 2021 - CDOM';
-                        };
-                      };
-                    },
-                    {
-                      LINK: {
-                        POTES_DOC: {
-                          DESCRIPTION: 'Potes et al. 2018 - DOC';
-                        };
-                      };
-                    },
-                    {
-                      LINK: {
-                        SENTINEL_2_NDWI: {
-                          DESCRIPTION: 'Sentinel 2 NDWI';
-                        };
-                      };
-                    }
-                  ]
-                ];
-              };
-              WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES: {
-                QUESTION: 'What is the colour coding for Land Cover Change classes?';
-                ANSWER: [
-                  'Land cover classes displayed on the Land Cover Changes graph use the following colour coding:',
-                  ['For CORINE:'],
-                  {
-                    TABLE: [
-                      {
-                        LABEL: 'Continuous urban fabric';
-                        COLOR: '#e6004d';
-                      },
-                      {
-                        LABEL: 'Discontinuous urban fabric';
-                        COLOR: '#ff0000';
-                      },
-                      {
-                        LABEL: 'Industrial or commercial units';
-                        COLOR: '#cc4df2';
-                      },
-                      {
-                        LABEL: 'Road and rail networks and associated land';
-                        COLOR: '#cc0000';
-                      },
-                      {
-                        LABEL: 'Port areas';
-                        COLOR: '#e6cccc';
-                      },
-                      {
-                        LABEL: 'Airports';
-                        COLOR: '#e6cce6';
-                      },
-                      {
-                        LABEL: 'Mineral extraction sites';
-                        COLOR: '#600ccc';
-                      },
-                      {
-                        LABEL: 'Dump sites';
-                        COLOR: '#a64d00';
-                      },
-                      {
-                        LABEL: 'Construction sites';
-                        COLOR: '#ff4dff';
-                      },
-                      {
-                        LABEL: 'Green urban areas';
-                        COLOR: '#ffa6ff';
-                      },
-                      {
-                        LABEL: 'Sport and leisure facilities';
-                        COLOR: '#ffe6ff';
-                      },
-                      {
-                        LABEL: 'Non-irrigated arable land';
-                        COLOR: '#ffffa8';
-                      },
-                      {
-                        LABEL: 'Permanently irrigated land';
-                        COLOR: '#ffff00';
-                      },
-                      {
-                        LABEL: 'Rice fields';
-                        COLOR: '#e6e600';
-                      },
-                      {
-                        LABEL: 'Vineyards';
-                        COLOR: '#e68000';
-                      },
-                      {
-                        LABEL: 'Fruit trees and berry plantations';
-                        COLOR: '#f2a64d';
-                      },
-                      {
-                        LABEL: 'Olive groves';
-                        COLOR: '#e6a600';
-                      },
-                      {
-                        LABEL: 'Pastures';
-                        COLOR: '#e6e64d';
-                      },
-                      {
-                        LABEL: 'Annual crops associated with permanent crops';
-                        COLOR: '#ffe6a6';
-                      },
-                      {
-                        LABEL: 'Complex cultivation patterns';
-                        COLOR: '#ffe64d';
-                      },
-                      {
-                        LABEL: 'Agro-forestry areas';
-                        COLOR: '#f2cca6';
-                      },
-                      {
-                        LABEL: 'Broad-leaved forest';
-                        COLOR: '#80ff00';
-                      },
-                      {
-                        LABEL: 'Coniferous forest';
-                        COLOR: '#00a600';
-                      },
-                      {
-                        LABEL: 'Mixed forest';
-                        COLOR: '#4dff00';
-                      },
-                      {
-                        LABEL: 'Natural grasslands';
-                        COLOR: '#ccf24d';
-                      },
-                      {
-                        LABEL: 'Moors and heathland';
-                        COLOR: '#a6ff80';
-                      },
-                      {
-                        LABEL: 'Sclerophyllous vegetation';
-                        COLOR: '#a6e64d';
-                      },
-                      {
-                        LABEL: 'Transitional woodland-shrub';
-                        COLOR: '#a6f200';
-                      },
-                      {
-                        LABEL: 'Beaches - dunes - sands';
-                        COLOR: '#e6e6e6';
-                      },
-                      {
-                        LABEL: 'Bare rocks';
-                        COLOR: '#cccccc';
-                      },
-                      {
-                        LABEL: 'Sparsely vegetated areas';
-                        COLOR: '#ccffcc';
-                      },
-                      {
-                        LABEL: 'Burnt areas';
-                        COLOR: '#000000';
-                      },
-                      {
-                        LABEL: 'Glaciers and perpetual snow';
-                        COLOR: '#a6e6cc';
-                      },
-                      {
-                        LABEL: 'Inland marshes';
-                        COLOR: '#a6a6ff';
-                      },
-                      {
-                        LABEL: 'Peat bogs';
-                        COLOR: '#4d4dff';
-                      },
-                      {
-                        LABEL: 'Salt marshes';
-                        COLOR: '#ccccff';
-                      },
-                      {
-                        LABEL: 'Salines';
-                        COLOR: '#e6e6ff';
-                      },
-                      {
-                        LABEL: 'Intertidal flats';
-                        COLOR: '#a6a6e6';
-                      },
-                      {
-                        LABEL: 'Water courses';
-                        COLOR: '#00ccf2';
-                      },
-                      {
-                        LABEL: 'Water bodies';
-                        COLOR: '#80f2e6';
-                      },
-                      {
-                        LABEL: 'Coastal lagoons';
-                        COLOR: '#00ffa6';
-                      },
-                      {
-                        LABEL: 'Estuaries';
-                        COLOR: '#a6ffe6';
-                      },
-                      {
-                        LABEL: 'Sea and ocean';
-                        COLOR: '#e6f2ff';
-                      },
-                      {
-                        LABEL: 'NODATA';
-                        COLOR: '#ffffff';
-                      }
-                    ];
-                  },
-                  ['For WATERBODIES:'],
-                  {
-                    TABLE: [
-                      {
-                        LABEL: 'Water body';
-                        COLOR: '#0000ff';
-                      },
-                      {
-                        LABEL: 'Not water body';
-                        COLOR: '#ffffff';
-                      }
-                    ];
-                  },
-                  ['For GLOBAL:'],
-                  {
-                    TABLE: [
-                      {
-                        LABEL: 'No data';
-                        COLOR: '#000000';
-                      },
-                      {
-                        LABEL: 'Cropland, rainfed';
-                        COLOR: '#ffff64';
-                      },
-                      {
-                        LABEL: 'Herbaceous cover';
-                        COLOR: '#ffff64';
-                      },
-                      {
-                        LABEL: 'Tree or shrub cover';
-                        COLOR: '#ffff00';
-                      },
-                      {
-                        LABEL: 'Cropland, irrigated or post-flooding';
-                        COLOR: '#aaf0f0';
-                      },
-                      {
-                        LABEL: 'Mosaic cropland (>50%) / natural vegetation (tree, shrub, herbaceous cover) (<50%)';
-                        COLOR: '#dbf064';
-                      },
-                      {
-                        LABEL: 'Mosaic natural vegetation (tree, shrub, herbaceous cover) (>50%) / cropland (<50%)';
-                        COLOR: '#c8c864';
-                      },
-                      {
-                        LABEL: 'Tree cover, broadleaved, evergreen, closed to open (>15%)';
-                        COLOR: '#006400';
-                      },
-                      {
-                        LABEL: 'Tree cover, broadleaved, deciduous, closed to open (>15%)';
-                        COLOR: '#00a000';
-                      },
-                      {
-                        LABEL: 'Tree cover, broadleaved, deciduous, closed (>40%)';
-                        COLOR: '#00a000';
-                      },
-                      {
-                        LABEL: 'Tree cover, broadleaved, deciduous, open (15-40%)';
-                        COLOR: '#aac800';
-                      },
-                      {
-                        LABEL: 'Tree cover, needleleaved, evergreen, closed to open (>15%)';
-                        COLOR: '#003c00';
-                      },
-                      {
-                        LABEL: 'Tree cover, needleleaved, evergreen, closed (>40%)';
-                        COLOR: '#003c00';
-                      },
-                      {
-                        LABEL: 'Tree cover, needleleaved, evergreen, open (15-40%)';
-                        COLOR: '#005000';
-                      },
-                      {
-                        LABEL: 'Tree cover, needleleaved, deciduous, closed to open (>15%)';
-                        COLOR: '#400500';
-                      },
-                      {
-                        LABEL: 'Tree cover, needleleaved, deciduous, closed (>40%)';
-                        COLOR: '#400500';
-                      },
-                      {
-                        LABEL: 'Tree cover, needleleaved, deciduous, open (15-40%)';
-                        COLOR: '#400640';
-                      },
-                      {
-                        LABEL: 'Tree cover, mixed leaf type (broadleaved and needleleaved)';
-                        COLOR: '#788200';
-                      },
-                      {
-                        LABEL: 'Mosaic tree and shrub (>50%) / herbaceous cover (<50%)';
-                        COLOR: '#1400a0';
-                      },
-                      {
-                        LABEL: 'Mosaic herbaceous cover (>50%) / tree and shrub (<50%)';
-                        COLOR: '#be9500';
-                      },
-                      {
-                        LABEL: 'Shrubland';
-                        COLOR: '#150064';
-                      },
-                      {
-                        LABEL: 'Shrubland evergreen';
-                        COLOR: '#784c00';
-                      },
-                      {
-                        LABEL: 'Shrubland deciduous';
-                        COLOR: '#150064';
-                      },
-                      {
-                        LABEL: 'Grassland';
-                        COLOR: '#ffb432';
-                      },
-                      {
-                        LABEL: 'Lichens and mosses';
-                        COLOR: '#ffdcd2';
-                      },
-                      {
-                        LABEL: 'Sparse vegetation (tree, shrub, herbaceous cover) (<15%)';
-                        COLOR: '#ffebaf';
-                      },
-                      {
-                        LABEL: 'Sparse tree (<15%)';
-                        COLOR: '#ffc964';
-                      },
-                      {
-                        LABEL: 'Sparse shrub (<15%)';
-                        COLOR: '#ffd278';
-                      },
-                      {
-                        LABEL: 'Sparse herbaceous cover (<15%)';
-                        COLOR: '#ffebaf';
-                      },
-                      {
-                        LABEL: 'Tree cover, flooded, fresh or brakish water';
-                        COLOR: '#00785a';
-                      },
-                      {
-                        LABEL: 'Tree cover, flooded, saline water';
-                        COLOR: '#009678';
-                      },
-                      {
-                        LABEL: 'Shrub or herbaceous cover, flooded, fresh/saline/brakish water';
-                        COLOR: '#00dc80';
-                      },
-                      {
-                        LABEL: 'Urban areas';
-                        COLOR: '#c31300';
-                      },
-                      {
-                        LABEL: 'Bare areas';
-                        COLOR: '#fff5d7';
-                      },
-                      {
-                        LABEL: 'Consolidated bare areas';
-                        COLOR: '#dcdcdc';
-                      },
-                      {
-                        LABEL: 'Unconsolidated bare areas';
-                        COLOR: '#fff5d7';
-                      },
-                      {
-                        LABEL: 'Water bodies';
-                        COLOR: '#0046c8';
-                      },
-                      {
-                        LABEL: 'Permanent snow and ice';
-                        COLOR: '#ffffff';
-                      }
-                    ];
-                  }
-                ];
-              };
-              WHAT_IS_THE_COLOUR_CODING_FOR_WATER_QUALITY_ANALYSIS: {
-                QUESTION: 'What is the colour coding for Water Quality Analysis?';
-                ANSWER: [
-                  [
-                    {
-                      IMAGE: {
-                        NDWI: {
-                          DESCRIPTION_ABOVE: 'NDWI';
-                          ALT: 'NDWI';
-                        };
-                      };
-                    },
-                    {
-                      IMAGE: {
-                        DOC: {
-                          DESCRIPTION_ABOVE: 'DOC';
-                          ALT: 'DOC';
-                        };
-                      };
-                    },
-                    {
-                      IMAGE: {
-                        CDOM: {
-                          DESCRIPTION_ABOVE: 'CDOM';
-                          ALT: 'CDOM';
-                        };
-                      };
-                    },
-                    {
-                      IMAGE: {
-                        CYA: {
-                          DESCRIPTION_ABOVE: 'CYA';
-                          ALT: 'CYA';
-                        };
-                      };
-                    }
-                  ]
-                ];
-              };
-              WHAT_IS_THE_COLOUR_CODING_FOR_NDVI: {
-                QUESTION: 'What is the colour coding for NDVI?';
-                ANSWER: [
-                  [
-                    {
-                      IMAGE: {
-                        NDVI: {
-                          ALT: 'NDVI';
-                        };
-                      };
-                    }
-                  ]
-                ];
-              };
-              WHAT_IS_THE_COLOUR_CODING_FOR_EVI: {
-                QUESTION: 'What is the colour coding for EVI?';
-                ANSWER: [
-                  [
-                    {
-                      IMAGE: {
-                        EVI: {
-                          ALT: 'EVI';
-                        };
-                      };
-                    }
-                  ]
-                ];
-              };
-              WHAT_IS_THE_COLOUR_CODING_FOR_SAVI: {
-                QUESTION: 'What is the colour coding for SAVI?';
-                ANSWER: [
-                  [
-                    {
-                      IMAGE: {
-                        SAVI: {
-                          ALT: 'SAVI';
-                        };
-                      };
-                    }
-                  ]
-                ];
-              };
-            };
-            WORKING_WITH_GRAPHS: {
-              SUBTITLE: 'Working with Graphs';
-              HOW_DO_I_VIEW_GRAPHS_FOR_MY_DATA: {
-                QUESTION: 'How do I view graphs for my data?';
-                ANSWER: [
-                  'Graphs are displayed automatically for applicable workflows. They show results as per used functions, for example NDVI values or Land Cover classes.'
-                ];
-              };
-              WHAT_TYPES_OF_GRAPHS_ARE_AVAILABLE_AND_WHAT_DO_THEY_REPRESENT: {
-                QUESTION: 'What types of graphs are available, and what do they represent?';
-                ANSWER: [
-                  [
-                    'Line Chart: Used for NDVI, SAVI, EVI, and Water Quality Analysis.',
-                    [
-                      'Min, max, and median values are plotted for each timestamp.',
-                      'Min and max create a shaded range, with the median inside.'
-                    ],
-                    'Stacked Bar Chart: Used for Land Cover Change analysis.',
-                    [
-                      'Each bar represents land cover percentages for different classes (e.g., wetlands, grasslands).',
-                      'Clicking a legend item allows filtering to a single land cover class.'
-                    ],
-                    'Graph types are predefined by metadata and cannot be changed manually.'
-                  ]
-                ];
-              };
-              HOW_DO_I_ADJUST_THE_TIME_RANGE_DISPLAYED_ON_GRAPHS: {
-                QUESTION: 'How do I adjust the time range displayed on graphs?';
-                ANSWER: [
-                  'Use the time slider to filter the displayed data range. Drag the start and end handles to narrow or expand the time window. Narrowing the range hides data outside the selected period. Expanding the range restores hidden timestamps (within the workflow’s original date range). This data manipulation is reflected automatically on a respective graph.'
-                ];
-              };
-            };
-            MEASUREMENT_AOI_MANAGEMENT: {
-              SUBTITLE: 'Measurement & AOI Management';
-              HOW_DO_I_MEASURE_DISTANCES_AND_AREAS_ON_THE_MAP: {
-                QUESTION: 'How do I measure distances and areas on the map?';
-                ANSWER: [
-                  'Click the Measurement Tool in the top menu. Click on the map to place points and measure distances. For measuring areas, click the switch to enter area measurement mode and add at least three points to enclose a shape. You can also change measurement units.'
-                ];
-              };
-            };
-            COMPARISON_AND_LAYER_MANAGEMENT: {
-              SUBTITLE: 'Comparison & Layer Management';
-              HOW_DO_I_USE_THE_COMPARISON_TOOL: {
-                QUESTION: 'How do I use the comparison tool?';
-                ANSWER: [
-                  'Click "Add to Compare" for an item from Search or Action Creator. Select a second item to enable the comparison tool. Open top menu and click on "Compare" button to activate comparison mode. The comparison tool provides a swipe bar to compare images. You cannot run Search or Action Creator while actively using the comparison tool—exit the comparison mode to resume other tasks.'
-                ];
-              };
-            };
-          };
-        };
         WORKSPACES: {
           EMPTY_WORKSPACE: {
             TITLE: 'You have no available Workspaces';
@@ -1129,164 +992,6 @@ interface Resources {
         };
         NO_INTERSECTION: 'Selected data have no intersection';
       };
-      GENERAL_HELP_MODAL: {
-        TITLE: 'General Help topics';
-        INTRO: 'Click on one of the questions below to see more detailed explanations.';
-        BACK_BTN: 'Back to Top';
-        QUESTIONS: {
-          GENERAL_FUNCIONALITY: {
-            SUBTITLE: 'General Functionality';
-            WHAT_IS_EOPRO: {
-              QUESTION: 'What is EOPro?';
-              ANSWER: [
-                'EOPro is an advanced web-based platform for Earth Observation data processing with an intuitive interface, designed to monitor and analyse land cover changes over time using comprehensive satellite-based data sourced from the EODH platform. The platform enables you to seamlessly browse, select, compare, visualise, and process both commercial and public data sets through a dynamic pan-and-zoom mapping interface.',
-                {
-                  STYLED_TEXT: [['BOLD', 'Note: '], 'Commercial data is available at the moment for searching only.'];
-                }
-              ];
-            };
-            HOW_DO_I_GET_STARTED: {
-              QUESTION: 'How do I get started?';
-              ANSWER: [
-                'To begin accessing the imaging data, you can use the Search Module from the left menu, draw an area of interest using the drawing tools at the top of the screen, and define a date range near the search button bottom-left. Once you’ve configured all these options, clicking the search button will return results (or let you know if you need to refine your search parameters in any way) that you can view on the map.',
-                'If you’d like to take your search further, you can log in using the button at the top-right of the screen to take advantage of the Action Creator. '
-              ];
-            };
-            DO_I_NEED_ACCOUNT: {
-              QUESTION: 'Do I need to create an account?';
-              ANSWER: [
-                'No, but if you want to get the most out of the imaging data EOPro has access to, we would recommend logging in. This way you can also use all the features of the Action Creator.'
-              ];
-            };
-            HOW_DO_I_LOG_IN: {
-              QUESTION: 'How do I log in?';
-              ANSWER: [
-                'In order to log in, you need to first register your Github or Google account with EODH.\n\nThe user has to request a billing account and then the user will need to create a workspace on the Hub after the account has been approved. Finally, the user will have to select the workspace on EOPro.\n\nPlease see more details here: <Link href="https://eodatahub.org.uk/docs/account-setup/">Account Setup</Link>.'
-              ];
-            };
-          };
-          SEARCH_MODULE_FUNCIONALITY: {
-            SUBTITLE: 'Search Module Functionality';
-            WHAT_IS_THE_SEARCH_MODULE: {
-              QUESTION: 'What is the search module and how does it work?';
-              ANSWER: [
-                'The Search Module allows users to find satellite imagery based on a specified Area of Interest (AOI), date range, and selected data set(s). Once a search is performed, the system displays results as thumbnails in the left panel and footprints on the map for geographic reference.'
-              ];
-            };
-            HOW_DO_I_SELECT_A_DATA_SET_AS_PART_OF_A_SEARCH: {
-              QUESTION: 'How do I select a data set as part of a search?';
-              ANSWER: [
-                'Click on the data set selection menu on the left panel. Browse through available public and commercial data sets. Click on a data set to select it. If applicable, configure advanced settings.'
-              ];
-            };
-            WHAT_IS_SENTINEL_2_ARD: {
-              QUESTION: 'What is Sentinel 2 ARD (DEFRA and JNCC)?';
-              ANSWER: [
-                'These data have been created by the Department for Environment, Food and Rural Affairs (Defra) and Joint Nature Conservation Committee (JNCC) in order to cost-effectively provide high quality, Analysis Ready Data (ARD) for a wide range of applications. The dataset contains modified Copernicus Sentinel-2 (Level 1C data processed into a surface reflectance product using ARCSI software (Level 2)).'
-              ];
-            };
-            HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI: {
-              QUESTION: 'How do I define an Area of Interest (AOI)?';
-              ANSWER: [
-                'Click on the AOI drawing tool in the top menu. Choose a shape type. Draw the shape on the map to define your search area.'
-              ];
-            };
-            HOW_DO_I_SET_A_DATE_RANGE_FOR_MY_SEARCH: {
-              QUESTION: 'How do I set a date range for my search?';
-              ANSWER: [
-                'Click on the Date Range Picker in the search panel. Select a "From" and "To" date. The "To" date must be the same or later than the "From" date.'
-              ];
-            };
-            WHAT_HAPPENS_WHEN_I_RUN_A_SEARCH: {
-              QUESTION: 'What happens when I run a search?';
-              ANSWER: [
-                'The system processes your data set, AOI, and date range. Results appear in the left panel as thumbnails. Footprints of matching assets are displayed on the map. The time slider becomes available to refine results.'
-              ];
-            };
-            HOW_DO_I_REFINE_OR_MODIFY_MY_SEARCH_PARAMETERS: {
-              QUESTION: 'How do I refine or modify my search parameters?';
-              ANSWER: [
-                [
-                  'Modify AOI: Click on the drawing tool and redraw the area.',
-                  'Change Data Set: Click on the data set selector and choose a new data set.',
-                  'Adjust Date Range: Modify the date range using the picker or time slider.',
-                  'Click Search again to refresh results, unless you used only time slider to refine your search results.'
-                ]
-              ];
-            };
-            HOW_DO_I_USE_ADVANCED_SEARCH_OPTIONS_FOR_DATASETS: {
-              QUESTION: 'How do I use advanced search options for data sets?';
-              ANSWER: [
-                'For data sets like Sentinel-1, toggle Advanced Search in the data set panel. Configure acquisition modes, orbit direction, polarisation settings, etc. These settings affect search results based on data set-specific filtering.'
-              ];
-            };
-            WHAT_IS_THE_DIFFERENCE_BETWEEN_PUBLIC_AND_COMMERCIAL_DATASETS: {
-              QUESTION: 'What is the difference between public and commercial data sets?';
-              ANSWER: [
-                [
-                  'Public data sets (e.g., Copernicus Sentinel) are freely available.',
-                  'Commercial data sets (e.g., Planet) require purchase before using for workflows.'
-                ]
-              ];
-            };
-          };
-          INTERPRETING_SEARCH_RESULTS: {
-            SUBTITLE: 'Interpreting Search Results';
-            WHAT_ARE_FOOTPRINTS_ON_THE_MAP: {
-              QUESTION: 'What are footprints on the map, and how do they relate to search results?';
-              ANSWER: [
-                'Footprints represent the geographic coverage of an asset. Each search result (item) corresponds to a footprint on the map.'
-              ];
-            };
-          };
-          VIEWING_AND_PURCHASING_SEARCH_RESULTS: {
-            SUBTITLE: 'Viewing Search Results';
-            HOW_DO_I_VIEW_AN_ITEM_FROM_THE_SEARCH_RESULTS: {
-              QUESTION: 'How do I view an item from the search results?';
-              ANSWER: [
-                'Click the "View" button next to a search result. The asset will load as an overlay on the map.'
-              ];
-            };
-            HOW_DO_I_PURCHASE_COMMERCIAL_DATA: {
-              QUESTION: 'How do I purchase commercial data (e.g., Planet data)?';
-              ANSWER: [
-                'Click "Purchase" next to a commercial data set. You will be redirected to the TPZ portal to accept terms and complete the transaction. After purchase, the item appears in My Items.'
-              ];
-            };
-            HOW_DO_I_DISPLAY_PURCHASED_ITEMS_ON_THE_MAP: {
-              QUESTION: 'How do I display purchased items on the map?';
-              ANSWER: ['In "My Items", click "View" to load the purchased asset on the map.'];
-            };
-          };
-          TIME_MANAGEMENT_IN_SEARCH: {
-            SUBTITLE: 'Time Management in Search';
-            HOW_DOES_THE_TIME_SLIDER_AFFECT_SEARCH_RESULTS: {
-              QUESTION: 'How does the time slider affect search results?';
-              ANSWER: [
-                'The time slider allows you to filter results dynamically by narrowing the displayed time range. Moving the slider updates results in real-time.'
-              ];
-            };
-          };
-          COMPARISON_AND_EXPORTING: {
-            SUBTITLE: 'Comparison & Exporting';
-            HOW_DO_I_ADD_SEARCH_RESULTS_TO_THE_COMPARISON_TOOL: {
-              QUESTION: 'How do I add search results to the comparison tool?';
-              ANSWER: [
-                'Click "Add to Compare" on a search result. Add a second asset to enable the comparison tool. Open top menu and click on "Compare" button to activate comparison mode.  Use the comparison swipe to analyse differences.'
-              ];
-            };
-          };
-          GENERAL_FEATURES_USER_SETTINGS: {
-            SUBTITLE: 'General Features & User Settings';
-            HOW_DO_I_HIDE_FOOTPRINTS_OR_AOI_TO_BETTER_SEE_MY_SELECTED_IMAGERY: {
-              QUESTION: 'How do I hide footprints or AOI to better see my selected imagery?';
-              ANSWER: [
-                'Click the Eye icon in the top menu. This hides both the AOI boundary and footprints without affecting the imagery. Click the Eye icon again to restore visibility.'
-              ];
-            };
-          };
-        };
-      };
       SEARCH_MODE_PANEL: {
         HEADER: {
           BROWSE_DATA_SETS: 'Browsing data sets';
@@ -1310,12 +1015,17 @@ interface Resources {
           ONE_OF_FIELDS_REQUIRED: 'You must select at least one of the following options';
           ONLY_ONE_FIELD_IS_REQUIRED: 'You must select only one of the following options';
           DATE_FROM_SHOULD_BE_EARLIER_THAN_DATE_TO: 'Invalid date. Date from should be earlier';
+          DATE_FROM_SHOULD_BE_AFTER_MIN: 'Invalid date. Date from should be later';
+          DATE_FROM_SHOULD_BE_BEFORE_MAX: 'Invalid date. Date from should be earlier';
+          DATE_TO_SHOULD_BE_AFTER_MIN: 'Invalid date. Date to should be later';
+          DATE_TO_SHOULD_BE_BEFORE_MAX: 'Invalid date. Date to should be earlier';
           DATE_TO_SHOULD_BE_LATER_THAN_DATE_TO: 'Invalid date. Date to should be later';
           NO_DATE_SELECTED: 'Please select a valid date';
           DATE_SHOULD_BE_EARLIER_THAN_TODAY: "Date cannot be later than today's date";
           ONLY_ONE_COLLECTION_IS_REQUIRED: 'You can only select Data Sets from within the same collection. Please refine your selection and try again.';
         };
         DATA_SETS: {
+          N_A: 'N/A';
           INFO_BOX: {
             SOME_OPTIONS_ARE_INCOMPATIBLE: 'Some menu options may be incompatible with your selections in the Action Creator';
             BUTTON: {
@@ -1372,6 +1082,9 @@ interface Resources {
           SEARCH_FROM: 'Search from:';
           SEARCH_TO: 'Search to:';
           SEARCH: 'Search';
+          ERROR: {
+            FAILED_TO_LOAD: "We couldn't load date ranges for selected data sets.";
+          };
         };
         CHECKLIST: {
           HEADING: 'Getting started checklist';
