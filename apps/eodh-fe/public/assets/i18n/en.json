@@ -901,7 +901,7 @@
       "WORKFLOW": {
         "INFO": {
           "CLIPPING_NOTIFICATION": "Please note: due to your combination of Data Set and function, we have automatically applied clipping to optimise asset visibility.",
-          "CLIP_SELECTED_INFO_NOTIFICATION": "Clipping limits the output to the selected area of interest.\n\nWhen enabled, only pixels inside the boundary are kept; when disabled, the workflow runs on the full image extent."
+          "CLIP_SELECTED_INFO_NOTIFICATION": "Clipping limits the output to the selected area of interest.\nWhen enabled, only pixels inside the boundary are kept; when disabled, the workflow runs on the full image extent."
         },
         "WARNING": {
           "WATER_QUALITY_NOT_VERIFIED": "Please note: you have selected the Water Quality Analysis function. This feature is still under review. While it provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.\n\nFor more information, documentation is available <Link href=\"https://eodatahub.org.uk/about/applications/applications/qa-for-eo-pro/docs/\">here</Link>."
