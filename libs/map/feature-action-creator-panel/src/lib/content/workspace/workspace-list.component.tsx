@@ -52,7 +52,7 @@ export const WorkspaceList = () => {
 
   return (
     <>
-      <section className={workspaceStyles.activeWorkspace.radioButton.container} style={{ height: '256px' }}>
+      <section className={workspaceStyles.activeWorkspace.radioButton.container} style={{ maxHeight: '256px' }}>
         {workspaces.map((workspace) => (
           <RadioButton
             id={workspace}
