@@ -8,7 +8,7 @@ export const workspaceStyles = {
       description: 'mt-4',
     },
     radioButton: {
-      container: 'mt-4 flex flex-col gap-2',
+      container: 'mt-4 flex flex-col gap-2 overflow-y-auto',
       button: (active: boolean) => (active ? `${radioButtonBase} text-primary` : radioButtonBase),
     },
     infoContainer: 'mt-4',
