@@ -267,8 +267,8 @@
               "ANSWER_TEXT_1": "Workflow blocks (also called nodes) represent different stages in the Action Creator workflow. Each block must be filled in before running the workflow. These blocks are:",
               "ANSWER_ITEM_1": "Area (AOI) – Defines the geographic region for analysis.",
               "ANSWER_ITEM_2": "Data Set – Selects the data set to be used in the workflow.",
-              "ANSWER_ITEM_3": "Date Range – Specifies the time period for data selection.",
-              "ANSWER_ITEM_4": "Function – Applies a data processing function (e.g., NDVI calculation, water quality analysis).",
+              "ANSWER_ITEM_3": "Date Range – Specifies the time period for data selection. The system automatically adjusts the selectable date range depending on the chosen data set and data availability, ensuring only valid dates can be selected.",
+              "ANSWER_ITEM_4": "Function – Applies a data processing function (e.g., NDVI calculation, water quality analysis). The list of available functions is automatically adjusted based on the selected data set, so only functions compatible with the chosen data source can be selected.",
               "ANSWER_ITEM_5": "Additional Function Blocks – Users can add consecutive functions to process data in multiple steps.",
               "ANSWER_TEXT_2": "Each block must be filled in order, and the workflow cannot run until all required blocks are set."
             },
@@ -320,6 +320,10 @@
             "HOW_DO_I_DOWNLOAD_A_WORKFLOW_OR_SEARCH_RESULTS": {
               "QUESTION": "How do I download workflow results?",
               "ANSWER_TEXT": "After you run Action Creator and browse results in the left side menu, you will see \"download\" option next to each individual item. When you click on it, this will prompt download of each individual file connected with this item. Each of these files will start being downloaded in a separate tab of your browser. Depending on a type of browser you use, you might need to accept the download action separately for each tab."
+            },
+            "HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI": {
+              "QUESTION": "How do I define an Area of Interest (AOI)?",
+              "ANSWER_TEXT": "Selecting the AOI workflow node allows you to define an Area of Interest either by drawing it on the map or by importing it from a file. Use the rectangle, polygon, or circle drawing tools in the top menu to draw an AOI, or click the Upload AOI button to select or drag & drop a file. The AOI must be provided in the supported JSON format. Once defined, the AOI is displayed on the map and used as the Area of Interest. After finalizing the AOI, the coordinates of its vertices are displayed and can be shown or hidden as needed."
             }
           },
           "MANAGING_DATASETS_AND_FUNCTIONS_IN_AC": {
@@ -335,7 +339,7 @@
             "SUBTITLE": "Executing & Tracking Workflows",
             "HOW_DO_I_VIEW_WORKFLOW_EXECUTION_RESULTS": {
               "QUESTION": "How do I view workflow execution results?",
-              "ANSWER_TEXT": "Open the History tab in Action Creator to see past workflows. Click \"View Results\" to open a completed workflow's results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click \"View\" to load the result as a map layer."
+              "ANSWER_TEXT": "Open the History tab in Action Creator to see past workflows. Click \"View Results\" to open a completed workflow’s results. Results appear in the left panel. Click a thumbnail to view its details. The corresponding footprint is displayed on the map. Click \"View\" to load the result as a map layer. When results are displayed on the map, a color map is shown to explain the color coding and index values of the resulting areas."
             },
             "HOW_TO_FILTER_RESULTS_WITH_TIME_SLIDER": {
               "QUESTION": "How do I filter workflow results by time using the time slider?",
@@ -520,7 +524,11 @@
             },
             "HOW_DO_I_DEFINE_AN_AREA_OF_INTEREST_AOI": {
               "QUESTION": "How do I define an Area of Interest (AOI)?",
-              "ANSWER_TEXT": "Click on the AOI drawing tool in the top menu. Choose a shape type. Draw the shape on the map to define your search area."
+              "ANSWER_TEXT": "You can define an Area of Interest either by drawing it on the map or by importing it from a file. Use the rectangle, polygon, or circle drawing tools in the top menu to draw an AOI, or click the Upload AOI button to select or drag & drop a file. The AOI must be provided in the supported JSON format. Once defined, the AOI is displayed on the map and used as the Area of Interest. After finalizing the AOI, the coordinates of its vertices are displayed and can be shown or hidden as needed."
+            },
+            "HOW_DO_I_UPLOAD_AOI_FROM_FILE": {
+              "QUESTION": "How do I upload an Area of Interest (AOI) from a file?",
+              "ANSWER_TEXT": "Click the Upload AOI button in the top menu, then select a file or drag & drop it into the window. The AOI must be provided in the supported JSON format. Once uploaded, the AOI is automatically displayed on the map and used as the Area of Interest."
             },
             "HOW_DO_I_SET_A_DATE_RANGE_FOR_MY_SEARCH": {
               "QUESTION": "How do I set a date range for my search?",
@@ -892,7 +900,8 @@
       },
       "WORKFLOW": {
         "INFO": {
-          "CLIPPING_NOTIFICATION": "Please note: due to your combination of Data Set and function, we have automatically applied clipping to optimise asset visibility."
+          "CLIPPING_NOTIFICATION": "Please note: due to your combination of Data Set and function, we have automatically applied clipping to optimise asset visibility.",
+          "CLIP_SELECTED_INFO_NOTIFICATION": "Clipping limits the output to the selected area of interest.\nWhen enabled, only pixels inside the boundary are kept; when disabled, the workflow runs on the full image extent."
         },
         "WARNING": {
           "WATER_QUALITY_NOT_VERIFIED": "Please note: you have selected the Water Quality Analysis function. This feature is still under review. While it provides useful initial insights and can be used for learning purposes, this feature is still under development and therefore results should not be used for scientific publications, decisions, or research conclusions.\n\nFor more information, documentation is available <Link href=\"https://eodatahub.org.uk/about/applications/applications/qa-for-eo-pro/docs/\">here</Link>."

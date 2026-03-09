@@ -34,7 +34,6 @@ export const TopBar = () => {
           <Logo className='h-11' />
         </a>
       </div>
-
       <AoiLayer>
         <OnboardingTooltip
           tipLocation='top'

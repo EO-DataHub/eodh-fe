@@ -87,6 +87,16 @@ export const generalHelpConfig: IHelpConfig = {
           ],
         },
         {
+          id: 'HOW_DO_I_UPLOAD_AOI_FROM_FILE',
+          question: `${T}.QUESTIONS.SEARCH_MODULE_FUNCIONALITY.HOW_DO_I_UPLOAD_AOI_FROM_FILE.QUESTION`,
+          answer: [
+            {
+              type: 'text',
+              content: `${T}.QUESTIONS.SEARCH_MODULE_FUNCIONALITY.HOW_DO_I_UPLOAD_AOI_FROM_FILE.ANSWER_TEXT`,
+            },
+          ],
+        },
+        {
           id: 'HOW_DO_I_SET_A_DATE_RANGE_FOR_MY_SEARCH',
           question: `${T}.QUESTIONS.SEARCH_MODULE_FUNCIONALITY.HOW_DO_I_SET_A_DATE_RANGE_FOR_MY_SEARCH.QUESTION`,
           answer: [

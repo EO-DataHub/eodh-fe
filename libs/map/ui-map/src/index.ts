@@ -14,3 +14,4 @@ export { ComparisonToolButton } from './lib/layers/comparison-mode-image-layer/c
 export { MeasureDistanceLayer } from './lib/layers/measure-distance-layer/measure-distance-layer.component';
 export { MeasureDistanceButton } from './lib/layers/measure-distance-layer/measure-distance-button.component';
 export { MeasureDistancePanel } from './lib/layers/measure-distance-layer/measure-distance-panel/measure-distance-panel.component';
+export { CoordinatesPanel } from './lib/layers/coordinates-layer/coordinates-panel.component';

@@ -9,7 +9,7 @@ const calculateDisplayTime = (message: string) => {
   const wordsTime = (words / readableWordsPerMinute) * 60 * 1000;
 
   const delayTime = 1500;
-  const bonusTime = 1000;
+  const bonusTime = 2000;
 
   return Math.round(delayTime + wordsTime + bonusTime);
 };
