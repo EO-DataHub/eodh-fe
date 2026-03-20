@@ -471,12 +471,6 @@ export const actionCreatorConfig: IHelpConfig = {
             },
             {
               type: 'text',
-              content: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES.CORINE_INTRO`,
-              display: 'list-item',
-            },
-            landCoverConfigs.corine.element,
-            {
-              type: 'text',
               content: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES.WATERBODIES_INTRO`,
               display: 'list-item',
             },

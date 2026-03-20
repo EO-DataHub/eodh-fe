@@ -1,4 +1,4 @@
-export type TLandCoverType = 'corine' | 'global' | 'waterbodies';
+export type TLandCoverType = 'global' | 'waterbodies';
 
 export type TWorkflowType = 'waterQuality' | 'landCoverChanges';
 

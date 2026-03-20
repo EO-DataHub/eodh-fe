@@ -5,7 +5,7 @@ export interface IPosition {
 
 export type TWorkflowType = 'waterQuality' | 'landCoverChanges';
 
-export type TLandCoverType = 'corine' | 'global' | 'waterbodies';
+export type TLandCoverType = 'global' | 'waterbodies';
 
 export type TVegetationIndexType = 'ndvi' | 'evi' | 'savi' | 'ndwi';
 
