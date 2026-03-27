@@ -188,7 +188,51 @@ const waterQualitySchema = presetBaseSchema
     };
   });
 
-const presetSchema = z.union([landCoverSchema, waterQualitySchema]);
+const nbrSchema = presetBaseSchema
+  .extend({
+    identifier: z.literal('nbr'),
+    workflow: z.object({
+      clip: clipSchema,
+      nbr: z.object({
+        identifier: z.literal('nbr'),
+        order: z.number(),
+        inputs: functionInputsSchema,
+      }),
+    }),
+  })
+  .transform((data) => {
+    const dateFrom = data.workflow?.['nbr']?.inputs.date_start;
+    const dateTo = data.workflow?.['nbr']?.inputs.date_end;
+    const dateRange =
+      dateFrom && dateTo
+        ? {
+            from: formatDate(dateFrom as TDateTimeString),
+            to: formatDate(dateTo as TDateTimeString),
+          }
+        : undefined;
+
+    return {
+      identifier: data.identifier,
+      name: data.name,
+      description: data.description,
+      disabled: data.disabled,
+      imageUrl: data.thumbnail_b64 ? `data:image/jpeg;base64,${data.thumbnail_b64}` : undefined,
+      verified: false,
+      defaultValues: {
+        aoi: data.workflow?.['nbr'].inputs.aoi,
+        dateRange,
+        dataSet: data.workflow?.['nbr']?.inputs.stac_collection,
+        functions: data.workflow
+          ? Object.entries(data.workflow).map(([, item]) => ({
+              identifier: item.identifier,
+              order: item.order,
+            }))
+          : [],
+      },
+    };
+  });
+
+const presetSchema = z.union([landCoverSchema, waterQualitySchema, nbrSchema]);
 
 export const presetsSchema = z.object({
   presets: z.array(presetSchema),
