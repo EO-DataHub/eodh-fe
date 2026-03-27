@@ -2,7 +2,7 @@ import { TLandCoverType } from '../types/legend.types';
 
 export const detectLandCoverType = (feature: unknown): TLandCoverType => {
   if (!feature || typeof feature !== 'object') {
-    return 'corine';
+    return 'global';
   }
 
   const featureObj = feature as Record<string, unknown>;
@@ -16,5 +16,5 @@ export const detectLandCoverType = (feature: unknown): TLandCoverType => {
     return 'waterbodies';
   }
 
-  return 'corine';
+  return 'global';
 };
