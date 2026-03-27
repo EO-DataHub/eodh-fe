@@ -5,7 +5,7 @@ import { useCallback, useMemo } from 'react';
 import { useLegendIntegration } from '../legends/hooks/use-legend-integration.hook';
 import { downloadFiles } from './download-files.utils';
 
-type TWorkflowType = 'waterQuality' | 'landCoverChanges' | 'nbr';
+type TWorkflowType = 'waterQuality' | 'landCoverChanges';
 
 interface IWorkflowFeature {
   readonly id: string;
