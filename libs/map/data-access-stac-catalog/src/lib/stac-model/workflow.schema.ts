@@ -177,114 +177,22 @@ const isLandCoverSchema = z.object({
   }),
 });
 
-const isWaterQualitySchema = z.object({
-  assets: z
-    .object({
-      cdom: z.unknown().optional(),
-      cya_cells: z.unknown().optional(),
-      doc: z.unknown().optional(),
-      turb: z.unknown().optional(),
-      ndwi: z.unknown().optional(),
-    })
-    .refine(
-      (assets) =>
-        assets.cdom !== undefined ||
-        assets.cya_cells !== undefined ||
-        assets.doc !== undefined ||
-        assets.turb !== undefined ||
-        assets.ndwi !== undefined,
-      'No water quality assets found'
-    ),
-});
-
-const nbrAssetSchema = z.preprocess(
-  (input) => {
-    if (!isObject(input)) {
-      return input;
-    }
-
-    const data = input as Record<string, unknown>;
-    let projEpsg = data['proj:epsg'];
-
-    if (isNil(projEpsg) && !isNil(data['proj:code'])) {
-      projEpsg = data['proj:code'];
-
-      if (isString(projEpsg)) {
-        const match = projEpsg.split(':').pop();
-        projEpsg = match !== undefined ? parseInt(match, 10) : projEpsg;
-      }
-    }
-
-    return {
-      ...data,
-      'proj:epsg': projEpsg,
-    };
-  },
-  z.object({
-    title: z.string(),
-    type: z.string(),
-    href: z.string(),
-    size: z.number(),
-    roles: z.array(z.string()),
-    nodata: noDataSchema,
-    'proj:epsg': z.number(),
-    'proj:shape': z.array(z.number()),
-    'proj:transform': z.array(z.number()),
-    'raster:bands': z.array(
-      z.object({
-        nodata: noDataSchema,
-        unit: z.string(),
-      })
-    ),
-    colormap: colormapSchema.optional(),
-    statistics: z
-      .object({
-        maximum: z.number().nullable(),
-        mean: z.number().nullable(),
-        median: z.number().nullable(),
-        minimum: z.number().nullable(),
-        stddev: z.number().nullable(),
-        valid_percent: z.number().nullable(),
-      })
-      .optional(),
-    'classification:classes': z.never().optional(),
-  })
-);
-
-export const nbrSchema = featureGenericSchema.extend({
-  properties: propertySchema.innerType().transform((data) => ({
-    datetime: data.datetime,
-    gridCode: data.gridCode as never,
-    orbitState: data.orbitState as never,
-    instrumentMode: data.instrumentMode as never,
-    polarizations: data.polarizations as never,
-  })),
-  assets: z.object({
-    thumbnail: thumbnailAssetSchema.optional(),
-    data: nbrAssetSchema.optional(),
-    cdom: z.never().optional(),
-    cya_cells: z.never().optional(),
-    doc: z.never().optional(),
-    turb: z.never().optional(),
-    ndwi: z.never().optional(),
-  }),
-  workflowType: z.literal('nbr'),
-});
-
 export const featureWorkflowSchema = z.preprocess((input) => {
   if (!isObject(input) || input === null) {
     return input;
   }
 
-  const landCoverParsed = isLandCoverSchema.safeParse(input);
-  if (landCoverParsed.success) {
-    return { ...input, workflowType: 'landCoverChanges' };
+  const parsedData = isLandCoverSchema.safeParse(input);
+
+  if (parsedData.success) {
+    return {
+      ...input,
+      workflowType: 'landCoverChanges',
+    };
   }
 
-  const waterQualityParsed = isWaterQualitySchema.safeParse(input);
-  if (waterQualityParsed.success) {
-    return { ...input, workflowType: 'waterQuality' };
-  }
-
-  return { ...input, workflowType: 'nbr' };
-}, z.discriminatedUnion('workflowType', [landCoverChangesSchema, waterQualitySchema, nbrSchema]));
+  return {
+    ...input,
+    workflowType: 'waterQuality',
+  };
+}, z.discriminatedUnion('workflowType', [landCoverChangesSchema, waterQualitySchema]));

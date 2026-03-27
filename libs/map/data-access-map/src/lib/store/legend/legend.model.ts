@@ -3,7 +3,7 @@ export interface IPosition {
   readonly y: number;
 }
 
-export type TWorkflowType = 'waterQuality' | 'landCoverChanges' | 'nbr';
+export type TWorkflowType = 'waterQuality' | 'landCoverChanges';
 
 export type TLandCoverType = 'global' | 'waterbodies';
 
