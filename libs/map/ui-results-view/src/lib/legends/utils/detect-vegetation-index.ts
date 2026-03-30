@@ -1,6 +1,6 @@
 import { TVegetationIndexType } from '../types/legend.types';
 
-const VEGETATION_INDEX_TYPES: readonly TVegetationIndexType[] = ['ndvi', 'evi', 'savi'];
+const VEGETATION_INDEX_TYPES: readonly TVegetationIndexType[] = ['ndvi', 'evi', 'savi', 'nbr', 'ntu'];
 
 const getAssetFromFeature = (feature: unknown, assetName: string): Record<string, unknown> | undefined => {
   if (!feature || typeof feature !== 'object') {
@@ -38,6 +38,7 @@ export const detectVegetationIndexFromAsset = (
   }
 
   const asset = getAssetFromFeature(feature, assetName);
+
   if (asset) {
     const colormap = asset.colormap as Record<string, unknown> | undefined;
     const colormapUnit = colormap?.units as string | undefined;
