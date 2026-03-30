@@ -4,9 +4,11 @@ import cdomImage from './images/CDOM.png';
 import cyaImage from './images/CYA.png';
 import docImage from './images/DOC.png';
 import eviImage from './images/EVI.png';
+import nbrImage from './images/NBR.png';
 import ndviImage from './images/NDVI.png';
 import ndwiImage from './images/NDWI.png';
 import saviImage from './images/SAVI.png';
+import turbImage from './images/TURB.png';
 import { IHelpElementConfig } from './shared.types';
 
 const T_WQ = 'APP.HELP.SHARED.ASSET.WATER_QUALITY';
@@ -30,8 +32,8 @@ export const vegetationIndexImages = {
   ndvi: { src: ndviImage, alt: `${T_VI}.NDVI.ALT`, title: `${T_VI}.NDVI.TITLE` },
   evi: { src: eviImage, alt: `${T_VI}.EVI.ALT`, title: `${T_VI}.EVI.TITLE` },
   savi: { src: saviImage, alt: `${T_VI}.SAVI.ALT`, title: `${T_VI}.SAVI.TITLE` },
-  nbr: { src: ndwiImage, alt: `${T_VI}.NBR.ALT`, title: `${T_VI}.NBR.TITLE` },
-  ntu: { src: ndwiImage, alt: `${T_WQ}.TURB.ALT`, title: `${T_WQ}.TURB.TITLE` },
+  nbr: { src: nbrImage, alt: `${T_VI}.NBR.ALT`, title: `${T_VI}.NBR.TITLE` },
+  ntu: { src: turbImage, alt: `${T_WQ}.TURB.ALT`, title: `${T_WQ}.TURB.TITLE` },
 } as const;
 
 export const waterQualityConfigs: Record<string, IHelpElementConfig> = {
