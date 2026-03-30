@@ -7,7 +7,7 @@ export type TWorkflowType = 'waterQuality' | 'landCoverChanges';
 
 export type TLandCoverType = 'global' | 'waterbodies';
 
-export type TVegetationIndexType = 'ndvi' | 'evi' | 'savi' | 'ndwi';
+export type TVegetationIndexType = 'ndvi' | 'evi' | 'savi' | 'ndwi' | 'nbr' | 'ntu';
 
 export interface IActiveLegend {
   readonly id: string;
