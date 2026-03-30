@@ -230,6 +230,10 @@ interface Resources {
                 TITLE: 'SAVI';
                 ALT: 'SAVI (Soil Adjusted Vegetation Index) color scale';
               };
+              NBR: {
+                TITLE: 'NBR';
+                ALT: 'NBR (Normalised Burn Ratio) color scale';
+              };
             };
           };
         };
