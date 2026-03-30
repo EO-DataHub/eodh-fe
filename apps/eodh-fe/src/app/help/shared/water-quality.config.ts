@@ -22,7 +22,6 @@ export const waterQualityImages = {
   cdom: { src: cdomImage, alt: `${T_WQ}.CDOM.ALT`, title: `${T_WQ}.CDOM.TITLE` },
   cya_cells: { src: cyaImage, alt: `${T_WQ}.CYA.ALT`, title: `${T_WQ}.CYA.TITLE` },
   doc: { src: docImage, alt: `${T_WQ}.DOC.ALT`, title: `${T_WQ}.DOC.TITLE` },
-  turb: { src: ndwiImage, alt: `${T_WQ}.TURB.ALT`, title: `${T_WQ}.TURB.TITLE` },
   ndwi: { src: ndwiImage, alt: `${T_WQ}.NDWI.ALT`, title: `${T_WQ}.NDWI.TITLE` },
   data: { src: ndwiImage, alt: `${T_WQ}.DATA.ALT`, title: `${T_WQ}.DATA.TITLE` },
 } as const;
@@ -31,6 +30,8 @@ export const vegetationIndexImages = {
   ndvi: { src: ndviImage, alt: `${T_VI}.NDVI.ALT`, title: `${T_VI}.NDVI.TITLE` },
   evi: { src: eviImage, alt: `${T_VI}.EVI.ALT`, title: `${T_VI}.EVI.TITLE` },
   savi: { src: saviImage, alt: `${T_VI}.SAVI.ALT`, title: `${T_VI}.SAVI.TITLE` },
+  nbr: { src: ndwiImage, alt: `${T_VI}.NBR.ALT`, title: `${T_VI}.NBR.TITLE` },
+  ntu: { src: ndwiImage, alt: `${T_WQ}.TURB.ALT`, title: `${T_WQ}.TURB.TITLE` },
 } as const;
 
 export const waterQualityConfigs: Record<string, IHelpElementConfig> = {
@@ -45,10 +46,6 @@ export const waterQualityConfigs: Record<string, IHelpElementConfig> = {
   doc: {
     title: waterQualityImages.doc.title,
     element: createImageElement(waterQualityImages.doc.src, waterQualityImages.doc.alt),
-  },
-  turb: {
-    title: waterQualityImages.turb.title,
-    element: createImageElement(waterQualityImages.turb.src, waterQualityImages.turb.alt),
   },
   ndwi: {
     title: waterQualityImages.ndwi.title,
@@ -72,5 +69,13 @@ export const vegetationIndexConfigs: Record<string, IHelpElementConfig> = {
   savi: {
     title: vegetationIndexImages.savi.title,
     element: createImageElement(vegetationIndexImages.savi.src, vegetationIndexImages.savi.alt),
+  },
+  nbr: {
+    title: vegetationIndexImages.nbr.title,
+    element: createImageElement(vegetationIndexImages.nbr.src, vegetationIndexImages.nbr.alt),
+  },
+  ntu: {
+    title: vegetationIndexImages.ntu.title,
+    element: createImageElement(vegetationIndexImages.ntu.src, vegetationIndexImages.ntu.alt),
   },
 };
