@@ -37,7 +37,7 @@
     "@mui/material": "6.1.6",
     "@tanstack/react-query": "5.50.1",
     "apexcharts": "4.2.0",
-    "axios": "1.13.5",
+    "axios": "1.7.4",
     "clsx": "2.1.1",
     "colormap": "2.3.2",
     "date-fns": "3.6.0",
