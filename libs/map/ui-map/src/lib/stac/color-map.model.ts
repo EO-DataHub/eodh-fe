@@ -62,7 +62,8 @@ export interface INamedColorMapOptions {
     | 'turbidity'
     | 'velocity-blue'
     | 'velocity-green'
-    | 'cubehelix';
+    | 'cubehelix'
+    | 'RdYlGn';
   readonly min: number;
   readonly max: number;
   readonly steps: number;
