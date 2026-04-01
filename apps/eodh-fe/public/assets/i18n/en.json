@@ -454,6 +454,10 @@
             "WHAT_IS_THE_COLOUR_CODING_FOR_WATER_QUALITY_ANALYSIS": {
               "QUESTION": "What is the colour coding for Water Quality Analysis?"
             },
+            "WHAT_IS_THE_COLOUR_CODING_FOR_NBR": {
+              "QUESTION": "What is the colour coding for NBR?",
+              "IMAGE_ALT": "NBR colour coding"
+            },
             "WHAT_IS_THE_COLOUR_CODING_FOR_NDVI": {
               "QUESTION": "What is the colour coding for NDVI?"
             },

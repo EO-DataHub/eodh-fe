@@ -1,5 +1,6 @@
 import { IHelpConfig } from '@ukri/shared/ui/help';
 
+import nbrImage from './shared/images/NBR.png';
 import landCoverImage from './shared/images/WHAT_IS_LAND_COVER_CHANGES_SCENARIO.png';
 import waterQualityImage from './shared/images/WHAT_IS_WATER_QUALITY_ANALYSIS_SCENARIO.png';
 import { landCoverConfigs } from './shared/land-cover.config';
@@ -544,6 +545,18 @@ export const actionCreatorConfig: IHelpConfig = {
                   display: 'list-item',
                 },
               ],
+            },
+          ],
+        },
+        {
+          id: 'WHAT_IS_THE_COLOUR_CODING_FOR_NBR',
+          question: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_THE_COLOUR_CODING_FOR_NBR.QUESTION`,
+          answer: [
+            {
+              type: 'image',
+              src: nbrImage,
+              alt: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_THE_COLOUR_CODING_FOR_NBR.IMAGE_ALT`,
+              display: 'list-item',
             },
           ],
         },
