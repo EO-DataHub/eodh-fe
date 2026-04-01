@@ -462,6 +462,35 @@ export const actionCreatorConfig: IHelpConfig = {
           ],
         },
         {
+          id: 'WHAT_IS_NBR_SCENARIO',
+          question: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.QUESTION`,
+          answer: [
+            { type: 'text', content: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.ANSWER_TEXT_1` },
+            { type: 'text', content: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.ANSWER_TEXT_2` },
+            { type: 'text', content: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.ANSWER_TEXT_3` },
+            {
+              type: 'list',
+              items: [
+                `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.USE_CASE_1`,
+                `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.USE_CASE_2`,
+                `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.USE_CASE_3`,
+                `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.USE_CASE_4`,
+                `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.USE_CASE_5`,
+              ],
+            },
+            { type: 'text', content: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.ANSWER_TEXT_4` },
+            {
+              type: 'list',
+              items: [
+                `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.WORKFLOW_STEP_1`,
+                `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.WORKFLOW_STEP_2`,
+                `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.WORKFLOW_STEP_3`,
+                `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_NBR_SCENARIO.WORKFLOW_STEP_4`,
+              ],
+            },
+          ],
+        },
+        {
           id: 'WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES',
           question: `${T_Q}.WORKING_WITH_ACTIONS.WHAT_IS_THE_COLOR_CODING_FOR_LAND_COVER_CHANGE_CLASSES.QUESTION`,
           answer: [
