@@ -1,5 +1,6 @@
 import { useComparisonMode, useFootprints, useMode, useTrueColorImage } from '@ukri/map/data-access-map';
 import { TAssetName, TFeature } from '@ukri/map/data-access-stac-catalog';
+import { useAuth } from '@ukri/shared/utils/authorization';
 import { useCallback, useMemo } from 'react';
 
 import { useLegendIntegration } from '../legends/hooks/use-legend-integration.hook';
@@ -17,6 +18,8 @@ export const useResult = () => {
   const { feature: visibleFeature, assetNameWhichShouldBeDisplayed, setFeature } = useTrueColorImage();
   const { highlightedItems, highlightItem, clearHighlight } = useFootprints();
   const { mode } = useMode();
+  const { authClient } = useAuth();
+
   const {
     comparisonModeEnabled,
     itemAddedToComparisonMode,
@@ -54,9 +57,13 @@ export const useResult = () => {
     [canAddAsNewItemToComparisonMode]
   );
 
-  const download = useCallback((feature: TFeature) => {
-    downloadFiles(feature);
-  }, []);
+  const download = useCallback(
+    (feature: TFeature) => {
+      const token = authClient.getToken().token;
+      downloadFiles(feature, token);
+    },
+    [authClient]
+  );
 
   const handleSelectedItemToggle = useCallback(
     (item: TFeature, key?: TAssetName) => {
