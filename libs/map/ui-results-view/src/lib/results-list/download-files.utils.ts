@@ -1,4 +1,5 @@
 import { TAsset, TFeature } from '@ukri/map/data-access-stac-catalog';
+import axios from 'axios';
 import { saveAs } from 'file-saver';
 import isString from 'lodash/isString';
 
@@ -93,6 +94,22 @@ const downloadFile = (file: string | Blob, fileName: string) => {
   }
 };
 
+const downloadAssetWithAuth = async (asset: TDownloadableAsset, token?: string) => {
+  try {
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    const response = await axios.get(asset.href, {
+      headers,
+      responseType: 'blob',
+    });
+    saveAs(response.data, getFileNameFromAsset(asset));
+  } catch (error) {
+    saveAs(asset.href, getFileNameFromAsset(asset));
+  }
+};
+
 const downloadAssetsInNewTab = (assets: TDownloadableAsset[]) => {
   let timeout = 0;
 
@@ -105,7 +122,7 @@ const downloadAssetsInNewTab = (assets: TDownloadableAsset[]) => {
   });
 };
 
-const downloadAssets = (feature: TFeature) => {
+const downloadAssets = (feature: TFeature, token?: string) => {
   const assets = getAssets(feature);
   const size = calculateSize(assets);
   const oneGb = 1000;
@@ -115,7 +132,7 @@ const downloadAssets = (feature: TFeature) => {
 
     assets.forEach((asset) => {
       setTimeout(() => {
-        saveAs(asset.href, getFileNameFromAsset(asset));
+        downloadAssetWithAuth(asset, token);
       }, timeout);
 
       timeout += downloadingAssetsTimeout;
@@ -135,7 +152,7 @@ const downloadMetadata = (feature: TFeature) => {
   downloadFile(blob, getFileName(feature.id, fileName, ext));
 };
 
-export const downloadFiles = (feature: TFeature) => {
+export const downloadFiles = (feature: TFeature, token?: string) => {
   downloadMetadata(feature);
-  downloadAssets(feature);
+  downloadAssets(feature, token);
 };
