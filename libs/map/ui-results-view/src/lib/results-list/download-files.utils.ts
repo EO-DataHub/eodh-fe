@@ -22,6 +22,13 @@ const getFileName = (collectionId: string, fileName: string, ext: string | undef
 };
 
 const getFileNameFromAsset = (asset: TDownloadableAsset, defaultFileName = 'download') => {
+  const fileNameFromUrl = asset.href.split('/').pop();
+
+  if (fileNameFromUrl) {
+    return fileNameFromUrl;
+  }
+
+  // Fallback to support previous file naming logic
   const ext = asset.href.split('/').pop()?.split('.').pop();
   return getFileName(asset.featureId, asset.name || defaultFileName, ext);
 };
