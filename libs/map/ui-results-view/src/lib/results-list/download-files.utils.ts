@@ -24,7 +24,7 @@ const getFileName = (collectionId: string, fileName: string, ext: string | undef
 const getFileNameFromAsset = (asset: TDownloadableAsset, defaultFileName = 'download') => {
   const fileNameFromUrl = asset.href.split('/').pop();
 
-  if (fileNameFromUrl) {
+  if (fileNameFromUrl && !fileNameFromUrl.includes('_classification')) {
     return fileNameFromUrl;
   }
 
