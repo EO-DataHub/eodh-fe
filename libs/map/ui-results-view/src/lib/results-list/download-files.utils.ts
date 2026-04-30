@@ -25,7 +25,7 @@ const getFileNameFromAsset = (asset: TDownloadableAsset, defaultFileName = 'down
   const fileNameFromUrl = asset.href.split('/').pop();
 
   if (fileNameFromUrl) {
-    return fileNameFromUrl;
+    return fileNameFromUrl.replace('_classification', '_lcc');
   }
 
   // Fallback to support previous file naming logic
