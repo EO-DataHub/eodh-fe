@@ -1,7 +1,7 @@
 {
   "name": "@ukri/fe",
   "version": "1.8.7",
-  "license": "MIT",
+  "license": "BSD-2-Clause",
   "scripts": {
     "prepare": "npx husky install",
     "start": "nx serve eodh-fe",
