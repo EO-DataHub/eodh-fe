@@ -1,0 +1,4 @@
+Most of the icons in this directory are Material Symbols by Google, taken from
+https://github.com/google/material-design-icons and wrapped as React components.
+They are licensed under the Apache License, Version 2.0; see LICENSE in this
+directory.
